@@ -7,14 +7,17 @@
     "start": "npm run build && node lib/index.js",
     "build": "babel src/ -d lib/",
     "flow": "flow",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.6",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^5.2.0",
+    "eslint-plugin-flowtype": "^2.50.0",
     "flow-bin": "^0.77.0"
   }
 }
