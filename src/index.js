@@ -1,3 +1,13 @@
+// @flow
+import type { Game } from './types/Game';
+import type { Either } from './types/functional/Either';
+import type { NoSlotsMessage } from './types/messages/NoSlotsMessage';
+import type { AllocateSlotAction } from './types/actions/AllocateSlotAction';
+import { left, right } from './types/functional/Either';
+import type { SlotAllocatedMessage } from './types/messages/SlotAllocatedMessage';
+import createStore from './store/createStore';
+import reducer from './state/reducer';
+
 console.log('Hello cowboy');
 
 /*
@@ -15,3 +25,28 @@ console.log('Hello cowboy');
   READY TO PLAY
     <- Result
 */
+
+const store = createStore(reducer);
+
+const sendMessage = (msg) => {
+  console.log('------STORE------');
+  console.log(store.getState());
+  console.log('------STORE------');
+  console.log(msg);
+}
+
+const checkSlot = (game: Game) : Either<NoSlotsMessage, AllocateSlotAction> => {
+  return true
+    ? right({ type: 'ALLOCATE' })
+    : left({ message: 'no slot' });
+};
+
+const createAllocatedSlotMessage = () : SlotAllocatedMessage => {
+
+  return ({ message: 'slot allocated' })
+};
+
+checkSlot({}).fold(
+  (a)=> sendMessage(a),
+  (b)=> sendMessage(createAllocatedSlotMessage(store.dispatch(b))),
+);
