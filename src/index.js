@@ -7,6 +7,7 @@ import { left, right } from './types/functional/Either';
 import type { SlotAllocatedMessage } from './types/messages/SlotAllocatedMessage';
 import createStore from './store/createStore';
 import reducer from './state/reducer';
+import { allocateSlot } from './state/actions/slotActions';
 
 console.log('Hello cowboy');
 
@@ -37,12 +38,11 @@ const sendMessage = (msg) => {
 
 const checkSlot = (game: Game) : Either<NoSlotsMessage, AllocateSlotAction> => {
   return true
-    ? right({ type: 'ALLOCATE' })
+    ? right(allocateSlot('player1'))
     : left({ message: 'no slot' });
 };
 
 const createAllocatedSlotMessage = () : SlotAllocatedMessage => {
-
   return ({ message: 'slot allocated' })
 };
 
