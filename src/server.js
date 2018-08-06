@@ -22,8 +22,15 @@ app.io.use((socket, next) => {
 app.io.on('connection', (socket) => {
   console.log('user connected!', socket.state);
 
-  app.io.emit('msg', { for: 'me', ...initialState });
+  socket.emit('connected', { type: 'connected', msg: 'Hello World' });
+
+  socket.on('REQUEST_TO_JOIN', (socket) => {
+    console.log('REQUEST_TO_JOIN', socket.state);
+
+    //hook up to check slot here
+  });
 });
+
 
 server.listen(3000);
 

@@ -7,14 +7,25 @@
     <div style="border: 1px solid black; background-color: #fafbfc">
       <pre id="container"></pre>
     </div>
+    <button id="request_to_join">REQUEST TO JOIN</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script type="text/javascript">
       var messageContainer = document.getElementById('container');
 
       var socket = io();
-      socket.on('msg', function(theMsg) {
+
+      socket.on('connected', function(theMsg) {
         messageContainer.innerText += JSON.stringify(theMsg);
       });
+
+      document.getElementById('request_to_join').addEventListener('click', function(){
+        console.log('click');
+        socket.emit('REQUEST_TO_JOIN', {});
+      });
+
+      // socket.on('test', function(theMsg) {
+      //   messageContainer.innerText += JSON.stringify(theMsg);
+      // });
     </script>
   </body>
 </html>
