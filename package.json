@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve": "npm run build && node lib/server.js",
     "start": "npm run build && node lib/index.js",
-    "build": "babel src/ -d lib/",
+    "build": "babel src/ -d lib/ --copy-files",
     "flow": "flow",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src"
@@ -16,10 +17,16 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^5.2.0",
     "eslint-plugin-flowtype": "^2.50.0",
     "flow-bin": "^0.77.0"
+  },
+  "dependencies": {
+    "koa": "^2.5.2",
+    "koa-static": "^5.0.0",
+    "socket.io": "^2.1.1"
   }
 }
