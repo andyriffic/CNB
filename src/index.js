@@ -1,13 +1,13 @@
 // @flow
 import type { Game } from './types/Game';
-import type { Either } from './types/functional/Either';
 import type { NoSlotsMessage } from './types/messages/NoSlotsMessage';
 import type { AllocateSlotAction } from './types/actions/AllocateSlotAction';
-import { left, right } from './types/functional/Either';
 import type { SlotAllocatedMessage } from './types/messages/SlotAllocatedMessage';
 import createStore from './store/createStore';
 import reducer from './state/reducer';
 import { allocateSlot } from './state/actions/slotActions';
+import type { Either } from './utils/functional/Either';
+import { left, right } from './utils/functional/Either';
 
 console.log('Hello cowboy');
 
