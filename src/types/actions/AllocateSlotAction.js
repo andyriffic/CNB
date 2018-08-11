@@ -1,4 +1,6 @@
 // @flow
 export type AllocateSlotAction = {
-  type: string
+  type: string,
+  slot: string,
+  playerName: string,
 };
