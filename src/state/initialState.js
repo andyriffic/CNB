@@ -2,7 +2,7 @@
 import type { Game } from '../types/Game';
 
 const initialState: Game = {
-  player1: { name: 'bob' },
+  player1: {},
   player2: {},
 };
 
