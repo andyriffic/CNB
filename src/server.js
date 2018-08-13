@@ -1,6 +1,16 @@
 import koa from 'koa';
 import serve from 'koa-static';
 
+import { REQUEST_TO_CONNECT } from './messages/typeConstants';
+import connectionEstablishedMessage from './messages/connectionEstablishedMessage';
+
+import createStore from './store/createStore';
+import reducer from './state/reducer';
+
+import receiveMessage from './receiveMessage';
+
+const store = createStore(reducer);
+
 const app = new koa();
 
 const initialState = {
@@ -19,15 +29,22 @@ app.io.use((socket, next) => {
   return next();
 });
 
+const sendMessage = (socket) => (message) => {
+  console.log('sendMessage', message);
+  socket.emit(message.type, message.payload);
+};
+
 app.io.on('connection', (socket) => {
-  console.log('user connected!', socket.state);
+  console.log('user connected!');
 
-  socket.emit('connected', { type: 'connected', msg: 'Hello World' });
+  sendMessage(socket)(connectionEstablishedMessage());
 
-  socket.on('REQUEST_TO_JOIN', (socket) => {
-    console.log('REQUEST_TO_JOIN', socket.state);
+  socket.on(REQUEST_TO_CONNECT, (msg) => {
+    console.log('REQUEST_TO_JOIN', msg);
+    
+    receiveMessage(store, msg, sendMessage(socket));
 
-    //hook up to check slot here
+    console.log('STATE: ', store.getState());
   });
 });
 

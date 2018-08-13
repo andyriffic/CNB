@@ -7,25 +7,47 @@
     <div style="border: 1px solid black; background-color: #fafbfc">
       <pre id="container"></pre>
     </div>
-    <button id="request_to_join">REQUEST TO JOIN</button>
+
+    <hr />
+
+    <input type="text" id="playerName" />
+    <button id="connectPlayer">Connect</button>
+
+    <hr />
+
+    <h1 id="gameStatus"></h1>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script type="text/javascript">
       var messageContainer = document.getElementById('container');
 
       var socket = io();
 
-      socket.on('connected', function(theMsg) {
+      socket.on('CONNECTION_ESTABLISHED', function(theMsg) {
+        console.log('CONNECTION_ESTABLISHED', theMsg);
         messageContainer.innerText += JSON.stringify(theMsg);
       });
 
-      document.getElementById('request_to_join').addEventListener('click', function(){
-        console.log('click');
-        socket.emit('REQUEST_TO_JOIN', {});
+      socket.on('GAME_IS_FULL', function(theMsg) {
+        console.log('GAME_IS_FULL', theMsg);
+        document.getElementById('gameStatus').innerText = 'GAME IS FULL';
       });
 
-      // socket.on('test', function(theMsg) {
-      //   messageContainer.innerText += JSON.stringify(theMsg);
-      // });
+      socket.on('ADDED_TO_GAME', function(theMsg) {
+        console.log('ADDED_TO_GAME', theMsg);
+        document.getElementById('gameStatus').innerText = 'ADDED TO GAME';
+      });
+
+      document.getElementById('connectPlayer').addEventListener('click', function(){
+        console.log('click');
+        socket.emit('REQUEST_TO_CONNECT', {
+          type: 'REQUEST_TO_CONNECT',
+          payload: {
+            playerName: document.getElementById('playerName').value
+          }
+        });
+      });
+
     </script>
   </body>
 </html>

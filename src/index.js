@@ -1,7 +1,8 @@
 // @flow
 import createStore from './store/createStore';
 import reducer from './state/reducer';
-import { tryConnectPlayer } from './services/playerService';
+
+import receiveMessage from './receiveMessage';
 
 console.log('Hello cowboy');
 
@@ -30,23 +31,4 @@ export const sendMessage = (msg) => {
   console.log('------STORE------');
 };
 
-export const receiveMessage = (msg) => {
-  console.log('RECEIVE MESSAGE', msg);
-
-  switch (msg.type) {
-    case 'CONNECT_PLAYER':
-      tryConnectPlayer(store.getState(), msg.playerName).fold(
-        (err) => sendMessage(err),
-        (action) => {
-          store.dispatch(action);
-          sendMessage({ message: 'slot allocated' });
-        },
-      );
-      break;
-
-    default:
-      sendMessage({message: 'unknown message type'});
-  }
-};
-
-receiveMessage({type: 'CONNECT_PLAYER', playerName: 'foo'});
+receiveMessage(store, {type: 'CONNECT_PLAYER', playerName: 'foo'}, sendMessage);
