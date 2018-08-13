@@ -1,6 +1,6 @@
 // @flow
 
 export type Message = {
-  type: String,
+  type: string,
   payload: Object,
 };

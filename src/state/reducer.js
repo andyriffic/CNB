@@ -1,7 +1,12 @@
+// @flow
+import type { Game } from '../types/GameType';
+import type { Action } from './actions/ActionType';
+
 import initialState from './initialState';
 import { ALLOCATE_SLOT_ACTION } from './actions/slotActions';
 
-const reducer = (state = initialState, action) => {
+
+const reducer = (state: Game = initialState, action: Action): Game => {
 
   console.log('REDUCER', action);
 

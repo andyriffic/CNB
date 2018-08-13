@@ -2,12 +2,15 @@
 
 import { tryConnectPlayer } from './services/playerService';
 
-import type { MessageType } from './messages/MessageType';
+import type { Store } from './store/StoreType';
+
+import type { Message } from './messages/MessageType';
+import type { SendToClient } from './messages/SendToClientType';
 import { REQUEST_TO_CONNECT } from './messages/typeConstants';
 import gameIsFullMessage from './messages/gameIsFullMessage';
 import addedToGameMessage from './messages/addedToGameMessage';
 
-const receiveMessage = (store, msg: MessageType, sendToClient) => {
+const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
 
   switch (msg.type) {
@@ -22,7 +25,7 @@ const receiveMessage = (store, msg: MessageType, sendToClient) => {
       break;
 
     default:
-      sendToClient({message: 'unknown message type'});
+      sendToClient({type: 'UNKOWN', payload: {} });
   }
 };
 

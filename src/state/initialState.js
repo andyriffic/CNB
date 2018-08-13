@@ -1,5 +1,5 @@
 // @flow
-import type { Game } from '../types/Game';
+import type { Game } from '../types/GameType';
 
 const initialState: Game = {
   player1: {},

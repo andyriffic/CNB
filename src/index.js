@@ -4,6 +4,8 @@ import reducer from './state/reducer';
 
 import receiveMessage from './receiveMessage';
 
+import type { Message } from './messages/MessageType';
+
 console.log('Hello cowboy');
 
 /*
@@ -24,11 +26,11 @@ console.log('Hello cowboy');
 
 const store = createStore(reducer);
 
-export const sendMessage = (msg) => {
+export const sendMessage = (msg: Message): void => {
   console.log(msg);
   console.log('------STORE------');
   console.log(store.getState());
   console.log('------STORE------');
 };
 
-receiveMessage(store, {type: 'CONNECT_PLAYER', playerName: 'foo'}, sendMessage);
+receiveMessage(store, {type: 'CONNECT_PLAYER', payload: { playerName: 'foo' } }, sendMessage);

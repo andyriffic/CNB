@@ -6,7 +6,7 @@ import { left, right } from '../utils/functional/Either';
 import type { Either } from '../utils/functional/Either';
 import type { NoSlotsMessage } from '../types/messages/NoSlotsMessage';
 import { allocateSlotAction } from '../state/actions/slotActions';
-import type { Game } from '../types/Game';
+import type { Game } from '../types/GameType';
 import type { Option } from '../utils/functional/Option';
 
 const playerName: Option = compose(

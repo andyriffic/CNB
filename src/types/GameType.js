@@ -1,5 +1,5 @@
 // @flow
-import type { Player } from './Player';
+import type { Player } from './PlayerType';
 
 export type Game = {
   player1?: Player,
