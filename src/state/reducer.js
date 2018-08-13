@@ -3,7 +3,7 @@ import type { Game } from '../types/GameType';
 import type { Action } from './actions/ActionType';
 
 import initialState from './initialState';
-import { ALLOCATE_SLOT_ACTION } from './actions/slotActions';
+import { ALLOCATE_SLOT_ACTION, MAKE_MOVE_ACTION } from './actions/slotActions';
 
 
 const reducer = (state: Game = initialState, action: Action): Game => {
@@ -17,6 +17,14 @@ const reducer = (state: Game = initialState, action: Action): Game => {
       newState[action.slot] = assignedSlot;
       return newState;
     }
+
+    case MAKE_MOVE_ACTION: {
+      //TODO: better?
+      const newState = {...state};
+      newState[action.slot] = { ...newState[action.slot], move: action.move };
+      return newState;
+    }
+
     default:
       return state;
   }

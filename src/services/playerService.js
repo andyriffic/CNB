@@ -5,8 +5,8 @@ import { option } from '../utils/functional/Option';
 import { left, right } from '../utils/functional/Either';
 import type { Either } from '../utils/functional/Either';
 import type { NoSlotsMessage } from '../types/messages/NoSlotsMessage';
-import { allocateSlotAction } from '../state/actions/slotActions';
-import type { Game } from '../types/GameType';
+import { allocateSlotAction, makeMoveAction } from '../state/actions/slotActions';
+import type { Game } from '../types/Game';
 import type { Option } from '../utils/functional/Option';
 
 const playerName: Option = compose(
@@ -25,8 +25,28 @@ const checkSlot = (game: Game) => (player: string): Either<NoSlotsMessage, Alloc
 
 export const tryConnectPlayer = (store, playerName) => {
   const checkSlotInStore = checkSlot(store);
-  return checkSlotInStore('player1').fold(
-    () => checkSlotInStore('player2').fold((msg) => left(msg), (allocateSlot) => right(allocateSlot(playerName))),
-    (allocateSlot) => right(allocateSlot(playerName)),
+
+  return checkSlotInStore('player1')
+    .fold(() => checkSlotInStore('player2')
+      .fold(
+        (msg) => left(msg),
+        (allocateSlot) => right(allocateSlot(playerName))
+      ),
+    (allocateSlot) => right(allocateSlot(playerName))
+    );
+};
+
+const validMove = (game: Game, player: string, move: string) => {
+  //TODO: validate game not over
+  //TODO: validate player not moved already
+  //TODO: validate is a valid move
+  console.log('validMove', game, player, move);
+  return right();
+};
+
+export const makeMove = (game: Game) => (player: string, move: string) => {
+  return validMove(game, player, move).fold(
+    () => left({message: 'invalid move'}),
+    () => right(makeMoveAction(player, move))
   );
 };
