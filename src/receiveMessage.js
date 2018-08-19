@@ -25,7 +25,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       break;
 
     case MAKE_MOVE:
-      tryMakeMove(store.getState(), msg.payload.playerName, msg.payload.move).fold(
+      tryMakeMove(store.getState(), msg.payload.slot, msg.payload.move).fold(
         () => sendToClient(invalidMoveMessage()),
         (action) => {
           store.dispatch(action);
