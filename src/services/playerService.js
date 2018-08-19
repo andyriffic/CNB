@@ -36,17 +36,17 @@ export const tryConnectPlayer = (store, playerName) => {
     );
 };
 
-const validMove = (game: Game, player: string, move: string) => {
+const validMove = (game: Game, playerName: string, move: string) => {
   //TODO: validate game not over
   //TODO: validate player not moved already
   //TODO: validate is a valid move
-  console.log('validMove', game, player, move);
+  console.log('validMove', game, playerName, move);
   return right();
 };
 
-export const makeMove = (game: Game) => (player: string, move: string) => {
-  return validMove(game, player, move).fold(
+export const tryMakeMove = (game: Game, playerName: string, move: string) => {
+  return validMove(game, playerName, move).fold(
     () => left({message: 'invalid move'}),
-    () => right(makeMoveAction(player, move))
+    () => right(makeMoveAction(playerName, move))
   );
 };
