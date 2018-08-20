@@ -11,6 +11,7 @@ import invalidMoveMessage from './messages/invalidMoveMessage';
 import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
+import type { AllocateSlotAction } from './types/actions/AllocateSlotAction';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
@@ -19,9 +20,9 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     case REQUEST_TO_CONNECT:
       tryConnectPlayer(store.getState(), prop('playerName', msg.payload)).fold(
         () => sendToClient(gameIsFullMessage()),
-        (action) => {
+        (action: AllocateSlotAction) => {
           store.dispatch(action);
-          sendToClient(addedToGameMessage());
+          sendToClient(addedToGameMessage(action.slot));
         },
       );
       break;
