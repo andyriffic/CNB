@@ -1,7 +1,7 @@
 import koa from 'koa';
 import serve from 'koa-static';
 
-import { REQUEST_TO_CONNECT } from './messages/typeConstants';
+import { incomingMessageTypes } from './messages/typeConstants';
 import connectionEstablishedMessage from './messages/connectionEstablishedMessage';
 
 import createStore from './store/createStore';
@@ -39,13 +39,26 @@ app.io.on('connection', (socket) => {
 
   sendMessage(socket)(connectionEstablishedMessage());
 
-  socket.on(REQUEST_TO_CONNECT, (msg) => {
-    console.log('REQUEST_TO_JOIN', msg);
-    
-    receiveMessage(store, msg, sendMessage(socket));
+  Object.keys(incomingMessageTypes).forEach(function(key) {
+    console.log(key, incomingMessageTypes[key]);
 
-    console.log('STATE: ', store.getState());
+    socket.on(incomingMessageTypes[key], (msg) => {
+      console.log('REQUEST_TO_JOIN', msg);
+
+      receiveMessage(store, msg, sendMessage(socket));
+
+      console.log('STATE: ', store.getState());
+    });
+
   });
+
+  // socket.on(REQUEST_TO_CONNECT, (msg) => {
+  //   console.log('REQUEST_TO_JOIN', msg);
+  //
+  //   receiveMessage(store, msg, sendMessage(socket));
+  //
+  //   console.log('STATE: ', store.getState());
+  // });
 });
 
 

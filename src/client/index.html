@@ -17,27 +17,26 @@
 
     <h1 id="gameStatus"></h1>
 
+    <div id="moveContainer" style="display: none">
+      <h2>Make a move</h2>
+      <button onClick="makeMove('cowboy')">Cowboy</button>
+      <button onClick="makeMove('ninja')">Ninja</button>
+      <button onClick="makeMove('bear')">Bear</button>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script type="text/javascript">
       var messageContainer = document.getElementById('container');
 
       var socket = io();
 
+      //1: Connected to server
       socket.on('CONNECTION_ESTABLISHED', function(theMsg) {
         console.log('CONNECTION_ESTABLISHED', theMsg);
         messageContainer.innerText += JSON.stringify(theMsg);
       });
 
-      socket.on('GAME_IS_FULL', function(theMsg) {
-        console.log('GAME_IS_FULL', theMsg);
-        document.getElementById('gameStatus').innerText = 'GAME IS FULL';
-      });
-
-      socket.on('ADDED_TO_GAME', function(theMsg) {
-        console.log('ADDED_TO_GAME', theMsg);
-        document.getElementById('gameStatus').innerText = 'ADDED TO GAME';
-      });
-
+      //2: request to join game
       document.getElementById('connectPlayer').addEventListener('click', function(){
         console.log('click');
         socket.emit('REQUEST_TO_CONNECT', {
@@ -47,6 +46,36 @@
           }
         });
       });
+
+      //2a: game is full
+      socket.on('GAME_IS_FULL', function(theMsg) {
+        console.log('GAME_IS_FULL', theMsg);
+        document.getElementById('gameStatus').innerText = 'GAME IS FULL';
+      });
+
+      let slot = null;
+
+      //2b: you are added
+      socket.on('ADDED_TO_GAME', function(theMsg) {
+        console.log('ADDED_TO_GAME', theMsg);
+        slot = theMsg.slot;
+
+        document.getElementById('gameStatus').innerText = 'ADDED TO GAME';
+
+        //show buttons to make move
+        document.getElementById('moveContainer').style.display = 'block';
+      });
+
+      function makeMove(move) {
+        console.log('makeMove', move);
+        socket.emit('MAKE_MOVE', {
+          type: 'MAKE_MOVE',
+          payload: {
+            slot,
+            move
+          }
+        });
+      }
 
     </script>
   </body>

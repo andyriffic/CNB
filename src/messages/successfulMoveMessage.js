@@ -1,11 +1,11 @@
 // @flow
 
 import type { Message } from './MessageType';
-import { SUCCESSFUL_MOVE } from './typeConstants';
+import { outgoingMessageTypes } from './typeConstants';
 
 const successfulMoveMessage = (): Message => {
   return {
-    type: SUCCESSFUL_MOVE,
+    type: outgoingMessageTypes.SUCCESSFUL_MOVE,
   };
 };
 

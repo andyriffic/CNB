@@ -4,7 +4,7 @@ import { tryConnectPlayer, tryMakeMove } from './services/playerService';
 import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
 import type { SendToClient } from './messages/SendToClientType';
-import { MAKE_MOVE, REQUEST_TO_CONNECT } from './messages/typeConstants';
+import { incomingMessageTypes } from './messages/typeConstants';
 import gameIsFullMessage from './messages/gameIsFullMessage';
 import addedToGameMessage from './messages/addedToGameMessage';
 import invalidMoveMessage from './messages/invalidMoveMessage';
@@ -17,7 +17,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
   console.log('RECEIVE MESSAGE', msg);
 
   switch (msg.type) {
-    case REQUEST_TO_CONNECT:
+    case incomingMessageTypes.REQUEST_TO_CONNECT:
       tryConnectPlayer(store.getState(), prop('playerName', msg.payload)).fold(
         () => sendToClient(gameIsFullMessage()),
         (action: AllocateSlotAction) => {
@@ -27,7 +27,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       );
       break;
 
-    case MAKE_MOVE:
+    case incomingMessageTypes.MAKE_MOVE:
       tryMakeMove(store.getState(), prop('slot', msg.payload), prop('move', msg.payload)).fold(
         () => sendToClient(invalidMoveMessage()),
         (action) => {

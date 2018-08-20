@@ -1,11 +1,11 @@
 // @flow
 
 import type { Message } from './MessageType';
-import { INVALID_MOVE } from './typeConstants';
+import { outgoingMessageTypes } from './typeConstants';
 
 const invalidMoveMessage = (): Message => {
   return {
-    type: INVALID_MOVE,
+    type: outgoingMessageTypes.INVALID_MOVE,
   };
 };
 

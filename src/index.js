@@ -5,7 +5,7 @@ import reducer from './state/reducer';
 import receiveMessage from './receiveMessage';
 
 import type { Message } from './messages/MessageType';
-import { MAKE_MOVE, REQUEST_TO_CONNECT } from './messages/typeConstants';
+import { incomingMessageTypes } from './messages/typeConstants';
 
 console.log('Hello cowboy');
 
@@ -34,5 +34,5 @@ export const sendMessage = (msg: Message): void => {
   console.log('------STORE------');
 };
 
-receiveMessage(store, {type: REQUEST_TO_CONNECT, payload: { playerName: 'foo' } }, sendMessage);
-receiveMessage(store, {type: MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.REQUEST_TO_CONNECT, payload: { playerName: 'foo' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);

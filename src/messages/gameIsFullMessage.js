@@ -1,10 +1,10 @@
 // @flow
 import type { Message } from './MessageType';
-import { GAME_IS_FULL } from './typeConstants';
+import { outgoingMessageTypes } from './typeConstants';
 
 const gameIsFullMessage = (): Message => {
   return {
-    type: GAME_IS_FULL,
+    type: outgoingMessageTypes.GAME_IS_FULL,
     payload: { },
   };
 };
