@@ -4,35 +4,37 @@ import type { AllocateSlotAction } from '../types/actions/AllocateSlotAction';
 import { option } from '../utils/functional/Option';
 import { left, right } from '../utils/functional/Either';
 import type { Either } from '../utils/functional/Either';
-import type { NoSlotsMessage } from '../types/messages/NoSlotsMessage';
 import { allocateSlotAction, makeMoveAction } from '../state/actions/slotActions';
-import type { Game } from '../types/Game';
 import type { Option } from '../utils/functional/Option';
+import type { Game } from '../types/GameType';
+import type { Message } from '../messages/MessageType';
+import playerSlotIsTakenMessage from '../messages/slotTakenMessage';
 
-const playerName: Option = compose(
+
+const playerName = (player: string, game: Game): Option<string> => compose(
   option,
   prop('name'),
   prop
-);
+)(player, game);
 
-const checkSlot = (game: Game) => (player: string): Either<NoSlotsMessage, AllocateSlotAction> => {
+const checkSlot = (game: Game) => (player: string): Either<Message, (playerName: string) => AllocateSlotAction> => {
   const hasPlayer = playerName(player, game);
   return hasPlayer.fold(
     () => right(allocateSlotAction(player)),
-    () => left({ message: `${player} slot taken` }),
+    () => left(playerSlotIsTakenMessage()),
   );
 };
 
-export const tryConnectPlayer = (store, playerName) => {
-  const checkSlotInStore = checkSlot(store);
+export const tryConnectPlayer = (game: Game, playerName: string) => {
+  const checkSlotInStore = checkSlot(game);
 
   return checkSlotInStore('player1')
     .fold(() => checkSlotInStore('player2')
       .fold(
         (msg) => left(msg),
-        (allocateSlot) => right(allocateSlot(playerName))
+        (allocateSlotAction) => right(allocateSlotAction(playerName))
       ),
-    (allocateSlot) => right(allocateSlot(playerName))
+    (allocateSlotAction) => right(allocateSlotAction(playerName))
     );
 };
 
