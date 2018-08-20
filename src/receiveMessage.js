@@ -10,6 +10,7 @@ import addedToGameMessage from './messages/addedToGameMessage';
 import invalidMoveMessage from './messages/invalidMoveMessage';
 import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
+import invalidMessageMessage from './messages/invalidMessageMessage';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
@@ -36,7 +37,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       break;
 
     default:
-      sendToClient({type: 'UNKOWN', payload: {} });
+      sendToClient(invalidMessageMessage());
   }
 };
 
