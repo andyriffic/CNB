@@ -11,10 +11,10 @@ const SUCCESSFUL_MOVE = 'SUCCESSFUL_MOVE';
 export const incomingMessageTypes = {
   MAKE_MOVE,
   REQUEST_TO_CONNECT,
-  CONNECTION_ESTABLISHED,
 };
 
 export const outgoingMessageTypes = {
+  CONNECTION_ESTABLISHED,
   INVALID_MESSAGE,
   PLAYER_SLOT_IS_FULL,
   GAME_IS_FULL,

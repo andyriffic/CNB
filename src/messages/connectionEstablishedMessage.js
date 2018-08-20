@@ -1,12 +1,12 @@
 // @flow
 import type { Message } from './MessageType';
-import { incomingMessageTypes } from './typeConstants';
+import { outgoingMessageTypes } from './typeConstants';
 
-const connectionEstablished = (): Message => {
+const connectionEstablished = (clientId): Message => {
   return {
-    type: incomingMessageTypes.CONNECTION_ESTABLISHED,
+    type: outgoingMessageTypes.CONNECTION_ESTABLISHED,
     payload: {
-      data: 'Hello World!',
+      clientId,
     },
   };
 };

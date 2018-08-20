@@ -35,15 +35,15 @@ const sendMessage = (socket) => (message) => {
 };
 
 app.io.on('connection', (socket) => {
-  console.log('user connected!');
+  console.log('user connected!', socket.id);
 
-  sendMessage(socket)(connectionEstablishedMessage());
+  sendMessage(socket)(connectionEstablishedMessage(socket.id));
 
   Object.keys(incomingMessageTypes).forEach(function(key) {
     console.log(key, incomingMessageTypes[key]);
 
     socket.on(incomingMessageTypes[key], (msg) => {
-      console.log('REQUEST_TO_JOIN', msg);
+      console.log('MESSAGE_RECIEVED', msg);
 
       receiveMessage(store, msg, sendMessage(socket));
 

@@ -30,9 +30,12 @@
 
       var socket = io();
 
+      let myId = null;
+
       //1: Connected to server
       socket.on('CONNECTION_ESTABLISHED', function(theMsg) {
         console.log('CONNECTION_ESTABLISHED', theMsg);
+        myId = theMsg.clientId;
         messageContainer.innerText += JSON.stringify(theMsg);
       });
 
@@ -42,7 +45,8 @@
         socket.emit('REQUEST_TO_CONNECT', {
           type: 'REQUEST_TO_CONNECT',
           payload: {
-            playerName: document.getElementById('playerName').value
+            playerName: document.getElementById('playerName').value,
+            clientId: myId,
           }
         });
       });
