@@ -24,11 +24,24 @@
       <button onClick="makeMove('bear')">Bear</button>
     </div>
 
+    <div id="otherPlayer" style="display: none">
+      <h2>Opponent</h2>
+      <dl>
+        <dt>Status:</dt>
+        <dd id="otherPlayerStatus"></dd>
+        <dt>Name:</dt>
+        <dd id="otherPlayerName"></dd>
+        <dt>Moved:</dt>
+        <dd id="otherPlayerMoved"></dd>
+      </dl>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script type="text/javascript">
       var messageContainer = document.getElementById('container');
 
       var socket = io();
+      let slot = null;
 
       let myId = null;
 
@@ -57,8 +70,6 @@
         document.getElementById('gameStatus').innerText = 'GAME IS FULL';
       });
 
-      let slot = null;
-
       //2b: you are added
       socket.on('ADDED_TO_GAME', function(theMsg) {
         console.log('ADDED_TO_GAME', theMsg);
@@ -68,6 +79,28 @@
 
         //show buttons to make move
         document.getElementById('moveContainer').style.display = 'block';
+        document.getElementById('otherPlayer').style.display = 'block';
+      });
+
+      //3: game status updates
+      socket.on('GAME_STATUS', function(theMsg) {
+        console.log('GAME_STATUS', theMsg);
+
+        if (!slot) {
+          //Not connected so don't bother doing anything
+          return;
+        }
+
+        //Display other player details
+        const them = slot === 'player1' ? 'player2' : 'player1';
+        document.getElementById('otherPlayerStatus').innerText = theMsg[them].connected ? 'connected' : 'not connected';
+        document.getElementById('otherPlayerName').innerText = theMsg[them].name || '-';
+        document.getElementById('otherPlayerMoved').innerText = theMsg[them].moved ? 'yes' : 'no';
+
+        //Update own state
+        const us = theMsg[slot];
+        document.getElementById('moveContainer').style.display = us.moved ? 'none' : 'block';
+
       });
 
       function makeMove(move) {

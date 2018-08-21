@@ -31,7 +31,13 @@ app.io.use((socket, next) => {
 
 const sendMessage = (socket) => (message) => {
   console.log('sendMessage', message);
+
+  if (message.recipients && message.recipients.all) {
+    socket.broadcast.emit(message.type, message.payload);
+  }
+
   socket.emit(message.type, message.payload);
+
 };
 
 app.io.on('connection', (socket) => {
@@ -49,7 +55,6 @@ app.io.on('connection', (socket) => {
 
       console.log('STATE: ', store.getState());
     });
-
   });
 
   // socket.on(REQUEST_TO_CONNECT, (msg) => {

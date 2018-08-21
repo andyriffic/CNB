@@ -7,6 +7,7 @@ const ADDED_TO_GAME = 'ADDED_TO_GAME';
 const MAKE_MOVE = 'MAKE_MOVE';
 const INVALID_MOVE = 'INVALID_MOVE';
 const SUCCESSFUL_MOVE = 'SUCCESSFUL_MOVE';
+const GAME_STATUS = 'GAME_STATUS';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
@@ -21,4 +22,5 @@ export const outgoingMessageTypes = {
   ADDED_TO_GAME,
   INVALID_MOVE,
   SUCCESSFUL_MOVE,
+  GAME_STATUS,
 };

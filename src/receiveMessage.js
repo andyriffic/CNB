@@ -12,6 +12,7 @@ import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
 import type { AllocateSlotAction } from './types/actions/AllocateSlotAction';
+import gameStatusMessage from './messages/gameStatusMessage';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
@@ -23,6 +24,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
         (action: AllocateSlotAction) => {
           store.dispatch(action);
           sendToClient(addedToGameMessage(action.slot));
+          sendToClient(gameStatusMessage(store.getState()));
         },
       );
       break;
@@ -33,6 +35,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
         (action) => {
           store.dispatch(action);
           sendToClient(successfulMoveMessage());
+          sendToClient(gameStatusMessage(store.getState()));
         }
       );
       break;

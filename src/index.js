@@ -25,13 +25,23 @@ console.log('Hello cowboy');
     <- Result
 */
 
+const CONSOLE_RESET = '\x1b[0m';
+const CONSOLE_BLUE = '\x1b[34m';
+const CONSOLE_YELLOW = '\x1b[33m';
+const CONSOLE_GREEN = '\x1b[32m';
+
+const colorLog = (msg, color) => {
+  console.log(`${color}${msg}${CONSOLE_RESET}`);
+};
+
 const store = createStore(reducer);
 
 export const sendMessage = (msg: Message): void => {
-  console.log(msg);
-  console.log('------STORE------');
-  console.log(store.getState());
-  console.log('------STORE------');
+  colorLog('=================', CONSOLE_BLUE);
+  colorLog(JSON.stringify(msg), CONSOLE_YELLOW);
+  colorLog('------STORE------', CONSOLE_GREEN);
+  colorLog(JSON.stringify(store.getState()), CONSOLE_GREEN);
+  colorLog('------STORE------', CONSOLE_GREEN);
 };
 
 receiveMessage(store, {type: incomingMessageTypes.REQUEST_TO_CONNECT, payload: { playerName: 'foo', clientId: '#123' } }, sendMessage);
