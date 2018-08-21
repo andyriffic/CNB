@@ -12,7 +12,7 @@ const reducer = (state: Game = initialState, action: Action): Game => {
 
   switch (action.type) {
     case ALLOCATE_SLOT_ACTION: {
-      const assignedSlot = { ...state[action.slot], name: action.playerName };
+      const assignedSlot = { ...state[action.slot], name: action.playerName, clientId: action.clientId };
       const newState = {...state};
       newState[action.slot] = assignedSlot;
       return newState;

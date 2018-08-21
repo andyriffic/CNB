@@ -34,5 +34,5 @@ export const sendMessage = (msg: Message): void => {
   console.log('------STORE------');
 };
 
-receiveMessage(store, {type: incomingMessageTypes.REQUEST_TO_CONNECT, payload: { playerName: 'foo' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.REQUEST_TO_CONNECT, payload: { playerName: 'foo', clientId: '#123' } }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);

@@ -19,7 +19,7 @@ const playerName = (player: string, game: Game): Option<string> => compose(
   prop
 )(player, game);
 
-const checkSlot = (game: Game) => (player: string): Either<Message, (playerName: string) => AllocateSlotAction> => {
+const checkSlot = (game: Game) => (player: string): Either<Message, (playerName: string, clientId: string) => AllocateSlotAction> => {
   const hasPlayer = playerName(player, game);
   return hasPlayer.fold(
     () => right(allocateSlotAction(player)),
@@ -27,16 +27,16 @@ const checkSlot = (game: Game) => (player: string): Either<Message, (playerName:
   );
 };
 
-export const tryConnectPlayer = (game: Game, playerName: string): Either<Message, AllocateSlotAction> => {
+export const tryConnectPlayer = (game: Game, playerName: string, clientId: string): Either<Message, AllocateSlotAction> => {
   const checkSlotInStore = checkSlot(game);
 
   return checkSlotInStore('player1')
     .fold(() => checkSlotInStore('player2')
       .fold(
         (msg) => left(msg),
-        (allocateSlotAction) => right(allocateSlotAction(playerName))
+        (allocateSlotAction) => right(allocateSlotAction(playerName, clientId))
       ),
-    (allocateSlotAction) => right(allocateSlotAction(playerName))
+    (allocateSlotAction) => right(allocateSlotAction(playerName, clientId))
     );
 };
 

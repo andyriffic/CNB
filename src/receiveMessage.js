@@ -18,7 +18,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
 
   switch (msg.type) {
     case incomingMessageTypes.REQUEST_TO_CONNECT:
-      tryConnectPlayer(store.getState(), prop('playerName', msg.payload)).fold(
+      tryConnectPlayer(store.getState(), prop('playerName', msg.payload), prop('clientId', msg.payload)).fold(
         () => sendToClient(gameIsFullMessage()),
         (action: AllocateSlotAction) => {
           store.dispatch(action);

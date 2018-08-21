@@ -2,7 +2,7 @@
 import type { Message } from './MessageType';
 import { outgoingMessageTypes } from './typeConstants';
 
-const connectionEstablished = (clientId): Message => {
+const connectionEstablished = (clientId: string): Message => {
   return {
     type: outgoingMessageTypes.CONNECTION_ESTABLISHED,
     payload: {
