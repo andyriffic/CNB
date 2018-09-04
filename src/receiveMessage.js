@@ -1,17 +1,21 @@
 // @flow
 
-import { tryConnectPlayer, tryMakeMove } from './services/playerService';
+import {
+  //tryConnectPlayer,
+  tryMakeMove,
+} from './services/playerService';
+
+import tryConnectPlayer from './services/connectToGame';
+
 import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
 import type { SendToClient } from './messages/SendToClientType';
 import { incomingMessageTypes } from './messages/typeConstants';
-import gameIsFullMessage from './messages/gameIsFullMessage';
-import addedToGameMessage from './messages/addedToGameMessage';
 import invalidMoveMessage from './messages/invalidMoveMessage';
 import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
-import type { AllocateSlotAction } from './types/actions/AllocateSlotAction';
+import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponses';
 import gameStatusMessage from './messages/gameStatusMessage';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
@@ -20,10 +24,11 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
   switch (msg.type) {
     case incomingMessageTypes.REQUEST_TO_CONNECT:
       tryConnectPlayer(store.getState(), prop('playerName', msg.payload), prop('clientId', msg.payload)).fold(
-        () => sendToClient(gameIsFullMessage()),
-        (action: AllocateSlotAction) => {
-          store.dispatch(action);
-          sendToClient(addedToGameMessage(action.slot));
+        (gameIsFullResponse: GameIsFullResponse) => sendToClient(gameIsFullResponse.message),
+        (connectedToGameResponse: ConnectedToGameResponse) => {
+          store.dispatch(connectedToGameResponse.allocateSlotAction);
+          sendToClient(connectedToGameResponse.message);
+
           sendToClient(gameStatusMessage(store.getState()));
         },
       );

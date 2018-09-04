@@ -1,6 +1,6 @@
 // @flow
 
-class Some<U> {
+export class Some<U> {
   _value: U;
 
   constructor(value: U) {
@@ -14,9 +14,15 @@ class Some<U> {
   fold<V>(ifEmpty: () => V, f: (value: U) => V): V {
     return f(this._value);
   }
+
+  /* eslint-disable no-unused-vars */
+  getOrElse(defaultVal: U): U {
+    return this._value;
+  }
+  /* eslint-enable no-unused-vars */
 }
 
-class None<U> {
+export class None<U> {
   /* eslint-disable no-unused-vars */
   map<V>(f: (value: U) => V): None<V> {
     return none;
@@ -28,6 +34,10 @@ class None<U> {
     return ifEmpty();
   }
   /* eslint-enable no-unused-vars */
+
+  getOrElse(defaultVal: U): U {
+    return defaultVal;
+  }
 }
 
 export function some<U>(value: U): Some<U> {
