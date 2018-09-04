@@ -6,6 +6,7 @@ import {
 } from './services/playerService';
 
 import eitherConnectOrFull from './services/connectToGame';
+import calculateGameStatus from './services/calculateGameStatus';
 
 import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
@@ -15,8 +16,7 @@ import invalidMoveMessage from './messages/invalidMoveMessage';
 import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
-import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponses';
-import gameStatusMessage from './messages/gameStatusMessage';
+import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
@@ -27,7 +27,9 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       const isRight = (connectedToGameResponse: ConnectedToGameResponse) => {
         store.dispatch(connectedToGameResponse.allocateSlotAction);
         sendToClient(connectedToGameResponse.message);
-        sendToClient(gameStatusMessage(store.getState()));
+
+        //run calculateGameState
+        sendToClient(calculateGameStatus(store.getState()));
       };
 
       eitherConnectOrFull(store.getState(),
@@ -43,7 +45,8 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
         (action) => {
           store.dispatch(action);
           sendToClient(successfulMoveMessage());
-          sendToClient(gameStatusMessage(store.getState()));
+
+          sendToClient(calculateGameStatus(store.getState()));
         }
       );
     }

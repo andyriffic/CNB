@@ -8,7 +8,7 @@ import type { Option } from '../utils/functional/Option';
 import type { Game } from '../types/GameType';
 import gameIsFullMessage from '../messages/slotTakenMessage';
 import addedToGameMessage from '../messages/addedToGameMessage';
-import type { GameIsFullResponse, ConnectedToGameResponse  } from './ConnectToGameResponses';
+import type { GameIsFullResponse, ConnectedToGameResponse  } from './ConnectToGameResponsesType';
 
 const checkSlot = (slot: string) => (playerName: string): Option<string> => {
   if (playerName === null || playerName === undefined) {

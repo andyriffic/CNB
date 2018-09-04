@@ -23,6 +23,8 @@ console.log('Hello cowboy');
 
   READY TO PLAY
     <- Result
+
+  HANDLE DISCONNECTS
 */
 
 const CONSOLE_RESET = '\x1b[0m';
@@ -45,4 +47,6 @@ export const sendMessage = (msg: Message): void => {
 };
 
 receiveMessage(store, {type: incomingMessageTypes.REQUEST_TO_CONNECT, payload: { playerName: 'foo', clientId: '#123' } }, sendMessage);
+
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'ROCK' } }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);

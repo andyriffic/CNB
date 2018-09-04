@@ -33,6 +33,8 @@
         <dd id="otherPlayerName"></dd>
         <dt>Moved:</dt>
         <dd id="otherPlayerMoved"></dd>
+        <dt>Game Result:</dt>
+        <dd id="gameResult"></dd>
       </dl>
     </div>
 
@@ -96,6 +98,7 @@
         document.getElementById('otherPlayerStatus').innerText = theMsg[them].connected ? 'connected' : 'not connected';
         document.getElementById('otherPlayerName').innerText = theMsg[them].name || '-';
         document.getElementById('otherPlayerMoved').innerText = theMsg[them].moved ? 'yes' : 'no';
+        document.getElementById('gameResult').innerText = theMsg.gameResult.result;
 
         //Update own state
         const us = theMsg[slot];

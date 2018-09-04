@@ -11,6 +11,10 @@ export class Some<U> {
     return new Some(f(this._value));
   }
 
+  flatMap<V>(f: (value: U) => Option<V>): Option<V> {
+    return f(this._value);
+  }
+
   fold<V>(ifEmpty: () => V, f: (value: U) => V): V {
     return f(this._value);
   }
@@ -25,6 +29,9 @@ export class Some<U> {
 export class None<U> {
   /* eslint-disable no-unused-vars */
   map<V>(f: (value: U) => V): None<V> {
+    return none;
+  }
+  flatMap<V>(f: (value: U) => Option<V>): Option<V> {
     return none;
   }
   /* eslint-enable no-unused-vars */
