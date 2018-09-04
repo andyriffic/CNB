@@ -33,7 +33,7 @@ const getSlot = (game: Game): Option<string> => {
   else return canConnectToSlot('player2', game);
 };
 
-const tryConnectPlayer = (game: Game, playerName: string, clientId: string): Either<GameIsFullResponse, ConnectedToGameResponse> => {
+const eitherConnectOrFull = (game: Game, playerName: string, clientId: string): Either<GameIsFullResponse, ConnectedToGameResponse> => {
   const slotAllocated = getSlot(game);
   const slotName = slotAllocated.getOrElse('oh no :(');
 
@@ -52,4 +52,4 @@ const tryConnectPlayer = (game: Game, playerName: string, clientId: string): Eit
   }
 };
 
-export default tryConnectPlayer;
+export default eitherConnectOrFull;

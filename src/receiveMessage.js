@@ -5,7 +5,7 @@ import {
   tryMakeMove,
 } from './services/playerService';
 
-import tryConnectPlayer from './services/connectToGame';
+import eitherConnectOrFull from './services/connectToGame';
 
 import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
@@ -22,19 +22,22 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
   console.log('RECEIVE MESSAGE', msg);
 
   switch (msg.type) {
-    case incomingMessageTypes.REQUEST_TO_CONNECT:
-      tryConnectPlayer(store.getState(), prop('playerName', msg.payload), prop('clientId', msg.payload)).fold(
-        (gameIsFullResponse: GameIsFullResponse) => sendToClient(gameIsFullResponse.message),
-        (connectedToGameResponse: ConnectedToGameResponse) => {
-          store.dispatch(connectedToGameResponse.allocateSlotAction);
-          sendToClient(connectedToGameResponse.message);
+    case incomingMessageTypes.REQUEST_TO_CONNECT: {
+      const ifLeft = (gameIsFullResponse: GameIsFullResponse) => sendToClient(gameIsFullResponse.message);
+      const isRight = (connectedToGameResponse: ConnectedToGameResponse) => {
+        store.dispatch(connectedToGameResponse.allocateSlotAction);
+        sendToClient(connectedToGameResponse.message);
+        sendToClient(gameStatusMessage(store.getState()));
+      };
 
-          sendToClient(gameStatusMessage(store.getState()));
-        },
-      );
+      eitherConnectOrFull(store.getState(),
+        prop('playerName', msg.payload),
+        prop('clientId', msg.payload)
+      ).fold(ifLeft,isRight);
+    }
       break;
 
-    case incomingMessageTypes.MAKE_MOVE:
+    case incomingMessageTypes.MAKE_MOVE: {
       tryMakeMove(store.getState(), prop('slot', msg.payload), prop('move', msg.payload)).fold(
         () => sendToClient(invalidMoveMessage()),
         (action) => {
@@ -43,10 +46,12 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
           sendToClient(gameStatusMessage(store.getState()));
         }
       );
+    }
       break;
 
-    default:
+    default: {
       sendToClient(invalidMessageMessage());
+    }
   }
 };
 
