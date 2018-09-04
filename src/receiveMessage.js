@@ -1,10 +1,5 @@
 // @flow
 
-import {
-  //tryConnectPlayer,
-  tryMakeMove,
-} from './services/playerService';
-
 import eitherConnectOrFull from './services/connectToGame';
 import calculateGameStatus from './services/calculateGameStatus';
 
@@ -12,11 +7,11 @@ import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
 import type { SendToClient } from './messages/SendToClientType';
 import { incomingMessageTypes } from './messages/typeConstants';
-import invalidMoveMessage from './messages/invalidMoveMessage';
-import successfulMoveMessage from './messages/successfulMoveMessage';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
 import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
+import { eitherMakeMoveOrError } from './services/makeMove';
+import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   console.log('RECEIVE MESSAGE', msg);
@@ -40,15 +35,16 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       break;
 
     case incomingMessageTypes.MAKE_MOVE: {
-      tryMakeMove(store.getState(), prop('slot', msg.payload), prop('move', msg.payload)).fold(
-        () => sendToClient(invalidMoveMessage()),
-        (action) => {
-          store.dispatch(action);
-          sendToClient(successfulMoveMessage());
+      const ifLeft = (invalidMove: InvalidMoveResponse) => sendToClient(invalidMove.message);
+      const ifRight = (makeMoveResponse: MakeMoveResponse) => {
+        store.dispatch(makeMoveResponse.makeMoveAction);
+        sendToClient(calculateGameStatus(store.getState()));
+      };
 
-          sendToClient(calculateGameStatus(store.getState()));
-        }
-      );
+      eitherMakeMoveOrError(store.getState(),
+        prop('slot', msg.payload),
+        prop('move', msg.payload)
+      ).fold(ifLeft, ifRight);
     }
       break;
 

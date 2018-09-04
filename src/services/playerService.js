@@ -4,13 +4,11 @@ import type { AllocateSlotAction } from '../types/actions/AllocateSlotAction';
 import { option } from '../utils/functional/Option';
 import { left, right } from '../utils/functional/Either';
 import type { Either } from '../utils/functional/Either';
-import { allocateSlotAction, makeMoveAction } from '../state/actions/slotActions';
+import { allocateSlotAction } from '../state/actions/slotActions';
 import type { Option } from '../utils/functional/Option';
 import type { Game } from '../types/GameType';
 import type { Message } from '../messages/MessageType';
 import playerSlotIsTakenMessage from '../messages/slotTakenMessage';
-import type { MakeMoveAction } from '../types/actions/MakeMoveAction';
-import invalidMoveMessage from '../messages/invalidMoveMessage';
 
 
 const playerName = (player: string, game: Game): Option<string> => compose(
@@ -38,19 +36,4 @@ export const tryConnectPlayer = (game: Game, playerName: string, clientId: strin
       ),
     (allocateSlotAction) => right(allocateSlotAction(playerName, clientId))
     );
-};
-
-const validMove = (game: Game, player: string, move: string): Either<void, void> => {
-  //TODO: validate game not over
-  //TODO: validate player not moved already
-  //TODO: validate is a valid move
-  console.log('validMove', game, player, move);
-  return right();
-};
-
-export const tryMakeMove = (game: Game, player: string, move: string): Either<Message, MakeMoveAction> => {
-  return validMove(game, player, move).fold(
-    () => left(invalidMoveMessage()),
-    () => right(makeMoveAction(player, move))
-  );
 };
