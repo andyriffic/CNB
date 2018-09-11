@@ -7,12 +7,21 @@ import invalidMoveMessage from '../messages/invalidMoveMessage';
 import { makeMoveAction } from '../state/actions/slotActions';
 import type { InvalidMoveResponse, MakeMoveResponse } from './MakeMoveResponsesType';
 
+const validMoves = ['cowboy', 'ninja', 'bear'];
+
 const validMove = (game: Game, player: string, move: string): Either<void, void> => {
+  console.log('validMove', game, player, move);
+
   //TODO: validate game not over
   //TODO: validate player not moved already
-  //TODO: validate is a valid move
-  console.log('validMove', game, player, move);
-  return right();
+
+  const validSelection = validMoves.some(validMove => validMove === move);
+
+  if (validSelection) {
+    return right();
+  }
+
+  return left("Invalid selection");
 };
 
 export const eitherMakeMoveOrError = (game: Game, player: string, move: string): Either<InvalidMoveResponse, MakeMoveResponse> => {
