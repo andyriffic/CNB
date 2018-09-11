@@ -7,9 +7,12 @@ import invalidMoveMessage from '../messages/invalidMoveMessage';
 import { makeMoveAction } from '../state/actions/slotActions';
 import type { InvalidMoveResponse, MakeMoveResponse } from './MakeMoveResponsesType';
 
-const validMoves = ['cowboy', 'ninja', 'bear'];
+import { MOVES } from '../state/Moves';
 
-const validMove = (game: Game, player: string, move: string): Either<void, void> => {
+//maybe filter out "UNKOWN"
+const validMoves = Object.values(MOVES);
+
+const validMove = (game: Game, player: string, move: string): Either<string, void> => {
   console.log('validMove', game, player, move);
 
   //TODO: validate game not over
@@ -21,7 +24,7 @@ const validMove = (game: Game, player: string, move: string): Either<void, void>
     return right();
   }
 
-  return left("Invalid selection");
+  return left('Invalid selection');
 };
 
 export const eitherMakeMoveOrError = (game: Game, player: string, move: string): Either<InvalidMoveResponse, MakeMoveResponse> => {

@@ -6,10 +6,12 @@ export type PlayerStatus = {
   moved: boolean,
 }
 
+export type GameOutcome = "Pending" | "Draw" | "Player1" | "Player2";
+
 export type GameResult = {
   player1Move?: string,
   player2Move?: string,
-  result: string,
+  outcome: GameOutcome,
 };
 
 export type GameStatus = {

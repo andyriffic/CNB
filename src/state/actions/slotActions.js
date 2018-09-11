@@ -1,6 +1,7 @@
 // @flow
 import type { AllocateSlotAction } from '../../types/actions/AllocateSlotAction';
 import type { MakeMoveAction } from '../../types/actions/MakeMoveAction';
+import type { Move } from '../../types/MoveType';
 
 export const ALLOCATE_SLOT_ACTION = '[SLOT] Allocate';
 export const MAKE_MOVE_ACTION = '[SLOT] Make Move';
@@ -14,7 +15,7 @@ export const allocateSlotAction = (slot: string) => (playerName: string, clientI
   };
 };
 
-export const makeMoveAction = (slot: string, move: string): MakeMoveAction => {
+export const makeMoveAction = (slot: string, move: Move): MakeMoveAction => {
   return {
     type: MAKE_MOVE_ACTION,
     slot,
