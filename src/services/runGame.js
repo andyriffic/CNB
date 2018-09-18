@@ -7,7 +7,7 @@ import { MOVES } from '../state/Moves';
 import { Some } from '../utils/functional/Option';
 import { safeProp } from '../utils/functional/helpers';
 
-const OUTCOMES = {
+export const OUTCOMES = {
   PENDING: 'Pending',
   DRAW: 'Draw',
   PLAYER_ONE: 'Player1',

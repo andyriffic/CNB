@@ -14,7 +14,7 @@ import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
-  console.log('RECEIVE MESSAGE', msg);
+  //console.log('RECEIVE MESSAGE', msg);
 
   switch (msg.type) {
     case incomingMessageTypes.REQUEST_TO_CONNECT: {

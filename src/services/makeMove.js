@@ -13,7 +13,6 @@ import { MOVES } from '../state/Moves';
 const validMoves = Object.values(MOVES);
 
 const validMove = (game: Game, player: string, move: string): Either<string, void> => {
-  console.log('validMove', game, player, move);
 
   //TODO: validate game not over
   //TODO: validate player not moved already

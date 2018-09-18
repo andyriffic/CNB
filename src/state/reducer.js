@@ -8,8 +8,6 @@ import { ALLOCATE_SLOT_ACTION, MAKE_MOVE_ACTION } from './actions/slotActions';
 
 const reducer = (state: Game = initialState, action: Action): Game => {
 
-  console.log('REDUCER', action);
-
   switch (action.type) {
     case ALLOCATE_SLOT_ACTION: {
       const assignedSlot = { ...state[action.slot], name: action.playerName, clientId: action.clientId };
