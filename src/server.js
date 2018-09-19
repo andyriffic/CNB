@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import koa from 'koa';
 import serve from 'koa-static';
 
@@ -56,16 +58,7 @@ app.io.on('connection', (socket) => {
       console.log('STATE: ', store.getState());
     });
   });
-
-  // socket.on(REQUEST_TO_CONNECT, (msg) => {
-  //   console.log('REQUEST_TO_JOIN', msg);
-  //
-  //   receiveMessage(store, msg, sendMessage(socket));
-  //
-  //   console.log('STATE: ', store.getState());
-  // });
 });
-
 
 server.listen(3000);
 

@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Test</title>
+  </head>
+  <body>
+    <h1>Reset Game</h1>
+
+    <button id="reset">Reset</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript">
+
+      var socket = io();
+
+      document.getElementById('reset').addEventListener('click', function(){
+        socket.emit('RESET_GAME', {
+          type: 'RESET_GAME',
+        });
+      });
+
+    </script>
+  </body>
+</html>

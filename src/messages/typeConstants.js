@@ -8,10 +8,13 @@ const MAKE_MOVE = 'MAKE_MOVE';
 const INVALID_MOVE = 'INVALID_MOVE';
 const SUCCESSFUL_MOVE = 'SUCCESSFUL_MOVE';
 const GAME_STATUS = 'GAME_STATUS';
+const GAME_RESET = 'GAME_RESET';
+const RESET_GAME = 'RESET_GAME';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
   REQUEST_TO_CONNECT,
+  RESET_GAME,
 };
 
 export const outgoingMessageTypes = {
@@ -23,4 +26,5 @@ export const outgoingMessageTypes = {
   INVALID_MOVE,
   SUCCESSFUL_MOVE,
   GAME_STATUS,
+  GAME_RESET,
 };
