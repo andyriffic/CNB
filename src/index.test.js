@@ -153,7 +153,7 @@ describe('Cowboy/Ninja/Bear', () => {
 
       const getLastOutcome = () => sendMessageSpy.lastCall.args[0].payload.gameResult.outcome;
 
-      it('then broadcast game result is correct when draw', () => {
+      it('then broadcast game result is correct when both players choose COWBOY', () => {
         makeMove('player1', MOVES.COWBOY);
         makeMove('player2', MOVES.COWBOY);
         assert.equal(OUTCOMES.DRAW, getLastOutcome(), 'Incorrect game result');

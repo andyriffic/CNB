@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Watch Game in Progress</title>
+    <style>
+        .player-move-icon {
+            font-size: 70px;
+        }
+
+        .winner {
+            background-color: green;
+        }
+
+        .loser {
+            background-color: lightcoral;
+        }
+
+        .draw {
+            background-color: orange;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Watch</h1>
+
+    <p id="messageContainer"></p>
+
+    <div class="players-list" style="display: flex;">
+        <div id="player1" class="player-1" style="width: 50%; border: 1px solid #ccc">
+            <h3 id="player1Name">-</h3>
+            <div id="player1Move" class="player-move-icon"></div>
+            <div id="player1Result" style="font-size: 50px"></div>
+        </div>
+        <div id="player2" class="player-2" style="width: 50%; border: 1px solid #ccc">
+            <h3 id="player2Name">-</h3>
+            <div id="player2Move" class="player-move-icon"></div>
+            <div id="player2Result" style="font-size: 50px"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript">
+      var socket = io();
+
+      //3: game status updates
+      socket.on('GAME_STATUS', function(theMsg) {
+        console.log('GAME_STATUS', theMsg);
+        updatePlayerDetails('player1', theMsg);
+        updatePlayerDetails('player2', theMsg);
+      });
+
+      function updatePlayerDetails(player, data) {
+        var playerData = data[player];
+
+        document.getElementById(player + 'Name').innerText = playerData.name || '-';
+
+        if (playerData.move) {
+        } else {
+          //Game still in progress
+        }
+
+        var gameResolved = data.gameResult.outcome !== 'Pending';
+        var isWinner = data.gameResult.outcome.toLowerCase() === player;
+        var isDraw = data.gameResult.outcome === 'Draw';
+
+        if (gameResolved) {
+          var icon;
+          switch (data.gameResult[`${player}Move`]) {
+            case 'cowboy':
+              icon = '🤠';
+              break;
+            case 'ninja':
+              icon = '🔪‍';
+              break;
+            case 'bear':
+              icon = '🐻';
+              break;
+          }
+          document.getElementById(player + 'Move').innerText = icon;
+
+          if (isDraw) {
+            document.getElementById(player).className = 'draw';
+            document.getElementById(player + 'Result').innerText = '😐';
+          } else {
+            document.getElementById(player).className = isWinner ? 'winner' : 'loser';
+            document.getElementById(player + 'Result').innerText = isWinner ? '😁' : '😭'
+          }
+        } else {
+          document.getElementById(player + 'Move').innerText = playerData.moved ? '✅' : '🤔';
+          document.getElementById(player).className = '';
+          document.getElementById(player + 'Result').innerText = '';
+        }
+      }
+
+    </script>
+</body>
+</html>
