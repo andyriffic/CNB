@@ -9,7 +9,8 @@
     "build": "babel src/ -d lib/ --copy-files",
     "flow": "flow",
     "test": "npm run build && node_modules/.bin/mocha lib/**.test.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "verify": "npm run lint && npm run flow && npm run test"
   },
   "author": "",
   "license": "ISC",
