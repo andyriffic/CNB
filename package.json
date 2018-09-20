@@ -28,9 +28,10 @@
     "sinon": "^6.3.3"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "koa": "^2.5.2",
     "koa-static": "^5.0.0",
-    "socket.io": "^2.1.1",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "socket.io": "^2.1.1"
   }
 }

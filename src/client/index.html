@@ -106,6 +106,12 @@
 
       });
 
+      socket.on('GAME_RESET', function(theMsg) {
+        document.getElementById('gameStatus').innerText = 'RESET';
+        document.getElementById('moveContainer').style.display = 'none';
+        document.getElementById('otherPlayer').style.display = 'none';
+      });
+
       function makeMove(move) {
         console.log('makeMove', move);
         socket.emit('MAKE_MOVE', {

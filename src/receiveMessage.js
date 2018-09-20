@@ -9,6 +9,8 @@ import type { SendToClient } from './messages/SendToClientType';
 import { incomingMessageTypes } from './messages/typeConstants';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
+import gameResetMessage from './messages/gameResetMessage';
+import resetGameAction from './state/actions/resetGameAction';
 import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
 import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
@@ -45,6 +47,13 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
         prop('slot', msg.payload),
         prop('move', msg.payload)
       ).fold(ifLeft, ifRight);
+    }
+      break;
+
+    case incomingMessageTypes.RESET_GAME: {
+      store.dispatch(resetGameAction());
+      sendToClient(gameResetMessage());
+      sendToClient(calculateGameStatus(store.getState()));
     }
       break;
 
