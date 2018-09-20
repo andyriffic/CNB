@@ -16,6 +16,12 @@
       "onlyFilesWithFlowAnnotation": true
     }
   },
+  "globals": {
+    "it": true,
+    "describe": true,
+    "before": true,
+    "beforeEach": true
+  },
   "parserOptions": {
     "sourceType": "module"
   },

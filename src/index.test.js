@@ -21,7 +21,7 @@ describe('Cowboy/Ninja/Bear', () => {
   const makeMove = (player, move) => {
     receiveMessage(store, {
       type: incomingMessageTypes.MAKE_MOVE,
-      payload: { slot: player, move: move }
+      payload: { slot: player, move: move },
     }, sendMessageSpy);
   };
 
@@ -47,14 +47,14 @@ describe('Cowboy/Ninja/Bear', () => {
           payload: {
             player1: { connected: true, name: player1Name, moved: false },
             player2: { connected: false, name: undefined, moved: false },
-            gameResult: { outcome: OUTCOMES.PENDING }
+            gameResult: { outcome: OUTCOMES.PENDING },
           },
-          recipients: { all: true }
+          recipients: { all: true },
         };
 
         assert.deepEqual(expectedPayload, sendMessageSpy.secondCall.args[0], 'Incorrect GAME_STATUS payload');
       });
-    })
+    });
   });
 
   describe('given one player connected', () => {
@@ -87,9 +87,9 @@ describe('Cowboy/Ninja/Bear', () => {
           payload: {
             player1: { connected: true, name: player1Name, moved: false },
             player2: { connected: true, name: player2Name, moved: false },
-            gameResult: { outcome: OUTCOMES.PENDING }
+            gameResult: { outcome: OUTCOMES.PENDING },
           },
-          recipients: { all: true }
+          recipients: { all: true },
         };
 
         assert.deepEqual(expectedPayload, sendMessageSpy.secondCall.args[0], 'Incorrect GAME_STATUS payload');
@@ -137,9 +137,9 @@ describe('Cowboy/Ninja/Bear', () => {
           payload: {
             player1: { connected: true, name: player1Name, moved: true },
             player2: { connected: true, name: player2Name, moved: false },
-            gameResult: { outcome: OUTCOMES.PENDING }
+            gameResult: { outcome: OUTCOMES.PENDING },
           },
-          recipients: { all: true }
+          recipients: { all: true },
         };
         assert.deepEqual(expectedPayload, sendMessageSpy.firstCall.args[0], 'Incorrect GAME_STATUS payload');
       });
