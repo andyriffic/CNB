@@ -25,9 +25,9 @@
 <body>
     <h1>Watch</h1>
 
-    <p id="messageContainer"></p>
+    <h3 id="messageContainer"></h3>
 
-    <div class="players-list" style="display: flex;">
+    <div id="playerContainer" class="players-list" style="display: flex;">
         <div id="player1" class="player-1" style="width: 50%; border: 1px solid #ccc">
             <h3 id="player1Name">-</h3>
             <div id="player1Move" class="player-move-icon"></div>
@@ -61,31 +61,41 @@
         document.getElementById(player + 'Name').innerText = playerData.name || '- not connected -';
 
         var gameResolved = data.gameResult.outcome !== 'Pending';
-        var isWinner = data.gameResult.outcome.toLowerCase() === player;
-        var isDraw = data.gameResult.outcome === 'Draw';
 
         if (gameResolved) {
-          var icon;
-          switch (data.gameResult[`${player}Move`]) {
-            case 'cowboy':
-              icon = '🤠';
-              break;
-            case 'ninja':
-              icon = '🔪‍';
-              break;
-            case 'bear':
-              icon = '🐻';
-              break;
-          }
-          document.getElementById(player + 'Move').innerText = icon;
 
-          if (isDraw) {
-            document.getElementById(player).className = 'draw';
-            document.getElementById(player + 'Result').innerText = '😐';
-          } else {
-            document.getElementById(player).className = isWinner ? 'winner' : 'loser';
-            document.getElementById(player + 'Result').innerText = isWinner ? '😁' : '😭'
-          }
+          document.getElementById('messageContainer').innerText = 'GET READY...';
+          document.getElementById('playerContainer').style.display = 'none';
+
+          setTimeout(() => {
+            document.getElementById('playerContainer').style.display = 'flex';
+            var isWinner = data.gameResult.outcome.toLowerCase() === player;
+            var isDraw = data.gameResult.outcome === 'Draw';
+            var icon;
+            switch (data.gameResult[`${player}Move`]) {
+              case 'cowboy':
+                icon = '🤠';
+                break;
+              case 'ninja':
+                icon = '🔪‍';
+                break;
+              case 'bear':
+                icon = '🐻';
+                break;
+            }
+            document.getElementById(player + 'Move').innerText = icon;
+
+            if (isDraw) {
+              document.getElementById('messageContainer').innerText = 'DRAW!';
+              document.getElementById(player).className = 'draw';
+              document.getElementById(player + 'Result').innerText = '😐';
+            } else {
+              document.getElementById('messageContainer').innerText = `${data[data.gameResult.outcome.toLowerCase()].name} wins!`;
+              document.getElementById(player).className = isWinner ? 'winner' : 'loser';
+              document.getElementById(player + 'Result').innerText = isWinner ? '😁' : '😭'
+            }
+
+          }, 3000);
         } else {
           document.getElementById(player + 'Move').innerText = playerData.moved ? '✅' : playerConnected ? '🤔' : '';
           document.getElementById(player).className = '';

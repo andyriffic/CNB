@@ -77,7 +77,7 @@ describe('Cowboy/Ninja/Bear', () => {
 
         assert.deepEqual(expectedPayload, sendMessageSpy.firstCall.args[0], 'Incorrect GAME_STATUS payload');
       });
-    })
+    });
   });
 
   describe('given one player connected', () => {
