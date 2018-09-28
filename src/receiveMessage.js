@@ -57,6 +57,11 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     }
       break;
 
+    case incomingMessageTypes.SPECTATOR_JOIN: {
+      sendToClient(calculateGameStatus(store.getState()));
+    }
+      break;
+
     default: {
       sendToClient(invalidMessageMessage());
     }

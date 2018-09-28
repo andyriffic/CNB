@@ -55,6 +55,29 @@ describe('Cowboy/Ninja/Bear', () => {
         assert.deepEqual(expectedPayload, sendMessageSpy.secondCall.args[0], 'Incorrect GAME_STATUS payload');
       });
     });
+
+    describe('when spectator joins', () => {
+
+      before(() => {
+        store = createStore(reducer);
+        sandbox.reset();
+        receiveMessage(store, { type: incomingMessageTypes.SPECTATOR_JOIN }, sendMessageSpy);
+      });
+
+      it('then game status is broadcast', () => {
+        const expectedPayload = {
+          type: outgoingMessageTypes.GAME_STATUS,
+          payload: {
+            player1: { connected: false, name: undefined, moved: false },
+            player2: { connected: false, name: undefined, moved: false },
+            gameResult: { outcome: OUTCOMES.PENDING },
+          },
+          recipients: { all: true },
+        };
+
+        assert.deepEqual(expectedPayload, sendMessageSpy.firstCall.args[0], 'Incorrect GAME_STATUS payload');
+      });
+    })
   });
 
   describe('given one player connected', () => {

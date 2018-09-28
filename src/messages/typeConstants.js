@@ -10,11 +10,13 @@ const SUCCESSFUL_MOVE = 'SUCCESSFUL_MOVE';
 const GAME_STATUS = 'GAME_STATUS';
 const GAME_RESET = 'GAME_RESET';
 const RESET_GAME = 'RESET_GAME';
+const SPECTATOR_JOIN = 'SPECTATOR_JOIN';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
   REQUEST_TO_CONNECT,
   RESET_GAME,
+  SPECTATOR_JOIN,
 };
 
 export const outgoingMessageTypes = {

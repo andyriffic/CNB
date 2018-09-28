@@ -51,15 +51,14 @@
         updatePlayerDetails('player2', theMsg);
       });
 
+      socket.emit('SPECTATOR_JOIN', {type: 'SPECTATOR_JOIN'});
+
       function updatePlayerDetails(player, data) {
         var playerData = data[player];
 
-        document.getElementById(player + 'Name').innerText = playerData.name || '-';
+        var playerConnected = !!playerData.name;
 
-        if (playerData.move) {
-        } else {
-          //Game still in progress
-        }
+        document.getElementById(player + 'Name').innerText = playerData.name || '- not connected -';
 
         var gameResolved = data.gameResult.outcome !== 'Pending';
         var isWinner = data.gameResult.outcome.toLowerCase() === player;
@@ -88,7 +87,7 @@
             document.getElementById(player + 'Result').innerText = isWinner ? '😁' : '😭'
           }
         } else {
-          document.getElementById(player + 'Move').innerText = playerData.moved ? '✅' : '🤔';
+          document.getElementById(player + 'Move').innerText = playerData.moved ? '✅' : playerConnected ? '🤔' : '';
           document.getElementById(player).className = '';
           document.getElementById(player + 'Result').innerText = '';
         }
