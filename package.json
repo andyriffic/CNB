@@ -4,35 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "npm run build && node lib/server/server.js",
-    "start": "npm run build && node lib/server/index.js",
-    "build": "babel src/ -d lib/ --copy-files",
-    "flow": "flow",
-    "test": "npm run build && node_modules/.bin/mocha lib/**/*.test.js",
-    "lint": "eslint src",
-    "verify": "npm run lint && npm run flow && npm run test"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.6",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
-    "chai": "^4.1.2",
-    "eslint": "^5.2.0",
-    "eslint-plugin-flowtype": "^2.50.0",
-    "flow-bin": "^0.77.0",
-    "mocha": "^5.2.0",
-    "sinon": "^6.3.3"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "koa": "^2.5.2",
-    "koa-static": "^5.0.0",
-    "ramda": "^0.25.0",
-    "socket.io": "^2.1.1"
-  }
+  "license": "ISC"
 }

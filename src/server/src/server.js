@@ -19,7 +19,7 @@ const initialState = {
   foo: 'bar',
 };
 
-app.use(serve('lib/client'));
+app.use(serve('../../lib/client'));
 
 var server = require('http').createServer(app.callback());
 app.io = require('socket.io')(server);
