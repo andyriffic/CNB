@@ -4,6 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install:server": "cd ./src/server && npm install",
+    "install:client": "cd ./src/client && npm install",
+    "install": "npm run install:server && npm run install:client",
+    "build:server": "cd ./src/server && npm run build",
+    "build:client": "cd ./src/client && npm run build",
+    "build": "rm -rf lib && npm run install && npm run build:server && npm run build:client",
+    "start": "npm run build && npm run startup",
+    "startup": "node ./lib/server/server.js"
   },
   "author": "",
   "license": "ISC"

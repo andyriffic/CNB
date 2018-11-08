@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+trap "docker-compose down --volume" 0
+
+docker-compose build
+docker-compose up
+#docker-compose run --service-ports web "${@-bash}"
