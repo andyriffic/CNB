@@ -2,8 +2,5 @@
 
 cd $(dirname $0)/..
 
-trap "docker-compose down --volume" 0
-
-docker-compose build
-docker-compose up
-#docker-compose run --service-ports web "${@-bash}"
+docker build -t func-cnb .
+docker run -p 3000:3000 -it func-cnb
