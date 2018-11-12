@@ -1,0 +1,7 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+docker build -t supersquad/cowboy-ninja-bear .
+docker tag supersquad/cowboy-ninja-bear:latest 766741520701.dkr.ecr.ap-southeast-2.amazonaws.com/supersquad/cowboy-ninja-bear:latest
+docker push 766741520701.dkr.ecr.ap-southeast-2.amazonaws.com/supersquad/cowboy-ninja-bear:latest
