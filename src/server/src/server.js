@@ -1,7 +1,5 @@
 import 'babel-polyfill';
 
-import koa from 'koa';
-import serve from 'koa-static';
 
 import { incomingMessageTypes } from './messages/typeConstants';
 import connectionEstablishedMessage from './messages/connectionEstablishedMessage';
@@ -12,24 +10,6 @@ import reducer from './state/reducer';
 import receiveMessage from './receiveMessage';
 
 const store = createStore(reducer);
-
-const app = new koa();
-
-const initialState = {
-  foo: 'bar',
-};
-
-app.use(serve('./lib/client'));
-
-var server = require('http').createServer(app.callback());
-app.io = require('socket.io')(server);
-
-app.context.state = initialState;
-
-app.io.use((socket, next) => {
-  socket.state = app.context.state;
-  return next();
-});
 
 const sendMessage = (socket) => (message) => {
   console.log('sendMessage', message);
@@ -42,7 +22,21 @@ const sendMessage = (socket) => (message) => {
 
 };
 
-app.io.on('connection', (socket) => {
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const path = require('path');
+
+const port = process.env.PORT || 3000;
+server.listen(port);
+
+app.use(express.static(path.join(__dirname, '/../client')));
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname, '/../client/index.html'));
+});
+
+io.on('connection', function (socket) {
   console.log('user connected!', socket.id);
 
   sendMessage(socket)(connectionEstablishedMessage(socket.id));
@@ -60,7 +54,4 @@ app.io.on('connection', (socket) => {
   });
 });
 
-const port = process.env.PORT || 3000;
-server.listen(port);
-
-console.log(`listening on port ${port}`);
+console.log(`App running on http://localhost:${port}`);

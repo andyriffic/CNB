@@ -14,5 +14,6 @@
     "startup": "node ./lib/server/server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }
