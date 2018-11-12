@@ -1,4 +1,7 @@
 import React from 'react';
+import { Router } from "@reach/router"
+
+import { PlayerSelectionScreen, SpectatorScreen } from './screens'
 import GlobalStyle from './GlobalStyle';
 
 const App = () => {
@@ -6,6 +9,11 @@ const App = () => {
     <React.Fragment>
       <GlobalStyle />
       <h1>Cowboy/Ninja/Bear</h1>
+      <Router>
+        <SpectatorScreen path="/" />
+        <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
+        <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
+      </Router>
     </React.Fragment>
   );
 }
