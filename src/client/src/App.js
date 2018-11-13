@@ -6,10 +6,8 @@ import { Router } from "@reach/router"
 import SocketsConnection from './sockets/SocketsConnection';
 import ConnectionDetailsContext from './contexts/ConnectionDetailsContext';
 import { PlayerSelectionScreen, SpectatorScreen } from './screens'
+import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
-
-//todo querystring param
-const debug = true;
 
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
@@ -23,15 +21,7 @@ const App = () => {
         <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
         <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
       </Router>
-      { debug && (
-          <React.Fragment>
-            <h2>Client connection</h2>
-            <pre>
-              { JSON.stringify(connectionDetails) }
-            </pre>
-          </React.Fragment>
-        )
-      }
+      <DebugOutput data={connectionDetails} />
     </SocketsConnection>
   );
 }

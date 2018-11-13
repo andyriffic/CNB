@@ -3,6 +3,7 @@
 import React, { useContext } from 'react';
 import GameStateContext from '../../contexts/GameStateContext';
 import useGetGameState from '../hooks/useGetGameState';
+import DebugOutput from '../../DebugOutput';
 
 const View = () => {
   const gameState = useContext(GameStateContext);
@@ -12,10 +13,7 @@ const View = () => {
   return (
     <React.Fragment>
       <h2>Spectator screen</h2>
-      <h3>Game state</h3>
-      <pre>
-        { JSON.stringify(gameState) }
-      </pre>
+      <DebugOutput data={ gameState } />
     </React.Fragment>
   )
 }
