@@ -18,13 +18,15 @@ type Props = {
 };
 
 const SocketsConnection = ({ children }: Props) => {
-  const [gameState, setGameState] = useState({});
-  const [connectionDetails, setConnectionDetails] = useState({});
+  const [gameState, setGameState] = useState(null);
+  const [connectionDetails, setConnectionDetails] = useState(null);
 
   useEffect(()=> {
 
+    //set up listeners for message from server
     socket.on("CONNECTION_ESTABLISHED", data => setConnectionDetails(data ));
     socket.on("GAME_STATUS", data => setGameState(data));
+
     console.log('connected to socket', socket);
 
     return () => console.log('unmounting....');

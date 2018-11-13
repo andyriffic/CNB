@@ -1,4 +1,4 @@
 export type ServerMessages = {
-  spectatorJoin: () => void,
+  getGameStatus: () => void,
   makeMove: (string, string) => void,
 };
