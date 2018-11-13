@@ -11,7 +11,7 @@ import ConnectionDetailsContext from '../contexts/ConnectionDetailsContext';
 
 import generateServerMessagesService from './generateServerMessagesService';
 
-const socket = socketIOClient();
+const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
 type Props = {
   children: Node,
