@@ -13,6 +13,7 @@ import Draw from './components/outcome-draw';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
+import { FullViewPort, MobilePageHeader, CenteredContentContainer } from './styled';
 
 type Props = {
   //todo: do better than this
@@ -45,19 +46,20 @@ const View = ( { playerKey }: Props ) => {
   console.log('playerLoses', playerLoses(gameState, playerState.slot));
 
   return (    
-    <React.Fragment>
-      <h2>{ playerState.player.name }</h2>
-      <Switch>
-        <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
-        <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>
-        <Draw showIf={ gameIsDraw(gameState) }/>
-        <Loser showIf={ playerWins(gameState, playerState.slot) }/>
-        <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
-      </Switch>
-
-      <DebugOutput data={ playerState } />
-      <DebugOutput data={ gameState } />
-    </React.Fragment>
+    <FullViewPort>
+      <MobilePageHeader>{ playerState.player.name }</MobilePageHeader>
+      <CenteredContentContainer>
+        <Switch>
+          <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
+          <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>
+          <Draw showIf={ gameIsDraw(gameState) }/>
+          <Loser showIf={ playerWins(gameState, playerState.slot) }/>
+          <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
+        </Switch>
+      </CenteredContentContainer>
+      {/* <DebugOutput data={ playerState } />
+      <DebugOutput data={ gameState } /> */}
+    </FullViewPort>
   )
 }
 

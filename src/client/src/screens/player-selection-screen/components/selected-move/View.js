@@ -9,7 +9,7 @@ const moveComponentMapping = {
 
 const View = ({selectedMove}) => {
     const Component = moveComponentMapping[selectedMove];
-    return (<Component/>)
+    return (<Component selected={ true }/>)
 }
 
 export default View;

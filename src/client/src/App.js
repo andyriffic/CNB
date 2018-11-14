@@ -15,7 +15,6 @@ const App = () => {
   return (
     <SocketsConnection>
       <GlobalStyle />
-      <h1>Cowboy/Ninja/Bear</h1>
       <Router>
         <SpectatorScreen path="/" />
         <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />

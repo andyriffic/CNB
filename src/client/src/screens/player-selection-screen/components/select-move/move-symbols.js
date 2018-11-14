@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 const SymbolBase = styled.div`
     border: 2px solid black;
-    width: 100px;
-    height: 100px;
     text-align: center;
+    font-size: ${props => props.selected ? '50px' : '30px'};
 
     ${props => props.selectable && `
         cursor: pointer;
@@ -19,9 +18,10 @@ const SymbolBase = styled.div`
 const StyledCowboy = styled(SymbolBase)`
 `;
 
-export const Cowboy = ({ onSelection }) => {
+export const Cowboy = ({ onSelection, selected }) => {
     return (
         <StyledCowboy selectable={ !!onSelection } 
+                      selected={ selected }
                       onClick={ () => onSelection && onSelection('cowboy') }>
 
             <p>Cowboy</p>
@@ -29,9 +29,10 @@ export const Cowboy = ({ onSelection }) => {
         </StyledCowboy>);
 }
 
-export const Ninja = ({ onSelection }) => {
+export const Ninja = ({ onSelection, selected }) => {
     return (
         <StyledCowboy selectable={ !!onSelection }
+                      selected={ selected }
                       onClick={ () => onSelection && onSelection('ninja') }>
 
             <p>Ninja</p>
@@ -39,11 +40,12 @@ export const Ninja = ({ onSelection }) => {
         </StyledCowboy>);
 }
 
-export const Bear = ({ onSelection }) => {
+export const Bear = ({ onSelection, selected }) => {
     return (
         <StyledCowboy selectable={ !!onSelection } 
+                      selected={ selected }
                       onClick={ () => onSelection && onSelection('bear') }>
-                      
+
             <p>Bear</p>
             <p>熊</p>
         </StyledCowboy>);
