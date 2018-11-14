@@ -27,24 +27,33 @@ const PlayerResult = styled.div`
   align-content: center;
 `;
 
+const CenteredText = styled.span`
+  align-self: center;
+`;
+
 const View = ( { result, player1, player2, resetGame}: Props ) => {
   return (
     <React.Fragment>
       <h2>Result</h2>
       <ResultView>
         <PlayerResult>
-          <div>{ player1.move }</div>
-          <div>{ player1.name }</div>
+          <CenteredText>{ player1.move }</CenteredText>
+          <CenteredText>{ player1.name }</CenteredText>
         </PlayerResult>
 
         <Switch>
           <Draw showIf={ result.draw } />
-          <Winner showIf={ !result.draw } />
+          <Winner
+            showIf={ !result.draw }
+            player1={ player1 }
+            player2={ player2 }
+            result={ result }
+          />
         </Switch>
 
         <PlayerResult>
-          <div>{ player2.move }</div>
-          <div>{ player2.name }</div>
+          <CenteredText>{ player2.move }</CenteredText>
+          <CenteredText>{ player2.name }</CenteredText>
         </PlayerResult>
 
       </ResultView>
