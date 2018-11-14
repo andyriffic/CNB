@@ -57,8 +57,8 @@ const View = ( { playerKey }: Props ) => {
           <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
         </Switch>
       </CenteredContentContainer>
-      {/* <DebugOutput data={ playerState } />
-      <DebugOutput data={ gameState } /> */}
+      <DebugOutput data={ playerState } />
+      <DebugOutput data={ gameState } />
     </FullViewPort>
   )
 }
