@@ -19,6 +19,12 @@ type Props = {
   playerKey: 'XIAN'|'MELB',
 };
 
+const hasGameResult = (gameState) => !!(gameState && gameState.result);
+const gameIsDraw = (gameState) => hasGameResult(gameState) && gameState.result.draw;
+const playerHasMoved = (gameState, playerState) => playerState && playerState.player && playerState.player.moved;
+const playerWins = (gameState, player) => !gameIsDraw(gameState) && hasGameResult(gameState) && gameState.result.winner === player;
+const playerLoses = (gameState, player) => !gameIsDraw(gameState) && hasGameResult(gameState) && gameState.result.winner !== player;
+
 const View = ( { playerKey }: Props ) => {
   const playerState = usePlayerState(playerKey);
   const serverMessages = useContext(ServerMessagesContext);
@@ -32,15 +38,21 @@ const View = ( { playerKey }: Props ) => {
 
   if (!playerState) return null;
 
+  console.log('hasGameResult', hasGameResult(gameState));
+  console.log('gameIsDraw', gameIsDraw(gameState));
+  console.log('playerHasMoved', playerHasMoved(gameState, playerState));
+  console.log('playerWins', playerWins(gameState, playerState.slot));
+  console.log('playerLoses', playerLoses(gameState, playerState.slot));
+
   return (    
     <React.Fragment>
       <h2>{ playerState.player.name }</h2>
       <Switch>
-        <SelectedMove showIf={ playerState.player.moved } selectedMove={ playerState.player.move }/>
-        <SelectMove showIf={ !playerState.player.moved } onSelection={ onSelection }/>
-        <Draw showIf={ gameState && gameState.result && gameState.result.draw }/>
-        <Loser showIf={ gameState && gameState.result && !gameState.result.draw && gameState.result.winner !== playerState.slot }/>
-        <Winner showIf={ gameState && gameState.result && !gameState.result.draw && gameState.result.winner === playerState.slot }/>
+        <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
+        <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>
+        <Draw showIf={ gameIsDraw(gameState) }/>
+        <Loser showIf={ playerWins(gameState, playerState.slot) }/>
+        <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
       </Switch>
 
       <DebugOutput data={ playerState } />
