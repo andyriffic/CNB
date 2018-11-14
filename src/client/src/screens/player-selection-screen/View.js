@@ -48,7 +48,7 @@ const View = ( { playerKey }: Props ) => {
   return (    
     <Page>
       <PageHeader>{ playerState.player.name }</PageHeader>
-      <PageBody>
+      <PageBody column={ true }>
         <Switch>
           <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
           <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>

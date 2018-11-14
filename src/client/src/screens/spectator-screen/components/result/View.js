@@ -6,7 +6,7 @@ import PlayerResult from '../player-result';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
-import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader } from '../../../styled';
+import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
 
 type Props = {
   result: Object,
@@ -22,31 +22,33 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   return (
     <Page>
       <PageHeader>Result 结果</PageHeader>
-      <PlayerSpectatorContainer>
-        <PlayerSpectatorSection>
-          <PlayerResult player={player1} isWinner={isPlayer1Winner}/>
-        </PlayerSpectatorSection>
+      <PageBody column={ true }>
+        <PlayerSpectatorContainer>
+          <PlayerSpectatorSection>
+            <PlayerResult player={player1} isWinner={isPlayer1Winner}/>
+          </PlayerSpectatorSection>
 
-        <PlayerSpectatorSection>
-          <Switch>
-            <Draw showIf={ result.draw } />
-            <Winner
-              showIf={ !result.draw }
-              player1={ player1 }
-              player2={ player2 }
-              result={ result }
-            />
-          </Switch>
-        </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <Switch>
+              <Draw showIf={ result.draw } />
+              <Winner
+                showIf={ !result.draw }
+                player1={ player1 }
+                player2={ player2 }
+                result={ result }
+              />
+            </Switch>
+          </PlayerSpectatorSection>
 
-        <PlayerSpectatorSection>
-          <PlayerResult player={player2} isWinner={isPlayer2Winner}/>
-        </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <PlayerResult player={player2} isWinner={isPlayer2Winner}/>
+          </PlayerSpectatorSection>
 
-      </PlayerSpectatorContainer>
-      <PageFooterContainer>
-        <Button onClick={resetGame}>Play again</Button>
-      </PageFooterContainer>
+        </PlayerSpectatorContainer>
+        <PageFooterContainer>
+          <Button onClick={resetGame}>Play again</Button>
+        </PageFooterContainer>
+      </PageBody>
     </Page>
   );
 }

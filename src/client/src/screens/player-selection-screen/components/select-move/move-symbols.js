@@ -9,6 +9,10 @@ const SymbolBase = styled.div`
     background-color: #ffb758;
     text-align: center;
 
+    ${props => props.selected && `
+        width: 100%;
+    ` }
+
     ${props => props.selectable && `
         cursor: pointer;
         :hover {

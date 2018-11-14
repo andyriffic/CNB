@@ -36,6 +36,10 @@ export const PageBody = styled.div`
   height: 90vh;
   overflow: hidden;
   padding: 0 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${props => props.column && `flex-direction: column;`}
 `;
 
 export const PageSubTitle = styled.div`
@@ -47,23 +51,19 @@ export const PageSubTitle = styled.div`
   color: #FFECCC;
 `;
 
-export const CenteredContentContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 50px 0;
-`;
-
 export const PlayerSpectatorContainer = styled.div`
     display: flex;
     justify-content: space-around;
+    flex: 1;
+    align-items: center;
 `
 
 export const PlayerSpectatorSection = styled.div`
 `
 
 export const PageFooterContainer = styled.div`
-    margin-top: 100px;
     text-align: center;
+    padding: 5vh 0;
 `
 
 export const Button = styled.button`
