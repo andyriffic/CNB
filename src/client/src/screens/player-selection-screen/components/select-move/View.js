@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled from 'styled-components';
-import { Cowboy, Ninja, Bear } from './move-symbols';
+import { CowboySelector, NinjaSelector, BearSelector } from './move-symbols';
 import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle } from '../../../styled';
 
@@ -21,6 +21,7 @@ const SelectionListItem = styled.li`
     flex-basis: 30%;
     overflow: hidden;
     margin-bottom: 10px;
+    flex: 1;
 `
 
 const View = ({ onSelection }: MakeMoveSelection) => {
@@ -28,9 +29,9 @@ const View = ({ onSelection }: MakeMoveSelection) => {
     <React.Fragment>
         <PageSubTitle>Make your move 做你的举动</PageSubTitle>
         <SelectionList>
-            <SelectionListItem><Cowboy onSelection={ onSelection }/></SelectionListItem>
-            <SelectionListItem><Ninja onSelection={ onSelection }/></SelectionListItem>
-            <SelectionListItem><Bear onSelection={ onSelection }/></SelectionListItem>
+            <SelectionListItem><CowboySelector onSelection={ onSelection }/></SelectionListItem>
+            <SelectionListItem><NinjaSelector onSelection={ onSelection }/></SelectionListItem>
+            <SelectionListItem><BearSelector onSelection={ onSelection }/></SelectionListItem>
         </SelectionList>
     </React.Fragment>
   )
