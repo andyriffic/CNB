@@ -24,17 +24,27 @@ export const Page = styled.div`
 
 export const PageHeader = styled.div`
     font-size: 2rem;
-    padding: 20px;
     height: 10vh;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const PageBody = styled.div`
   flex: 1;
   height: 90vh;
   overflow: hidden;
-  padding: 20px;
-  `;
+  padding: 1vh 1vw;
+`;
+
+export const PageSubTitle = styled.div`
+  font-size: 1.5rem;
+  padding: 1vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFECCC;
+`;
 
 export const CenteredContentContainer = styled.div`
     display: flex;
