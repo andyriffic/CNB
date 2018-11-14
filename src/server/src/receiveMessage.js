@@ -3,6 +3,7 @@
 import eitherConnectOrFull from './services/connectToGame';
 import publishGameView from './services/publishGameView';
 import calculateGameStatus from './services/calculateGameStatus';
+import runGame from './services/runGame';
 
 import type { Store } from './store/StoreType';
 import type { Message } from './messages/MessageType';
@@ -13,6 +14,8 @@ import invalidMessageMessage from './messages/invalidMessageMessage';
 import gameResetMessage from './messages/gameResetMessage';
 import resetGameAction from './state/actions/resetGameAction';
 import updateGameStatusAction from './state/actions/updateGameStatusAction';
+import updateGameResultAction from './state/actions/updateGameResultAction';
+import { GAME_STATUS } from './state/GameStatuses';
 
 import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
 import { eitherMakeMoveOrError } from './services/makeMove';
@@ -39,6 +42,9 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       break;
 
     case incomingMessageTypes.MAKE_MOVE: {
+
+      //TODO: dont make move if the game has already been run
+
       const ifLeft = (invalidMove: InvalidMoveResponse) => sendToClient(invalidMove.message);
       const ifRight = (makeMoveResponse: MakeMoveResponse) => {
         store.dispatch(makeMoveResponse.makeMoveAction);
@@ -57,6 +63,16 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     case incomingMessageTypes.RESET_GAME: {
       store.dispatch(resetGameAction());
       sendToClient(gameResetMessage());
+
+      sendToClient(publishGameView(store.getState()));
+    }
+      break;
+
+
+    case incomingMessageTypes.RUN_GAME: {
+      const gameResult = runGame(store.getState());
+      store.dispatch(updateGameResultAction(gameResult));
+      store.dispatch(updateGameStatusAction(GAME_STATUS.FINISHED));
 
       sendToClient(publishGameView(store.getState()));
     }

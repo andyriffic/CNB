@@ -20,7 +20,7 @@ const gameViewFromGame = (game: Game): GameView => {
     player1: playerStatusFromPlayer(game.player1),
     player2: playerStatusFromPlayer(game.player2),
     status: game.status,
-    //gameResult: runGame(game),
+    result: game.result,
   };
 };
 

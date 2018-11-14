@@ -31,6 +31,7 @@ const CONSOLE_RESET = '\x1b[0m';
 const CONSOLE_BLUE = '\x1b[34m';
 const CONSOLE_YELLOW = '\x1b[33m';
 //const CONSOLE_GREEN = '\x1b[32m';
+const CONSOLE_CYAN = '\x1b[36m';
 
 const colorLog = (msg, color) => {
   console.log(`${color}${msg}${CONSOLE_RESET}`);
@@ -52,8 +53,27 @@ export const sendMessage = (msg: Message): void => {
 
 //printStore();
 
-receiveMessage(store, {type: incomingMessageTypes.GET_GAME_STATUS }, sendMessage);
-
+colorLog('------------SCENARIO 1----------', CONSOLE_CYAN);
+receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
-
 receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'ninja' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
+colorLog('------------SCENARIO 1----------', CONSOLE_CYAN);
+
+receiveMessage(store, {type: incomingMessageTypes.RESET_GAME }, sendMessage);
+
+colorLog('------------SCENARIO 2----------', CONSOLE_CYAN);
+receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'bear' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
+colorLog('------------SCENARIO 2----------', CONSOLE_CYAN);
+
+receiveMessage(store, {type: incomingMessageTypes.RESET_GAME }, sendMessage);
+
+colorLog('------------SCENARIO 3----------', CONSOLE_CYAN);
+receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'cowboy' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
+colorLog('------------SCENARIO 3----------', CONSOLE_CYAN);
