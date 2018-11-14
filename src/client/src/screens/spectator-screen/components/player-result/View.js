@@ -30,17 +30,25 @@ const fadeIn = keyframes`
 
 
 const Container = styled.div`
-  border: 1px solid black;
+  background-color: #ffb758;
   height: 200px;
   width: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+`;
+
+const CharacterPosition = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  text-align: center;
 `;
 
 const CharacterContainer = styled.div`
+  position: absolute;
+  top: 1px;
+  left: 1px;
   opacity: 0;
+  height: 100%;
+  width: 100%;
 `;
 
 const InitialCharacterAnimaton = styled(CharacterContainer)`
@@ -51,12 +59,15 @@ const ResultCharacterAnimation = styled(CharacterContainer)`
   animation: ${fadeIn} 2s linear 6s 1 forwards;
 `;
 
-const CenteredText = styled.span`
-  align-self: center;
+const Title = styled.div`
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.5rem;
+    color: #20253f;
+    text-align: center;
 `;
 
 const getCharacter = (move, isWinner) => {
-  console.log(move, isWinner);
   return (
     <Switch>
       <BearImage showIf={move==='bear'} height={50} width={50} loser={!isWinner} />
@@ -71,9 +82,11 @@ const PlayerResult = ( {player, isWinner}: Props ) => {
   return (
     <React.Fragment>
       <Container>
-        <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
-        <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
-        <CenteredText>{ player.name }</CenteredText>
+        <Title>{ player.name }</Title>
+        <CharacterPosition>
+          <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
+          <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
+        </CharacterPosition>
       </Container>
     </React.Fragment>
   )
