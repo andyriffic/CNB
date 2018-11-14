@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import PlayerStatus from './player-status';
+import PlayerStatus from '../player-status';
 
 type Props = {
   player1: Object,
