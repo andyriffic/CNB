@@ -16,25 +16,25 @@ const SymbolBase = styled.div`
 const StyledCowboy = styled(SymbolBase)`
 `;
 
-export const Cowboy = () => {
+export const Cowboy = ({ onSelection }) => {
     return (
-        <StyledCowboy>
+        <StyledCowboy onClick={ () => onSelection('cowboy') }>
             <p>Cowboy</p>
             <p>牛仔</p>
         </StyledCowboy>);
 }
 
-export const Ninja = () => {
+export const Ninja = ({ onSelection }) => {
     return (
-        <StyledCowboy>
+        <StyledCowboy onClick={ () => onSelection('ninja') }>
             <p>Ninja</p>
             <p>忍者</p>
         </StyledCowboy>);
 }
 
-export const Bear = () => {
+export const Bear = ({ onSelection }) => {
     return (
-        <StyledCowboy>
+        <StyledCowboy onClick={ () => onSelection('bear') }>
             <p>Bear</p>
             <p>熊</p>
         </StyledCowboy>);

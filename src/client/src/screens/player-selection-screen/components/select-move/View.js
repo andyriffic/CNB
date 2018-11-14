@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Cowboy, Ninja, Bear } from './move-symbols';
+import type { MakeMoveSelection } from '../../types';
 
 const SelectionList = styled.ul`
     margin: 0;
@@ -14,12 +15,12 @@ const SelectionListItem = styled.li`
     list-style-type: none;
 `
 
-const View = () => {
+const View = ({ onSelection }: MakeMoveSelection) => {
   return (
     <SelectionList>
-        <SelectionListItem><Cowboy/></SelectionListItem>
-        <SelectionListItem><Ninja/></SelectionListItem>
-        <SelectionListItem><Bear/></SelectionListItem>
+        <SelectionListItem><Cowboy onSelection={ onSelection }/></SelectionListItem>
+        <SelectionListItem><Ninja onSelection={ onSelection }/></SelectionListItem>
+        <SelectionListItem><Bear onSelection={ onSelection }/></SelectionListItem>
     </SelectionList>
   )
 }

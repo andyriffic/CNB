@@ -15,7 +15,7 @@ const DebugOutput = ({ data }) => {
     <React.Fragment>
       <h4>Debug</h4>
       <FormattedDebugPre>
-        { JSON.stringify(data) }
+        { JSON.stringify(data, null, 2) }
       </FormattedDebugPre>
     </React.Fragment>
   ): null;
