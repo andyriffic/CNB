@@ -28,18 +28,19 @@ export const PageHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #9DADBC;
 `;
 
 export const PageBody = styled.div`
   flex: 1;
   height: 90vh;
   overflow: hidden;
-  padding: 1vh 1vw;
+  padding: 0 1vw;
 `;
 
 export const PageSubTitle = styled.div`
   font-size: 1.5rem;
-  padding: 1vh 0;
+  padding: 2vh 0;
   display: flex;
   align-items: center;
   justify-content: center;
