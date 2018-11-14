@@ -13,7 +13,7 @@ import Draw from './components/outcome-draw';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
-import { FullViewPort, MobilePageHeader, CenteredContentContainer } from './styled';
+import { FullViewPort, MobilePageHeader, CenteredContentContainer } from '../styled';
 
 type Props = {
   //todo: do better than this

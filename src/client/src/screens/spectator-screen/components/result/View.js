@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
+import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer } from '../../../styled';
 
 type Props = {
   result: Object,
@@ -12,10 +13,6 @@ type Props = {
   player2: Object,
   resetGame: () => void,
 }
-
-const ResultView = styled.div`
-  display: flex;
-`;
 
 const PlayerResult = styled.div`
   border: 1px solid black;
@@ -34,30 +31,38 @@ const CenteredText = styled.span`
 const View = ( { result, player1, player2, resetGame}: Props ) => {
   return (
     <React.Fragment>
-      <h2>Result</h2>
-      <ResultView>
-        <PlayerResult>
-          <CenteredText>{ player1.move }</CenteredText>
-          <CenteredText>{ player1.name }</CenteredText>
-        </PlayerResult>
+      <DesktopPageHeader>Result 结果</DesktopPageHeader>
+      <PlayerSpectatorContainer>
+        <PlayerSpectatorSection>
+          <PlayerResult>
+            <CenteredText>{ player1.move }</CenteredText>
+            <CenteredText>{ player1.name }</CenteredText>
+          </PlayerResult>
+        </PlayerSpectatorSection>
 
-        <Switch>
-          <Draw showIf={ result.draw } />
-          <Winner
-            showIf={ !result.draw }
-            player1={ player1 }
-            player2={ player2 }
-            result={ result }
-          />
-        </Switch>
+        <PlayerSpectatorSection>
+          <Switch>
+            <Draw showIf={ result.draw } />
+            <Winner
+              showIf={ !result.draw }
+              player1={ player1 }
+              player2={ player2 }
+              result={ result }
+            />
+          </Switch>
+        </PlayerSpectatorSection>
 
-        <PlayerResult>
-          <CenteredText>{ player2.move }</CenteredText>
-          <CenteredText>{ player2.name }</CenteredText>
-        </PlayerResult>
+        <PlayerSpectatorSection>
+          <PlayerResult>
+            <CenteredText>{ player2.move }</CenteredText>
+            <CenteredText>{ player2.name }</CenteredText>
+          </PlayerResult>
+        </PlayerSpectatorSection>
 
-      </ResultView>
-      <button onClick={resetGame}>Play again</button>
+      </PlayerSpectatorContainer>
+      <PageFooterContainer>
+        <Button onClick={resetGame}>Play again</Button>
+      </PageFooterContainer>
     </React.Fragment>
   );
 }
