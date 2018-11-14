@@ -13,19 +13,25 @@ type Props = {
   isWinner: boolean,
 }
 
-const fadeInFadeOut = keyframes`
+const zoomIn = keyframes`
   0% {
-    opacity: 0;
+    transform: scale(.1, .1);
   }
-  50% {opacity: 1;}
+  60% {
+    transform: scale(1.1, 1.1);
+  }
   100% {
-    opacity: 0;
+    transform: scale(1, 1);
   }
 `;
 
 const fadeIn = keyframes`
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 `;
 
 
@@ -46,17 +52,17 @@ const CharacterContainer = styled.div`
   position: absolute;
   top: 1px;
   left: 1px;
-  opacity: 0;
   height: 100%;
   width: 100%;
 `;
 
 const InitialCharacterAnimaton = styled(CharacterContainer)`
-  animation: ${fadeInFadeOut} 5s linear 1 forwards;
+  animation: ${zoomIn} 1s linear 1 forwards;
 `;
 
 const ResultCharacterAnimation = styled(CharacterContainer)`
-  animation: ${fadeIn} 2s linear 6s 1 forwards;
+  opacity: 0;
+  animation: ${fadeIn} 1s linear 2.5s 1 forwards;
 `;
 
 const Title = styled.div`

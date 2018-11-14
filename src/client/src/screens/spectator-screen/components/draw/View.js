@@ -1,10 +1,31 @@
 /* @flow */
 import React from 'react';
+import styled, { keyframes } from 'styled-components';
+
+const extremeFadeAndScale = keyframes`
+    0% {
+        opacity: 0;
+        transform: scale(.5, .5);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.3, 1.3);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+`;
+
+const DrawHeading = styled.h2`
+  opacity: 0;
+  animation: ${extremeFadeAndScale} 1s linear 1s 1 forwards;
+`;
 
 const View = ( ) => {
   return (
     <React.Fragment>
-      <h2>It's a draw!</h2>
+      <DrawHeading>It's a draw!</DrawHeading>
     </React.Fragment>
   );
 }
