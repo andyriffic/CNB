@@ -7,7 +7,7 @@ const initialState: Game = {
     name: 'XIAN',
   },
   player2: {
-    name: 'MELBOURNE',
+    name: 'MELB',
   },
   status: GAME_STATUS.EMPTY,
 };
