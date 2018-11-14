@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import BearImage from '../../../../components/characters/bear';
+import NinjaImage from '../../../../components/characters/ninja';
+import CowboyImage from '../../../../components/characters/cowboy';
+
 const SymbolBase = styled.div`
     border: 2px solid black;
     text-align: center;
@@ -15,38 +19,41 @@ const SymbolBase = styled.div`
 
 `;
 
-const StyledCowboy = styled(SymbolBase)`
+const StyledCharacter = styled(SymbolBase)`
 `;
 
 export const Cowboy = ({ onSelection, selected }) => {
     return (
-        <StyledCowboy selectable={ !!onSelection } 
+        <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('cowboy') }>
 
             <p>Cowboy</p>
             <p>牛仔</p>
-        </StyledCowboy>);
+            <CowboyImage height={50} width={50} />
+        </StyledCharacter>);
 }
 
 export const Ninja = ({ onSelection, selected }) => {
     return (
-        <StyledCowboy selectable={ !!onSelection }
+        <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('ninja') }>
 
             <p>Ninja</p>
             <p>忍者</p>
-        </StyledCowboy>);
+            <NinjaImage height={50} width={50} />
+        </StyledCharacter>);
 }
 
 export const Bear = ({ onSelection, selected }) => {
     return (
-        <StyledCowboy selectable={ !!onSelection } 
+        <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('bear') }>
 
             <p>Bear</p>
             <p>熊</p>
-        </StyledCowboy>);
+            <BearImage height={50} width={50} />
+        </StyledCharacter>);
 }
