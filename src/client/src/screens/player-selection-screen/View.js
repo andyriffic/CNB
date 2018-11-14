@@ -13,7 +13,7 @@ import Draw from './components/outcome-draw';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
-import { FullViewPort, MobilePageHeader, CenteredContentContainer } from '../styled';
+import { Page, PageHeader, PageBody } from '../styled';
 
 type Props = {
   //todo: do better than this
@@ -39,16 +39,16 @@ const View = ( { playerKey }: Props ) => {
 
   if (!playerState) return null;
 
-  console.log('hasGameResult', hasGameResult(gameState));
-  console.log('gameIsDraw', gameIsDraw(gameState));
-  console.log('playerHasMoved', playerHasMoved(gameState, playerState));
-  console.log('playerWins', playerWins(gameState, playerState.slot));
-  console.log('playerLoses', playerLoses(gameState, playerState.slot));
+  // console.log('hasGameResult', hasGameResult(gameState));
+  // console.log('gameIsDraw', gameIsDraw(gameState));
+  // console.log('playerHasMoved', playerHasMoved(gameState, playerState));
+  // console.log('playerWins', playerWins(gameState, playerState.slot));
+  // console.log('playerLoses', playerLoses(gameState, playerState.slot));
 
   return (    
-    <FullViewPort>
-      <MobilePageHeader>{ playerState.player.name }</MobilePageHeader>
-      <CenteredContentContainer>
+    <Page>
+      <PageHeader>Make your move 做你的举动</PageHeader>
+      <PageBody>
         <Switch>
           <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
           <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>
@@ -56,10 +56,10 @@ const View = ( { playerKey }: Props ) => {
           <Loser showIf={ playerWins(gameState, playerState.slot) }/>
           <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
         </Switch>
-      </CenteredContentContainer>
+      </PageBody>
       <DebugOutput data={ playerState } />
       <DebugOutput data={ gameState } />
-    </FullViewPort>
+    </Page>
   )
 }
 

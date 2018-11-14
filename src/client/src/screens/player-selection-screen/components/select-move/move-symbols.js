@@ -6,17 +6,23 @@ import NinjaImage from '../../../../components/characters/ninja';
 import CowboyImage from '../../../../components/characters/cowboy';
 
 const SymbolBase = styled.div`
-    border: 2px solid black;
+    background-color: #ffb758;
     text-align: center;
-    font-size: ${props => props.selected ? '50px' : '30px'};
 
     ${props => props.selectable && `
         cursor: pointer;
         :hover {
-            background-color: #eee;
+            background-color: #ffdcae;
         }
     `}
 
+`;
+
+const Title = styled.div`
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.5rem;
+    color: #20253f;
 `;
 
 const StyledCharacter = styled(SymbolBase)`
@@ -28,9 +34,8 @@ export const Cowboy = ({ onSelection, selected }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('cowboy') }>
 
-            <p>Cowboy</p>
-            <p>牛仔</p>
-            <CowboyImage height={50} width={50} />
+            <Title>Cowboy 牛仔</Title>
+            <CowboyImage height={30} width={30} />
         </StyledCharacter>);
 }
 
@@ -40,9 +45,8 @@ export const Ninja = ({ onSelection, selected }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('ninja') }>
 
-            <p>Ninja</p>
-            <p>忍者</p>
-            <NinjaImage height={50} width={50} />
+            <Title>Ninja 忍者</Title>
+            <NinjaImage height={30} width={30} />
         </StyledCharacter>);
 }
 
@@ -52,8 +56,7 @@ export const Bear = ({ onSelection, selected }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('bear') }>
 
-            <p>Bear</p>
-            <p>熊</p>
-            <BearImage height={50} width={50} />
+            <Title>Bear 熊</Title>
+            <BearImage height={30} width={30} />
         </StyledCharacter>);
 }

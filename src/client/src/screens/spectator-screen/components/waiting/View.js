@@ -2,7 +2,7 @@
 import React from 'react';
 
 import PlayerStatus from '../player-status';
-import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection } from '../../../styled';
+import { PlayerSpectatorContainer, PlayerSpectatorSection, Page, PageHeader, PageBody } from '../../../styled';
 
 type Props = {
   player1: Object,
@@ -11,17 +11,19 @@ type Props = {
 
 const View = ( {player1, player2 }: Props ) => {
   return (
-    <React.Fragment>
-      <DesktopPageHeader>Waiting 等候</DesktopPageHeader>
-      <PlayerSpectatorContainer>
-        <PlayerSpectatorSection>
-          <PlayerStatus { ...player1 } />
-        </PlayerSpectatorSection>
-        <PlayerSpectatorSection>
-          <PlayerStatus { ...player2 } />
-        </PlayerSpectatorSection>    
-      </PlayerSpectatorContainer>
-    </React.Fragment>
+    <Page>
+      <PageHeader>Waiting 等候</PageHeader>
+      <PageBody>
+        <PlayerSpectatorContainer>
+          <PlayerSpectatorSection>
+            <PlayerStatus { ...player1 } />
+          </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <PlayerStatus { ...player2 } />
+          </PlayerSpectatorSection>    
+        </PlayerSpectatorContainer>
+      </PageBody>
+    </Page>
   );
 }
 

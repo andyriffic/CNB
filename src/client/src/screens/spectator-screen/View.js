@@ -11,7 +11,6 @@ import Waiting from './components/waiting';
 import Loading from './components/loading';
 import Ready from './components/ready';
 import Result from './components/result';
-import { FullViewPort } from '../styled';
 
 const waitingStatuses = [ 'EMPTY', 'WAITING_FOR_PLAYER_1', 'WAITING_FOR_PLAYER_2' ]
 
@@ -22,7 +21,7 @@ const View = () => {
   useGetGameState();
 
   return (
-    <FullViewPort>
+    <React.Fragment>
       {
         gameState ? (
           <Switch>
@@ -50,7 +49,7 @@ const View = () => {
       }
 
       <DebugOutput data={ gameState } />
-    </FullViewPort>
+    </React.Fragment>
   )
 }
 

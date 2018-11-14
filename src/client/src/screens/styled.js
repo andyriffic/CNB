@@ -1,25 +1,40 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const FullViewPort = styled.div`
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    min-height: 100vh;
-    padding: 10px;
-    overflow-y: scroll;
-`
+const sizes = {
+    largeScreen: 992,
+};
 
-export const MobilePageHeader = styled.div`
-    font-size: 50px;
+const media = Object.keys(sizes).reduce((acc, label) => {
+    acc[label] = (...args) => css`
+      @media (min-width: ${sizes[label] / 16}em) {
+        ${css(...args)}
+      }
+    `
+    return acc
+  }, {})
+  
+
+export const Page = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #6ba2cc;
+    color: #20253F;
+`;
+
+export const PageHeader = styled.div`
+    font-size: 2rem;
+    padding: 20px;
+    height: 10vh;
     text-align: center;
-`
+`;
 
-export const DesktopPageHeader = styled.div`
-    font-size: 70px;
-    text-align: center;
-    padding: 20px 0;
-`
+export const PageBody = styled.div`
+  flex: 1;
+  height: 90vh;
+  overflow: hidden;
+  padding: 20px;
+  `;
 
 export const CenteredContentContainer = styled.div`
     display: flex;
@@ -46,9 +61,11 @@ export const Button = styled.button`
     font-size: 50px;
     padding: 20px;
     font-family: inherit;
+    background-color: #ffe758;
+    color: #ff9303;
 
     &:hover {
-    color: white;
-    background-color: black;
+        color: white;
+        background-color: #f95568;
     }
 `;

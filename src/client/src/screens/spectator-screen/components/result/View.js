@@ -6,7 +6,7 @@ import PlayerResult from '../player-result';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
-import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer } from '../../../styled';
+import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader } from '../../../styled';
 
 type Props = {
   result: Object,
@@ -20,8 +20,8 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   const isPlayer2Winner = (result.winner === 'player2');
 
   return (
-    <React.Fragment>
-      <DesktopPageHeader>Result 结果</DesktopPageHeader>
+    <Page>
+      <PageHeader>Result 结果</PageHeader>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerResult player={player1} isWinner={isPlayer1Winner}/>
@@ -47,7 +47,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
       <PageFooterContainer>
         <Button onClick={resetGame}>Play again</Button>
       </PageFooterContainer>
-    </React.Fragment>
+    </Page>
   );
 }
 
