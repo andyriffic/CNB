@@ -8,6 +8,7 @@ import DebugOutput from '../../DebugOutput';
 import SelectMove from './components/select-move';
 import SelectedMove from './components/selected-move';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
+import GameStateContext from '../../contexts/GameStateContext';
 
 type Props = {
   //todo: do better than this
@@ -17,6 +18,7 @@ type Props = {
 const View = ( { playerKey }: Props ) => {
   const playerState = usePlayerState(playerKey);
   const serverMessages = useContext(ServerMessagesContext);
+  const gameState = useContext(GameStateContext);
 
   useGetGameState();
 
