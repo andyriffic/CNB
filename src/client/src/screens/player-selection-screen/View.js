@@ -6,6 +6,7 @@ import useGetGameState from '../hooks/useGetGameState';
 import usePlayerState from './hooks/usePlayerState';
 import DebugOutput from '../../DebugOutput';
 import SelectMove from './components/select-move';
+import SelectedMove from './components/selected-move';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 
 type Props = {
@@ -28,7 +29,7 @@ const View = ( { playerKey }: Props ) => {
   return (    
     <React.Fragment>
       <h2>{ playerState.player.name }</h2>
-      <SelectMove onSelection={ onSelection } />
+      { playerState.player.moved ? <SelectedMove selectedMove={ playerState.player.move }/> : <SelectMove onSelection={ onSelection } /> }
       <DebugOutput data={ playerState } />
     </React.Fragment>
   )
