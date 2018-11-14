@@ -1,15 +1,9 @@
 /* @flow */
 import React from 'react';
-import styled from 'styled-components';
 
 import Switch from '../../switch';
 import Winner from './Winner';
-import Loser from './Winner';
-
-const StyledBear = styled.svg`
-  height: ${props=> props.height}%;
-  width: ${props=> props.width}%;
-`;
+import Loser from './Loser';
 
 type Props = {
   height: number,
@@ -20,8 +14,8 @@ type Props = {
 const View = ( { height, width, loser }: Props ) => {
   return (
     <Switch>
-      <Winner showIf={ !loser } />
-      <Loser showIf={ loser } />
+      <Winner showIf={ !loser } height={height} width={width}  />
+      <Loser showIf={ loser } height={height} width={width}  />
     </Switch>
   );
 }

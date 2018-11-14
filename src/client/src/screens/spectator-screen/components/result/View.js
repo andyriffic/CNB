@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import PlayerResult from '../player-result';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
@@ -14,30 +15,16 @@ type Props = {
   resetGame: () => void,
 }
 
-const PlayerResult = styled.div`
-  border: 1px solid black;
-  height: 100px;
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-`;
-
-const CenteredText = styled.span`
-  align-self: center;
-`;
-
 const View = ( { result, player1, player2, resetGame}: Props ) => {
+  const isPlayer1Winner = (result.winner === 'player1');
+  const isPlayer2Winner = (result.winner === 'player2');
+
   return (
     <React.Fragment>
       <DesktopPageHeader>Result 结果</DesktopPageHeader>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
-          <PlayerResult>
-            <CenteredText>{ player1.move }</CenteredText>
-            <CenteredText>{ player1.name }</CenteredText>
-          </PlayerResult>
+          <PlayerResult player={player1} isWinner={isPlayer1Winner}/>
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
@@ -53,10 +40,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
-          <PlayerResult>
-            <CenteredText>{ player2.move }</CenteredText>
-            <CenteredText>{ player2.name }</CenteredText>
-          </PlayerResult>
+          <PlayerResult player={player2} isWinner={isPlayer2Winner}/>
         </PlayerSpectatorSection>
 
       </PlayerSpectatorContainer>
