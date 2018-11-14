@@ -4,7 +4,7 @@ const View = ({selectedMove}) => {
         <React.Fragment>
             <p>YOU WIN!</p>
             <p>你赢了</p>
-            <p><span role="img" aria-label="smiling">😎</span></p>
+            <p><span role="img" aria-label="smiling face with sunglasses">😎</span></p>
         </React.Fragment>
     )
 }

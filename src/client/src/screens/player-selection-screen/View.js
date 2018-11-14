@@ -7,8 +7,12 @@ import usePlayerState from './hooks/usePlayerState';
 import DebugOutput from '../../DebugOutput';
 import SelectMove from './components/select-move';
 import SelectedMove from './components/selected-move';
+import Winner from './components/outcome-winner';
+import Loser from './components/outcome-loser';
+import Draw from './components/outcome-draw';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
+import Switch from '../../components/switch';
 
 type Props = {
   //todo: do better than this
@@ -31,8 +35,16 @@ const View = ( { playerKey }: Props ) => {
   return (    
     <React.Fragment>
       <h2>{ playerState.player.name }</h2>
-      { playerState.player.moved ? <SelectedMove selectedMove={ playerState.player.move }/> : <SelectMove onSelection={ onSelection } /> }
+      <Switch>
+        <SelectedMove showIf={ playerState.player.moved } selectedMove={ playerState.player.move }/>
+        <SelectMove showIf={ !playerState.player.moved } onSelection={ onSelection }/>
+        <Draw showIf={ gameState && gameState.result && gameState.result.draw }/>
+        <Loser showIf={ gameState && gameState.result && !gameState.result.draw && gameState.result.winner !== playerState.slot }/>
+        <Winner showIf={ gameState && gameState.result && !gameState.result.draw && gameState.result.winner === playerState.slot }/>
+      </Switch>
+
       <DebugOutput data={ playerState } />
+      <DebugOutput data={ gameState } />
     </React.Fragment>
   )
 }
