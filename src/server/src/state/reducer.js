@@ -5,6 +5,7 @@ import type { Action } from './actions/ActionType';
 import initialState from './initialState';
 import { ALLOCATE_SLOT_ACTION, MAKE_MOVE_ACTION } from './actions/slotActions';
 import { RESET_GAME } from './actions/resetGameAction';
+import { UPDATE_GAME_STATUS } from './actions/updateGameStatusAction';
 
 
 const reducer = (state: Game = initialState, action: Action): Game => {
@@ -22,6 +23,13 @@ const reducer = (state: Game = initialState, action: Action): Game => {
       const newState = {...state};
       newState[action.slot] = { ...newState[action.slot], move: action.move };
       return newState;
+    }
+
+    case UPDATE_GAME_STATUS: {
+      return {
+        ...state,
+        status: action.gameStatus,
+      };
     }
 
     case RESET_GAME: {

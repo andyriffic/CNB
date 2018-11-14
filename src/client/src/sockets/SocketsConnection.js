@@ -25,7 +25,7 @@ const SocketsConnection = ({ children }: Props) => {
 
     //set up listeners for message from server
     socket.on("CONNECTION_ESTABLISHED", data => setConnectionDetails(data ));
-    socket.on("GAME_STATUS", data => setGameState(data));
+    socket.on("GAME_VIEW", data => setGameState(data));
 
     console.log('connected to socket', socket);
 

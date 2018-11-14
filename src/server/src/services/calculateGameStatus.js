@@ -1,35 +1,33 @@
 // @flow
-import type { CalculateGameStatusResponse, GameStatus, PlayerStatus } from './CalculateGameStatusResponseType';
-import { outgoingMessageTypes } from '../messages/typeConstants';
+import { safeProp } from '../utils/functional/helpers';
+import { GAME_STATUS } from '../state/GameStatuses';
+import { Some, None } from '../utils/functional/Option';
+
 import type { Game } from '../types/GameType';
-import type { Player } from '../types/PlayerType';
+import type { GameStatus } from '../types/GameStatusType';
 
-import runGame from './runGame';
 
-const playerStatusFromPlayer = (player: Player): PlayerStatus => {
-  return {
-    connected: !(!player.name),
-    name: player.name,
-    moved: !(!player.move),
-  };
-};
+const calculateGameStatus = (game: Game): GameStatus => {
 
-const gameStatusFromGame = (game: Game): GameStatus => {
-  return {
-    player1: playerStatusFromPlayer(game.player1),
-    player2: playerStatusFromPlayer(game.player2),
-    gameResult: runGame(game),
-  };
-};
+  const player1MoveOrNone = safeProp('player1', game).flatMap(p=> safeProp('move', p));
+  const player2MoveOrNone = safeProp('player2', game).flatMap(p=> safeProp('move', p));
 
-const calculateGameStatus = (gameStatus: Game): CalculateGameStatusResponse => {
-  return {
-    type: outgoingMessageTypes.GAME_STATUS,
-    payload: gameStatusFromGame(gameStatus),
-    recipients: {
-      all: true,
-    },
-  };
+  //todo: if game has runGame
+  //return GAME_STATUS.FINISHED;
+
+  if (player1MoveOrNone instanceof Some && player2MoveOrNone instanceof Some) {
+    return GAME_STATUS.READY;
+  }
+
+  if (player1MoveOrNone instanceof Some && player2MoveOrNone instanceof None) {
+    return GAME_STATUS.WAITING_FOR_PLAYER_2;
+  }
+
+  if (player1MoveOrNone instanceof None && player2MoveOrNone instanceof Some) {
+    return GAME_STATUS.WAITING_FOR_PLAYER_1;
+  }
+
+  return GAME_STATUS.EMPTY;
 };
 
 export default calculateGameStatus;

@@ -1,5 +1,5 @@
 // @flow
-import type { GameResult, GameOutcome } from './CalculateGameStatusResponseType';
+import type { GameResult, GameOutcome } from './PublishGameViewResponseType';
 import type { Game } from '../types/GameType';
 import type { Move } from '../types/MoveType';
 

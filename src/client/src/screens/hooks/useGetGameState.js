@@ -10,7 +10,7 @@ const useGetGameState = () => {
   //maybe only do this if the gameState from context is empty?
   useEffect(()=> {
     if (!gameState) {
-      serverMessages.getGameStatus();
+      serverMessages.getGameState();
     }
   }, [])
 }

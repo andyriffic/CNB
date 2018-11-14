@@ -12,7 +12,6 @@ const View = () => {
 
   return (
     <React.Fragment>
-      <h2>Spectator screen</h2>
       <DebugOutput data={ gameState } />
     </React.Fragment>
   )

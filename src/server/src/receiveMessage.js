@@ -1,6 +1,7 @@
 // @flow
 
 import eitherConnectOrFull from './services/connectToGame';
+import publishGameView from './services/publishGameView';
 import calculateGameStatus from './services/calculateGameStatus';
 
 import type { Store } from './store/StoreType';
@@ -11,6 +12,8 @@ import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
 import gameResetMessage from './messages/gameResetMessage';
 import resetGameAction from './state/actions/resetGameAction';
+import updateGameStatusAction from './state/actions/updateGameStatusAction';
+
 import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
 import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
@@ -25,8 +28,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
         store.dispatch(connectedToGameResponse.allocateSlotAction);
         sendToClient(connectedToGameResponse.message);
 
-        //run calculateGameState
-        sendToClient(calculateGameStatus(store.getState()));
+        sendToClient(publishGameView(store.getState()));
       };
 
       eitherConnectOrFull(store.getState(),
@@ -40,7 +42,9 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       const ifLeft = (invalidMove: InvalidMoveResponse) => sendToClient(invalidMove.message);
       const ifRight = (makeMoveResponse: MakeMoveResponse) => {
         store.dispatch(makeMoveResponse.makeMoveAction);
-        sendToClient(calculateGameStatus(store.getState()));
+        store.dispatch(updateGameStatusAction(calculateGameStatus(store.getState())));
+
+        sendToClient(publishGameView(store.getState()));
       };
 
       eitherMakeMoveOrError(store.getState(),
@@ -53,12 +57,15 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     case incomingMessageTypes.RESET_GAME: {
       store.dispatch(resetGameAction());
       sendToClient(gameResetMessage());
-      sendToClient(calculateGameStatus(store.getState()));
+
+      sendToClient(publishGameView(store.getState()));
     }
       break;
 
+    case incomingMessageTypes.GET_GAME_VIEW:
     case incomingMessageTypes.SPECTATOR_JOIN: {
-      sendToClient(calculateGameStatus(store.getState()));
+
+      sendToClient(publishGameView(store.getState()));
     }
       break;
 

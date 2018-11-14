@@ -7,16 +7,20 @@ const ADDED_TO_GAME = 'ADDED_TO_GAME';
 const MAKE_MOVE = 'MAKE_MOVE';
 const INVALID_MOVE = 'INVALID_MOVE';
 const SUCCESSFUL_MOVE = 'SUCCESSFUL_MOVE';
-const GAME_STATUS = 'GAME_STATUS';
+const GAME_VIEW = 'GAME_VIEW';
 const GAME_RESET = 'GAME_RESET';
 const RESET_GAME = 'RESET_GAME';
 const SPECTATOR_JOIN = 'SPECTATOR_JOIN';
+const GET_GAME_VIEW = 'GET_GAME_VIEW';
+const RUN_GAME = 'RUN_GAME';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
   REQUEST_TO_CONNECT,
   RESET_GAME,
   SPECTATOR_JOIN,
+  GET_GAME_VIEW,
+  RUN_GAME,
 };
 
 export const outgoingMessageTypes = {
@@ -27,6 +31,6 @@ export const outgoingMessageTypes = {
   ADDED_TO_GAME,
   INVALID_MOVE,
   SUCCESSFUL_MOVE,
-  GAME_STATUS,
+  GAME_VIEW,
   GAME_RESET,
 };

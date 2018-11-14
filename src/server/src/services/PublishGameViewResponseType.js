@@ -1,9 +1,11 @@
 // @flow
+import type { GameStatus } from '../types/GameStatusType';
 
-export type PlayerStatus = {
+export type PlayerView = {
   connected: boolean,
   name?: string,
   moved: boolean,
+  move?: string,
 }
 
 export type GameOutcome = "Pending" | "Draw" | "Player1" | "Player2";
@@ -14,15 +16,15 @@ export type GameResult = {
   outcome: GameOutcome,
 };
 
-export type GameStatus = {
-  player1: PlayerStatus,
-  player2: PlayerStatus,
-  gameResult: GameResult,
+export type GameView = {
+  player1: PlayerView,
+  player2: PlayerView,
+  status: GameStatus,
 }
 
-export type CalculateGameStatusResponse = {
+export type PublishGameViewResponse = {
   type: string,
-  payload?: GameStatus,
+  payload?: GameView,
   recipients?: {
     all: boolean,
   }
