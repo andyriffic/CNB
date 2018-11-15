@@ -17,6 +17,12 @@ type Props = {
   resetGame: () => void,
 }
 
+const BonusPointSection = styled.div``;
+const BonusHeading = styled.h2`
+  margin: 0;
+  font-size: 1rem;
+`;
+
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
   const winner = result.winner === 'player1' ? player1 : player2;
@@ -50,9 +56,13 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
           <PlayerSpectatorSection>
             <PlayerResult player={player2} isWinner={isPlayer2Winner} otherPlayersMove={player1.move} isDraw={result.draw}/>
             <PlayerScore playerKey={player2.name}/>
-       </PlayerSpectatorSection>
+          </PlayerSpectatorSection>
 
         </PlayerSpectatorContainer>
+        <BonusPointSection>
+          <BonusHeading>BONUS POINTS</BonusHeading>
+          <PlayerScore playerKey={'BONUS'}/>
+        </BonusPointSection>
         <PageFooterContainer>
           <Button onClick={resetGame}>Play again</Button>
         </PageFooterContainer>

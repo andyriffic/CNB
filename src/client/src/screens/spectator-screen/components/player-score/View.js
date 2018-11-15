@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import ScoreboardContext from '../../../../contexts/ScoreboardContext';
 
 const rubberBandAnimation = keyframes`
@@ -91,7 +91,7 @@ const Badge = styled.div`
 `;
 
 const Score = styled.div`
-  font-size: 3rem;
+  font-size: ${props=> props.isBonus ? '1rem' : '3rem'};
   text-align: center;
 
   &.updated {
@@ -128,7 +128,7 @@ const View = ( { playerKey } ) => {
   return (
     <Container>
       { incremented && <Badge>+{incremented}</Badge> }
-      <Score className={ updated ? 'updated' : ''}>{playerScore.value}</Score>
+      <Score isBonus={playerKey === 'BONUS' } className={ updated ? 'updated' : ''}>{playerScore.value}</Score>
     </Container>
   );
 }
