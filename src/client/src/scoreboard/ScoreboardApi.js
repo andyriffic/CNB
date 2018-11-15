@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ScoreboardContext from '../contexts/ScoreboardContext';
-
-const API_BASE_URL = `https://counterapi.tangarineturkey.com/api/counter/group/2d45227e-b6a0-46cf-b155-d95ef57ebf5e`
+import { COUNTER_API_BASE_URL } from '../environment';
 
 const ScoreboardApi = ({ children }) => {
 
     const [scores, setScores] = useState(null);
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}`)
+        fetch(`${COUNTER_API_BASE_URL}`)
             .then(resp => resp.json())
             .then(scoreboard => scoreboard.counters)
             .then(scores => {
@@ -64,7 +63,7 @@ const createScoreboardService = (scores, setScores) => {
 
 
 function putCounterUpdate(counterId, type, value) {
-    return fetch(`${API_BASE_URL}/${counterId}`,
+    return fetch(`${COUNTER_API_BASE_URL}/${counterId}`,
         {
             method: 'PUT',
             headers: {

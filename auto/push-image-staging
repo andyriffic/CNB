@@ -1,0 +1,8 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+ecsTagname="766741520701.dkr.ecr.ap-southeast-2.amazonaws.com/supersquad/cnb-repo-staging:latest"
+
+docker tag supersquad/cowboy-ninja-bear-staging:latest ${ecsTagname}
+docker push ${ecsTagname}

@@ -1,0 +1,11 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+ENV_NAME="test-env-2"
+PROFILE="cnb"
+REGION="ap-southeast-2"
+
+#aws ecs create-cluster --cluster-name $ENV_NAME --profile $PROFILE --region $REGION
+#aws ecs describe-clusters --clusters $ENV_NAME --profile $PROFILE --region $REGION
+#aws ecs put-attributes --attributes name=ecs.instance-type,value=t2.micro,targetId=arn:aws:ecs:ap-southeast-2:766741520701:cluster/test-env-2 name=ecs.os-type,value=linux,targetId=arn:aws:ecs:ap-southeast-2:766741520701:cluster/test-env-2 --profile $PROFILE --region $REGION

@@ -1,6 +1,0 @@
-#!/bin/bash -eu
-
-cd $(dirname $0)/..
-
-auto/build-publish-container
-auto/re-deploy-ecs-service

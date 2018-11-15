@@ -1,0 +1,7 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+auto/build-image-prod
+auto/push-image-prod
+auto/re-deploy-ecs-service-prod

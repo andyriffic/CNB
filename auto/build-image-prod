@@ -1,0 +1,6 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+REACT_APP_COUNTER_API_BASE_URL="https://counterapi.tangarineturkey.com/api/counter/group/ad234ade-6371-4a8f-9d34-3136eaf81252"
+docker build --build-arg counter_api_base_url=${REACT_APP_COUNTER_API_BASE_URL} -t supersquad/cowboy-ninja-bear-prod:latest . 

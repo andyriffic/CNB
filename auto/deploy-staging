@@ -1,0 +1,7 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+auto/build-image-staging
+auto/push-image-staging
+auto/re-deploy-ecs-service-staging
