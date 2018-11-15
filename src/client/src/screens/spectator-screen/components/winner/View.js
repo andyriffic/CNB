@@ -1,6 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import TranslatedCharacter from '../../../../components/translated-character-name';
 
 type Props = {
   result: Object,
@@ -48,6 +49,7 @@ const extremeFadeAndScale = keyframes`
 const WinnerHeading = styled.h2`
   opacity: 0;
   animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
+  text-align: center;
 `;
 
 const ResultContainer = styled.div`
@@ -76,6 +78,30 @@ const LoserAnimated = styled(CenteredText)`
 `;
 
 
+const TranslatedWinnerText = ( { winner } ) => {
+  if(winner === 'XIAN') {
+    return (
+        <React.Fragment>
+          XIAN WINS! <br />
+          西安勝
+        </React.Fragment>
+    );
+  }
+
+  if(winner === 'MELB') {
+    console.log('in2');
+    return (
+        <React.Fragment>
+          MELB WINS! <br />
+          墨爾本獲勝
+        </React.Fragment>
+    );
+  }
+
+  return null;
+
+}
+
 const View = ( { player1, player2, result }: Props ) => {
   const winner = (result.winner === 'player1') ? player1 : player2;
   const loser = (winner === player1) ? player2 : player1;
@@ -83,11 +109,17 @@ const View = ( { player1, player2, result }: Props ) => {
   return (
     <WinnerView>
       <ResultContainer>
-        <WinnerAnimated>{winner.move}</WinnerAnimated>
-        <BeatsAnimated>beats</BeatsAnimated>
-        <LoserAnimated>{loser.move}</LoserAnimated>
+        <WinnerAnimated>
+          <TranslatedCharacter character={winner.move} />
+        </WinnerAnimated>
+        <BeatsAnimated>beats 節拍</BeatsAnimated>
+        <LoserAnimated>
+          <TranslatedCharacter character={loser.move} />
+        </LoserAnimated>
       </ResultContainer>
-      <WinnerHeading>{winner.name} wins!</WinnerHeading>
+      <WinnerHeading>
+        <TranslatedWinnerText winner={winner.name} />
+      </WinnerHeading>
     </WinnerView>
   );
 }

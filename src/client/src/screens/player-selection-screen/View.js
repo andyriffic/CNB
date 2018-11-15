@@ -15,6 +15,8 @@ import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
 import { Page, PageHeader, PageBody } from '../styled';
 
+import TranslatedPlayerName from '../../components/translated-player-name';
+
 type Props = {
   //todo: do better than this
   playerKey: 'XIAN'|'MELB',
@@ -45,24 +47,26 @@ const View = ( { playerKey }: Props ) => {
   // console.log('playerWins', playerWins(gameState, playerState.slot));
   // console.log('playerLoses', playerLoses(gameState, playerState.slot));
 
-  return (    
+  return (
     <Page>
-      <PageHeader>{ playerState.player.name }</PageHeader>
+      <PageHeader>
+        <TranslatedPlayerName playerName={playerState.player.name} />
+      </PageHeader>
       <PageBody column={ true }>
         <Switch>
           <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
-          <SelectedMove 
-            showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } 
+          <SelectedMove
+            showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) }
             title="You chose 你选择了"
             selectedMove={ playerState.player.move }/>
-          <Draw 
-            showIf={ gameIsDraw(gameState) } 
+          <Draw
+            showIf={ gameIsDraw(gameState) }
             selectedMove={ playerState.player.move }/>
-          <Loser 
-            showIf={ playerLoses(gameState, playerState.slot) } 
+          <Loser
+            showIf={ playerLoses(gameState, playerState.slot) }
             selectedMove={ playerState.player.move }/>
-          <Winner 
-            showIf={ playerWins(gameState, playerState.slot) } 
+          <Winner
+            showIf={ playerWins(gameState, playerState.slot) }
             selectedMove={ playerState.player.move }/>
         </Switch>
       </PageBody>

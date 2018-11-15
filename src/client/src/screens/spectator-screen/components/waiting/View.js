@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import styled from 'styled-components';
 
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
@@ -10,11 +11,17 @@ type Props = {
   player2: Object,
 }
 
+const BonusPointSection = styled.div``;
+const BonusHeading = styled.h2`
+  margin: 0;
+  font-size: 1rem;
+`;
+
 const View = ( {player1, player2 }: Props ) => {
   return (
     <Page>
       <PageHeader>Waiting 等候</PageHeader>
-      <PageBody>
+      <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
             <PlayerStatus { ...player1 } animationDelay={0} />
@@ -23,8 +30,12 @@ const View = ( {player1, player2 }: Props ) => {
           <PlayerSpectatorSection>
             <PlayerStatus { ...player2 } animationDelay={.5} />
             <PlayerScore playerKey={player2.name} />
-          </PlayerSpectatorSection>    
+          </PlayerSpectatorSection>
         </PlayerSpectatorContainer>
+        <BonusPointSection>
+          <BonusHeading>BONUS 獎金</BonusHeading>
+          <PlayerScore playerKey={'BONUS'}/>
+        </BonusPointSection>
       </PageBody>
     </Page>
   );

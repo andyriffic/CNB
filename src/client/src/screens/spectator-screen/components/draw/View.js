@@ -20,12 +20,17 @@ const extremeFadeAndScale = keyframes`
 const DrawHeading = styled.h2`
   opacity: 0;
   animation: ${extremeFadeAndScale} 1s linear 1s 1 forwards;
+  text-align: center;
+  font-size: 1.25rem;
 `;
 
 const View = ( ) => {
   return (
     <React.Fragment>
-      <DrawHeading>It's a draw!</DrawHeading>
+      <DrawHeading>
+        It's a draw! <br/>
+        這是一個平局
+      </DrawHeading>
     </React.Fragment>
   );
 }

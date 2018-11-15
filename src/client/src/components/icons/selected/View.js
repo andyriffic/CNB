@@ -36,12 +36,11 @@ const tickSwipe2 = keyframes`
 `
 
 const circlePulse = keyframes`
-    0%, 25%, 75%, 100% {
-    	transform: scale(1);
-    }
-    50% {
-    	transform: scale(1.05);
-    }
+0% {transform: scale(1);}
+20% {transform: scale(1.2); }
+50% {transform: scale(.9);}
+80% {transform: scale(1.1);}
+100% {transform: scale(1);}
 `
 
 const Container = styled.div`

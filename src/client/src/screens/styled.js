@@ -12,7 +12,7 @@ const media = Object.keys(sizes).reduce((acc, label) => {
     `
     return acc
   }, {})
-  
+
 
 export const Page = styled.div`
     height: 100vh;
@@ -54,7 +54,6 @@ export const PageSubTitle = styled.div`
 export const PlayerSpectatorContainer = styled.div`
     display: flex;
     justify-content: space-around;
-    flex: 1;
     align-items: center;
 `
 
@@ -70,8 +69,8 @@ export const PageFooterContainer = styled.div`
 export const Button = styled.button`
     border-radius: 50%;
     cursor: pointer;
-    font-size: 50px;
-    padding: 20px;
+    font-size: 1.5rem;
+    padding: 3vh;
     font-family: inherit;
     background-color: #ffe758;
     color: #ff9303;

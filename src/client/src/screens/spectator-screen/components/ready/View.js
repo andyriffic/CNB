@@ -1,7 +1,9 @@
 /* @flow */
 import React from 'react';
+import styled from 'styled-components';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, Page, PageHeader, PageBody } from '../../../styled';
 
+import PlayerScore from '../player-score';
 import PlayerStatus from '../player-status';
 
 type Props = {
@@ -10,14 +12,21 @@ type Props = {
   playGame: () => void,
 }
 
+const BonusPointSection = styled.div``;
+const BonusHeading = styled.h2`
+  margin: 0;
+  font-size: 1rem;
+`;
+
 const View = ( {player1, player2, playGame }: Props ) => {
   return (
     <Page>
       <PageHeader>Ready 准备</PageHeader>
-      <PageBody>
+      <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
             <PlayerStatus { ...player1 } />
+            <PlayerScore playerKey={player1.name} />
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
             <Button onClick={playGame}>
@@ -26,8 +35,13 @@ const View = ( {player1, player2, playGame }: Props ) => {
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
             <PlayerStatus { ...player2 } />
+            <PlayerScore playerKey={player2.name} />
           </PlayerSpectatorSection>
         </PlayerSpectatorContainer>
+        <BonusPointSection>
+          <BonusHeading>BONUS 獎金</BonusHeading>
+          <PlayerScore playerKey={'BONUS'}/>
+        </BonusPointSection>
       </PageBody>
     </Page>
   );

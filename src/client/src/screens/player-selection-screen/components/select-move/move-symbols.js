@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Bear from '../../../../components/characters/bear';
 import Ninja from '../../../../components/characters/ninja';
 import Cowboy from '../../../../components/characters/cowboy';
+import TranslatedCharacter from '../../../../components/translated-character-name';
 
 const SymbolBase = styled.div`
     background-color: #ffb758;
@@ -46,7 +47,9 @@ export const CowboySelector = ({ onSelection, selected, loser }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('cowboy') }>
 
-            <Title selected={ selected }>Cowboy 牛仔</Title>
+            <Title selected={ selected }>
+              <TranslatedCharacter character='COWBOY' />
+            </Title>
             <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }
@@ -57,7 +60,9 @@ export const NinjaSelector = ({ onSelection, selected, loser }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('ninja') }>
 
-            <Title selected={ selected }>Ninja 忍者</Title>
+            <Title selected={ selected }>
+              <TranslatedCharacter character='NINJA' />
+            </Title>
             <Ninja height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }
@@ -68,7 +73,9 @@ export const BearSelector = ({ onSelection, selected, loser }) => {
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('bear') }>
 
-            <Title selected={ selected }>Bear 熊</Title>
+            <Title selected={ selected }>
+              <TranslatedCharacter character='BEAR' />
+            </Title>
             <Bear height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }

@@ -56,11 +56,13 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
 
         </PlayerSpectatorContainer>
         <BonusPointSection>
-          <BonusHeading>BONUS POINTS</BonusHeading>
+          <BonusHeading>BONUS 獎金</BonusHeading>
           <PlayerScore playerKey={'BONUS'}/>
         </BonusPointSection>
         <PageFooterContainer>
-          <Button onClick={resetGame}>Play again</Button>
+          <Button onClick={resetGame}>
+            Play again <br/> 再玩一次
+          </Button>
         </PageFooterContainer>
       </PageBody>
     </Page>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import SelectionMade from '../selection-made';
 import NoSelection from '../no-selection';
+import TranslatedPlayerName from '../../../../components/translated-player-name';
 
 type Props = {
   moved: boolean,
@@ -19,7 +20,7 @@ const Container = styled.div`
 const Title = styled.div`
     margin: 0;
     padding: 5px 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #20253f;
     text-align: center;
 `;
@@ -27,7 +28,9 @@ const Title = styled.div`
 const View = ( { moved, name, animationDelay }: Props ) => {
   return (
     <Container>
-      <Title>{ name }</Title>
+      <Title>
+      <TranslatedPlayerName playerName={ name } />
+      </Title>
       {
         moved ? <SelectionMade /> : <NoSelection animationDelay={animationDelay} />
       }

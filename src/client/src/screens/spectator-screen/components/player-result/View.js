@@ -12,6 +12,8 @@ import NinjaWinning from '../../../../components/winning-animations/ninja';
 import BearWinning from '../../../../components/winning-animations/bear';
 import CowboyWinning from '../../../../components/winning-animations/cowboy';
 
+import TranslatedPlayerName from '../../../../components/translated-player-name';
+
 type Props = {
   player: Object,
   isWinner: boolean,
@@ -84,7 +86,7 @@ const ResultCharacterAnimation = styled(CharacterContainer)`
 const Title = styled.div`
     margin: 0;
     padding: 5px 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #20253f;
     text-align: center;
 `;
@@ -114,7 +116,9 @@ const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove}: Props ) => 
   return (
     <React.Fragment>
       <Container>
-        <Title>{ player.name }</Title>
+        <Title>
+          <TranslatedPlayerName playerName={ player.name } />
+        </Title>
         <CharacterPosition>
           <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
           <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
