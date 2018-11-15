@@ -25,11 +25,13 @@ const SocketsConnection = ({ children }: Props) => {
   const [registeredGameFinished, setRegisteredGameFinished] = useState(false);
   const scores = useContext(ScoreboardContext);
 
-  if (scores !== null && !registeredGameFinished) {
-    setRegisteredGameFinished(true);
-    socket.on("GAME_FINISHED", (data) => {
+  if (scores !== null) {
+    //Have to keep subscribing/unsubscribing to event so we get a current score state :(
+    const onGameFinished = (data) => {
       updateScores(scores, data);
-    });
+    }
+    socket.removeListener('GAME_FINISHED');
+    socket.on("GAME_FINISHED", onGameFinished);
   }
 
   useEffect(()=> {

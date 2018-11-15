@@ -1,18 +1,17 @@
 
 const delayMilliseconds = 7000;
 
-const updateWithDelay = (update) => {
-    setTimeout(() => {
-        update(); 
-    }, delayMilliseconds);
-}
-
 export const updateScores = (scores, {winner, draw}) => {
 
     if (!scores) return;
 
     if (draw) {
-        scores.BONUS.add(1, scores).then(updateWithDelay);
+        scores.BONUS.add(1, scores)
+            .then(updateBonusPointsLocally => {
+                setTimeout(() => {
+                    updateBonusPointsLocally(); 
+                }, delayMilliseconds);
+            });
         return;
     }
 
@@ -22,9 +21,16 @@ export const updateScores = (scores, {winner, draw}) => {
     const bonusPoints = scores.BONUS.value;
     const pointsToAdd = 1 + bonusPoints;
 
-    if (bonusPoints) {
-        scores.BONUS.subtract(bonusPoints).then(updateWithDelay)
-    }
-
-    winnerScore.add(pointsToAdd, scores).then(updateWithDelay);
+    winnerScore.add(pointsToAdd, scores)
+        .then(updateScoresLocally => {
+            //Delay updating player score
+            setTimeout(() => {
+                const newScores = updateScoresLocally();
+                if (bonusPoints) {
+                    //Update bonus points straight away with current score state (otherwise we get out of sync)
+                    scores.BONUS.subtract(bonusPoints, newScores)
+                        .then(updateBonusLocally => updateBonusLocally())
+                }
+            }, delayMilliseconds);
+        });
 }
