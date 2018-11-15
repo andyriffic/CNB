@@ -16,11 +16,11 @@ const View = ( {player1, player2 }: Props ) => {
       <PageBody>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
-            <PlayerStatus { ...player1 } />
+            <PlayerStatus { ...player1 } animationDelay={0} />
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
-            <PlayerStatus { ...player2 } />
-          </PlayerSpectatorSection>    
+            <PlayerStatus { ...player2 } animationDelay={.5}/>
+          </PlayerSpectatorSection>
         </PlayerSpectatorContainer>
       </PageBody>
     </Page>

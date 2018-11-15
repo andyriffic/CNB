@@ -10,28 +10,28 @@ type Props = {
   name: string,
 }
 
-const PlayerStatusView = styled.div`
-  border: 1px solid black;
-  height: 100px;
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+const Container = styled.div`
+  background-color: #ffb758;
+  height: 200px;
+  width: 200px;
 `;
 
-const NameHeading = styled.div`
-  align-self: center;
-`
+const Title = styled.div`
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.5rem;
+    color: #20253f;
+    text-align: center;
+`;
 
-const View = ( { moved, name }: Props ) => {
+const View = ( { moved, name, animationDelay }: Props ) => {
   return (
-    <PlayerStatusView>
+    <Container>
+      <Title>{ name }</Title>
       {
-        moved ? <SelectionMade /> : <NoSelection />
+        moved ? <SelectionMade /> : <NoSelection animationDelay={animationDelay} />
       }
-      <NameHeading>{ name }</NameHeading>
-    </PlayerStatusView>
+    </Container>
   );
 }
 
