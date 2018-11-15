@@ -104,7 +104,7 @@ const getLosingAnimation = (isWinner, isDraw, otherPlayersMove) => {
     <Switch>
       <CowboyWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'cowboy'} animationDelay={losingAnimationDelay}/>
       <NinjaWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'ninja'} animationDelay={losingAnimationDelay}/>
-      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'baer'} animationDelay={losingAnimationDelay}/>
+      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'bear'} animationDelay={losingAnimationDelay}/>
     </Switch>
   );
 }
