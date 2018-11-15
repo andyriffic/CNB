@@ -14,8 +14,8 @@ const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
 
   return (
-    <SocketsConnection>
-      <ScoreboardApi>
+    <ScoreboardApi>
+      <SocketsConnection>
         <GlobalStyle />
         <Router>
           <SpectatorScreen path="/" />
@@ -24,8 +24,8 @@ const App = () => {
           <ResetGameScreen path="reset" />
         </Router>
         <DebugOutput data={connectionDetails} />
-      </ScoreboardApi>
-    </SocketsConnection>
+      </SocketsConnection>
+    </ScoreboardApi>
   );
 }
 

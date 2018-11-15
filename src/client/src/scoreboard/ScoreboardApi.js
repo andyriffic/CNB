@@ -7,7 +7,7 @@ const ScoreboardApi = ({ children }) => {
 
     const [scores, setScores] = useState(null);
 
-    useEffect(()=> {
+    useEffect(()=> {        
         fetch(`${API_BASE_URL}`)
         .then(resp => resp.json())
         .then(scoreboard => scoreboard.counters)
@@ -34,15 +34,18 @@ const createScoreboardService = (scores, setScores) => {
     Object.keys(scores).forEach(counterId => {
         mappedScores[scores[counterId].name] = {
             value: scores[counterId].value,
-            add: (currentScores) => {
-                fetch(
+            add: (value, currentScores) => {
+                return fetch(
                     `${API_BASE_URL}/${counterId}`,
                     {
                         method: 'PUT',
                         headers: {
                             "Content-Type": "application/json; charset=utf-8",
                         },
-                        body: JSON.stringify({type: 'INCREMENT'})
+                        body: JSON.stringify({
+                            type: 'INCREMENT',
+                            by: value,
+                        })
                     }
                 )
                 .then(resp => resp.json())
@@ -54,8 +57,38 @@ const createScoreboardService = (scores, setScores) => {
                             value: Object.values(result)[0].value,
                         }
                     }
-                    setScores(newScores);
+
+                    // Return function so can delay updating in the UI
+                    const updateLocalState = () => { setScores(newScores); }
+                    return updateLocalState;
+                });
+            },
+            subtract: (value, currentScores) => {
+                return fetch(`${API_BASE_URL}/${counterId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8",
+                    },
+                    body: JSON.stringify({
+                        type: 'DECREMENT',
+                        by: value,
+                    })
                 })
+                .then(resp => resp.json())
+                .then(result => {
+                    const newScores = {
+                        ...currentScores,
+                        [scores[counterId].name]: {
+                            ...currentScores[scores[counterId].name],
+                            value: Object.values(result)[0].value,
+                        }
+                    }
+
+                    // Return function so can delay updating in the UI
+                    const updateLocalState = () => { setScores(newScores); }
+                    return updateLocalState;
+                });
             }
         }
     })

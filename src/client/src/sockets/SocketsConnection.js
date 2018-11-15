@@ -1,6 +1,6 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import socketIOClient from "socket.io-client";
 
 import type { Node } from 'react';
@@ -10,6 +10,8 @@ import GameStateContext from '../contexts/GameStateContext';
 import ConnectionDetailsContext from '../contexts/ConnectionDetailsContext';
 
 import generateServerMessagesService from './generateServerMessagesService';
+import ScoreboardContext from '../contexts/ScoreboardContext';
+import { updateScores } from '../scoreboard/updateScores';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
@@ -20,15 +22,21 @@ type Props = {
 const SocketsConnection = ({ children }: Props) => {
   const [gameState, setGameState] = useState(null);
   const [connectionDetails, setConnectionDetails] = useState(null);
+  const [registeredGameFinished, setRegisteredGameFinished] = useState(false);
+  const scores = useContext(ScoreboardContext);
+
+  if (scores !== null && !registeredGameFinished) {
+    setRegisteredGameFinished(true);
+    socket.on("GAME_FINISHED", (data) => {
+      updateScores(scores, data);
+    });
+  }
 
   useEffect(()=> {
 
     //set up listeners for message from server
     socket.on("CONNECTION_ESTABLISHED", data => setConnectionDetails(data ));
     socket.on("GAME_VIEW", data => setGameState(data));
-    socket.on("GAME_FINISHED", (data) => {
-      console.log("GAME_FINISHED", data);
-    });
 
     console.log('connected to socket', socket);
 

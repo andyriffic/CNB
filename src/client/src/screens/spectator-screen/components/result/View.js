@@ -8,7 +8,6 @@ import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
-import { useGetScoreboardUpdate } from './useUpdateWinnerScore';
 
 type Props = {
   result: Object,
@@ -28,8 +27,6 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
-
-  useGetScoreboardUpdate(winner.name);
 
   return (
     <Page>
