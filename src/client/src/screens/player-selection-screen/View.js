@@ -59,10 +59,10 @@ const View = ( { playerKey }: Props ) => {
             showIf={ gameIsDraw(gameState) } 
             selectedMove={ playerState.player.move }/>
           <Loser 
-            showIf={ playerWins(gameState, playerState.slot) } 
+            showIf={ playerLoses(gameState, playerState.slot) } 
             selectedMove={ playerState.player.move }/>
           <Winner 
-            showIf={ playerLoses(gameState, playerState.slot) } 
+            showIf={ playerWins(gameState, playerState.slot) } 
             selectedMove={ playerState.player.move }/>
         </Switch>
       </PageBody>

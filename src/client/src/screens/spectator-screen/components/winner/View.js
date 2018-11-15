@@ -78,7 +78,7 @@ const LoserAnimated = styled(CenteredText)`
 
 const View = ( { player1, player2, result }: Props ) => {
   const winner = (result.winner === 'player1') ? player1 : player2;
-  const loser = (winner === 'player1') ? player2 : player1;
+  const loser = (winner === player1) ? player2 : player1;
 
   return (
     <WinnerView>
