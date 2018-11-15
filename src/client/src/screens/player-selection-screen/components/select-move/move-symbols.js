@@ -40,35 +40,35 @@ const StyledCharacter = styled(SymbolBase)`
 
 const symbolSize = (selected) => selected ? 50 : 30;
 
-export const CowboySelector = ({ onSelection, selected }) => {
+export const CowboySelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('cowboy') }>
 
             <Title selected={ selected }>Cowboy 牛仔</Title>
-            <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} />
+            <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }
 
-export const NinjaSelector = ({ onSelection, selected }) => {
+export const NinjaSelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('ninja') }>
 
             <Title selected={ selected }>Ninja 忍者</Title>
-            <Ninja height={symbolSize(selected)} width={symbolSize(selected)} />
+            <Ninja height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }
 
-export const BearSelector = ({ onSelection, selected }) => {
+export const BearSelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('bear') }>
 
             <Title selected={ selected }>Bear 熊</Title>
-            <Bear height={symbolSize(selected)} width={symbolSize(selected)} />
+            <Bear height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }

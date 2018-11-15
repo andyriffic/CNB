@@ -51,10 +51,19 @@ const View = ( { playerKey }: Props ) => {
       <PageBody column={ true }>
         <Switch>
           <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
-          <SelectedMove showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } selectedMove={ playerState.player.move }/>
-          <Draw showIf={ gameIsDraw(gameState) }/>
-          <Loser showIf={ playerWins(gameState, playerState.slot) }/>
-          <Winner showIf={ playerLoses(gameState, playerState.slot) }/>
+          <SelectedMove 
+            showIf={ !hasGameResult(gameState) && playerHasMoved(gameState, playerState) } 
+            title="You chose 你选择了"
+            selectedMove={ playerState.player.move }/>
+          <Draw 
+            showIf={ gameIsDraw(gameState) } 
+            selectedMove={ playerState.player.move }/>
+          <Loser 
+            showIf={ playerWins(gameState, playerState.slot) } 
+            selectedMove={ playerState.player.move }/>
+          <Winner 
+            showIf={ playerLoses(gameState, playerState.slot) } 
+            selectedMove={ playerState.player.move }/>
         </Switch>
       </PageBody>
       <DebugOutput data={ playerState } />

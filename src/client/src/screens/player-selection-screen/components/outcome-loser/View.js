@@ -1,17 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Emoji = styled.span`
-    font-size: 70px;
-`
+import SelectedMove from '../selected-move';
 
 const View = ({selectedMove}) => {
     return (
-        <React.Fragment>
-            <p>YOU LOSE!</p>
-            <p>你输了</p>
-            <p><Emoji role="img" aria-label="crying face">😭</Emoji></p>
-        </React.Fragment>
+        <SelectedMove 
+            title="Awww, too bad ;( 太糟糕了"
+            loser={ true }
+            selectedMove={ selectedMove }/>
     )
 }
 

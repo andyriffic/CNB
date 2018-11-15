@@ -8,12 +8,12 @@ const moveComponentMapping = {
     bear: BearSelector,
 }
 
-const View = ({selectedMove}) => {
+const View = ({selectedMove, title, loser}) => {
     const Component = moveComponentMapping[selectedMove];
     return (
         <React.Fragment>
-            <PageSubTitle>You chose 你选择了</PageSubTitle>
-            <Component selected={ true }/>
+            <PageSubTitle>{ title }</PageSubTitle>
+            <Component selected={ true } loser={ loser }/>
         </React.Fragment>
     )
 }
