@@ -9,8 +9,12 @@ const updateWithDelay = (update) => {
 
 export const updateScores = (scores, {winner, draw}) => {
 
-    console.log('UPDATE SCORES', scores, winner, draw);
-    if (!scores || draw) return;
+    if (!scores) return;
+
+    if (draw) {
+        scores.BONUS.add(1, scores).then(updateWithDelay);
+        return;
+    }
 
     const winnerScore = scores[winner];
     if (!winnerScore) return;

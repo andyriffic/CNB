@@ -24,7 +24,6 @@ const BonusHeading = styled.h2`
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
-  const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
 
