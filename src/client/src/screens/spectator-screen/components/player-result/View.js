@@ -8,10 +8,18 @@ import BearImage from '../../../../components/characters/bear';
 import NinjaImage from '../../../../components/characters/ninja';
 import CowboyImage from '../../../../components/characters/cowboy';
 
+import NinjaWinning from '../../../../components/winning-animations/ninja';
+import BearWinning from '../../../../components/winning-animations/bear';
+import CowboyWinning from '../../../../components/winning-animations/cowboy';
+
 type Props = {
   player: Object,
   isWinner: boolean,
 }
+
+const initialAnimationDelay = 0;
+const resultAnimationDelay = 2.5;
+const losingAnimationDelay = resultAnimationDelay;
 
 const zoomIn = keyframes`
   0% {
@@ -56,13 +64,21 @@ const CharacterContainer = styled.div`
   width: 100%;
 `;
 
+const AnimatedLoss = styled.div`
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  opacity: 0;
+  animation: ${fadeIn} 1s linear ${losingAnimationDelay}s 1 forwards;
+`;
+
 const InitialCharacterAnimaton = styled(CharacterContainer)`
-  animation: ${zoomIn} 1s linear 1 forwards;
+  animation: ${zoomIn} 1s linear ${initialAnimationDelay}s 1 forwards;
 `;
 
 const ResultCharacterAnimation = styled(CharacterContainer)`
   opacity: 0;
-  animation: ${fadeIn} 1s linear 2.5s 1 forwards;
+  animation: ${fadeIn} 1s linear ${resultAnimationDelay}s 1 forwards;
 `;
 
 const Title = styled.div`
@@ -83,8 +99,18 @@ const getCharacter = (move, isWinner) => {
   );
 }
 
+const getLosingAnimation = (isWinner, isDraw, otherPlayersMove) => {
+  return (
+    <Switch>
+      <CowboyWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'cowboy'} animationDelay={losingAnimationDelay}/>
+      <NinjaWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'ninja'} animationDelay={losingAnimationDelay}/>
+      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'baer'} animationDelay={losingAnimationDelay}/>
+    </Switch>
+  );
+}
 
-const PlayerResult = ( {player, isWinner}: Props ) => {
+
+const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove}: Props ) => {
   return (
     <React.Fragment>
       <Container>
@@ -92,6 +118,7 @@ const PlayerResult = ( {player, isWinner}: Props ) => {
         <CharacterPosition>
           <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
           <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
+          <AnimatedLoss>{ getLosingAnimation(isWinner, isDraw, otherPlayersMove) }</AnimatedLoss>
         </CharacterPosition>
       </Container>
     </React.Fragment>
