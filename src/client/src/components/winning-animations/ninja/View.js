@@ -2,22 +2,94 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-const rotate = keyframes`
+const rotateSmallLeft = keyframes`
   0% {
+    opacity: 1;
     transform: rotate(45deg);
-    left: 150%;
-  }
-
-  50% {
-    transform: rotate(-1395deg);
-    left: 50%;
-    top: 50%;
+    left: 350%;
   }
 
   100% {
-    transform: rotate(-1395deg);
+    transform: rotate(-1430deg);
+    left: 65%;
+    top: 45%;
+    opacity: 1;
+  }
+`;
+
+const rotateMediumLeft = keyframes`
+  0% {
+    opacity: 1;
+    transform: rotate(45deg);
+    left: 350%;
+  }
+
+  100% {
+    transform: rotate(-1430deg);
+    left: 65%;
+    top: 60%;
+    opacity: 1;
+  }
+`;
+
+const rotateHeapsLeft = keyframes`
+  0% {
+    opacity: 1;
+    transform: rotate(45deg);
+    left: 350%;
+  }
+
+  100% {
+    transform: rotate(-1350deg);
     left: 50%;
     top: 50%;
+    opacity: 1;
+  }
+`;
+
+
+const rotateSmallRight = keyframes`
+  0% {
+    opacity: 1;
+    transform: rotate(45deg);
+    right: 350%;
+  }
+
+  100% {
+    transform: rotate(-1430deg);
+    right: 65%;
+    top: 45%;
+    opacity: 1;
+  }
+`;
+
+const rotateMediumRight = keyframes`
+  0% {
+    opacity: 1;
+    transform: rotate(45deg);
+    right: 350%;
+  }
+
+  100% {
+    transform: rotate(-1430deg);
+    right: 65%;
+    top: 60%;
+    opacity: 1;
+  }
+`;
+
+const rotateHeapsRight = keyframes`
+  0% {
+    opacity: 1;
+    transform: rotate(45deg);
+    right: 350%;
+  }
+
+  100% {
+    transform: rotate(-1350deg);
+    right: 50%;
+    top: 50%;
+    opacity: 1;
   }
 `;
 
@@ -31,15 +103,15 @@ const ViewContainer = styled.div`
 const StarContainer = styled.div`
   width: 100%;
   height: auto;
-  overflow: hidden;
   position:relative;
   flex: 1;
 `;
 
 const Star = styled.div`
+  opacity: 0;
   position: absolute;
-  left: 150%;
-  animation: ${rotate} 6s ease-in ${props=> props.animationDelay}s 1 forwards;
+  ${props => props.isLeft ? `left: 150%;`: `right: 150%;`}
+  animation: ${props=> props.keyframes} 1.5s linear ${props=> props.animationDelay}s 1 forwards;
 `;
 
 const Point = styled.div`
@@ -92,10 +164,10 @@ const Center = styled.div`
   top: -2.5px;
 `;
 
-const NinjaStar = ({animationDelay}) => {
+const NinjaStar = ({animationDelay, keyframes, isLeft}) => {
   return (
     <StarContainer>
-      <Star animationDelay={animationDelay}>
+      <Star animationDelay={animationDelay} keyframes={keyframes} isLeft={isLeft}>
         <Point />
         <Point />
         <Point />
@@ -106,12 +178,17 @@ const NinjaStar = ({animationDelay}) => {
   );
 }
 
-const View = ({animationDelay}) => {
+const View = ({animationDelay, isLeft}) => {
+
+  const smallKeyframes = isLeft ? rotateSmallLeft : rotateSmallRight;
+  const mediumKeyframes = isLeft ? rotateMediumLeft : rotateMediumRight;
+  const heapsKeyframes = isLeft ? rotateHeapsLeft : rotateHeapsRight;
+
   return (
     <ViewContainer>
-      <NinjaStar animationDelay={animationDelay}/>
-      <NinjaStar animationDelay={animationDelay+1}/>
-      <NinjaStar animationDelay={animationDelay+2}/>
+      <NinjaStar animationDelay={animationDelay} keyframes={smallKeyframes} isLeft={isLeft} />
+      <NinjaStar animationDelay={animationDelay+.25} keyframes={mediumKeyframes} isLeft={isLeft}/>
+      <NinjaStar animationDelay={animationDelay+.5} keyframes={heapsKeyframes} isLeft={isLeft}/>
     </ViewContainer>
   )
 }

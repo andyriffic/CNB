@@ -67,13 +67,10 @@ const fake2 = keyframes`
 `;
 
 const fade = keyframes`
-  0%, 35% {
+  0%, 30% {
 		opacity: 0;
 	}
-	80%, 90% {
-		opacity: 1;
-	}
-	100% {
+	60%, 100% {
 		opacity: 1;
 	}
 `;
@@ -150,7 +147,7 @@ const Trail = styled.span`
 	width: 3%;
 	height: 100%;
 	background-color: red;
-  opacity: .8;
+  opacity: 0;
 	margin: 0 10%;
 	vertical-align: top;
 	animation: ${fade} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
@@ -177,10 +174,10 @@ const View = ({animationDelay}) => {
         <Claw animationDelay={animationDelay} />
       </Claws>
 
-      <Trails animationDelay={animationDelay} >
-        <Trail animationDelay={animationDelay} />
-        <Trail animationDelay={animationDelay} />
-        <Trail animationDelay={animationDelay} />
+      <Trails animationDelay={animationDelay + 1} >
+        <Trail animationDelay={animationDelay + 1} />
+        <Trail animationDelay={animationDelay + 1} />
+        <Trail animationDelay={animationDelay + 1} />
       </Trails>
     </ViewContainer>
   )

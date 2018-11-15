@@ -33,7 +33,13 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
       <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
-            <PlayerResult player={player1} isWinner={isPlayer1Winner} otherPlayersMove={player2.move} isDraw={result.draw}/>
+            <PlayerResult
+              player={player1}
+              isWinner={isPlayer1Winner}
+              otherPlayersMove={player2.move}
+              isDraw={result.draw}
+              isLeft={true}
+            />
             <PlayerScore playerKey={player1.name}/>
           </PlayerSpectatorSection>
 
@@ -50,7 +56,13 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
           </PlayerSpectatorSection>
 
           <PlayerSpectatorSection>
-            <PlayerResult player={player2} isWinner={isPlayer2Winner} otherPlayersMove={player1.move} isDraw={result.draw}/>
+            <PlayerResult
+              player={player2}
+              isWinner={isPlayer2Winner}
+              otherPlayersMove={player1.move}
+              isDraw={result.draw}
+              isLeft={false}
+            />
             <PlayerScore playerKey={player2.name}/>
           </PlayerSpectatorSection>
 

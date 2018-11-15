@@ -101,18 +101,26 @@ const getCharacter = (move, isWinner) => {
   );
 }
 
-const getLosingAnimation = (isWinner, isDraw, otherPlayersMove) => {
+const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
   return (
     <Switch>
-      <CowboyWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'cowboy'} animationDelay={losingAnimationDelay}/>
-      <NinjaWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'ninja'} animationDelay={losingAnimationDelay}/>
+      <CowboyWinning
+        showIf={!isWinner && !isDraw && otherPlayersMove === 'cowboy'}
+        animationDelay={losingAnimationDelay}
+        isLeft={isLeft}
+      />
+      <NinjaWinning
+        showIf={!isWinner && !isDraw && otherPlayersMove === 'ninja'}
+        animationDelay={losingAnimationDelay}
+        isLeft={isLeft}
+      />
       <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'bear'} animationDelay={losingAnimationDelay}/>
     </Switch>
   );
 }
 
 
-const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove}: Props ) => {
+const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove, isLeft}: Props ) => {
   return (
     <React.Fragment>
       <Container>
@@ -122,7 +130,7 @@ const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove}: Props ) => 
         <CharacterPosition>
           <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
           <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
-          <AnimatedLoss>{ getLosingAnimation(isWinner, isDraw, otherPlayersMove) }</AnimatedLoss>
+          <AnimatedLoss>{ getLosingAnimation(isWinner, isDraw, otherPlayersMove, isLeft) }</AnimatedLoss>
         </CharacterPosition>
       </Container>
     </React.Fragment>
