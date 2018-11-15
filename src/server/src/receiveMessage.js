@@ -12,6 +12,7 @@ import { incomingMessageTypes } from './messages/typeConstants';
 import { prop } from './utils/functional/helpers';
 import invalidMessageMessage from './messages/invalidMessageMessage';
 import gameResetMessage from './messages/gameResetMessage';
+import gameCompleteMessage from './messages/gameCompleteMessage';
 import resetGameAction from './state/actions/resetGameAction';
 import updateGameStatusAction from './state/actions/updateGameStatusAction';
 import updateGameResultAction from './state/actions/updateGameResultAction';
@@ -74,6 +75,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       store.dispatch(updateGameResultAction(gameResult));
       store.dispatch(updateGameStatusAction(GAME_STATUS.FINISHED));
 
+      sendToClient(gameCompleteMessage(store.getState()));
       sendToClient(publishGameView(store.getState()));
     }
       break;

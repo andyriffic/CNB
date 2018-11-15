@@ -110,16 +110,16 @@ const Container = styled.div`
 const View = ( { animationDelay }) => {
   return (
     <Container>
-      <svg class="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <svg className="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="50"/>
       </svg>
 
-      <div class="tick">
-        <svg class="tick-leg1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
-          <polygon class="" points="1,41 0,48 25,52 25,45" />
+      <div className="tick">
+        <svg className="tick-leg1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
+          <polygon className="" points="1,41 0,48 25,52 25,45" />
         </svg>
-        <svg class="tick-leg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
-          <polygon class="" points="18,45 25,47 25,0 18,0" />
+        <svg className="tick-leg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
+          <polygon className="" points="18,45 25,47 25,0 18,0" />
         </svg>
       </div>
     </Container>

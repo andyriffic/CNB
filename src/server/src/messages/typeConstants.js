@@ -13,6 +13,7 @@ const RESET_GAME = 'RESET_GAME';
 const SPECTATOR_JOIN = 'SPECTATOR_JOIN';
 const GET_GAME_VIEW = 'GET_GAME_VIEW';
 const RUN_GAME = 'RUN_GAME';
+const GAME_FINISHED = 'GAME_FINISHED';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
@@ -33,4 +34,5 @@ export const outgoingMessageTypes = {
   SUCCESSFUL_MOVE,
   GAME_VIEW,
   GAME_RESET,
+  GAME_FINISHED,
 };
