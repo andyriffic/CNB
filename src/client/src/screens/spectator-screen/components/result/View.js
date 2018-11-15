@@ -1,12 +1,15 @@
 /* @flow */
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import PlayerResult from '../player-result';
+import PlayerScore from '../player-score';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
-import { DesktopPageHeader, PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
+import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
+import { useGetScoreboardUpdate } from './useUpdateWinnerScore';
+import ScoreboardContext from '../../../../contexts/ScoreboardContext';
 
 type Props = {
   result: Object,
@@ -16,8 +19,13 @@ type Props = {
 }
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
+  const scores = useContext(ScoreboardContext);
+
+  const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
+
+  useGetScoreboardUpdate(winner.name);
 
   return (
     <Page>
@@ -26,6 +34,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
             <PlayerResult player={player1} isWinner={isPlayer1Winner} otherPlayersMove={player2.move} isDraw={result.draw}/>
+            <PlayerScore playerKey={player1.name}/>
           </PlayerSpectatorSection>
 
           <PlayerSpectatorSection>
@@ -42,7 +51,8 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
 
           <PlayerSpectatorSection>
             <PlayerResult player={player2} isWinner={isPlayer2Winner} otherPlayersMove={player1.move} isDraw={result.draw}/>
-          </PlayerSpectatorSection>
+            <PlayerScore playerKey={player2.name}/>
+       </PlayerSpectatorSection>
 
         </PlayerSpectatorContainer>
         <PageFooterContainer>

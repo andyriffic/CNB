@@ -2,6 +2,7 @@
 import React from 'react';
 
 import PlayerStatus from '../player-status';
+import PlayerScore from '../player-score';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Page, PageHeader, PageBody } from '../../../styled';
 
 type Props = {
@@ -17,10 +18,12 @@ const View = ( {player1, player2 }: Props ) => {
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
             <PlayerStatus { ...player1 } animationDelay={0} />
+            <PlayerScore playerKey={player1.name} />
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
-            <PlayerStatus { ...player2 } animationDelay={.5}/>
-          </PlayerSpectatorSection>
+            <PlayerStatus { ...player2 } animationDelay={.5} />
+            <PlayerScore playerKey={player2.name} />
+          </PlayerSpectatorSection>    
         </PlayerSpectatorContainer>
       </PageBody>
     </Page>
