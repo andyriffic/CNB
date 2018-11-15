@@ -47,7 +47,7 @@ const extremeFadeAndScale = keyframes`
 
 const WinnerHeading = styled.h2`
   opacity: 0;
-  animation: ${extremeFadeAndScale} 1s linear 3s 1 forwards;
+  animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
 `;
 
 const ResultContainer = styled.div`
@@ -67,12 +67,12 @@ const WinnerAnimated = styled(CenteredText)`
 const BeatsAnimated = styled(CenteredText)`
   font-size: 3vmin;
   opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1.5s 1 forwards;
+  animation: ${fadeAndScale} 1s linear 1.2s 1 forwards;
 `;
 
 const LoserAnimated = styled(CenteredText)`
   opacity: 0;
-  animation: ${fadeAndScale} 1s linear 2s 1 forwards;
+  animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
 `;
 
 

@@ -18,7 +18,7 @@ type Props = {
 }
 
 const initialAnimationDelay = 0;
-const resultAnimationDelay = 2.5;
+const resultAnimationDelay = 1;
 const losingAnimationDelay = resultAnimationDelay;
 
 const zoomIn = keyframes`
