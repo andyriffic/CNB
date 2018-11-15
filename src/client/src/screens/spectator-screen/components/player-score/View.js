@@ -34,6 +34,62 @@ const rubberBandAnimation = keyframes`
   }
 `;
 
+const sonar = keyframes`
+  0% {transform: scale(.9); opacity:1;}
+  100% {transform: scale(2);opacity: 0;}
+`;
+
+const pulse = keyframes`
+  0% {transform: scale(1);}
+  20% {transform: scale(1.4); }
+  50% {transform: scale(.9);}
+  80% {transform: scale(1.2);}
+  100% {transform: scale(1);}
+`;
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const Badge = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  box-sizing:border-box;
+  font-family: 'Trebuchet MS', sans-serif;
+  background: #ff0000;
+  cursor:default;
+  border-radius: 50%;
+  color: #fff;
+  font-weight:bold;
+  font-size: 20px;
+  height: 40px;
+  line-height:1.55;
+  margin-top: 0;
+  margin-left: 0;
+  border:3px solid #fff;
+  text-align: center;
+  display:inline-block;
+  width: 40px;
+  box-shadow: 1px 1px 5px rgba(0,0,0, .2);
+  animation: ${pulse} 1.5s infinite;
+
+  &:after {
+    content: '';
+    border:2px solid rgba(255,0,0,.5);
+    opacity:0;
+    position: absolute;
+    top:1px;
+    left:1px;
+    border-radius: 50%;
+    width:100%;
+    height:100%;
+    animation: ${sonar} 1.5s infinite;
+  }
+`;
+
 const Score = styled.div`
   font-size: 3rem;
   text-align: center;
@@ -46,6 +102,7 @@ const Score = styled.div`
 const View = ( { playerKey } ) => {
 
   const [value, setValue] = useState(null);
+  const [incremented, setIncremented] = useState(null);
   const [updated, setUpdated] = useState(false);
   const scores = useContext(ScoreboardContext);
 
@@ -63,11 +120,17 @@ const View = ( { playerKey } ) => {
     setValue(playerScore.value);
 
     if (value !== null) {
+      setIncremented(playerScore.value - value);
       setUpdated(true);
     }
   })
 
-  return (<Score className={ updated ? 'updated' : ''}>{playerScore.value}</Score>);
+  return (
+    <Container>
+      { incremented && <Badge>+{incremented}</Badge> }
+      <Score className={ updated ? 'updated' : ''}>{playerScore.value}</Score>
+    </Container>
+  );
 }
 
 export default View;
