@@ -24,6 +24,7 @@ const fadeIn = keyframes`
 const FadeInContainer = styled.div`
   opacity:0;
   animation: ${fadeIn} 2s 1 forwards;
+  width: 100%;
 `
 
 const View = ({gameState, playerState}) => {
