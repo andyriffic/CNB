@@ -1,5 +1,5 @@
 /* @flow */
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import PlayerResult from '../player-result';
@@ -9,7 +9,6 @@ import Winner from '../winner';
 import Switch from '../../../../components/switch';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
 import { useGetScoreboardUpdate } from './useUpdateWinnerScore';
-import ScoreboardContext from '../../../../contexts/ScoreboardContext';
 
 type Props = {
   result: Object,
@@ -19,7 +18,6 @@ type Props = {
 }
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
-  const scores = useContext(ScoreboardContext);
 
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');

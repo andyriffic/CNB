@@ -59,6 +59,7 @@ export const PlayerSpectatorContainer = styled.div`
 `
 
 export const PlayerSpectatorSection = styled.div`
+  padding: 0 2vw;
 `
 
 export const PageFooterContainer = styled.div`
