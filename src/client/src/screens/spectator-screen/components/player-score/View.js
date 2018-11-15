@@ -127,7 +127,7 @@ const View = ( { playerKey } ) => {
 
   return (
     <Container>
-      { incremented && <Badge>+{incremented}</Badge> }
+      { (incremented && incremented > 0)&& <Badge>+{incremented}</Badge> }
       <Score isBonus={playerKey === 'BONUS' } className={ updated ? 'updated' : ''}>{playerScore.value}</Score>
     </Container>
   );
