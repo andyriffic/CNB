@@ -1,6 +1,6 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Router } from "@reach/router"
 
@@ -33,6 +33,15 @@ const EnvironmentBanner = styled.div`
 
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
+
+  useEffect(() => {
+    let envPostfix = '(Staging)';
+    if (IS_PRODUCTION) {
+      envPostfix = '(Production)';
+    }
+
+    document.title = `Cowboy/Ninja/Bear - ${envPostfix}`;
+  }, [])
 
   return (
     <ScoreboardApi>
