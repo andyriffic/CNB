@@ -8,6 +8,7 @@ import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
+import { useWinningSoundEffect } from './useWinningSoundEffect';
 
 type Props = {
   result: Object,
@@ -24,8 +25,11 @@ const BonusHeading = styled.h2`
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
+  const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
+
+  useWinningSoundEffect(winner.move, 1000);
 
   return (
     <Page>
