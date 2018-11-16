@@ -2,5 +2,10 @@
 
 cd $(dirname $0)/..
 
-docker build -t func-cnb .
+REACT_APP_PRODUCTION="false"
+
+docker build \
+--build-arg is_production=${REACT_APP_PRODUCTION} \
+-t func-cnb .
+
 docker run -p 3000:3000 -it func-cnb
