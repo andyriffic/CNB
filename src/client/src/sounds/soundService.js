@@ -4,6 +4,7 @@ import cowboySound from './cowboy-win.mp3';
 import ninjaSound from './ninja-win.mp3';
 import bearSound from './bear-win.mp3';
 import waitingSound from './waiting-music-loop.mp3';
+import { isFeatureEnabled, FEATURE_WAITING_MUSIC } from '../featureToggle';
 
 const winnerSoundMapping = {
     cowboy: cowboySound,
@@ -12,6 +13,7 @@ const winnerSoundMapping = {
 };
 
 export const getWinningSound = (move) => {
+
     const sound = new Howl({
         src: [winnerSoundMapping[move]]
     });
@@ -20,7 +22,16 @@ export const getWinningSound = (move) => {
 }
 
 export const getWaitingSound = () => {
-    var sound = new Howl({
+ 
+    if (!isFeatureEnabled(FEATURE_WAITING_MUSIC)) {
+        return {
+            play: () => undefined,
+            stop: () => undefined,
+            playing: () => true,
+        }
+    }
+
+   var sound = new Howl({
         src: [waitingSound],
         loop: true,
         volume: 0.6,

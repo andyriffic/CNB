@@ -34,7 +34,6 @@ const View = () => {
       setTimeout(()=> {
         setShowCountdown(false);
       }, 3500);
-
     }
 
     if(gameState && gameState.status !== 'FINISHED' ) {
