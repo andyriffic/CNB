@@ -12,6 +12,7 @@ import Loading from './components/loading';
 import Ready from './components/ready';
 import Result from './components/result';
 import Countdown from './components/countdown';
+import { getWaitingSound } from '../../sounds/soundService';
 
 const waitingStatuses = [ 'EMPTY', 'WAITING_FOR_PLAYER_1', 'WAITING_FOR_PLAYER_2' ]
 
@@ -19,14 +20,29 @@ const View = () => {
   const [showCountdown, setShowCountdown] = useState(null);
   const gameState = useContext(GameStateContext);
   const serverMessages = useContext(ServerMessagesContext);
+  const [waitingSound, setWaitingSound] = useState(null);
 
   useEffect(() => {
-      if(gameState && gameState.status === 'FINISHED' ) {
-        setShowCountdown(true);
-        setTimeout(()=> {
-          setShowCountdown(false);
-        }, 3500);
+
+    if (!waitingSound) {
+      setWaitingSound(getWaitingSound());
+    }
+
+    if(gameState && gameState.status === 'FINISHED' ) {
+      waitingSound.stop();
+      setShowCountdown(true);
+      setTimeout(()=> {
+        setShowCountdown(false);
+      }, 3500);
+
+    }
+
+    if(gameState && gameState.status !== 'FINISHED' ) {
+      if (!waitingSound.playing()) {
+        waitingSound.play();
       }
+    }
+      
   }, [gameState]);
 
   useGetGameState();
