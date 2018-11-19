@@ -1,52 +1,54 @@
-
-import { Howl } from 'howler';
+import {Howl} from 'howler';
 import cowboySound from './cowboy-win.mp3';
 import ninjaSound from './ninja-win.mp3';
 import bearSound from './bear-win.mp3';
+import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 import waitingSound from './waiting-music-loop.mp3';
-import { isFeatureEnabled, FEATURE_WAITING_MUSIC } from '../featureToggle';
+import {isFeatureEnabled, FEATURE_WAITING_MUSIC} from '../featureToggle';
 
 const winnerSoundMapping = {
-    cowboy: cowboySound,
-    ninja: ninjaSound,
-    bear: bearSound,
+  cowboy: cowboySound,
+  ninja: ninjaSound,
+  bear: bearSound,
 };
 
-export const getWinningSound = (move) => {
+export const getWinningSound = (move, isDraw) => {
 
-    const sound = new Howl({
-        src: [winnerSoundMapping[move]]
-    });
+  const soundFile = isDraw ? drawSound : winnerSoundMapping[move];
 
-    return sound;
+  return new Howl({
+    src: [soundFile],
+  });
+
 };
 
 export const getWaitingSound = () => {
- 
-    if (!isFeatureEnabled(FEATURE_WAITING_MUSIC)) {
-        return {
-            play: () => undefined,
-            stop: () => undefined,
-            playing: () => true,
-        }
-    }
 
-   var sound = new Howl({
-        src: [waitingSound],
-        loop: true,
-        volume: 0.6,
-      });
+  if (!isFeatureEnabled(FEATURE_WAITING_MUSIC)) {
+    return {
+      play: () => undefined,
+      stop: () => undefined,
+      playing: () => true,
+    };
+  }
 
-      return sound;
+  return new Howl({
+    src: [waitingSound],
+    loop: true,
+    volume: 0.6,
+  });
+
 };
 
 export const playPointsSound = (numPoints) => {
   const sound = new Howl({
-    src: [pointsSound]
+    src: [pointsSound],
   });
 
   for (let i = 0; i < numPoints; i++) {
-    setTimeout(() => {sound.play();}, i * 600);
+    setTimeout(() => {
+      sound.play();
+    }, i * 600);
   }
 };

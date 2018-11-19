@@ -29,9 +29,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
 
-  if (!result.draw) {
-    useWinningSoundEffect(winner.move, 1000);
-  }
+  useWinningSoundEffect(winner.move, result.draw, 1000);
 
   return (
     <Page>

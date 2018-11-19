@@ -116,7 +116,7 @@ const View = ( { playerKey } ) => {
   useEffect(() => {
     if (playerScore.value === value) {
       return;
-    };
+    }
 
     setValue(playerScore.value);
 

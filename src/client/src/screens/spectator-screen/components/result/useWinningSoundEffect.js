@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { getWinningSound } from '../../../../sounds/soundService';
 
-export const useWinningSoundEffect = (winningMove, delay = 0) => {
+export const useWinningSoundEffect = (winningMove, isDraw, delay = 0) => {
 
     useEffect(() => {
-        const winningSound = getWinningSound(winningMove);
+        const winningSound = getWinningSound(winningMove, isDraw);
 
         const timeout = setTimeout(() => {
             winningSound.play();
-        }, delay)
+        }, delay);
 
         return () => {
             clearTimeout(timeout);
