@@ -27,7 +27,7 @@ const SelectionListItem = styled.li`
 const View = ({ onSelection }: MakeMoveSelection) => {
   return (
     <React.Fragment>
-        <PageSubTitle>Make your move 做你的举动</PageSubTitle>
+        <PageSubTitle>Make your move 做你的動作</PageSubTitle>
         <SelectionList>
             <SelectionListItem><CowboySelector onSelection={ onSelection }/></SelectionListItem>
             <SelectionListItem><NinjaSelector onSelection={ onSelection }/></SelectionListItem>

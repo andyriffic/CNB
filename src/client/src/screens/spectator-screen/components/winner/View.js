@@ -112,7 +112,7 @@ const View = ( { player1, player2, result }: Props ) => {
         <WinnerAnimated>
           <TranslatedCharacter character={winner.move} />
         </WinnerAnimated>
-        <BeatsAnimated>beats 節拍</BeatsAnimated>
+        <BeatsAnimated>beats 打败</BeatsAnimated>
         <LoserAnimated>
           <TranslatedCharacter character={loser.move} />
         </LoserAnimated>

@@ -43,7 +43,7 @@ const View = ({gameState, playerState}) => {
             (
               <React.Fragment>
                 <WaitingIcon animationDelay={0} />
-                <h3>Running game 跑步比賽</h3>
+                <h3>Running game 正在運行遊戲</h3>
               </React.Fragment>
             ) : (
               <FadeInContainer>
