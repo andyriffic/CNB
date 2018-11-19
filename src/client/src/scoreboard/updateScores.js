@@ -1,5 +1,5 @@
 
-const delayMilliseconds = 7000;
+const delayMilliseconds = 9000;
 
 export const updateScores = (scores, {winner, draw}) => {
 

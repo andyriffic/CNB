@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import ScoreboardContext from '../../../../contexts/ScoreboardContext';
+import {playPointsSound} from '../../../../sounds/soundService';
 
 const rubberBandAnimation = keyframes`
   0% {
@@ -120,10 +121,12 @@ const View = ( { playerKey } ) => {
     setValue(playerScore.value);
 
     if (value !== null) {
-      setIncremented(playerScore.value - value);
+      const totalPointsAwarded = playerScore.value - value;
+      setIncremented(totalPointsAwarded);
+      playPointsSound(totalPointsAwarded);
       setUpdated(true);
     }
-  })
+  });
 
   return (
     <Container>

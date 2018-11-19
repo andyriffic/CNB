@@ -3,6 +3,7 @@ import { Howl } from 'howler';
 import cowboySound from './cowboy-win.mp3';
 import ninjaSound from './ninja-win.mp3';
 import bearSound from './bear-win.mp3';
+import pointsSound from './points.mp3';
 import waitingSound from './waiting-music-loop.mp3';
 import { isFeatureEnabled, FEATURE_WAITING_MUSIC } from '../featureToggle';
 
@@ -19,7 +20,7 @@ export const getWinningSound = (move) => {
     });
 
     return sound;
-}
+};
 
 export const getWaitingSound = () => {
  
@@ -38,4 +39,14 @@ export const getWaitingSound = () => {
       });
 
       return sound;
-}
+};
+
+export const playPointsSound = (numPoints) => {
+  const sound = new Howl({
+    src: [pointsSound]
+  });
+
+  for (let i = 0; i < numPoints; i++) {
+    setTimeout(() => {sound.play();}, i * 600);
+  }
+};
