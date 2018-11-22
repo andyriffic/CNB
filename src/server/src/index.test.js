@@ -7,7 +7,7 @@ import { incomingMessageTypes } from './messages/typeConstants';
 import { MOVES } from './state/Moves';
 import { OUTCOMES } from './services/runGame';
 
-describe('Cowboy/Ninja/Bear', () => {
+describe('A/B/C Game', () => {
 
   let store, sandbox, sendMessageSpy;
 
@@ -44,33 +44,33 @@ describe('Cowboy/Ninja/Bear', () => {
         return sendMessageSpy.lastCall.args[0].payload.result;
       };
 
-      it('then broadcast game result is correct when both players choose COWBOY', () => {
-        makeMove('player1', MOVES.COWBOY);
-        makeMove('player2', MOVES.COWBOY);
+      it('then broadcast game result is correct when both players choose A', () => {
+        makeMove('player1', MOVES.A);
+        makeMove('player2', MOVES.A);
         runGame();
 
         assert.equal(true, getLastOutcome().draw, 'Incorrect game result');
       });
 
-      it('then broadcast game result is correct when ninja beats cowboy', () => {
-        makeMove('player1', MOVES.NINJA);
-        makeMove('player2', MOVES.COWBOY);
+      it('then broadcast game result is correct when A beats B', () => {
+        makeMove('player1', MOVES.A);
+        makeMove('player2', MOVES.B);
         runGame();
 
         assert.equal(OUTCOMES.PLAYER_ONE, getLastOutcome().winner, 'Incorrect game result');
       });
 
-      it('then broadcast game result is correct when cowboy beats bear', () => {
-        makeMove('player1', MOVES.COWBOY);
-        makeMove('player2', MOVES.BEAR);
+      it('then broadcast game result is correct when B beats C', () => {
+        makeMove('player1', MOVES.B);
+        makeMove('player2', MOVES.C);
         runGame();
 
         assert.equal(OUTCOMES.PLAYER_ONE, getLastOutcome().winner, 'Incorrect game result');
       });
 
-      it('then broadcast game result is correct when bear beats ninja', () => {
-        makeMove('player1', MOVES.BEAR);
-        makeMove('player2', MOVES.NINJA);
+      it('then broadcast game result is correct when C beats A', () => {
+        makeMove('player1', MOVES.C);
+        makeMove('player2', MOVES.A);
         runGame();
 
         assert.equal(OUTCOMES.PLAYER_ONE, getLastOutcome().winner, 'Incorrect game result');

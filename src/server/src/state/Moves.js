@@ -1,6 +1,6 @@
 export const MOVES = {
-  'COWBOY': 'cowboy',
-  'NINJA': 'ninja',
-  'BEAR': 'bear',
+  'A': 'A',
+  'B': 'B',
+  'C': 'C',
   'UNKOWN': 'unkown',
 };

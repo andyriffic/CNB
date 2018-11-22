@@ -18,13 +18,13 @@ const determineWinner = (player1Move: Move, player2Move: Move): ?GameResult => {
     return { draw: true };
   }
 
-  if(player1Move === MOVES.NINJA && player2Move === MOVES.COWBOY) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
-  if(player1Move === MOVES.COWBOY && player2Move === MOVES.BEAR) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
-  if(player1Move === MOVES.BEAR && player2Move === MOVES.NINJA) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
+  if(player1Move === MOVES.A && player2Move === MOVES.B) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
+  if(player1Move === MOVES.B && player2Move === MOVES.C) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
+  if(player1Move === MOVES.C && player2Move === MOVES.A) return { draw: false, winner: OUTCOMES.PLAYER_ONE };
 
-  if(player2Move === MOVES.NINJA && player1Move === MOVES.COWBOY) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
-  if(player2Move === MOVES.COWBOY && player1Move === MOVES.BEAR) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
-  if(player2Move === MOVES.BEAR && player1Move === MOVES.NINJA) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
+  if(player2Move === MOVES.A && player1Move === MOVES.B) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
+  if(player2Move === MOVES.B && player1Move === MOVES.C) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
+  if(player2Move === MOVES.C && player1Move === MOVES.A) return { draw: false, winner: OUTCOMES.PLAYER_TWO };
 
   // BOOM! :(
   return null;

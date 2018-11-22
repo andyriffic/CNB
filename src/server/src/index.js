@@ -7,7 +7,7 @@ import receiveMessage from './receiveMessage';
 import type { Message } from './messages/MessageType';
 import { incomingMessageTypes } from './messages/typeConstants';
 
-console.log('Hello cowboy');
+console.log('Hello GAME');
 
 /*
   CONNECT (name)
@@ -55,8 +55,8 @@ export const sendMessage = (msg: Message): void => {
 
 colorLog('------------SCENARIO 1----------', CONSOLE_CYAN);
 receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'ninja' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'A' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'B' } }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
 colorLog('------------SCENARIO 1----------', CONSOLE_CYAN);
 
@@ -64,8 +64,8 @@ receiveMessage(store, {type: incomingMessageTypes.RESET_GAME }, sendMessage);
 
 colorLog('------------SCENARIO 2----------', CONSOLE_CYAN);
 receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'bear' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'B' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'A' } }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
 colorLog('------------SCENARIO 2----------', CONSOLE_CYAN);
 
@@ -73,7 +73,7 @@ receiveMessage(store, {type: incomingMessageTypes.RESET_GAME }, sendMessage);
 
 colorLog('------------SCENARIO 3----------', CONSOLE_CYAN);
 receiveMessage(store, {type: incomingMessageTypes.GET_GAME_VIEW }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'cowboy' } }, sendMessage);
-receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'cowboy' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player1', move: 'C' } }, sendMessage);
+receiveMessage(store, {type: incomingMessageTypes.MAKE_MOVE, payload: { slot: 'player2', move: 'C' } }, sendMessage);
 receiveMessage(store, {type: incomingMessageTypes.RUN_GAME }, sendMessage);
 colorLog('------------SCENARIO 3----------', CONSOLE_CYAN);
