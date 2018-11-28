@@ -10,6 +10,8 @@ import { PlayerSelectionScreen, SpectatorScreen, ResetGameScreen } from './scree
 import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
+import GameSettings, {GameSettingsDrawer} from './game-settings';
+import SoundContext from './sounds/View';
 
 import { IS_PRODUCTION } from './environment';
 
@@ -44,26 +46,31 @@ const App = () => {
   }, [])
 
   return (
-    <ScoreboardApi>
-      <SocketsConnection>
-        <GlobalStyle />
-        <FullScreen>
-          <Router>
-            <SpectatorScreen path="/" />
-            <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
-            <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
-            <ResetGameScreen path="reset" />
-          </Router>
-          <DebugOutput data={connectionDetails} />
-          <EnvironmentBanner isProduction={IS_PRODUCTION}>
-            {
-              IS_PRODUCTION ? 'Production' : 'Test'
-            }
-          </EnvironmentBanner>
-        </FullScreen>
-      </SocketsConnection>
-    </ScoreboardApi>
+    <SoundContext>
+      <GameSettings>
+        <ScoreboardApi>
+          <SocketsConnection>
+            <GlobalStyle />
+            <FullScreen>
+              <GameSettingsDrawer/>
+              <Router>
+                <SpectatorScreen path="/" />
+                <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
+                <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
+                <ResetGameScreen path="reset" />
+              </Router>
+              <DebugOutput data={connectionDetails} />
+              <EnvironmentBanner isProduction={IS_PRODUCTION}>
+                {
+                  IS_PRODUCTION ? 'Production' : 'Test'
+                }
+              </EnvironmentBanner>
+            </FullScreen>
+          </SocketsConnection>
+        </ScoreboardApi>
+      </GameSettings>
+    </SoundContext>
   );
-}
+};
 
 export default App;
