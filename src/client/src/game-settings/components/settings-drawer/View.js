@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import MusicToggle from '../music-toggle';
 
-const drawerWidth = 200;
+const drawerWidth = 300;
 
 const Drawer = styled.div`
+  z-index: 10;
   top: 0;
   width: ${drawerWidth}px;
   padding:20px 10px;
