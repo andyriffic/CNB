@@ -1,10 +1,6 @@
 import React, { useContext } from 'react';
 import GameSettingsContext from '../../../contexts/GameSettingsContext';
-import styled from 'styled-components';
-
-const Button = styled.button`
-  margin: 0;
-`;
+import {Button} from '../../../screens/styled';
 
 const View = () => {
 
@@ -15,7 +11,12 @@ const View = () => {
     musicEnabledSetting.set(!musicEnabledSetting.value);
   };
 
-  return (<Button type="button" onClick={toggleMusic}>music {musicEnabledSetting.value ? 'off' : 'on'}</Button>);
+  return (
+    <Button type="button" onClick={toggleMusic}>
+      {musicEnabledSetting.value ? 'music off' : 'music on'}<br/>
+      {musicEnabledSetting.value ? '放音樂' : '音樂關閉'}
+    </Button>
+  );
 };
 
 export default View;
