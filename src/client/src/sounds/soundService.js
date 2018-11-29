@@ -5,7 +5,7 @@ import bearSound from './bear-win.mp3';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 import waitingSound from './waiting-music-loop.mp3';
-import {isFeatureEnabled, FEATURE_WAITING_MUSIC} from '../featureToggle';
+import countdownBlip from './countdown-blip.wav';
 
 const winnerSoundMapping = {
   cowboy: cowboySound,
@@ -15,7 +15,8 @@ const winnerSoundMapping = {
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
-  POINTS_INCREASE: 'POINTS_INCREASE'
+  POINTS_INCREASE: 'POINTS_INCREASE',
+  COUNTDOWN_BLIP: 'COUNTDOWN_BLIP',
 };
 
 export class SoundService {
@@ -38,9 +39,13 @@ export class SoundService {
     };
 
     this._sounds[SOUND_KEYS.POINTS_INCREASE] = {
-      resumeable: false,
       sound: new Howl({ src: [pointsSound] }),
-    }
+    };
+
+    this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
+      sound: new Howl({ src: [countdownBlip] }),
+    };
+
   }
 
   setMusicEnabled(enabled) {
@@ -80,7 +85,7 @@ export class SoundService {
   }
 
   stop(soundKey) {
-    this._resumableSoundKeys = this._resumableSoundKeys.filter((key) => key != soundKey);
+    this._resumableSoundKeys = this._resumableSoundKeys.filter((key) => key !== soundKey);
     this._sounds[soundKey].sound.stop();
   }
 

@@ -1,8 +1,10 @@
 /* @flow */
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
+import {SOUND_KEYS} from '../../../../sounds/soundService';
 
 const extremeFadeAndScale = keyframes`
     0% {
@@ -34,6 +36,18 @@ const CountdownItem = styled.h1`
 `;
 
 const View = () => {
+
+  const soundService = useContext(GameSoundContext);
+
+  useEffect(() => {
+    //soundService.play(SOUND_KEYS.COUNTDOWN_BLIP, true);
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        soundService.play(SOUND_KEYS.COUNTDOWN_BLIP, true);
+      }, i * 1000);
+    }
+  }, []);
+
   const animationDelay = 0;
 
   return (
