@@ -10,7 +10,7 @@ import { PlayerSelectionScreen, SpectatorScreen, ResetGameScreen } from './scree
 import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
-import GameSettings, {GameSettingsDrawer} from './game-settings';
+import GameSettings from './game-settings';
 import SoundContext from './sounds/View';
 
 import { IS_PRODUCTION } from './environment';
@@ -52,7 +52,6 @@ const App = () => {
           <SocketsConnection>
             <GlobalStyle />
             <FullScreen>
-              <GameSettingsDrawer/>
               <Router>
                 <SpectatorScreen path="/" />
                 <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />

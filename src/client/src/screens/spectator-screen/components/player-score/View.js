@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import ScoreboardContext from '../../../../contexts/ScoreboardContext';
-import {playPointsSound} from '../../../../sounds/soundService';
+import { SOUND_KEYS } from '../../../../sounds/soundService';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
 
 const rubberBandAnimation = keyframes`
   0% {
@@ -105,6 +106,7 @@ const View = ( { playerKey } ) => {
   const [value, setValue] = useState(null);
   const [incremented, setIncremented] = useState(null);
   const [updated, setUpdated] = useState(false);
+  const soundService = useContext(GameSoundContext);
   const scores = useContext(ScoreboardContext);
 
   if (!scores || !playerKey) return null;
@@ -123,7 +125,11 @@ const View = ( { playerKey } ) => {
     if (value !== null) {
       const totalPointsAwarded = playerScore.value - value;
       setIncremented(totalPointsAwarded);
-      playPointsSound(totalPointsAwarded);
+      for (let i = 0; i < totalPointsAwarded; i++) {
+        setTimeout(() => {
+          soundService.play(SOUND_KEYS.POINTS_INCREASE, true);
+        }, i * 600);
+      }
       setUpdated(true);
     }
   });

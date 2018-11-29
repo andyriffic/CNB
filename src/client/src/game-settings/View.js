@@ -4,7 +4,7 @@ import GameSoundContext from '../contexts/GameSoundContext';
 
 const View = ({ children }) => {
 
-  const [musicEnabled, setMusicEnabled] = useState(true);
+  const [musicEnabled, setMusicEnabled] = useState(true); //TODO: Get defaults from game settings, or localStorage 
   const soundService = useContext(GameSoundContext);
   soundService.setMusicEnabled(musicEnabled);
 
@@ -13,7 +13,7 @@ const View = ({ children }) => {
       value: musicEnabled,
       set: (value => {
         setMusicEnabled(value);
-        soundService.setMusicEnabled(value);
+        soundService.setMusicEnabled(value); //pass setting into music service
       }),
     },
   };

@@ -14,6 +14,7 @@ import Result from './components/result';
 import Countdown from './components/countdown';
 import {SOUND_KEYS} from '../../sounds/soundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
+import { GameSettingsDrawer } from '../../game-settings';
 
 const waitingStatuses = [ 'EMPTY', 'WAITING_FOR_PLAYER_1', 'WAITING_FOR_PLAYER_2' ];
 
@@ -46,6 +47,7 @@ const View = () => {
 
   return (
     <React.Fragment>
+      <GameSettingsDrawer/>
       {
         gameState ? (
           <Switch>

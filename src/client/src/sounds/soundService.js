@@ -15,6 +15,7 @@ const winnerSoundMapping = {
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
+  POINTS_INCREASE: 'POINTS_INCREASE'
 };
 
 export class SoundService {
@@ -35,6 +36,11 @@ export class SoundService {
         volume: 0.6,
       }),
     };
+
+    this._sounds[SOUND_KEYS.POINTS_INCREASE] = {
+      resumeable: false,
+      sound: new Howl({ src: [pointsSound] }),
+    }
   }
 
   setMusicEnabled(enabled) {
@@ -55,7 +61,7 @@ export class SoundService {
     }
   }
 
-  play(soundKey) {
+  play(soundKey, forceIfStillPlaying = false) {
 
     //Place sound in resumable sounds in case music gets turned on
     if (this._sounds[soundKey].resumeable && !this._resumableSoundKeys.includes(soundKey)) {
@@ -66,7 +72,7 @@ export class SoundService {
       return;
     }
 
-    if (this._sounds[soundKey].sound.playing()) {
+    if (!forceIfStillPlaying && this._sounds[soundKey].sound.playing()) {
       return;
     }
 
@@ -80,6 +86,7 @@ export class SoundService {
 
 }
 
+//TODO: move this into class above
 export const getWinningSound = (move, isDraw) => {
 
   const soundFile = isDraw ? drawSound : winnerSoundMapping[move];
@@ -88,16 +95,4 @@ export const getWinningSound = (move, isDraw) => {
     src: [soundFile],
   });
 
-};
-
-export const playPointsSound = (numPoints) => {
-  const sound = new Howl({
-    src: [pointsSound],
-  });
-
-  for (let i = 0; i < numPoints; i++) {
-    setTimeout(() => {
-      sound.play();
-    }, i * 600);
-  }
 };
