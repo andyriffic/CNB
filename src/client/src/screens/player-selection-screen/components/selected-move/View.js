@@ -1,15 +1,9 @@
 import React from 'react';
-import { CowboySelector, NinjaSelector, BearSelector } from '../select-move/move-symbols';
 import { PageSubTitle } from '../../../styled';
-
-const moveComponentMapping = {
-    A: NinjaSelector,
-    B: CowboySelector,
-    C: BearSelector,
-}
+import { selectMoveComponentMapping } from '../../../../themes/cowboy-ninja-bear'
 
 const View = ({selectedMove, title, loser}) => {
-    const Component = moveComponentMapping[selectedMove];
+    const Component = selectMoveComponentMapping[selectedMove];
     return (
         <React.Fragment>
             <PageSubTitle>{ title }</PageSubTitle>

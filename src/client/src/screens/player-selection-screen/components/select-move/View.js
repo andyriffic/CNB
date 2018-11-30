@@ -1,9 +1,9 @@
 /* @flow */
 import React from 'react';
 import styled from 'styled-components';
-import { CowboySelector, NinjaSelector, BearSelector } from './move-symbols';
 import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle } from '../../../styled';
+import { selectMoveComponentMapping } from '../../../../themes/cowboy-ninja-bear'
 
 const SelectionList = styled.ul`
     margin: 0;
@@ -29,9 +29,14 @@ const View = ({ onSelection }: MakeMoveSelection) => {
     <React.Fragment>
         <PageSubTitle>Make your move 做你的動作</PageSubTitle>
         <SelectionList>
-            <SelectionListItem><CowboySelector onSelection={ onSelection }/></SelectionListItem>
-            <SelectionListItem><NinjaSelector onSelection={ onSelection }/></SelectionListItem>
-            <SelectionListItem><BearSelector onSelection={ onSelection }/></SelectionListItem>
+          {Object.keys(selectMoveComponentMapping).map(key => {
+            const Component = selectMoveComponentMapping[key];
+            return (
+              <SelectionListItem>
+                <Component onSelection={ onSelection }/>
+              </SelectionListItem>
+            )
+          })}
         </SelectionList>
     </React.Fragment>
   )
