@@ -89,7 +89,6 @@ const TranslatedWinnerText = ( { winner } ) => {
   }
 
   if(winner === 'MELB') {
-    console.log('in2');
     return (
         <React.Fragment>
           MELB WINS! <br />

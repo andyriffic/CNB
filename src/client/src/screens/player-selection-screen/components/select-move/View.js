@@ -32,7 +32,7 @@ const View = ({ onSelection }: MakeMoveSelection) => {
           {Object.keys(selectMoveComponentMapping).map(key => {
             const Component = selectMoveComponentMapping[key];
             return (
-              <SelectionListItem>
+              <SelectionListItem key={key}>
                 <Component onSelection={ onSelection }/>
               </SelectionListItem>
             )

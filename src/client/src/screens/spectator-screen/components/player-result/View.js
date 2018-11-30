@@ -94,7 +94,7 @@ const getCharacter = (move, isWinner) => {
     <Switch>
       {Object.keys(characterMapping).map(key => {
         const CharacterComponent = characterMapping[key];
-        return <CharacterComponent showIf={move === key} height={50} width={50} loser={!isWinner}/>;
+        return <CharacterComponent key={key} showIf={move === key} height={50} width={50} loser={!isWinner}/>;
       })}
     </Switch>
   );
@@ -106,7 +106,7 @@ const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
       {Object.keys(winningAnimationCharacterMapping).map(key => {
         const AnimatedComponent = winningAnimationCharacterMapping[key];
         return (
-        <AnimatedComponent showIf={!isWinner && !isDraw && otherPlayersMove === key}
+        <AnimatedComponent key={key} showIf={!isWinner && !isDraw && otherPlayersMove === key}
           animationDelay={losingAnimationDelay}
           isLeft={isLeft}/>
         );
