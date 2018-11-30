@@ -4,9 +4,7 @@ import styled, { keyframes } from 'styled-components';
 
 import Switch from '../../../../components/switch';
 
-import BearImage from '../../../../components/characters/bear';
-import NinjaImage from '../../../../components/characters/ninja';
-import CowboyImage from '../../../../components/characters/cowboy';
+import { characterMapping, winningAnimationCharacterMapping } from '../../../../themes/cowboy-ninja-bear';
 
 import NinjaWinning from '../../../../components/winning-animations/ninja';
 import BearWinning from '../../../../components/winning-animations/bear';
@@ -94,9 +92,10 @@ const Title = styled.div`
 const getCharacter = (move, isWinner) => {
   return (
     <Switch>
-      <BearImage showIf={move==='C'} height={50} width={50} loser={!isWinner} />
-      <NinjaImage showIf={move==='A'} height={50} width={50} loser={!isWinner} />
-      <CowboyImage showIf={move==='B'} height={50} width={50} loser={!isWinner} />
+      {Object.keys(characterMapping).map(key => {
+        const CharacterComponent = characterMapping[key];
+        return <CharacterComponent showIf={move === key} height={50} width={50} loser={!isWinner}/>;
+      })}
     </Switch>
   );
 }
@@ -104,17 +103,14 @@ const getCharacter = (move, isWinner) => {
 const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
   return (
     <Switch>
-      <CowboyWinning
-        showIf={!isWinner && !isDraw && otherPlayersMove === 'B'}
-        animationDelay={losingAnimationDelay}
-        isLeft={isLeft}
-      />
-      <NinjaWinning
-        showIf={!isWinner && !isDraw && otherPlayersMove === 'A'}
-        animationDelay={losingAnimationDelay}
-        isLeft={isLeft}
-      />
-      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'C'} animationDelay={losingAnimationDelay}/>
+      {Object.keys(winningAnimationCharacterMapping).map(key => {
+        const AnimatedComponent = winningAnimationCharacterMapping[key];
+        return (
+        <AnimatedComponent showIf={!isWinner && !isDraw && otherPlayersMove === key}
+          animationDelay={losingAnimationDelay}
+          isLeft={isLeft}/>
+        );
+      })}
     </Switch>
   );
 }

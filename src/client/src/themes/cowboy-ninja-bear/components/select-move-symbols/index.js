@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Bear from '../../../../components/characters/bear';
-import Ninja from '../../../../components/characters/ninja';
-import Cowboy from '../../../../components/characters/cowboy';
+import Cowboy from '../characters/cowboy';
+import Ninja from '../characters/ninja';
+import Bear from '../characters/bear';
 import TranslatedCharacter from '../../../../components/translated-character-name';
 
 const SymbolBase = styled.div`
