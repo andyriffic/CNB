@@ -3,9 +3,9 @@ import { CowboySelector, NinjaSelector, BearSelector } from '../select-move/move
 import { PageSubTitle } from '../../../styled';
 
 const moveComponentMapping = {
-    cowboy: CowboySelector,
-    ninja: NinjaSelector,
-    bear: BearSelector,
+    A: NinjaSelector,
+    B: CowboySelector,
+    C: BearSelector,
 }
 
 const View = ({selectedMove, title, loser}) => {

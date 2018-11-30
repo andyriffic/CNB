@@ -45,7 +45,7 @@ export const CowboySelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
-                      onClick={ () => onSelection && onSelection('cowboy') }>
+                      onClick={ () => onSelection && onSelection('B') }>
 
             <Title selected={ selected }>
               <TranslatedCharacter character='COWBOY' />
@@ -58,7 +58,7 @@ export const NinjaSelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
-                      onClick={ () => onSelection && onSelection('ninja') }>
+                      onClick={ () => onSelection && onSelection('A') }>
 
             <Title selected={ selected }>
               <TranslatedCharacter character='NINJA' />
@@ -71,7 +71,7 @@ export const BearSelector = ({ onSelection, selected, loser }) => {
     return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
-                      onClick={ () => onSelection && onSelection('bear') }>
+                      onClick={ () => onSelection && onSelection('C') }>
 
             <Title selected={ selected }>
               <TranslatedCharacter character='BEAR' />

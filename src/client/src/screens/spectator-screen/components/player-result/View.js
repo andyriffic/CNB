@@ -94,9 +94,9 @@ const Title = styled.div`
 const getCharacter = (move, isWinner) => {
   return (
     <Switch>
-      <BearImage showIf={move==='bear'} height={50} width={50} loser={!isWinner} />
-      <NinjaImage showIf={move==='ninja'} height={50} width={50} loser={!isWinner} />
-      <CowboyImage showIf={move==='cowboy'} height={50} width={50} loser={!isWinner} />
+      <BearImage showIf={move==='C'} height={50} width={50} loser={!isWinner} />
+      <NinjaImage showIf={move==='A'} height={50} width={50} loser={!isWinner} />
+      <CowboyImage showIf={move==='B'} height={50} width={50} loser={!isWinner} />
     </Switch>
   );
 }
@@ -105,16 +105,16 @@ const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
   return (
     <Switch>
       <CowboyWinning
-        showIf={!isWinner && !isDraw && otherPlayersMove === 'cowboy'}
+        showIf={!isWinner && !isDraw && otherPlayersMove === 'B'}
         animationDelay={losingAnimationDelay}
         isLeft={isLeft}
       />
       <NinjaWinning
-        showIf={!isWinner && !isDraw && otherPlayersMove === 'ninja'}
+        showIf={!isWinner && !isDraw && otherPlayersMove === 'A'}
         animationDelay={losingAnimationDelay}
         isLeft={isLeft}
       />
-      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'bear'} animationDelay={losingAnimationDelay}/>
+      <BearWinning showIf={!isWinner && !isDraw && otherPlayersMove === 'C'} animationDelay={losingAnimationDelay}/>
     </Switch>
   );
 }
