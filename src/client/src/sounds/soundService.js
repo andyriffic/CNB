@@ -1,17 +1,8 @@
 import {Howl} from 'howler';
-import cowboySound from './cowboy-win.mp3';
-import ninjaSound from './ninja-win.mp3';
-import bearSound from './bear-win.wav';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
-import waitingSound from './waiting-music-loop.mp3';
 import countdownBlip from './countdown-blip.wav';
-
-const winnerSoundMapping = {
-  cowboy: cowboySound,
-  ninja: ninjaSound,
-  bear: bearSound,
-};
+import { winningSoundMapping, waitingSound } from '../themes/cowboy-ninja-bear';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -94,7 +85,7 @@ export class SoundService {
 //TODO: move this into class above
 export const getWinningSound = (move, isDraw) => {
 
-  const soundFile = isDraw ? drawSound : winnerSoundMapping[move];
+  const soundFile = isDraw ? drawSound : winningSoundMapping[move];
 
   return new Howl({
     src: [soundFile],
