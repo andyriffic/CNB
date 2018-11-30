@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Cowboy from '../characters/cowboy';
 import Ninja from '../characters/ninja';
 import Bear from '../characters/bear';
-import TranslatedCharacter from '../../../../components/translated-character-name';
+import { characterNameMapping } from '../../../cowboy-ninja-bear';
 
 const SymbolBase = styled.div`
     background-color: #ffb758;
@@ -48,7 +48,7 @@ export const CowboySelector = ({ onSelection, selected, loser }) => {
                       onClick={ () => onSelection && onSelection('B') }>
 
             <Title selected={ selected }>
-              <TranslatedCharacter character='COWBOY' />
+              { characterNameMapping['B'] }
             </Title>
             <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
@@ -61,7 +61,7 @@ export const NinjaSelector = ({ onSelection, selected, loser }) => {
                       onClick={ () => onSelection && onSelection('A') }>
 
             <Title selected={ selected }>
-              <TranslatedCharacter character='NINJA' />
+              { characterNameMapping['A'] }
             </Title>
             <Ninja height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
@@ -74,7 +74,7 @@ export const BearSelector = ({ onSelection, selected, loser }) => {
                       onClick={ () => onSelection && onSelection('C') }>
 
             <Title selected={ selected }>
-              <TranslatedCharacter character='BEAR' />
+              { characterNameMapping['C'] }
             </Title>
             <Bear height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);

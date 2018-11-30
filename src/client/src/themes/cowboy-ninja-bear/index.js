@@ -8,6 +8,12 @@ import CowboyWinning from './components/winning-animations/cowboy';
 import NinjaWinning from './components/winning-animations/ninja';
 import BearWinning from './components/winning-animations/bear';
 
+export const characterNameMapping = {
+  A: 'Ninja 忍者',
+  B: 'Cowboy 牛仔',
+  C: 'Bear 熊',
+}
+
 export const selectMoveComponentMapping = {
   A: NinjaSelector,
   B: CowboySelector,

@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import TranslatedCharacter from '../../../../components/translated-character-name';
+import { characterNameMapping } from '../../../../themes/cowboy-ninja-bear';
 
 type Props = {
   result: Object,
@@ -110,11 +110,11 @@ const View = ( { player1, player2, result }: Props ) => {
     <WinnerView>
       <ResultContainer>
         <WinnerAnimated>
-          <TranslatedCharacter character={winner.move} />
+          { characterNameMapping[winner.move] }
         </WinnerAnimated>
         <BeatsAnimated>beats 打败</BeatsAnimated>
         <LoserAnimated>
-          <TranslatedCharacter character={loser.move} />
+          { characterNameMapping[loser.move] }
         </LoserAnimated>
       </ResultContainer>
       <WinnerHeading>
