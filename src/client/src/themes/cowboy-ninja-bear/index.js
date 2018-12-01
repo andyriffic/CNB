@@ -36,7 +36,7 @@ export default {
       B: CowboyWinning,
       C: BearWinning,
     },
-    winningSoundsMapping: {
+    winningSoundMapping: {
       A: ninjaWinningSound,
       B: cowboyWinningSound,
       C: bearWinningSound,

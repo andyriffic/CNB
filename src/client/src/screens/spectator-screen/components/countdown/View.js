@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
-import {SOUND_KEYS} from '../../../../sounds/soundService';
+import {SOUND_KEYS} from '../../../../sounds/SoundService';
 
 const extremeFadeAndScale = keyframes`
     0% {

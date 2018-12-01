@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import PlayerResult from '../player-result';
@@ -8,7 +8,7 @@ import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
-import { useWinningSoundEffect } from './useWinningSoundEffect';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
 
 type Props = {
   result: Object,
@@ -25,11 +25,21 @@ const BonusHeading = styled.h2`
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
+  const soundService = useContext(GameSoundContext);
+
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = (result.winner === 'player1');
   const isPlayer2Winner = (result.winner === 'player2');
 
-  useWinningSoundEffect(winner.move, result.draw, 1000);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      soundService.playWinningSound(winner.move, result.draw);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [])
 
   return (
     <Page>
