@@ -114,7 +114,7 @@ const View = ( { player1, player2, result }: Props ) => {
         </WinnerAnimated>
         <BeatsAnimated>beats 打败</BeatsAnimated>
         <LoserAnimated>
-          { theme.characters.nameMapping[winner.move] }
+          { theme.characters.nameMapping[loser.move] }
         </LoserAnimated>
       </ResultContainer>
       <WinnerHeading>
