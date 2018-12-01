@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle } from '../../../styled';
-import { selectMoveComponentMapping } from '../../../../themes/cowboy-ninja-bear'
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const SelectionList = styled.ul`
     margin: 0;
@@ -25,12 +25,15 @@ const SelectionListItem = styled.li`
 `
 
 const View = ({ onSelection }: MakeMoveSelection) => {
+
+  const theme = useContext(GameThemeContext);
+
   return (
     <React.Fragment>
         <PageSubTitle>Make your move 做你的動作</PageSubTitle>
         <SelectionList>
-          {Object.keys(selectMoveComponentMapping).map(key => {
-            const Component = selectMoveComponentMapping[key];
+          {Object.keys(theme.characters.selectMoveMapping).map(key => {
+            const Component = theme.characters.selectMoveMapping[key];
             return (
               <SelectionListItem key={key}>
                 <Component onSelection={ onSelection }/>

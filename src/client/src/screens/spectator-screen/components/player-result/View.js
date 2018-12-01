@@ -1,12 +1,11 @@
 /* @flow */
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import Switch from '../../../../components/switch';
 
-import { characterMapping, winningAnimationCharacterMapping } from '../../../../themes/cowboy-ninja-bear';
-
 import TranslatedPlayerName from '../../../../components/translated-player-name';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 type Props = {
   player: Object,
@@ -85,7 +84,7 @@ const Title = styled.div`
     text-align: center;
 `;
 
-const getCharacter = (move, isWinner) => {
+const getCharacter = (characterMapping, move, isWinner) => {
   return (
     <Switch>
       {Object.keys(characterMapping).map(key => {
@@ -96,11 +95,11 @@ const getCharacter = (move, isWinner) => {
   );
 }
 
-const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
+const getLosingAnimation = (animationMapping, isWinner, isDraw, otherPlayersMove, isLeft) => {
   return (
     <Switch>
-      {Object.keys(winningAnimationCharacterMapping).map(key => {
-        const AnimatedComponent = winningAnimationCharacterMapping[key];
+      {Object.keys(animationMapping).map(key => {
+        const AnimatedComponent = animationMapping[key];
         return (
         <AnimatedComponent key={key} showIf={!isWinner && !isDraw && otherPlayersMove === key}
           animationDelay={losingAnimationDelay}
@@ -113,6 +112,11 @@ const getLosingAnimation = (isWinner, isDraw, otherPlayersMove, isLeft) => {
 
 
 const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove, isLeft}: Props ) => {
+
+  const theme = useContext(GameThemeContext);
+  const characterMapping = theme.characters.characterMapping;
+  const animationMapping = theme.characters.winningAnimationMapping;
+
   return (
     <React.Fragment>
       <Container>
@@ -120,9 +124,9 @@ const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove, isLeft}: Pro
           <TranslatedPlayerName playerName={ player.name } />
         </Title>
         <CharacterPosition>
-          <InitialCharacterAnimaton>{ getCharacter(player.move, true) }</InitialCharacterAnimaton>
-          <ResultCharacterAnimation>{ getCharacter(player.move, isWinner) }</ResultCharacterAnimation>
-          <AnimatedLoss>{ getLosingAnimation(isWinner, isDraw, otherPlayersMove, isLeft) }</AnimatedLoss>
+          <InitialCharacterAnimaton>{ getCharacter(characterMapping, player.move, true) }</InitialCharacterAnimaton>
+          <ResultCharacterAnimation>{ getCharacter(characterMapping, player.move, isWinner) }</ResultCharacterAnimation>
+          <AnimatedLoss>{ getLosingAnimation(animationMapping, isWinner, isDraw, otherPlayersMove, isLeft) }</AnimatedLoss>
         </CharacterPosition>
       </Container>
     </React.Fragment>

@@ -12,6 +12,7 @@ import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
 import GameSettings from './game-settings';
 import SoundContext from './sounds/View';
+import GameTheme from './themes';
 
 import { IS_PRODUCTION } from './environment';
 
@@ -49,23 +50,25 @@ const App = () => {
     <SoundContext>
       <GameSettings>
         <ScoreboardApi>
-          <SocketsConnection>
-            <GlobalStyle />
-            <FullScreen>
-              <Router>
-                <SpectatorScreen path="/" />
-                <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
-                <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
-                <ResetGameScreen path="reset" />
-              </Router>
-              <DebugOutput data={connectionDetails} />
-              <EnvironmentBanner isProduction={IS_PRODUCTION}>
-                {
-                  IS_PRODUCTION ? 'Production' : 'Test'
-                }
-              </EnvironmentBanner>
-            </FullScreen>
-          </SocketsConnection>
+          <GameTheme>
+            <SocketsConnection>
+              <GlobalStyle />
+              <FullScreen>
+                <Router>
+                  <SpectatorScreen path="/" />
+                  <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
+                  <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
+                  <ResetGameScreen path="reset" />
+                </Router>
+                <DebugOutput data={connectionDetails} />
+                <EnvironmentBanner isProduction={IS_PRODUCTION}>
+                  {
+                    IS_PRODUCTION ? 'Production' : 'Test'
+                  }
+                </EnvironmentBanner>
+              </FullScreen>
+            </SocketsConnection>
+          </GameTheme>
         </ScoreboardApi>
       </GameSettings>
     </SoundContext>

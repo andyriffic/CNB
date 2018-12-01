@@ -1,7 +1,7 @@
 /* @flow */
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { characterNameMapping } from '../../../../themes/cowboy-ninja-bear';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 type Props = {
   result: Object,
@@ -102,6 +102,7 @@ const TranslatedWinnerText = ( { winner } ) => {
 }
 
 const View = ( { player1, player2, result }: Props ) => {
+  const theme = useContext(GameThemeContext);
   const winner = (result.winner === 'player1') ? player1 : player2;
   const loser = (winner === player1) ? player2 : player1;
 
@@ -109,11 +110,11 @@ const View = ( { player1, player2, result }: Props ) => {
     <WinnerView>
       <ResultContainer>
         <WinnerAnimated>
-          { characterNameMapping[winner.move] }
+          { theme.characters.nameMapping[winner.move] }
         </WinnerAnimated>
         <BeatsAnimated>beats 打败</BeatsAnimated>
         <LoserAnimated>
-          { characterNameMapping[loser.move] }
+          { theme.characters.nameMapping[winner.move] }
         </LoserAnimated>
       </ResultContainer>
       <WinnerHeading>

@@ -13,28 +13,38 @@ import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import ninjaWinningSound from './sounds/ninja-win.mp3';
 import bearWinningSound from './sounds/bear-win.wav';
 
-export const characterNameMapping = {
-  A: 'Ninja 忍者',
-  B: 'Cowboy 牛仔',
-  C: 'Bear 熊',
-}
 
-export const selectMoveComponentMapping = {
-  A: NinjaSelector,
-  B: CowboySelector,
-  C: BearSelector,
-}
-
-export const characterMapping = {
-  A: NinjaCharacter,
-  B: CowboyCharacter,
-  C: BearCharacter,
-}
-
-export const winningAnimationCharacterMapping = {
-  A: NinjaWinning,
-  B: CowboyWinning,
-  C: BearWinning,
+export default {
+  characters: {
+    nameMapping: {
+      A: 'Ninja 忍者',
+      B: 'Cowboy 牛仔',
+      C: 'Bear 熊',
+    },
+    selectMoveMapping: {
+      A: NinjaSelector,
+      B: CowboySelector,
+      C: BearSelector,
+    },
+    characterMapping: {
+      A: NinjaCharacter,
+      B: CowboyCharacter,
+      C: BearCharacter,
+    },
+    winningAnimationMapping: {
+      A: NinjaWinning,
+      B: CowboyWinning,
+      C: BearWinning,
+    },
+    winningSoundsMapping: {
+      A: ninjaWinningSound,
+      B: cowboyWinningSound,
+      C: bearWinningSound,
+    }
+  },
+  music: {
+    waitingMusic: waitingSound,
+  },
 }
 
 export { waitingSound };

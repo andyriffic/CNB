@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import Cowboy from '../characters/cowboy';
 import Ninja from '../characters/ninja';
 import Bear from '../characters/bear';
-import { characterNameMapping } from '../../../cowboy-ninja-bear';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const SymbolBase = styled.div`
     background-color: #ffb758;
@@ -42,39 +42,42 @@ const StyledCharacter = styled(SymbolBase)`
 const symbolSize = (selected) => selected ? 50 : 30;
 
 export const CowboySelector = ({ onSelection, selected, loser }) => {
-    return (
-        <StyledCharacter selectable={ !!onSelection }
-                      selected={ selected }
-                      onClick={ () => onSelection && onSelection('B') }>
+  const theme = useContext(GameThemeContext);
+  return (
+      <StyledCharacter selectable={ !!onSelection }
+                    selected={ selected }
+                    onClick={ () => onSelection && onSelection('B') }>
 
-            <Title selected={ selected }>
-              { characterNameMapping['B'] }
-            </Title>
-            <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
-        </StyledCharacter>);
+          <Title selected={ selected }>
+            { theme.characters.nameMapping['B'] }
+          </Title>
+          <Cowboy height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
+      </StyledCharacter>);
 }
 
 export const NinjaSelector = ({ onSelection, selected, loser }) => {
-    return (
+  const theme = useContext(GameThemeContext);
+  return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('A') }>
 
             <Title selected={ selected }>
-              { characterNameMapping['A'] }
+              { theme.characters.nameMapping['A'] }
             </Title>
             <Ninja height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
 }
 
 export const BearSelector = ({ onSelection, selected, loser }) => {
-    return (
+  const theme = useContext(GameThemeContext);
+  return (
         <StyledCharacter selectable={ !!onSelection }
                       selected={ selected }
                       onClick={ () => onSelection && onSelection('C') }>
 
             <Title selected={ selected }>
-              { characterNameMapping['C'] }
+              { theme.characters.nameMapping['C'] }
             </Title>
             <Bear height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);

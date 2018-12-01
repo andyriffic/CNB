@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { PageSubTitle } from '../../../styled';
-import { selectMoveComponentMapping } from '../../../../themes/cowboy-ninja-bear'
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const View = ({selectedMove, title, loser}) => {
-    const Component = selectMoveComponentMapping[selectedMove];
-    return (
-        <React.Fragment>
-            <PageSubTitle>{ title }</PageSubTitle>
-            <Component selected={ true } loser={ loser }/>
-        </React.Fragment>
-    )
+
+  const theme = useContext(GameThemeContext);
+  const Component = theme.characters.selectMoveMapping[selectedMove];
+
+  return (
+      <React.Fragment>
+          <PageSubTitle>{ title }</PageSubTitle>
+          <Component selected={ true } loser={ loser }/>
+      </React.Fragment>
+  )
 }
 
 export default View;
