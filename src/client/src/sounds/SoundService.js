@@ -2,7 +2,6 @@ import {Howl} from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 import countdownBlip from './countdown-blip.wav';
-import { winningSoundMapping, waitingSound } from '../themes/cowboy-ninja-bear';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -12,18 +11,21 @@ export const SOUND_KEYS = {
 
 export class SoundService {
 
+  _theme: null;
   _sounds = {};
   _resumableSoundKeys = []; //Sounds that can be played when music is toggled back on
   _musicEnabled: false;
 
-  constructor(musicEnabled) {
+  constructor(theme, musicEnabled = false) {
+    if (!theme) { throw new Error('Sound Service requires a theme'); }
+    this._theme = theme;
     this._musicEnabled = musicEnabled;
 
     //Pre-load sounds
     this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
       resumeable: true,
       sound: new Howl({
-        src: [waitingSound],
+        src: [theme.music.waitingMusic],
         loop: true,
         volume: 0.6,
       }),
@@ -80,15 +82,14 @@ export class SoundService {
     this._sounds[soundKey].sound.stop();
   }
 
+  playWinningSound(winningMove, isDraw,) {
+    //TODO: not convinced this is the way to do winning sound but here just to get refactoring into SoundServce
+    const soundFile = isDraw ? drawSound : this._theme.characters.winningSoundMapping[winningMove];
+    const sound = new Howl({
+      src: [soundFile],
+    });
+
+    sound.play();
+  }
+
 }
-
-//TODO: move this into class above
-export const getWinningSound = (move, isDraw) => {
-
-  const soundFile = isDraw ? drawSound : winningSoundMapping[move];
-
-  return new Howl({
-    src: [soundFile],
-  });
-
-};

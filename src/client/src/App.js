@@ -11,7 +11,7 @@ import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
 import GameSettings from './game-settings';
-import SoundContext from './sounds/View';
+import Sound from './sounds/Provider';
 import GameTheme from './themes';
 
 import { IS_PRODUCTION } from './environment';
@@ -47,31 +47,31 @@ const App = () => {
   }, [])
 
   return (
-    <SoundContext>
-      <GameSettings>
-        <ScoreboardApi>
-          <GameTheme>
-            <SocketsConnection>
-              <GlobalStyle />
-              <FullScreen>
-                <Router>
-                  <SpectatorScreen path="/" />
-                  <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
-                  <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
-                  <ResetGameScreen path="reset" />
-                </Router>
-                <DebugOutput data={connectionDetails} />
-                <EnvironmentBanner isProduction={IS_PRODUCTION}>
-                  {
-                    IS_PRODUCTION ? 'Production' : 'Test'
-                  }
-                </EnvironmentBanner>
-              </FullScreen>
-            </SocketsConnection>
-          </GameTheme>
-        </ScoreboardApi>
-      </GameSettings>
-    </SoundContext>
+    <GameTheme>
+      <Sound>
+        <GameSettings>
+          <ScoreboardApi>
+              <SocketsConnection>
+                <GlobalStyle />
+                <FullScreen>
+                  <Router>
+                    <SpectatorScreen path="/" />
+                    <PlayerSelectionScreen path="xian" playerKey={ 'XIAN' } />
+                    <PlayerSelectionScreen path="melb" playerKey={ 'MELB' } />
+                    <ResetGameScreen path="reset" />
+                  </Router>
+                  <DebugOutput data={connectionDetails} />
+                  <EnvironmentBanner isProduction={IS_PRODUCTION}>
+                    {
+                      IS_PRODUCTION ? 'Production' : 'Test'
+                    }
+                  </EnvironmentBanner>
+                </FullScreen>
+              </SocketsConnection>
+          </ScoreboardApi>
+        </GameSettings>
+      </Sound>
+    </GameTheme>
   );
 };
 

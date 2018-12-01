@@ -12,7 +12,7 @@ import Loading from './components/loading';
 import Ready from './components/ready';
 import Result from './components/result';
 import Countdown from './components/countdown';
-import {SOUND_KEYS} from '../../sounds/soundService';
+import {SOUND_KEYS} from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
 

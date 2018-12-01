@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import ScoreboardContext from '../../../../contexts/ScoreboardContext';
-import { SOUND_KEYS } from '../../../../sounds/soundService';
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 
 const rubberBandAnimation = keyframes`
