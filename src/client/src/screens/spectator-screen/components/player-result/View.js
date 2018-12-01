@@ -6,10 +6,6 @@ import Switch from '../../../../components/switch';
 
 import { characterMapping, winningAnimationCharacterMapping } from '../../../../themes/cowboy-ninja-bear';
 
-import NinjaWinning from '../../../../components/winning-animations/ninja';
-import BearWinning from '../../../../components/winning-animations/bear';
-import CowboyWinning from '../../../../components/winning-animations/cowboy';
-
 import TranslatedPlayerName from '../../../../components/translated-player-name';
 
 type Props = {
