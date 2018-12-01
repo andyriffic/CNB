@@ -13,8 +13,8 @@ const View = () => {
 
   return (
     <Button type="button" onClick={toggleMusic}>
-      {musicEnabledSetting.value ? 'music off' : 'music on'}<br/>
-      {musicEnabledSetting.value ? '放音樂' : '音樂關閉'}
+      {musicEnabledSetting.value ? 'sound off' : 'sound on'}<br/>
+      {musicEnabledSetting.value ? '發聲' : '聲音'}
     </Button>
   );
 };

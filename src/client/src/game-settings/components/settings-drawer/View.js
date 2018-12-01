@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import MusicToggle from '../music-toggle';
+import SoundToggle from '../sound-toggle';
 
 const drawerWidth = 300;
 
@@ -44,7 +44,7 @@ const View = () => {
   return (
     <Drawer className={open ? 'open' : 'closed'}>
       <DrawerToggle onClick={toggleDrawer}/>
-      <MusicToggle/>
+      <SoundToggle/>
     </Drawer>
   );
 };
