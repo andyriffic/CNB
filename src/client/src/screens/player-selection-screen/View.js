@@ -14,6 +14,7 @@ import Switch from '../../components/switch';
 import { Page, PageHeader, PageBody } from '../styled';
 
 import TranslatedPlayerName from '../../components/translated-player-name';
+import GameThemeContext from '../../contexts/GameThemeContext';
 
 type Props = {
   //todo: do better than this
@@ -24,6 +25,7 @@ const hasGameResult = (gameState) => !!(gameState && gameState.result);
 const playerHasMoved = (gameState, playerState) => playerState && playerState.player && playerState.player.moved;
 
 const View = ( { playerKey }: Props ) => {
+  const theme = useContext(GameThemeContext);
   const playerState = usePlayerState(playerKey);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
@@ -37,8 +39,8 @@ const View = ( { playerKey }: Props ) => {
   if (!playerState) return null;
 
   return (
-    <Page>
-      <PageHeader>
+    <Page { ...theme.style }>
+      <PageHeader { ...theme.style }>
         <TranslatedPlayerName playerName={playerState.player.name} />
       </PageHeader>
       <PageBody column={ true }>

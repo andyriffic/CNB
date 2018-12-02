@@ -77,7 +77,7 @@ export const BearSelector = ({ onSelection, selected, loser }) => {
                       onClick={ () => onSelection && onSelection('C') }>
 
             <Title selected={ selected }>
-              { theme.characters.nameMapping['C'] } Yo yo
+              { theme.characters.nameMapping['C'] }
             </Title>
             <Bear height={symbolSize(selected)} width={symbolSize(selected)} loser={ loser } />
         </StyledCharacter>);
