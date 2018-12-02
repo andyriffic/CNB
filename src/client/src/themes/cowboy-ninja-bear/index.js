@@ -9,6 +9,8 @@ import NinjaWinning from './components/winning-animations/ninja';
 import BearWinning from './components/winning-animations/bear';
 
 import waitingSound from './sounds/waiting-music-loop.mp3';
+import countdownBeep from '../../sounds/countdown-blip.wav';
+
 import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import ninjaWinningSound from './sounds/ninja-win.mp3';
 import bearWinningSound from './sounds/bear-win.wav';
@@ -42,8 +44,9 @@ export default {
       C: bearWinningSound,
     }
   },
-  music: {
+  sounds: {
     waitingMusic: waitingSound,
+    countdownBeep,
   },
 }
 

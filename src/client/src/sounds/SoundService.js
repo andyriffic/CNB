@@ -1,7 +1,6 @@
 import {Howl} from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
-import countdownBlip from './countdown-blip.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -25,7 +24,7 @@ export class SoundService {
     this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
       resumeable: true,
       sound: new Howl({
-        src: [theme.music.waitingMusic],
+        src: [theme.sounds.waitingMusic],
         loop: true,
         volume: 0.6,
       }),
@@ -36,7 +35,7 @@ export class SoundService {
     };
 
     this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
-      sound: new Howl({ src: [countdownBlip] }),
+      sound: new Howl({ src: [theme.sounds.countdownBeep] }),
     };
 
   }
