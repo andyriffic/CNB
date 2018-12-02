@@ -9,6 +9,7 @@ import Winner from '../winner';
 import Switch from '../../../../components/switch';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 type Props = {
   result: Object,
@@ -25,6 +26,7 @@ const BonusHeading = styled.h2`
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
+  const theme = useContext(GameThemeContext);
   const soundService = useContext(GameSoundContext);
 
   const winner = result.winner === 'player1' ? player1 : player2;
@@ -42,8 +44,8 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   }, [])
 
   return (
-    <Page>
-      <PageHeader>Result 结果</PageHeader>
+    <Page { ...theme.style }>
+      <PageHeader { ...theme.style }>Result 结果</PageHeader>
       <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>

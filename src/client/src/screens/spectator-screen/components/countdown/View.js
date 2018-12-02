@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import {SOUND_KEYS} from '../../../../sounds/SoundService';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const extremeFadeAndScale = keyframes`
     0% {
@@ -37,6 +38,7 @@ const CountdownItem = styled.h1`
 
 const View = () => {
 
+  const theme = useContext(GameThemeContext);
   const soundService = useContext(GameSoundContext);
 
   useEffect(() => {
@@ -51,8 +53,8 @@ const View = () => {
   const animationDelay = 0;
 
   return (
-    <Page>
-      <PageHeader>Result 结果</PageHeader>
+    <Page { ...theme.style }>
+      <PageHeader { ...theme.style }>Result 结果</PageHeader>
       <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <CountdownContainer>

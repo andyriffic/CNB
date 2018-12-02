@@ -1,10 +1,11 @@
 /* @flow */
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, Page, PageHeader, PageBody } from '../../../styled';
 
 import PlayerScore from '../player-score';
 import PlayerStatus from '../player-status';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 type Props = {
   player1: Object,
@@ -19,9 +20,10 @@ const BonusHeading = styled.h2`
 `;
 
 const View = ( {player1, player2, playGame }: Props ) => {
+  const theme = useContext(GameThemeContext);
   return (
-    <Page>
-      <PageHeader>Ready 准备</PageHeader>
+    <Page { ...theme.style }>
+      <PageHeader { ...theme.style }>Ready 准备</PageHeader>
       <PageBody column={ true }>
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>

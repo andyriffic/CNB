@@ -18,8 +18,8 @@ export const Page = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #6ba2cc;
-    color: #20253F;
+    background-color: ${props => props.pageBackgroundColor || '#6ba2cc'};
+    color: ${props => props.textColor || '#20253F'};
 `;
 
 export const PageHeader = styled.div`
@@ -28,7 +28,7 @@ export const PageHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #9DADBC;
+    background-color: ${props => props.headerBackgroundColor || '#9DADBC'};
 `;
 
 export const PageBody = styled.div`

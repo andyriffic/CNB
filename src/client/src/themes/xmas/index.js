@@ -45,6 +45,11 @@ export default {
   music: {
     waitingMusic: waitingSound,
   },
+  style: {
+    headerBackgroundColor: 'darkgreen',
+    pageBackgroundColor: 'darkred',
+    textColor: 'white',
+  }
 }
 
 export { waitingSound };
