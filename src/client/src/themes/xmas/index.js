@@ -8,7 +8,7 @@ import CowboyWinning from './components/winning-animations/cowboy';
 import NinjaWinning from './components/winning-animations/ninja';
 import BearWinning from './components/winning-animations/bear';
 
-import waitingSound from './sounds/xmas-music.mp3';
+import waitingSound from './sounds/jingle-bells.mp3';
 import countdownBeep from './sounds/bell.wav';
 
 import cowboyWinningSound from './sounds/cowboy-win.mp3';
