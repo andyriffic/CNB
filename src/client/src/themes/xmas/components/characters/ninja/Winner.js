@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled from 'styled-components';
-import image from './ninja-xmas.jpg'
+import image from './ninja-xmas.png'
 
 const StyledNinja = styled.img`
   height: ${props=> props.height}px;

@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled from 'styled-components';
-import image from './cowboy.jpg';
+import image from './cowboy.png';
 
 const StyledCowboy = styled.img`
 `;

@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import styled from 'styled-components';
-import image from './ebenezer-claws.jpg';
+import image from './ebenezer-claws.png';
 
 const StyledBear = styled.img`
 `;
