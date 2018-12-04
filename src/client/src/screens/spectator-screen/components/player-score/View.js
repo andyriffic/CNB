@@ -53,7 +53,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  font-family: 'Copse', serif;
+  font-family: 'Changa One', cursive;
 `;
 
 const Badge = styled.div`
@@ -61,7 +61,6 @@ const Badge = styled.div`
   right: 0;
   top: 0;
   box-sizing:border-box;
-  font-family: 'Trebuchet MS', sans-serif;
   background: #ff0000;
   cursor:default;
   border-radius: 50%;
