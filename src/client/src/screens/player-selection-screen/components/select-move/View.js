@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
-import { PageSubTitle } from '../../../styled';
+import {media, PageSubTitle} from '../../../styled';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const SelectionList = styled.ul`
@@ -12,6 +12,11 @@ const SelectionList = styled.ul`
     flex-direction: column;
     height: 100%;
     width: 100%;
+    
+    ${media.largeScreen`
+      flex-direction: row;
+      padding: 5px;
+    `}
 `;
 
 const SelectionListItem = styled.li`
@@ -22,7 +27,11 @@ const SelectionListItem = styled.li`
     overflow: hidden;
     margin-bottom: 10px;
     flex: 1;
-`
+    
+    ${media.largeScreen`      
+      padding: 5px;
+    `}
+`;
 
 const View = ({ onSelection }: MakeMoveSelection) => {
 
