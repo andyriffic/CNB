@@ -54,11 +54,3 @@ export default {
     textColor: 'white',
   }
 }
-
-export { waitingSound };
-
-export const winningSoundMapping = {
-  A: ninjaWinningSound,
-  B: cowboyWinningSound,
-  C: bearWinningSound,
-}
