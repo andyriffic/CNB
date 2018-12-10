@@ -17,7 +17,12 @@ const isDecemberAndBeforeChristmasDay = () => {
 
 const View = ({children}) => {
 
-  const theme = isDecemberAndBeforeChristmasDay() ? XmasTheme : CowboyNinjaBearTheme;
+  let theme;
+  if (isFeatureEnabled('normal')) {
+    theme = CowboyNinjaBearTheme;
+  } else {
+    theme = isDecemberAndBeforeChristmasDay() ? XmasTheme : CowboyNinjaBearTheme;
+  }
 
   return (
     <GameThemeContext.Provider value={theme}>
