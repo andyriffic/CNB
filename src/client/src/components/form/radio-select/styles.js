@@ -19,18 +19,25 @@ export const Label = styled.label`
   display: block;
   position: relative;
   cursor: pointer;
-  transition: all 0.25s linear;
+  transition: color 300ms linear;
   padding-left: 30px;
+  z-index: 1;
+
+  &:hover {
+    color: green;
+  }
 `;
 
 export const Radio = styled.input`
   position: absolute;
   visibility: hidden;
-  width: 100%;
-  height: 100%;
 
   &:checked ~ .check {
     background-color: steelblue;
+  }
+
+  &:checked ~ label {
+    color: steelblue;
   }
 `;
 
@@ -39,7 +46,7 @@ export const Check = styled.div`
   height: 20px;
   background-color: lightgrey;
   border-radius: 50%;
-  transition: all 300ms linear;
+  transition: background-color 300ms linear;
   position: absolute;
   top: 10px;
   left: 0;
