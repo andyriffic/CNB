@@ -2,13 +2,12 @@ import React from 'react';
 import { Heading, RadioContainer, RadioItem, Label, Radio, Check } from './styles';
 
 const View = ({ title, items, selectedValue, onChange }) => {
-
   return (
     <div>
       <Heading>{title}</Heading>
       <RadioContainer className="radio-items">
-        {items.map((item, index) => {
-          const itemId = `item_${index}`;
+        {items.map(item => {
+          const itemId = `radioItem_${item.id}`;
           return (
             <RadioItem key={item.value} className="radio-item">
               <Radio type="radio"
