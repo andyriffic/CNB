@@ -4,8 +4,8 @@ import RadioSelectList from '../../../components/form/radio-select';
 
 
 const SoundOptions = [
-  { id: 'soundOn', label: 'On 上', value: true },
-  { id: 'soundOff', label: 'Off 離', value: false },
+  { id: 'soundOn', label: 'On 開', value: true },
+  { id: 'soundOff', label: 'Off 關', value: false },
 ];
 
 const View = () => {
