@@ -8,23 +8,20 @@
 auto/start
 ```
 
+## Local dev
+
 ### npm
 
-```
-npm run start
-```
+1. run `npm install`
+2. open two terminals
+3. in one terminal run `npm run local:client`
+4. in another terminal run `npm run local:server`
 
-## Just client
 
-```
-cd src/client
-npm install
-npm start
-```
+Any dev in client will auto-update, any dev on server you'll need to stop/start **local:server** process
 
-TODO: a way to simulate the socket server?
 
-## Publish image to AWS
+## Publish to prod or staging
 
 Open file `~/.aws/credentials`
 Add the following section
@@ -35,6 +32,11 @@ aws_access_key_id = GET_ME_FROM_SOMEONE_WHO_KNOWS
 aws_secret_access_key = GET_ME_FROM_SOMEONE_WHO_KNOWS
 ```
 
-Then login to AWS by running `$(aws ecr get-login --no-include-email --region ap-southeast-2 --profile cnb)`
+Then login to AWS by running the following to create login command in your clipboard:
 
-You can then run the `auto/build-publish-container` command to publish the latest version
+```bash
+(aws ecr get-login --no-include-email --region ap-southeast-2 --profile cnb) | pbcopy
+```
+Then paste the login command and execute.
+
+You can then run the `auto/deploy-staging` or `auto/deploy-prod` command to deploy the latest version
