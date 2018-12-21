@@ -40,8 +40,8 @@ const fadeIn = keyframes`
 
 const Container = styled.div`
   background-color: #ffb758;
-  height: 200px;
-  width: 200px;
+  height: 22vmin;
+  width: 22vmin;
 `;
 
 const CharacterPosition = styled.div`

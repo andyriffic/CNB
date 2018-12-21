@@ -20,7 +20,7 @@ type Props = {
 
 const BonusPointSection = styled.div`
   text-align: center;
-  width: 15vw;
+  width: 20vmin;
   margin: 0 auto;
 `;
 
