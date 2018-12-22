@@ -82,6 +82,11 @@ export class SoundService {
   }
 
   playWinningSound(winningMove, isDraw,) {
+
+    if (!this._musicEnabled) {
+      return;
+    }
+
     //TODO: not convinced this is the way to do winning sound but here just to get refactoring into SoundServce
     const soundFile = isDraw ? drawSound : this._theme.characters.winningSoundMapping[winningMove];
     const sound = new Howl({
