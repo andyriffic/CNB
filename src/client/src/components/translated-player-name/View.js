@@ -6,7 +6,7 @@ const TRANSLATATIONS = {
   'MELB': '墨爾本',
 }
 
-const safeGetTranslation = (playerName) => {
+export const safeGetTranslation = (playerName) => {
   if (TRANSLATATIONS[playerName]) {
     return `${playerName} ${TRANSLATATIONS[playerName]}`;
   }

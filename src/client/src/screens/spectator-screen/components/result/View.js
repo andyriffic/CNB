@@ -7,9 +7,9 @@ import PlayerScore from '../player-score';
 import Draw from '../draw';
 import Winner from '../winner';
 import Switch from '../../../../components/switch';
-import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer, Page, PageHeader, PageBody } from '../../../styled';
+import { PlayerSpectatorContainer, PlayerSpectatorSection, Button, PageFooterContainer } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
-import GameThemeContext from '../../../../contexts/GameThemeContext';
+import PageLayout from "../../../../components/page-layout/FullPage";
 
 type Props = {
   result: Object,
@@ -18,7 +18,12 @@ type Props = {
   resetGame: () => void,
 }
 
-const BonusPointSection = styled.div``;
+const BonusPointSection = styled.div`
+  text-align: center;
+  width: 15vw;
+  margin: 0 auto;
+`;
+
 const BonusHeading = styled.h2`
   margin: 0;
   font-size: 1rem;
@@ -26,7 +31,6 @@ const BonusHeading = styled.h2`
 
 const View = ( { result, player1, player2, resetGame}: Props ) => {
 
-  const theme = useContext(GameThemeContext);
   const soundService = useContext(GameSoundContext);
 
   const winner = result.winner === 'player1' ? player1 : player2;
@@ -44,9 +48,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
   }, [])
 
   return (
-    <Page { ...theme.style }>
-      <PageHeader { ...theme.style }>Result 结果</PageHeader>
-      <PageBody column={ true }>
+    <PageLayout pageTitle="Result 结果">
         <PlayerSpectatorContainer>
           <PlayerSpectatorSection>
             <PlayerResult
@@ -92,8 +94,7 @@ const View = ( { result, player1, player2, resetGame}: Props ) => {
             Play again <br/> 再玩一次
           </Button>
         </PageFooterContainer>
-      </PageBody>
-    </Page>
+    </PageLayout>
   );
 }
 

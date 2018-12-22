@@ -4,17 +4,15 @@ import React, {useContext} from 'react';
 
 import useGetGameState from '../hooks/useGetGameState';
 import usePlayerState from './hooks/usePlayerState';
-import DebugOutput from '../../DebugOutput';
 import SelectMove from './components/select-move';
 import SelectedMove from './components/selected-move';
 import GameResult from './components/game-result';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
-import { Page, PageHeader, PageBody } from '../styled';
+import PageLayout from '../../components/page-layout/FullPage';
 
-import TranslatedPlayerName from '../../components/translated-player-name';
-import GameThemeContext from '../../contexts/GameThemeContext';
+import { safeGetTranslation } from '../../components/translated-player-name/View';
 
 type Props = {
   //todo: do better than this
@@ -25,7 +23,6 @@ const hasGameResult = (gameState) => !!(gameState && gameState.result);
 const playerHasMoved = (gameState, playerState) => playerState && playerState.player && playerState.player.moved;
 
 const View = ( { playerKey }: Props ) => {
-  const theme = useContext(GameThemeContext);
   const playerState = usePlayerState(playerKey);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
@@ -39,11 +36,7 @@ const View = ( { playerKey }: Props ) => {
   if (!playerState) return null;
 
   return (
-    <Page { ...theme.style }>
-      <PageHeader { ...theme.style }>
-        <TranslatedPlayerName playerName={playerState.player.name} />
-      </PageHeader>
-      <PageBody column={ true }>
+    <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>
         <Switch>
           <SelectMove showIf={ !hasGameResult(gameState) && !playerHasMoved(gameState, playerState) } onSelection={ onSelection }/>
           <SelectedMove
@@ -55,10 +48,7 @@ const View = ( { playerKey }: Props ) => {
             gameState={ gameState }
             playerState={ playerState } />
         </Switch>
-      </PageBody>
-      <DebugOutput data={ playerState } />
-      <DebugOutput data={ gameState } />
-    </Page>
+    </PageLayout>
   )
 }
 

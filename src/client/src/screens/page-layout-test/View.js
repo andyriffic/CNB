@@ -1,23 +1,19 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import { FullPage } from "./components/FullPage";
+import React from "react";
+import FullPage from "../../components/page-layout/FullPage";
 
 const View = () => {
   return (
-    <FullPage
-      pageTitle="Test"
-      bodyComponent={
-        <div
-          style={{
-            backgroundColor: "lightgreen",
-            padding: "100px 10px"
-          }}
-        >
-          <p>SOme text</p>
-          <p>SOme more text</p>
-        </div>
-      }
-    />
+    <FullPage pageTitle="Test">
+      <div
+        style={{
+          backgroundColor: "lightgreen",
+          padding: "100px 10px"
+        }}
+      >
+        <p>SOme text</p>
+        <p>SOme more text</p>
+      </div>
+    </FullPage>
   );
 };
 

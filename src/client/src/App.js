@@ -21,24 +21,6 @@ import GameTheme from "./themes";
 
 import { IS_PRODUCTION } from "./environment";
 
-const FullScreen = styled.div`
-  height: 100vh;
-  width: 100vw;
-`;
-
-const EnvironmentBanner = styled.div`
-  position: fixed;
-  bottom: 0;
-  height: 2%;
-  background-color: ${props => (props.isProduction ? "green" : "red")};
-  color: white;
-  font-size: 0.5rem;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
 
@@ -58,7 +40,6 @@ const App = () => {
           <ScoreboardApi>
             <SocketsConnection>
               <GlobalStyle />
-              {/* <FullScreen> */}
               <Router>
                 <SpectatorScreen path="/" />
                 <PageLayoutScreen path="layouttest" />
@@ -67,10 +48,6 @@ const App = () => {
                 <ResetGameScreen path="reset" />
               </Router>
               <DebugOutput data={connectionDetails} />
-              {/* <EnvironmentBanner isProduction={IS_PRODUCTION}>
-                    {IS_PRODUCTION ? "Production" : "Test"}
-                  </EnvironmentBanner> */}
-              {/* </FullScreen> */}
             </SocketsConnection>
           </ScoreboardApi>
         </GameSettings>

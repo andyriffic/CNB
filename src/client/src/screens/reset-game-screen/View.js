@@ -1,23 +1,25 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext } from 'react';
-import ServerMessagesContext from '../../contexts/ServerMessagesContext';
-import { Button, PageFooterContainer, Page, PageHeader, PageBody, PageSubTitle } from '../styled';
+import React, { useContext } from "react";
+import ServerMessagesContext from "../../contexts/ServerMessagesContext";
+import {
+  Button,
+  PageFooterContainer,
+  PageSubTitle
+} from "../styled";
+import PageLayout from "../../components/page-layout/FullPage";
 
 const View = () => {
   const serverMessages = useContext(ServerMessagesContext);
 
   return (
-    <Page>
-      <PageHeader>Reset Game 重置游戏</PageHeader>
-      <PageBody column={ true }>
-        <PageSubTitle>Are you sure?</PageSubTitle>
-        <PageFooterContainer>
-          <Button onClick={ serverMessages.resetGame }>Reset Game</Button>
-        </PageFooterContainer>
-      </PageBody>
-    </Page>
-  )
+    <PageLayout pageTitle="Reset Game 重置游戏">
+      <PageSubTitle>Are you sure?</PageSubTitle>
+      <PageFooterContainer>
+        <Button onClick={serverMessages.resetGame}>Reset Game</Button>
+      </PageFooterContainer>
+    </PageLayout>
+  );
 };
 
 export default View;
