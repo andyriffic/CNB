@@ -9,6 +9,7 @@ import {
   PlayerSpectatorSection
 } from "../../../styled";
 import PageLayout from "../../../../components/page-layout/FullPage";
+import IntroBanner from '../intro-banner';
 
 type Props = {
   player1: Object,
@@ -26,6 +27,7 @@ const BonusHeading = styled.h2`
 const View = ({ player1, player2 }: Props) => {
   return (
     <PageLayout pageTitle="Waiting 等候">
+      <IntroBanner/>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerStatus {...player1} animationDelay={0} />

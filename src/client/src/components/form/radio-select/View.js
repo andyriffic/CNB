@@ -15,7 +15,7 @@ const View = ({ title, items, selectedValue, onChange }) => {
                 id={itemId}
                 checked={item.value === selectedValue}
                 onChange={() => onChange(item.value)} />
-              <Label for={itemId}>{item.label}</Label>
+              <Label htmlFor={itemId}>{item.label}</Label>
               <Check className="check"/>
             </RadioItem>
           )
