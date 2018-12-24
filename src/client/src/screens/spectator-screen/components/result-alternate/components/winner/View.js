@@ -80,34 +80,6 @@ const LoserAnimated = styled(CenteredText)`
   animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
 `;
 
-const TrashTalk = styled.p`
-  margin: 0;
-  padding: 10px;
-  border: 2px solid black;
-  background-color: white;
-  border-radius: 10px;
-  position: absolute;
-  top: -110px;
-  left: -80px;
-  font-size: 0.5rem;
-  width: 28vw;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 1px;
-    width: 0;
-    height: 0;
-    display: block;
-    width: 15px;
-    height: 15px;
-    background-color: white;
-    border: 2px solid black;
-    border-top: 0;
-    border-right: 0;
-    transform: rotate(-24deg);`;
-
 const TranslatedWinnerText = ({ winner }) => {
   if (winner === 'XIAN') {
     return (
@@ -146,7 +118,6 @@ const View = ({ player1, player2, result }: Props) => {
           { theme.characters.nameMapping[loser.move] }
         </LoserAnimated>
       </ResultContainer> */}
-      {/* <TrashTalk>Trash talk here...</TrashTalk> */}
       <WinnerHeading>
         <TranslatedWinnerText winner={winner.name} />
       </WinnerHeading>

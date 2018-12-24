@@ -6,6 +6,7 @@ import Switch from '../../../../../../components/switch';
 
 import TranslatedPlayerName from '../../../../../../components/translated-player-name';
 import GameThemeContext from '../../../../../../contexts/GameThemeContext';
+import TrashTalk from '../trash-talk';
 
 type Props = {
   player: Object,
@@ -13,8 +14,6 @@ type Props = {
 };
 
 const initialAnimationDelay = 0;
-const resultAnimationDelay = 1;
-const losingAnimationDelay = resultAnimationDelay;
 
 const zoomIn = keyframes`
   0% {
@@ -25,15 +24,6 @@ const zoomIn = keyframes`
   }
   100% {
     transform: scale(1, 1);
-  }
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 `;
 
@@ -75,29 +65,13 @@ const winnerWobble = keyframes`
   }
 `;
 
-const backgroundColorChange = keyframes`
-  // 0%   {background: #576175;}
-  // 25%  {background: #9DADB0;}
-  // 50%  {background: #C0B8C0;}
-  // 75%  {background: #2E3E2F;}
-  // 100% {background: #576175;}
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-`;
-
 const Container = styled.div`
+  position: relative;
   background-color: #e9e3c5;
   border-radius: 50%;
   padding: 3vmin;
   width: 32vmin;
   height: 32vmin;
-
-  &.winner {
-    // background: linear-gradient(270deg, #e36e65, #65978e);
-    // background-size: 400% 400%;
-    // animation: ${backgroundColorChange} 5s linear 3500ms infinite forwards;
-  }
 
   &.loser {
     animation: ${dim} 2s linear 3500ms 1 forwards;
@@ -181,6 +155,7 @@ const PlayerResult = ({
   return (
     <React.Fragment>
       <Container showHalo={isWinner} className={isWinner ? 'winner' : 'loser'}>
+        <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft}/>
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
