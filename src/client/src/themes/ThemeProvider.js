@@ -1,8 +1,9 @@
-import React from 'react';
-import GameThemeContext from '../contexts/GameThemeContext';
-import CowboyNinjaBearTheme from './cowboy-ninja-bear';
-import XmasTheme from './xmas';
-import { isFeatureEnabled } from '../featureToggle';
+import React from "react";
+import GameThemeContext from "../contexts/GameThemeContext";
+import CowboyNinjaBearTheme from "./cowboy-ninja-bear";
+import PandaPizzaPirate from "./panda-pizza-pirate";
+import XmasTheme from "./xmas";
+import { isFeatureEnabled } from "../featureToggle";
 
 const DECEMBER_MONTH = 11; //javascript months are 0 based :)
 
@@ -13,15 +14,18 @@ const isDecemberAndBeforeChristmasDay = () => {
   const day = today.getDate();
 
   return month === DECEMBER_MONTH && day <= 25;
-}
+};
 
-const View = ({children}) => {
-
+const View = ({ children }) => {
   let theme;
-  if (isFeatureEnabled('normal')) {
+  if (isFeatureEnabled("normal")) {
     theme = CowboyNinjaBearTheme;
+  } else if (isFeatureEnabled("ppp")) {
+    theme = PandaPizzaPirate;
   } else {
-    theme = isDecemberAndBeforeChristmasDay() ? XmasTheme : CowboyNinjaBearTheme;
+    theme = isDecemberAndBeforeChristmasDay()
+      ? XmasTheme
+      : CowboyNinjaBearTheme;
   }
 
   return (
