@@ -40,7 +40,7 @@ export const PageFooterContainer = styled.div`
 export const Button = styled.button`
   border-radius: 50%;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: 3vh;
   font-family: inherit;
   background-color: #ffe758;

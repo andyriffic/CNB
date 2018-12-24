@@ -10,7 +10,7 @@ import Switch from '../../components/switch'
 import Waiting from './components/waiting';
 import Loading from './components/loading';
 import Ready from './components/ready';
-import Result from './components/result';
+import Result from './components/result-alternate';
 import Countdown from './components/countdown';
 import {SOUND_KEYS} from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
