@@ -43,6 +43,7 @@ const PlayerSymbol = styled.div`
 const Symbol = styled.div`
   margin: 0 auto;
   width: 130px;
+  height: 130px;
 `;
 
 const View = () => {
