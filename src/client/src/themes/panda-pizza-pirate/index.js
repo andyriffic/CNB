@@ -15,7 +15,7 @@ import BearWinning from './components/winning-animations/bear';
 import themeMusic from './sounds/zazie.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
 
-import cowboyWinningSound from './sounds/cowboy-win.mp3';
+import pandaWiningSound from './sounds/panda-win.mp3';
 import pizzaWinningSound from './sounds/pizza-win.mp3';
 import pirateWinningSound from './sounds/pirate-win.mp3';
 
@@ -48,7 +48,7 @@ export default {
     },
     winningSoundMapping: {
       A: pizzaWinningSound,
-      B: cowboyWinningSound,
+      B: pandaWiningSound,
       C: pirateWinningSound,
     },
     winningPhrases: {

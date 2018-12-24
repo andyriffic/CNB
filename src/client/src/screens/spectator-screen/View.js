@@ -49,6 +49,11 @@ const View = () => {
 
   const ResultScreenComponent = theme.gameplay.resultScreen;
 
+  const resetGame = () => {
+    soundService.stopAll();
+    serverMessages.resetGame();
+  }
+
   return (
     <React.Fragment>
       <GameSettingsDrawer/>
@@ -73,7 +78,7 @@ const View = () => {
               result={gameState.result}
               player1={gameState.player1}
               player2={gameState.player2}
-              resetGame={serverMessages.resetGame}
+              resetGame={resetGame}
             />
           </Switch>
         ) : (
