@@ -15,6 +15,7 @@ import Countdown from './components/countdown';
 import {SOUND_KEYS} from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
+import GameThemeContext from '../../contexts/GameThemeContext';
 
 const waitingStatuses = [ 'EMPTY', 'WAITING_FOR_PLAYER_1', 'WAITING_FOR_PLAYER_2' ];
 
@@ -23,6 +24,7 @@ const View = () => {
   const gameState = useContext(GameStateContext);
   const serverMessages = useContext(ServerMessagesContext);
   const soundService = useContext(GameSoundContext);
+  const theme = useContext(GameThemeContext);
 
   useEffect(() => {
     if(gameState && gameState.status === 'FINISHED' ) {
@@ -45,6 +47,8 @@ const View = () => {
 
   useGetGameState();
 
+  const ResultScreenComponent = theme.gameplay.resultScreen;
+
   return (
     <React.Fragment>
       <GameSettingsDrawer/>
@@ -64,7 +68,7 @@ const View = () => {
             <Countdown
               showIf={gameState.status==='FINISHED' && (showCountdown !== null && showCountdown === true)}
             />
-            <Result
+            <ResultScreenComponent
               showIf={gameState.status==='FINISHED' && (showCountdown !== null && showCountdown === false)}
               result={gameState.result}
               player1={gameState.player1}

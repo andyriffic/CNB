@@ -19,7 +19,12 @@ import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import pizzaWinningSound from './sounds/pizza-win.mp3';
 import pirateWinningSound from './sounds/pirate-win.mp3';
 
+import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
+
 export default {
+  gameplay: {
+    resultScreen: ResultAlternateScreen,
+  },
   characters: {
     nameMapping: {
       A: 'Pizza 比薩',

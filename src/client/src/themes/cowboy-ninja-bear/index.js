@@ -15,8 +15,12 @@ import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import ninjaWinningSound from './sounds/ninja-win.mp3';
 import bearWinningSound from './sounds/bear-win.wav';
 
+import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
+  gameplay: {
+    resultScreen: ResultScreen,
+  },
   characters: {
     nameMapping: {
       A: 'Ninja 忍者',
