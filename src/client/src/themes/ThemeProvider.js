@@ -1,13 +1,68 @@
 import React from 'react';
 import GameThemeContext from '../contexts/GameThemeContext';
 import CowboyNinjaBearTheme from './cowboy-ninja-bear';
-import PandaPizzaPirate from './panda-pizza-pirate';
+import PandaPizzaPirateTheme from './panda-pizza-pirate';
+import XmasTheme from './xmas';
 import { isFeatureEnabled } from '../featureToggle';
 
+const DAYS = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat'
+]
+
+const getThemeFromFeatureToggle = () => {
+  let theme;
+  if (isFeatureEnabled('cnb')) {
+    theme = CowboyNinjaBearTheme;
+  } else if (isFeatureEnabled('ppp')) {
+    theme = PandaPizzaPirateTheme;
+  } else if (isFeatureEnabled('xmas')) {
+    theme = XmasTheme;
+  }
+
+  return theme;
+}
+
+const getThemeForDate = () => {
+  let theme;
+  const dayOfWeek = DAYS[new Date().getDay()];  
+
+  switch (dayOfWeek) {
+    case 'Mon':
+    case 'Wed':
+    case 'Fri':
+      theme = PandaPizzaPirateTheme;
+      break;
+
+    case 'Tue':
+    case 'Thu':
+      theme = CowboyNinjaBearTheme;
+      break;
+
+    default:
+      console.warn('No theme selected for date');
+  }
+
+  return theme;
+}
+
 const View = ({ children }) => {
-  const theme = isFeatureEnabled('normal')
-    ? CowboyNinjaBearTheme
-    : PandaPizzaPirate;
+
+  let theme = getThemeFromFeatureToggle();
+
+  if (!theme) {
+    theme = getThemeForDate();
+  }
+
+  if (!theme) {
+    console.warn('No theme found, using default');
+    theme = CowboyNinjaBearTheme;
+  }
 
   return (
     <GameThemeContext.Provider value={theme}>
