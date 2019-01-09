@@ -6,6 +6,7 @@ export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
   POINTS_INCREASE: 'POINTS_INCREASE',
   COUNTDOWN_BLIP: 'COUNTDOWN_BLIP',
+  PLAYER_MOVED_SELECTED: 'PLAYER_MOVED_SELECTED',
   DRAW: 'DRAW',
 };
 
@@ -38,6 +39,10 @@ export class SoundService {
 
     this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
       sound: new Howl({ src: [theme.sounds.countdownBeep] }),
+    };
+
+    this._sounds[SOUND_KEYS.PLAYER_MOVED_SELECTED] = {
+      sound: new Howl({ src: [theme.sounds.playerMoveSelected] }),
     };
 
     this._sounds[SOUND_KEYS.DRAW] = {

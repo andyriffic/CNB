@@ -45,6 +45,14 @@ const View = () => {
     }
   }, [gameState]);
 
+  useEffect(() => {
+    //Um, pretty bad logic but it'll do. Play a sound if user makes selection
+    if (gameState &&
+      (gameState.status === 'WAITING_FOR_PLAYER_1' || gameState.status === 'WAITING_FOR_PLAYER_2'| gameState.status === 'READY')) {
+      soundService.play(SOUND_KEYS.PLAYER_MOVED_SELECTED);
+    }
+  }, [gameState]);
+
   useGetGameState();
 
   const ResultScreenComponent = theme.gameplay.resultScreen;

@@ -10,6 +10,7 @@ import BearWinning from './components/winning-animations/bear';
 
 import waitingSound from './sounds/waiting-music-loop.mp3';
 import countdownBeep from '../../sounds/countdown-blip.wav';
+import playerMoveSelected from '../../sounds/move-selected.wav';
 
 import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import ninjaWinningSound from './sounds/ninja-win.mp3';
@@ -51,5 +52,6 @@ export default {
   sounds: {
     waitingMusic: waitingSound,
     countdownBeep,
+    playerMoveSelected,
   },
 }
