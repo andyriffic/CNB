@@ -19,12 +19,12 @@ const SpeechBubble = styled.p`
   background-color: white;
   border-radius: 10px;
   position: absolute;
-  top: 2px;  
-  font-size: 0.5rem;
+  top: -30px;  
+  font-size: 0.7rem;
   width: 38vw;
   z-index: 1;
 
-  animation: ${fadeIn} 500ms linear 12s 1 forwards;
+  animation: ${fadeIn} 500ms linear 10s 1 forwards;
 
   ${props => (props.isLeft ? 'right: -31vw;' : 'left: -31vw;')}  
 
@@ -50,16 +50,23 @@ const SpeechBubble = styled.p`
       props.isLeft ? 'rotate(-24deg);' : 'rotate(-60deg);'}
 `;
 
+const getRandomSaying = (sayings) => {
+  const randomIndex = Math.floor(Math.random() * sayings.length);
+  return sayings[randomIndex];
+}
+
 const View = ({player, isWinner, isLeft}) => {  
   if (!isWinner) {
     return null;
   }
   const theme = useContext(GameThemeContext);
 
+  const phrase = getRandomSaying(theme.characters.winningPhrases[player.move]);
+
   return (
     <SpeechBubble isLeft={isLeft}>
-      <span>{theme.characters.winningPhrases[player.move][0].english}</span>
-      <span>{theme.characters.winningPhrases[player.move][0].chinese}</span>
+      <span>{phrase.english}</span>
+      <span>{phrase.chinese}</span>
     </SpeechBubble>
   );
 };
