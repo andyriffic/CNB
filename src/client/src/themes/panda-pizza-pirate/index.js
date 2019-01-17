@@ -15,12 +15,15 @@ import BearWinning from './components/winning-animations/bear';
 import themeMusic from './sounds/zazie.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
 import playerMoveSelected from '../../sounds/move-selected.wav';
-
-import pandaWiningSound from './sounds/panda-win.mp3';
-import pizzaWinningSound from './sounds/pizza-win.mp3';
-import pirateWinningSound from './sounds/pirate-win.mp3';
+// import pandaWiningSound from './sounds/panda-win.mp3';
+// import pizzaWinningSound from './sounds/pizza-win.mp3';
+// import pirateWinningSound from './sounds/pirate-win.mp3';
 
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
+
+const pandaWiningSound = import('./sounds/panda-win.mp3');
+const pizzaWinningSound = import('./sounds/pizza-win.mp3');
+const pirateWinningSound = import('./sounds/pirate-win.mp3');
 
 export default {
   gameplay: {
@@ -66,7 +69,7 @@ export default {
           english: 'Panda dies of high cholesterol',
           chinese: '熊貓死於高膽固醇',
         },
-     ],
+      ],
       B: [
         {
           english: 'He was a nice pirate, until I bit his head off',
