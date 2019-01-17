@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'install:client']
+  args: ['run', 'install:server']
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'test:client']
+  args: ['run', 'lint:server']
