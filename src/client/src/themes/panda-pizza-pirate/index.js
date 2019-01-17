@@ -15,9 +15,6 @@ import BearWinning from './components/winning-animations/bear';
 import themeMusic from './sounds/zazie.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
 import playerMoveSelected from '../../sounds/move-selected.wav';
-// import pandaWiningSound from './sounds/panda-win.mp3';
-// import pizzaWinningSound from './sounds/pizza-win.mp3';
-// import pirateWinningSound from './sounds/pirate-win.mp3';
 
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
 
