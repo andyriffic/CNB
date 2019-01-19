@@ -3,17 +3,10 @@ import GameThemeContext from '../contexts/GameThemeContext';
 import CowboyNinjaBearTheme from './cowboy-ninja-bear';
 import PandaPizzaPirateTheme from './panda-pizza-pirate';
 import XmasTheme from './xmas';
+import NewYearTheme from './new-year';
 import { isFeatureEnabled } from '../featureToggle';
 
-const DAYS = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat'
-]
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const getThemeFromFeatureToggle = () => {
   let theme;
@@ -23,14 +16,16 @@ const getThemeFromFeatureToggle = () => {
     theme = PandaPizzaPirateTheme;
   } else if (isFeatureEnabled('xmas')) {
     theme = XmasTheme;
+  } else if (isFeatureEnabled('new-year')) {
+    theme = NewYearTheme;
   }
 
   return theme;
-}
+};
 
 const getThemeForDate = () => {
   let theme;
-  const dayOfWeek = DAYS[new Date().getDay()];  
+  const dayOfWeek = DAYS[new Date().getDay()];
 
   switch (dayOfWeek) {
     case 'Mon':
@@ -49,10 +44,9 @@ const getThemeForDate = () => {
   }
 
   return theme;
-}
+};
 
 const View = ({ children }) => {
-
   let theme = getThemeFromFeatureToggle();
 
   if (!theme) {
