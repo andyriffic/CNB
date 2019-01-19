@@ -8,7 +8,7 @@ import NianCharacter from './components/characters/nian';
 import PigCharacter from './components/characters/pig';
 
 import waitingMusic from './sounds/waiting.mp3';
-import countdownBeep from './sounds/countdown-blip.wav';
+import countdownBeep from './sounds/count-down.m4a';
 import playerMoveSelected from '../../sounds/move-selected.wav';
 
 import nianWinningSound from './sounds/nian-win.mp3';
