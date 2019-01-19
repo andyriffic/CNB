@@ -13,7 +13,9 @@
     "start": "npm run build && npm run startup",
     "startup": "node ./lib/server/server.js",
     "local:client": "cd ./src/client && npm run start:local",
-    "local:server": "cd ./src/server && npm run serve:local"
+    "local:server": "cd ./src/server && npm run serve:local",
+    "test:client": "cd ./src/client && npm run test",
+    "lint:server": "cd ./src/server && npm run lint"
   },
   "author": "",
   "license": "ISC",
