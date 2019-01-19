@@ -7,13 +7,13 @@ import FireworkCharacter from './components/characters/firework';
 import NianCharacter from './components/characters/nian';
 import PigCharacter from './components/characters/pig';
 
-import themeMusic from './sounds/zazie.mp3';
+import waitingMusic from './sounds/waiting.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
 import playerMoveSelected from '../../sounds/move-selected.wav';
 
-import pandaWiningSound from './sounds/panda-win.mp3';
-import pizzaWinningSound from './sounds/pizza-win.mp3';
-import pirateWinningSound from './sounds/pirate-win.mp3';
+import nianWinningSound from './sounds/nian-win.mp3';
+import pigWinningSound from './sounds/pig-win.mp3';
+import fireworkWinningSound from './sounds/firework-win.mp3';
 
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
 
@@ -38,63 +38,39 @@ export default {
       C: PigCharacter,
     },
     winningSoundMapping: {
-      A: pizzaWinningSound,
-      B: pandaWiningSound,
-      C: pirateWinningSound,
+      A: fireworkWinningSound,
+      B: nianWinningSound,
+      C: pigWinningSound,
     },
     winningPhrases: {
       A: [
         {
-          english: 'I give cute panda very bad indigestion',
-          chinese: '我給可愛的熊貓帶來了非常糟糕的消化不良',
-        },
-        {
-          english: 'You cant handle my cheesy goodness',
-          chinese: '你無法處理我的俗氣',
-        },
-        {
-          english: 'Panda dies of high cholesterol',
-          chinese: '熊貓死於高膽固醇',
+          english: 'The cracking sound can drive Nian away from the village',
+          chinese: '鞭炮可以驱赶年兽，保护村庄',
         },
       ],
       B: [
         {
-          english: 'He was a nice pirate, until I bit his head off',
-          chinese: '他是一個很好的海盜，直到我咬了他的頭',
-        },
-        {
-          english: 'My noodle bowl is full of pirate intestines',
-          chinese: '我的麵碗裡到處都是海盜腸',
-        },
-        {
-          english: 'My chopsticks went right through his eye...and his brain',
-          chinese: '我的筷子穿過他的眼睛......和他的大腦',
+          english: 'Pork is rich in protein, carbohydrate and fat.',
+          chinese: '猪肉富含蛋白质，碳水化合物以及脂肪',
         },
       ],
       C: [
         {
-          english: 'Yo ho ho and a piece of pizza',
-          chinese: '喲ho ho和一塊披薩',
-        },
-        {
-          english: 'A pizza a day keeps the scurvy away',
-          chinese: '每天吃披薩可以防止壞血病',
-        },
-        {
-          english: 'Shiver me pizzas',
-          chinese: '顫抖我的比薩餅',
+          english: 'I love to play the firecracker with my friends',
+          chinese: '我喜欢和我的小伙伴们放鞭炮',
         },
       ],
     },
   },
   sounds: {
-    waitingMusic: themeMusic,
+    waitingMusic: waitingMusic,
     countdownBeep,
     playerMoveSelected,
   },
   style: {
-    headerBackgroundColor: '#E36E65',
-    pageBackgroundColor: '#95C0AB',
-    textColor: '#1A414D',
+    headerBackgroundColor: '#FFB500',
+    pageBackgroundColor: '#FF5961',
+    textColor: '#20282E',
   },
 };
