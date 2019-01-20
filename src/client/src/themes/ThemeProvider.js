@@ -50,6 +50,10 @@ const View = ({ children }) => {
   let theme = getThemeFromFeatureToggle();
 
   if (!theme) {
+    theme = NewYearTheme;
+  }
+
+  if (!theme) {
     theme = getThemeForDate();
   }
 
