@@ -1,4 +1,4 @@
-import { Howl } from 'howler';
+import {Howl} from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 
@@ -21,46 +21,60 @@ export class SoundService {
       throw new Error('Sound Service requires a theme');
     }
     this._theme = theme;
+    this._loaded = false;
     this._musicEnabled = musicEnabled;
 
-    //Pre-load sounds
-    this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
-      resumeable: true,
-      sound: new Howl({
-        src: [theme.sounds.waitingMusic],
-        loop: true,
-        volume: 0.6,
-      }),
-    };
-
-    this._sounds[SOUND_KEYS.POINTS_INCREASE] = {
-      sound: new Howl({ src: [pointsSound] }),
-    };
-
-    this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
-      sound: new Howl({ src: [theme.sounds.countdownBeep] }),
-    };
-
-    this._sounds[SOUND_KEYS.PLAYER_MOVED_SELECTED] = {
-      sound: new Howl({ src: [theme.sounds.playerMoveSelected] }),
-    };
-
-    this._sounds[SOUND_KEYS.DRAW] = {
-      sound: new Howl({ src: [drawSound] }),
-    };
-
-    //Pre-load winning sounds
-    Object.keys(this._theme.characters.winningSoundMapping).forEach(key => {
-      console.log('Adding sound for key', key);
-      this._sounds[key] = {
-        sound: new Howl({
-          src: [this._theme.characters.winningSoundMapping[key]],
-        }),
-        resumeable: true,
-      };
-    });
-
     console.log('SOUNDS', this._sounds);
+  }
+
+  load() {
+    if (!this._loaded) {
+      console.log('Load sounds');
+
+      this._loaded = true;
+      //Pre-load sounds
+      this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
+        resumeable: true,
+        sound: new Howl({
+          src: [this._theme.sounds.waitingMusic],
+          loop: true,
+          volume: 0.6,
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.POINTS_INCREASE] = {
+        sound: new Howl({
+          src: [pointsSound],
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
+        sound: new Howl({
+          src: [this._theme.sounds.countdownBeep],
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.PLAYER_MOVED_SELECTED] = {
+        sound: new Howl({
+          src: [this._theme.sounds.playerMoveSelected],
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.DRAW] = {
+        sound: new Howl({src: [drawSound]}),
+      };
+
+      //Pre-load winning sounds
+      Object.keys(this._theme.characters.winningSoundMapping).forEach(key => {
+        console.log('Adding sound for key', key);
+        this._sounds[key] = {
+          sound: new Howl({
+            src: [this._theme.characters.winningSoundMapping[key]],
+          }),
+          resumeable: true,
+        };
+      });
+    }
   }
 
   setMusicEnabled(enabled) {
@@ -81,6 +95,8 @@ export class SoundService {
 
   play(soundKey, forceIfStillPlaying = false) {
     //Place sound in resumable sounds in case music gets turned on
+    console.log('Play', soundKey);
+
     if (
       this._sounds[soundKey].resumeable &&
       !this._resumableSoundKeys.includes(soundKey)
@@ -109,7 +125,7 @@ export class SoundService {
   stopAll() {
     Object.keys(this._sounds).forEach(key => {
       this._sounds[key].sound.stop();
-    })
+    });
   }
 
   playWinningSound(winningMove, isDraw) {
