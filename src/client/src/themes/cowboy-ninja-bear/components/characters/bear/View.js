@@ -9,15 +9,15 @@ type Props = {
   height: number,
   width: number,
   loser?: boolean,
-}
+};
 
-const View = ( { height, width, loser }: Props ) => {
+const View = ({ height, width, loser }: Props) => {
   return (
     <Switch>
-      <Winner showIf={ !loser } height={height} width={width} />
-      <Loser showIf={ loser } height={height} width={width}  />
+      <Winner showIf={!loser} height={height} width={width} />
+      <Loser showIf={loser} height={height} width={width} />
     </Switch>
   );
-}
+};
 
 export default View;

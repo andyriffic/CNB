@@ -5,16 +5,13 @@ import image from './pirate.png';
 
 const StyledBear = styled.img`
   height: 100%;
-  width: 100%
+  width: 100%;
 `;
 
-type Props = {
-}
+type Props = {};
 
-const Winner = ( { height, width }: Props ) => {
-  return (
-    <StyledBear src={image} />
-  );
-}
+const Winner = ({ height, width }: Props) => {
+  return <StyledBear src={image} />;
+};
 
 export default Winner;

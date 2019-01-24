@@ -1,19 +1,19 @@
 /* @flow */
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import PlayerStatus from "../player-status";
-import PlayerScore from "../player-score";
+import PlayerStatus from '../player-status';
+import PlayerScore from '../player-score';
 import {
   PlayerSpectatorContainer,
-  PlayerSpectatorSection
-} from "../../../styled";
-import PageLayout from "../../../../components/page-layout/FullPage";
+  PlayerSpectatorSection,
+} from '../../../styled';
+import PageLayout from '../../../../components/page-layout/FullPage';
 import IntroBanner from '../intro-banner';
 
 type Props = {
   player1: Object,
-  player2: Object
+  player2: Object,
 };
 
 const BonusPointSection = styled.div`
@@ -27,7 +27,7 @@ const BonusHeading = styled.h2`
 const View = ({ player1, player2 }: Props) => {
   return (
     <PageLayout pageTitle="Waiting 等候">
-      <IntroBanner/>
+      <IntroBanner />
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerStatus {...player1} animationDelay={0} />
@@ -40,7 +40,7 @@ const View = ({ player1, player2 }: Props) => {
       </PlayerSpectatorContainer>
       <BonusPointSection>
         <BonusHeading>BONUS 獎金</BonusHeading>
-        <PlayerScore playerKey={"BONUS"} />
+        <PlayerScore playerKey={'BONUS'} />
       </BonusPointSection>
     </PageLayout>
   );

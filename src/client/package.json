@@ -17,7 +17,9 @@
     "build": "react-scripts build && mkdir -p ../../lib/client && mv ./build/** ../../lib/client/",
     "test": "npm run flow && react-scripts test",
     "eject": "react-scripts eject",
-    "flow": "flow ./src"
+    "flow": "flow ./src",
+    "lint": "./node_modules/.bin/eslint ./src --fix",
+    "prebuild": "./node_modules/.bin/eslint ./src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,6 +32,16 @@
   ],
   "devDependencies": {
     "babel-eslint": "^9.0.0",
-    "flow-bin": "^0.86.0"
+    "eslint-config-prettier": "^3.6.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-react": "^7.0.2",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-standard": "^4.0.0",
+    "flow-bin": "^0.86.0",
+    "prettier": "1.16.1"
   }
 }

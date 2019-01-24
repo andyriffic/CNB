@@ -1,4 +1,4 @@
-import {Howl} from 'howler';
+import { Howl } from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 
@@ -13,7 +13,7 @@ export const SOUND_KEYS = {
 export class SoundService {
   _theme = null;
   _sounds = {};
-  _resumableSoundKeys = []; //Sounds that can be played when music is toggled back on
+  _resumableSoundKeys = []; // Sounds that can be played when music is toggled back on
   _musicEnabled = false;
 
   constructor(theme, musicEnabled = false) {
@@ -32,7 +32,7 @@ export class SoundService {
       console.log('Load sounds');
 
       this._loaded = true;
-      //Pre-load sounds
+      // Pre-load sounds
       this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
         resumeable: true,
         sound: new Howl({
@@ -61,10 +61,10 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.DRAW] = {
-        sound: new Howl({src: [drawSound]}),
+        sound: new Howl({ src: [drawSound] }),
       };
 
-      //Pre-load winning sounds
+      // Pre-load winning sounds
       Object.keys(this._theme.characters.winningSoundMapping).forEach(key => {
         console.log('Adding sound for key', key);
         this._sounds[key] = {
@@ -94,7 +94,7 @@ export class SoundService {
   }
 
   play(soundKey, forceIfStillPlaying = false) {
-    //Place sound in resumable sounds in case music gets turned on
+    // Place sound in resumable sounds in case music gets turned on
     console.log('Play', soundKey);
 
     if (

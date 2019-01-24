@@ -4,8 +4,8 @@ import styled, { keyframes } from 'styled-components';
 
 import { PlayerSpectatorContainer } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
-import {SOUND_KEYS} from '../../../../sounds/SoundService';
-import PageLayout from "../../../../components/page-layout/FullPage";
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import PageLayout from '../../../../components/page-layout/FullPage';
 
 const extremeFadeAndScale = keyframes`
     0% {
@@ -33,11 +33,11 @@ const CountdownItem = styled.h1`
   font-size: 10rem;
   position: absolute;
   opacity: 0;
-  animation: ${extremeFadeAndScale} 1s linear ${props => props.animationDelay}s 1 ${props=> props.animationDirection};
+  animation: ${extremeFadeAndScale} 1s linear ${props => props.animationDelay}s
+    1 ${props => props.animationDirection};
 `;
 
 const View = () => {
-
   const soundService = useContext(GameSoundContext);
 
   useEffect(() => {
@@ -52,15 +52,20 @@ const View = () => {
 
   return (
     <PageLayout pageTitle="Result 结果">
-        <PlayerSpectatorContainer>
-          <CountdownContainer>
-            <CountdownItem animationDelay={animationDelay}>3</CountdownItem>
-            <CountdownItem animationDelay={animationDelay + 1}>2</CountdownItem>
-            <CountdownItem animationDelay={animationDelay + 2} animationDirection={'forwards'}>1</CountdownItem>
-          </CountdownContainer>
-        </PlayerSpectatorContainer>
+      <PlayerSpectatorContainer>
+        <CountdownContainer>
+          <CountdownItem animationDelay={animationDelay}>3</CountdownItem>
+          <CountdownItem animationDelay={animationDelay + 1}>2</CountdownItem>
+          <CountdownItem
+            animationDelay={animationDelay + 2}
+            animationDirection={'forwards'}
+          >
+            1
+          </CountdownItem>
+        </CountdownContainer>
+      </PlayerSpectatorContainer>
     </PageLayout>
   );
-}
+};
 
 export default View;

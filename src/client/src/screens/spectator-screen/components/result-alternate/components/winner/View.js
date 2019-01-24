@@ -1,7 +1,6 @@
 /* @flow */
-import React, { useContext } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 
 type Props = {
   result: Object,
@@ -15,21 +14,6 @@ const WinnerView = styled.div`
   margin-left: 5px;
   margin-right: 5px;
   position: relative;
-`;
-
-const fadeAndScale = keyframes`
-    0% {
-        opacity: 0;
-        transform: scale(.5, .5);
-    }
-    75% {
-        opacity: 1;
-        transform: scale(1.1, 1.1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1, 1);
-    }
 `;
 
 const extremeFadeAndScale = keyframes`
@@ -52,32 +36,6 @@ const WinnerHeading = styled.h2`
   animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
   text-align: center;
   margin: 0;
-`;
-
-const ResultContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const CenteredText = styled.span`
-  align-self: center;
-`;
-
-const WinnerAnimated = styled(CenteredText)`
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1s 1 forwards;
-`;
-
-const BeatsAnimated = styled(CenteredText)`
-  font-size: 3vmin;
-  padding: 0 1vw;
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1.2s 1 forwards;
-`;
-
-const LoserAnimated = styled(CenteredText)`
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
 `;
 
 const TranslatedWinnerText = ({ winner }) => {
@@ -103,9 +61,7 @@ const TranslatedWinnerText = ({ winner }) => {
 };
 
 const View = ({ player1, player2, result }: Props) => {
-  const theme = useContext(GameThemeContext);
   const winner = result.winner === 'player1' ? player1 : player2;
-  const loser = winner === player1 ? player2 : player1;
 
   return (
     <WinnerView>

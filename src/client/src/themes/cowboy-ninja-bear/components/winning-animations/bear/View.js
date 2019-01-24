@@ -89,16 +89,24 @@ const Claws = styled.div`
   z-index: 2;
   height: 80%;
   width: 25%;
-  animation: ${moveClaws} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
+  animation: ${moveClaws} 3s 1 ease-in-out ${props => props.animationDelay}s
+    forwards;
 `;
 
 const Claw = styled.span`
   display: inline-block;
   background-color: white;
   border-top-left-radius: 100% 100%;
-  background-image: linear-gradient(to right, lightgrey 0%, lightgrey 50%, white 50%, white 100%);
-  margin: 0 .1rem;
-  animation: ${blurClaws} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
+  background-image: linear-gradient(
+    to right,
+    lightgrey 0%,
+    lightgrey 50%,
+    white 50%,
+    white 100%
+  );
+  margin: 0 0.1rem;
+  animation: ${blurClaws} 3s 1 ease-in-out ${props => props.animationDelay}s
+    forwards;
   &:nth-child(1) {
     height: 100%;
     width: 10%;
@@ -111,7 +119,7 @@ const Claw = styled.span`
     height: 96%;
     width: 10%;
   }
-`
+`;
 
 const Trails = styled.div`
   position: absolute;
@@ -120,7 +128,7 @@ const Trails = styled.div`
   left: 70%;
   height: 80%;
   width: 25%;
-  transform: translate3d(-85%,-85%,0) rotate(-20deg);
+  transform: translate3d(-85%, -85%, 0) rotate(-20deg);
   &::before {
     content: '';
     position: absolute;
@@ -129,7 +137,8 @@ const Trails = styled.div`
     left: 0;
     right: 0;
     height: 0;
-    animation: ${fake2} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
+    animation: ${fake2} 3s 1 ease-in-out ${props => props.animationDelay}s
+      forwards;
   }
   &::after {
     content: '';
@@ -138,49 +147,50 @@ const Trails = styled.div`
     left: 0;
     right: 0;
     height: 100%;
-    animation: ${fake} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
+    animation: ${fake} 3s 1 ease-in-out ${props => props.animationDelay}s
+      forwards;
   }
 `;
 
 const Trail = styled.span`
   display: inline-block;
-	width: 3%;
-	height: 100%;
-	background-color: red;
+  width: 3%;
+  height: 100%;
+  background-color: red;
   opacity: 0;
-	margin: 0 10%;
-	vertical-align: top;
-	animation: ${fade} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
-	&:nth-child(1) {
-		margin-top: 10%;
-		transform: translateX(-1.2rem);
-	}
-	&:nth-child(2) {
-		margin-top: 10%;
-		transform: translateX(-1.2rem);
-	}
-	&:nth-child(3) {
-		margin-top: 10%;
-		transform: translateX(-1.2rem);
-	}
+  margin: 0 10%;
+  vertical-align: top;
+  animation: ${fade} 3s 1 ease-in-out ${props => props.animationDelay}s forwards;
+  &:nth-child(1) {
+    margin-top: 10%;
+    transform: translateX(-1.2rem);
+  }
+  &:nth-child(2) {
+    margin-top: 10%;
+    transform: translateX(-1.2rem);
+  }
+  &:nth-child(3) {
+    margin-top: 10%;
+    transform: translateX(-1.2rem);
+  }
 `;
 
-const View = ({animationDelay}) => {
+const View = ({ animationDelay }) => {
   return (
     <ViewContainer>
-      <Claws animationDelay={animationDelay} >
+      <Claws animationDelay={animationDelay}>
         <Claw animationDelay={animationDelay} />
         <Claw animationDelay={animationDelay} />
         <Claw animationDelay={animationDelay} />
       </Claws>
 
-      <Trails animationDelay={animationDelay + 1} >
+      <Trails animationDelay={animationDelay + 1}>
         <Trail animationDelay={animationDelay + 1} />
         <Trail animationDelay={animationDelay + 1} />
         <Trail animationDelay={animationDelay + 1} />
       </Trails>
     </ViewContainer>
-  )
-}
+  );
+};
 
 export default View;

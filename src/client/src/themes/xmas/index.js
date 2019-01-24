@@ -1,5 +1,8 @@
-
-import { NinjaSelector, CowboySelector, BearSelector } from './components/select-move-symbols'
+import {
+  NinjaSelector,
+  CowboySelector,
+  BearSelector,
+} from './components/select-move-symbols';
 import CowboyCharacter from './components/characters/cowboy';
 import NinjaCharacter from './components/characters/ninja';
 import BearCharacter from './components/characters/bear';
@@ -47,7 +50,7 @@ export default {
       A: ninjaWinningSound,
       B: cowboyWinningSound,
       C: bearWinningSound,
-    }
+    },
   },
   sounds: {
     waitingMusic: waitingSound,
@@ -58,5 +61,5 @@ export default {
     headerBackgroundColor: 'darkgreen',
     pageBackgroundColor: 'darkred',
     textColor: 'white',
-  }
-}
+  },
+};

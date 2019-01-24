@@ -9,7 +9,7 @@ import TranslatedPlayerName from '../../../../components/translated-player-name'
 type Props = {
   moved: boolean,
   name: string,
-}
+};
 
 const Container = styled.div`
   background-color: #ffb758;
@@ -18,24 +18,26 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-    margin: 0;
-    padding: 5px 0;
-    font-size: 1rem;
-    color: #20253f;
-    text-align: center;
+  margin: 0;
+  padding: 5px 0;
+  font-size: 1rem;
+  color: #20253f;
+  text-align: center;
 `;
 
-const View = ( { moved, name, animationDelay }: Props ) => {
+const View = ({ moved, name, animationDelay }: Props) => {
   return (
     <Container>
       <Title>
-      <TranslatedPlayerName playerName={ name } />
+        <TranslatedPlayerName playerName={name} />
       </Title>
-      {
-        moved ? <SelectionMade /> : <NoSelection animationDelay={animationDelay} />
-      }
+      {moved ? (
+        <SelectionMade />
+      ) : (
+        <NoSelection animationDelay={animationDelay} />
+      )}
     </Container>
   );
-}
+};
 
 export default View;

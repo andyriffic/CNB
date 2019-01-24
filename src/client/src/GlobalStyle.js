@@ -15,6 +15,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: Bangers, Helvetica Neue,Helvetica,Arial,sans-serif;
   }
-`
+`;
 
 export default GlobalStyle;

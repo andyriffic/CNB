@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 import GameThemeContext from '../../contexts/GameThemeContext';
 import { IS_PRODUCTION } from '../../environment';
 
@@ -7,7 +7,7 @@ const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: ${props => props.textColor || 'black'}
+  color: ${props => props.textColor || 'black'};
 `;
 
 const Header = styled.header`
@@ -24,8 +24,8 @@ const PageHeading = styled.h1`
 `;
 
 const Body = styled.div`
-background-color: ${props => props.pageBackgroundColor || '#6ba2cc'};
-flex: 1;
+  background-color: ${props => props.pageBackgroundColor || '#6ba2cc'};
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +60,7 @@ const View = ({ pageTitle, children }) => {
         <BodyContent>{children}</BodyContent>
       </Body>
       <Footer {...theme.style}>
-        <FooterText>{IS_PRODUCTION ? "Production" : "Test"}</FooterText>
+        <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
       </Footer>
     </FullPage>
   );

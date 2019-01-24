@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   NinjaSelector,
   CowboySelector,
@@ -7,10 +6,6 @@ import {
 import PandaCharacter from './components/characters/panda';
 import PizzaCharacter from './components/characters/pizza';
 import PirateCharacter from './components/characters/pirate';
-
-import CowboyWinning from './components/winning-animations/cowboy';
-import NinjaWinning from './components/winning-animations/ninja';
-import BearWinning from './components/winning-animations/bear';
 
 import themeMusic from './sounds/zazie.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
@@ -43,9 +38,9 @@ export default {
       C: PirateCharacter,
     },
     winningAnimationMapping: {
-      A: NinjaWinning,
-      B: CowboyWinning,
-      C: BearWinning,
+      A: null,
+      B: null,
+      C: null,
     },
     winningSoundMapping: {
       A: pizzaWinningSound,
@@ -66,7 +61,7 @@ export default {
           english: 'Panda dies of high cholesterol',
           chinese: '熊貓死於高膽固醇',
         },
-     ],
+      ],
       B: [
         {
           english: 'He was a nice pirate, until I bit his head off',

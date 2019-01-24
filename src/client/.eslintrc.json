@@ -1,0 +1,50 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:flowtype/recommended",
+    "standard",
+    "standard-react",
+    "prettier"
+  ],
+  "plugins": [
+    "flowtype",
+    "prettier"
+  ],
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
+  "globals": {    
+    "it": true,
+    "describe": true,
+    "before": true,
+    "beforeEach": true,
+    "fetch": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-console": ["warn"],
+    "react/prop-types": 0,
+    "prettier/prettier": "error"
+  }
+}

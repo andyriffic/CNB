@@ -89,52 +89,69 @@ const ViewContainer = styled.div`
 
 const BulletContainer = styled.div`
   width: 100%;
-   height: auto;
-   position:relative;
-   flex: 1;
+  height: auto;
+  position: relative;
+  flex: 1;
 `;
 
 const Bullet = styled.div`
   opacity: 0;
   position: absolute;
-  ${props => props.isLeft ? `left: 150%;`: `right: 150%;`}
-  ${props => !props.isLeft ? `transform: scaleX(-1);`: ``}
+  ${props => (props.isLeft ? 'left: 150%;' : 'right: 150%;')}
+  ${props => (!props.isLeft ? 'transform: scaleX(-1);' : '')}
   top: 50%;
   height: 50%;
   width: 20%;
-  animation: ${props=> props.keyframes} 1.5s linear ${props=> props.animationDelay}s 1 forwards;
-`
+  animation: ${props => props.keyframes} 1.5s linear
+    ${props => props.animationDelay}s 1 forwards;
+`;
 
 const Tip = styled.div`
   border-radius: 50% 0% 0% 50%;
   width: 40%;
   height: 60%;
   background-color: white;
-  border: 1px solid black;;
+  border: 1px solid black;
 `;
 
-const CowboyBullet = ({animationDelay, keyframes, isLeft}) => {
+const CowboyBullet = ({ animationDelay, keyframes, isLeft }) => {
   return (
     <BulletContainer>
-      <Bullet animationDelay={animationDelay} keyframes={keyframes} isLeft={isLeft}>
+      <Bullet
+        animationDelay={animationDelay}
+        keyframes={keyframes}
+        isLeft={isLeft}
+      >
         <Tip />
       </Bullet>
     </BulletContainer>
   );
-}
+};
 
-const View = ({animationDelay, isLeft}) => {
+const View = ({ animationDelay, isLeft }) => {
   const smallKeyframes = isLeft ? moveSmallLeft : moveSmallRight;
   const mediumKeyframes = isLeft ? moveMediumLeft : moveMediumRight;
   const heapsKeyframes = isLeft ? moveHeapsLeft : moveHeapsRight;
 
   return (
     <ViewContainer>
-      <CowboyBullet animationDelay={animationDelay} keyframes={smallKeyframes} isLeft={isLeft}/>
-      <CowboyBullet animationDelay={animationDelay+.25} keyframes={mediumKeyframes} isLeft={isLeft}/>
-      <CowboyBullet animationDelay={animationDelay+.5} keyframes={heapsKeyframes} isLeft={isLeft}/>
+      <CowboyBullet
+        animationDelay={animationDelay}
+        keyframes={smallKeyframes}
+        isLeft={isLeft}
+      />
+      <CowboyBullet
+        animationDelay={animationDelay + 0.25}
+        keyframes={mediumKeyframes}
+        isLeft={isLeft}
+      />
+      <CowboyBullet
+        animationDelay={animationDelay + 0.5}
+        keyframes={heapsKeyframes}
+        isLeft={isLeft}
+      />
     </ViewContainer>
-  )
-}
+  );
+};
 
 export default View;

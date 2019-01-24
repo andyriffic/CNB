@@ -16,17 +16,17 @@ const fadeIn = keyframes`
 const Container = styled.div`
   opacity: 0;
   align-self: center;
-  animation: ${fadeIn} 1s linear ${props=> props.animationDelay}s 1 forwards;
+  animation: ${fadeIn} 1s linear ${props => props.animationDelay}s 1 forwards;
   width: 100%;
   height: 100%;
-`
+`;
 
-const View = ({animationDelay}) => {
+const View = ({ animationDelay }) => {
   return (
     <Container animationDelay={animationDelay}>
-      <WaitingIcon animationDelay={animationDelay}/>
+      <WaitingIcon animationDelay={animationDelay} />
     </Container>
   );
-}
+};
 
 export default View;
