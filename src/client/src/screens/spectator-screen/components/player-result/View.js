@@ -10,7 +10,7 @@ import GameThemeContext from '../../../../contexts/GameThemeContext';
 type Props = {
   player: Object,
   isWinner: boolean,
-}
+};
 
 const initialAnimationDelay = 0;
 const resultAnimationDelay = 1;
@@ -36,7 +36,6 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `;
-
 
 const Container = styled.div`
   background-color: #ffb758;
@@ -77,11 +76,11 @@ const ResultCharacterAnimation = styled(CharacterContainer)`
 `;
 
 const Title = styled.div`
-    margin: 0;
-    padding: 5px 0;
-    font-size: 1rem;
-    color: #20253f;
-    text-align: center;
+  margin: 0;
+  padding: 5px 0;
+  font-size: 1rem;
+  color: #20253f;
+  text-align: center;
 `;
 
 const getCharacter = (characterMapping, move, isWinner) => {
@@ -89,30 +88,54 @@ const getCharacter = (characterMapping, move, isWinner) => {
     <Switch>
       {Object.keys(characterMapping).map(key => {
         const CharacterComponent = characterMapping[key];
-        return <CharacterComponent key={key} showIf={move === key} height={50} width={50} loser={!isWinner}/>;
-      })}
-    </Switch>
-  );
-}
-
-const getLosingAnimation = (animationMapping, isWinner, isDraw, otherPlayersMove, isLeft) => {
-  return (
-    <Switch>
-      {Object.keys(animationMapping).map(key => {
-        const AnimatedComponent = animationMapping[key];
         return (
-        <AnimatedComponent key={key} showIf={!isWinner && !isDraw && otherPlayersMove === key}
-          animationDelay={losingAnimationDelay}
-          isLeft={isLeft}/>
+          <CharacterComponent
+            key={key}
+            showIf={move === key}
+            height={50}
+            width={50}
+            loser={!isWinner}
+          />
         );
       })}
     </Switch>
   );
-}
+};
 
+const getLosingAnimation = (
+  animationMapping,
+  isWinner,
+  isDraw,
+  otherPlayersMove,
+  isLeft
+) => {
+  return (
+    <Switch>
+      {Object.keys(animationMapping).map(key => {
+        const AnimatedComponent = animationMapping[key];
+        if (!AnimatedComponent) {
+          return null;
+        }
+        return (
+          <AnimatedComponent
+            key={key}
+            showIf={!isWinner && !isDraw && otherPlayersMove === key}
+            animationDelay={losingAnimationDelay}
+            isLeft={isLeft}
+          />
+        );
+      })}
+    </Switch>
+  );
+};
 
-const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove, isLeft}: Props ) => {
-
+const PlayerResult = ({
+  player,
+  isWinner,
+  isDraw,
+  otherPlayersMove,
+  isLeft,
+}: Props) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
   const animationMapping = theme.characters.winningAnimationMapping;
@@ -121,16 +144,28 @@ const PlayerResult = ( {player, isWinner, isDraw, otherPlayersMove, isLeft}: Pro
     <React.Fragment>
       <Container>
         <Title>
-          <TranslatedPlayerName playerName={ player.name } />
+          <TranslatedPlayerName playerName={player.name} />
         </Title>
         <CharacterPosition>
-          <InitialCharacterAnimaton>{ getCharacter(characterMapping, player.move, true) }</InitialCharacterAnimaton>
-          <ResultCharacterAnimation>{ getCharacter(characterMapping, player.move, isWinner) }</ResultCharacterAnimation>
-          <AnimatedLoss>{ getLosingAnimation(animationMapping, isWinner, isDraw, otherPlayersMove, isLeft) }</AnimatedLoss>
+          <InitialCharacterAnimaton>
+            {getCharacter(characterMapping, player.move, true)}
+          </InitialCharacterAnimaton>
+          <ResultCharacterAnimation>
+            {getCharacter(characterMapping, player.move, isWinner)}
+          </ResultCharacterAnimation>
+          <AnimatedLoss>
+            {getLosingAnimation(
+              animationMapping,
+              isWinner,
+              isDraw,
+              otherPlayersMove,
+              isLeft
+            )}
+          </AnimatedLoss>
         </CharacterPosition>
       </Container>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default PlayerResult;

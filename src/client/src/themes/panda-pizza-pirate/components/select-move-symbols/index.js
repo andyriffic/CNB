@@ -41,13 +41,11 @@ const Title = styled.div`
 `;
 
 const SymbolContainer = styled.div`
-  width: ${props => props.selected ? '150px' : '120px'};
-  height: ${props => props.selected ? '150px' : '120px'};
+  width: ${props => (props.selected ? '150px' : '120px')};
+  height: ${props => (props.selected ? '150px' : '120px')};
 `;
 
 const StyledCharacter = styled(SymbolBase)``;
-
-const symbolSize = selected => (selected ? 50 : 30);
 
 export const CowboySelector = ({ onSelection, selected, loser }) => {
   const theme = useContext(GameThemeContext);

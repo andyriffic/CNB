@@ -3,7 +3,6 @@ import GameSettingsContext from '../contexts/GameSettingsContext';
 import GameSoundContext from '../contexts/GameSoundContext';
 
 const View = ({ children }) => {
-
   const [musicEnabled, setMusicEnabled] = useState(true);
   const soundService = useContext(GameSoundContext);
   soundService.setMusicEnabled(musicEnabled);
@@ -11,10 +10,10 @@ const View = ({ children }) => {
   const gameSettings = {
     musicEnabled: {
       value: musicEnabled,
-      set: (value => {
+      set: value => {
         setMusicEnabled(value);
-        soundService.setMusicEnabled(value); //pass setting into music service
-      }),
+        soundService.setMusicEnabled(value); // pass setting into music service
+      },
     },
   };
 

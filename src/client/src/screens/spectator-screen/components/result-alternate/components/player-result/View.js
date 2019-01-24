@@ -155,7 +155,7 @@ const PlayerResult = ({
   return (
     <React.Fragment>
       <Container showHalo={isWinner} className={isWinner ? 'winner' : 'loser'}>
-        <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft}/>
+        <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>

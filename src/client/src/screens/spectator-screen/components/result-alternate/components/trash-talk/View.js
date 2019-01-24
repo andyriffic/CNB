@@ -50,12 +50,12 @@ const SpeechBubble = styled.p`
       props.isLeft ? 'rotate(-24deg);' : 'rotate(-60deg);'}
 `;
 
-const getRandomSaying = (sayings) => {
+const getRandomSaying = sayings => {
   const randomIndex = Math.floor(Math.random() * sayings.length);
   return sayings[randomIndex];
-}
+};
 
-const View = ({player, isWinner, isLeft}) => {  
+const View = ({ player, isWinner, isLeft }) => {
   if (!isWinner) {
     return null;
   }

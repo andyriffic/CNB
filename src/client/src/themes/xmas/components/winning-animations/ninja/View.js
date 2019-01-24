@@ -47,7 +47,6 @@ const rotateHeapsLeft = keyframes`
   }
 `;
 
-
 const rotateSmallRight = keyframes`
   0% {
     opacity: 1;
@@ -103,15 +102,16 @@ const ViewContainer = styled.div`
 const StarContainer = styled.div`
   width: 100%;
   height: auto;
-  position:relative;
+  position: relative;
   flex: 1;
 `;
 
 const Star = styled.div`
   opacity: 0;
   position: absolute;
-  ${props => props.isLeft ? `left: 150%;`: `right: 150%;`}
-  animation: ${props=> props.keyframes} 1.5s linear ${props=> props.animationDelay}s 1 forwards;
+  ${props => (props.isLeft ? 'left: 150%;' : 'right: 150%;')}
+  animation: ${props => props.keyframes} 1.5s linear ${props =>
+  props.animationDelay}s 1 forwards;
 `;
 
 const Point = styled.div`
@@ -125,29 +125,25 @@ const Point = styled.div`
   display: inline-block;
   position: absolute;
 
-  &:nth-child(1)
-  {
+  &:nth-child(1) {
     transform: rotate(0deg);
     top: 0px;
     left: -5px;
   }
 
-  &:nth-child(2)
-  {
+  &:nth-child(2) {
     transform: rotate(90deg);
     bottom: -10px;
     right: 5px;
   }
 
-  &:nth-child(3)
-  {
+  &:nth-child(3) {
     transform: rotate(180deg);
     bottom: 0px;
     left: -5px;
   }
 
-  &:nth-child(4)
-  {
+  &:nth-child(4) {
     transform: rotate(270deg);
     bottom: -10px;
     left: 5px;
@@ -164,10 +160,14 @@ const Center = styled.div`
   top: -2.5px;
 `;
 
-const NinjaStar = ({animationDelay, keyframes, isLeft}) => {
+const NinjaStar = ({ animationDelay, keyframes, isLeft }) => {
   return (
     <StarContainer>
-      <Star animationDelay={animationDelay} keyframes={keyframes} isLeft={isLeft}>
+      <Star
+        animationDelay={animationDelay}
+        keyframes={keyframes}
+        isLeft={isLeft}
+      >
         <Point />
         <Point />
         <Point />
@@ -176,21 +176,32 @@ const NinjaStar = ({animationDelay, keyframes, isLeft}) => {
       </Star>
     </StarContainer>
   );
-}
+};
 
-const View = ({animationDelay, isLeft}) => {
-
+const View = ({ animationDelay, isLeft }) => {
   const smallKeyframes = isLeft ? rotateSmallLeft : rotateSmallRight;
   const mediumKeyframes = isLeft ? rotateMediumLeft : rotateMediumRight;
   const heapsKeyframes = isLeft ? rotateHeapsLeft : rotateHeapsRight;
 
   return (
     <ViewContainer>
-      <NinjaStar animationDelay={animationDelay} keyframes={smallKeyframes} isLeft={isLeft} />
-      <NinjaStar animationDelay={animationDelay+.25} keyframes={mediumKeyframes} isLeft={isLeft}/>
-      <NinjaStar animationDelay={animationDelay+.5} keyframes={heapsKeyframes} isLeft={isLeft}/>
+      <NinjaStar
+        animationDelay={animationDelay}
+        keyframes={smallKeyframes}
+        isLeft={isLeft}
+      />
+      <NinjaStar
+        animationDelay={animationDelay + 0.25}
+        keyframes={mediumKeyframes}
+        isLeft={isLeft}
+      />
+      <NinjaStar
+        animationDelay={animationDelay + 0.5}
+        keyframes={heapsKeyframes}
+        isLeft={isLeft}
+      />
     </ViewContainer>
-  )
-}
+  );
+};
 
 export default View;

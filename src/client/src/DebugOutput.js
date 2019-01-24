@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-//todo querystring param
+// todo querystring param
 const debug = false;
 
 const FormattedDebugPre = styled.pre`
@@ -14,11 +14,9 @@ const DebugOutput = ({ data }) => {
   return debug ? (
     <React.Fragment>
       <h4>Debug</h4>
-      <FormattedDebugPre>
-        { JSON.stringify(data, null, 2) }
-      </FormattedDebugPre>
+      <FormattedDebugPre>{JSON.stringify(data, null, 2)}</FormattedDebugPre>
     </React.Fragment>
-  ): null;
-}
+  ) : null;
+};
 
 export default DebugOutput;

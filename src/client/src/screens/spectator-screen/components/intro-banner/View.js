@@ -1,7 +1,7 @@
 /* @flow */
-import React, { useContext } from "react";
-import styled, { keyframes } from "styled-components";
-import GameThemeContext from "../../../../contexts/GameThemeContext";
+import React, { useContext } from 'react';
+import styled, { keyframes } from 'styled-components';
+import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const extremeFadeAndScale = keyframes`
     0% {
@@ -30,7 +30,7 @@ const pulse = keyframes`
   to {
     transform: scale3d(1, 1, 1);
   }
-`
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const PlayerSymbol = styled.div`
   padding: 0 20px;
   opacity: 0;
   animation: ${extremeFadeAndScale} 1s linear ${props => props.animationDelay}ms
-    1 forwards;  
+    1 forwards;
 `;
 
 const Symbol = styled.div`
@@ -68,9 +68,13 @@ const View = () => {
       {Object.keys(theme.characters.characterMapping).map((key, index) => {
         const Component = theme.characters.characterMapping[key];
         return (
-          <PlayerSymbol key={key} animationDelay={index * 500} pulseDelay={(index * 1) + 3}>
+          <PlayerSymbol
+            key={key}
+            animationDelay={index * 500}
+            pulseDelay={index * 1 + 3}
+          >
             <SymbolTitle>{theme.characters.nameMapping[key]}</SymbolTitle>
-            <Symbol pulseDelay={(index * 1) + 8}>
+            <Symbol pulseDelay={index * 1 + 8}>
               <Component />
             </Symbol>
           </PlayerSymbol>

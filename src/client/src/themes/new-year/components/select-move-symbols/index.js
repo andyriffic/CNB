@@ -47,8 +47,6 @@ const SymbolContainer = styled.div`
 
 const StyledCharacter = styled(SymbolBase)``;
 
-const symbolSize = selected => (selected ? 50 : 30);
-
 export const FireworkSelector = ({ onSelection, selected, loser }) => {
   const theme = useContext(GameThemeContext);
   return (

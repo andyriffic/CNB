@@ -9,10 +9,10 @@ export const RadioContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export const RadioItem = styled.div`  
+export const RadioItem = styled.div`
   width: 130px;
   height: 50px;
-  position: relative;  
+  position: relative;
 `;
 
 export const Label = styled.label`
@@ -42,7 +42,7 @@ export const Radio = styled.input`
 `;
 
 export const Check = styled.div`
-  width: 20px; 
+  width: 20px;
   height: 20px;
   background-color: lightgrey;
   border-radius: 50%;

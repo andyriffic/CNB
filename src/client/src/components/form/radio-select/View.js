@@ -1,5 +1,12 @@
 import React from 'react';
-import { Heading, RadioContainer, RadioItem, Label, Radio, Check } from './styles';
+import {
+  Heading,
+  RadioContainer,
+  RadioItem,
+  Label,
+  Radio,
+  Check,
+} from './styles';
 
 const View = ({ title, items, selectedValue, onChange }) => {
   return (
@@ -10,18 +17,21 @@ const View = ({ title, items, selectedValue, onChange }) => {
           const itemId = `radioItem_${item.id}`;
           return (
             <RadioItem key={item.value} className="radio-item">
-              <Radio type="radio"
+              <Radio
+                type="radio"
                 value={item.value}
                 id={itemId}
                 checked={item.value === selectedValue}
-                onChange={() => onChange(item.value)} />
+                onChange={() => onChange(item.value)}
+              />
               <Label htmlFor={itemId}>{item.label}</Label>
-              <Check className="check"/>
+              <Check className="check" />
             </RadioItem>
-          )
+          );
         })}
       </RadioContainer>
-    </div>);
-}
+    </div>
+  );
+};
 
 export default View;

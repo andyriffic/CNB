@@ -7,7 +7,7 @@ type Props = {
   result: Object,
   player1: Object,
   player2: Object,
-}
+};
 
 const WinnerView = styled.div`
   display: flex;
@@ -77,44 +77,42 @@ const LoserAnimated = styled(CenteredText)`
   animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
 `;
 
-
-const TranslatedWinnerText = ( { winner } ) => {
-  if(winner === 'XIAN') {
+const TranslatedWinnerText = ({ winner }) => {
+  if (winner === 'XIAN') {
     return (
-        <React.Fragment>
-          XIAN WINS! <br />
-          西安勝
-        </React.Fragment>
+      <React.Fragment>
+        XIAN WINS! <br />
+        西安勝
+      </React.Fragment>
     );
   }
 
-  if(winner === 'MELB') {
+  if (winner === 'MELB') {
     return (
-        <React.Fragment>
-          MELB WINS! <br />
-          墨爾本獲勝
-        </React.Fragment>
+      <React.Fragment>
+        MELB WINS! <br />
+        墨爾本獲勝
+      </React.Fragment>
     );
   }
 
   return null;
+};
 
-}
-
-const View = ( { player1, player2, result }: Props ) => {
+const View = ({ player1, player2, result }: Props) => {
   const theme = useContext(GameThemeContext);
-  const winner = (result.winner === 'player1') ? player1 : player2;
-  const loser = (winner === player1) ? player2 : player1;
+  const winner = result.winner === 'player1' ? player1 : player2;
+  const loser = winner === player1 ? player2 : player1;
 
   return (
     <WinnerView>
       <ResultContainer>
         <WinnerAnimated>
-          { theme.characters.nameMapping[winner.move] }
+          {theme.characters.nameMapping[winner.move]}
         </WinnerAnimated>
         <BeatsAnimated>beats 打败</BeatsAnimated>
         <LoserAnimated>
-          { theme.characters.nameMapping[loser.move] }
+          {theme.characters.nameMapping[loser.move]}
         </LoserAnimated>
       </ResultContainer>
       <WinnerHeading>
@@ -122,6 +120,6 @@ const View = ( { player1, player2, result }: Props ) => {
       </WinnerHeading>
     </WinnerView>
   );
-}
+};
 
 export default View;

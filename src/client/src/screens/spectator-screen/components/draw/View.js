@@ -24,15 +24,15 @@ const DrawHeading = styled.h2`
   font-size: 1.25rem;
 `;
 
-const View = ( ) => {
+const View = () => {
   return (
     <React.Fragment>
       <DrawHeading>
-        It's a draw! <br/>
+        It's a draw! <br />
         這是一個平局
       </DrawHeading>
     </React.Fragment>
   );
-}
+};
 
 export default View;

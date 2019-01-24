@@ -1,20 +1,20 @@
 /* @flow */
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   PlayerSpectatorContainer,
   PlayerSpectatorSection,
   Button,
-} from "../../../styled";
+} from '../../../styled';
 
-import PlayerScore from "../player-score";
-import PlayerStatus from "../player-status";
-import PageLayout from "../../../../components/page-layout/FullPage";
+import PlayerScore from '../player-score';
+import PlayerStatus from '../player-status';
+import PageLayout from '../../../../components/page-layout/FullPage';
 
 type Props = {
   player1: Object,
   player2: Object,
-  playGame: () => void
+  playGame: () => void,
 };
 
 const BonusPointSection = styled.div`
@@ -44,7 +44,7 @@ const View = ({ player1, player2, playGame }: Props) => {
       </PlayerSpectatorContainer>
       <BonusPointSection>
         <BonusHeading>BONUS 獎金</BonusHeading>
-        <PlayerScore playerKey={"BONUS"} />
+        <PlayerScore playerKey={'BONUS'} />
       </BonusPointSection>
     </PageLayout>
   );

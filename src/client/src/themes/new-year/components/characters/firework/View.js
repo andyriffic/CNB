@@ -7,12 +7,10 @@ type Props = {
   height: number,
   width: number,
   loser?: boolean,
-}
+};
 
-const View = ( { height, width, loser }: Props ) => {
-  return (
-    <Winner />
-  );
-}
+const View = ({ height, width, loser }: Props) => {
+  return <Winner />;
+};
 
 export default View;

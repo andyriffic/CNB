@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 const sizes = {
-  largeScreen: 769
+  largeScreen: 769,
 };
 
 export const media = Object.keys(sizes).reduce((acc, label) => {

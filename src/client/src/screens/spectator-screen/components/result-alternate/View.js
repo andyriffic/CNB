@@ -60,7 +60,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isWinner={isPlayer1Winner}
             otherPlayersMove={player2.move}
             isDraw={result.draw}
-            isLeft={true}
+            isLeft
           />
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
