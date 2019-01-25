@@ -7,7 +7,7 @@ import SocketsConnection from './sockets/SocketsConnection';
 import ConnectionDetailsContext from './contexts/ConnectionDetailsContext';
 import {
   PlayerSelectionScreen,
-  SpectatorScreen,
+  SpectatorScreenAlternate,
   ResetGameScreen,
   PageLayoutScreen,
 } from './screens';
@@ -36,7 +36,7 @@ const App = () => {
         <SocketsConnection>
           <GlobalStyle />
           <Router>
-            <SpectatorScreen path="/" />
+            <SpectatorScreenAlternate path="/" />
             <PageLayoutScreen path="layouttest" />
             <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
             <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
