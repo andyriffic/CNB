@@ -52,7 +52,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   }, []);
 
   return (
-    <PageLayout pageTitle="Result 结果">
+    <PageLayout>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerResult

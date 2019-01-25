@@ -1,6 +1,9 @@
 import { Howl } from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
+import playerEnter from './player-enter.wav';
+import gameStart from './game-start-2.wav';
+import bonusPointsEnter from './bonus-points-enter.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -8,6 +11,9 @@ export const SOUND_KEYS = {
   COUNTDOWN_BLIP: 'COUNTDOWN_BLIP',
   PLAYER_MOVED_SELECTED: 'PLAYER_MOVED_SELECTED',
   DRAW: 'DRAW',
+  PLAYER_ENTER: 'PLAYER_ENTER',
+  GAME_START: 'GAME_START',
+  BONUS_POINTS_ENTER: 'BONUS_POINTS_ENTER',
 };
 
 export class SoundService {
@@ -62,6 +68,18 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.DRAW] = {
         sound: new Howl({ src: [drawSound] }),
+      };
+
+      this._sounds[SOUND_KEYS.PLAYER_ENTER] = {
+        sound: new Howl({ src: [playerEnter] }),
+      };
+
+      this._sounds[SOUND_KEYS.GAME_START] = {
+        sound: new Howl({ src: [gameStart] }),
+      };
+
+      this._sounds[SOUND_KEYS.BONUS_POINTS_ENTER] = {
+        sound: new Howl({ src: [bonusPointsEnter] }),
       };
 
       // Pre-load winning sounds

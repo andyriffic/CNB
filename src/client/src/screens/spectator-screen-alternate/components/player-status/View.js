@@ -13,8 +13,14 @@ type Props = {
 
 const Container = styled.div`
   background-color: #ffb758;
-  height: 22vmin;
-  width: 22vmin;
+  border-radius: 20px;
+  height: 24vmin;
+  width: 24vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s linear;
+  opacity: ${props => props.moved ? '1' : '0.5'};
 `;
 
 const Title = styled.div`
@@ -27,15 +33,15 @@ const Title = styled.div`
 
 const View = ({ moved, name, animationDelay }: Props) => {
   return (
-    <Container>
+    <Container moved={moved}>
       <Title>
         <TranslatedPlayerName playerName={name} />
       </Title>
-      {moved ? (
+      {/* {moved ? (
         <SelectionMade />
       ) : (
         <NoSelection animationDelay={animationDelay} />
-      )}
+      )} */}
     </Container>
   );
 };

@@ -53,9 +53,11 @@ const View = ({ pageTitle, children }) => {
 
   return (
     <FullPage {...theme.style}>
-      <Header {...theme.style}>
-        <PageHeading>{pageTitle}</PageHeading>
-      </Header>
+      {pageTitle && (
+        <Header {...theme.style}>
+          <PageHeading>{pageTitle}</PageHeading>
+        </Header>
+      )}
       <Body {...theme.style}>
         <BodyContent>{children}</BodyContent>
       </Body>

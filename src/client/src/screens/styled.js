@@ -25,7 +25,7 @@ export const PageSubTitle = styled.div`
 export const PlayerSpectatorContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
 `;
 
 export const PlayerSpectatorSection = styled.div`
@@ -38,16 +38,22 @@ export const PageFooterContainer = styled.div`
 `;
 
 export const Button = styled.button`
-  border-radius: 50%;
+  border-radius: 20px;
   cursor: pointer;
   font-size: 1rem;
   padding: 3vh;
   font-family: inherit;
   background-color: #ffe758;
   color: #ff9303;
+  transition: opacity 1s linear;
 
   &:hover {
     color: white;
     background-color: #f95568;
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: default;
   }
 `;

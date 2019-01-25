@@ -15,7 +15,7 @@ import nianWinningSound from './sounds/nian-win.mp3';
 import pigWinningSound from './sounds/pig-win.mp3';
 import fireworkWinningSound from './sounds/firework-win.mp3';
 
-import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
+import ResultAlternateScreen from '../../screens/spectator-screen-alternate/components/result-alternate';
 
 export default {
   name: 'Chinese New Year',
