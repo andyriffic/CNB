@@ -4,6 +4,7 @@ import CowboyNinjaBearTheme from './cowboy-ninja-bear';
 import PandaPizzaPirateTheme from './panda-pizza-pirate';
 import XmasTheme from './xmas';
 import NewYearTheme from './new-year';
+import AustraliaTheme from './australia';
 import { isFeatureEnabled } from '../featureToggle';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -18,12 +19,14 @@ const getThemeFromFeatureToggle = () => {
     theme = XmasTheme;
   } else if (isFeatureEnabled('new-year')) {
     theme = NewYearTheme;
+  } else if (isFeatureEnabled('australia')) {
+    theme = AustraliaTheme;
   }
 
   return theme;
 };
 
-const getThemeForDate = () => {
+const getThemeForDayOfWeek = () => {
   let theme;
   const dayOfWeek = DAYS[new Date().getDay()];
 
@@ -46,15 +49,30 @@ const getThemeForDate = () => {
   return theme;
 };
 
+const getThemeForSpecialDate = () => {
+  let theme;
+  const today = new Date();
+  const month = today.getMonth() + 1; // Add 1 since getMonth returns 0 based index
+  const date = today.getDate();
+
+  if (month === 1 && date === 29) {
+    theme = AustraliaTheme;
+  } else if (month === 1 && (date >= 21 && date <= 31)) {
+    theme = NewYearTheme;
+  }
+
+  return theme;
+};
+
 const View = ({ children }) => {
   let theme = getThemeFromFeatureToggle();
 
   if (!theme) {
-    theme = NewYearTheme;
+    theme = getThemeForSpecialDate();
   }
 
   if (!theme) {
-    theme = getThemeForDate();
+    theme = getThemeForDayOfWeek();
   }
 
   if (!theme) {

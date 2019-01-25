@@ -63,6 +63,10 @@ const View = ({ player, isWinner, isLeft }) => {
 
   const phrase = getRandomSaying(theme.characters.winningPhrases[player.move]);
 
+  if (!phrase.english) {
+    return null;
+  }
+
   return (
     <SpeechBubble isLeft={isLeft}>
       <span>{phrase.english}</span>

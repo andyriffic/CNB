@@ -7,6 +7,7 @@ import Switch from '../../../../../../components/switch';
 import TranslatedPlayerName from '../../../../../../components/translated-player-name';
 import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 import TrashTalk from '../trash-talk';
+import WinGif from '../win-gif';
 
 type Props = {
   player: Object,
@@ -156,6 +157,7 @@ const PlayerResult = ({
     <React.Fragment>
       <Container showHalo={isWinner} className={isWinner ? 'winner' : 'loser'}>
         <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />
+        <WinGif isWinner={isWinner} player={player} isLeft={isLeft} />
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
