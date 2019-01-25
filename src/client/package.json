@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "gsap": "^2.0.2",
     "howler": "^2.0.15",
     "moment": "^2.24.0",
     "react": "16.7.0-alpha.0",
