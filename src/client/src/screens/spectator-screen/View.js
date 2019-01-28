@@ -55,8 +55,8 @@ const View = () => {
     if (
       gameState &&
       (gameState.status === 'WAITING_FOR_PLAYER_1' ||
-        (gameState.status === 'WAITING_FOR_PLAYER_2') |
-          (gameState.status === 'READY'))
+        gameState.status === 'WAITING_FOR_PLAYER_2' ||
+        gameState.status === 'READY')
     ) {
       soundService.play(SOUND_KEYS.PLAYER_MOVED_SELECTED);
     }

@@ -9,6 +9,7 @@ import TranslatedPlayerName from '../../../../components/translated-player-name'
 type Props = {
   moved: boolean,
   name: string,
+  animationDelay: number,
 };
 
 const Container = styled.div`

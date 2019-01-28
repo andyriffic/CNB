@@ -128,7 +128,12 @@ const CowboyBullet = ({ animationDelay, keyframes, isLeft }) => {
   );
 };
 
-const View = ({ animationDelay, isLeft }) => {
+type Props = {
+  animationDelay: number,
+  isLeft: boolean,
+};
+
+const View = ({ animationDelay, isLeft }: Props) => {
   const smallKeyframes = isLeft ? moveSmallLeft : moveSmallRight;
   const mediumKeyframes = isLeft ? moveMediumLeft : moveMediumRight;
   const heapsKeyframes = isLeft ? moveHeapsLeft : moveHeapsRight;

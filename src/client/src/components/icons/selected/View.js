@@ -103,7 +103,7 @@ const Container = styled.div`
   }
 `;
 
-const View = ({ animationDelay }) => {
+const View = () => {
   return (
     <Container>
       <svg

@@ -175,7 +175,11 @@ const Trail = styled.span`
   }
 `;
 
-const View = ({ animationDelay }) => {
+type Props = {
+  animationDelay: number,
+};
+
+const View = ({ animationDelay }: Props) => {
   return (
     <ViewContainer>
       <Claws animationDelay={animationDelay}>

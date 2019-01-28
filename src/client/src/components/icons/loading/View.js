@@ -69,7 +69,11 @@ const Block = styled.div`
   }
 `;
 
-const View = ({ animationDelay }) => {
+type Props = {
+  animationDelay: number,
+};
+
+const View = ({ animationDelay }: Props) => {
   return (
     <Container>
       <Loading>
