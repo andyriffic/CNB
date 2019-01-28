@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -12,6 +13,7 @@ import WinGif from '../win-gif';
 type Props = {
   player: Object,
   isWinner: boolean,
+  isLeft: boolean,
 };
 
 const initialAnimationDelay = 0;
@@ -143,13 +145,7 @@ const getCharacter = (characterMapping, move, isWinner) => {
   );
 };
 
-const PlayerResult = ({
-  player,
-  isWinner,
-  isDraw,
-  otherPlayersMove,
-  isLeft,
-}: Props) => {
+const PlayerResult = ({ player, isWinner, isLeft }: Props) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
 

@@ -178,7 +178,12 @@ const NinjaStar = ({ animationDelay, keyframes, isLeft }) => {
   );
 };
 
-const View = ({ animationDelay, isLeft }) => {
+type Props = {
+  animationDelay: number,
+  isLeft: boolean,
+};
+
+const View = ({ animationDelay, isLeft }: Props) => {
   const smallKeyframes = isLeft ? rotateSmallLeft : rotateSmallRight;
   const mediumKeyframes = isLeft ? rotateMediumLeft : rotateMediumRight;
   const heapsKeyframes = isLeft ? rotateHeapsLeft : rotateHeapsRight;

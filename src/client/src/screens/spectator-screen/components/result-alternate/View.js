@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
