@@ -18,6 +18,7 @@ import kangarooSound from './sounds/kangaroo.mp3';
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
 
 export default {
+  name: 'Australia',
   gameplay: {
     resultScreen: ResultAlternateScreen,
   },

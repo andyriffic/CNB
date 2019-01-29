@@ -18,6 +18,7 @@ import fireworkWinningSound from './sounds/firework-win.mp3';
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
 
 export default {
+  name: 'Chinese New Year',
   gameplay: {
     resultScreen: ResultAlternateScreen,
   },

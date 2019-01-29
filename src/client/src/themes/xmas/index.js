@@ -22,6 +22,7 @@ import bearWinningSound from './sounds/bear-win.wav';
 import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
+  name: 'Merry Christmas',
   gameplay: {
     resultScreen: ResultScreen,
   },

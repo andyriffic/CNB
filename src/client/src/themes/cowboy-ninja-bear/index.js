@@ -22,6 +22,7 @@ import bearWinningSound from './sounds/bear-win.wav';
 import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
+  name: 'Ninja, Cowboy, Bear',
   gameplay: {
     resultScreen: ResultScreen,
   },
@@ -56,5 +57,10 @@ export default {
     waitingMusic: waitingSound,
     countdownBeep,
     playerMoveSelected,
+  },
+  style: {
+    headerBackgroundColor: '#9DADBC',
+    pageBackgroundColor: '#6ba2cc',
+    textColor: '#000000',
   },
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SoundToggle from '../sound-toggle';
+import ThemeCalendar from '../theme-calendar';
 
 const drawerWidth = 300;
 
@@ -13,6 +14,7 @@ const Drawer = styled.div`
   background-color: #eee;
   border-radius: 0 0 10px 0;
   position: absolute;
+  max-height: 100vh;
 
   transition: transform 200ms linear;
   transform: translateX(-${drawerWidth}px);
@@ -44,6 +46,7 @@ const View = () => {
     <Drawer className={open ? 'open' : 'closed'}>
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
+      <ThemeCalendar />
     </Drawer>
   );
 };

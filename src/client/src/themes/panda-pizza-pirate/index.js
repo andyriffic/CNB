@@ -18,6 +18,7 @@ import pirateWinningSound from './sounds/pirate-win.mp3';
 import ResultAlternateScreen from '../../screens/spectator-screen/components/result-alternate';
 
 export default {
+  name: 'Pizza, Panda, Pirate',
   gameplay: {
     resultScreen: ResultAlternateScreen,
   },
