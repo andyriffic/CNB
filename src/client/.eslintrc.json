@@ -24,7 +24,8 @@
     "describe": true,
     "before": true,
     "beforeEach": true,
-    "fetch": true
+    "fetch": true,
+    "localStorage": true
   },
   "parserOptions": {
     "sourceType": "module"

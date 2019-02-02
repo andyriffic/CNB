@@ -1,17 +1,25 @@
+/* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useState, useContext } from 'react';
+import type { Node } from 'react';
 import GameSettingsContext from '../contexts/GameSettingsContext';
 import GameSoundContext from '../contexts/GameSoundContext';
+import { getGameSettings, setGameSetting } from '../storage';
 
-const View = ({ children }) => {
-  const [musicEnabled, setMusicEnabled] = useState(true);
+type Props = {
+  children?: Node,
+};
+
+const View = ({ children }: Props) => {
+  const [savedGameSettings, setSavedGameSettings] = useState(getGameSettings());
   const soundService = useContext(GameSoundContext);
-  soundService.setMusicEnabled(musicEnabled);
+  soundService.setMusicEnabled(savedGameSettings.soundOn);
 
   const gameSettings = {
     musicEnabled: {
-      value: musicEnabled,
-      set: value => {
-        setMusicEnabled(value);
+      value: savedGameSettings.soundOn,
+      set: (value: boolean): void => {
+        setSavedGameSettings(setGameSetting({ soundOn: value }));
         soundService.setMusicEnabled(value); // pass setting into music service
       },
     },
