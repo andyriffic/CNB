@@ -74,7 +74,7 @@ const View = () => {
 
   const playGame = () => {
     console.log('PLAY GAME');
-    soundService.stop(SOUND_KEYS.WAITING_MUSIC);
+    //soundService.stop(SOUND_KEYS.WAITING_MUSIC);
     serverMessages.playGame();
   };
 

@@ -102,6 +102,7 @@ const View = ({ player1, player2, playGame }: Props) => {
     //   player2Timeline.duration(1).reverse();
     // }
     if (player1Timeline) {
+      soundService.stop(SOUND_KEYS.WAITING_MUSIC);
       soundService.play(SOUND_KEYS.GAME_START, true);
       player1Timeline.duration(2).reverse();
     }
