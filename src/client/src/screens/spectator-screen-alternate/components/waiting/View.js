@@ -99,7 +99,7 @@ const View = ({ player1, player2, playGame }: Props) => {
               做你的動作
             </div>
           }
-          bottomSide={<Button onClick={clearAnim}>PLAY 玩</Button>}
+          bottomSide={<Button className="radioactive" onClick={clearAnim}>PLAY 玩</Button>}
         />
         <PlayerSpectatorSection ref={setPlayer2El}>
           <PlayerStatus {...player2} animationDelay={0.5} />

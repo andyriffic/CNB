@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const sizes = {
   largeScreen: 769,
@@ -37,6 +37,12 @@ export const PageFooterContainer = styled.div`
   padding: 5vh 0;
 `;
 
+const radioactive = keyframes`
+  0% { background-color: #749a02; box-shadow: 0 0 9px #333; }
+  50% { background-color: #91bd09; box-shadow: 0 0 18px #91bd09; }
+  100% { background-color: #749a02; box-shadow: 0 0 9px #333; }
+`;
+
 export const Button = styled.button`
   border-radius: 20px;
   cursor: pointer;
@@ -55,5 +61,10 @@ export const Button = styled.button`
   &:disabled {
     opacity: 0.2;
     cursor: default;
+  }
+
+  &.radioactive {
+    animation: ${radioactive} 1s linear infinite;
+    color: white;
   }
 `;
