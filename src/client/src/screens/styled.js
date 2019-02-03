@@ -24,7 +24,7 @@ export const PageSubTitle = styled.div`
 
 export const PlayerSpectatorContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: baseline;
 `;
 
