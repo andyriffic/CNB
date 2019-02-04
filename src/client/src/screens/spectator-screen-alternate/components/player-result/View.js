@@ -135,6 +135,7 @@ const PlayerResult = ({
   isDraw,
   otherPlayersMove,
   isLeft,
+  setContainerRef = () => {},
 }: Props) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
@@ -142,7 +143,7 @@ const PlayerResult = ({
 
   return (
     <React.Fragment>
-      <Container>
+      <Container ref={setContainerRef}>
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>

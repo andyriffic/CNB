@@ -60,11 +60,16 @@ const TranslatedWinnerText = ({ winner }) => {
   return null;
 };
 
-const View = ({ player1, player2, result }: Props) => {
+const View = ({
+  player1,
+  player2,
+  result,
+  setContainerRef = () => {},
+}: Props) => {
   const winner = result.winner === 'player1' ? player1 : player2;
 
   return (
-    <WinnerView>
+    <WinnerView ref={setContainerRef}>
       {/* <ResultContainer>
         <WinnerAnimated>
           { theme.characters.nameMapping[winner.move] }

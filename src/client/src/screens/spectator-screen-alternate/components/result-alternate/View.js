@@ -1,5 +1,5 @@
 /* @flow */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import PlayerResult from './components/player-result';
@@ -13,8 +13,13 @@ import {
   Button,
   PageFooterContainer,
 } from '../../../styled';
+import DoubleSided from '../../../../components/double-sided';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
+
+import { Power4 } from 'gsap/EasePack';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
 
 type Props = {
   result: Object,
@@ -40,16 +45,65 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = result.winner === 'player1';
   const isPlayer2Winner = result.winner === 'player2';
+  const [player1El, setPlayer1El] = useState(null);
+  const [middleEl, setMiddleEl] = useState(null);
+  const [player2El, setPlayer2El] = useState(null);
+  const [animationTimeline, setAnimationTimeline] = useState(null);
+  const [showFight, setShowFight] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     soundService.playWinningSound(winner.move, result.draw);
+  //   }, 1000);
+
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      soundService.playWinningSound(winner.move, result.draw);
-    }, 1000);
+    if (!animationTimeline && player1El && player2El) {
+      setAnimationTimeline(true);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+      new TimelineLite({
+        onComplete: () => {
+          setShowFight(true);
+          setTimeout(() => {
+            soundService.play(SOUND_KEYS.FIGHT, true);
+            setTimeout(() => {
+              setShowResult(true);
+              soundService.playWinningSound(winner.move, result.draw);
+            }, 3000);
+          }, 1000);
+        },
+      })
+        .from(player1El, 0.5, {
+          ease: Power4.easeOut,
+          y: -1000,
+          onStart: () => {
+            soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+          },
+        })
+        .from(middleEl, 0.4, {
+          scale: 0,
+          opacity: 0,
+          delay: 0,
+          onStart: () => {
+            soundService.play(SOUND_KEYS.VS, true);
+          },
+        })
+        .from(player2El, 0.5, {
+          ease: Power4.easeOut,
+          y: -1000,
+          delay: 0.5,
+          onStart: () => {
+            soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+          },
+        })
+        .delay(2);
+    }
+  }, [player1El, player2El, middleEl]);
 
   return (
     <PageLayout>
@@ -61,12 +115,20 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player2.move}
             isDraw={result.draw}
             isLeft
+            setContainerRef={setPlayer1El}
+            reveal={showResult}
           />
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
 
-        <PlayerSpectatorSection>
-          <Switch>
+        <PlayerSpectatorSection ref={setMiddleEl}>
+          <DoubleSided
+            showBottom={showFight}
+            topSide={<p style={{ fontSize: '4rem' }}>VS</p>}
+            bottomSide={<p style={{ fontSize: '4rem' }}>FIGHT!</p>}
+          />
+
+          {/* <Switch>
             <Draw showIf={result.draw} />
             <Winner
               showIf={!result.draw}
@@ -74,11 +136,11 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
               player2={player2}
               result={result}
             />
-          </Switch>
-          <BonusPointSection>
+          </Switch> */}
+          {/* <BonusPointSection>
             <BonusHeading>BONUS 獎金</BonusHeading>
             <PlayerScore playerKey={'BONUS'} />
-          </BonusPointSection>
+          </BonusPointSection> */}
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
@@ -88,6 +150,8 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player1.move}
             isDraw={result.draw}
             isLeft={false}
+            setContainerRef={setPlayer2El}
+            reveal={showResult}
           />
           <PlayerScore playerKey={player2.name} />
         </PlayerSpectatorSection>

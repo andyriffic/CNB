@@ -68,7 +68,7 @@ const winnerWobble = keyframes`
 const Container = styled.div`
   position: relative;
   background-color: #e9e3c5;
-  border-radius: 50%;
+  border-radius: 10px;
   padding: 3vmin;
   width: 32vmin;
   height: 32vmin;
@@ -148,24 +148,32 @@ const PlayerResult = ({
   isDraw,
   otherPlayersMove,
   isLeft,
+  setContainerRef = () => {},
+  reveal,
 }: Props) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
 
   return (
     <React.Fragment>
-      <Container showHalo={isWinner} className={isWinner ? 'winner' : 'loser'}>
+      <Container
+        ref={setContainerRef}
+        showHalo={isWinner}
+        className={isWinner ? 'winner' : 'loser'}
+      >
         <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
-        <CharacterPosition>
-          <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
-            <InitialCharacterAnimaton>
-              {getCharacter(characterMapping, player.move, true)}
-            </InitialCharacterAnimaton>
-          </WinnerAnimationContainer>
-        </CharacterPosition>
+        {reveal && (
+          <CharacterPosition>
+            <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
+              <InitialCharacterAnimaton>
+                {getCharacter(characterMapping, player.move, true)}
+              </InitialCharacterAnimaton>
+            </WinnerAnimationContainer>
+          </CharacterPosition>
+        )}
       </Container>
     </React.Fragment>
   );

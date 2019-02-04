@@ -25,7 +25,7 @@ export const PageSubTitle = styled.div`
 export const PlayerSpectatorContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
-  align-items: baseline;
+  align-items: center;
 `;
 
 export const PlayerSpectatorSection = styled.div`

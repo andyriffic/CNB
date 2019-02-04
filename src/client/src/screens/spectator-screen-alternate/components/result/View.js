@@ -1,5 +1,5 @@
 /* @flow */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import PlayerResult from '../player-result';
@@ -15,6 +15,9 @@ import {
 } from '../../../styled';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
+
+import { Elastic } from 'gsap/EasePack';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
 
 type Props = {
   result: Object,
@@ -36,6 +39,9 @@ const BonusHeading = styled.h2`
 
 const View = ({ result, player1, player2, resetGame }: Props) => {
   const soundService = useContext(GameSoundContext);
+  const [player1El, setPlayer1El] = useState(null);
+  const [middleEl, setMiddleEl] = useState(null);
+  const [player2El, setPlayer2El] = useState(null);
 
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = result.winner === 'player1';
@@ -61,6 +67,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player2.move}
             isDraw={result.draw}
             isLeft
+            setContainerRef={setPlayer1El}
           />
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
@@ -73,6 +80,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
               player1={player1}
               player2={player2}
               result={result}
+              setContainerRef={setMiddleEl}
             />
           </Switch>
         </PlayerSpectatorSection>
@@ -84,6 +92,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player1.move}
             isDraw={result.draw}
             isLeft={false}
+            setContainerRef={setPlayer2El}
           />
           <PlayerScore playerKey={player2.name} />
         </PlayerSpectatorSection>

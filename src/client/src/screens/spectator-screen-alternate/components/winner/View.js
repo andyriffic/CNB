@@ -99,13 +99,18 @@ const TranslatedWinnerText = ({ winner }) => {
   return null;
 };
 
-const View = ({ player1, player2, result }: Props) => {
+const View = ({
+  player1,
+  player2,
+  result,
+  setContainerRef = () => {},
+}: Props) => {
   const theme = useContext(GameThemeContext);
   const winner = result.winner === 'player1' ? player1 : player2;
   const loser = winner === player1 ? player2 : player1;
 
   return (
-    <WinnerView>
+    <WinnerView ref={setContainerRef}>
       <ResultContainer>
         <WinnerAnimated>
           {theme.characters.nameMapping[winner.move]}
