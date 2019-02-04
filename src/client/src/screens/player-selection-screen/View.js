@@ -16,7 +16,7 @@ import { safeGetTranslation } from '../../components/translated-player-name/View
 
 type Props = {
   // todo: do better than this
-  playerKey: 'XIAN' | 'MELB',
+  playerKey: 'AUS' | 'NZ',
 };
 
 const hasGameResult = gameState => !!(gameState && gameState.result);

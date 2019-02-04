@@ -4,10 +4,10 @@ import type { Game } from '../types/GameType';
 
 const initialState: Game = {
   player1: {
-    name: 'XIAN',
+    name: 'NZ',
   },
   player2: {
-    name: 'MELB',
+    name: 'AUS',
   },
   status: GAME_STATUS.EMPTY,
 };
