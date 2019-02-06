@@ -1,5 +1,5 @@
 /* @flow */
-export const FEATURE_WAITING_MUSIC = 'music';
+export const FEATURE_ANIMATED = 'animated';
 
 export type IsFeatureEnabled = string => boolean;
 
