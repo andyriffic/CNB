@@ -41,15 +41,15 @@ const View = () => {
     }
   }, [gameState]);
 
-  useEffect(() => {
-    // if (gameState && gameState.status === 'FINISHED') {
-    //   soundService.stop(SOUND_KEYS.WAITING_MUSIC);
-    // }
+  // useEffect(() => {
+  //   // if (gameState && gameState.status === 'FINISHED') {
+  //   //   soundService.stop(SOUND_KEYS.WAITING_MUSIC);
+  //   // }
 
-    if (gameState && gameState.status !== 'FINISHED') {
-      soundService.play(SOUND_KEYS.WAITING_MUSIC);
-    }
-  }, [gameState]);
+  //   if (gameState && gameState.status !== 'FINISHED') {
+  //     soundService.play(SOUND_KEYS.WAITING_MUSIC);
+  //   }
+  // }, [gameState]);
 
   useEffect(() => {
     // Um, pretty bad logic but it'll do. Play a sound if user makes selection

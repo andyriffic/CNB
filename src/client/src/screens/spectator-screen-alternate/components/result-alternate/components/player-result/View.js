@@ -73,12 +73,14 @@ const Container = styled.div`
   width: 32vmin;
   height: 32vmin;
 
-  &.loser {
-    animation: ${dim} 2s linear 3500ms 1 forwards;
-  }
+  // &.loser {
+  //   animation: ${dim} 2s linear 3500ms 1 forwards;
+  // }
+
+  transition: box-shadow 3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 
   ${props =>
-    props.showHalo_x
+    props.showHalo && props.reveal
       ? `
   box-shadow:
         inset 0 0 50px #fff,      /* inner white */
@@ -159,6 +161,7 @@ const PlayerResult = ({
       <Container
         ref={setContainerRef}
         showHalo={isWinner}
+        reveal={reveal}
         className={isWinner ? 'winner' : 'loser'}
       >
         <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />

@@ -44,6 +44,9 @@ const View = ({ player1, player2, playGame }: Props) => {
     if (player1El && player2El && buttonEl && bonusPointsEl) {
       setPlayer1Timeline(
         new TimelineLite({
+          onComplete: () => {
+            soundService.play(SOUND_KEYS.WAITING_MUSIC);
+          },
           onReverseComplete: () => {
             setTimeout(playGame, 2000);
           },
