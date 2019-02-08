@@ -38,8 +38,8 @@ const App = () => {
           <Router>
             <SpectatorScreen path="/" />
             <PageLayoutScreen path="layouttest" />
-            <PlayerSelectionScreen path="nz" playerKey={'NZ'} />
-            <PlayerSelectionScreen path="melb" playerKey={'AUS'} />
+            <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
+            <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
             <ResetGameScreen path="reset" />
           </Router>
           <DebugOutput data={connectionDetails} />
