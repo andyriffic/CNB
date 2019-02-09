@@ -6,18 +6,18 @@ import styled from 'styled-components';
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
 import {
+  Button,
   PlayerSpectatorContainer,
   PlayerSpectatorSection,
 } from '../../../styled';
 import PageLayout from '../../../../components/page-layout/FullPage';
 import IntroBanner from '../intro-banner';
-import { Button } from '../../../styled';
 
 import { Elastic } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
-import DoubleSided from '../../../../components/double-sided';
+import MultiArea from '../../../../components/multi-area';
 
 type Props = {
   player1: Object,
@@ -92,18 +92,19 @@ const View = ({ player1, player2, playGame }: Props) => {
           <PlayerStatus {...player1} animationDelay={0} />
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
-        <DoubleSided
+        <MultiArea
           setRef={setButtonEl}
-          showBottom={player1.moved && player2.moved}
-          topSide={
-            <div style={{ textAlign: 'center' }}>
-              Make your move
-              <br />
-              做你的動作
-            </div>
-          }
-          bottomSide={<Button className="radioactive" onClick={clearAnim}>PLAY 玩</Button>}
-        />
+          showIndex={player1.moved && player2.moved ? 1 : 0}
+        >
+          <div style={{ textAlign: 'center' }}>
+            Make your move
+            <br />
+            做你的動作
+          </div>
+          <Button className="radioactive" onClick={clearAnim}>
+            PLAY 玩
+          </Button>
+        </MultiArea>
         <PlayerSpectatorSection ref={setPlayer2El}>
           <PlayerStatus {...player2} animationDelay={0.5} />
           <PlayerScore playerKey={player2.name} />

@@ -13,7 +13,7 @@ import {
   Button,
   PageFooterContainer,
 } from '../../../styled';
-import DoubleSided from '../../../../components/double-sided';
+import MultiArea from '../../../../components/multi-area';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
@@ -49,7 +49,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [middleEl, setMiddleEl] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
   const [animationTimeline, setAnimationTimeline] = useState(null);
-  const [showFight, setShowFight] = useState(false);
+  const [middleIndex, setMiddleIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
   // useEffect(() => {
@@ -68,14 +68,15 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
 
       new TimelineLite({
         onComplete: () => {
-          setShowFight(true);
+          setMiddleIndex(1);
           setTimeout(() => {
             soundService.play(SOUND_KEYS.FIGHT, true);
             setTimeout(() => {
               setShowResult(true);
               soundService.playWinningSound(winner.move, result.draw);
+              setMiddleIndex(2);
             }, 3000);
-          }, 1000);
+          }, 100);
         },
       })
         .from(player1El, 0.5, {
@@ -122,21 +123,21 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection ref={setMiddleEl}>
-          <DoubleSided
-            showBottom={showFight}
-            topSide={<p style={{ fontSize: '4rem' }}>VS</p>}
-            bottomSide={<p style={{ fontSize: '4rem' }}>FIGHT!</p>}
-          />
+          <MultiArea showIndex={middleIndex}>
+            <p style={{ fontSize: '2rem' }}>VS</p>
+            <p style={{ fontSize: '2rem' }}>FIGHT!</p>
+            <Switch>
+              <Draw showIf={result.draw} />
+              <Winner
+                showIf={!result.draw}
+                player1={player1}
+                player2={player2}
+                result={result}
+              />
+            </Switch>
+          </MultiArea>
 
-          {/* <Switch>
-            <Draw showIf={result.draw} />
-            <Winner
-              showIf={!result.draw}
-              player1={player1}
-              player2={player2}
-              result={result}
-            />
-          </Switch> */}
+          {/*  */}
           {/* <BonusPointSection>
             <BonusHeading>BONUS 獎金</BonusHeading>
             <PlayerScore playerKey={'BONUS'} />

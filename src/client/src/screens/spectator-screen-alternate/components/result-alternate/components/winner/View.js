@@ -32,8 +32,8 @@ const extremeFadeAndScale = keyframes`
 `;
 
 const WinnerHeading = styled.h2`
-  opacity: 0;
-  animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
+  //opacity: 0;
+  //animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
   text-align: center;
   margin: 0;
 `;
