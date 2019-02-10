@@ -68,15 +68,15 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
 
       new TimelineLite({
         onComplete: () => {
-          setMiddleIndex(1);
           setTimeout(() => {
+            setMiddleIndex(1);
             soundService.play(SOUND_KEYS.FIGHT, true);
             setTimeout(() => {
               setShowResult(true);
               soundService.playWinningSound(winner.move, result.draw);
               setMiddleIndex(2);
             }, 3000);
-          }, 100);
+          }, 1000);
         },
       })
         .from(player1El, 0.5, {
@@ -124,8 +124,8 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
 
         <PlayerSpectatorSection ref={setMiddleEl}>
           <MultiArea showIndex={middleIndex}>
-            <p style={{ fontSize: '2rem' }}>VS</p>
-            <p style={{ fontSize: '2rem' }}>FIGHT!</p>
+            <p style={{ fontSize: '3rem' }}>VS</p>
+            <p style={{ fontSize: '3rem' }}>FIGHT!</p>
             <Switch>
               <Draw showIf={result.draw} />
               <Winner
@@ -158,9 +158,9 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
       <PageFooterContainer>
-        <Button onClick={resetGame}>
+        {<Button onClick={resetGame}>
           Play again <br /> 再玩一次
-        </Button>
+        </Button>}
       </PageFooterContainer>
     </PageLayout>
   );

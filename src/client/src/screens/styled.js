@@ -30,6 +30,10 @@ export const PlayerSpectatorContainer = styled.div`
 
 export const PlayerSpectatorSection = styled.div`
   padding: 0 2vw;
+  flex-basis: 33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const PageFooterContainer = styled.div`
