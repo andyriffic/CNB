@@ -16,6 +16,10 @@ auto/start
 2. open two terminals
 3. in one terminal run `npm run local:client`
 4. in another terminal run `npm run local:server`
+5. in a browser you can then go to:
+  - **Spectator Mode:** http://localhost:3000
+  - **Player (Xian):** http://localhost:3000/xian
+  - **Player (Melb):** http://localhost:3000/melb
 
 
 Any dev in client will auto-update, any dev on server you'll need to stop/start **local:server** process
