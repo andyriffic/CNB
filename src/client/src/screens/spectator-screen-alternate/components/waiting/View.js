@@ -13,7 +13,7 @@ import {
 import PageLayout from '../../../../components/page-layout/FullPage';
 import IntroBanner from '../intro-banner';
 
-import { Elastic } from 'gsap/EasePack';
+import { Elastic, Power4 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
@@ -53,9 +53,9 @@ const View = ({ player1, player2, playGame }: Props) => {
         })
           .staggerFrom(
             [player1El, player2El],
-            2,
+            1,
             {
-              ease: Elastic.easeOut.config(1.2, 1),
+              ease: Power4.easeOut,
               y: 800,
               onStart: () => {
                 soundService.play(SOUND_KEYS.PLAYER_ENTER, true);
@@ -65,6 +65,7 @@ const View = ({ player1, player2, playGame }: Props) => {
           )
           .from(bonusPointsEl, 1, {
             ease: Elastic.easeOut.config(1.2, 1),
+            delay: 1,
             y: 800,
             onStart: () => {
               soundService.play(SOUND_KEYS.BONUS_POINTS_ENTER, true);

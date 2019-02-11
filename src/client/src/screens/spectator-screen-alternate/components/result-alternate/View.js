@@ -14,6 +14,7 @@ import {
   PageFooterContainer,
 } from '../../../styled';
 import MultiArea from '../../../../components/multi-area';
+import VisibilityContainer from '../../../../components/visibility-placeholder';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
@@ -30,7 +31,7 @@ type Props = {
 
 const BonusPointSection = styled.div`
   text-align: center;
-  width: 20vmin;
+  //width: 20vmin;
   margin-top: 20px;
 `;
 
@@ -51,16 +52,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [animationTimeline, setAnimationTimeline] = useState(null);
   const [middleIndex, setMiddleIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     soundService.playWinningSound(winner.move, result.draw);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
-  // }, []);
+  const [showResetGameButton, setShowResetGameButton] = useState(false);
 
   useEffect(() => {
     if (!animationTimeline && player1El && player2El) {
@@ -75,6 +67,9 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
               setShowResult(true);
               soundService.playWinningSound(winner.move, result.draw);
               setMiddleIndex(2);
+              setTimeout(() => {
+                setShowResetGameButton(true);
+              }, 7000);
             }, 3000);
           }, 1000);
         },
@@ -119,7 +114,9 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             setContainerRef={setPlayer1El}
             reveal={showResult}
           />
-          <PlayerScore playerKey={player1.name} />
+          <VisibilityContainer visible={showResult}>
+            <PlayerScore playerKey={player1.name} />
+          </VisibilityContainer>
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection ref={setMiddleEl}>
@@ -137,11 +134,12 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             </Switch>
           </MultiArea>
 
-          {/*  */}
-          {/* <BonusPointSection>
-            <BonusHeading>BONUS 獎金</BonusHeading>
-            <PlayerScore playerKey={'BONUS'} />
-          </BonusPointSection> */}
+          <VisibilityContainer visible={showResult}>
+            <BonusPointSection>
+              <BonusHeading>BONUS 獎金</BonusHeading>
+              <PlayerScore playerKey={'BONUS'} />
+            </BonusPointSection>
+          </VisibilityContainer>
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
@@ -154,13 +152,17 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             setContainerRef={setPlayer2El}
             reveal={showResult}
           />
-          <PlayerScore playerKey={player2.name} />
+          <VisibilityContainer visible={showResult}>
+            <PlayerScore playerKey={player2.name} />
+          </VisibilityContainer>
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
       <PageFooterContainer>
-        {<Button onClick={resetGame}>
-          Play again <br /> 再玩一次
-        </Button>}
+        <VisibilityContainer visible={showResetGameButton}>
+          <Button onClick={resetGame}>
+            Play again <br /> 再玩一次
+          </Button>
+        </VisibilityContainer>
       </PageFooterContainer>
     </PageLayout>
   );

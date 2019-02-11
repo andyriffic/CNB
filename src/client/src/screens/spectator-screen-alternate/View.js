@@ -79,7 +79,7 @@ const View = () => {
   };
 
   return (
-    <div style={{ fontFamily: '"Luckiest Guy", cursive' }}>
+    <div>
       <GameSettingsDrawer />
       {gameState ? (
         <Switch>
