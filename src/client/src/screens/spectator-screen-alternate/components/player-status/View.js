@@ -48,6 +48,7 @@ const Container = styled.div`
     );
     background-size: 1800% 1800%;
     animation: ${Rainbow} 10s ease infinite;
+    box-shadow: 0 0 100px #ffffff;
   }
 `;
 
