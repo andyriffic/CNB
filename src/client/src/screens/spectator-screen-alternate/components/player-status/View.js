@@ -2,8 +2,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import SelectionMade from '../selection-made';
-import NoSelection from '../no-selection';
 import TranslatedPlayerName from '../../../../components/translated-player-name';
 
 type Props = {
@@ -16,12 +14,6 @@ const Rainbow = keyframes`
   50% { background-position:100% 19%; }
   100% { background-position:0% 82%; }
 `;
-
-// const Rainbow = keyframes`
-//   0% { background-color: #ff2400; }
-//   50% { background-color: #1de840; }
-//   100% { background-color: #dd00f3; }
-// `;
 
 const Container = styled.div`
   background-color: #ffb758;
@@ -66,11 +58,6 @@ const View = ({ moved, name, animationDelay }: Props) => {
       <Title>
         <TranslatedPlayerName playerName={name} />
       </Title>
-      {/* {moved ? (
-        <SelectionMade />
-      ) : (
-        <NoSelection animationDelay={animationDelay} />
-      )} */}
     </Container>
   );
 };

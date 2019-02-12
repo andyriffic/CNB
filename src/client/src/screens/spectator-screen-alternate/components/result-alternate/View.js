@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,7 +20,7 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
 import { Power4 } from 'gsap/EasePack';
-import { CSSPlugin, TimelineLite } from 'gsap/all';
+import { TimelineLite } from 'gsap/all';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 
 type Props = {

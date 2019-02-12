@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -10,6 +11,10 @@ import GameThemeContext from '../../../../contexts/GameThemeContext';
 type Props = {
   player: Object,
   isWinner: boolean,
+  isDraw: boolean,
+  otherPlayersMove: string,
+  isLeft: boolean,
+  setContainerRef?: () => void,
 };
 
 const initialAnimationDelay = 0;

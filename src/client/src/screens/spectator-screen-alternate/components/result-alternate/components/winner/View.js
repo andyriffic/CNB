@@ -6,6 +6,7 @@ type Props = {
   result: Object,
   player1: Object,
   player2: Object,
+  setContainerRef?: () => void,
 };
 
 const WinnerView = styled.div`

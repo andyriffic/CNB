@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -11,6 +12,11 @@ import TrashTalk from '../trash-talk';
 type Props = {
   player: Object,
   isWinner: boolean,
+  isDraw: boolean,
+  otherPlayersMove: string,
+  isLeft: boolean,
+  setContainerRef: () => void,
+  reveal: boolean,
 };
 
 const initialAnimationDelay = 0;

@@ -21,7 +21,11 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const View = ({ animationDelay }) => {
+type Props = {
+  animationDelay: number,
+};
+
+const View = ({ animationDelay }: Props) => {
   return (
     <Container animationDelay={animationDelay}>
       <WaitingIcon animationDelay={animationDelay} />

@@ -1,4 +1,5 @@
 /* @flow */
+// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
@@ -7,6 +8,7 @@ type Props = {
   result: Object,
   player1: Object,
   player2: Object,
+  setContainerRef?: () => void,
 };
 
 const WinnerView = styled.div`
