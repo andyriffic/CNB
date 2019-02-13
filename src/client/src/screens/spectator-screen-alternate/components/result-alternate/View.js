@@ -41,6 +41,12 @@ const BonusHeading = styled.h2`
   font-size: 1rem;
 `;
 
+const MIDDLE_STATES = {
+  VS: 0,
+  FIGHT: 1,
+  RESULT: 2,
+};
+
 const View = ({ result, player1, player2, resetGame }: Props) => {
   const soundService = useContext(GameSoundContext);
 
@@ -51,7 +57,8 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [middleEl, setMiddleEl] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
   const [animationTimeline, setAnimationTimeline] = useState(null);
-  const [middleIndex, setMiddleIndex] = useState(0);
+  const [middleIndex, setMiddleIndex] = useState(MIDDLE_STATES.VS);
+  const [showPlayerMoves, setShowPlayerMoves] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [showResetGameButton, setShowResetGameButton] = useState(false);
 
@@ -62,15 +69,16 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
       new TimelineLite({
         onComplete: () => {
           setTimeout(() => {
-            setMiddleIndex(1);
             soundService.play(SOUND_KEYS.FIGHT, true);
+            setMiddleIndex(MIDDLE_STATES.FIGHT);
             setTimeout(() => {
-              setShowResult(true);
+              setShowPlayerMoves(true);
               soundService.playWinningSound(winner.move, result.draw);
-              setMiddleIndex(2);
               setTimeout(() => {
+                setMiddleIndex(MIDDLE_STATES.RESULT);
+                setShowResult(true);
                 setShowResetGameButton(true);
-              }, 7000);
+              }, 4000);
             }, 3000);
           }, 1000);
         },
@@ -113,7 +121,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isDraw={result.draw}
             isLeft
             setContainerRef={setPlayer1El}
-            reveal={showResult}
+            reveal={showPlayerMoves}
           />
           <VisibilityContainer visible={showResult}>
             <PlayerScore playerKey={player1.name} />
@@ -151,7 +159,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isDraw={result.draw}
             isLeft={false}
             setContainerRef={setPlayer2El}
-            reveal={showResult}
+            reveal={showPlayerMoves}
           />
           <VisibilityContainer visible={showResult}>
             <PlayerScore playerKey={player2.name} />

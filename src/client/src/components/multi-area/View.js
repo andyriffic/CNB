@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TimelineMax, TweenMax } from 'gsap/all';
 
-const Container = styled.div`
-  min-width: ${props => `${props.minDimensions.width}px`};
-  min-height: ${props => `${props.minDimensions.height}px`};
-`;
+const Container = styled.div``;
 
 const View = ({ children, setRef, showIndex = 0 }) => {
   const [previousShowIndex, setPreviousShowIndex] = useState(showIndex);
