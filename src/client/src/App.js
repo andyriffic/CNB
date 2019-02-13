@@ -19,6 +19,7 @@ import GameTheme from './themes';
 import { isFeatureEnabled, FEATURE_ANIMATED } from './featureToggle';
 
 import { IS_PRODUCTION } from './environment';
+import PowerUpProvider from './power-ups/PowerUpProvider';
 
 const SpectatorView = isFeatureEnabled(FEATURE_ANIMATED)
   ? SpectatorScreenAlternate
@@ -40,15 +41,17 @@ const App = () => {
     <GameTheme>
       <ScoreboardApi>
         <SocketsConnection>
-          <GlobalStyle />
-          <Router>
-            <SpectatorView path="/" />
-            <PageLayoutScreen path="layouttest" />
-            <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
-            <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
-            <ResetGameScreen path="reset" />
-          </Router>
-          <DebugOutput data={connectionDetails} />
+          <PowerUpProvider>
+            <GlobalStyle />
+            <Router>
+              <SpectatorView path="/" />
+              <PageLayoutScreen path="layouttest" />
+              <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
+              <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
+              <ResetGameScreen path="reset" />
+            </Router>
+            <DebugOutput data={connectionDetails} />
+          </PowerUpProvider>
         </SocketsConnection>
       </ScoreboardApi>
     </GameTheme>
