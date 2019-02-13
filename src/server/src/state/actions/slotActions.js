@@ -15,10 +15,11 @@ export const allocateSlotAction = (slot: string) => (playerName: string, clientI
   };
 };
 
-export const makeMoveAction = (slot: string, move: Move): MakeMoveAction => {
+export const makeMoveAction = (slot: string, move: Move, powerUp?: string): MakeMoveAction => {
   return {
     type: MAKE_MOVE_ACTION,
     slot,
     move,
+    powerUp,
   };
 };

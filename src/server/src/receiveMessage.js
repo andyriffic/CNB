@@ -56,7 +56,8 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
 
       eitherMakeMoveOrError(store.getState(),
         prop('slot', msg.payload),
-        prop('move', msg.payload)
+        prop('move', msg.payload),
+        prop('powerUp', msg.payload)
       ).fold(ifLeft, ifRight);
     }
       break;

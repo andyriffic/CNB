@@ -33,6 +33,7 @@ const View = ({ player1, player2, playGame }: Props) => {
         <PlayerSpectatorSection>
           <PlayerStatus {...player1} />
           <PlayerScore playerKey={player1.name} />
+          {player1.powerUp && player1.powerUp !== 'NONE' && <p>PowerUp!!</p>}
         </PlayerSpectatorSection>
         <PlayerSpectatorSection>
           <Button onClick={playGame}>PLAY 玩</Button>
@@ -40,6 +41,7 @@ const View = ({ player1, player2, playGame }: Props) => {
         <PlayerSpectatorSection>
           <PlayerStatus {...player2} />
           <PlayerScore playerKey={player2.name} />
+          {player2.powerUp && player2.powerUp !== 'NONE' && <p>PowerUp!!</p>}
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
       <BonusPointSection>

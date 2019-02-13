@@ -27,18 +27,19 @@ const playerHasMoved = (gameState, playerState) =>
 
 const View = ({ playerKey }: Props) => {
   const playerState = usePlayerState(playerKey);
+
+  console.log('PLAYERSTATE', playerState);
+
   const [selectedMove, setSelectedMove] = useState(null);
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
   const powerUps = useContext(PowerUpContext);
 
-  console.log('player powerups', powerUps[playerKey]);
-
   useGetGameState();
 
   const onSelection = move => {
-    serverMessages.makeMove(playerState.slot, move);
+    serverMessages.makeMove(playerState.slot, move, selectedPowerUp);
   };
 
   const onPowerUpSelected = powerUp => {
@@ -46,6 +47,7 @@ const View = ({ playerKey }: Props) => {
   };
 
   if (!playerState) return null;
+  console.log('PLAYER STATE', playerState);
 
   return (
     <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>

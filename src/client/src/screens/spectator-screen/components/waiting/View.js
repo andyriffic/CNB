@@ -31,6 +31,7 @@ const View = ({ player1, player2 }: Props) => {
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerStatus {...player1} animationDelay={0} />
+          {player1.powerUp && player1.powerUp !== 'NONE' && <p>PowerUp!!</p>}
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
         <PlayerSpectatorSection>
@@ -40,6 +41,7 @@ const View = ({ player1, player2 }: Props) => {
       </PlayerSpectatorContainer>
       <BonusPointSection>
         <BonusHeading>BONUS 獎金</BonusHeading>
+        {player2.powerUp && player2.powerUp !== 'NONE' && <p>PowerUp!!</p>}
         <PlayerScore playerKey={'BONUS'} />
       </BonusPointSection>
     </PageLayout>
