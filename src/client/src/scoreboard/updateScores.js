@@ -1,9 +1,11 @@
 const delayMilliseconds = 9000;
 
-export const updateScores = (scores, { winner, draw }) => {
+export const updateScores = (scores, data) => {
   if (!scores) return;
 
-  if (draw) {
+  console.log('SCORING DATA', data);
+
+  if (data.draw) {
     scores.BONUS.add(1, scores).then(updateBonusPointsLocally => {
       setTimeout(() => {
         updateBonusPointsLocally();
@@ -12,11 +14,17 @@ export const updateScores = (scores, { winner, draw }) => {
     return;
   }
 
-  const winnerScore = scores[winner];
+  const winnerScore = scores[data.winner];
   if (!winnerScore) return;
 
   const bonusPoints = scores.BONUS.value;
-  const pointsToAdd = 1 + bonusPoints;
+  let pointsToAdd = 1 + bonusPoints;
+
+  if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
+    if (data.winnerPowerUp === 'DOUBLE') {
+      pointsToAdd *= 2;
+    }
+  }
 
   winnerScore.add(pointsToAdd, scores).then(updateScoresLocally => {
     // Delay updating player score
