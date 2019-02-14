@@ -1,6 +1,6 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import useGetGameState from '../hooks/useGetGameState';
 import usePlayerState from './hooks/usePlayerState';
@@ -28,13 +28,17 @@ const playerHasMoved = (gameState, playerState) =>
 const View = ({ playerKey }: Props) => {
   const playerState = usePlayerState(playerKey);
 
-  console.log('PLAYERSTATE', playerState);
-
   const [selectedMove, setSelectedMove] = useState(null);
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
   const powerUps = useContext(PowerUpContext);
+
+  useEffect(() => {
+    if (playerState && !selectedPowerUp) {
+      setSelectedPowerUp(playerState.player.powerUp);
+    }
+  }, [gameState]);
 
   useGetGameState();
 
@@ -47,7 +51,6 @@ const View = ({ playerKey }: Props) => {
   };
 
   if (!playerState) return null;
-  console.log('PLAYER STATE', playerState);
 
   return (
     <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>
@@ -59,7 +62,9 @@ const View = ({ playerKey }: Props) => {
         />
         <SelectMove
           showIf={
-            selectedPowerUp && !hasGameResult(gameState) && !playerHasMoved(gameState, playerState)
+            selectedPowerUp &&
+            !hasGameResult(gameState) &&
+            !playerHasMoved(gameState, playerState)
           }
           onSelection={onSelection}
         />
@@ -69,6 +74,7 @@ const View = ({ playerKey }: Props) => {
           }
           title="You chose 你选择了"
           selectedMove={playerState.player.move}
+          selectedPowerUp={selectedPowerUp}
         />
         <GameResult
           showIf={hasGameResult(gameState)}
