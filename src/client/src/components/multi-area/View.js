@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { TimelineMax, TweenMax } from 'gsap/all';
+import { CSSPlugin, TimelineMax, TweenMax } from 'gsap/all';
+
+const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 const Container = styled.div``;
 

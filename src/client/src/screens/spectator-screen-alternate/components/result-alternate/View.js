@@ -20,8 +20,10 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
 import { Power4 } from 'gsap/EasePack';
-import { TimelineLite } from 'gsap/all';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
+
+const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 type Props = {
   result: Object,

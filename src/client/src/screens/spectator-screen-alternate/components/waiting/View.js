@@ -14,10 +14,12 @@ import PageLayout from '../../../../components/page-layout/FullPage';
 import IntroBanner from '../intro-banner';
 
 import { Elastic, Power4 } from 'gsap/EasePack';
-import { TimelineLite } from 'gsap/all';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import MultiArea from '../../../../components/multi-area';
+
+const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 type Props = {
   player1: Object,
