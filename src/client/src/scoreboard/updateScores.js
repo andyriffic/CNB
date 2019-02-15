@@ -1,3 +1,4 @@
+import { adjustPowerUpCount } from '../power-ups/updatePowerUp';
 const delayMilliseconds = 9000;
 
 export const updateScores = (scores, data) => {
@@ -24,6 +25,12 @@ export const updateScores = (scores, data) => {
     if (data.winnerPowerUp === 'DOUBLE') {
       pointsToAdd *= 2;
     }
+
+    adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
+  }
+
+  if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
+    adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
   }
 
   winnerScore.add(pointsToAdd, scores).then(updateScoresLocally => {
