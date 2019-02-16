@@ -1,12 +1,19 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { PageSubTitle } from '../../../styled';
+import { PageSubTitle, Button } from '../../../styled';
 import PowerUpContext from '../../../../contexts/PowerUpContext';
+import PowerUpBadge from '../../../../components/power-up-badges';
 
-const PowerUp = styled.button`
-  font-size: 2rem;
-  padding: 10px;
+const PowerUpListContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const SelectablePowerUp = styled.div`
+  display: flex;
   cursor: pointer;
+  width: 50vmin;
+  height: 50vmin;
 `;
 
 const View = ({ playerKey, onPowerUpSelected }) => {
@@ -21,15 +28,23 @@ const View = ({ playerKey, onPowerUpSelected }) => {
   return (
     <div>
       <PageSubTitle>Select PowerUp 選擇開機</PageSubTitle>
-      {playerPowerUps.map(powerUp => (
-        <PowerUp
-          key={powerUp.type}
-          onClick={() => onPowerUpSelected(powerUp.type)}
-        >
-          {powerUp.type} ({powerUp.count})
-        </PowerUp>
-      ))}
-      <PowerUp onClick={() => onPowerUpSelected('NONE')}>None</PowerUp>
+      <PowerUpListContainer>
+        {playerPowerUps.map(powerUp =>
+          powerUp.count ? (
+            <SelectablePowerUp
+              key={powerUp.type}
+              onClick={() => onPowerUpSelected(powerUp.type)}
+            >
+              <PowerUpBadge type={powerUp.type}>
+                {powerUp.type} ({powerUp.count})
+              </PowerUpBadge>
+            </SelectablePowerUp>
+          ) : null
+        )}
+      </PowerUpListContainer>
+      <PowerUpListContainer>
+        <Button onClick={() => onPowerUpSelected('NONE')}>None</Button>
+      </PowerUpListContainer>
     </div>
   );
 };
