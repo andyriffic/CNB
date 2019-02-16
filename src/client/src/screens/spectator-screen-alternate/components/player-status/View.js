@@ -21,6 +21,7 @@ const Container = styled.div`
   height: 24vmin;
   width: 24vmin;
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   transition: opacity 1s linear;
@@ -52,12 +53,23 @@ const Title = styled.div`
   text-align: center;
 `;
 
-const View = ({ moved, name, animationDelay }: Props) => {
+const BadgeContainer = styled.div`
+  width: 15vmin;
+  height: 15vmin;
+  display: flex;
+  position: absolute;
+  top: -25%;
+  left: -25%;
+  opacity: 0.7;
+`;
+
+const View = ({ moved, name, badge }: Props) => {
   return (
     <Container moved={moved} className={moved ? 'moved' : ''}>
       <Title>
         <TranslatedPlayerName playerName={name} />
       </Title>
+      {badge && <BadgeContainer>{badge}</BadgeContainer>}
     </Container>
   );
 };

@@ -34,6 +34,7 @@ export const PlayerSpectatorSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 export const PageFooterContainer = styled.div`

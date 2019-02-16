@@ -18,6 +18,7 @@ import { CSSPlugin, TimelineLite } from 'gsap/all';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import MultiArea from '../../../../components/multi-area';
+import PowerUpBadge from '../../../../components/power-up-badges';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -93,7 +94,14 @@ const View = ({ player1, player2, playGame }: Props) => {
       <IntroBanner />
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection ref={setPlayer1El}>
-          <PlayerStatus {...player1} animationDelay={0} />
+          <PlayerStatus
+            {...player1}
+            animationDelay={0}
+            badge={
+              player1.powerUp &&
+              player1.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+            }
+          />
           <PlayerScore playerKey={player1.name} />
         </PlayerSpectatorSection>
         <PlayerSpectatorSection>
@@ -112,7 +120,14 @@ const View = ({ player1, player2, playGame }: Props) => {
           </MultiArea>
         </PlayerSpectatorSection>
         <PlayerSpectatorSection ref={setPlayer2El}>
-          <PlayerStatus {...player2} animationDelay={0.5} />
+          <PlayerStatus
+            {...player2}
+            animationDelay={0.5}
+            badge={
+              player2.powerUp &&
+              player2.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+            }
+          />
           <PlayerScore playerKey={player2.name} />
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
