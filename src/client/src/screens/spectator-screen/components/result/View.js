@@ -64,6 +64,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isLeft
           />
           <PlayerScore playerKey={player1.name} />
+          <p>{player1.powerUp !== 'NONE' && player1.powerUp}</p>
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
@@ -87,6 +88,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isLeft={false}
           />
           <PlayerScore playerKey={player2.name} />
+          <p>{player2.powerUp !== 'NONE' && player2.powerUp}</p>
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
       <BonusPointSection>

@@ -12,6 +12,7 @@ import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
 import Switch from '../../components/switch';
 import PageLayout from '../../components/page-layout/FullPage';
+import AwardedPowerUps from './components/awarded-power-ups';
 
 import { safeGetTranslation } from '../../components/translated-player-name/View';
 import PowerUpContext from '../../contexts/PowerUpContext';
@@ -32,13 +33,18 @@ const View = ({ playerKey }: Props) => {
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
-  const powerUps = useContext(PowerUpContext);
+  const powerUpsState = useContext(PowerUpContext);
 
   useEffect(() => {
     if (playerState && !selectedPowerUp) {
       setSelectedPowerUp(playerState.player.powerUp);
     }
+    //powerUps.touch();
   }, [gameState]);
+
+  useEffect(() => {
+    console.log('Spectatoe Updated??', powerUpsState);
+  }, [powerUpsState.lastTouched]);
 
   useGetGameState();
 
@@ -51,6 +57,8 @@ const View = ({ playerKey }: Props) => {
   };
 
   if (!playerState) return null;
+
+  console.log('SPECTATOR AWARDED POWERUP', powerUpsState);
 
   return (
     <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>
@@ -80,6 +88,12 @@ const View = ({ playerKey }: Props) => {
           showIf={hasGameResult(gameState)}
           gameState={gameState}
           playerState={playerState}
+        />
+        <AwardedPowerUps
+          showIf={powerUpsState.loaded && powerUpsState[playerKey]}
+          playerPowerUps={
+            powerUpsState[playerKey] && powerUpsState[playerKey].awardedPowerUps
+          }
         />
       </Switch>
     </PageLayout>

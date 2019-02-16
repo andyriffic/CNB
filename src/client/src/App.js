@@ -40,8 +40,8 @@ const App = () => {
   return (
     <GameTheme>
       <ScoreboardApi>
-        <SocketsConnection>
-          <PowerUpProvider>
+        <PowerUpProvider>
+          <SocketsConnection>
             <GlobalStyle />
             <Router>
               <SpectatorView path="/" />
@@ -51,8 +51,8 @@ const App = () => {
               <ResetGameScreen path="reset" />
             </Router>
             <DebugOutput data={connectionDetails} />
-          </PowerUpProvider>
-        </SocketsConnection>
+          </SocketsConnection>
+        </PowerUpProvider>
       </ScoreboardApi>
     </GameTheme>
   );

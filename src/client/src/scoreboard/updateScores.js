@@ -45,4 +45,6 @@ export const updateScores = (scores, data) => {
       }
     }, delayMilliseconds);
   });
+
+  return { XIAN: ['DOUBLE'] };
 };

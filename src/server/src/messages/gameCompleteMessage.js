@@ -8,6 +8,7 @@ const gameCompleteMessage = (game: Game): Message => {
   let winner, loser, winnerPowerUp, loserPowerUp;
 
   if(game.result.winner === 'player1') {
+    // TODO: make objects for winner and loser
     winner = game.player1.name;
     winnerPowerUp = game.player1.powerUp;
     loser = game.player2.name;
