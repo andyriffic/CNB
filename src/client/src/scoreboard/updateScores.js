@@ -6,6 +6,14 @@ export const updateScores = (scores, data) => {
 
   console.log('SCORING DATA', data);
 
+  if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
+    adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
+  }
+
+  if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
+    adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
+  }
+
   if (data.draw) {
     scores.BONUS.add(1, scores).then(updateBonusPointsLocally => {
       setTimeout(() => {
@@ -31,14 +39,6 @@ export const updateScores = (scores, data) => {
       winnerPointsToAdd += 1;
       loserPointsToSubtract = 1;
     }
-
-    // TODO: should take away powerup before checking for a draw
-    adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
-  }
-
-  if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
-    // TODO: should take away powerup before checking for a draw
-    adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
   }
 
   // TODO: seriously need to sort out how these points get updated! :(
