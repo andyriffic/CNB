@@ -26,7 +26,7 @@ const View = ({ selectedMove, title, loser, selectedPowerUp }) => {
       <PageSubTitle>{title}</PageSubTitle>
       <Component selected loser={loser} />
       <PowerUpContainer>
-        <PowerUpBadge type={selectedPowerUp} />
+        <PowerUpBadge type={selectedPowerUp} bigText />
       </PowerUpContainer>
     </Container>
   );

@@ -2,17 +2,29 @@ import React from 'react';
 import Switch from '../switch';
 
 import BaseBadge from './BaseBadge';
-import DoublePoints from './DoublePoints';
 
-const View = ({ type }) => {
+const View = ({ type, bigText }) => {
   return (
     <Switch>
       <BaseBadge
         showIf={type === 'HIDDEN'}
-        text="!"
+        bigText={bigText}
+        text="?"
         backgroundColor="#000000"
+        textColor="#cccccc"
       />
-      <DoublePoints showIf={type === 'DOUBLE'} />
+      <BaseBadge
+        showIf={type === 'DOUBLE'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            Double
+            <br />
+            points
+          </React.Fragment>
+        }
+        backgroundColor="#7e00df"
+      />
     </Switch>
   );
 };

@@ -1,5 +1,5 @@
 import { adjustPowerUpCount } from '../power-ups/updatePowerUp';
-const delayMilliseconds = 9000;
+const delayMilliseconds = 18000;
 
 export const updateScores = (scores, data) => {
   if (!scores) return;

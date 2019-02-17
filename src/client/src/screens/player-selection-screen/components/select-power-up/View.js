@@ -35,7 +35,7 @@ const View = ({ playerKey, onPowerUpSelected }) => {
               key={powerUp.type}
               onClick={() => onPowerUpSelected(powerUp.type)}
             >
-              <PowerUpBadge type={powerUp.type}>
+              <PowerUpBadge type={powerUp.type} bigText>
                 {powerUp.type} ({powerUp.count})
               </PowerUpBadge>
             </SelectablePowerUp>

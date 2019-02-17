@@ -8,6 +8,7 @@ import Switch from '../../../../../../components/switch';
 import TranslatedPlayerName from '../../../../../../components/translated-player-name';
 import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 import TrashTalk from '../trash-talk';
+import PowerUpBadge from '../../../../../../components/power-up-badges';
 
 type Props = {
   player: Object,
@@ -106,6 +107,8 @@ const CharacterPosition = styled.div`
   height: 100%;
   width: 100%;
   text-align: center;
+  transition: opacity 2s ease;
+  opacity: ${props => (props.isWinner ? '1' : '0.6')};
 `;
 
 const InitialCharacterAnimaton = styled.div`
@@ -133,6 +136,15 @@ const Title = styled.div`
   text-align: center;
 `;
 
+const BadgeContainer = styled.div`
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  bottom: -12%;
+  left: -30%;
+`;
+
 const getCharacter = (characterMapping, move, isWinner) => {
   return (
     <Switch>
@@ -157,7 +169,8 @@ const PlayerResult = ({
   otherPlayersMove,
   isLeft,
   setContainerRef = () => {},
-  reveal,
+  revealPlayersMove,
+  revealPowerUp,
 }: Props) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
@@ -167,20 +180,26 @@ const PlayerResult = ({
       <Container
         ref={setContainerRef}
         showHalo={isWinner}
-        reveal={reveal}
+        reveal={revealPlayersMove}
         className={isWinner ? 'winner' : 'loser'}
       >
         <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
-        {reveal && (
-          <CharacterPosition>
+        {revealPlayersMove && (
+          <CharacterPosition isWinner={isWinner}>
             <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
               <InitialCharacterAnimaton>
                 {getCharacter(characterMapping, player.move, true)}
               </InitialCharacterAnimaton>
             </WinnerAnimationContainer>
+            {player.powerUp !== 'NONE' && (
+              <BadgeContainer>
+                {!revealPowerUp && <PowerUpBadge type="HIDDEN" />}
+                {revealPowerUp && <PowerUpBadge type={player.powerUp} />}
+              </BadgeContainer>
+            )}
           </CharacterPosition>
         )}
       </Container>

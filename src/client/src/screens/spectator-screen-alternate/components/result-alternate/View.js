@@ -61,6 +61,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [animationTimeline, setAnimationTimeline] = useState(null);
   const [middleIndex, setMiddleIndex] = useState(MIDDLE_STATES.VS);
   const [showPlayerMoves, setShowPlayerMoves] = useState(false);
+  const [showPowerUps, setShowPowerUps] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [showResetGameButton, setShowResetGameButton] = useState(false);
 
@@ -80,6 +81,9 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
                 setMiddleIndex(MIDDLE_STATES.RESULT);
                 setShowResult(true);
                 setShowResetGameButton(true);
+                setTimeout(() => {
+                  setShowPowerUps(true);
+                }, 3000);
               }, 4000);
             }, 3000);
           }, 1000);
@@ -123,7 +127,8 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isDraw={result.draw}
             isLeft
             setContainerRef={setPlayer1El}
-            reveal={showPlayerMoves}
+            revealPlayersMove={showPlayerMoves}
+            revealPowerUp={showPowerUps}
           />
           <VisibilityContainer visible={showResult}>
             <PlayerScore playerKey={player1.name} />
@@ -161,7 +166,8 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             isDraw={result.draw}
             isLeft={false}
             setContainerRef={setPlayer2El}
-            reveal={showPlayerMoves}
+            revealPlayersMove={showPlayerMoves}
+            revealPowerUp={showPowerUps}
           />
           <VisibilityContainer visible={showResult}>
             <PlayerScore playerKey={player2.name} />

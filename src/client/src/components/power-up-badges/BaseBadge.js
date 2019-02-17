@@ -5,12 +5,12 @@ const Container = styled.div`
   width: 60%;
   height: 60%;
   margin: auto auto;
-  background: ${props => props.backgroundColor || '#ccc'};
+  background: ${props => props.backgroundColor || '#cccccc'};
   transform: rotate(-45deg);
   position: relative;
   text-align: center;
   text-decoration: none;
-  color: #ffffff;
+  color: ${props => props.textColor || '#ffffff'};
   font-weight: bold;
   text-shadow: 0 0 20px #dfaf00, 0 0 8px #dfaf00;
   transition: transform 0.8s ease;
@@ -36,16 +36,16 @@ const Text = styled.p`
   padding: 0;
   margin: auto auto;
   transform: rotate(-22deg);
-  font-size: 1.4rem;
+  font-size: ${props => (props.bigText ? '1.8' : '0.6')}rem;
 `;
 
-const View = ({ text, backgroundColor, textColor }) => {
+const View = ({ text, backgroundColor, textColor, bigText }) => {
   return (
-    <Container backgroundColor={backgroundColor}>
+    <Container backgroundColor={backgroundColor} textColor={textColor}>
       <Spike>
         <Spike>
           <Spike hasText>
-            <Text>{text}</Text>
+            <Text bigText={bigText}>{text}</Text>
           </Spike>
         </Spike>
       </Spike>
