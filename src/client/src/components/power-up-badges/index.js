@@ -2,7 +2,7 @@ import React from 'react';
 import Switch from '../switch';
 import BaseBadge from './BaseBadge';
 
-const View = ({ type, bigText }) => {
+const View = ({ type, bigText, count }) => {
   return (
     <Switch>
       <BaseBadge
@@ -11,6 +11,7 @@ const View = ({ type, bigText }) => {
         text="?"
         backgroundColor="#000000"
         textColor="#cccccc"
+        count={count}
       />
       <BaseBadge
         showIf={type === 'DOUBLE'}
@@ -23,7 +24,8 @@ const View = ({ type, bigText }) => {
           </React.Fragment>
         }
         backgroundColor="#7e00df"
-      />
+        count={count}
+        />
       <BaseBadge
         showIf={type === 'STEAL'}
         bigText={bigText}
@@ -36,6 +38,7 @@ const View = ({ type, bigText }) => {
         }
         backgroundColor="#e0a10f"
         textColor="#e00f8c"
+        count={count}
       />
       <BaseBadge
         showIf={type === 'SWAP'}
@@ -49,7 +52,8 @@ const View = ({ type, bigText }) => {
         }
         backgroundColor="#e0364d"
         textColor="#ccfffd"
-      />
+        count={count}
+        />
     </Switch>
   );
 };

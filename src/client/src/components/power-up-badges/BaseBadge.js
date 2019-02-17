@@ -36,16 +36,24 @@ const Text = styled.p`
   padding: 0;
   margin: auto auto;
   transform: rotate(-22deg);
+  display: flex;
+  flex-direction: column;
   font-size: ${props => (props.bigText ? '1.8' : '0.6')}rem;
 `;
 
-const View = ({ text, backgroundColor, textColor, bigText }) => {
+const Count = styled.span`
+  font-size: 60%;
+  display: block;
+`;
+
+const View = ({ text, backgroundColor, textColor, bigText, count }) => {
   return (
     <Container backgroundColor={backgroundColor} textColor={textColor}>
       <Spike>
         <Spike>
           <Spike hasText>
-            <Text bigText={bigText}>{text}</Text>
+            <Text bigText={bigText}>{text}{count && count > 1 && <Count>{count}</Count>}</Text>
+            
           </Spike>
         </Spike>
       </Spike>
