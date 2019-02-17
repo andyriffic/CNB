@@ -54,11 +54,11 @@ const Title = styled.div`
 `;
 
 const BadgeContainer = styled.div`
-  width: 15vmin;
-  height: 15vmin;
+  width: 50%;
+  height: 50%;
   display: flex;
   position: absolute;
-  top: -25%;
+  bottom: -25%;
   left: -25%;
   opacity: 0.7;
 `;

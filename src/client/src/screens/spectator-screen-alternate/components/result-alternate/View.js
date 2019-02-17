@@ -65,54 +65,64 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [showResult, setShowResult] = useState(false);
   const [showResetGameButton, setShowResetGameButton] = useState(false);
 
+  const onGameReset = () => {
+    soundService.play(SOUND_KEYS.GAME_START, true);
+    animationTimeline.duration(2).reverse();
+  };
+
   useEffect(() => {
     if (!animationTimeline && player1El && player2El) {
-      setAnimationTimeline(true);
-
-      new TimelineLite({
-        onComplete: () => {
-          setTimeout(() => {
-            soundService.play(SOUND_KEYS.FIGHT, true);
-            setMiddleIndex(MIDDLE_STATES.FIGHT);
+      setAnimationTimeline(
+        new TimelineLite({
+          onComplete: () => {
             setTimeout(() => {
-              setShowPlayerMoves(true);
-              soundService.playWinningSound(winner.move, result.draw);
+              soundService.play(SOUND_KEYS.FIGHT, true);
+              setMiddleIndex(MIDDLE_STATES.FIGHT);
               setTimeout(() => {
-                setMiddleIndex(MIDDLE_STATES.RESULT);
-                setShowResult(true);
-                setShowResetGameButton(true);
+                setShowPlayerMoves(true);
+                soundService.playWinningSound(winner.move, result.draw);
                 setTimeout(() => {
-                  setShowPowerUps(true);
-                }, 3000);
-              }, 4000);
-            }, 3000);
-          }, 1000);
-        },
-      })
-        .from(player1El, 0.5, {
-          ease: Power4.easeOut,
-          y: -1000,
-          onStart: () => {
-            soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+                  setMiddleIndex(MIDDLE_STATES.RESULT);
+                  setShowResult(true);
+                  setShowResetGameButton(true);
+                  setTimeout(() => {
+                    winner.powerUp !== 'NONE' &&
+                      soundService.play(SOUND_KEYS.POWER_UP_WIN);
+                    setShowPowerUps(true);
+                  }, 3000);
+                }, 4000);
+              }, 3000);
+            }, 1000);
+          },
+          onReverseComplete: () => {
+            resetGame();
           },
         })
-        .from(middleEl, 0.4, {
-          scale: 0,
-          opacity: 0,
-          delay: 0,
-          onStart: () => {
-            soundService.play(SOUND_KEYS.VS, true);
-          },
-        })
-        .from(player2El, 0.5, {
-          ease: Power4.easeOut,
-          y: -1000,
-          delay: 0.5,
-          onStart: () => {
-            soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
-          },
-        })
-        .delay(2);
+          .from(player1El, 0.5, {
+            ease: Power4.easeOut,
+            y: -1000,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+            },
+          })
+          .from(middleEl, 0.4, {
+            scale: 0,
+            opacity: 0,
+            delay: 0,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.VS, true);
+            },
+          })
+          .from(player2El, 0.5, {
+            ease: Power4.easeOut,
+            y: -1000,
+            delay: 0.5,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+            },
+          })
+          .delay(2)
+      );
     }
   }, [player1El, player2El, middleEl]);
 
@@ -176,7 +186,7 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
       </PlayerSpectatorContainer>
       <PageFooterContainer>
         <VisibilityContainer visible={showResetGameButton}>
-          <Button onClick={resetGame}>
+          <Button onClick={onGameReset}>
             Play again <br /> 再玩一次
           </Button>
         </VisibilityContainer>
