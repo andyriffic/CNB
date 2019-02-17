@@ -25,7 +25,7 @@ const View = ({ type, bigText, count }) => {
         }
         backgroundColor="#7e00df"
         count={count}
-        />
+      />
       <BaseBadge
         showIf={type === 'STEAL'}
         bigText={bigText}
@@ -53,7 +53,20 @@ const View = ({ type, bigText, count }) => {
         backgroundColor="#e0364d"
         textColor="#ccfffd"
         count={count}
-        />
+      />
+      <BaseBadge
+        showIf={type === 'BANNER'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            PowerUps
+            <br />
+            beta*
+          </React.Fragment>
+        }
+        backgroundColor="#0a9323"
+        count={count}
+      />
     </Switch>
   );
 };

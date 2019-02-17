@@ -12,7 +12,7 @@ const Container = styled.div`
   text-decoration: none;
   color: ${props => props.textColor || '#ffffff'};
   font-weight: bold;
-  text-shadow: 0 0 20px #dfaf00, 0 0 8px #dfaf00;
+  text-shadow: 0 0 20px #000, 0 0 8px #000;
   transition: transform 0.8s ease;
 
   &:hover {

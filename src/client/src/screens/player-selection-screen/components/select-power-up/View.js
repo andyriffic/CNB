@@ -44,7 +44,11 @@ const View = ({ playerKey, onPowerUpSelected }) => {
         )}
       </PowerUpListContainer>
       <PowerUpListContainer>
-        <Button onClick={() => onPowerUpSelected('NONE')}>None</Button>
+        <Button onClick={() => onPowerUpSelected('NONE')}>
+          None
+          <br />
+          沒有
+        </Button>
       </PowerUpListContainer>
     </div>
   );

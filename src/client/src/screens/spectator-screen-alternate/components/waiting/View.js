@@ -36,6 +36,17 @@ const BonusHeading = styled.h2`
   font-size: 1rem;
 `;
 
+const PowerUpBanner = styled.div`
+  position: absolute;
+  z-index: 9;
+  width: 15vmin;
+  height: 15vmin;
+  top: 0;
+  right: 0;
+  display: flex;
+  transform: rotate(20deg);
+`;
+
 const View = ({ player1, player2, playGame }: Props) => {
   const [player1El, setPlayer1El] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
@@ -91,6 +102,9 @@ const View = ({ player1, player2, playGame }: Props) => {
 
   return (
     <PageLayout>
+      <PowerUpBanner>
+        <PowerUpBadge type="BANNER" />
+      </PowerUpBanner>
       <IntroBanner />
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection ref={setPlayer1El}>
