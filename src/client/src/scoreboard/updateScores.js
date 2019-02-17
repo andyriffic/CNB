@@ -38,6 +38,10 @@ export const updateScores = (scores, data) => {
     } else if (data.winnerPowerUp === 'STEAL') {
       winnerPointsToAdd += 1;
       loserPointsToSubtract = 1;
+    } else if (data.winnerPowerUp === 'SWAP') {
+      const scoreDiff = loserScore.value - winnerScore.value;
+      winnerPointsToAdd = scoreDiff + bonusPoints;
+      loserPointsToSubtract = scoreDiff;
     }
   }
 

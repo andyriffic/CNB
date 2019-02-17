@@ -6,6 +6,7 @@ import PowerUpBadge from '../../../../components/power-up-badges';
 
 const PowerUpListContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 `;
 

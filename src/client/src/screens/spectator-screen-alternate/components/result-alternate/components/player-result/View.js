@@ -108,7 +108,7 @@ const CharacterPosition = styled.div`
   width: 100%;
   text-align: center;
   transition: opacity 2s ease;
-  opacity: ${props => (props.isWinner ? '1' : '0.6')};
+  opacity: ${props => (props.isWinner ? '1' : '0.3')};
 `;
 
 const InitialCharacterAnimaton = styled.div`

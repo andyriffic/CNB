@@ -37,6 +37,19 @@ const View = ({ type, bigText }) => {
         backgroundColor="#e0a10f"
         textColor="#e00f8c"
       />
+      <BaseBadge
+        showIf={type === 'SWAP'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            Points
+            <br />
+            swap
+          </React.Fragment>
+        }
+        backgroundColor="#e0364d"
+        textColor="#ccfffd"
+      />
     </Switch>
   );
 };
