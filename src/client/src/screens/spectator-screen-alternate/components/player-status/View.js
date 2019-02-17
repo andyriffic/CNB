@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import type { ComponentType } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import TranslatedPlayerName from '../../../../components/translated-player-name';
@@ -7,6 +8,7 @@ import TranslatedPlayerName from '../../../../components/translated-player-name'
 type Props = {
   moved: boolean,
   name: string,
+  badge?: ComponentType<*>,
 };
 
 const Rainbow = keyframes`

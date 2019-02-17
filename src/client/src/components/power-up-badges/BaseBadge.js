@@ -52,8 +52,10 @@ const View = ({ text, backgroundColor, textColor, bigText, count }) => {
       <Spike>
         <Spike>
           <Spike hasText>
-            <Text bigText={bigText}>{text}{count && count > 1 && <Count>{count}</Count>}</Text>
-            
+            <Text bigText={bigText}>
+              {text}
+              {count && count > 1 && <Count>{count}</Count>}
+            </Text>
           </Spike>
         </Spike>
       </Spike>

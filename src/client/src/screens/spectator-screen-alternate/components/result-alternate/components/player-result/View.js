@@ -17,7 +17,8 @@ type Props = {
   otherPlayersMove: string,
   isLeft: boolean,
   setContainerRef: () => void,
-  reveal: boolean,
+  revealPlayersMove: boolean,
+  revealPowerUp: boolean,
 };
 
 const initialAnimationDelay = 0;

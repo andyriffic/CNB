@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { media, PageSubTitle } from '../../../styled';
-import PowerUpContext from '../../../../contexts/PowerUpContext';
+import React from 'react';
+import { PageSubTitle } from '../../../styled';
 
 const View = ({ awardedPowerUps }) => {
   if (!(awardedPowerUps && awardedPowerUps.length)) {

@@ -15,7 +15,6 @@ import { SOUND_KEYS } from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
 import GameThemeContext from '../../contexts/GameThemeContext';
-import PowerUpContext from '../../contexts/PowerUpContext';
 
 const waitingStatuses = [
   'EMPTY',
@@ -26,7 +25,6 @@ const waitingStatuses = [
 const View = () => {
   const [showCountdown, setShowCountdown] = useState(null);
   const gameState = useContext(GameStateContext);
-  const powerUpsState = useContext(PowerUpContext);
   const serverMessages = useContext(ServerMessagesContext);
   const soundService = useContext(GameSoundContext);
   const theme = useContext(GameThemeContext);
