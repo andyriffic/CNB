@@ -62,6 +62,10 @@ export default {
           english: 'Panda dies of high cholesterol',
           chinese: '熊貓死於高膽固醇',
         },
+        {
+          english: 'Bread + cheese = sweet death',
+          chinese: '麵包+奶酪=甜蜜的死亡',
+        },
       ],
       B: [
         {
@@ -76,11 +80,15 @@ export default {
           english: 'My chopsticks went right through his eye...and his brain',
           chinese: '我的筷子穿過他的眼睛......和他的大腦',
         },
+        {
+          english: 'Your skull makes a nice soup bowl',
+          chinese: '你的頭骨是一個很好的湯碗',
+        },
       ],
       C: [
         {
           english: 'Yo ho ho and a piece of pizza',
-          chinese: '喲ho ho和一塊披薩',
+          chinese: 'Yo ho ho和一塊披薩',
         },
         {
           english: 'A pizza a day keeps the scurvy away',
@@ -89,6 +97,10 @@ export default {
         {
           english: 'Shiver me pizzas',
           chinese: '顫抖我的比薩餅',
+        },
+        {
+          english: 'X marks the spot to my stomach',
+          chinese: 'X標誌著我的胃部',
         },
       ],
     },
