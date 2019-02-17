@@ -1,6 +1,5 @@
 import React from 'react';
 import Switch from '../switch';
-
 import BaseBadge from './BaseBadge';
 
 const View = ({ type, bigText }) => {
@@ -24,6 +23,19 @@ const View = ({ type, bigText }) => {
           </React.Fragment>
         }
         backgroundColor="#7e00df"
+      />
+      <BaseBadge
+        showIf={type === 'STEAL'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            Points
+            <br />
+            stealer
+          </React.Fragment>
+        }
+        backgroundColor="#e0a10f"
+        textColor="#e00f8c"
       />
     </Switch>
   );

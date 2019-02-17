@@ -16,31 +16,52 @@ export const updateScores = (scores, data) => {
   }
 
   const winnerScore = scores[data.winner];
-  if (!winnerScore) return;
+  const loserScore = scores[data.loser];
+  if (!(winnerScore && loserScore)) return;
 
   const bonusPoints = scores.BONUS.value;
-  let pointsToAdd = 1 + bonusPoints;
+  let winnerPointsToAdd = 1 + bonusPoints;
+  let loserPointsToSubtract = 0;
 
+  // TODO: move powerup code
   if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
     if (data.winnerPowerUp === 'DOUBLE') {
-      pointsToAdd *= 2;
+      winnerPointsToAdd *= 2;
+    } else if (data.winnerPowerUp === 'STEAL') {
+      winnerPointsToAdd += 1;
+      loserPointsToSubtract = 1;
     }
 
+    // TODO: should take away powerup before checking for a draw
     adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
   }
 
   if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
+    // TODO: should take away powerup before checking for a draw
     adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
   }
 
-  winnerScore.add(pointsToAdd, scores).then(updateScoresLocally => {
+  // TODO: seriously need to sort out how these points get updated! :(
+  winnerScore.add(winnerPointsToAdd, scores).then(updateScoresLocally => {
     // Delay updating player score
     setTimeout(() => {
-      const newScores = updateScoresLocally();
-      if (bonusPoints) {
-        // Update bonus points straight away with current score state (otherwise we get out of sync)
-        scores.BONUS.subtract(bonusPoints, newScores).then(updateBonusLocally =>
-          updateBonusLocally()
+      const newScoresAfterWinnerAwarded = updateScoresLocally();
+      if (loserPointsToSubtract) {
+        loserScore
+          .subtract(loserPointsToSubtract, newScoresAfterWinnerAwarded)
+          .then(updateBonusLocally => {
+            const newScoresAfterLoserSubtracted = updateBonusLocally();
+            if (bonusPoints) {
+              // Update bonus points straight away with current score state (otherwise we get out of sync)
+              scores.BONUS.subtract(
+                bonusPoints,
+                newScoresAfterLoserSubtracted
+              ).then(updateBonusLocally => updateBonusLocally());
+            }
+          });
+      } else if (bonusPoints) {
+        scores.BONUS.subtract(bonusPoints, newScoresAfterWinnerAwarded).then(
+          updateBonusLocally => updateBonusLocally()
         );
       }
     }, delayMilliseconds);
