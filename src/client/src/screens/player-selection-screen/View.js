@@ -29,22 +29,16 @@ const playerHasMoved = (gameState, playerState) =>
 const View = ({ playerKey }: Props) => {
   const playerState = usePlayerState(playerKey);
 
-  const [selectedMove, setSelectedMove] = useState(null);
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
   const powerUpsState = useContext(PowerUpContext);
 
   useEffect(() => {
-    if (playerState && !selectedPowerUp) {
+    if (playerState) {
       setSelectedPowerUp(playerState.player.powerUp);
     }
-    //powerUps.touch();
   }, [gameState]);
-
-  useEffect(() => {
-    console.log('Spectatoe Updated??', powerUpsState);
-  }, [powerUpsState.lastTouched]);
 
   useGetGameState();
 
@@ -57,8 +51,6 @@ const View = ({ playerKey }: Props) => {
   };
 
   if (!playerState) return null;
-
-  console.log('SPECTATOR AWARDED POWERUP', powerUpsState);
 
   return (
     <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>
