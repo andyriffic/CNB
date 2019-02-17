@@ -61,7 +61,7 @@ const Badge = styled.div`
   right: 0;
   top: 0;
   box-sizing: border-box;
-  background: #ff0000;
+  background: #228b22;
   cursor: default;
   border-radius: 50%;
   color: #fff;
@@ -80,7 +80,7 @@ const Badge = styled.div`
 
   &:after {
     content: '';
-    border: 2px solid rgba(255, 0, 0, 0.5);
+    border: 2px solid rgba(0, 255, 0, 0.5);
     opacity: 0;
     position: absolute;
     top: 1px;
