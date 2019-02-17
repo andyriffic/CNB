@@ -7,7 +7,6 @@ import SocketsConnection from './sockets/SocketsConnection';
 import ConnectionDetailsContext from './contexts/ConnectionDetailsContext';
 import {
   PlayerSelectionScreen,
-  SpectatorScreen,
   SpectatorScreenAlternate,
   ResetGameScreen,
   PageLayoutScreen,
@@ -16,14 +15,9 @@ import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
 import GameTheme from './themes';
-import { isFeatureEnabled, FEATURE_ANIMATED } from './featureToggle';
 
 import { IS_PRODUCTION } from './environment';
 import PowerUpProvider from './power-ups/PowerUpProvider';
-
-const SpectatorView = isFeatureEnabled(FEATURE_ANIMATED)
-  ? SpectatorScreenAlternate
-  : SpectatorScreen;
 
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
@@ -44,7 +38,7 @@ const App = () => {
           <SocketsConnection>
             <GlobalStyle />
             <Router>
-              <SpectatorView path="/" />
+              <SpectatorScreenAlternate path="/" />
               <PageLayoutScreen path="layouttest" />
               <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
               <PlayerSelectionScreen path="melb" playerKey={'MELB'} />

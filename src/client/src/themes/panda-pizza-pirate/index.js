@@ -15,19 +15,12 @@ import pandaWiningSound from './sounds/panda-win.mp3';
 import pizzaWinningSound from './sounds/pizza-win.mp3';
 import pirateWinningSound from './sounds/pirate-win.mp3';
 
-import { isFeatureEnabled, FEATURE_ANIMATED } from '../../featureToggle';
-
-import ResultScreen from '../../screens/spectator-screen/components/result-alternate';
 import ResultAlternateScreen from '../../screens/spectator-screen-alternate/components/result-alternate';
-
-const ResultView = isFeatureEnabled(FEATURE_ANIMATED)
-  ? ResultAlternateScreen
-  : ResultScreen;
 
 export default {
   name: 'Pizza, Panda, Pirate',
   gameplay: {
-    resultScreen: ResultView,
+    resultScreen: ResultAlternateScreen,
   },
   characters: {
     nameMapping: {

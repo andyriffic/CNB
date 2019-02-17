@@ -1,6 +1,4 @@
 /* @flow */
-export const FEATURE_ANIMATED = 'animated';
-
 export type IsFeatureEnabled = string => boolean;
 
 export const isFeatureEnabled: IsFeatureEnabled = feature => {
