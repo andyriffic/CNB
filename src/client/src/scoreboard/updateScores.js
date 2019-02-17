@@ -1,4 +1,7 @@
-import { adjustPowerUpCount } from '../power-ups/updatePowerUp';
+import {
+  adjustPowerUpCount,
+  awardRandomPowerUpToPlayer,
+} from '../power-ups/updatePowerUp';
 const delayMilliseconds = 18000;
 
 export const updateScores = (scores, data) => {
@@ -13,6 +16,9 @@ export const updateScores = (scores, data) => {
   if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
     adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
   }
+
+  awardRandomPowerUpToPlayer(data.winner);
+  awardRandomPowerUpToPlayer(data.loser);
 
   if (data.draw) {
     scores.BONUS.add(1, scores).then(updateBonusPointsLocally => {

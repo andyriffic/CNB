@@ -28,6 +28,7 @@ const PowerUpProvider = ({ children }) => {
   useEffect(() => {
     //setPowerUps();
     getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
+      //console.log('powerUpsByPlayer', powerUpsByPlayer);
       const newPowerUpState = {
         ...powerUps,
         ...powerUpsByPlayer,

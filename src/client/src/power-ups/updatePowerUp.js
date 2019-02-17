@@ -58,3 +58,17 @@ export const adjustPowerUpCount = (player, powerUp, by) => {
     }).then(resp => resp.json());
   });
 };
+
+export const awardRandomPowerUpToPlayer = player => {
+  getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
+    const playerPowerUps = powerUpsByPlayer[player];
+    if (!playerPowerUps) {
+      return;
+    }
+    const randomPowerUpIndex = Math.floor(
+      Math.random() * playerPowerUps.length
+    );
+
+    adjustPowerUpCount(player, playerPowerUps[randomPowerUpIndex].type, 1);
+  });
+};
