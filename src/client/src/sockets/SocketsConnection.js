@@ -12,6 +12,7 @@ import ConnectionDetailsContext from '../contexts/ConnectionDetailsContext';
 import generateServerMessagesService from './generateServerMessagesService';
 import ScoreboardContext from '../contexts/ScoreboardContext';
 import { updateScores } from '../scoreboard/updateScores';
+import PowerUpContext from '../contexts/PowerUpContext';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
@@ -23,15 +24,14 @@ const SocketsConnection = ({ children }: Props) => {
   const [gameState, setGameState] = useState(null);
   const [connectionDetails, setConnectionDetails] = useState(null);
   const scores = useContext(ScoreboardContext);
+  const powerUpsState = useContext(PowerUpContext);
 
   if (scores !== null) {
     // Have to keep subscribing/unsubscribing to event so we get a current score state :(
     const onGameFinished = data => {
-      updateScores(scores, data);
-      // const awardedPowerUps = updateScores(scores, data);
-      // console.log('GAME_FINISHED', awardedPowerUps);
-      // powerUpsState.touch(powerUpsState);
-      // powerUpsState.awardPowerUps(awardedPowerUps);
+      updateScores(scores, data).then(awardedPowerUps => {
+        powerUpsState.awardPowerUps(awardedPowerUps);
+      });
     };
     socket.removeListener('GAME_FINISHED');
     socket.on('GAME_FINISHED', onGameFinished);

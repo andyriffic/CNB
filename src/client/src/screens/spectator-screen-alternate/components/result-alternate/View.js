@@ -18,10 +18,12 @@ import MultiArea from '../../../../components/multi-area';
 import VisibilityContainer from '../../../../components/visibility-placeholder';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
+import AwardedPowerUp from '../awarded-power-up';
 
 import { Power4 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import PowerUpContext from '../../../../contexts/PowerUpContext';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -51,6 +53,7 @@ const MIDDLE_STATES = {
 
 const View = ({ result, player1, player2, resetGame }: Props) => {
   const soundService = useContext(GameSoundContext);
+  const powerUpsState = useContext(PowerUpContext);
 
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = result.winner === 'player1';
@@ -78,17 +81,23 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             setTimeout(() => {
               soundService.play(SOUND_KEYS.FIGHT, true);
               setMiddleIndex(MIDDLE_STATES.FIGHT);
+
               setTimeout(() => {
                 setShowPlayerMoves(true);
                 soundService.playWinningSound(winner.move, result.draw);
+
                 setTimeout(() => {
                   setMiddleIndex(MIDDLE_STATES.RESULT);
                   setShowResult(true);
-                  setShowResetGameButton(true);
+
                   setTimeout(() => {
                     winner.powerUp !== 'NONE' &&
                       soundService.play(SOUND_KEYS.POWER_UP_WIN);
                     setShowPowerUps(true);
+
+                    setTimeout(() => {
+                      setShowResetGameButton(true);
+                    }, 5000);
                   }, 3000);
                 }, 4000);
               }, 3000);
@@ -185,11 +194,29 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
       <PageFooterContainer>
-        <VisibilityContainer visible={showResetGameButton}>
-          <Button onClick={onGameReset}>
-            Play again <br /> 再玩一次
-          </Button>
-        </VisibilityContainer>
+        <PlayerSpectatorContainer>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <AwardedPowerUp
+                powerUp={powerUpsState.awardedPowerUps[player1.name]}
+              />
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <Button onClick={onGameReset}>
+                Play again <br /> 再玩一次
+              </Button>
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <AwardedPowerUp
+                powerUp={powerUpsState.awardedPowerUps[player2.name]}
+              />
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+        </PlayerSpectatorContainer>
       </PageFooterContainer>
     </PageLayout>
   );

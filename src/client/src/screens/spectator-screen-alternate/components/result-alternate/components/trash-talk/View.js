@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 
 const fadeIn = keyframes`
   0% {

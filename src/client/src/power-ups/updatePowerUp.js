@@ -60,15 +60,18 @@ export const adjustPowerUpCount = (player, powerUp, by) => {
 };
 
 export const awardRandomPowerUpToPlayer = player => {
-  getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
-    const playerPowerUps = powerUpsByPlayer[player];
-    if (!playerPowerUps) {
-      return;
-    }
-    const randomPowerUpIndex = Math.floor(
-      Math.random() * playerPowerUps.length
-    );
+  return new Promise(resolve => {
+    getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
+      const playerPowerUps = powerUpsByPlayer[player];
+      if (!playerPowerUps) {
+        return;
+      }
+      const randomPowerUpIndex = Math.floor(
+        Math.random() * playerPowerUps.length
+      );
 
-    adjustPowerUpCount(player, playerPowerUps[randomPowerUpIndex].type, 1);
+      adjustPowerUpCount(player, playerPowerUps[randomPowerUpIndex].type, 1);
+      resolve(playerPowerUps[randomPowerUpIndex].type);
+    });
   });
 };
