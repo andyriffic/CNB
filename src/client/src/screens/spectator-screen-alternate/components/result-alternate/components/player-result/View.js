@@ -184,7 +184,12 @@ const PlayerResult = ({
         reveal={revealPlayersMove}
         className={isWinner ? 'winner' : 'loser'}
       >
-        <TrashTalk isWinner={isWinner} player={player} isLeft={isLeft} />
+        <TrashTalk
+          theme={theme}
+          isWinner={isWinner}
+          player={player}
+          isLeft={isLeft}
+        />
         <Title>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
