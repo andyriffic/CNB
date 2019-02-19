@@ -14,6 +14,7 @@ const SPECTATOR_JOIN = 'SPECTATOR_JOIN';
 const GET_GAME_VIEW = 'GET_GAME_VIEW';
 const RUN_GAME = 'RUN_GAME';
 const GAME_FINISHED = 'GAME_FINISHED';
+const AWARDED_POWERUPS = 'AWARDED_POWERUPS';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
@@ -22,6 +23,7 @@ export const incomingMessageTypes = {
   SPECTATOR_JOIN,
   GET_GAME_VIEW,
   RUN_GAME,
+  AWARDED_POWERUPS,
 };
 
 export const outgoingMessageTypes = {
@@ -35,4 +37,5 @@ export const outgoingMessageTypes = {
   GAME_VIEW,
   GAME_RESET,
   GAME_FINISHED,
+  AWARDED_POWERUPS,
 };

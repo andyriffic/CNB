@@ -11,6 +11,11 @@ const generateServerMessagesService = (socket: Object): ServerMessages => {
       }),
     resetGame: () => socket.emit('RESET_GAME', { type: 'RESET_GAME' }),
     playGame: () => socket.emit('RUN_GAME', { type: 'RUN_GAME' }),
+    awardPowerUps: powerUps =>
+      socket.emit('AWARDED_POWERUPS', {
+        type: 'AWARDED_POWERUPS',
+        payload: powerUps,
+      }),
   };
 };
 

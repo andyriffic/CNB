@@ -26,11 +26,13 @@ const SocketsConnection = ({ children }: Props) => {
   const scores = useContext(ScoreboardContext);
   const powerUpsState = useContext(PowerUpContext);
 
+  const [msgSvc] = useState(generateServerMessagesService(socket));
+
   if (scores !== null) {
     // Have to keep subscribing/unsubscribing to event so we get a current score state :(
     const onGameFinished = data => {
       updateScores(scores, data).then(awardedPowerUps => {
-        powerUpsState.awardPowerUps(awardedPowerUps);
+        msgSvc.awardPowerUps(awardedPowerUps);
       });
     };
     socket.removeListener('GAME_FINISHED');
@@ -43,6 +45,11 @@ const SocketsConnection = ({ children }: Props) => {
     socket.on('GAME_VIEW', data => {
       setGameState(data);
     });
+    socket.on('AWARDED_POWERUPS', awardedPowerUps => {
+      setTimeout(() => {
+        powerUpsState.awardPowerUps(awardedPowerUps);
+      }, 20000);
+    });
 
     // console.log('TEST STATE - game finished mount', testState);
     // setTestState('mount?');
@@ -52,8 +59,6 @@ const SocketsConnection = ({ children }: Props) => {
 
     return () => console.log('unmounting....');
   }, []);
-
-  const msgSvc = generateServerMessagesService(socket);
 
   return (
     <ServerMessagesContext.Provider value={msgSvc}>

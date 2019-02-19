@@ -21,6 +21,7 @@ import { GAME_STATUS } from './state/GameStatuses';
 import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/ConnectToGameResponsesType';
 import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
+import awardedPowerUpsMessage from './messages/awardedPowerUpsMessage';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   //console.log('RECEIVE MESSAGE', msg);
@@ -85,6 +86,11 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     case incomingMessageTypes.SPECTATOR_JOIN: {
 
       sendToClient(publishGameView(store.getState()));
+    }
+      break;
+
+    case incomingMessageTypes.AWARDED_POWERUPS: {
+      sendToClient(awardedPowerUpsMessage(msg.payload));
     }
       break;
 

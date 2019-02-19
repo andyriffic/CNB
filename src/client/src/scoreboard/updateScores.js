@@ -19,16 +19,16 @@ export const updateScores = (scores, data) => {
     // :(
     const awardedPowerUps = {};
 
-    const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(data.winner).then(
-      powerUp => {
-        awardedPowerUps[data.winner] = powerUp;
-      }
-    );
-    const loserPowerUpAwarded = awardRandomPowerUpToPlayer(data.loser).then(
-      powerUp => {
-        awardedPowerUps[data.loser] = powerUp;
-      }
-    );
+    const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(
+      data.draw ? 'MELB' : data.winner
+    ).then(powerUp => {
+      awardedPowerUps[data.draw ? 'MELB' : data.winner] = powerUp;
+    });
+    const loserPowerUpAwarded = awardRandomPowerUpToPlayer(
+      data.draw ? 'XIAN' : data.loser
+    ).then(powerUp => {
+      awardedPowerUps[data.draw ? 'XIAN' : data.loser] = powerUp;
+    });
 
     Promise.all([winnerPowerUpAwarded, loserPowerUpAwarded]).then(() => {
       resolve(awardedPowerUps);

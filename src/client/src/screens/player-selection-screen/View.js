@@ -50,6 +50,11 @@ const View = ({ playerKey }: Props) => {
     setSelectedPowerUp(powerUp);
   };
 
+  const onAwardedPowerUpsClose = () => {
+    powerUpsState.awardedPowerUpsSeen();
+    window.location.reload(); // Hack this for now, can't be bothered syncing up powerups etc :)
+  };
+
   if (!playerState) return null;
 
   return (
@@ -82,10 +87,9 @@ const View = ({ playerKey }: Props) => {
           playerState={playerState}
         />
         <AwardedPowerUps
-          showIf={powerUpsState.loaded && powerUpsState[playerKey]}
-          playerPowerUps={
-            powerUpsState[playerKey] && powerUpsState[playerKey].awardedPowerUps
-          }
+          showIf={powerUpsState.awarded}
+          onClose={onAwardedPowerUpsClose}
+          awardedPowerUp={powerUpsState.awardedPowerUps[playerKey]}
         />
       </Switch>
     </PageLayout>

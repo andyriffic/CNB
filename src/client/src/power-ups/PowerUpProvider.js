@@ -7,17 +7,20 @@ const PowerUpProvider = ({ children }) => {
     loaded: false,
     awardedPowerUps: {},
     awardPowerUps: awardedPowerUps => {
-      console.log('AWARDING POWERUPS', awardedPowerUps);
-
       setPowerUps(prevState => ({
         ...prevState,
         awardedPowerUps,
         awarded: true,
       }));
     },
+    awardedPowerUpsSeen: () => {
+      setPowerUps(prevState => ({
+        ...prevState,
+        awarded: false,
+      }));
+    },
     touch: () => {
       const stamp = Date.now();
-      console.log('TOUCHING POWERUPS', stamp);
       setPowerUps(prevState => ({
         ...prevState,
         lastTouched: stamp,

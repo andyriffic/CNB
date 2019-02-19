@@ -20,6 +20,7 @@ export const PageSubTitle = styled.div`
   align-items: center;
   justify-content: center;
   color: #ffeccc;
+  ${props => (props.centered ? 'text-align: center;' : '')}
 `;
 
 export const PlayerSpectatorContainer = styled.div`
