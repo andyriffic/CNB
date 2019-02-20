@@ -19,12 +19,12 @@ import cowboyWinningSound from './sounds/cowboy-win.mp3';
 import ninjaWinningSound from './sounds/ninja-win.mp3';
 import bearWinningSound from './sounds/bear-win.wav';
 
-import ResultScreen from '../../screens/spectator-screen/components/result';
+import ResultAlternateScreen from '../../screens/spectator-screen-alternate/components/result-alternate';
 
 export default {
   name: 'Ninja, Cowboy, Bear',
   gameplay: {
-    resultScreen: ResultScreen,
+    resultScreen: ResultAlternateScreen,
   },
   characters: {
     nameMapping: {
@@ -51,6 +51,26 @@ export default {
       A: ninjaWinningSound,
       B: cowboyWinningSound,
       C: bearWinningSound,
+    },
+    winningPhrases: {
+      A: [
+        {
+          english: 'Judo Chop!',
+          chinese: '柔道斬',
+        },
+      ],
+      B: [
+        {
+          english: 'Good, I needed a bear skin rug for my cabin',
+          chinese: '好，我的小屋需要熊皮地毯',
+        },
+      ],
+      C: [
+        {
+          english: 'lets take a trip...to the MAUL!',
+          chinese: '讓我們去旅行...去MAUL！',
+        },
+      ],
     },
   },
   sounds: {
