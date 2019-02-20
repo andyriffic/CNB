@@ -8,12 +8,23 @@ export const updateScores = (scores, data) => {
   return new Promise(resolve => {
     if (!scores) resolve();
 
-    if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
-      adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
-    }
+    console.log('FINSISED DATA', data);
 
-    if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
-      adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
+    if (!data.draw) {
+      if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
+        adjustPowerUpCount(data.winner, data.winnerPowerUp, -1);
+      }
+
+      if (data.loserPowerUp && data.loserPowerUp !== 'NONE') {
+        adjustPowerUpCount(data.loser, data.loserPowerUp, -1);
+      }
+    } else {
+      if (data.player1PowerUp && data.player1PowerUp !== 'NONE') {
+        adjustPowerUpCount('XIAN', data.player1PowerUp, -1);
+      }
+      if (data.player2PowerUp && data.player2PowerUp !== 'NONE') {
+        adjustPowerUpCount('MELB', data.player2PowerUp, -1);
+      }
     }
 
     // :(
