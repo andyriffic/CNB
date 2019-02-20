@@ -1,7 +1,7 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
@@ -28,6 +28,20 @@ type Props = {
   playGame: () => void,
 };
 
+const pulse = keyframes`
+  from {
+    transform: scale3d(1, 1, 1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2) rotate(30deg);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1) rotate(0deg);
+  }
+`;
+
 const BonusPointSection = styled.div`
   text-align: center;
 `;
@@ -45,6 +59,7 @@ const PowerUpBanner = styled.div`
   right: 0;
   display: flex;
   transform: rotate(20deg);
+  animation: ${pulse} 3s ease infinite forwards;
 `;
 
 const View = ({ player1, player2, playGame }: Props) => {
