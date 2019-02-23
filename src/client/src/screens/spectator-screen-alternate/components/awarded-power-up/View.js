@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import RainbowText from '../../../../components/rainbow-text';
 
 type Props = {
   powerUp?: string,
@@ -7,7 +8,7 @@ type Props = {
 
 const View = ({ powerUp }: Props) => {
   return (
-    <React.Fragment>
+    <RainbowText>
       {powerUp ? (
         <React.Fragment>
           You got a PowerUp!!
@@ -17,7 +18,7 @@ const View = ({ powerUp }: Props) => {
       ) : (
         ''
       )}
-    </React.Fragment>
+    </RainbowText>
   );
 };
 
