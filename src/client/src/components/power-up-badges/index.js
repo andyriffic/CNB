@@ -8,7 +8,7 @@ const View = ({ type, bigText, count }) => {
       <BaseBadge
         showIf={type === 'HIDDEN'}
         bigText={bigText}
-        text="?"
+        text="✨"
         backgroundColor="#000000"
         textColor="#cccccc"
         count={count}

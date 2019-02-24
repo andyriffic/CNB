@@ -59,6 +59,31 @@ export const adjustPowerUpCount = (player, powerUp, by) => {
   });
 };
 
+const powerUpWeights = [
+  { type: 'DOUBLE', weight: 5 },
+  { type: 'STEAL', weight: 10 },
+  { type: 'SWAP', weight: 1 },
+];
+
+export const getWeightedPowerUp = () => {
+  // https://medium.com/@peterkellyonline/weighted-random-selection-3ff222917eb6
+  const totalWeights = powerUpWeights.reduce((acc, powerUp) => {
+    return acc + powerUp.weight;
+  }, 0);
+
+  let randomWeight = Math.floor(Math.random() * totalWeights) + 1;
+  let randomPowerUp;
+  for (let i = 0; i < powerUpWeights.length; i++) {
+    randomWeight -= powerUpWeights[i].weight;
+    if (randomWeight <= 0) {
+      randomPowerUp = powerUpWeights[i];
+      break;
+    }
+  }
+
+  return randomPowerUp.type;
+};
+
 export const awardRandomPowerUpToPlayer = player => {
   return new Promise(resolve => {
     getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
@@ -66,12 +91,10 @@ export const awardRandomPowerUpToPlayer = player => {
       if (!playerPowerUps) {
         return;
       }
-      const randomPowerUpIndex = Math.floor(
-        Math.random() * playerPowerUps.length
-      );
+      const randomPowerUpName = getWeightedPowerUp();
 
-      adjustPowerUpCount(player, playerPowerUps[randomPowerUpIndex].type, 1);
-      resolve(playerPowerUps[randomPowerUpIndex].type);
+      adjustPowerUpCount(player, randomPowerUpName, 1);
+      resolve(randomPowerUpName);
     });
   });
 };
