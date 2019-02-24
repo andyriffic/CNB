@@ -61,7 +61,7 @@ const View = ({ type, bigText, count }) => {
           <React.Fragment>
             PowerUps
             <br />
-            beta*
+            1.0
           </React.Fragment>
         }
         backgroundColor="#0a9323"

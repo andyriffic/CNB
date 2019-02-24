@@ -59,30 +59,30 @@ export const adjustPowerUpCount = (player, powerUp, by) => {
   });
 };
 
-const powerUpWeights = [
-  { type: 'DOUBLE', weight: 5 },
-  { type: 'STEAL', weight: 10 },
-  { type: 'SWAP', weight: 1 },
-];
-
-export const getWeightedPowerUp = () => {
+export const getWeightedItem = weightedList => {
   // https://medium.com/@peterkellyonline/weighted-random-selection-3ff222917eb6
-  const totalWeights = powerUpWeights.reduce((acc, powerUp) => {
+  const totalWeights = weightedList.reduce((acc, powerUp) => {
     return acc + powerUp.weight;
   }, 0);
 
   let randomWeight = Math.floor(Math.random() * totalWeights) + 1;
-  let randomPowerUp;
-  for (let i = 0; i < powerUpWeights.length; i++) {
-    randomWeight -= powerUpWeights[i].weight;
+  let randomItem;
+  for (let i = 0; i < weightedList.length; i++) {
+    randomWeight -= weightedList[i].weight;
     if (randomWeight <= 0) {
-      randomPowerUp = powerUpWeights[i];
+      randomItem = weightedList[i];
       break;
     }
   }
 
-  return randomPowerUp.type;
+  return randomItem;
 };
+
+export const powerUpWeights = [
+  { type: 'DOUBLE', weight: 5 },
+  { type: 'STEAL', weight: 10 },
+  { type: 'SWAP', weight: 1 },
+];
 
 export const awardRandomPowerUpToPlayer = player => {
   return new Promise(resolve => {
@@ -91,10 +91,23 @@ export const awardRandomPowerUpToPlayer = player => {
       if (!playerPowerUps) {
         return;
       }
-      const randomPowerUpName = getWeightedPowerUp();
+      const randomPowerUpName = getWeightedItem(powerUpWeights).type;
 
       adjustPowerUpCount(player, randomPowerUpName, 1);
       resolve(randomPowerUpName);
     });
   });
+};
+
+export const getWeightedRandomPlayer = scores => {
+  // Weight with over players score so favors player that is behind
+  const playerWeightings = [
+    { playerName: 'MELB', weight: scores.XIAN.value },
+    { playerName: 'XIAN', weight: scores.MELB.value },
+  ];
+
+  // console.log('WEIGHTING', playerWeightings);
+
+  const randomWeightedPlayer = getWeightedItem(playerWeightings);
+  return randomWeightedPlayer.playerName;
 };

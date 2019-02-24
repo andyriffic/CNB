@@ -1,16 +1,13 @@
 import {
   adjustPowerUpCount,
   awardRandomPowerUpToPlayer,
+  getWeightedRandomPlayer,
 } from '../power-ups/updatePowerUp';
 const delayMilliseconds = 18000;
-
-const powerUpAwardingUsers = ['XIAN', 'MELB'];
 
 export const updateScores = (scores, data) => {
   return new Promise(resolve => {
     if (!scores) resolve();
-
-    console.log('FINSISED DATA', data);
 
     // TODO: this will be cleaned up in refactoring branch 'point-allocation-refactor'
 
@@ -42,16 +39,12 @@ export const updateScores = (scores, data) => {
 
       const awardedPowerUps = {};
 
-      const randomUserIndex = Math.floor(
-        Math.random() * powerUpAwardingUsers.length
-      );
-
-      const userToGivePowerUpTo = powerUpAwardingUsers[randomUserIndex];
+      const randomPlayerName = getWeightedRandomPlayer(scores);
 
       const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(
-        userToGivePowerUpTo
+        randomPlayerName
       ).then(powerUp => {
-        awardedPowerUps[userToGivePowerUpTo] = powerUp;
+        awardedPowerUps[randomPlayerName] = powerUp;
       });
 
       // Keeping the Promise.all for historical reason, but not necessary now since only awarding powerup to one user

@@ -21,7 +21,7 @@
     "eject": "react-scripts eject",
     "flow": "flow ./src",
     "lint": "./node_modules/.bin/eslint ./src --fix",
-    "prebuild": "npm run flow && ./node_modules/.bin/eslint ./src"
+    "prebuild": "./node_modules/.bin/eslint ./src && npm run flow && CI=true react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
