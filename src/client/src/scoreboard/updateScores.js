@@ -4,11 +4,15 @@ import {
 } from '../power-ups/updatePowerUp';
 const delayMilliseconds = 18000;
 
+const powerUpAwardingUsers = ['XIAN', 'MELB'];
+
 export const updateScores = (scores, data) => {
   return new Promise(resolve => {
     if (!scores) resolve();
 
     console.log('FINSISED DATA', data);
+
+    // TODO: this will be cleaned up in refactoring branch 'point-allocation-refactor'
 
     if (!data.draw) {
       if (data.winnerPowerUp && data.winnerPowerUp !== 'NONE') {
@@ -28,22 +32,6 @@ export const updateScores = (scores, data) => {
     }
 
     // :(
-    const awardedPowerUps = {};
-
-    const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(
-      data.draw ? 'MELB' : data.winner
-    ).then(powerUp => {
-      awardedPowerUps[data.draw ? 'MELB' : data.winner] = powerUp;
-    });
-    const loserPowerUpAwarded = awardRandomPowerUpToPlayer(
-      data.draw ? 'XIAN' : data.loser
-    ).then(powerUp => {
-      awardedPowerUps[data.draw ? 'XIAN' : data.loser] = powerUp;
-    });
-
-    Promise.all([winnerPowerUpAwarded, loserPowerUpAwarded]).then(() => {
-      resolve(awardedPowerUps);
-    });
 
     if (data.draw) {
       scores.BONUS.add(1, scores).then(updateBonusPointsLocally => {
@@ -51,7 +39,29 @@ export const updateScores = (scores, data) => {
           updateBonusPointsLocally();
         }, delayMilliseconds);
       });
+
+      const awardedPowerUps = {};
+
+      const randomUserIndex = Math.floor(
+        Math.random() * powerUpAwardingUsers.length
+      );
+
+      const userToGivePowerUpTo = powerUpAwardingUsers[randomUserIndex];
+
+      const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(
+        userToGivePowerUpTo
+      ).then(powerUp => {
+        awardedPowerUps[userToGivePowerUpTo] = powerUp;
+      });
+
+      // Keeping the Promise.all for historical reason, but not necessary now since only awarding powerup to one user
+      Promise.all([winnerPowerUpAwarded]).then(() => {
+        resolve(awardedPowerUps);
+      });
+
       return;
+    } else {
+      resolve({});
     }
 
     const winnerScore = scores[data.winner];
