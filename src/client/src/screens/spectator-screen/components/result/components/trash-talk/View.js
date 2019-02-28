@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 
 const fadeIn = keyframes`
   0% {
@@ -19,7 +18,7 @@ const SpeechBubble = styled.p`
   background-color: white;
   border-radius: 10px;
   position: absolute;
-  top: -30px;  
+  top: -10vmin;  
   font-size: 0.7rem;
   width: 38vw;
   z-index: 1;
@@ -50,18 +49,25 @@ const SpeechBubble = styled.p`
       props.isLeft ? 'rotate(-24deg);' : 'rotate(-60deg);'}
 `;
 
-const getRandomSaying = sayings => {
-  const randomIndex = Math.floor(Math.random() * sayings.length);
-  return sayings[randomIndex];
+// Temp hack fix. Component re-renders on some parent state updates.
+// Make this deterministic by getting unique saying per day
+const getSayingForDate = sayings => {
+  // Just grab the remainder if you divide the current date by total sayings, this will give unique array index per day
+  // Don't trust my maths so wrap in try/catch just in case
+  try {
+    const date = new Date().getDate();
+    const index = date % sayings.length;
+    return sayings[index];
+  } catch {
+    return sayings[0];
+  }
 };
 
-const View = ({ player, isWinner, isLeft }) => {
+const View = ({ player, isWinner, isLeft, theme }) => {
   if (!isWinner) {
     return null;
   }
-  const theme = useContext(GameThemeContext);
-
-  const phrase = getRandomSaying(theme.characters.winningPhrases[player.move]);
+  const phrase = getSayingForDate(theme.characters.winningPhrases[player.move]);
 
   if (!phrase.english) {
     return null;

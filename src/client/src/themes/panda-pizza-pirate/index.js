@@ -15,12 +15,12 @@ import pandaWiningSound from './sounds/panda-win.mp3';
 import pizzaWinningSound from './sounds/pizza-win.mp3';
 import pirateWinningSound from './sounds/pirate-win.mp3';
 
-import ResultAlternateScreen from '../../screens/spectator-screen-alternate/components/result-alternate';
+import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
   name: 'Pizza, Panda, Pirate',
   gameplay: {
-    resultScreen: ResultAlternateScreen,
+    resultScreen: ResultScreen,
   },
   characters: {
     nameMapping: {

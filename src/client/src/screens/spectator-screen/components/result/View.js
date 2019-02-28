@@ -1,12 +1,12 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import PlayerResult from '../player-result';
+import PlayerResult from './components/player-result';
 import PlayerScore from '../player-score';
 import Draw from '../draw';
-import Winner from '../winner';
+import Winner from './components/winner';
 import Switch from '../../../../components/switch';
 import {
   PlayerSpectatorContainer,
@@ -14,8 +14,18 @@ import {
   Button,
   PageFooterContainer,
 } from '../../../styled';
+import MultiArea from '../../../../components/multi-area';
+import VisibilityContainer from '../../../../components/visibility-placeholder';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import PageLayout from '../../../../components/page-layout/FullPage';
+import AwardedPowerUp from '../awarded-power-up';
+
+import { Power4 } from 'gsap/EasePack';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import PowerUpContext from '../../../../contexts/PowerUpContext';
+
+const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 type Props = {
   result: Object,
@@ -26,8 +36,8 @@ type Props = {
 
 const BonusPointSection = styled.div`
   text-align: center;
-  width: 20vmin;
-  margin: 0 auto;
+  //width: 20vmin;
+  margin-top: 20px;
 `;
 
 const BonusHeading = styled.h2`
@@ -35,25 +45,98 @@ const BonusHeading = styled.h2`
   font-size: 1rem;
 `;
 
+const MIDDLE_STATES = {
+  VS: 0,
+  FIGHT: 1,
+  RESULT: 2,
+};
+
 const View = ({ result, player1, player2, resetGame }: Props) => {
   const soundService = useContext(GameSoundContext);
+  const powerUpsState = useContext(PowerUpContext);
 
   const winner = result.winner === 'player1' ? player1 : player2;
   const isPlayer1Winner = result.winner === 'player1';
   const isPlayer2Winner = result.winner === 'player2';
+  const [player1El, setPlayer1El] = useState(null);
+  const [middleEl, setMiddleEl] = useState(null);
+  const [player2El, setPlayer2El] = useState(null);
+  const [animationTimeline, setAnimationTimeline] = useState(null);
+  const [middleIndex, setMiddleIndex] = useState(MIDDLE_STATES.VS);
+  const [showPlayerMoves, setShowPlayerMoves] = useState(false);
+  const [showPowerUps, setShowPowerUps] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [showResetGameButton, setShowResetGameButton] = useState(false);
+
+  const onGameReset = () => {
+    soundService.play(SOUND_KEYS.GAME_START, true);
+    animationTimeline.duration(2).reverse();
+  };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      soundService.playWinningSound(winner.move, result.draw);
-    }, 1000);
+    if (!animationTimeline && player1El && player2El) {
+      setAnimationTimeline(
+        new TimelineLite({
+          onComplete: () => {
+            setTimeout(() => {
+              soundService.play(SOUND_KEYS.FIGHT, true);
+              setMiddleIndex(MIDDLE_STATES.FIGHT);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+              setTimeout(() => {
+                setShowPlayerMoves(true);
+                soundService.playWinningSound(winner.move, result.draw);
+
+                setTimeout(() => {
+                  setMiddleIndex(MIDDLE_STATES.RESULT);
+                  setShowResult(true);
+
+                  setTimeout(() => {
+                    winner.powerUp !== 'NONE' &&
+                      soundService.play(SOUND_KEYS.POWER_UP_WIN);
+                    setShowPowerUps(true);
+
+                    setTimeout(() => {
+                      setShowResetGameButton(true);
+                    }, 5000);
+                  }, 3000);
+                }, 4000);
+              }, 3000);
+            }, 1000);
+          },
+          onReverseComplete: () => {
+            resetGame();
+          },
+        })
+          .from(player1El, 0.5, {
+            ease: Power4.easeOut,
+            y: -1000,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+            },
+          })
+          .from(middleEl, 0.4, {
+            scale: 0,
+            opacity: 0,
+            delay: 0,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.VS, true);
+            },
+          })
+          .from(player2El, 0.5, {
+            ease: Power4.easeOut,
+            y: -1000,
+            delay: 0.5,
+            onStart: () => {
+              soundService.play(SOUND_KEYS.RESULT_PLAYER_ENTER, true);
+            },
+          })
+          .delay(2)
+      );
+    }
+  }, [player1El, player2El, middleEl]);
 
   return (
-    <PageLayout pageTitle="Result 结果">
+    <PageLayout>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <PlayerResult
@@ -62,21 +145,36 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player2.move}
             isDraw={result.draw}
             isLeft
+            setContainerRef={setPlayer1El}
+            revealPlayersMove={showPlayerMoves}
+            revealPowerUp={showPowerUps}
           />
-          <PlayerScore playerKey={player1.name} />
-          <p>{player1.powerUp !== 'NONE' && player1.powerUp}</p>
+          <VisibilityContainer visible={showResult}>
+            <PlayerScore playerKey={player1.name} />
+          </VisibilityContainer>
         </PlayerSpectatorSection>
 
-        <PlayerSpectatorSection>
-          <Switch>
-            <Draw showIf={result.draw} />
-            <Winner
-              showIf={!result.draw}
-              player1={player1}
-              player2={player2}
-              result={result}
-            />
-          </Switch>
+        <PlayerSpectatorSection ref={setMiddleEl}>
+          <MultiArea showIndex={middleIndex}>
+            <p style={{ fontSize: '3rem' }}>VS</p>
+            <p style={{ fontSize: '3rem' }}>FIGHT!</p>
+            <Switch>
+              <Draw showIf={result.draw} />
+              <Winner
+                showIf={!result.draw}
+                player1={player1}
+                player2={player2}
+                result={result}
+              />
+            </Switch>
+          </MultiArea>
+
+          <VisibilityContainer visible={showResult}>
+            <BonusPointSection>
+              <BonusHeading>BONUS 獎金</BonusHeading>
+              <PlayerScore playerKey={'BONUS'} />
+            </BonusPointSection>
+          </VisibilityContainer>
         </PlayerSpectatorSection>
 
         <PlayerSpectatorSection>
@@ -86,19 +184,39 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             otherPlayersMove={player1.move}
             isDraw={result.draw}
             isLeft={false}
+            setContainerRef={setPlayer2El}
+            revealPlayersMove={showPlayerMoves}
+            revealPowerUp={showPowerUps}
           />
-          <PlayerScore playerKey={player2.name} />
-          <p>{player2.powerUp !== 'NONE' && player2.powerUp}</p>
+          <VisibilityContainer visible={showResult}>
+            <PlayerScore playerKey={player2.name} />
+          </VisibilityContainer>
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>
-      <BonusPointSection>
-        <BonusHeading>BONUS 獎金</BonusHeading>
-        <PlayerScore playerKey={'BONUS'} />
-      </BonusPointSection>
       <PageFooterContainer>
-        <Button onClick={resetGame}>
-          Play again <br /> 再玩一次
-        </Button>
+        <PlayerSpectatorContainer>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <AwardedPowerUp
+                powerUp={powerUpsState.awardedPowerUps[player1.name]}
+              />
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <Button onClick={onGameReset}>
+                Play again <br /> 再玩一次
+              </Button>
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+          <PlayerSpectatorSection>
+            <VisibilityContainer visible={showResetGameButton}>
+              <AwardedPowerUp
+                powerUp={powerUpsState.awardedPowerUps[player2.name]}
+              />
+            </VisibilityContainer>
+          </PlayerSpectatorSection>
+        </PlayerSpectatorContainer>
       </PageFooterContainer>
     </PageLayout>
   );

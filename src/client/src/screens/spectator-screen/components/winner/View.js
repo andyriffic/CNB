@@ -8,6 +8,7 @@ type Props = {
   result: Object,
   player1: Object,
   player2: Object,
+  setContainerRef?: () => void,
 };
 
 const WinnerView = styled.div`
@@ -48,8 +49,8 @@ const extremeFadeAndScale = keyframes`
 `;
 
 const WinnerHeading = styled.h2`
-  opacity: 0;
-  animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
+  //opacity: 0;
+  //animation: ${extremeFadeAndScale} 1s linear 4s 1 forwards;
   text-align: center;
 `;
 
@@ -63,19 +64,19 @@ const CenteredText = styled.span`
 `;
 
 const WinnerAnimated = styled(CenteredText)`
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1s 1 forwards;
+  //opacity: 0;
+  //animation: ${fadeAndScale} 1s linear 1s 1 forwards;
 `;
 
 const BeatsAnimated = styled(CenteredText)`
   font-size: 3vmin;
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1.2s 1 forwards;
+  //opacity: 0;
+  //animation: ${fadeAndScale} 1s linear 1.2s 1 forwards;
 `;
 
 const LoserAnimated = styled(CenteredText)`
-  opacity: 0;
-  animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
+  //opacity: 0;
+  //animation: ${fadeAndScale} 1s linear 1.4s 1 forwards;
 `;
 
 const TranslatedWinnerText = ({ winner }) => {
@@ -100,13 +101,18 @@ const TranslatedWinnerText = ({ winner }) => {
   return null;
 };
 
-const View = ({ player1, player2, result }: Props) => {
+const View = ({
+  player1,
+  player2,
+  result,
+  setContainerRef = () => {},
+}: Props) => {
   const theme = useContext(GameThemeContext);
   const winner = result.winner === 'player1' ? player1 : player2;
   const loser = winner === player1 ? player2 : player1;
 
   return (
-    <WinnerView>
+    <WinnerView ref={setContainerRef}>
       <ResultContainer>
         <WinnerAnimated>
           {theme.characters.nameMapping[winner.move]}

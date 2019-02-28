@@ -61,7 +61,7 @@ const Badge = styled.div`
   right: 0;
   top: 0;
   box-sizing: border-box;
-  background: #ff0000;
+  background: ${props => (props.positive ? '#228b22' : '#f00')};
   cursor: default;
   border-radius: 50%;
   color: #fff;
@@ -80,7 +80,9 @@ const Badge = styled.div`
 
   &:after {
     content: '';
-    border: 2px solid rgba(255, 0, 0, 0.5);
+    border: 2px solid
+      ${props =>
+        props.positive ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)'};
     opacity: 0;
     position: absolute;
     top: 1px;
@@ -135,7 +137,12 @@ const View = ({ playerKey }) => {
 
   return (
     <Container>
-      {incremented && incremented > 0 && <Badge>+{incremented}</Badge>}
+      {incremented && incremented !== 0 && (
+        <Badge positive={incremented > 0}>
+          {incremented > 0 && '+'}
+          {incremented}
+        </Badge>
+      )}
       <Score
         isBonus={playerKey === 'BONUS'}
         className={updated ? 'updated' : ''}

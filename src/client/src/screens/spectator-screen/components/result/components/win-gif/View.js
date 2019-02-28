@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 
 const fadeIn = keyframes`
   0% {
@@ -61,13 +60,14 @@ const getRandomSaying = sayings => {
   return sayings[randomIndex];
 };
 
-const View = ({ player, isWinner, isLeft }) => {
+const View = ({ player, isWinner, isLeft, theme }) => {
+  console.log('WIN GIF', player, isWinner, isLeft, theme);
   if (!isWinner) {
     return null;
   }
-  const theme = useContext(GameThemeContext);
 
   const phrase = getRandomSaying(theme.characters.winningPhrases[player.move]);
+  console.log('Phrase', phrase);
 
   if (!phrase.imageUrl) {
     return null;

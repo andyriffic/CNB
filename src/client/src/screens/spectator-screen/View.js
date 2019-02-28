@@ -1,6 +1,6 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import GameStateContext from '../../contexts/GameStateContext';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import useGetGameState from '../hooks/useGetGameState';
@@ -9,8 +9,6 @@ import Switch from '../../components/switch';
 
 import Waiting from './components/waiting';
 import Loading from './components/loading';
-import Ready from './components/ready';
-import Countdown from './components/countdown';
 import { SOUND_KEYS } from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
@@ -20,35 +18,16 @@ const waitingStatuses = [
   'EMPTY',
   'WAITING_FOR_PLAYER_1',
   'WAITING_FOR_PLAYER_2',
+  'READY',
 ];
 
 const View = () => {
-  const [showCountdown, setShowCountdown] = useState(null);
   const gameState = useContext(GameStateContext);
   const serverMessages = useContext(ServerMessagesContext);
   const soundService = useContext(GameSoundContext);
   const theme = useContext(GameThemeContext);
 
   soundService.load();
-
-  useEffect(() => {
-    if (gameState && gameState.status === 'FINISHED') {
-      setShowCountdown(true);
-      setTimeout(() => {
-        setShowCountdown(false);
-      }, 3500);
-    }
-  }, [gameState]);
-
-  useEffect(() => {
-    if (gameState && gameState.status === 'FINISHED') {
-      soundService.stop(SOUND_KEYS.WAITING_MUSIC);
-    }
-
-    if (gameState && gameState.status !== 'FINISHED') {
-      soundService.play(SOUND_KEYS.WAITING_MUSIC);
-    }
-  }, [gameState]);
 
   useEffect(() => {
     // Um, pretty bad logic but it'll do. Play a sound if user makes selection
@@ -71,8 +50,14 @@ const View = () => {
     serverMessages.resetGame();
   };
 
+  const playGame = () => {
+    console.log('PLAY GAME');
+    // soundService.stop(SOUND_KEYS.WAITING_MUSIC);
+    serverMessages.playGame();
+  };
+
   return (
-    <React.Fragment>
+    <div>
       <GameSettingsDrawer />
       {gameState ? (
         <Switch>
@@ -80,24 +65,10 @@ const View = () => {
             showIf={waitingStatuses.includes(gameState.status)}
             player1={gameState.player1}
             player2={gameState.player2}
-          />
-          <Ready
-            showIf={gameState.status === 'READY'}
-            player1={gameState.player1}
-            player2={gameState.player2}
-            playGame={serverMessages.playGame}
-          />
-          <Countdown
-            showIf={
-              gameState.status === 'FINISHED' &&
-              (showCountdown !== null && showCountdown === true)
-            }
+            playGame={playGame}
           />
           <ResultScreenComponent
-            showIf={
-              gameState.status === 'FINISHED' &&
-              (showCountdown !== null && showCountdown === false)
-            }
+            showIf={gameState.status === 'FINISHED'}
             result={gameState.result}
             player1={gameState.player1}
             player2={gameState.player2}
@@ -109,7 +80,7 @@ const View = () => {
       )}
 
       <DebugOutput data={gameState} />
-    </React.Fragment>
+    </div>
   );
 };
 
