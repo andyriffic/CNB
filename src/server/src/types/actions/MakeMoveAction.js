@@ -5,4 +5,5 @@ export type MakeMoveAction = {
   type: string,
   slot: string,
   move: Move,
+  powerUp?: string,
 };

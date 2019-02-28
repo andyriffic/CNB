@@ -7,6 +7,7 @@ import bonusPointsEnter from './bonus-points-enter.wav';
 import resultPlayerEnter from './result-player-enter-2.wav';
 import vs from './vs.wav';
 import fight from './fight.wav';
+import powerUpWin from './power-up-win.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -20,6 +21,7 @@ export const SOUND_KEYS = {
   RESULT_PLAYER_ENTER: 'RESULT_PLAYER_ENTER',
   VS: 'VS',
   FIGHT: 'FIGHT',
+  POWER_UP_WIN: 'POWER_UP_WIN',
 };
 
 export class SoundService {
@@ -98,6 +100,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.FIGHT] = {
         sound: new Howl({ src: [fight] }),
+      };
+
+      this._sounds[SOUND_KEYS.POWER_UP_WIN] = {
+        sound: new Howl({ src: [powerUpWin] }),
       };
 
       // Pre-load winning sounds

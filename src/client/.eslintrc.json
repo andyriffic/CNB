@@ -25,7 +25,8 @@
     "before": true,
     "beforeEach": true,
     "fetch": true,
-    "localStorage": true
+    "localStorage": true,
+    "expect": true
   },
   "parserOptions": {
     "sourceType": "module"

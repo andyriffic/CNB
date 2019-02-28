@@ -26,9 +26,9 @@ const validMove = (game: Game, player: string, move: string): Either<string, voi
   return left('Invalid selection');
 };
 
-export const eitherMakeMoveOrError = (game: Game, player: string, move: string): Either<InvalidMoveResponse, MakeMoveResponse> => {
+export const eitherMakeMoveOrError = (game: Game, player: string, move: string, powerUp: string): Either<InvalidMoveResponse, MakeMoveResponse> => {
   return validMove(game, player, move).fold(
     () => left({ message: invalidMoveMessage() }),
-    () => right({ makeMoveAction: makeMoveAction(player, move) })
+    () => right({ makeMoveAction: makeMoveAction(player, move, powerUp) })
   );
 };

@@ -12,6 +12,7 @@ import ConnectionDetailsContext from '../contexts/ConnectionDetailsContext';
 import generateServerMessagesService from './generateServerMessagesService';
 import ScoreboardContext from '../contexts/ScoreboardContext';
 import { updateScores } from '../scoreboard/updateScores';
+import PowerUpContext from '../contexts/PowerUpContext';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
@@ -23,11 +24,16 @@ const SocketsConnection = ({ children }: Props) => {
   const [gameState, setGameState] = useState(null);
   const [connectionDetails, setConnectionDetails] = useState(null);
   const scores = useContext(ScoreboardContext);
+  const powerUpsState = useContext(PowerUpContext);
+
+  const [msgSvc] = useState(generateServerMessagesService(socket));
 
   if (scores !== null) {
     // Have to keep subscribing/unsubscribing to event so we get a current score state :(
     const onGameFinished = data => {
-      updateScores(scores, data);
+      updateScores(scores, data).then(awardedPowerUps => {
+        msgSvc.awardPowerUps(awardedPowerUps);
+      });
     };
     socket.removeListener('GAME_FINISHED');
     socket.on('GAME_FINISHED', onGameFinished);
@@ -39,13 +45,20 @@ const SocketsConnection = ({ children }: Props) => {
     socket.on('GAME_VIEW', data => {
       setGameState(data);
     });
+    socket.on('AWARDED_POWERUPS', awardedPowerUps => {
+      setTimeout(() => {
+        powerUpsState.awardPowerUps(awardedPowerUps);
+      }, 20000);
+    });
+
+    // console.log('TEST STATE - game finished mount', testState);
+    // setTestState('mount?');
+    // console.log('TEST STATE - game finished mount?', testState);
 
     console.log('connected to socket', socket);
 
     return () => console.log('unmounting....');
   }, []);
-
-  const msgSvc = generateServerMessagesService(socket);
 
   return (
     <ServerMessagesContext.Provider value={msgSvc}>

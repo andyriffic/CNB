@@ -15,7 +15,7 @@ import crikeySound from './sounds/crikey.wav';
 import didgeridooSound from './sounds/didgeridoo.wav';
 import kangarooSound from './sounds/kangaroo.mp3';
 
-import ResultScreen from '../../screens/spectator-screen/components/result-alternate';
+import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
   name: 'Australia',

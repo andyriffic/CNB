@@ -52,6 +52,26 @@ export default {
       B: cowboyWinningSound,
       C: bearWinningSound,
     },
+    winningPhrases: {
+      A: [
+        {
+          english: 'Judo Chop!',
+          chinese: '柔道斬',
+        },
+      ],
+      B: [
+        {
+          english: 'Good, I needed a bear skin rug for my cabin',
+          chinese: '好，我的小屋需要熊皮地毯',
+        },
+      ],
+      C: [
+        {
+          english: 'lets take a trip...to the MAUL!',
+          chinese: '讓我們去旅行...去MAUL！',
+        },
+      ],
+    },
   },
   sounds: {
     waitingMusic: waitingSound,

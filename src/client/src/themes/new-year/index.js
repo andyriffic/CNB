@@ -15,19 +15,12 @@ import nianWinningSound from './sounds/nian-win.mp3';
 import pigWinningSound from './sounds/pig-win.mp3';
 import fireworkWinningSound from './sounds/firework-win.mp3';
 
-import { isFeatureEnabled, FEATURE_ANIMATED } from '../../featureToggle';
-
-import ResultScreen from '../../screens/spectator-screen/components/result-alternate';
-import ResultAlternateScreen from '../../screens/spectator-screen-alternate/components/result-alternate';
-
-const ResultView = isFeatureEnabled(FEATURE_ANIMATED)
-  ? ResultAlternateScreen
-  : ResultScreen;
+import ResultScreen from '../../screens/spectator-screen/components/result';
 
 export default {
   name: 'Chinese New Year',
   gameplay: {
-    resultScreen: ResultView,
+    resultScreen: ResultScreen,
   },
   characters: {
     nameMapping: {
