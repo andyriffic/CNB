@@ -10,6 +10,7 @@ import {
   SpectatorScreen,
   ResetGameScreen,
   PageLayoutScreen,
+  IndividualPlayersTest,
 } from './screens';
 import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
@@ -40,6 +41,7 @@ const App = () => {
             <Router>
               <SpectatorScreen path="/" />
               <PageLayoutScreen path="layouttest" />
+              <IndividualPlayersTest path="players" />
               <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
               <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
               <ResetGameScreen path="reset" />
