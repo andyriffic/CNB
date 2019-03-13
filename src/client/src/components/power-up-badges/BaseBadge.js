@@ -12,7 +12,9 @@ const Container = styled.div`
   text-decoration: none;
   color: ${props => props.textColor || '#ffffff'};
   font-weight: bold;
-  text-shadow: 0 0 20px #000, 0 0 8px #000;
+  text-shadow: 0 0 20px
+      ${props => (props.textShadowColor ? props.textShadowColor : '#000')},
+    0 0 8px ${props => (props.textShadowColor ? props.textShadowColor : '#000')};
   transition: transform 0.8s ease;
 
   &:hover {
@@ -46,9 +48,20 @@ const Count = styled.span`
   display: block;
 `;
 
-const View = ({ text, backgroundColor, textColor, bigText, count }) => {
+const View = ({
+  text,
+  backgroundColor,
+  textColor,
+  textShadowColor,
+  bigText,
+  count,
+}) => {
   return (
-    <Container backgroundColor={backgroundColor} textColor={textColor}>
+    <Container
+      backgroundColor={backgroundColor}
+      textColor={textColor}
+      textShadowColor={textShadowColor}
+    >
       <Spike>
         <Spike>
           <Spike hasText>

@@ -127,7 +127,7 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   return (
     <PageLayout>
       <PowerUpBanner>
-        <PowerUpBadge type="BANNER" />
+        <PowerUpBadge type="TROPHY" />
       </PowerUpBanner>
       <IntroBanner />
       <PointGoalContainer>
