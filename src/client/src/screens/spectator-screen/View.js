@@ -13,6 +13,7 @@ import { SOUND_KEYS } from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
 import GameThemeContext from '../../contexts/GameThemeContext';
+import TrophyPointsContext from '../../trophy-points/Context';
 
 const waitingStatuses = [
   'EMPTY',
@@ -26,6 +27,7 @@ const View = () => {
   const serverMessages = useContext(ServerMessagesContext);
   const soundService = useContext(GameSoundContext);
   const theme = useContext(GameThemeContext);
+  const trophyPoints = useContext(TrophyPointsContext);
 
   soundService.load();
 
@@ -66,6 +68,7 @@ const View = () => {
             player1={gameState.player1}
             player2={gameState.player2}
             playGame={playGame}
+            trophyPoints={trophyPoints}
           />
           <ResultScreenComponent
             showIf={gameState.status === 'FINISHED'}

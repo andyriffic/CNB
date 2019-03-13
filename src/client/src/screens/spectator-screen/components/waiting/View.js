@@ -19,6 +19,8 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import MultiArea from '../../../../components/multi-area';
 import PowerUpBadge from '../../../../components/power-up-badges';
+import TrophyTotal from '../../../../components/trophy-total';
+import TrophyGoal from '../../../../components/trophy-goal';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -62,13 +64,20 @@ const PowerUpBanner = styled.div`
   animation: ${pulse} 3s ease infinite forwards;
 `;
 
-const View = ({ player1, player2, playGame }: Props) => {
+const PointGoalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   const [player1El, setPlayer1El] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
   const [bonusPointsEl, setBonusPointsEl] = useState(null);
   const [buttonEl, setButtonEl] = useState(null);
   const [player1Timeline, setPlayer1Timeline] = useState(null);
   const soundService = useContext(GameSoundContext);
+
+  console.log('WAITING TROPHY POINTS', trophyPoints);
 
   useEffect(() => {
     if (player1El && player2El && buttonEl && bonusPointsEl) {
@@ -121,8 +130,14 @@ const View = ({ player1, player2, playGame }: Props) => {
         <PowerUpBadge type="BANNER" />
       </PowerUpBanner>
       <IntroBanner />
+      <PointGoalContainer>
+        {trophyPoints.loaded && <TrophyGoal goal={trophyPoints.goal} />}
+      </PointGoalContainer>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection ref={setPlayer1El}>
+          {trophyPoints.loaded && (
+            <TrophyTotal total={trophyPoints.players[player1.name]} />
+          )}
           <PlayerStatus
             {...player1}
             animationDelay={0}
@@ -149,6 +164,9 @@ const View = ({ player1, player2, playGame }: Props) => {
           </MultiArea>
         </PlayerSpectatorSection>
         <PlayerSpectatorSection ref={setPlayer2El}>
+          {trophyPoints.loaded && (
+            <TrophyTotal total={trophyPoints.players[player2.name]} />
+          )}
           <PlayerStatus
             {...player2}
             animationDelay={0.5}
