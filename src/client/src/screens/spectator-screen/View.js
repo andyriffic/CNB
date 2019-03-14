@@ -32,6 +32,10 @@ const View = () => {
   soundService.load();
 
   useEffect(() => {
+    trophyPoints.init();
+  }, []);
+
+  useEffect(() => {
     // Um, pretty bad logic but it'll do. Play a sound if user makes selection
     if (
       gameState &&

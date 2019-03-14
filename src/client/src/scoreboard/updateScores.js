@@ -1,9 +1,34 @@
+// @flow
 import {
   adjustPowerUpCount,
-  awardRandomPowerUpToPlayer,
   getWeightedRandomPlayer,
+  getWeightedRandomPowerUp,
+  awardPowerUpToPlayer,
 } from '../power-ups/updatePowerUp';
+import type { PointsAssignment, Scores } from './types';
+
 const delayMilliseconds = 18000;
+
+export const getStandardPointsAssignment: PointsAssignment = (
+  scores: Scores,
+  gameFinishedResult
+) => {
+  if (gameFinishedResult.draw) {
+    return {
+      player1: 0,
+      player2: 0,
+      bonus: 1,
+    };
+  }
+
+  const bonusPoints = scores.BONUS ? scores.BONUS.value : 0;
+
+  return {
+    [gameFinishedResult.winnerKey]: 1 + bonusPoints,
+    [gameFinishedResult.loserKey]: 0,
+    bonus: bonusPoints ? -bonusPoints : 0,
+  };
+};
 
 export const updateScores = (scores, data) => {
   return new Promise(resolve => {
@@ -37,21 +62,15 @@ export const updateScores = (scores, data) => {
         }, delayMilliseconds);
       });
 
-      const awardedPowerUps = {};
-
       const randomPlayerName = getWeightedRandomPlayer(scores);
+      const randomPowerUp = getWeightedRandomPowerUp();
+      awardPowerUpToPlayer(randomPlayerName, randomPowerUp);
 
-      const winnerPowerUpAwarded = awardRandomPowerUpToPlayer(
-        randomPlayerName
-      ).then(powerUp => {
-        awardedPowerUps[randomPlayerName] = powerUp;
-      });
+      const awardedPowerUps = {
+        [randomPlayerName]: randomPowerUp,
+      };
 
-      // Keeping the Promise.all for historical reason, but not necessary now since only awarding powerup to one user
-      Promise.all([winnerPowerUpAwarded]).then(() => {
-        resolve(awardedPowerUps);
-      });
-
+      resolve(awardedPowerUps);
       return;
     } else {
       resolve({});

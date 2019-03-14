@@ -1,4 +1,5 @@
 import { COUNTER_API_BASE_URL } from '../environment';
+import { POWER_UP_TYPE } from './constants';
 
 export const getCounters = processCounters => {
   return fetch(`${COUNTER_API_BASE_URL}`)
@@ -43,6 +44,10 @@ export const counterIdForCounterName = counterName => counters => {
 };
 
 export const adjustPowerUpCount = (player, powerUp, by) => {
+  if (powerUp === POWER_UP_TYPE.NONE) {
+    return;
+  }
+
   const counterName = `POWER_${powerUp}_${player}`;
 
   getCounters(counterIdForCounterName(counterName)).then(counterId => {
@@ -84,29 +89,28 @@ export const powerUpWeights = [
   { type: 'SWAP', weight: 1 },
 ];
 
-export const awardRandomPowerUpToPlayer = player => {
-  return new Promise(resolve => {
-    getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
-      const playerPowerUps = powerUpsByPlayer[player];
-      if (!playerPowerUps) {
-        return;
-      }
-      const randomPowerUpName = getWeightedItem(powerUpWeights).type;
+export const awardPowerUpToPlayer = (player, powerUp) => {
+  getCounters(counterToPowerUpAdapter).then(powerUpsByPlayer => {
+    const playerPowerUps = powerUpsByPlayer[player];
+    if (!playerPowerUps) {
+      return;
+    }
 
-      adjustPowerUpCount(player, randomPowerUpName, 1);
-      resolve(randomPowerUpName);
-    });
+    adjustPowerUpCount(player, powerUp, 1);
   });
+};
+
+export const getWeightedRandomPowerUp = () => {
+  const randomPowerUpName = getWeightedItem(powerUpWeights).type;
+  return randomPowerUpName;
 };
 
 export const getWeightedRandomPlayer = scores => {
   // Weight with over players score so favors player that is behind
   const playerWeightings = [
-    { playerName: 'MELB', weight: scores.XIAN.value },
-    { playerName: 'XIAN', weight: scores.MELB.value },
+    { playerName: 'MELB', weight: scores.XIAN.value + 1 },
+    { playerName: 'XIAN', weight: scores.MELB.value + 1 },
   ];
-
-  // console.log('WEIGHTING', playerWeightings);
 
   const randomWeightedPlayer = getWeightedItem(playerWeightings);
   return randomWeightedPlayer.playerName;

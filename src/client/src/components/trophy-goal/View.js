@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import RainbowText from '../rainbow-text';
 
 const Container = styled.div`
   margin: 0;
@@ -7,7 +8,11 @@ const Container = styled.div`
 `;
 
 const View = ({ goal }) => {
-  return <Container>{goal} points = 🏆</Container>;
+  return (
+    <Container>
+      <RainbowText>{goal} points = 🏆</RainbowText>
+    </Container>
+  );
 };
 
 export default View;

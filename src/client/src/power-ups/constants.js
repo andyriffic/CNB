@@ -1,0 +1,6 @@
+export const POWER_UP_TYPE = {
+  NONE: 'NONE',
+  DOUBLE_POINTS: 'DOUBLE',
+  STEAL_POINTS: 'STEAL',
+  SWAP_POINTS: 'SWAP',
+};

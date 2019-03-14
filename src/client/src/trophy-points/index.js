@@ -1,29 +1,30 @@
-import { COUNTER_API_BASE_URL } from '../environment';
+import { getCountersByName, adjustCounter } from '../utils/counters';
 
-const getCounters = processCounters => {
-  return fetch(`${COUNTER_API_BASE_URL}`)
-    .then(resp => resp.json())
-    .then(scoreboard => scoreboard.counters)
-    .then(counters => processCounters(counters));
-};
+export const checkTrophyAward = (trophyState, scores) => {
+  console.log('AWARD TROPHY', trophyState, scores);
 
-const adaptToCountersByName = counters => {
-  const countersByName = {};
+  let trophyWinnerPlayerName;
+  Object.keys(trophyState.players).forEach(playerName => {
+    console.log('AWARD TO', playerName);
+    if (scores[playerName].value >= trophyState.goal) {
+      console.log(`${playerName} gets a trophy`);
+      trophyWinnerPlayerName = playerName;
+    }
 
-  Object.keys(counters).forEach(counterId => {
-    const counter = counters[counterId];
-    countersByName[counter.name] = {
-      ...counter,
-      id: counterId,
-    };
+    const counterName = `TROPHY_${playerName}`;
+    console.log('TROPHY COUNTER', scores[counterName]);
   });
 
-  return countersByName;
+  return trophyWinnerPlayerName;
+};
+
+export const awardTrophyToPlayer = player => {
+  const playerCounterName = `TROPHY_${player}`;
+  adjustCounter(playerCounterName, 1);
 };
 
 export const init = (players, onLoaded) => {
-  getCounters(counters => {
-    const countersByName = adaptToCountersByName(counters);
+  getCountersByName(countersByName => {
     const goal =
       (countersByName.TROPHY_GOAL && countersByName.TROPHY_GOAL.value) || 10;
 
@@ -44,12 +45,4 @@ export const init = (players, onLoaded) => {
 
     onLoaded && onLoaded(trophyState);
   });
-};
-
-const getTrophyGoal = () => {
-  return 10; // TODO: get from counter board
-};
-
-export default {
-  getTrophyGoal,
 };

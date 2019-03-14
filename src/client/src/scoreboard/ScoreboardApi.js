@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import ScoreboardContext from '../contexts/ScoreboardContext';
 import { COUNTER_API_BASE_URL } from '../environment';
+import { getCountersByName } from '../utils/counters';
 
 const ScoreboardApi = ({ children }) => {
   const [scores, setScores] = useState(null);
 
   useEffect(() => {
-    fetch(`${COUNTER_API_BASE_URL}`)
-      .then(resp => resp.json())
-      .then(scoreboard => scoreboard.counters)
-      .then(scores => {
-        const mappedScores = createScoreboardService(scores, setScores);
-        setScores(mappedScores);
+    getCountersByName(countersByName => {
+      setScores({
+        ...countersByName,
+        set: setScores,
       });
+    });
+    // fetch(`${COUNTER_API_BASE_URL}`)
+    //   .then(resp => resp.json())
+    //   .then(scoreboard => scoreboard.counters)
+    //   .then(scores => {
+    //     const mappedScores = createScoreboardService(scores, setScores);
+    //     setScores(mappedScores);
+    //   });
   }, []);
 
   return (

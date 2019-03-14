@@ -61,13 +61,11 @@ const getRandomSaying = sayings => {
 };
 
 const View = ({ player, isWinner, isLeft, theme }) => {
-  console.log('WIN GIF', player, isWinner, isLeft, theme);
   if (!isWinner) {
     return null;
   }
 
   const phrase = getRandomSaying(theme.characters.winningPhrases[player.move]);
-  console.log('Phrase', phrase);
 
   if (!phrase.imageUrl) {
     return null;

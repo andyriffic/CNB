@@ -13,6 +13,9 @@ import generateServerMessagesService from './generateServerMessagesService';
 import ScoreboardContext from '../contexts/ScoreboardContext';
 import { updateScores } from '../scoreboard/updateScores';
 import PowerUpContext from '../contexts/PowerUpContext';
+import TrophyPointsContext from '../trophy-points/Context';
+import { checkTrophyAward } from '../trophy-points';
+import { onGameComplete } from '../utils/game-flow';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
@@ -25,15 +28,31 @@ const SocketsConnection = ({ children }: Props) => {
   const [connectionDetails, setConnectionDetails] = useState(null);
   const scores = useContext(ScoreboardContext);
   const powerUpsState = useContext(PowerUpContext);
+  const trophyPoints = useContext(TrophyPointsContext);
 
   const [msgSvc] = useState(generateServerMessagesService(socket));
 
+  //console.log('SOCKETS', trophyPoints);
+
   if (scores !== null) {
     // Have to keep subscribing/unsubscribing to event so we get a current score state :(
-    const onGameFinished = data => {
-      updateScores(scores, data).then(awardedPowerUps => {
-        msgSvc.awardPowerUps(awardedPowerUps);
-      });
+    const onGameFinished = gameResult => {
+      onGameComplete(
+        gameResult,
+        gameState,
+        scores,
+        trophyPoints,
+        (updatedScores, awardedPowerUps) => {
+          msgSvc.awardPowerUps(awardedPowerUps);
+          setTimeout(() => {
+            scores.set(updatedScores);
+          }, 18000);
+        }
+      );
+      // updateScores(scores, gameResult).then(awardedPowerUps => {
+      //   msgSvc.awardPowerUps(awardedPowerUps);
+      //   checkTrophyAward(trophyPoints, scores);
+      // });
     };
     socket.removeListener('GAME_FINISHED');
     socket.on('GAME_FINISHED', onGameFinished);
