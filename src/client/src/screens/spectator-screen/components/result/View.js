@@ -25,7 +25,7 @@ import { CSSPlugin, TimelineLite } from 'gsap/all';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import PowerUpContext from '../../../../contexts/PowerUpContext';
 import type { TrophyPoints } from '../../../../trophy-points/types';
-
+import { POWER_UP_TYPE } from '../../../../power-ups/constants';
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 type Props = {
@@ -100,7 +100,7 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
 
                         timeouts.push(
                           setTimeout(() => {
-                            winner.powerUp !== 'NONE' &&
+                            winner.powerUp !== POWER_UP_TYPE.NONE &&
                               soundService.play(SOUND_KEYS.POWER_UP_WIN);
                             setShowPowerUps(true);
 

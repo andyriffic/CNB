@@ -1,4 +1,5 @@
 import { applyPowerUpsToPointsAssignment } from './appliers';
+import { POWER_UP_TYPE } from './constants';
 
 describe('PowerUp Appliers', () => {
   let scores, gameFinishedResult, gameState;
@@ -15,11 +16,11 @@ describe('PowerUp Appliers', () => {
       beforeAll(() => {
         gameState = {
           player1: {
-            powerUp: 'NONE',
+            powerUp: POWER_UP_TYPE.NONE,
             name: 'P1',
           },
           player2: {
-            powerUp: 'NONE',
+            powerUp: POWER_UP_TYPE.NONE,
             name: 'P2',
           },
         };
@@ -44,11 +45,11 @@ describe('PowerUp Appliers', () => {
       beforeAll(() => {
         gameState = {
           player1: {
-            powerUp: 'DOUBLE',
+            powerUp: POWER_UP_TYPE.DOUBLE_POINTS,
             name: 'P1',
           },
           player2: {
-            powerUp: 'NONE',
+            powerUp: POWER_UP_TYPE.NONE,
             name: 'P2',
           },
         };
@@ -77,11 +78,11 @@ describe('PowerUp Appliers', () => {
       beforeAll(() => {
         gameState = {
           player1: {
-            powerUp: 'STEAL',
+            powerUp: POWER_UP_TYPE.STEAL_POINTS,
             name: 'P1',
           },
           player2: {
-            powerUp: 'NONE',
+            powerUp: POWER_UP_TYPE.NONE,
             name: 'P2',
           },
         };
@@ -111,11 +112,11 @@ describe('PowerUp Appliers', () => {
       beforeAll(() => {
         gameState = {
           player1: {
-            powerUp: 'SWAP',
+            powerUp: POWER_UP_TYPE.SWAP_POINTS,
             name: 'P1',
           },
           player2: {
-            powerUp: 'NONE',
+            powerUp: POWER_UP_TYPE.NONE,
             name: 'P2',
           },
         };
@@ -177,11 +178,11 @@ describe('PowerUp Appliers', () => {
     beforeAll(() => {
       gameState = {
         player1: {
-          powerUp: 'NONE',
+          powerUp: POWER_UP_TYPE.NONE,
           name: 'P1',
         },
         player2: {
-          powerUp: 'NONE',
+          powerUp: POWER_UP_TYPE.NONE,
           name: 'P2',
         },
       };

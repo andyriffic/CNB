@@ -84,9 +84,9 @@ export const getWeightedItem = weightedList => {
 };
 
 export const powerUpWeights = [
-  { type: 'DOUBLE', weight: 5 },
-  { type: 'STEAL', weight: 10 },
-  { type: 'SWAP', weight: 3 },
+  { type: POWER_UP_TYPE.DOUBLE_POINTS, weight: 5 },
+  { type: POWER_UP_TYPE.STEAL_POINTS, weight: 10 },
+  { type: POWER_UP_TYPE.SWAP_POINTS, weight: 3 },
 ];
 
 export const awardPowerUpToPlayer = (player, powerUp) => {

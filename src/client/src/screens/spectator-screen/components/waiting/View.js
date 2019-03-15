@@ -21,6 +21,7 @@ import MultiArea from '../../../../components/multi-area';
 import PowerUpBadge from '../../../../components/power-up-badges';
 import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
+import { POWER_UP_TYPE } from '../../../../power-ups/constants';
 import type { TrophyPoints } from '../../../../trophy-points/types';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
@@ -145,7 +146,9 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
             animationDelay={0}
             badge={
               player1.powerUp &&
-              player1.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+              player1.powerUp !== POWER_UP_TYPE.NONE && (
+                <PowerUpBadge type="HIDDEN" />
+              )
             }
           />
           <PlayerScore playerKey={player1.name} />
@@ -174,7 +177,9 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
             animationDelay={0.5}
             badge={
               player2.powerUp &&
-              player2.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+              player2.powerUp !== POWER_UP_TYPE.NONE && (
+                <PowerUpBadge type="HIDDEN" />
+              )
             }
           />
           <PlayerScore playerKey={player2.name} />
