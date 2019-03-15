@@ -24,6 +24,7 @@
     "describe": true,
     "before": true,
     "beforeEach": true,
+    "beforeAll": true,
     "fetch": true,
     "localStorage": true,
     "expect": true
