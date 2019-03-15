@@ -11,10 +11,8 @@ import ConnectionDetailsContext from '../contexts/ConnectionDetailsContext';
 
 import generateServerMessagesService from './generateServerMessagesService';
 import ScoreboardContext from '../contexts/ScoreboardContext';
-import { updateScores } from '../scoreboard/updateScores';
 import PowerUpContext from '../contexts/PowerUpContext';
 import TrophyPointsContext from '../trophy-points/Context';
-import { checkTrophyAward } from '../trophy-points';
 import { onGameComplete } from '../onGameComplete';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);

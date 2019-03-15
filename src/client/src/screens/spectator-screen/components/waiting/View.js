@@ -21,6 +21,7 @@ import MultiArea from '../../../../components/multi-area';
 import PowerUpBadge from '../../../../components/power-up-badges';
 import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
+import type { TrophyPoints } from '../../../../trophy-points/types';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -28,6 +29,7 @@ type Props = {
   player1: Object,
   player2: Object,
   playGame: () => void,
+  trophyPoints: TrophyPoints,
 };
 
 const pulse = keyframes`

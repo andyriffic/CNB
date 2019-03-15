@@ -13,6 +13,7 @@ import TrophyImage from './trophy.png';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import VisibilityContainer from '../../../../components/visibility-placeholder';
+import type { TrophyPoints } from '../../../../trophy-points/types';
 
 const Pulse = keyframes`
   0% { transform: scale(1); }
@@ -24,7 +25,6 @@ const Grow = keyframes`
   0% { transform: scale(0.2); }
   100% { transform: scale(1); }
 `;
-
 
 const Rotate = keyframes`
   0% { transform: rotate3d(0); }
@@ -100,7 +100,12 @@ const Image = styled.img`
   width: 35vmin;
 `;
 
-const View = ({ trophyPoints, resetGame }) => {
+type Props = {
+  trophyPoints: TrophyPoints,
+  resetGame: () => void,
+};
+
+const View = ({ trophyPoints, resetGame }: Props) => {
   const soundService = useContext(GameSoundContext);
   const [showButton, setShowButton] = useState(false);
 

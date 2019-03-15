@@ -24,6 +24,7 @@ import { Power4 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import PowerUpContext from '../../../../contexts/PowerUpContext';
+import type { TrophyPoints } from '../../../../trophy-points/types';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -32,6 +33,7 @@ type Props = {
   player1: Object,
   player2: Object,
   resetGame: () => void,
+  trophyPoints: TrophyPoints,
 };
 
 const BonusPointSection = styled.div`

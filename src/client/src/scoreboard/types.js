@@ -9,6 +9,4 @@ export type Scores = {
   [string]: {
     value: number,
   },
-  add: (number, Scores) => void, // TODO: return type is actually a function
-  subtract: (number, Scores) => void, // TODO: return type is actually a function
 };
