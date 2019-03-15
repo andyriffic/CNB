@@ -56,7 +56,7 @@ function applyPowerUpSwap(
     scores[gameState[gameFinishedResult.winnerKey].name].value;
   return {
     ...currentPointsAssignment,
-    [gameFinishedResult.winnerKey]: pointsDiff + currentPointsAssignment.bonus,
+    [gameFinishedResult.winnerKey]: pointsDiff + -currentPointsAssignment.bonus,
     [gameFinishedResult.loserKey]: -pointsDiff,
   };
 }

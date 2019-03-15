@@ -23,12 +23,13 @@ export const awardTrophyToPlayer = player => {
   adjustCounter(playerCounterName, 1);
 };
 
-export const init = (players, onLoaded) => {
+export const init = (players, trophyPoints, onLoaded) => {
   getCountersByName(countersByName => {
     const goal =
       (countersByName.TROPHY_GOAL && countersByName.TROPHY_GOAL.value) || 10;
 
     const trophyState = {
+      ...trophyPoints,
       loaded: true,
       goal,
       players: {},

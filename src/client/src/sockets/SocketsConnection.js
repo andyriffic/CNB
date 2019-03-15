@@ -15,7 +15,7 @@ import { updateScores } from '../scoreboard/updateScores';
 import PowerUpContext from '../contexts/PowerUpContext';
 import TrophyPointsContext from '../trophy-points/Context';
 import { checkTrophyAward } from '../trophy-points';
-import { onGameComplete } from '../utils/game-flow';
+import { onGameComplete } from '../onGameComplete';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
@@ -32,8 +32,6 @@ const SocketsConnection = ({ children }: Props) => {
 
   const [msgSvc] = useState(generateServerMessagesService(socket));
 
-  //console.log('SOCKETS', trophyPoints);
-
   if (scores !== null) {
     // Have to keep subscribing/unsubscribing to event so we get a current score state :(
     const onGameFinished = gameResult => {
@@ -42,11 +40,12 @@ const SocketsConnection = ({ children }: Props) => {
         gameState,
         scores,
         trophyPoints,
-        (updatedScores, awardedPowerUps) => {
+        (updatedScores, awardedPowerUps, trophyWinner) => {
           msgSvc.awardPowerUps(awardedPowerUps);
           setTimeout(() => {
             scores.set(updatedScores);
-          }, 18000);
+          }, 18000); // TODO: don't set timeout here, do it in the view (see how trophy points does it in spectator view)
+          trophyPoints.setWinner(trophyPoints, trophyWinner);
         }
       );
       // updateScores(scores, gameResult).then(awardedPowerUps => {

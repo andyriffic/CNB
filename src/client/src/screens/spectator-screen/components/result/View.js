@@ -51,7 +51,7 @@ const MIDDLE_STATES = {
   RESULT: 2,
 };
 
-const View = ({ result, player1, player2, resetGame }: Props) => {
+const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
   const soundService = useContext(GameSoundContext);
   const powerUpsState = useContext(PowerUpContext);
 
@@ -67,41 +67,54 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
   const [showPowerUps, setShowPowerUps] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [showResetGameButton, setShowResetGameButton] = useState(false);
+  const [timeouts] = useState([]);
 
   const onGameReset = () => {
     soundService.play(SOUND_KEYS.GAME_START, true);
     animationTimeline.duration(2).reverse();
   };
 
+  console.log('RESULT VIEW', trophyPoints);
+
   useEffect(() => {
     if (!animationTimeline && player1El && player2El) {
       setAnimationTimeline(
         new TimelineLite({
           onComplete: () => {
-            setTimeout(() => {
-              soundService.play(SOUND_KEYS.FIGHT, true);
-              setMiddleIndex(MIDDLE_STATES.FIGHT);
-
+            timeouts.push(
               setTimeout(() => {
-                setShowPlayerMoves(true);
-                soundService.playWinningSound(winner.move, result.draw);
+                soundService.play(SOUND_KEYS.FIGHT, true);
+                setMiddleIndex(MIDDLE_STATES.FIGHT);
 
-                setTimeout(() => {
-                  setMiddleIndex(MIDDLE_STATES.RESULT);
-                  setShowResult(true);
-
+                timeouts.push(
                   setTimeout(() => {
-                    winner.powerUp !== 'NONE' &&
-                      soundService.play(SOUND_KEYS.POWER_UP_WIN);
-                    setShowPowerUps(true);
+                    setShowPlayerMoves(true);
+                    soundService.playWinningSound(winner.move, result.draw);
 
-                    setTimeout(() => {
-                      setShowResetGameButton(true);
-                    }, 5000);
-                  }, 3000);
-                }, 4000);
-              }, 3000);
-            }, 1000);
+                    timeouts.push(
+                      setTimeout(() => {
+                        setMiddleIndex(MIDDLE_STATES.RESULT);
+                        setShowResult(true);
+
+                        timeouts.push(
+                          setTimeout(() => {
+                            winner.powerUp !== 'NONE' &&
+                              soundService.play(SOUND_KEYS.POWER_UP_WIN);
+                            setShowPowerUps(true);
+
+                            timeouts.push(
+                              setTimeout(() => {
+                                setShowResetGameButton(true);
+                              }, 5000)
+                            );
+                          }, 3000)
+                        );
+                      }, 4000)
+                    );
+                  }, 3000)
+                );
+              }, 1000)
+            );
           },
           onReverseComplete: () => {
             resetGame();
@@ -133,6 +146,12 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
           .delay(2)
       );
     }
+
+    return () => {
+      timeouts.forEach(timeout => {
+        clearTimeout(timeout);
+      });
+    };
   }, [player1El, player2El, middleEl]);
 
   return (
@@ -203,9 +222,12 @@ const View = ({ result, player1, player2, resetGame }: Props) => {
             </VisibilityContainer>
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
-            <VisibilityContainer visible={showResetGameButton}>
+            <VisibilityContainer
+              visible={showResetGameButton && !trophyPoints.winner}
+            >
               <Button onClick={onGameReset}>
-                Play again <br /> 再玩一次
+                Play again
+                <br /> 再玩一次
               </Button>
             </VisibilityContainer>
           </PlayerSpectatorSection>

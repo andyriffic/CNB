@@ -1,13 +1,13 @@
-import { getStandardPointsAssignment } from '../scoreboard/updateScores';
-import { applyPowerUpsToPointsAssignment } from '../power-ups/appliers';
+import { getStandardPointsAssignment } from './scoreboard/updateScores';
+import { applyPowerUpsToPointsAssignment } from './power-ups/appliers';
 import {
   adjustPowerUpCount,
   getWeightedRandomPlayer,
   getWeightedRandomPowerUp,
   awardPowerUpToPlayer,
-} from '../power-ups/updatePowerUp';
-import { checkTrophyAward, awardTrophyToPlayer } from '../trophy-points';
-import { adjustCounter } from './counters';
+} from './power-ups/updatePowerUp';
+import { checkTrophyAward, awardTrophyToPlayer } from './trophy-points';
+import { adjustCounter } from './utils/counters';
 
 export const onGameComplete = (
   gameResult,
@@ -16,6 +16,8 @@ export const onGameComplete = (
   trophies,
   onComplete
 ) => {
+  console.log('onGameComplete: trophies', trophies);
+
   // determine normal points awarded
   const standardPointsAssigned = getStandardPointsAssignment(
     originalScores,
@@ -37,7 +39,7 @@ export const onGameComplete = (
     powerUpAdjustedPointsAssigned
   );
 
-  const updatedScores = {
+  const localUpdatedScores = {
     ...originalScores,
     [gameState.player1.name]: {
       value:
@@ -49,10 +51,12 @@ export const onGameComplete = (
         originalScores[gameState.player2.name].value +
         powerUpAdjustedPointsAssigned.player2,
     },
-    BONUS: { value: originalScores.BONUS.value + powerUpAdjustedPointsAssigned.bonus },
+    BONUS: {
+      value: originalScores.BONUS.value + powerUpAdjustedPointsAssigned.bonus,
+    },
   };
 
-  console.log('onGameComplete: updatedScores', updatedScores);
+  console.log('onGameComplete: updatedScores', localUpdatedScores);
 
   // subtract used powerups
   adjustPowerUpCount(gameState.player1.name, gameState.player1.powerUp, -1);
@@ -61,7 +65,7 @@ export const onGameComplete = (
   // award powerups
   let awardedPowerUps = {};
   if (gameResult.draw) {
-    const playerToAwardPowerUpTo = getWeightedRandomPlayer(updatedScores);
+    const playerToAwardPowerUpTo = getWeightedRandomPlayer(localUpdatedScores);
     const randomPowerUp = getWeightedRandomPowerUp();
     console.log(
       'onGameComplete: awardPowerUp',
@@ -75,7 +79,7 @@ export const onGameComplete = (
 
   // check trophy points
   let trophyAdjustedPointsAssigned = powerUpAdjustedPointsAssigned;
-  const trophyWinner = checkTrophyAward(trophies, updatedScores);
+  const trophyWinner = checkTrophyAward(trophies, localUpdatedScores);
   console.log('onGameComplete: trophy Winner', trophyWinner);
 
   if (trophyWinner) {
@@ -98,7 +102,7 @@ export const onGameComplete = (
     adjustCounter(gameState.player1.name, trophyAdjustedPointsAssigned.player1),
     adjustCounter(gameState.player2.name, trophyAdjustedPointsAssigned.player2),
     adjustCounter('BONUS', trophyAdjustedPointsAssigned.bonus),
-  ]).then();
+  ]).then(/* What to do here? */);
 
-  onComplete(updatedScores, awardedPowerUps);
+  onComplete(localUpdatedScores, awardedPowerUps, trophyWinner);
 };
