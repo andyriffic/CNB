@@ -138,7 +138,7 @@ const View = ({ trophyPoints, resetGame }: Props) => {
               <Image src={TrophyImage} alt="trophy" />
             </Trophy>
           </TrophyContainer>
-          <VisibilityContainer visible={showButton}>
+          <VisibilityContainer visible={showButton} style={{ zIndex: 1 }}>
             <Button onClick={onReset} className="radioactive">
               Play Again
             </Button>
