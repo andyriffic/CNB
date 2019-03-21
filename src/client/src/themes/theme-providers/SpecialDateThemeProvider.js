@@ -3,6 +3,7 @@ import type { ThemeProvider } from './types';
 import NewYearTheme from '../new-year';
 import AustraliaTheme from '../australia';
 import PizzaPandaPirate from '../panda-pizza-pirate';
+import FangLin from '../fang-lin';
 
 class Provider implements ThemeProvider {
   _date: Date;
@@ -28,6 +29,8 @@ class Provider implements ThemeProvider {
     } else if (month === 2 && (date >= 17 && date <= 24)) {
       // PowerUps beta!
       return PizzaPandaPirate;
+    } else if (month === 3 && date === 22) {
+      return FangLin;
     }
   };
 }

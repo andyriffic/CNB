@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Cowboy from '../characters/totoro';
 import Ninja from '../characters/panther';
-import Bear from '../characters/pirate';
+import Bear from '../characters/laughing';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const SymbolBase = styled.div`

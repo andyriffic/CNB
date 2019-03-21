@@ -9,7 +9,8 @@ import {
 } from '../../../styled';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
-import TrophyImage from './trophy.png';
+// import TrophyImage from './trophy.png';
+import FangLinImage from '../../../../themes/fang-lin/components/characters/laughing/face.png';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import VisibilityContainer from '../../../../components/visibility-placeholder';
@@ -41,13 +42,13 @@ const Trophy = styled.div`
   position: relative;
 `;
 
-const TrophyWinner = styled.div`
-  margin: 0 auto;
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  bottom: 11%;
-`;
+// const TrophyWinner = styled.div`
+//   margin: 0 auto;
+//   width: 100%;
+//   text-align: center;
+//   position: absolute;
+//   bottom: 11%;
+// `;
 
 const StarContainer = styled.div`
   animation: ${Rotate} 20s linear infinite;
@@ -134,8 +135,8 @@ const View = ({ trophyPoints, resetGame }: Props) => {
           </StarContainer>
           <TrophyContainer>
             <Trophy>
-              <TrophyWinner>{trophyPoints.winner}</TrophyWinner>
-              <Image src={TrophyImage} alt="trophy" />
+              {/* <TrophyWinner>{trophyPoints.winner}</TrophyWinner> */}
+              <Image src={FangLinImage} alt="trophy" />
             </Trophy>
           </TrophyContainer>
           <VisibilityContainer visible={showButton} style={{ zIndex: 1 }}>

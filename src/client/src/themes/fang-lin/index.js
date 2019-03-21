@@ -5,7 +5,7 @@ import {
 } from './components/select-move-symbols';
 import PandaCharacter from './components/characters/totoro';
 import PantherCharacter from './components/characters/panther';
-import PirateCharacter from './components/characters/pirate';
+import PirateCharacter from './components/characters/laughing';
 
 import themeMusic from './sounds/riverside_ride.mp3';
 import countdownBeep from './sounds/countdown-blip.wav';
@@ -24,7 +24,7 @@ export default {
     nameMapping: {
       A: 'Panther 豹',
       B: 'CSS Totoro',
-      C: 'Pirate 海盜',
+      C: 'Laughing 笑',
     },
     selectMoveMapping: {
       A: NinjaSelector,
