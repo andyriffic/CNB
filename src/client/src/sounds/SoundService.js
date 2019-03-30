@@ -8,6 +8,7 @@ import resultPlayerEnter from './result-player-enter-2.wav';
 import vs from './vs.wav';
 import fight from './fight.wav';
 import powerUpWin from './power-up-win.mp3';
+import awardTrophy from './trophy-jingle.ogg';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -22,6 +23,7 @@ export const SOUND_KEYS = {
   VS: 'VS',
   FIGHT: 'FIGHT',
   POWER_UP_WIN: 'POWER_UP_WIN',
+  AWARD_TROPHY: 'AWARD_TROPHY',
 };
 
 export class SoundService {
@@ -37,14 +39,10 @@ export class SoundService {
     this._theme = theme;
     this._loaded = false;
     this._musicEnabled = musicEnabled;
-
-    console.log('SOUNDS', this._sounds);
   }
 
   load() {
     if (!this._loaded) {
-      console.log('Load sounds');
-
       this._loaded = true;
       // Pre-load sounds
       this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
@@ -106,9 +104,12 @@ export class SoundService {
         sound: new Howl({ src: [powerUpWin] }),
       };
 
+      this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
+        sound: new Howl({ src: [awardTrophy] }),
+      };
+
       // Pre-load winning sounds
       Object.keys(this._theme.characters.winningSoundMapping).forEach(key => {
-        console.log('Adding sound for key', key);
         this._sounds[key] = {
           sound: new Howl({
             src: [this._theme.characters.winningSoundMapping[key]],
@@ -137,8 +138,6 @@ export class SoundService {
 
   play(soundKey, forceIfStillPlaying = false) {
     // Place sound in resumable sounds in case music gets turned on
-    console.log('Play', soundKey);
-
     if (
       this._sounds[soundKey].resumeable &&
       !this._resumableSoundKeys.includes(soundKey)

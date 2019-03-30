@@ -7,8 +7,12 @@ const Container = styled.div`
   transition: opacity 1s ease-in;
 `;
 
-const View = ({ visible = false, children }) => {
-  return <Container visible={visible}>{children}</Container>;
+const View = ({ visible = false, style = {}, children }) => {
+  return (
+    <Container visible={visible} style={{ ...style }}>
+      {children}
+    </Container>
+  );
 };
 
 export default View;

@@ -10,6 +10,7 @@ import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 import TrashTalk from '../trash-talk';
 import WinGif from '../win-gif';
 import PowerUpBadge from '../../../../../../components/power-up-badges';
+import { POWER_UP_TYPE } from '../../../../../../power-ups/constants';
 
 type Props = {
   player: Object,
@@ -207,7 +208,7 @@ const PlayerResult = ({
                 {getCharacter(characterMapping, player.move, true)}
               </InitialCharacterAnimaton>
             </WinnerAnimationContainer>
-            {player.powerUp !== 'NONE' && (
+            {player.powerUp !== POWER_UP_TYPE.NONE && (
               <BadgeContainer>
                 {!revealPowerUp && <PowerUpBadge type="HIDDEN" />}
                 {revealPowerUp && <PowerUpBadge type={player.powerUp} />}

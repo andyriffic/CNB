@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PageSubTitle, Button } from '../../../styled';
 import PowerUpContext from '../../../../contexts/PowerUpContext';
 import PowerUpBadge from '../../../../components/power-up-badges';
+import { POWER_UP_TYPE } from '../../../../power-ups/constants';
 
 const PowerUpListContainer = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const View = ({ playerKey, onPowerUpSelected }) => {
         )}
       </PowerUpListContainer>
       <PowerUpListContainer>
-        <Button onClick={() => onPowerUpSelected('NONE')}>
+        <Button onClick={() => onPowerUpSelected(POWER_UP_TYPE.NONE)}>
           None
           <br />
           沒有

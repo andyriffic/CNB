@@ -17,17 +17,21 @@ const gameCompleteMessage = (game: Game): Message => {
   } else {
     if (game.result.winner === 'player1') {
       payload = {
-        winner: game.player1.name,
+        winnerKey: 'player1',
+        winner: game.player1.name, // Eventually remove this
         winnerPowerUp: game.player1.powerUp,
-        loser: game.player2.name,
+        loserKey: 'player2',
+        loser: game.player2.name, // Eventually remove this
         loserPowerUp: game.player2.powerUp,
       };
     }
     if (game.result.winner === 'player2') {
       payload = {
-        winner: game.player2.name,
+        winnerKey: 'player2',
+        winner: game.player2.name, // Eventually remove this
         winnerPowerUp: game.player2.powerUp,
-        loser: game.player1.name,
+        loserKey: 'player1',
+        loser: game.player1.name, // Eventually remove this
         loserPowerUp: game.player1.powerUp,
       };
     }

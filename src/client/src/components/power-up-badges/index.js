@@ -67,6 +67,23 @@ const View = ({ type, bigText, count }) => {
         backgroundColor="#0a9323"
         count={count}
       />
+      <BaseBadge
+        showIf={type === 'TROPHY'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            Trophy
+            <br />
+            Points
+            <br />
+            beta
+          </React.Fragment>
+        }
+        backgroundColor="#b42c79"
+        textColor="#79468c"
+        textShadowColor="#fff"
+        count={count}
+      />
     </Switch>
   );
 };

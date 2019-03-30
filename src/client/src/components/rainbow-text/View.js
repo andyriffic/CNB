@@ -24,7 +24,7 @@ const Rainbow = keyframes`
   100% {color: #f2a2e8;}
 `;
 
-const Container = styled.div`
+const Container = styled.span`
   text-shadow: 2px 2px #000000;
   animation: ${Rainbow} 8s infinite;
 `;

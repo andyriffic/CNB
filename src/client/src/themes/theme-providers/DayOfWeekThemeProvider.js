@@ -2,6 +2,7 @@
 import type { ThemeProvider } from './types';
 import CowboyNinjaBearTheme from '../cowboy-ninja-bear';
 import PandaPizzaPirateTheme from '../panda-pizza-pirate';
+import ChineseNewYearTheme from '../new-year';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -17,9 +18,11 @@ class Provider implements ThemeProvider {
 
     switch (dayOfWeek) {
       case 'Mon':
-      case 'Wed':
       case 'Fri':
         return PandaPizzaPirateTheme;
+
+      case 'Wed':
+        return ChineseNewYearTheme;
 
       case 'Tue':
       case 'Thu':

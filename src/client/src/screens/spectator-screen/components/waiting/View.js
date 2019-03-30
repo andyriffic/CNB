@@ -19,6 +19,10 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import MultiArea from '../../../../components/multi-area';
 import PowerUpBadge from '../../../../components/power-up-badges';
+import TrophyTotal from '../../../../components/trophy-total';
+import TrophyGoal from '../../../../components/trophy-goal';
+import { POWER_UP_TYPE } from '../../../../power-ups/constants';
+import type { TrophyPoints } from '../../../../trophy-points/types';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -26,6 +30,7 @@ type Props = {
   player1: Object,
   player2: Object,
   playGame: () => void,
+  trophyPoints: TrophyPoints,
 };
 
 const pulse = keyframes`
@@ -62,13 +67,20 @@ const PowerUpBanner = styled.div`
   animation: ${pulse} 3s ease infinite forwards;
 `;
 
-const View = ({ player1, player2, playGame }: Props) => {
+const PointGoalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   const [player1El, setPlayer1El] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
   const [bonusPointsEl, setBonusPointsEl] = useState(null);
   const [buttonEl, setButtonEl] = useState(null);
   const [player1Timeline, setPlayer1Timeline] = useState(null);
   const soundService = useContext(GameSoundContext);
+
+  console.log('WAITING TROPHY POINTS', trophyPoints);
 
   useEffect(() => {
     if (player1El && player2El && buttonEl && bonusPointsEl) {
@@ -118,17 +130,25 @@ const View = ({ player1, player2, playGame }: Props) => {
   return (
     <PageLayout>
       <PowerUpBanner>
-        <PowerUpBadge type="BANNER" />
+        <PowerUpBadge type="TROPHY" />
       </PowerUpBanner>
       <IntroBanner />
+      <PointGoalContainer>
+        {trophyPoints.loaded && <TrophyGoal goal={trophyPoints.goal} />}
+      </PointGoalContainer>
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection ref={setPlayer1El}>
+          {trophyPoints.loaded && (
+            <TrophyTotal total={trophyPoints.players[player1.name]} />
+          )}
           <PlayerStatus
             {...player1}
             animationDelay={0}
             badge={
               player1.powerUp &&
-              player1.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+              player1.powerUp !== POWER_UP_TYPE.NONE && (
+                <PowerUpBadge type="HIDDEN" />
+              )
             }
           />
           <PlayerScore playerKey={player1.name} />
@@ -149,12 +169,17 @@ const View = ({ player1, player2, playGame }: Props) => {
           </MultiArea>
         </PlayerSpectatorSection>
         <PlayerSpectatorSection ref={setPlayer2El}>
+          {trophyPoints.loaded && (
+            <TrophyTotal total={trophyPoints.players[player2.name]} />
+          )}
           <PlayerStatus
             {...player2}
             animationDelay={0.5}
             badge={
               player2.powerUp &&
-              player2.powerUp !== 'NONE' && <PowerUpBadge type="HIDDEN" />
+              player2.powerUp !== POWER_UP_TYPE.NONE && (
+                <PowerUpBadge type="HIDDEN" />
+              )
             }
           />
           <PlayerScore playerKey={player2.name} />

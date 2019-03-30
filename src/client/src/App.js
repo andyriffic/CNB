@@ -15,6 +15,7 @@ import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
 import ScoreboardApi from './scoreboard/ScoreboardApi';
 import GameTheme from './themes';
+import TrophyPoints from './trophy-points/Provider';
 
 import { IS_PRODUCTION } from './environment';
 import PowerUpProvider from './power-ups/PowerUpProvider';
@@ -35,17 +36,19 @@ const App = () => {
     <GameTheme>
       <ScoreboardApi>
         <PowerUpProvider>
-          <SocketsConnection>
-            <GlobalStyle />
-            <Router>
-              <SpectatorScreen path="/" />
-              <PageLayoutScreen path="layouttest" />
-              <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
-              <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
-              <ResetGameScreen path="reset" />
-            </Router>
-            <DebugOutput data={connectionDetails} />
-          </SocketsConnection>
+          <TrophyPoints>
+            <SocketsConnection>
+              <GlobalStyle />
+              <Router>
+                <SpectatorScreen path="/" />
+                <PageLayoutScreen path="layouttest" />
+                <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
+                <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
+                <ResetGameScreen path="reset" />
+              </Router>
+              <DebugOutput data={connectionDetails} />
+            </SocketsConnection>
+          </TrophyPoints>
         </PowerUpProvider>
       </ScoreboardApi>
     </GameTheme>
