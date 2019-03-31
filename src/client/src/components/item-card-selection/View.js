@@ -26,12 +26,10 @@ const ItemContainer = styled.div`
   height: 100%;
   margin: 0 0 0 5%;
   flex: 0 0 auto;
-  border: 1px solid red;
 `;
 
 const ItemItem = styled.div`
   height: 80%;
-  border: 1px solid green;
 `;
 
 const ItemSelection = styled.div`
@@ -64,7 +62,11 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
                 setFocusItemIndex(index);
               }}
             >
-              <Swipeable onSwipedLeft={() => console.log('You swiped left')}>
+              <Swipeable
+                onSwipedLeft={() => setFocusItemIndex(focusItemIndex + 1)}
+                onSwipedRight={() => setFocusItemIndex(focusItemIndex - 1)}
+                onSwipedUp={() => onItemSelected(index)}
+              >
                 <ItemItem>{Item}</ItemItem>
               </Swipeable>
               <ItemSelection
