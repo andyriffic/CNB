@@ -14,6 +14,8 @@ const SymbolBase = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
+  padding: 20px;
 
   ${props =>
     props.selected &&

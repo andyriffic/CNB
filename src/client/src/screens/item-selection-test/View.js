@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import ItemSelection from '../../components/item-card-selection';
 
-const items = [<p>Item 1</p>, <p>Item 2</p>, <p>Item 3</p>];
+const items = [
+  <p style={{ border: '2px solid #ccc' }}>Item 1</p>,
+  <p style={{ border: '2px solid #ccc' }}>Item 2</p>,
+  <p style={{ border: '2px solid #ccc' }}>Item 3</p>,
+];
 
 const Container = styled.div`
   margin: 0 auto;
@@ -18,6 +22,7 @@ const View = () => {
     <FullPage pageTitle="Item selection test">
       {items.map((item, index) => (
         <span
+          key={index}
           style={{ padding: '5px', cursor: 'pointer' }}
           onClick={() => setSelectedItemIndex(index)}
         >
@@ -28,7 +33,9 @@ const View = () => {
         <ItemSelection
           items={items}
           selectedItemIndex={selectedItemIndex}
-          onItemSelected={index => setSelectedItemIndex(index)}
+          onItemSelected={index => {
+            console.log('YOU SELECTED: ', index);
+          }}
         />
       </Container>
     </FullPage>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const VisibilityContainer = styled.div`
@@ -24,18 +24,54 @@ const ItemContainer = styled.div`
   width: 80%;
   height: 100%;
   margin: 0 0 0 5%;
-  border: 2px solid red;
   flex: 0 0 auto;
+  border: 1px solid red;
 `;
 
-const View = ({ items, selectedItemIndex = 0, onItemSelected }) => {
+const ItemItem = styled.div`
+  height: 80%;
+  border: 1px solid green;
+`;
+
+const ItemSelection = styled.div`
+  height: 20%;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.7rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  line-height: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const View = ({ items, selectedItem = 0, onItemSelected }) => {
+  const [focusItemIndex, setFocusItemIndex] = useState(selectedItem);
   return (
     <VisibilityContainer>
-      <ItemsContainer selectedItem={selectedItemIndex}>
+      <ItemsContainer selectedItem={focusItemIndex}>
         {items.map((Item, index) => {
           return (
-            <ItemContainer key={index} onClick={() => onItemSelected(index)}>
-              {Item}
+            <ItemContainer
+              key={index}
+              onClick={() => {
+                console.log('item-card-selection::itemFocus', index);
+                setFocusItemIndex(index);
+              }}
+            >
+              <ItemItem>{Item}</ItemItem>
+              <ItemSelection
+                onClick={() => {
+                  console.log('item-card-selection::itemSelected', index);
+                  onItemSelected(index);
+                }}
+              >
+                Choose 选择
+              </ItemSelection>
             </ItemContainer>
           );
         })}

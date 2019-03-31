@@ -1,9 +1,10 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
 import { media, PageSubTitle } from '../../../styled';
+import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 
 const SelectionList = styled.ul`
@@ -34,13 +35,33 @@ const SelectionListItem = styled.li`
     `}
 `;
 
+const ListContainer = styled.div`
+  //width: 100vw;
+  //height: 60vh;
+  //border: 2px solid white;
+`;
+
 const View = ({ onSelection }: MakeMoveSelection) => {
   const theme = useContext(GameThemeContext);
+  const items = Object.keys(theme.characters.selectMoveMapping).map(key => {
+    const Component = theme.characters.selectMoveMapping[key];
+    return <Component />;
+  });
+
+  const selectCharacter = index => {
+    console.log('HERE');
+    const move = Object.keys(theme.characters.selectMoveMapping)[index];
+    console.log('SELECTED', move);
+    onSelection && onSelection(move);
+  };
 
   return (
     <React.Fragment>
       <PageSubTitle>Make your move 做你的動作</PageSubTitle>
-      <SelectionList>
+      <ListContainer>
+        <ItemCardSelection items={items} onItemSelected={selectCharacter} />
+      </ListContainer>
+      {/* <SelectionList>
         {Object.keys(theme.characters.selectMoveMapping).map(key => {
           const Component = theme.characters.selectMoveMapping[key];
           return (
@@ -49,7 +70,7 @@ const View = ({ onSelection }: MakeMoveSelection) => {
             </SelectionListItem>
           );
         })}
-      </SelectionList>
+      </SelectionList> */}
     </React.Fragment>
   );
 };
