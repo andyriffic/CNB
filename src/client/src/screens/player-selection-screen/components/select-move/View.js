@@ -1,11 +1,12 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
 import { media, PageSubTitle } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
+import { FeatureToggle } from '../../../../featureToggle';
 
 const SelectionList = styled.ul`
   margin: 0;
@@ -49,28 +50,36 @@ const View = ({ onSelection }: MakeMoveSelection) => {
   });
 
   const selectCharacter = index => {
-    console.log('HERE');
     const move = Object.keys(theme.characters.selectMoveMapping)[index];
-    console.log('SELECTED', move);
     onSelection && onSelection(move);
   };
 
   return (
     <React.Fragment>
       <PageSubTitle>Make your move 做你的動作</PageSubTitle>
-      <ListContainer>
-        <ItemCardSelection items={items} onItemSelected={selectCharacter} />
-      </ListContainer>
-      {/* <SelectionList>
-        {Object.keys(theme.characters.selectMoveMapping).map(key => {
-          const Component = theme.characters.selectMoveMapping[key];
-          return (
-            <SelectionListItem key={key}>
-              <Component onSelection={onSelection} />
-            </SelectionListItem>
-          );
-        })}
-      </SelectionList> */}
+      <FeatureToggle feature="swipe">
+        {toggleEnabled =>
+          toggleEnabled ? (
+            <ListContainer>
+              <ItemCardSelection
+                items={items}
+                onItemSelected={selectCharacter}
+              />
+            </ListContainer>
+          ) : (
+            <SelectionList>
+              {Object.keys(theme.characters.selectMoveMapping).map(key => {
+                const Component = theme.characters.selectMoveMapping[key];
+                return (
+                  <SelectionListItem key={key}>
+                    <Component onSelection={onSelection} />
+                  </SelectionListItem>
+                );
+              })}
+            </SelectionList>
+          )
+        }
+      </FeatureToggle>
     </React.Fragment>
   );
 };
