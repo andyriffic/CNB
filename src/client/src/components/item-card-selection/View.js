@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Swipeable } from 'react-swipeable';
 
 const VisibilityContainer = styled.div`
   overflow: hidden;
@@ -63,7 +64,9 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
                 setFocusItemIndex(index);
               }}
             >
-              <ItemItem>{Item}</ItemItem>
+              <Swipeable onSwipedLeft={() => console.log('You swiped left')}>
+                <ItemItem>{Item}</ItemItem>
+              </Swipeable>
               <ItemSelection
                 onClick={() => {
                   console.log('item-card-selection::itemSelected', index);
