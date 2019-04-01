@@ -47,8 +47,14 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
               }}
             >
               <Swipeable
-                onSwipedLeft={() => setFocusItemIndex(focusItemIndex + 1)}
-                onSwipedRight={() => setFocusItemIndex(focusItemIndex - 1)}
+                onSwipedLeft={() =>
+                  setFocusItemIndex(
+                    Math.min(focusItemIndex + 1, items.length - 1)
+                  )
+                }
+                onSwipedRight={() =>
+                  setFocusItemIndex(Math.max(focusItemIndex - 1, 0))
+                }
                 onSwipedUp={() => onItemSelected(index)}
               >
                 <ItemItem>{Item}</ItemItem>
