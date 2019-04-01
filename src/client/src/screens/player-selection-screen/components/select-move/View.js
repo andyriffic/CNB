@@ -56,14 +56,17 @@ const View = ({ onSelection }: MakeMoveSelection) => {
 
   return (
     <React.Fragment>
-      <PageSubTitle>Make your move 做你的動作</PageSubTitle>
-      <FeatureToggle feature="swipe">
-        {toggleEnabled =>
-          !toggleEnabled && (
-            <a href={`${window.location.href}?feature=swipe`}>Swipe</a>
-          )
-        }
-      </FeatureToggle>
+      <PageSubTitle>
+        Make your move 做你的動作
+        <FeatureToggle feature="swipe">
+          {toggleEnabled =>
+            !toggleEnabled && (
+              <a href={`${window.location.href}?feature=swipe`}>Swipe</a>
+            )
+          }
+        </FeatureToggle>
+      </PageSubTitle>
+
       <FeatureToggle feature="swipe">
         {toggleEnabled =>
           toggleEnabled ? (
