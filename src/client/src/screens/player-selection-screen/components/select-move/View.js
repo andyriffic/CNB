@@ -7,6 +7,7 @@ import { media, PageSubTitle } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { FeatureToggle } from '../../../../featureToggle';
+import { PlayerSelectionCard } from './PlayerSelectionCard';
 
 const SelectionList = styled.ul`
   margin: 0;
@@ -45,8 +46,7 @@ const ListContainer = styled.div`
 const View = ({ onSelection }: MakeMoveSelection) => {
   const theme = useContext(GameThemeContext);
   const items = Object.keys(theme.characters.selectMoveMapping).map(key => {
-    const Component = theme.characters.selectMoveMapping[key];
-    return <Component />;
+    return <PlayerSelectionCard moveSymbolKey={key} />;
   });
 
   const selectCharacter = index => {

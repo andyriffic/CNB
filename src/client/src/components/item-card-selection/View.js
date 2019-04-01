@@ -32,22 +32,6 @@ const ItemItem = styled.div`
   height: 80%;
 `;
 
-const ItemSelection = styled.div`
-  height: 20%;
-  width: 80%;
-  margin: 0 auto;
-  font-size: 0.7rem;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  cursor: pointer;
-  text-align: center;
-  line-height: 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const View = ({ items, selectedItem = 0, onItemSelected }) => {
   const [focusItemIndex, setFocusItemIndex] = useState(selectedItem);
   return (
@@ -69,14 +53,6 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
               >
                 <ItemItem>{Item}</ItemItem>
               </Swipeable>
-              <ItemSelection
-                onClick={() => {
-                  console.log('item-card-selection::itemSelected', index);
-                  onItemSelected(index);
-                }}
-              >
-                Choose 选择
-              </ItemSelection>
             </ItemContainer>
           );
         })}

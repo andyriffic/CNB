@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import ItemSelection from '../../components/item-card-selection';
