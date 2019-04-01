@@ -59,6 +59,13 @@ const View = ({ onSelection }: MakeMoveSelection) => {
       <PageSubTitle>Make your move 做你的動作</PageSubTitle>
       <FeatureToggle feature="swipe">
         {toggleEnabled =>
+          !toggleEnabled && (
+            <a href={`${window.location.href}?feature=swipe`}>Swipe</a>
+          )
+        }
+      </FeatureToggle>
+      <FeatureToggle feature="swipe">
+        {toggleEnabled =>
           toggleEnabled ? (
             <ListContainer>
               <ItemCardSelection
