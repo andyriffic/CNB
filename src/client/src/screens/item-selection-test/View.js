@@ -17,22 +17,11 @@ const Container = styled.div`
 `;
 
 const View = () => {
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   return (
     <FullPage pageTitle="Item selection test">
-      {items.map((item, index) => (
-        <span
-          key={index}
-          style={{ padding: '5px', cursor: 'pointer' }}
-          onClick={() => setSelectedItemIndex(index)}
-        >
-          {index}
-        </span>
-      ))}
       <Container>
         <ItemSelection
           items={items}
-          selectedItemIndex={selectedItemIndex}
           onItemSelected={index => {
             console.log('YOU SELECTED: ', index);
           }}
