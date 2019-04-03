@@ -48,6 +48,16 @@ export default {
       B: pandaWiningSound,
       C: pirateWinningSound,
     },
+    likes: {
+      A: ['Hot ovens 熱烤箱', 'Clogging arteries 堵塞動脈'],
+      B: ['Rainbows 彩虹', 'Pirate killing 海盜殺戮'],
+      C: ['Rum 朗姆酒', 'Cheesy treasure 俗氣的寶貝'],
+    },
+    dislikes: {
+      A: ['Stomach acid 胃酸', 'Hungry pirates 飢餓的海盜'],
+      B: ['Pizza nights 比薩之夜', 'Heart attacks 心髒病'],
+      C: ['Cute animals 可愛的動物', 'Disembowelment 剖腹'],
+    },
     winningPhrases: {
       A: [
         {

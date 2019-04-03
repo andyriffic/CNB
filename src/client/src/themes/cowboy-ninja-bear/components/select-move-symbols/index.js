@@ -15,7 +15,6 @@ const SymbolBase = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  padding: 20px;
 
   ${props =>
     props.selected &&

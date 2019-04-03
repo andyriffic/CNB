@@ -43,6 +43,12 @@ export default {
       B: nianWinningSound,
       C: pigWinningSound,
     },
+    likes: {
+      A: ['Loud noises 吵闹的声音', 'Scaring dragons 吓唬龙'],
+    },
+    dislikes: {
+      A: ['Naughty pigs 顽皮的猪', 'Exploding to death 爆炸致死'],
+    },
     winningPhrases: {
       A: [
         {

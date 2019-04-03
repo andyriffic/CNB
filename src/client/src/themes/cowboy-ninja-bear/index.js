@@ -52,6 +52,16 @@ export default {
       B: cowboyWinningSound,
       C: bearWinningSound,
     },
+    likes: {
+      A: ['Sneaking around 偷偷摸摸', 'Murder 謀殺'],
+      B: ['Bear skin rugs 熊皮地毯', 'Shooting guns 射擊槍'],
+      C: ['High fives 擊掌', 'Wrestling 摔角'],
+    },
+    dislikes: {
+      A: ['Big paws 大爪子', 'Having face scratched off 臉被刮掉了'],
+      B: ['Ninja stars in the eye 忍者星在眼裡', 'Sudden death 猝死'],
+      C: ['Bullets 子彈', 'Fur fashion 皮草時尚'],
+    },
     winningPhrases: {
       A: [
         {
