@@ -55,7 +55,7 @@ export default {
     likes: {
       A: ['Sneaking around 偷偷摸摸', 'Murder 謀殺'],
       B: ['Bear skin rugs 熊皮地毯', 'Shooting guns 射擊槍'],
-      C: ['High fives 擊掌', 'Wrestling 摔角'],
+      C: ['High fives 擊掌', 'Hugs of death 擁抱死亡'],
     },
     dislikes: {
       A: ['Big paws 大爪子', 'Having face scratched off 臉被刮掉了'],
@@ -65,11 +65,19 @@ export default {
     winningPhrases: {
       A: [
         {
+          english: 'Lets play frisbee with ninja-stars',
+          chinese: '讓我們用手裡劍玩飛盤',
+        },
+        {
           english: 'Judo Chop!',
           chinese: '柔道斬',
         },
       ],
       B: [
+        {
+          english: 'Fur coats are so hot right now',
+          chinese: '皮草大衣現在很熱',
+        },
         {
           english: 'Good, I needed a bear skin rug for my cabin',
           chinese: '好，我的小屋需要熊皮地毯',
@@ -77,8 +85,12 @@ export default {
       ],
       C: [
         {
+          english: 'Let me high-five you in the face',
+          chinese: '讓我高高在上你',
+        },
+        {
           english: 'lets take a trip...to the MAUL!',
-          chinese: '讓我們去旅行...去MAUL！',
+          chinese: '讓我們去旅行...去MAUL',
         },
       ],
     },
