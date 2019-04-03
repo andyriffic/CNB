@@ -12,15 +12,15 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.div`
-  width: 40vmin;
-  height: 40vmin;
+  width: 30vmin;
+  height: 30vmin;
   margin: 0 auto;
 `;
 
 const DescriptionContainer = styled.div`
   background-color: white;
   border-radius: 0 0 10px 10px;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 `;
 
 const Title = styled.h3`

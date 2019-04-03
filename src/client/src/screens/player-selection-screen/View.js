@@ -58,7 +58,10 @@ const View = ({ playerKey }: Props) => {
   if (!playerState) return null;
 
   return (
-    <PageLayout pageTitle={safeGetTranslation(playerState.player.name)}>
+    <PageLayout
+      pageTitle={safeGetTranslation(playerState.player.name)}
+      alignTop
+    >
       <Switch>
         <SelectPowerUp
           showIf={!selectedPowerUp}

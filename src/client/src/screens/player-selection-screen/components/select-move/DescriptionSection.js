@@ -11,6 +11,7 @@ const DescriptionTitle = styled.h4`
 
 const DescriptionList = styled.ul`
   padding: 0 0 0 18px;
+  margin: 0 0 10px 0;
   font-size: 1rem;
 `;
 const DescriptionListItem = styled.li``;
