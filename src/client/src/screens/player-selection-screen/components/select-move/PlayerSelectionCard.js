@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
+import { DescriptionSection } from './DescriptionSection';
 
 const Container = styled.div``;
 
@@ -29,6 +30,8 @@ const Title = styled.h3`
   text-align: center;
 `;
 
+const StatsContainer = styled.div``;
+
 const character = Component => {
   return <Component />;
 };
@@ -45,6 +48,21 @@ export const PlayerSelectionCard = ({ moveSymbolKey }) => {
       </ImageContainer>
       <DescriptionContainer>
         <Title>{theme.characters.nameMapping[moveSymbolKey]}</Title>
+        <StatsContainer>
+          <DescriptionSection
+            title="Likes 喜欢"
+            items={
+              theme.characters.likes && theme.characters.likes[moveSymbolKey]
+            }
+          />
+          <DescriptionSection
+            title="Dislikes 不喜欢"
+            items={
+              theme.characters.dislikes &&
+              theme.characters.dislikes[moveSymbolKey]
+            }
+          />
+        </StatsContainer>
       </DescriptionContainer>
     </Container>
   );
