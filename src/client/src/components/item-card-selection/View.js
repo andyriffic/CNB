@@ -37,7 +37,8 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
   return (
     <VisibilityContainer>
       <ItemsContainer selectedItem={focusItemIndex}>
-        {items.map((Item, index) => {
+        {items.map((item, index) => {
+          const isFocused = index === focusItemIndex;
           return (
             <ItemContainer
               key={index}
@@ -57,7 +58,7 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
                 }
                 onSwipedUp={() => onItemSelected(index)}
               >
-                <ItemItem>{Item}</ItemItem>
+                <ItemItem>{item(isFocused)}</ItemItem>
               </Swipeable>
             </ItemContainer>
           );

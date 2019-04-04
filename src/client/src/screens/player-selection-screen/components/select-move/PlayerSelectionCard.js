@@ -1,9 +1,18 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { DescriptionSection } from './DescriptionSection';
 
 const Container = styled.div``;
+
+const Jiggle = keyframes`
+  0% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+`;
 
 const ImageContainer = styled.div`
   background-color: ${props => props.theme.headerBackgroundColor};
@@ -15,6 +24,10 @@ const Image = styled.div`
   width: 30vmin;
   height: 30vmin;
   margin: 0 auto;
+
+  &.focused {
+    animation: ${Jiggle} 200ms linear infinite 2s;
+  }
 `;
 
 const DescriptionContainer = styled.div`
@@ -36,13 +49,13 @@ const character = Component => {
   return <Component />;
 };
 
-export const PlayerSelectionCard = ({ moveSymbolKey }) => {
+export const PlayerSelectionCard = ({ moveSymbolKey, isFocused }) => {
   const theme = useContext(GameThemeContext);
 
   return (
     <Container>
-      <ImageContainer theme={theme.style}>
-        <Image>
+      <ImageContainer theme={theme.style} isFocused={isFocused}>
+        <Image className={isFocused ? 'focused' : ''}>
           {character(theme.characters.characterMapping[moveSymbolKey])}
         </Image>
       </ImageContainer>

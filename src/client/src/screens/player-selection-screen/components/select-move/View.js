@@ -17,7 +17,9 @@ const ListContainer = styled.div`
 const View = ({ onSelection }: MakeMoveSelection) => {
   const theme = useContext(GameThemeContext);
   const items = Object.keys(theme.characters.selectMoveMapping).map(key => {
-    return <PlayerSelectionCard moveSymbolKey={key} />;
+    return focused => (
+      <PlayerSelectionCard moveSymbolKey={key} isFocused={focused} />
+    );
   });
 
   const selectCharacter = index => {
