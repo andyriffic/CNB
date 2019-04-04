@@ -28,7 +28,7 @@ const Body = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: ${props => (props.alignTop ? 'flex-start' : 'center')};
   overflow: hidden;
 `;
 
@@ -48,7 +48,7 @@ const FooterText = styled.p`
 
 const BodyContent = styled.section``;
 
-const View = ({ pageTitle, children }) => {
+const View = ({ pageTitle, alignTop, children }) => {
   const theme = useContext(GameThemeContext);
 
   return (
@@ -58,7 +58,7 @@ const View = ({ pageTitle, children }) => {
           <PageHeading>{pageTitle}</PageHeading>
         </Header>
       )}
-      <Body {...theme.style}>
+      <Body {...theme.style} alignTop={alignTop}>
         <BodyContent>{children}</BodyContent>
       </Body>
       <Footer {...theme.style}>
