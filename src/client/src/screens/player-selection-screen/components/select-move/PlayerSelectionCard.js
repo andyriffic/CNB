@@ -3,7 +3,10 @@ import styled, { keyframes } from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { DescriptionSection } from './DescriptionSection';
 
-const Container = styled.div``;
+const Container = styled.div`
+  opacity: ${props => (props.isFocused ? '1' : 0.6)};
+  transition: opacity 1s ease-out;
+`;
 
 const Jiggle = keyframes`
   0% {
@@ -53,7 +56,7 @@ export const PlayerSelectionCard = ({ moveSymbolKey, isFocused }) => {
   const theme = useContext(GameThemeContext);
 
   return (
-    <Container>
+    <Container isFocused={isFocused}>
       <ImageContainer theme={theme.style} isFocused={isFocused}>
         <Image className={isFocused ? 'focused' : ''}>
           {character(theme.characters.characterMapping[moveSymbolKey])}
