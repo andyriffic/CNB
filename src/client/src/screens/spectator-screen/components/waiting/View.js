@@ -1,7 +1,7 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useState, useContext } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
@@ -33,38 +33,12 @@ type Props = {
   trophyPoints: TrophyPoints,
 };
 
-const pulse = keyframes`
-  from {
-    transform: scale3d(1, 1, 1) rotate(0deg);
-  }
-
-  50% {
-    transform: scale3d(1.2, 1.2, 1.2) rotate(30deg);
-  }
-
-  to {
-    transform: scale3d(1, 1, 1) rotate(0deg);
-  }
-`;
-
 const BonusPointSection = styled.div`
   text-align: center;
 `;
 const BonusHeading = styled.h2`
   margin: 0;
   font-size: 1rem;
-`;
-
-const PowerUpBanner = styled.div`
-  position: absolute;
-  z-index: 9;
-  width: 15vmin;
-  height: 15vmin;
-  top: 0;
-  right: 0;
-  display: flex;
-  transform: rotate(20deg);
-  animation: ${pulse} 3s ease infinite forwards;
 `;
 
 const PointGoalContainer = styled.div`
@@ -129,9 +103,6 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
 
   return (
     <PageLayout>
-      <PowerUpBanner>
-        <PowerUpBadge type="TROPHY" />
-      </PowerUpBanner>
       <IntroBanner />
       <PointGoalContainer>
         {trophyPoints.loaded && <TrophyGoal goal={trophyPoints.goal} />}
