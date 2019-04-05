@@ -46,7 +46,7 @@
       "always"
     ],
     "comma-dangle": ["error", "always-multiline"],
-    "no-console": ["warn"],
+    "no-console": ["off"],
     "react/prop-types": 0,
     "prettier/prettier": "error"
   }
