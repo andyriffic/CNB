@@ -18,12 +18,13 @@ const Theme = styled.dl`
 `;
 
 const ThemeDate = styled.dt`
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   opacity: 0.8;
 `;
 
 const ThemeName = styled.dd`
-  font-size: 0.8rem;
+  font-size: 0.6rem;
+  margin: 0;
 `;
 
 const View = () => {
