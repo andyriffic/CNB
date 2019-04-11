@@ -36,11 +36,10 @@ aws_access_key_id = GET_ME_FROM_SOMEONE_WHO_KNOWS
 aws_secret_access_key = GET_ME_FROM_SOMEONE_WHO_KNOWS
 ```
 
-Then login to AWS by running the following to create login command in your clipboard:
+Then login to AWS by running the following command:
 
 ```bash
-(aws ecr get-login --no-include-email --region ap-southeast-2 --profile cnb) | pbcopy
+(aws ecr get-login --no-include-email --region ap-southeast-2 --profile cnb) | sh
 ```
-Then paste the login command and execute.
 
 You can then run the `auto/deploy-staging` or `auto/deploy-prod` command to deploy the latest version
