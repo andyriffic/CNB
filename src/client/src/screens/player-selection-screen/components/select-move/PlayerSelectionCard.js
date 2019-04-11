@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
-import { DescriptionSection } from './DescriptionSection';
+// import { DescriptionSection } from './DescriptionSection';
 
 const Container = styled.div`
   opacity: ${props => (props.isFocused ? '1' : 0.6)};
@@ -24,8 +24,8 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.div`
-  width: 30vmin;
-  height: 30vmin;
+  width: 40vmin;
+  height: 40vmin;
   margin: 0 auto;
 
   &.focused {
@@ -36,7 +36,7 @@ const Image = styled.div`
 const DescriptionContainer = styled.div`
   background-color: white;
   border-radius: 0 0 10px 10px;
-  padding: 0 20px 20px 20px;
+  padding: 20px;
 `;
 
 const Title = styled.h3`
@@ -46,7 +46,7 @@ const Title = styled.h3`
   text-align: center;
 `;
 
-const StatsContainer = styled.div``;
+// const StatsContainer = styled.div``;
 
 const character = Component => {
   return <Component />;
@@ -64,7 +64,7 @@ export const PlayerSelectionCard = ({ moveSymbolKey, isFocused }) => {
       </ImageContainer>
       <DescriptionContainer>
         <Title>{theme.characters.nameMapping[moveSymbolKey]}</Title>
-        <StatsContainer>
+        {/* <StatsContainer>
           <DescriptionSection
             title="Likes 喜欢"
             items={
@@ -78,7 +78,7 @@ export const PlayerSelectionCard = ({ moveSymbolKey, isFocused }) => {
               theme.characters.dislikes[moveSymbolKey]
             }
           />
-        </StatsContainer>
+        </StatsContainer> */}
       </DescriptionContainer>
     </Container>
   );

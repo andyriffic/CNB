@@ -32,8 +32,14 @@ const ItemItem = styled.div`
   height: 80%;
 `;
 
-const View = ({ items, selectedItem = 0, onItemSelected }) => {
+const View = ({ items, selectedItem = 0, onItemSelected, onItemFocused }) => {
   const [focusItemIndex, setFocusItemIndex] = useState(selectedItem);
+
+  const setItemFocus = index => {
+    setFocusItemIndex(index);
+    onItemFocused && onItemFocused(index);
+  };
+
   return (
     <VisibilityContainer>
       <ItemsContainer selectedItem={focusItemIndex}>
@@ -44,17 +50,15 @@ const View = ({ items, selectedItem = 0, onItemSelected }) => {
               key={index}
               onClick={() => {
                 console.log('item-card-selection::itemFocus', index);
-                setFocusItemIndex(index);
+                setItemFocus(index);
               }}
             >
               <Swipeable
                 onSwipedLeft={() =>
-                  setFocusItemIndex(
-                    Math.min(focusItemIndex + 1, items.length - 1)
-                  )
+                  setItemFocus(Math.min(focusItemIndex + 1, items.length - 1))
                 }
                 onSwipedRight={() =>
-                  setFocusItemIndex(Math.max(focusItemIndex - 1, 0))
+                  setItemFocus(Math.max(focusItemIndex - 1, 0))
                 }
                 onSwipedUp={() => onItemSelected(index)}
               >

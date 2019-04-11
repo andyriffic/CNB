@@ -1,9 +1,9 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
-import { PageSubTitle } from '../../../styled';
+import { PageSubTitle, Button } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { PlayerSelectionCard } from './PlayerSelectionCard';
@@ -13,9 +13,15 @@ const ListContainer = styled.div`
   //height: 60vh;
   //border: 2px solid white;
 `;
+const ButtonContainer = styled.div`
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+`;
 
 const View = ({ onSelection }: MakeMoveSelection) => {
   const theme = useContext(GameThemeContext);
+  const [focusCharacterIndex, setFocusCharacterIndex] = useState(0);
   const items = Object.keys(theme.characters.selectMoveMapping).map(key => {
     return focused => (
       <PlayerSelectionCard moveSymbolKey={key} isFocused={focused} />
@@ -31,8 +37,18 @@ const View = ({ onSelection }: MakeMoveSelection) => {
     <React.Fragment>
       <PageSubTitle>Make your move 做你的動作</PageSubTitle>
       <ListContainer>
-        <ItemCardSelection items={items} onItemSelected={selectCharacter} />
+        <ItemCardSelection
+          items={items}
+          selectedItem={focusCharacterIndex}
+          onItemSelected={selectCharacter}
+          onItemFocused={index => setFocusCharacterIndex(index)}
+        />
       </ListContainer>
+      <ButtonContainer>
+        <Button onClick={() => selectCharacter(focusCharacterIndex)}>
+          Select 選擇
+        </Button>
+      </ButtonContainer>
     </React.Fragment>
   );
 };

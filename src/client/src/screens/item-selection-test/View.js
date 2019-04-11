@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import ItemSelection from '../../components/item-card-selection';
@@ -25,14 +25,18 @@ const Container = styled.div`
 `;
 
 const View = () => {
+  const [focusItemIndex, setFocusItemIndex] = useState(0);
   return (
     <FullPage pageTitle="Item selection test">
+      <div>Focus Item: {focusItemIndex}</div>
       <Container>
         <ItemSelection
           items={items}
+          selectedItem={focusItemIndex}
           onItemSelected={index => {
             console.log('YOU SELECTED: ', index);
           }}
+          onItemFocused={index => setFocusItemIndex(index)}
         />
       </Container>
     </FullPage>
