@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:local": "REACT_APP_SERVER_ENDPOINT=http://localhost:3001 npm run start",
+    "start:local": "REACT_APP_SERVER_ENDPOINT=http://localhost:3002 PORT=3001 npm run start",
     "build": "react-scripts build && mkdir -p ../../lib/client && mv ./build/** ../../lib/client/",
     "test": "npm run flow && react-scripts test",
     "eject": "react-scripts eject",

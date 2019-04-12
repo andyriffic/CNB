@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Server test</title>
+  </head>
+  <body>
+    <h1>Connected Clients</h1>
+    <ul id="connectedUsers"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript">
+      console.log('loaded');
+      var connectedUser = [];
+      var socket = io('http://localhost:3002/users', { query: 'foo=bar' });
+
+      const connectedUsersElem = document.getElementById('connectedUsers');
+
+      socket.on('CONNECTION_ESTABLISHED', function() {
+        console.log('CONNECTION_ESTABLISHED');
+      });
+
+      socket.on('USER_UPDATE', function(users) {
+        console.log('USERS', users);
+        connectedUsersElem.innerHTML = '';
+        users.forEach(user => {
+          const liElem = document.createElement('li');
+          liElem.innerText = user;
+          connectedUsersElem.appendChild(liElem);
+        });
+      });
+    </script>
+  </body>
+</html>

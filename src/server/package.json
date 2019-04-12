@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "npm run build && node ../../lib/server/server.js",
     "serve:stat-test": "npm run build && node ../../lib/server/stats/test.js",
-    "serve:local": "PORT=3001 npm run serve",
+    "serve:local": "PORT=3002 npm run serve",
     "start": "npm run build && node ../../lib/server/index.js",
     "build:deps": "cp ./package.json ../../lib/server/package.json && cd ../../lib/server && npm install --production",
     "babel": "babel ./src -d ../../lib/server --copy-files --ignore '**/*.test.js'",

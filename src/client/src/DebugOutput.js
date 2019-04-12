@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // todo querystring param
-const debug = false;
+const debug = true;
 
 const FormattedDebugPre = styled.pre`
   background-color: #f9f9f9;
