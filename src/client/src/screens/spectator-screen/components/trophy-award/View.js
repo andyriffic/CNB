@@ -47,6 +47,7 @@ const TrophyWinner = styled.div`
   text-align: center;
   position: absolute;
   bottom: 11%;
+  color: black;
 `;
 
 const StarContainer = styled.div`

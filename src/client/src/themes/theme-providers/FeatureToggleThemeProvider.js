@@ -5,6 +5,7 @@ import PandaPizzaPirateTheme from '../panda-pizza-pirate';
 import XmasTheme from '../xmas';
 import NewYearTheme from '../new-year';
 import AustraliaTheme from '../australia';
+import EasterTheme from '../easter';
 import type { IsFeatureEnabled } from '../../featureToggle';
 
 class Provider implements ThemeProvider {
@@ -27,6 +28,8 @@ class Provider implements ThemeProvider {
       return NewYearTheme;
     } else if (this._featureEnabled('australia')) {
       return AustraliaTheme;
+    } else if (this._featureEnabled('easter')) {
+      return EasterTheme;
     }
   };
 }

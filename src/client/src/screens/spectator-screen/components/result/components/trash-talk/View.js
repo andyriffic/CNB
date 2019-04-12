@@ -22,6 +22,7 @@ const SpeechBubble = styled.p`
   font-size: 0.7rem;
   width: 38vw;
   z-index: 1;
+  color: black;
 
   animation: ${fadeIn} 500ms linear 10s 1 forwards;
 

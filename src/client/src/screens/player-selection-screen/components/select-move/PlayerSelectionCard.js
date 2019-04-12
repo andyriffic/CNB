@@ -40,10 +40,11 @@ const DescriptionContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 3rem;
+  font-size: 2rem;
   margin: 0;
   padding: 0;
   text-align: center;
+  color: black;
 `;
 
 // const StatsContainer = styled.div``;
