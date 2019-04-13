@@ -17,7 +17,7 @@ import { onGameComplete } from '../onGameComplete';
 import GameThemeContext from '../contexts/GameThemeContext';
 
 const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT}/game` || null
+  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/game`
 );
 
 // TODO: we use this mapping in various places. combine into same place and also try to make usage consistent
