@@ -18,9 +18,9 @@ const SpeechBubble = styled.p`
   background-color: white;
   border-radius: 10px;
   position: fixed;
-  top: 1vw;
+  top: -5vw;
   width: 40vw;
-  left: 30vw;
+  ${props => (props.isLeft ? 'left: 30vmin;' : 'right: 30vmin;')}
   text-align: center;
   font-size: 0.7rem;
   z-index: 1;
