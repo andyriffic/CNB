@@ -29,6 +29,9 @@ class Provider implements ThemeProvider {
     } else if (month === 2 && (date >= 17 && date <= 24)) {
       // PowerUps beta!
       return PizzaPandaPirate;
+    } else if (month === 4 && date === 16) {
+      // Jatin citizenship
+      return AustraliaTheme;
     } else if (month === 4 && (date >= 15 && date <= 26)) {
       return EasterTheme;
     }
