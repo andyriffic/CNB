@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import createStore from './store/createStore';
 import reducer from './state/reducer';
 
-import initUserNamespace from './socket-namespaces/user';
+import initUserNamespace from './socket-namespaces/clients';
 import initGameNamespace from './socket-namespaces/game';
 
 const store = createStore(reducer);

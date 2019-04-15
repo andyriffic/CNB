@@ -1,4 +1,4 @@
-const PATH = '/users';
+const PATH = '/clients';
 const EVENT_USER_UPDATE = 'USER_UPDATE';
 
 const init = (socketIo) => {

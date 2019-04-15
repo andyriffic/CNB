@@ -5,18 +5,18 @@ import receiveMessage from '../receiveMessage';
 const PATH = '/game';
 const EVENT_MESSAGE_RECEIVED = 'MESSAGE_RECIEVED';
 
+const sendMessage = socket => message => {
+  console.log('sendMessage', message);
+
+  if (message.recipients && message.recipients.all) {
+    socket.broadcast.emit(message.type, message.payload);
+  }
+
+  socket.emit(message.type, message.payload);
+};
+
 const init = (socketIo, store, userNamespace) => {
   const namespace = socketIo.of(PATH);
-
-  const sendMessage = socket => message => {
-    console.log('sendMessage', message);
-
-    if (message.recipients && message.recipients.all) {
-      socket.broadcast.emit(message.type, message.payload);
-    }
-
-    socket.emit(message.type, message.payload);
-  };
 
   namespace.on('connection', function(socket) {
     console.log('user connected!', socket.id);
@@ -32,7 +32,7 @@ const init = (socketIo, store, userNamespace) => {
 
         receiveMessage(store, msg, sendMessage(socket));
 
-        // console.log('STATE: ', store.getState());
+        console.log('STATE: ', store.getState());
       });
     });
 

@@ -10,7 +10,7 @@
     <script type="text/javascript">
       console.log('loaded');
       var connectedUser = [];
-      var socket = io('http://localhost:3002/users', { query: 'foo=bar' });
+      var socket = io('http://localhost:3002/clients', { query: 'foo=bar' });
 
       const connectedUsersElem = document.getElementById('connectedUsers');
 
