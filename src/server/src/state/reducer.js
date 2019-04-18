@@ -22,7 +22,7 @@ const reducer = (state: Game = initialState, action: Action): Game => {
     case MAKE_MOVE_ACTION: {
       //TODO: better?
       const newState = {...state};
-      newState[action.slot] = { ...newState[action.slot], move: action.move, powerUp: action.powerUp };
+      newState[action.slot] = { ...newState[action.slot], move: action.move, powerUp: action.powerUp, avatar: action.avatar };
       return newState;
     }
 

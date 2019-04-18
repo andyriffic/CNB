@@ -34,6 +34,11 @@ const View = ({ playerKey }: Props) => {
   const gameState = useContext(GameStateContext);
   const powerUpsState = useContext(PowerUpContext);
 
+  const avatar = {
+    name: 'Bob',
+    imageName: 'BobsImage',
+  }
+
   useEffect(() => {
     if (playerState) {
       setSelectedPowerUp(playerState.player.powerUp);
@@ -43,7 +48,7 @@ const View = ({ playerKey }: Props) => {
   useGetGameState();
 
   const onSelection = move => {
-    serverMessages.makeMove(playerState.slot, move, selectedPowerUp);
+    serverMessages.makeMove(playerState.slot, move, selectedPowerUp, avatar);
   };
 
   const onPowerUpSelected = powerUp => {

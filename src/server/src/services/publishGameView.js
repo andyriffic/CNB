@@ -13,6 +13,7 @@ const playerStatusFromPlayer = (player: Player): PlayerView => {
     moved: !(!player.move),
     move: player.move,
     powerUp: player.powerUp,
+    avatar: player.avatar,
   };
 };
 
