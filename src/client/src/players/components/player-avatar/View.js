@@ -13,11 +13,11 @@ const Container = styled.div`
   }
 `;
 
-const View = ({ username }) => {
-  if (!username) return null;
+const View = ({ avatar: { name, imageName } }) => {
+  if (!imageName) return null;
   return (
     <Container>
-      <img src={`./avatars/${username}.png`} alt={`${username} image`} />
+      <img src={`./avatars/${imageName}.png`} alt={`${imageName} image`} />
     </Container>
   );
 };

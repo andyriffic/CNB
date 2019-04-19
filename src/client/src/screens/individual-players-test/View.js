@@ -10,20 +10,27 @@ import { CSSPlugin, TimelineLite } from 'gsap/all';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
-const xianPlayers = ['bin', 'fanglin', 'yingjian', 'yixing'];
+const xianPlayers = [
+  { name: 'Bin', imageName: 'bin' },
+  { name: 'Shuming', imageName: 'fanglin' },
+  { name: 'Yingjian', imageName: 'yingjian' },
+  { name: 'Yixing', imageName: 'yixing' },
+  { name: 'Guest 1', imageName: 'pikachu' },
+];
 const melbPlayers = [
-  'andy',
-  'azra',
-  'chris',
-  'duyen',
-  'jay',
-  'jim',
-  'liujing',
-  'marion',
-  'michael_b',
-  'michael_w',
-  'stacey',
-  'ray',
+  { name: 'Andy', imageName: 'andy' },
+  { name: 'Azra', imageName: 'azra' },
+  { name: 'Chris', imageName: 'chris' },
+  { name: 'Duyen', imageName: 'duyen' },
+  { name: 'Jay', imageName: 'jay' },
+  { name: 'Jim', imageName: 'jim' },
+  { name: 'Liujing', imageName: 'liujing' },
+  { name: 'Marion', imageName: 'marion' },
+  { name: 'Michael B', imageName: 'michael_b' },
+  { name: 'Michael W', imageName: 'michael_w' },
+  { name: 'Stacey', imageName: 'stacey' },
+  { name: 'Ray', imageName: 'ray' },
+  { name: 'Guest 1', imageName: 'squirtle' },
 ];
 
 const PlayerContainer = styled.div`
@@ -44,8 +51,8 @@ const MoveContainer = styled.div`
 const View = () => {
   const theme = useContext(GameThemeContext);
 
-  const [username1, setUsername1] = useState(xianPlayers[0]);
-  const [username2, setUsername2] = useState(melbPlayers[0]);
+  const [avatarXian, setAvatarXian] = useState(xianPlayers[0]);
+  const [avatarMelb, setAvatarMelb] = useState(melbPlayers[0]);
   const [moveAnimationTimeline, setMoveAnimationTimeline] = useState(null);
 
   const Character1 = theme.characters.characterMapping.A;
@@ -69,11 +76,11 @@ const View = () => {
       <PlayerSpectatorContainer>
         <PlayerSpectatorSection>
           <div>
-            <select onChange={e => setUsername1(e.target.value)}>
-              {xianPlayers.map(player => {
+            <select onChange={e => setAvatarXian(xianPlayers[e.target.value])}>
+              {xianPlayers.map((avatar, index) => {
                 return (
-                  <option value={player} key={player}>
-                    {player}
+                  <option value={index} key={avatar.name}>
+                    {avatar.name}
                   </option>
                 );
               })}
@@ -81,7 +88,7 @@ const View = () => {
           </div>
           <PlayerContainer>
             <AvatarContainer>
-              <PlayerAvatar username={username1} />
+              <PlayerAvatar avatar={avatarXian} />
             </AvatarContainer>
             <MoveContainer isLeft ref={move1Ref}>
               <Character1 />
@@ -93,11 +100,11 @@ const View = () => {
         </PlayerSpectatorSection>
         <PlayerSpectatorSection>
           <div>
-            <select onChange={e => setUsername2(e.target.value)}>
-              {melbPlayers.map(player => {
+            <select onChange={e => setAvatarMelb(melbPlayers[e.target.value])}>
+              {melbPlayers.map((avatar, index) => {
                 return (
-                  <option value={player} key={player}>
-                    {player}
+                  <option value={index} key={avatar.name}>
+                    {avatar.name}
                   </option>
                 );
               })}
@@ -105,7 +112,7 @@ const View = () => {
           </div>
           <PlayerContainer>
             <AvatarContainer>
-              <PlayerAvatar username={username2} />
+              <PlayerAvatar avatar={avatarMelb} />
             </AvatarContainer>
             <MoveContainer ref={move2Ref}>
               <Character2 />
