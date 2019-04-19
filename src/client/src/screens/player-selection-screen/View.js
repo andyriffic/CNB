@@ -47,6 +47,12 @@ const View = ({ playerKey }: Props) => {
     }
   }, [gameState]);
 
+  useEffect(() => {
+    if (playerState) {
+      setSelectedAvatar(playerState.player.avatar);
+    }
+  }, [gameState]);
+
   useGetGameState();
 
   const onSelection = move => {
@@ -107,6 +113,7 @@ const View = ({ playerKey }: Props) => {
           title="You chose 你选择了"
           selectedMove={playerState.player.move}
           selectedPowerUp={selectedPowerUp}
+          avatar={selectedAvatar}
         />
         <GameResult
           showIf={hasGameResult(gameState)}

@@ -3,8 +3,8 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const Container = styled.div`
-  width: 25vmin;
-  height: 40vmin;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 
   img {
@@ -13,11 +13,14 @@ const Container = styled.div`
   }
 `;
 
-const View = ({ avatar: { name, imageName } }) => {
-  if (!imageName) return null;
+const View = ({ avatar }) => {
+  if (!(avatar && avatar.imageName)) return null;
   return (
     <Container>
-      <img src={`./avatars/${imageName}.png`} alt={`${imageName} image`} />
+      <img
+        src={`./avatars/${avatar.imageName}.png`}
+        alt={`${avatar.imageName} image`}
+      />
     </Container>
   );
 };

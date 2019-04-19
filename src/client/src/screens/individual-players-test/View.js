@@ -12,7 +12,7 @@ const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 const xianPlayers = [
   { name: 'Bin', imageName: 'bin' },
-  { name: 'Shuming', imageName: 'fanglin' },
+  { name: 'Shuming', imageName: 'shuming' },
   { name: 'Yingjian', imageName: 'yingjian' },
   { name: 'Yixing', imageName: 'yixing' },
   { name: 'Guest 1', imageName: 'pikachu' },

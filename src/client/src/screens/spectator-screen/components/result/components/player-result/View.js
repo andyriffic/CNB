@@ -189,7 +189,9 @@ const PlayerResult = ({
         <Title theme={theme}>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
-        <PlayerAvatar avatar={player.avatar} />
+        <div style={{ width: '25vmin', height: '40vmin' }}>
+          <PlayerAvatar avatar={player.avatar} />
+        </div>
         {revealPlayersMove && (
           <CharacterPosition isWinner={isWinner} isLeft={isLeft}>
             <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
