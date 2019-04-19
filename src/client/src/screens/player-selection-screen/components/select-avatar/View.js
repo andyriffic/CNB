@@ -24,8 +24,8 @@ const avatarSelections = {
 };
 
 const guestSelections = {
-  XIAN: [{ name: 'Guest', imageName: 'bin' }],
-  MELB: [{ name: 'Guest', imageName: 'andy' }],
+  XIAN: [{ name: 'Guest', imageName: 'pikachu' }],
+  MELB: [{ name: 'Guest', imageName: 'squirtle' }],
 };
 
 const EMPTY_AVATAR = { name: '' };

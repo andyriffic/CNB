@@ -18,7 +18,7 @@ const SpeechBubble = styled.p`
   background-color: white;
   border-radius: 10px;
   position: absolute;
-  top: -10vmin;  
+  top: 0;  
   font-size: 0.7rem;
   width: 38vw;
   z-index: 1;

@@ -178,7 +178,7 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
         <PlayerSpectatorSection ref={setMiddleEl}>
           <MultiArea showIndex={middleIndex}>
             <p style={{ fontSize: '3rem' }}>VS</p>
-            <p style={{ fontSize: '3rem' }}>FIGHT!</p>
+            <p style={{ fontSize: '3rem' }}>GO!</p>
             <Switch>
               <Draw showIf={result.draw} />
               <Winner
