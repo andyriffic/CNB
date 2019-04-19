@@ -189,7 +189,13 @@ const PlayerResult = ({
         <Title theme={theme}>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
-        <div style={{ width: '25vmin', height: '40vmin' }}>
+        <div
+          style={{
+            width: '25vmin',
+            height: '40vmin',
+            opacity: revealPlayersMove && !isWinner ? '0.6' : '1',
+          }}
+        >
           <PlayerAvatar avatar={player.avatar} />
         </div>
         {revealPlayersMove && (
