@@ -6,7 +6,7 @@ import gameStart from './game-start-2.wav';
 import bonusPointsEnter from './bonus-points-enter.wav';
 import resultPlayerEnter from './result-player-enter-2.wav';
 import vs from './vs.wav';
-import fight from './fight.wav';
+import fight from './go.ogg';
 import powerUpWin from './power-up-win.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 
