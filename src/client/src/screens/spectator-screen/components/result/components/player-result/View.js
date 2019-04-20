@@ -13,6 +13,7 @@ import PowerUpBadge from '../../../../../../components/power-up-badges';
 import PlayerAvatar from '../../../../../../components/player-avatar';
 import { POWER_UP_TYPE } from '../../../../../../power-ups/constants';
 import { RevealAnimation } from '../../../../../../components/player-avatar/RevealAnimation';
+import GameSoundContext from '../../../../../../contexts/GameSoundContext';
 
 type Props = {
   player: Object,
@@ -165,6 +166,7 @@ const PlayerResult = ({
   revealPowerUp,
 }: Props) => {
   const theme = useContext(GameThemeContext);
+  const soundService = useContext(GameSoundContext);
   const characterMapping = theme.characters.characterMapping;
 
   return (
@@ -200,6 +202,7 @@ const PlayerResult = ({
           <RevealAnimation
             avatar={<PlayerAvatar avatar={player.avatar} />}
             isLeft={isLeft}
+            soundService={soundService}
             character={
               <WinnerAnimationContainer
                 className={revealPlayersMove && isWinner ? 'winner' : ''}

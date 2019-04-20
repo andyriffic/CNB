@@ -76,8 +76,6 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
     animationTimeline.duration(2).reverse();
   };
 
-  console.log('RESULT VIEW', trophyPoints);
-
   useEffect(() => {
     if (!animationTimeline && player1El && player2El) {
       setAnimationTimeline(

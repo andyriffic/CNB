@@ -7,6 +7,7 @@ import GameThemeContext from '../../contexts/GameThemeContext';
 
 import { CSSPlugin, TimelineLite } from 'gsap/all';
 import { RevealAnimation } from '../../components/player-avatar/RevealAnimation';
+import GameSoundContext from '../../contexts/GameSoundContext';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -39,6 +40,8 @@ const PlayerContainer = styled.div`
 
 const View = () => {
   const theme = useContext(GameThemeContext);
+  const soundService = useContext(GameSoundContext);
+  console.log('SOUND SERVICE', soundService);
 
   const [avatarXian, setAvatarXian] = useState(xianPlayers[0]);
   const [avatarMelb, setAvatarMelb] = useState(melbPlayers[0]);
@@ -81,6 +84,7 @@ const View = () => {
               character={<Character1 />}
               revealMove={false}
               isLeft
+              soundService={soundService}
             />
           </PlayerContainer>
         </PlayerSpectatorSection>
@@ -104,6 +108,7 @@ const View = () => {
               avatar={<PlayerAvatar avatar={avatarMelb} />}
               character={<Character2 />}
               revealMove={false}
+              soundService={soundService}
             />
           </PlayerContainer>
         </PlayerSpectatorSection>

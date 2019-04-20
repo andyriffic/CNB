@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import pokeball from './pokeball.png';
 import { CSSPlugin, TimelineLite, TweenLite } from 'gsap/all';
+import { SOUND_KEYS } from '../../sounds/SoundService';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 CSSPlugin.defaultTransformPerspective = 1000;
@@ -57,8 +58,8 @@ const CardBack = styled(CardFace)``;
 export const RevealAnimation = ({
   avatar,
   character,
-  revealMove,
   isLeft = false,
+  soundService,
 }) => {
   const moveEl = useRef(null);
   const cardEl = useRef(null);
@@ -76,8 +77,14 @@ export const RevealAnimation = ({
             x: isLeft ? -200 : 200,
             opacity: 0,
           })
-          .to(cardFrontEl.current, 1, { rotationY: 180 })
-          .to(cardBackEl.current, 1, { rotationY: 0 }, 1)
+          .to(cardFrontEl.current, 1, {
+            rotationY: 180,
+            delay: 1,
+            onStart: () => {
+              soundService && soundService.play(SOUND_KEYS.POKEBALL, true);
+            },
+          })
+          .to(cardBackEl.current, 1, { rotationY: 0 }, 2)
           .to(cardEl.current, 0.5, { z: 50 }, 0)
           .to(cardEl.current, 0.5, { z: 0 }, 0.5)
           .delay(6)
