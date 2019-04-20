@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
@@ -13,7 +13,11 @@ const Container = styled.div`
   }
 `;
 
-const View = ({ avatar }) => {
+type Props = {
+  avatar: Object,
+};
+
+const View = ({ avatar }: Props) => {
   if (!(avatar && avatar.imageName)) return null;
   return (
     <Container>

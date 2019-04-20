@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PageSubTitle } from '../../../styled';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import PowerUpBadge from '../../../../components/power-up-badges';
-import PlayerAvatar from '../../../../players/components/player-avatar';
+import PlayerAvatar from '../../../../components/player-avatar';
 
 const Container = styled.div`
   position: relative;

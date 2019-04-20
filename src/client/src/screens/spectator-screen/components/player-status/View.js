@@ -9,6 +9,7 @@ type Props = {
   moved: boolean,
   name: string,
   badge?: ComponentType<*>,
+  avatar: Object,
 };
 
 const Rainbow = keyframes`

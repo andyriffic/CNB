@@ -42,7 +42,7 @@ const SocketsConnection = ({ children }: Props) => {
           msgSvc.awardPowerUps(awardedPowerUps);
           setTimeout(() => {
             scores.set(updatedScores);
-          }, 18000); // TODO: don't set timeout here, do it in the view (see how trophy points does it in spectator view)
+          }, 21000); // TODO: don't set timeout here, do it in the view (see how trophy points does it in spectator view)
           trophyPoints.setWinner(trophyPoints, trophyWinner);
         }
       );

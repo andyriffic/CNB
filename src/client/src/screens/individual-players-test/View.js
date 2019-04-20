@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
-import PlayerAvatar from '../../players/components/player-avatar';
+import PlayerAvatar from '../../components/player-avatar';
 import { PlayerSpectatorContainer, PlayerSpectatorSection } from '../styled';
 import GameThemeContext from '../../contexts/GameThemeContext';
 
-import { Power4 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
+import { RevealAnimation } from '../../components/player-avatar/RevealAnimation';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -35,17 +35,6 @@ const melbPlayers = [
 
 const PlayerContainer = styled.div`
   position: relative;
-`;
-
-const AvatarContainer = styled.div``;
-
-const MoveContainer = styled.div`
-  position: absolute;
-  width: 10vmin;
-  height: 10vmin;
-  opacity: 0;
-  top: 10vmin;
-  ${props => (props.isLeft ? 'right' : 'left')}: -10vmin;
 `;
 
 const View = () => {
@@ -87,12 +76,12 @@ const View = () => {
             </select>
           </div>
           <PlayerContainer>
-            <AvatarContainer>
-              <PlayerAvatar avatar={avatarXian} />
-            </AvatarContainer>
-            <MoveContainer isLeft ref={move1Ref}>
-              <Character1 />
-            </MoveContainer>
+            <RevealAnimation
+              avatar={<PlayerAvatar avatar={avatarXian} />}
+              character={<Character1 />}
+              revealMove={false}
+              isLeft
+            />
           </PlayerContainer>
         </PlayerSpectatorSection>
         <PlayerSpectatorSection>
@@ -111,12 +100,11 @@ const View = () => {
             </select>
           </div>
           <PlayerContainer>
-            <AvatarContainer>
-              <PlayerAvatar avatar={avatarMelb} />
-            </AvatarContainer>
-            <MoveContainer ref={move2Ref}>
-              <Character2 />
-            </MoveContainer>
+            <RevealAnimation
+              avatar={<PlayerAvatar avatar={avatarMelb} />}
+              character={<Character2 />}
+              revealMove={false}
+            />
           </PlayerContainer>
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>

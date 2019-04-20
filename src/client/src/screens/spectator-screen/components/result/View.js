@@ -111,9 +111,9 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
                             );
                           }, 3000)
                         );
-                      }, 4000)
+                      }, 6000)
                     );
-                  }, 3000)
+                  }, 5000)
                 );
               }, 1000)
             );

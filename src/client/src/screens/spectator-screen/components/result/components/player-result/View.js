@@ -10,8 +10,9 @@ import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 import TrashTalk from '../trash-talk';
 import WinGif from '../win-gif';
 import PowerUpBadge from '../../../../../../components/power-up-badges';
-import PlayerAvatar from '../../../../../../players/components/player-avatar';
+import PlayerAvatar from '../../../../../../components/player-avatar';
 import { POWER_UP_TYPE } from '../../../../../../power-ups/constants';
+import { RevealAnimation } from '../../../../../../components/player-avatar/RevealAnimation';
 
 type Props = {
   player: Object,
@@ -104,8 +105,8 @@ const CharacterPosition = styled.div`
 
 const InitialCharacterAnimaton = styled.div`
   margin: 0 auto;
-  height: 150px;
-  width: 150px;
+  height: 10vmin;
+  width: 10vmin;
   animation: ${zoomIn} 1s linear ${initialAnimationDelay}s 1 forwards;
 
   &.winner {
@@ -196,15 +197,27 @@ const PlayerResult = ({
             opacity: revealPlayersMove && !isWinner ? '0.6' : '1',
           }}
         >
-          <PlayerAvatar avatar={player.avatar} />
+          <RevealAnimation
+            avatar={<PlayerAvatar avatar={player.avatar} />}
+            isLeft={isLeft}
+            character={
+              <WinnerAnimationContainer
+                className={revealPlayersMove && isWinner ? 'winner' : ''}
+              >
+                <InitialCharacterAnimaton>
+                  {getCharacter(characterMapping, player.move, true)}
+                </InitialCharacterAnimaton>
+              </WinnerAnimationContainer>
+            }
+          />
         </div>
         {revealPlayersMove && (
           <CharacterPosition isWinner={isWinner} isLeft={isLeft}>
-            <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
+            {/* <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
               <InitialCharacterAnimaton>
                 {getCharacter(characterMapping, player.move, true)}
               </InitialCharacterAnimaton>
-            </WinnerAnimationContainer>
+            </WinnerAnimationContainer> */}
             {player.powerUp !== POWER_UP_TYPE.NONE && (
               <BadgeContainer isLeft={isLeft}>
                 {!revealPowerUp && <PowerUpBadge type="HIDDEN" />}
