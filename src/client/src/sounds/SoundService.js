@@ -6,9 +6,10 @@ import gameStart from './game-start-2.wav';
 import bonusPointsEnter from './bonus-points-enter.wav';
 import resultPlayerEnter from './result-player-enter-2.wav';
 import vs from './vs.wav';
-import fight from './fight.wav';
+import fight from './go.ogg';
 import powerUpWin from './power-up-win.mp3';
 import awardTrophy from './trophy-jingle.ogg';
+import pokeball from './pokeball.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -24,6 +25,7 @@ export const SOUND_KEYS = {
   FIGHT: 'FIGHT',
   POWER_UP_WIN: 'POWER_UP_WIN',
   AWARD_TROPHY: 'AWARD_TROPHY',
+  POKEBALL: 'POKEBALL',
 };
 
 export class SoundService {
@@ -106,6 +108,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
         sound: new Howl({ src: [awardTrophy] }),
+      };
+
+      this._sounds[SOUND_KEYS.POKEBALL] = {
+        sound: new Howl({ src: [pokeball] }),
       };
 
       // Pre-load winning sounds

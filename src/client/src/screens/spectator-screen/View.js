@@ -56,7 +56,7 @@ const View = () => {
     if (trophyPoints.winner) {
       setTimeout(() => {
         setShowTrophyAward(true);
-      }, 28000);
+      }, 30000);
     } else {
       setShowTrophyAward(false);
     }

@@ -9,6 +9,7 @@ type Props = {
   moved: boolean,
   name: string,
   badge?: ComponentType<*>,
+  avatar: Object,
 };
 
 const Rainbow = keyframes`
@@ -65,11 +66,12 @@ const BadgeContainer = styled.div`
   opacity: 0.7;
 `;
 
-const View = ({ moved, name, badge }: Props) => {
+const View = ({ moved, name, badge, avatar }: Props) => {
   return (
     <Container moved={moved} className={moved ? 'moved' : ''}>
       <Title>
         <TranslatedPlayerName playerName={name} />
+        <p>{avatar && avatar.name}</p>
       </Title>
       {badge && <BadgeContainer>{badge}</BadgeContainer>}
     </Container>

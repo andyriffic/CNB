@@ -84,6 +84,23 @@ const View = ({ type, bigText, count }) => {
         textShadowColor="#fff"
         count={count}
       />
+      <BaseBadge
+        showIf={type === 'AVATAR'}
+        bigText={bigText}
+        text={
+          <React.Fragment>
+            Player
+            <br />
+            Avatars
+            <br />
+            beta
+          </React.Fragment>
+        }
+        backgroundColor="#cad877"
+        textColor="#1d5b00"
+        textShadowColor="#040f00"
+        count={count}
+      />
     </Switch>
   );
 };

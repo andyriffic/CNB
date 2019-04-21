@@ -7,6 +7,7 @@ import usePlayerState from './hooks/usePlayerState';
 import SelectMove from './components/select-move';
 import SelectedMove from './components/selected-move';
 import SelectPowerUp from './components/select-power-up';
+import SelectAvatar from './components/select-avatar';
 import GameResult from './components/game-result';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import GameStateContext from '../../contexts/GameStateContext';
@@ -25,11 +26,17 @@ type Props = {
 const hasGameResult = gameState => !!(gameState && gameState.result);
 const playerHasMoved = (gameState, playerState) =>
   playerState && playerState.player && playerState.player.moved;
+const hasSelectedAvatar = (playerState, selectedAvatar) =>
+  selectedAvatar ||
+  (playerState && playerState.player && playerState.player.avatar);
 
 const View = ({ playerKey }: Props) => {
   const playerState = usePlayerState(playerKey);
 
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);
+  const [selectedAvatar, setSelectedAvatar] = useState(
+    playerState && playerState.player && playerState.player.avatar
+  );
   const serverMessages = useContext(ServerMessagesContext);
   const gameState = useContext(GameStateContext);
   const powerUpsState = useContext(PowerUpContext);
@@ -40,14 +47,30 @@ const View = ({ playerKey }: Props) => {
     }
   }, [gameState]);
 
+  useEffect(() => {
+    if (playerState) {
+      setSelectedAvatar(playerState.player.avatar);
+    }
+  }, [gameState]);
+
   useGetGameState();
 
   const onSelection = move => {
-    serverMessages.makeMove(playerState.slot, move, selectedPowerUp);
+    serverMessages.makeMove(
+      playerState.slot,
+      move,
+      selectedPowerUp,
+      selectedAvatar
+    );
   };
 
   const onPowerUpSelected = powerUp => {
     setSelectedPowerUp(powerUp);
+  };
+
+  const onAvatarSelected = avatar => {
+    console.log('SELECTED AVATAR', avatar);
+    setSelectedAvatar(avatar);
   };
 
   const onAwardedPowerUpsClose = () => {
@@ -63,8 +86,15 @@ const View = ({ playerKey }: Props) => {
       alignTop
     >
       <Switch>
+        <SelectAvatar
+          showIf={!hasSelectedAvatar(playerState, selectedAvatar)}
+          onAvatarSelected={onAvatarSelected}
+          playerKey={playerKey}
+        />
         <SelectPowerUp
-          showIf={!selectedPowerUp}
+          showIf={
+            hasSelectedAvatar(playerState, selectedAvatar) && !selectedPowerUp
+          }
           playerKey={playerKey}
           onPowerUpSelected={onPowerUpSelected}
         />
@@ -83,6 +113,7 @@ const View = ({ playerKey }: Props) => {
           title="You chose 你选择了"
           selectedMove={playerState.player.move}
           selectedPowerUp={selectedPowerUp}
+          avatar={selectedAvatar}
         />
         <GameResult
           showIf={hasGameResult(gameState)}

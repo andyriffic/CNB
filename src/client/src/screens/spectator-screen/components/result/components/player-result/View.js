@@ -10,7 +10,10 @@ import GameThemeContext from '../../../../../../contexts/GameThemeContext';
 import TrashTalk from '../trash-talk';
 import WinGif from '../win-gif';
 import PowerUpBadge from '../../../../../../components/power-up-badges';
+import PlayerAvatar from '../../../../../../components/player-avatar';
 import { POWER_UP_TYPE } from '../../../../../../power-ups/constants';
+import { RevealAnimation } from '../../../../../../components/player-avatar/RevealAnimation';
+import GameSoundContext from '../../../../../../contexts/GameSoundContext';
 
 type Props = {
   player: Object,
@@ -77,36 +80,23 @@ const winnerWobble = keyframes`
 
 const Container = styled.div`
   position: relative;
-  background-color: #e9e3c5;
-  border-radius: 10px;
+  // background-color: #e9e3c5;
+  // border-radius: 10px;
   padding: 3vmin;
   width: 32vmin;
-  height: 32vmin;
+  height: 50vmin;
 
   // &.loser {
   //   animation: ${dim} 2s linear 3500ms 1 forwards;
   // }
 
   transition: box-shadow 3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-
-  ${props =>
-    props.showHalo && props.reveal
-      ? `
-  box-shadow:
-        inset 0 0 50px #fff,      /* inner white */
-        inset 20px 0 80px #f0f,   /* inner left magenta short */
-        inset -20px 0 80px #0ff,  /* inner right cyan short */
-        inset 20px 0 300px #f0f,  /* inner left magenta broad */
-        inset -20px 0 300px #0ff, /* inner right cyan broad */
-        0 0 50px #fff,            /* outer white */
-        -10px 0 80px #f0f,        /* outer left magenta */
-        10px 0 80px #0ff;         /* outer right cyan */
-  `
-      : ''}
 `;
 
 const CharacterPosition = styled.div`
-  position: relative;
+  position: absolute;
+  top: 20vmin;
+  ${props => (props.isLeft ? 'right' : 'left')}: -20vmin;
   height: 100%;
   width: 100%;
   text-align: center;
@@ -116,8 +106,8 @@ const CharacterPosition = styled.div`
 
 const InitialCharacterAnimaton = styled.div`
   margin: 0 auto;
-  height: 150px;
-  width: 150px;
+  height: 10vmin;
+  width: 10vmin;
   animation: ${zoomIn} 1s linear ${initialAnimationDelay}s 1 forwards;
 
   &.winner {
@@ -135,17 +125,17 @@ const Title = styled.div`
   margin: 0;
   padding: 5px 0;
   font-size: 1rem;
-  color: #20253f;
+  color: ${props => props.theme.style.textColor};
   text-align: center;
 `;
 
 const BadgeContainer = styled.div`
   position: absolute;
-  width: 50%;
-  height: 50%;
+  width: 20vmin;
+  height: 20vmin;
   display: flex;
-  bottom: -12%;
-  left: -30%;
+  bottom: -20%;
+  ${props => (props.isLeft ? 'right' : 'left')}: 80%;
 `;
 
 const getCharacter = (characterMapping, move, isWinner) => {
@@ -176,6 +166,7 @@ const PlayerResult = ({
   revealPowerUp,
 }: Props) => {
   const theme = useContext(GameThemeContext);
+  const soundService = useContext(GameSoundContext);
   const characterMapping = theme.characters.characterMapping;
 
   return (
@@ -198,18 +189,40 @@ const PlayerResult = ({
           player={player}
           isLeft={isLeft}
         />
-        <Title>
+        <Title theme={theme}>
           <TranslatedPlayerName playerName={player.name} />
         </Title>
+        <div
+          style={{
+            width: '25vmin',
+            height: '40vmin',
+            opacity: revealPlayersMove && !isWinner ? '0.6' : '1',
+          }}
+        >
+          <RevealAnimation
+            avatar={<PlayerAvatar avatar={player.avatar} />}
+            isLeft={isLeft}
+            soundService={soundService}
+            character={
+              <WinnerAnimationContainer
+                className={revealPlayersMove && isWinner ? 'winner' : ''}
+              >
+                <InitialCharacterAnimaton>
+                  {getCharacter(characterMapping, player.move, true)}
+                </InitialCharacterAnimaton>
+              </WinnerAnimationContainer>
+            }
+          />
+        </div>
         {revealPlayersMove && (
-          <CharacterPosition isWinner={isWinner}>
-            <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
+          <CharacterPosition isWinner={isWinner} isLeft={isLeft}>
+            {/* <WinnerAnimationContainer className={isWinner ? 'winner' : ''}>
               <InitialCharacterAnimaton>
                 {getCharacter(characterMapping, player.move, true)}
               </InitialCharacterAnimaton>
-            </WinnerAnimationContainer>
+            </WinnerAnimationContainer> */}
             {player.powerUp !== POWER_UP_TYPE.NONE && (
-              <BadgeContainer>
+              <BadgeContainer isLeft={isLeft}>
                 {!revealPowerUp && <PowerUpBadge type="HIDDEN" />}
                 {revealPowerUp && <PowerUpBadge type={player.powerUp} />}
               </BadgeContainer>

@@ -76,8 +76,6 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
     animationTimeline.duration(2).reverse();
   };
 
-  console.log('RESULT VIEW', trophyPoints);
-
   useEffect(() => {
     if (!animationTimeline && player1El && player2El) {
       setAnimationTimeline(
@@ -111,9 +109,9 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
                             );
                           }, 3000)
                         );
-                      }, 4000)
+                      }, 6000)
                     );
-                  }, 3000)
+                  }, 5000)
                 );
               }, 1000)
             );
@@ -178,7 +176,7 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
         <PlayerSpectatorSection ref={setMiddleEl}>
           <MultiArea showIndex={middleIndex}>
             <p style={{ fontSize: '3rem' }}>VS</p>
-            <p style={{ fontSize: '3rem' }}>FIGHT!</p>
+            <p style={{ fontSize: '3rem' }}>GO!</p>
             <Switch>
               <Draw showIf={result.draw} />
               <Winner
