@@ -12,8 +12,8 @@ import {
 } from '../environment';
 
 const s3 = new AWS.S3({
-  accessKeyId: STATS_AWS_ACCESS_KEY_ID, // 'AKIA3FBK3EE6SR37OIQF',
-  secretAccessKey: STATS_AWS_SECRET_ACCESS_KEY, // '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',
+  accessKeyId: STATS_AWS_ACCESS_KEY_ID,
+  secretAccessKey: STATS_AWS_SECRET_ACCESS_KEY,
   apiVersion: '2006-03-01',
 });
 
