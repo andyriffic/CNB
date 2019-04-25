@@ -22,6 +22,7 @@ import type { GameIsFullResponse, ConnectedToGameResponse  } from './services/Co
 import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
 import awardedPowerUpsMessage from './messages/awardedPowerUpsMessage';
+import { addStatsEntry, mapGameStateToStats } from './stats';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   //console.log('RECEIVE MESSAGE', msg);
@@ -77,7 +78,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       const gameResult = runGame(store.getState());
       store.dispatch(updateGameResultAction(gameResult));
       store.dispatch(updateGameStatusAction(GAME_STATUS.FINISHED));
-
+      addStatsEntry(mapGameStateToStats(store.getState(), 'cnb'));
       sendToClient(gameCompleteMessage(store.getState()));
       sendToClient(publishGameView(store.getState()));
     }
