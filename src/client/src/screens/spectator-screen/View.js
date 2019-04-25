@@ -73,7 +73,7 @@ const View = () => {
   const playGame = () => {
     console.log('PLAY GAME');
     // soundService.stop(SOUND_KEYS.WAITING_MUSIC);
-    serverMessages.playGame();
+    serverMessages.playGame(theme.name);
   };
 
   console.log('SPECTATOR, gameState', gameState);

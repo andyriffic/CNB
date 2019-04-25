@@ -78,7 +78,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       const gameResult = runGame(store.getState());
       store.dispatch(updateGameResultAction(gameResult));
       store.dispatch(updateGameStatusAction(GAME_STATUS.FINISHED));
-      addStatsEntry(mapGameStateToStats(store.getState(), 'cnb'));
+      addStatsEntry(mapGameStateToStats(store.getState(), prop('themeName', msg.payload)));
       sendToClient(gameCompleteMessage(store.getState()));
       sendToClient(publishGameView(store.getState()));
     }

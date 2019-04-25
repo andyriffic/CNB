@@ -43,7 +43,7 @@ export const mapGameStateToStats = (game: Game, theme: string): GameStats => {
 
 export const addStatsEntry = statsEntry => {
   if (!STATS_ENABLED) {
-    console.log('STATS DISABLED');
+    console.log('STATS DISABLED', statsEntry);
     return;
   }
 
