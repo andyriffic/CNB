@@ -89,11 +89,9 @@ const View = ({ type, bigText, count }) => {
         bigText={bigText}
         text={
           <React.Fragment>
-            Player
-            <br />
             Avatars
             <br />
-            beta
+            AND stats!
           </React.Fragment>
         }
         backgroundColor="#cad877"
