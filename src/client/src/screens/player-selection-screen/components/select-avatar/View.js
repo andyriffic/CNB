@@ -20,9 +20,12 @@ const avatarSelections = {
     { name: 'Yixing', imageName: 'yixing' },
   ],
   MELB: [
+    { name: 'Albert', imageName: 'albert' },
+    { name: 'Alex', imageName: 'alex' },
     { name: 'Andy', imageName: 'andy' },
     { name: 'Azra', imageName: 'azra' },
     { name: 'Chris', imageName: 'chris' },
+    { name: 'Du', imageName: 'du' },
     { name: 'Duyen', imageName: 'duyen' },
     { name: 'Jay', imageName: 'jay' },
     { name: 'Jim', imageName: 'jim' },
@@ -32,6 +35,7 @@ const avatarSelections = {
     { name: 'Michael W', imageName: 'michael_w' },
     { name: 'Stacey', imageName: 'stacey' },
     { name: 'Ray', imageName: 'ray' },
+    { name: 'Yujin', imageName: 'yujin' },
   ],
 };
 
