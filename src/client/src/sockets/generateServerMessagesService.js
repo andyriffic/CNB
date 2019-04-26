@@ -10,8 +10,12 @@ const generateServerMessagesService = (socket: Object): ServerMessages => {
         payload: { slot: player, move, powerUp, avatar },
       }),
     resetGame: () => socket.emit('RESET_GAME', { type: 'RESET_GAME' }),
-    playGame: themeName =>
-      socket.emit('RUN_GAME', { type: 'RUN_GAME', payload: { themeName } }),
+    playGame: () => socket.emit('RUN_GAME', { type: 'RUN_GAME' }),
+    saveGameStats: (themeName, pointsAwarded, powerUpsAwarded, trophyAwarded) =>
+      socket.emit('SAVE_GAME_STATS', {
+        type: 'SAVE_GAME_STATS',
+        payload: { themeName, pointsAwarded, powerUpsAwarded, trophyAwarded },
+      }),
     awardPowerUps: powerUps =>
       socket.emit('AWARDED_POWERUPS', {
         type: 'AWARDED_POWERUPS',

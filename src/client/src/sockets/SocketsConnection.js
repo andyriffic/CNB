@@ -14,11 +14,46 @@ import ScoreboardContext from '../contexts/ScoreboardContext';
 import PowerUpContext from '../contexts/PowerUpContext';
 import TrophyPointsContext from '../trophy-points/Context';
 import { onGameComplete } from '../onGameComplete';
+import GameThemeContext from '../contexts/GameThemeContext';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_ENDPOINT || null);
 
+// TODO: we use this mapping in various places. combine into same place and also try to make usage consistent
+const mapPlayerNameToSlot = {
+  XIAN: 'player1',
+  MELB: 'player2',
+};
+
 type Props = {
   children: Node,
+};
+
+const saveStats = (
+  msgService,
+  themeName,
+  powerUpAdjustedPointsAssigned,
+  awardedPowerUpsByPlayerName,
+  trophyWinnerName
+) => {
+  const mappedTrophyWinner = trophyWinnerName
+    ? mapPlayerNameToSlot[trophyWinnerName]
+    : null;
+
+  const mappedAwardedPowerUps = {};
+  if (awardedPowerUpsByPlayerName.XIAN) {
+    mappedAwardedPowerUps.player1 = awardedPowerUpsByPlayerName.XIAN;
+  }
+
+  if (awardedPowerUpsByPlayerName.MELB) {
+    mappedAwardedPowerUps.player2 = awardedPowerUpsByPlayerName.MELB;
+  }
+
+  msgService.saveGameStats(
+    themeName,
+    powerUpAdjustedPointsAssigned,
+    mappedAwardedPowerUps,
+    mappedTrophyWinner
+  );
 };
 
 const SocketsConnection = ({ children }: Props) => {
@@ -27,6 +62,7 @@ const SocketsConnection = ({ children }: Props) => {
   const scores = useContext(ScoreboardContext);
   const powerUpsState = useContext(PowerUpContext);
   const trophyPoints = useContext(TrophyPointsContext);
+  const theme = useContext(GameThemeContext);
 
   const [msgSvc] = useState(generateServerMessagesService(socket));
 
@@ -38,7 +74,19 @@ const SocketsConnection = ({ children }: Props) => {
         gameState,
         scores,
         trophyPoints,
-        (updatedScores, awardedPowerUps, trophyWinner) => {
+        (
+          updatedScores,
+          powerUpAdjustedPointsAssigned,
+          awardedPowerUps,
+          trophyWinner
+        ) => {
+          saveStats(
+            msgSvc,
+            theme.name,
+            powerUpAdjustedPointsAssigned,
+            awardedPowerUps,
+            trophyWinner
+          );
           msgSvc.awardPowerUps(awardedPowerUps);
           setTimeout(() => {
             scores.set(updatedScores);

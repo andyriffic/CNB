@@ -17,22 +17,48 @@ const s3 = new AWS.S3({
   apiVersion: '2006-03-01',
 });
 
-const mapPlayerToStats = (player: Player, winner: boolean): PlayerStats => {
+const mapPlayerToStats = (
+  player: Player,
+  winner: boolean,
+  points: number,
+  powerUpAwarded: string,
+  trophy: boolean
+): PlayerStats => {
   return {
     team: player.name,
     move: player.move,
-    powerUp: player.powerUp,
+    powerUpUsed: player.powerUp,
     player: player.avatar.name,
     winner,
+    points,
+    powerUpAwarded,
+    trophy,
   };
 };
 
-export const mapGameStateToStats = (game: Game, theme: string): GameStats => {
-
+export const mapGameStateToStats = (
+  game: Game,
+  theme: string,
+  pointsAwarded,
+  powerUpsAwarded,
+  trophyAwarded: string
+): GameStats => {
   return {
     date: new Date().toISOString(),
-    player1: mapPlayerToStats(game.player1, game.result.winner === 'player1'),
-    player2: mapPlayerToStats(game.player2, game.result.winner === 'player2'),
+    player1: mapPlayerToStats(
+      game.player1,
+      game.result.winner === 'player1',
+      pointsAwarded.player1,
+      powerUpsAwarded.player1,
+      trophyAwarded === 'player1'
+    ),
+    player2: mapPlayerToStats(
+      game.player2,
+      game.result.winner === 'player2',
+      pointsAwarded.player2,
+      powerUpsAwarded.player2,
+      trophyAwarded === 'player2'
+    ),
     theme,
     result: {
       draw: game.result.draw,

@@ -67,14 +67,11 @@ export const onGameComplete = (
   if (gameResult.draw) {
     const playerToAwardPowerUpTo = getWeightedRandomPlayer(localUpdatedScores);
     const randomPowerUp = getWeightedRandomPowerUp();
-    console.log(
-      'onGameComplete: awardPowerUp',
-      playerToAwardPowerUpTo,
-      randomPowerUp
-    );
 
     awardPowerUpToPlayer(playerToAwardPowerUpTo, randomPowerUp);
     awardedPowerUps[playerToAwardPowerUpTo] = randomPowerUp;
+
+    console.log('onGameComplete: awardPowerUp', awardedPowerUps);
   }
 
   // check trophy points
@@ -104,5 +101,10 @@ export const onGameComplete = (
     adjustCounter('BONUS', trophyAdjustedPointsAssigned.bonus),
   ]).then(/* What to do here? */);
 
-  onComplete(localUpdatedScores, awardedPowerUps, trophyWinner);
+  onComplete(
+    localUpdatedScores,
+    powerUpAdjustedPointsAssigned,
+    awardedPowerUps,
+    trophyWinner
+  );
 };

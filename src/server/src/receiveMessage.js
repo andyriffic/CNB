@@ -78,7 +78,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
       const gameResult = runGame(store.getState());
       store.dispatch(updateGameResultAction(gameResult));
       store.dispatch(updateGameStatusAction(GAME_STATUS.FINISHED));
-      addStatsEntry(mapGameStateToStats(store.getState(), prop('themeName', msg.payload)));
+
       sendToClient(gameCompleteMessage(store.getState()));
       sendToClient(publishGameView(store.getState()));
     }
@@ -96,6 +96,20 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
     }
       break;
 
+    case incomingMessageTypes.SAVE_GAME_STATS: {
+      console.log('------------ SAVE GAME STATS ----------------', msg.payload);
+      addStatsEntry(
+        mapGameStateToStats(
+          store.getState(),
+          prop('themeName', msg.payload),
+          prop('pointsAwarded', msg.payload),
+          prop('powerUpsAwarded', msg.payload),
+          prop('trophyAwarded', msg.payload),
+        )
+      );
+    }
+      break;
+  
     default: {
       sendToClient(invalidMessageMessage());
     }
