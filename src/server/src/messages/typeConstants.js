@@ -15,6 +15,7 @@ const GET_GAME_VIEW = 'GET_GAME_VIEW';
 const RUN_GAME = 'RUN_GAME';
 const GAME_FINISHED = 'GAME_FINISHED';
 const AWARDED_POWERUPS = 'AWARDED_POWERUPS';
+const SAVE_GAME_STATS = 'SAVE_GAME_STATS';
 
 export const incomingMessageTypes = {
   MAKE_MOVE,
@@ -24,6 +25,7 @@ export const incomingMessageTypes = {
   GET_GAME_VIEW,
   RUN_GAME,
   AWARDED_POWERUPS,
+  SAVE_GAME_STATS,
 };
 
 export const outgoingMessageTypes = {
