@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
-import { PlayerSpectatorContainer, PageSubTitle } from '../styled';
+import { PageSubTitle } from '../styled';
+import { STATS_API_BASE_URL } from '../../environment';
 
 const fetchRankings = () => {
-  return fetch(
-    'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-dev/results/players-by-points-ranking.json',
-    { cache: 'no-store' }
-  ).then(resp => {
-    console.log('RESPONSE', resp);
+  return fetch(`${STATS_API_BASE_URL}/players-by-points-ranking.json`, {
+    cache: 'no-store',
+  }).then(resp => {
     return resp.json();
   });
 };

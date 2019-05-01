@@ -1,21 +1,10 @@
 // @flow
-import AWS from 'aws-sdk';
 import uuid from 'uuid';
 import { Game } from '../types/GameType';
 import { Player } from '../types/PlayerType';
 import { GameStats, PlayerStats } from './GameStatsType';
-import {
-  STATS_ENABLED,
-  STATS_AWS_ACCESS_KEY_ID,
-  STATS_AWS_SECRET_ACCESS_KEY,
-  STATS_AWS_BUCKET_NAME,
-} from '../environment';
-
-const s3 = new AWS.S3({
-  accessKeyId: STATS_AWS_ACCESS_KEY_ID,
-  secretAccessKey: STATS_AWS_SECRET_ACCESS_KEY,
-  apiVersion: '2006-03-01',
-});
+import { statsS3Bucket } from './s3';
+import { STATS_ENABLED, STATS_AWS_SOURCE_BUCKET_NAME } from '../environment';
 
 const mapPlayerToStats = (
   player: Player,
@@ -74,21 +63,8 @@ export const addStatsEntry = statsEntry => {
   }
 
   const today = new Date();
-  const params = {
-    Body: JSON.stringify(statsEntry),
-    Bucket: STATS_AWS_BUCKET_NAME,
-    Key: `${today.getFullYear()}-${today.getMonth() +
-      1}-${today.getDate()}-${uuid.v4()}.json`,
-  };
+  const filename = `${today.getFullYear()}-${today.getMonth() +
+    1}-${today.getDate()}-${uuid.v4()}.json`;
 
-  console.log('ABOUT TO PUT STATS', s3, params);
-
-  s3.putObject(params, (err, data) => {
-    if (err) {
-      console.log('ERROR ADDING STATS', err, err.stack);
-      return;
-    }
-
-    console.log('STATS ADDED', data);
-  });
+  statsS3Bucket.saveStats(STATS_AWS_SOURCE_BUCKET_NAME, filename, statsEntry);
 };

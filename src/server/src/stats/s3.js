@@ -1,7 +1,6 @@
 import AWS from 'aws-sdk';
 
 import {
-  STATS_AWS_BUCKET_NAME,
   STATS_AWS_ACCESS_KEY_ID,
   STATS_AWS_SECRET_ACCESS_KEY,
 } from '../environment';
@@ -13,10 +12,10 @@ const s3 = new AWS.S3({
 });
 
 export const statsS3Bucket = {
-  saveStats: (jsonObj, filepath) => {
+  saveStats: (bucket, filepath, jsonObj) => {
     const params = {
       Body: JSON.stringify(jsonObj),
-      Bucket: STATS_AWS_BUCKET_NAME,
+      Bucket: bucket,
       Key: filepath,
     };
 

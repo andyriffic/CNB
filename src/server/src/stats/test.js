@@ -8,7 +8,7 @@ const testPayload = {
     team: 'XIAN',
     move: 'B',
     powerUpUsed: 'NONE',
-    player: 'Bin',
+    player: 'Yixing',
     winner: true,
     points: 1,
     trophy: false,

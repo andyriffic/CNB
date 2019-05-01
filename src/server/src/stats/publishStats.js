@@ -4,11 +4,11 @@ import _ from 'lodash';
 import {
   STATS_AWS_ACCESS_KEY_ID,
   STATS_AWS_SECRET_ACCESS_KEY,
+  STATS_AWS_ATHENA_DB_NAME,
+  STATS_AWS_RESULT_BUCKET_NAME,
 } from '../environment';
 import { statsS3Bucket } from './s3';
 
-const ATHENA_DB = 'cnb_stats_dev';
-const ATHENA_OUTPUT_LOCATION = 's3://cnb-stats-dev/';
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
 
@@ -35,12 +35,12 @@ points
 FROM 
 (SELECT player1.player,
 sum(player1.points) AS points
-FROM "cnb_stats_dev"."cnb_stats_dev"
+FROM "game_result"
 GROUP BY  player1.player
 UNION ALL
 SELECT player2.player,
 sum(player2.points) AS points
-FROM "cnb_stats_dev"."cnb_stats_dev"
+FROM "cnb_stats_dev"
 GROUP BY  player2.player ) AS DistinctCodes (player, points)
 WHERE player IS NOT NULL
 ORDER BY  points DESC, player;`;
@@ -49,9 +49,12 @@ ORDER BY  points DESC, player;`;
 const runTestQuery = () => {
   makeQuery(playersByPointsQuery)
     .then(data => {
-      console.log('Row Count: ', data.length);
       console.log('DATA: ', data);
-      statsS3Bucket.saveStats({result: data}, 'results/players-by-points-ranking.json');
+      statsS3Bucket.saveStats(
+        STATS_AWS_RESULT_BUCKET_NAME,
+        'players-by-points-ranking.json',
+        { result: data },
+      );
     })
     .catch(e => {
       console.log('ERROR: ', e);
@@ -66,8 +69,10 @@ function makeQuery(sql) {
   return new Promise((resolve, reject) => {
     let params = {
       QueryString: sql,
-      ResultConfiguration: { OutputLocation: ATHENA_OUTPUT_LOCATION },
-      QueryExecutionContext: { Database: ATHENA_DB },
+      ResultConfiguration: {
+        OutputLocation: `s3://${STATS_AWS_RESULT_BUCKET_NAME}/`,
+      },
+      QueryExecutionContext: { Database: STATS_AWS_ATHENA_DB_NAME },
     };
 
     /* Make API call to start the query execution */

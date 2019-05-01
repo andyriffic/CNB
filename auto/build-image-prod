@@ -2,10 +2,12 @@
 
 cd $(dirname $0)/..
 
+REACT_APP_STATS_API_BASE_URL="https://s3-ap-southeast-2.amazonaws.com/cnb-stats-prod-results"
 REACT_APP_COUNTER_API_BASE_URL="https://counterapi.tangarineturkey.com/api/counter/group/ad234ade-6371-4a8f-9d34-3136eaf81252"
 REACT_APP_PRODUCTION="true"
 
 docker build \
 --build-arg counter_api_base_url=${REACT_APP_COUNTER_API_BASE_URL} \
+--build-arg stats_api_base_url=${REACT_APP_STATS_API_BASE_URL} \
 --build-arg is_production=${REACT_APP_PRODUCTION} \
 -t supersquad/cowboy-ninja-bear-prod:latest .
