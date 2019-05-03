@@ -23,6 +23,7 @@ import { eitherMakeMoveOrError } from './services/makeMove';
 import type { InvalidMoveResponse, MakeMoveResponse } from './services/MakeMoveResponsesType';
 import awardedPowerUpsMessage from './messages/awardedPowerUpsMessage';
 import { addStatsEntry, mapGameStateToStats } from './stats';
+import { publishStats } from './stats/publishStats';
 
 const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient): void => {
   //console.log('RECEIVE MESSAGE', msg);
@@ -107,6 +108,7 @@ const receiveMessage = (store: Store, msg: Message, sendToClient: SendToClient):
           prop('trophyAwarded', msg.payload),
         )
       );
+      publishStats();
     }
       break;
   
