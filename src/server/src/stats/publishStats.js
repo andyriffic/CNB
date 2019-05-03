@@ -40,7 +40,7 @@ GROUP BY  player1.player
 UNION ALL
 SELECT player2.player,
 sum(player2.points) AS points
-FROM "cnb_stats_dev"
+FROM "game_result"
 GROUP BY  player2.player ) AS DistinctCodes (player, points)
 WHERE player IS NOT NULL
 ORDER BY  points DESC, player;`;
