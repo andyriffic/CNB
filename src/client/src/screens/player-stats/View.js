@@ -62,7 +62,7 @@ const View = () => {
                   feature={featureRow}
                   style={{ textAlign: 'center' }}
                 >
-                  {featureRow ? 1 : index + 1}.
+                  {featureRow ? '🥇' : `${index + 1}.`}
                 </RankingTableCell>
                 <RankingTableCell feature={featureRow}>
                   {ranking.player}
