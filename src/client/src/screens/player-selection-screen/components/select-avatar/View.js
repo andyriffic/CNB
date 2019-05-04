@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PageSubTitle, Button } from '../../../styled';
+import { PLAYERS } from '../../../../players';
 
 const Select = styled.select`
   font-size: 2rem;
@@ -11,33 +12,6 @@ const Select = styled.select`
 const Option = styled.option`
   text-align: center;
 `;
-
-const avatarSelections = {
-  XIAN: [
-    { name: 'Bin', imageName: 'bin' },
-    { name: 'Shuming', imageName: 'shuming' },
-    { name: 'Yingjian', imageName: 'yingjian' },
-    { name: 'Yixing', imageName: 'yixing' },
-  ],
-  MELB: [
-    { name: 'Albert', imageName: 'albert' },
-    { name: 'Alex', imageName: 'alex' },
-    { name: 'Andy', imageName: 'andy' },
-    { name: 'Azra', imageName: 'azra' },
-    { name: 'Chris', imageName: 'chris' },
-    { name: 'Du', imageName: 'du' },
-    { name: 'Duyen', imageName: 'duyen' },
-    { name: 'Jay', imageName: 'jay' },
-    { name: 'Jim', imageName: 'jim' },
-    { name: 'Liujing', imageName: 'liujing' },
-    { name: 'Marion', imageName: 'marion' },
-    { name: 'Michael B', imageName: 'michael_b' },
-    { name: 'Michael W', imageName: 'michael_w' },
-    { name: 'Stacey', imageName: 'stacey' },
-    { name: 'Ray', imageName: 'ray' },
-    { name: 'Yujin', imageName: 'yujin' },
-  ],
-};
 
 const guestSelections = {
   XIAN: [{ name: 'Guest', imageName: 'pikachu' }],
@@ -56,9 +30,7 @@ const View = ({ playerKey, onAvatarSelected }) => {
       return;
     }
 
-    const avatar = avatarSelections[playerKey].find(
-      a => a.name === selectedName
-    );
+    const avatar = PLAYERS[playerKey].find(a => a.name === selectedName);
     setSelectedAvatar(avatar);
     onAvatarSelected && onAvatarSelected(avatar);
   };
@@ -74,7 +46,7 @@ const View = ({ playerKey, onAvatarSelected }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Select onChange={onChange} value={selectedAvatar.name}>
           <Option value={null}>Please select</Option>
-          {avatarSelections[playerKey].map(avatar => {
+          {PLAYERS[playerKey].map(avatar => {
             return (
               <Option value={avatar.name} key={avatar.name}>
                 {avatar.name}
