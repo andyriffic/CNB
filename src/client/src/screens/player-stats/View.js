@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import { PageSubTitle } from '../styled';
 import { STATS_API_BASE_URL } from '../../environment';
 import RainbowText from '../../components/rainbow-text';
+import GameSoundContext from '../../contexts/GameSoundContext';
+import { SOUND_KEYS } from '../../sounds/SoundService';
+import { GameSettingsDrawer } from '../../game-settings';
 
 const fetchRankings = () => {
   return fetch(`${STATS_API_BASE_URL}/players-by-points-ranking.json`, {
@@ -42,8 +45,12 @@ const RankingTableCell = styled.td`
 
 const View = () => {
   const [rankingList, setRankingList] = useState([]);
+  const soundService = useContext(GameSoundContext);
+  soundService.loadScoreboard();
 
   useEffect(() => {
+    console.log('SOUND', soundService);
+    soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
       setRankingList(rankings.result);
     });
@@ -51,6 +58,7 @@ const View = () => {
 
   return (
     <FullPage pageTitle="Leaderboard">
+      <GameSettingsDrawer />
       <PageSubTitle>Ranking by Total Points Won</PageSubTitle>
       <RankingTable>
         <RankingTableBody>

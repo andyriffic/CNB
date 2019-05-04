@@ -10,6 +10,7 @@ import fight from './go.ogg';
 import powerUpWin from './power-up-win.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import pokeball from './pokeball.wav';
+import scoreboardMusic from './scoreboard.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -26,6 +27,7 @@ export const SOUND_KEYS = {
   POWER_UP_WIN: 'POWER_UP_WIN',
   AWARD_TROPHY: 'AWARD_TROPHY',
   POKEBALL: 'POKEBALL',
+  SCOREBOARD_MUSIC: 'SCOREBOARD_MUSIC',
 };
 
 export class SoundService {
@@ -41,6 +43,22 @@ export class SoundService {
     this._theme = theme;
     this._loaded = false;
     this._musicEnabled = musicEnabled;
+  }
+
+  loadScoreboard() {
+    if (this._loaded) {
+      return;
+    }
+
+    this._loaded = true;
+
+    this._sounds[SOUND_KEYS.SCOREBOARD_MUSIC] = {
+      resumeable: true,
+      sound: new Howl({
+        src: [scoreboardMusic],
+        loop: true,
+      }),
+    };
   }
 
   load() {
