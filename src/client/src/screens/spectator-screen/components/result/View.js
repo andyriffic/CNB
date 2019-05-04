@@ -26,6 +26,7 @@ import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import PowerUpContext from '../../../../contexts/PowerUpContext';
 import type { TrophyPoints } from '../../../../trophy-points/types';
 import { POWER_UP_TYPE } from '../../../../power-ups/constants';
+import { FancyLink } from '../../../../components/FancyLink';
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 type Props = {
@@ -229,6 +230,9 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }: Props) => {
                 Play again
                 <br /> 再玩一次
               </Button>
+              <div>
+                <FancyLink href="/player-stats">See Leaderboard</FancyLink>
+              </div>
             </VisibilityContainer>
           </PlayerSpectatorSection>
           <PlayerSpectatorSection>
