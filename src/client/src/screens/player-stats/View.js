@@ -43,6 +43,15 @@ const RankingTableCell = styled.td`
     props.feature && 'font-size: 1.2rem; font-weight: bold; opacity: 1;'}
 `;
 
+const Link = styled.a`
+  display: block;
+  padding: 20px 0;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.5em;
+  text-align: center;
+`;
+
 const View = () => {
   const [rankingList, setRankingList] = useState([]);
   const soundService = useContext(GameSoundContext);
@@ -92,6 +101,7 @@ const View = () => {
           })}
         </RankingTableBody>
       </RankingTable>
+      <Link href="/">Back to game</Link>
     </FullPage>
   );
 };

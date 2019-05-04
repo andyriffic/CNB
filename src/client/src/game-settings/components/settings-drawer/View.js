@@ -35,6 +35,14 @@ const DrawerToggle = styled.div`
   cursor: pointer;
 `;
 
+const Link = styled.a`
+  display: block;
+  font-size: 0.7rem;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px 0;
+`;
+
 const View = () => {
   const [open, setOpen] = useState(false);
 
@@ -47,6 +55,9 @@ const View = () => {
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
       <ThemeCalendar />
+      <div>
+        <Link href="/player-stats">Go to Leaderboard</Link>
+      </div>
     </Drawer>
   );
 };
