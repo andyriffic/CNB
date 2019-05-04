@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import { PageSubTitle } from '../styled';
 import { STATS_API_BASE_URL } from '../../environment';
+import RainbowText from '../../components/rainbow-text';
 
 const fetchRankings = () => {
   return fetch(`${STATS_API_BASE_URL}/players-by-points-ranking.json`, {
@@ -14,6 +15,7 @@ const fetchRankings = () => {
 
 const RankingTable = styled.table`
   width: 90vw;
+  max-width: 960px;
   margin: 0 auto;
   border: 0;
   border-collapse: collapse;
@@ -65,7 +67,11 @@ const View = () => {
                   {featureRow ? '🥇' : `${index + 1}.`}
                 </RankingTableCell>
                 <RankingTableCell feature={featureRow}>
-                  {ranking.player}
+                  {featureRow ? (
+                    <RainbowText>{ranking.player}</RainbowText>
+                  ) : (
+                    ranking.player
+                  )}
                 </RankingTableCell>
                 <RankingTableCell
                   feature={featureRow}
