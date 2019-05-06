@@ -18,7 +18,7 @@ const SpeechBubble = styled.p`
   background-color: white;
   border-radius: 10px;
   position: absolute;
-  top: 0;  
+  top: 2vmin;  
   font-size: 0.7rem;
   width: 38vw;
   z-index: 1;
@@ -26,7 +26,7 @@ const SpeechBubble = styled.p`
 
   animation: ${fadeIn} 500ms linear 10s 1 forwards;
 
-  ${props => (props.isLeft ? 'right: -31vw;' : 'left: -31vw;')}  
+  ${props => (props.isLeft ? 'right: -34vw;' : 'left: -34vw;')}  
 
   span {
     display: block;

@@ -14,6 +14,7 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import VisibilityContainer from '../../../../components/visibility-placeholder';
 import type { TrophyPoints } from '../../../../trophy-points/types';
+import { FancyLink } from '../../../../components/FancyLink';
 
 const Pulse = keyframes`
   0% { transform: scale(1); }
@@ -143,6 +144,9 @@ const View = ({ trophyPoints, resetGame }: Props) => {
             <Button onClick={onReset} className="radioactive">
               Play Again
             </Button>
+            <div>
+              <FancyLink href="/player-stats">See Leaderboard</FancyLink>
+            </div>
           </VisibilityContainer>
         </PlayerSpectatorSection>
       </PlayerSpectatorContainer>

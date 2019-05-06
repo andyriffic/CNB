@@ -8,6 +8,9 @@ ENV REACT_APP_COUNTER_API_BASE_URL=$counter_api_base_url
 ARG is_production
 ENV REACT_APP_PRODUCTION=$is_production
 
+ARG stats_api_base_url
+ENV REACT_APP_STATS_API_BASE_URL=$stats_api_base_url
+
 COPY package.json .
 
 # server packages

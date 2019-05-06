@@ -15,7 +15,7 @@ import styled, { keyframes } from 'styled-components';
 //   100% {color: orange;}
 // `;
 
-const Rainbow = keyframes`
+export const Rainbow = keyframes`
   0% {color: #fea3aa;}	
   20% {color: #f8b88b;}	
 	40% {color: #faf884;}
