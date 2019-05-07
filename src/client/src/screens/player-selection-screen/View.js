@@ -42,13 +42,13 @@ const View = ({ playerKey }: Props) => {
   const powerUpsState = useContext(PowerUpContext);
 
   useEffect(() => {
-    if (playerState) {
+    if (playerState && !selectedPowerUp) {
       setSelectedPowerUp(playerState.player.powerUp);
     }
   }, [gameState]);
 
   useEffect(() => {
-    if (playerState) {
+    if (playerState && !selectedAvatar) {
       setSelectedAvatar(playerState.player.avatar);
     }
   }, [gameState]);
