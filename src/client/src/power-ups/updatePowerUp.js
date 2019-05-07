@@ -105,11 +105,21 @@ export const getWeightedRandomPowerUp = () => {
   return randomPowerUpName;
 };
 
+const WEIGHTING_PER_TROPHY = 2;
+
 export const getWeightedRandomPlayer = scores => {
   // Weight with over players score so favors player that is behind
   const playerWeightings = [
-    { playerName: 'MELB', weight: scores.XIAN.value + 1 },
-    { playerName: 'XIAN', weight: scores.MELB.value + 1 },
+    {
+      playerName: 'MELB',
+      weight:
+        scores.XIAN.value + 1 + scores.TROPHY_XIAN.value * WEIGHTING_PER_TROPHY,
+    },
+    {
+      playerName: 'XIAN',
+      weight:
+        scores.MELB.value + 1 + scores.TROPHY_MELB.value * WEIGHTING_PER_TROPHY,
+    },
   ];
 
   const randomWeightedPlayer = getWeightedItem(playerWeightings);
