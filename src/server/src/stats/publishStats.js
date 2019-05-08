@@ -8,6 +8,7 @@ import {
   STATS_AWS_RESULT_BUCKET_NAME,
 } from '../environment';
 import { statsS3Bucket } from './s3';
+import {playerLeaderboardQuery} from './player-leaderboard-query';
 
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
@@ -30,30 +31,16 @@ let q = Queue((id, cb) => {
     });
 }, 5);
 
-const playersByPointsQuery = `SELECT player,
-points
-FROM 
-(SELECT player1.player,
-sum(player1.points) AS points
-FROM "game_result"
-GROUP BY  player1.player
-UNION ALL
-SELECT player2.player,
-sum(player2.points) AS points
-FROM "game_result"
-GROUP BY  player2.player ) AS DistinctCodes (player, points)
-WHERE player IS NOT NULL
-ORDER BY  points DESC, player;`;
 
 /* Make a SQL query and display results */
 const runTestQuery = () => {
-  makeQuery(playersByPointsQuery)
+  makeQuery(playerLeaderboardQuery)
     .then(data => {
       console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
         'players-by-points-ranking.json',
-        { result: data },
+        { result: data }
       );
     })
     .catch(e => {
