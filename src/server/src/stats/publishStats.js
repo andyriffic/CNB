@@ -40,7 +40,7 @@ const runTestQuery = () => {
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
         'players-by-points-ranking.json',
-        { result: data }
+        { result: data, title: 'Ranking by number of games won' }
       );
     })
     .catch(e => {

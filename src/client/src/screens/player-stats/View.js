@@ -17,7 +17,7 @@ const fetchRankings = () => {
 };
 
 const RankingScrollableContainer = styled.div`
-  max-height: 70vh;
+  max-height: 65vh;
   overflow-y: scroll;
 `;
 
@@ -57,16 +57,16 @@ const Link = styled.a`
   text-align: center;
 `;
 
-const getWinningPercentage = (timesPlayed, timesWon) => {
-  if (timesPlayed === 0) {
-    return 0;
-  }
+// const getWinningPercentage = (timesPlayed, timesWon) => {
+//   if (timesPlayed === 0) {
+//     return 0;
+//   }
 
-  return Math.floor((timesWon / timesPlayed) * 100);
-};
+//   return Math.floor((timesWon / timesPlayed) * 100);
+// };
 
 const View = () => {
-  const [rankingList, setRankingList] = useState([]);
+  const [rankingList, setRankingList] = useState({ title: '', result: [] });
   const soundService = useContext(GameSoundContext);
   soundService.loadScoreboard();
 
@@ -74,21 +74,21 @@ const View = () => {
     console.log('SOUND', soundService);
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
-      setRankingList(rankings.result);
+      setRankingList(rankings);
     });
   }, []);
 
   return (
     <FullPage pageTitle="Leaderboard">
       <GameSettingsDrawer />
-      <PageSubTitle>Ranking by Total Points Won</PageSubTitle>
+      <PageSubTitle>{rankingList.title}</PageSubTitle>
       <RankingScrollableContainer>
         <RankingTable>
           <RankingTableBody>
-            {rankingList.map((ranking, index) => {
+            {rankingList.result.map((ranking, index) => {
               const isFirst = index === 0;
               const firstEqual =
-                ranking.points_won === rankingList[0].points_won;
+                ranking.times_won === rankingList.result[0].times_won;
               const featureRow = isFirst || firstEqual;
               return (
                 <RankingTableRow key={ranking.player}>
@@ -109,12 +109,7 @@ const View = () => {
                     feature={featureRow}
                     style={{ textAlign: 'center' }}
                   >
-                    {ranking.points_won} (
-                    {getWinningPercentage(
-                      ranking.times_played,
-                      ranking.times_won
-                    )}
-                    % )
+                    {ranking.times_won}
                   </RankingTableCell>
                 </RankingTableRow>
               );
