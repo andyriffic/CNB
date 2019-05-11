@@ -21,31 +21,28 @@ const RankingScrollableContainer = styled.div`
   overflow-y: scroll;
 `;
 
-const RankingTable = styled.table`
+const RankingContainer = styled.div`
   width: 90vw;
   max-width: 960px;
   margin: 0 auto;
-  border: 0;
-  border-collapse: collapse;
-  font-size: 0.6rem;
 `;
 
-const RankingTableBody = styled.tbody`
-  tr:nth-child(odd) {
-    background-color: #ccc;
-  }
-`;
-
-const RankingTableRow = styled.tr`
-  margin: 0;
-`;
-
-const RankingTableCell = styled.td`
-  margin: 0;
-  padding: 10px;
+const RankingItem = styled.div`
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  background-color: #ccc;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  align-items: center;
   opacity: 0.8;
+  font-size: 0.8rem;
   ${props =>
     props.feature && 'font-size: 1.2rem; font-weight: bold; opacity: 1;'}
+`;
+const RankingPlace = styled.div``;
+const RankingPlayerName = styled.div``;
+const RankingScore = styled.div`
+  justify-self: center;
 `;
 
 const Link = styled.a`
@@ -83,39 +80,34 @@ const View = () => {
       <GameSettingsDrawer />
       <PageSubTitle>{rankingList.title}</PageSubTitle>
       <RankingScrollableContainer>
-        <RankingTable>
-          <RankingTableBody>
-            {rankingList.result.map((ranking, index) => {
-              const isFirst = index === 0;
-              const firstEqual =
-                ranking.times_won === rankingList.result[0].times_won;
-              const featureRow = isFirst || firstEqual;
-              return (
-                <RankingTableRow key={ranking.player}>
-                  <RankingTableCell
-                    feature={featureRow}
-                    style={{ textAlign: 'center' }}
-                  >
-                    {featureRow ? '🥇' : `${index + 1}.`}
-                  </RankingTableCell>
-                  <RankingTableCell feature={featureRow}>
-                    {featureRow ? (
-                      <RainbowText>{ranking.player}</RainbowText>
-                    ) : (
-                      ranking.player
-                    )}
-                  </RankingTableCell>
-                  <RankingTableCell
-                    feature={featureRow}
-                    style={{ textAlign: 'center' }}
-                  >
-                    {ranking.times_won}
-                  </RankingTableCell>
-                </RankingTableRow>
-              );
-            })}
-          </RankingTableBody>
-        </RankingTable>
+        <RankingContainer>
+          {rankingList.result.map((ranking, index) => {
+            const isFirst = index === 0;
+            const firstEqual =
+              ranking.times_won === rankingList.result[0].times_won;
+            const featureRow = isFirst || firstEqual;
+            return (
+              <RankingItem feature={featureRow} key={ranking.player}>
+                <RankingPlace
+                  feature={featureRow}
+                  style={{ textAlign: 'center' }}
+                >
+                  {featureRow ? '🥇' : `${index + 1}.`}
+                </RankingPlace>
+                <RankingPlayerName feature={featureRow}>
+                  {featureRow ? (
+                    <RainbowText>{ranking.player}</RainbowText>
+                  ) : (
+                    ranking.player
+                  )}
+                </RankingPlayerName>
+                <RankingScore feature={featureRow}>
+                  {ranking.times_won}
+                </RankingScore>
+              </RankingItem>
+            );
+          })}
+        </RankingContainer>
       </RankingScrollableContainer>
       <Link href="/">Back to game</Link>
     </FullPage>
