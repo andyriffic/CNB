@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import { PageSubTitle } from '../styled';
 import { STATS_API_BASE_URL } from '../../environment';
@@ -16,31 +16,52 @@ const fetchRankings = () => {
   });
 };
 
-const RankingTable = styled.table`
+const RankingItemEnterAnimation = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`;
+
+const RankingScrollableContainer = styled.div`
+  max-height: 65vh;
+  overflow-y: scroll;
+`;
+
+const RankingContainer = styled.div`
   width: 90vw;
   max-width: 960px;
   margin: 0 auto;
-  border: 0;
-  border-collapse: collapse;
+`;
+
+const RankingItem = styled.div`
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  background-color: rgba(30, 15, 28, 0.8);
+  border-radius: 7px;
+  margin-bottom: 10px;
+  align-items: center;
+  padding: 5px 0;
   font-size: 0.6rem;
-`;
-
-const RankingTableBody = styled.tbody`
-  tr:nth-child(odd) {
-    background-color: #ccc;
-  }
-`;
-
-const RankingTableRow = styled.tr`
-  margin: 0;
-`;
-
-const RankingTableCell = styled.td`
-  margin: 0;
-  padding: 10px;
-  opacity: 0.8;
+  animation: ${RankingItemEnterAnimation} 1s ease-in
+    ${props => (props.position > 10 ? 0 : 10 - props.position) * 700}ms 1 both;
   ${props =>
-    props.feature && 'font-size: 1.2rem; font-weight: bold; opacity: 1;'}
+    props.feature &&
+    'font-size: 1.2rem; font-weight: bold; background-color: rgba(30,15,28, 1);'}
+`;
+const RankingPlace = styled.div`
+  color: #fff;
+  opacity: 0.8;
+  ${props => props.feature && 'opacity: 1;'}
+`;
+const RankingPlayerName = styled.div`
+  color: #e2e9c0;
+  opacity: 0.8;
+  ${props => props.feature && 'opacity: 1;'}
+`;
+const RankingScore = styled.div`
+  justify-self: center;
+  color: #7aa95c;
+  opacity: 0.8;
+  ${props => props.feature && 'opacity: 1;'}
 `;
 
 const Link = styled.a`
@@ -52,8 +73,16 @@ const Link = styled.a`
   text-align: center;
 `;
 
+// const getWinningPercentage = (timesPlayed, timesWon) => {
+//   if (timesPlayed === 0) {
+//     return 0;
+//   }
+
+//   return Math.floor((timesWon / timesPlayed) * 100);
+// };
+
 const View = () => {
-  const [rankingList, setRankingList] = useState([]);
+  const [rankingList, setRankingList] = useState({ title: '', result: [] });
   const soundService = useContext(GameSoundContext);
   soundService.loadScoreboard();
 
@@ -61,46 +90,53 @@ const View = () => {
     console.log('SOUND', soundService);
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
-      setRankingList(rankings.result);
+      setRankingList(rankings);
     });
   }, []);
 
   return (
     <FullPage pageTitle="Leaderboard">
       <GameSettingsDrawer />
-      <PageSubTitle>Ranking by Total Points Won</PageSubTitle>
-      <RankingTable>
-        <RankingTableBody>
-          {rankingList.map((ranking, index) => {
+      <PageSubTitle>{rankingList.title}</PageSubTitle>
+      <RankingScrollableContainer>
+        <RankingContainer>
+          {rankingList.result.map((ranking, index) => {
+            if (ranking.player === 'Guest') {
+              // TODO: filter guest out on server
+              return null;
+            }
             const isFirst = index === 0;
-            const firstEqual = ranking.points === rankingList[0].points;
+            const firstEqual =
+              ranking.times_won === rankingList.result[0].times_won;
             const featureRow = isFirst || firstEqual;
             return (
-              <RankingTableRow key={ranking.player}>
-                <RankingTableCell
+              <RankingItem
+                feature={featureRow}
+                key={ranking.player}
+                totalRankings={rankingList.result.length}
+                position={index}
+              >
+                <RankingPlace
                   feature={featureRow}
                   style={{ textAlign: 'center' }}
                 >
                   {featureRow ? '🥇' : `${index + 1}.`}
-                </RankingTableCell>
-                <RankingTableCell feature={featureRow}>
+                </RankingPlace>
+                <RankingPlayerName feature={featureRow}>
                   {featureRow ? (
                     <RainbowText>{ranking.player}</RainbowText>
                   ) : (
                     ranking.player
                   )}
-                </RankingTableCell>
-                <RankingTableCell
-                  feature={featureRow}
-                  style={{ textAlign: 'center' }}
-                >
-                  {ranking.points}
-                </RankingTableCell>
-              </RankingTableRow>
+                </RankingPlayerName>
+                <RankingScore feature={featureRow}>
+                  {ranking.times_won}
+                </RankingScore>
+              </RankingItem>
             );
           })}
-        </RankingTableBody>
-      </RankingTable>
+        </RankingContainer>
+      </RankingScrollableContainer>
       <Link href="/">Back to game</Link>
     </FullPage>
   );
