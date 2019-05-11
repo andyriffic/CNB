@@ -30,19 +30,25 @@ const RankingContainer = styled.div`
 const RankingItem = styled.div`
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  background-color: #ccc;
+  background-color: #1e0f1c;
   border-radius: 7px;
   margin-bottom: 10px;
   align-items: center;
+  padding: 5px 0;
   opacity: 0.8;
   font-size: 0.8rem;
   ${props =>
     props.feature && 'font-size: 1.2rem; font-weight: bold; opacity: 1;'}
 `;
-const RankingPlace = styled.div``;
-const RankingPlayerName = styled.div``;
+const RankingPlace = styled.div`
+  color: #fff;
+`;
+const RankingPlayerName = styled.div`
+  color: #e2e9c0;
+`;
 const RankingScore = styled.div`
   justify-self: center;
+  color: #7aa95c;
 `;
 
 const Link = styled.a`
