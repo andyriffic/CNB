@@ -10,11 +10,13 @@ import Switch from '../../components/switch';
 import Waiting from './components/waiting';
 import Loading from './components/loading';
 import TrophyAward from './components/trophy-award';
+import ConfirmReplay from './components/confirm-replay';
 import { SOUND_KEYS } from '../../sounds/SoundService';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { GameSettingsDrawer } from '../../game-settings';
 import GameThemeContext from '../../contexts/GameThemeContext';
 import TrophyPointsContext from '../../trophy-points/Context';
+import GameDataContext from '../../game-data/GameDataContext';
 
 const waitingStatuses = [
   'EMPTY',
@@ -29,6 +31,7 @@ const View = () => {
   const soundService = useContext(GameSoundContext);
   const theme = useContext(GameThemeContext);
   const trophyPoints = useContext(TrophyPointsContext);
+  const gameData = useContext(GameDataContext);
 
   const [showTrophyAward, setShowTrophyAward] = useState(!!trophyPoints.winner);
 
@@ -70,13 +73,15 @@ const View = () => {
     window.location.reload(); // TODO: just being lazy and doing this here. Need to sort out refreshing points after winning a trophy
   };
 
+  const replayGame = () => {
+    gameData.set({ autoPlayResult: true });
+  };
+
   const playGame = () => {
     console.log('PLAY GAME');
     // soundService.stop(SOUND_KEYS.WAITING_MUSIC);
     serverMessages.playGame(theme.name);
   };
-
-  console.log('SPECTATOR, gameState', gameState);
 
   return (
     <div>
@@ -92,8 +97,21 @@ const View = () => {
             playGame={playGame}
             trophyPoints={trophyPoints}
           />
+          <ConfirmReplay
+            showIf={
+              gameState.status === 'FINISHED' &&
+              !showTrophyAward &&
+              !gameData.value.autoPlayResult
+            }
+            onResetGame={resetGame}
+            onReplayGame={replayGame}
+          />
           <ResultScreenComponent
-            showIf={gameState.status === 'FINISHED' && !showTrophyAward}
+            showIf={
+              gameState.status === 'FINISHED' &&
+              !showTrophyAward &&
+              gameData.value.autoPlayResult
+            }
             result={gameState.result}
             player1={gameState.player1}
             player2={gameState.player2}
