@@ -22,6 +22,7 @@ import TrophyPoints from './trophy-points/Provider';
 
 import { IS_PRODUCTION } from './environment';
 import PowerUpProvider from './power-ups/PowerUpProvider';
+import GameDataProvider from './game-data/GameDataProvider';
 
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
@@ -40,20 +41,22 @@ const App = () => {
       <ScoreboardApi>
         <PowerUpProvider>
           <TrophyPoints>
-            <SocketsConnection>
-              <GlobalStyle />
-              <Router>
-                <SpectatorScreen path="/" />
-                <PageLayoutScreen path="layouttest" />
-                <IndividualPlayersTest path="players" />
-                <ItemSelectionTestScreen path="itemtest" />
-                <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
-                <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
-                <PlayerStats path="player-stats" />
-                <ResetGameScreen path="reset" />
-              </Router>
-              <DebugOutput data={connectionDetails} />
-            </SocketsConnection>
+            <GameDataProvider>
+              <SocketsConnection>
+                <GlobalStyle />
+                <Router>
+                  <SpectatorScreen path="/" />
+                  <PageLayoutScreen path="layouttest" />
+                  <IndividualPlayersTest path="players" />
+                  <ItemSelectionTestScreen path="itemtest" />
+                  <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
+                  <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
+                  <PlayerStats path="player-stats" />
+                  <ResetGameScreen path="reset" />
+                </Router>
+                <DebugOutput data={connectionDetails} />
+              </SocketsConnection>
+            </GameDataProvider>
           </TrophyPoints>
         </PowerUpProvider>
       </ScoreboardApi>

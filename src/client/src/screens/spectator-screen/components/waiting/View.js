@@ -23,6 +23,7 @@ import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
 import { POWER_UP_TYPE } from '../../../../power-ups/constants';
 import type { TrophyPoints } from '../../../../trophy-points/types';
+import GameDataContext from '../../../../game-data/GameDataContext';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -79,8 +80,11 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   const [buttonEl, setButtonEl] = useState(null);
   const [player1Timeline, setPlayer1Timeline] = useState(null);
   const soundService = useContext(GameSoundContext);
+  const gameData = useContext(GameDataContext);
 
-  console.log('WAITING TROPHY POINTS', trophyPoints);
+  useEffect(() => {
+    gameData.set({ autoPlayResult: true });
+  }, []);
 
   useEffect(() => {
     if (player1El && player2El && buttonEl && bonusPointsEl) {
