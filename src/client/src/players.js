@@ -10,6 +10,7 @@ export const PLAYERS = {
     { name: 'Alex', imageName: 'alex' },
     { name: 'Andy', imageName: 'andy' },
     { name: 'Azra', imageName: 'azra' },
+    { name: 'Bjorn', imageName: 'bjorn' },
     { name: 'Chris', imageName: 'chris' },
     { name: 'Du', imageName: 'du' },
     { name: 'Duyen', imageName: 'duyen' },
