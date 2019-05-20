@@ -89,12 +89,12 @@ const View = ({ type, bigText, count }) => {
         bigText={bigText}
         text={
           <React.Fragment>
-            Avatars
+            Now with
             <br />
-            AND stats!
+            Bjorn!
           </React.Fragment>
         }
-        backgroundColor="#cad877"
+        backgroundColor="#ffdb00"
         textColor="#1d5b00"
         textShadowColor="#040f00"
         count={count}
