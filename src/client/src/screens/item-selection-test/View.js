@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import ItemSelection from '../../components/item-card-selection';
+import WaitingIndicator from '../../components/waiting-indicator';
 
 const Item = styled.p`
   border: 2px solid black;
@@ -26,8 +27,11 @@ const Container = styled.div`
 
 const View = () => {
   const [focusItemIndex, setFocusItemIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   return (
     <FullPage pageTitle="Item selection test">
+      <button onClick={() => setLoaded(!loaded)}>toggle</button>
+      <WaitingIndicator loaded={loaded}>HELLO!</WaitingIndicator>
       <div>Focus Item: {focusItemIndex}</div>
       <Container>
         <ItemSelection
