@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
-import { PageSubTitle } from '../styled';
 import { STATS_API_BASE_URL } from '../../environment';
 import RainbowText from '../../components/rainbow-text';
 import GameSoundContext from '../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../sounds/SoundService';
 import { GameSettingsDrawer } from '../../game-settings';
+import { SubStatItem } from './SubStatItem';
+import { ReadableNumberFont } from '../../components/ReadableNumberFont';
 
 const fetchRankings = () => {
   return fetch(`${STATS_API_BASE_URL}/players-by-points-ranking.json`, {
@@ -22,7 +23,7 @@ const RankingItemEnterAnimation = keyframes`
 `;
 
 const RankingScrollableContainer = styled.div`
-  max-height: 65vh;
+  max-height: 70vh;
   overflow-y: scroll;
 `;
 
@@ -34,15 +35,15 @@ const RankingContainer = styled.div`
 
 const RankingItem = styled.div`
   display: grid;
-  grid-template-columns: 25% 50% 25%;
+  grid-template-columns: 25% 40% 35%;
   background-color: rgba(30, 15, 28, 0.8);
   border-radius: 7px;
   margin-bottom: 10px;
   align-items: center;
   padding: 5px 0;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   animation: ${RankingItemEnterAnimation} 1s ease-in
-    ${props => (props.position > 10 ? 0 : 10 - props.position) * 700}ms 1 both;
+    ${props => (props.position > 8 ? 0 : 8 - props.position) * 700}ms 1 both;
   ${props =>
     props.feature &&
     'font-size: 1.2rem; font-weight: bold; background-color: rgba(30,15,28, 1);'}
@@ -52,16 +53,22 @@ const RankingPlace = styled.div`
   opacity: 0.8;
   ${props => props.feature && 'opacity: 1;'}
 `;
+
 const RankingPlayerName = styled.div`
   color: #e2e9c0;
   opacity: 0.8;
   ${props => props.feature && 'opacity: 1;'}
 `;
-const RankingScore = styled.div`
-  justify-self: center;
-  color: #7aa95c;
+
+const RankingBreakdown = styled.div`
+  display: flex;
+  justify-content: space-evenly;
   opacity: 0.8;
-  ${props => props.feature && 'opacity: 1;'}
+  transition: opacity 500ms ease-in-out;
+
+  ${RankingItem}:hover & {
+    opacity: 1;
+  }
 `;
 
 const Link = styled.a`
@@ -73,21 +80,12 @@ const Link = styled.a`
   text-align: center;
 `;
 
-// const getWinningPercentage = (timesPlayed, timesWon) => {
-//   if (timesPlayed === 0) {
-//     return 0;
-//   }
-
-//   return Math.floor((timesWon / timesPlayed) * 100);
-// };
-
 const View = () => {
   const [rankingList, setRankingList] = useState({ title: '', result: [] });
   const soundService = useContext(GameSoundContext);
   soundService.loadScoreboard();
 
   useEffect(() => {
-    console.log('SOUND', soundService);
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
       setRankingList(rankings);
@@ -97,7 +95,6 @@ const View = () => {
   return (
     <FullPage pageTitle="Leaderboard">
       <GameSettingsDrawer />
-      <PageSubTitle>{rankingList.title}</PageSubTitle>
       <RankingScrollableContainer>
         <RankingContainer>
           {rankingList.result.map((ranking, index) => {
@@ -120,7 +117,11 @@ const View = () => {
                   feature={featureRow}
                   style={{ textAlign: 'center' }}
                 >
-                  {featureRow ? '🥇' : `${index + 1}.`}
+                  {featureRow ? (
+                    '🥇'
+                  ) : (
+                    <ReadableNumberFont>{index + 1}.</ReadableNumberFont>
+                  )}
                 </RankingPlace>
                 <RankingPlayerName feature={featureRow}>
                   {featureRow ? (
@@ -129,9 +130,19 @@ const View = () => {
                     ranking.player
                   )}
                 </RankingPlayerName>
-                <RankingScore feature={featureRow}>
-                  {ranking.times_won}
-                </RankingScore>
+                <RankingBreakdown>
+                  <SubStatItem title="Wins" value={ranking.times_won} />
+                  <SubStatItem
+                    type="losses"
+                    title="Losses"
+                    value={ranking.times_lost}
+                  />
+                  <SubStatItem
+                    type="draws"
+                    title="Draws"
+                    value={ranking.times_drawn}
+                  />
+                </RankingBreakdown>
               </RankingItem>
             );
           })}
