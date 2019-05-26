@@ -13,6 +13,7 @@ import {
   ItemSelectionTestScreen,
   IndividualPlayersTest,
   PlayerStats,
+  GameHistory,
 } from './screens';
 import DebugOutput from './DebugOutput';
 import GlobalStyle from './GlobalStyle';
@@ -52,6 +53,7 @@ const App = () => {
                   <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
                   <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
                   <PlayerStats path="player-stats" />
+                  <GameHistory path="game-history" />
                   <ResetGameScreen path="reset" />
                 </Router>
                 <DebugOutput data={connectionDetails} />

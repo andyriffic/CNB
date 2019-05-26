@@ -57,6 +57,7 @@ const View = () => {
       <ThemeCalendar />
       <div>
         <Link href="/player-stats">Go to Leaderboard</Link>
+        <Link href="/game-history">Go to Game History</Link>
       </div>
     </Drawer>
   );
