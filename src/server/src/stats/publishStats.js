@@ -8,7 +8,8 @@ import {
   STATS_AWS_RESULT_BUCKET_NAME,
 } from '../environment';
 import { statsS3Bucket } from './s3';
-import {playerLeaderboardQuery} from './player-leaderboard-query';
+import { playerLeaderboardQuery } from './player-leaderboard-query';
+import { gameHistoryQuery } from './game-history-query';
 
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
@@ -31,7 +32,6 @@ let q = Queue((id, cb) => {
     });
 }, 5);
 
-
 /* Make a SQL query and display results */
 const runTestQuery = () => {
   makeQuery(playerLeaderboardQuery)
@@ -41,6 +41,19 @@ const runTestQuery = () => {
         STATS_AWS_RESULT_BUCKET_NAME,
         'players-by-points-ranking.json',
         { result: data, title: 'Ranking by number of games won' }
+      );
+    })
+    .catch(e => {
+      console.log('ERROR: ', e);
+    });
+
+  makeQuery(gameHistoryQuery)
+    .then(data => {
+      console.log('DATA: ', data);
+      statsS3Bucket.saveStats(
+        STATS_AWS_RESULT_BUCKET_NAME,
+        'game-result-history.json',
+        { result: data, title: 'Game result history' }
       );
     })
     .catch(e => {
