@@ -34,13 +34,13 @@ const RankingContainer = styled.div`
 
 const RankingGroupContainer = styled.div`
   display: grid;
+  align-items: center;
   padding: 10px 5px;
   grid-template-columns: 10% 90%;
   background-image: linear-gradient(-90deg, #231922, #10030f);
   color: #e2e9c0;
   border: 1px solid #10030f;
   border-radius: 7px;
-  align-items: flex-start;
   margin-bottom: 10px;
   font-size: 0.8rem;
   opacity: ${props => (props.ranking > 2 ? 1 : 0)};
@@ -54,6 +54,7 @@ const RankingGroupPlace = styled.h3`
   text-align: center;
   color: #fff;
   opacity: 0.8;
+  font-size: 2rem;
 `;
 
 const RankingGroupPlayer = styled.div`

@@ -8,12 +8,14 @@ const Container = styled.dl`
   background-color: ${props => props.style.bgColor};
   color: white;
   border-radius: 7px;
+  display: flex;
+  align-items: center;
 `;
 
 const Title = styled.dt`
   font-size: 0.4rem;
   margin: 0;
-  padding: 0;
+  padding: 0 5px 0 0;
   text-align: center;
 `;
 

@@ -4,9 +4,8 @@ import { SubStatItem } from './SubStatItem';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 65% 35%;
   align-items: center;
-  padding: 5px 0;
 
   opacity: 0.8;
   transition: opacity 500ms ease-in-out;
@@ -16,7 +15,9 @@ const Container = styled.div`
   }
 `;
 
-const Name = styled.div``;
+const Name = styled.div`
+  font-size: 0.7rem;
+`;
 
 const Stats = styled.div`
   display: flex;
