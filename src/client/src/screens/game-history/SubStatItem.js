@@ -59,7 +59,6 @@ export const SubStatItem = ({ date, team, draw, trophy }) => {
   return (
     <Container style={styles[styleKey]}>
       <Date>{momentDate.format('ddd DD MMM, h:mmA')}</Date>
-      {/* <Time>{momentDate.format('h:mmA')}</Time> */}
       <TeamName style={styles[styleKey]}>{playerName}</TeamName>
       {trophy && <Trophy>🏆</Trophy>}
     </Container>
