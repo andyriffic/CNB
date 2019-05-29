@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import FullPage from '../../components/page-layout/FullPage';
 import { STATS_API_BASE_URL } from '../../environment';
@@ -7,6 +7,10 @@ import { SOUND_KEYS } from '../../sounds/SoundService';
 import { GameSettingsDrawer } from '../../game-settings';
 import { PlayerRanking } from './PlayerRanking';
 import { groupPlayerRankings } from './groupPlayerRankings';
+
+import { Bounce, Power3 } from 'gsap/EasePack';
+import { CSSPlugin, TimelineLite } from 'gsap/all';
+const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 const fetchRankings = () => {
   return fetch(`${STATS_API_BASE_URL}/players-by-points-ranking.json`, {
@@ -33,6 +37,7 @@ const RankingContainer = styled.div`
 `;
 
 const RankingGroupContainer = styled.div`
+  opacity: 0;
   display: grid;
   align-items: center;
   padding: 10px 5px;
@@ -43,9 +48,10 @@ const RankingGroupContainer = styled.div`
   border-radius: 7px;
   margin-bottom: 10px;
   font-size: 0.8rem;
-  opacity: ${props => (props.ranking > 2 ? 1 : 0)};
+  /* opacity: ${props => (props.ranking > 2 ? 1 : 0)};
   animation: ${RankingItemEnterAnimation} 1s ease-in
-    ${props => (props.ranking > 3 ? 0 : 3 - props.ranking) * 2000}ms 1 forwards;
+    ${props =>
+      (props.ranking > 3 ? 0 : 3 - props.ranking) * 2000}ms 1 forwards; */
 `;
 
 const RankingGroupPlace = styled.h3`
@@ -77,9 +83,9 @@ const Link = styled.a`
   text-align: center;
 `;
 
-const RankingGroupComponent = ({ rankingGroup, place, ranking }) => {
+const RankingGroupComponent = ({ rankingGroup, place, ranking, setRef }) => {
   return (
-    <RankingGroupContainer ranking={ranking}>
+    <RankingGroupContainer ranking={ranking} ref={setRef}>
       <RankingGroupPlace>{place}</RankingGroupPlace>
       <RankingGroupPlayer>
         {rankingGroup.map(ranking => {
@@ -94,6 +100,8 @@ const placeIcons = ['🥇', '🥈', '🥉'];
 
 const View = () => {
   const [rankingList, setRankingList] = useState([]);
+  const boardGroupRefs = useRef([]);
+  const rankingContanerRef = useRef(null);
   const soundService = useContext(GameSoundContext);
   soundService.loadScoreboard();
 
@@ -104,14 +112,33 @@ const View = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (boardGroupRefs.current.length === rankingList.length) {
+      const parentRefRect = rankingContanerRef.current.getBoundingClientRect();
+      console.log('PARENT', parentRefRect);
+      boardGroupRefs.current.reverse().forEach((elem, index) => {
+        const rect = elem.getBoundingClientRect();
+        console.log('THIS', elem.getBoundingClientRect());
+        new TimelineLite({ delay: index * 8 })
+          .to(elem, 3, { opacity: 1, ease: Power3.easeOut })
+          .from(elem, 2, {
+            y: parentRefRect.top - rect.top,
+            ease: Bounce.easeOut,
+            delay: 2,
+          });
+      });
+    }
+  });
+
   return (
     <FullPage pageTitle="Leaderboard">
       <GameSettingsDrawer />
       <RankingScrollableContainer>
-        <RankingContainer>
+        <RankingContainer ref={rankingContanerRef}>
           {rankingList.map((rankingGroup, index) => {
             return (
               <RankingGroupComponent
+                setRef={r => (boardGroupRefs.current[index] = r)}
                 key={index}
                 rankingGroup={rankingGroup}
                 place={placeIcons[index] || index + 1}
