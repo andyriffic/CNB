@@ -91,7 +91,7 @@ const View = ({ type, bigText, count }) => {
           <React.Fragment>
             Now with
             <br />
-            Bjorn!
+            Jatin!
           </React.Fragment>
         }
         backgroundColor="#ffdb00"
