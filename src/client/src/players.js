@@ -14,6 +14,7 @@ export const PLAYERS = {
     { name: 'Chris', imageName: 'chris' },
     { name: 'Du', imageName: 'du' },
     { name: 'Duyen', imageName: 'duyen' },
+    { name: 'Jatin', imageName: 'jatin' },
     { name: 'Jay', imageName: 'jay' },
     { name: 'Jim', imageName: 'jim' },
     { name: 'Liujing', imageName: 'liujing' },
