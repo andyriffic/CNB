@@ -119,12 +119,12 @@ const View = () => {
       boardGroupRefs.current.reverse().forEach((elem, index) => {
         const rect = elem.getBoundingClientRect();
         console.log('THIS', elem.getBoundingClientRect());
-        new TimelineLite({ delay: index * 8 })
-          .to(elem, 3, { opacity: 1, ease: Power3.easeOut })
+        new TimelineLite({ delay: index * 6 })
+          .to(elem, 1.5, { opacity: 1, ease: Power3.easeOut })
           .from(elem, 2, {
             y: parentRefRect.top - rect.top,
             ease: Bounce.easeOut,
-            delay: 2,
+            delay: 3,
           });
       });
     }
