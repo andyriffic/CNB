@@ -42,9 +42,9 @@ const RankingGroupContainer = styled.div`
   align-items: center;
   padding: 10px 5px;
   grid-template-columns: 10% 90%;
-  background-image: linear-gradient(-90deg, #231922, #10030f);
+  background-image: linear-gradient(-90deg, ${props => props.bgColor}, #10030f);
   color: #e2e9c0;
-  border: 1px solid #10030f;
+  border: 2px solid #10030f;
   border-radius: 7px;
   margin-bottom: 10px;
   font-size: 0.8rem;
@@ -83,9 +83,15 @@ const Link = styled.a`
   text-align: center;
 `;
 
-const RankingGroupComponent = ({ rankingGroup, place, ranking, setRef }) => {
+const placeIcons = ['🥇', '🥈', '🥉'];
+const placeBackgroundColor = ['#AF9500', '#B4B4B4', '#6A3805'];
+
+const RankingGroupComponent = ({ rankingGroup, ranking, setRef }) => {
+  const place = placeIcons[ranking] || ranking + 1;
+  const bgColor = placeBackgroundColor[ranking] || '#231922';
+
   return (
-    <RankingGroupContainer ranking={ranking} ref={setRef}>
+    <RankingGroupContainer ranking={ranking} bgColor={bgColor} ref={setRef}>
       <RankingGroupPlace>{place}</RankingGroupPlace>
       <RankingGroupPlayer>
         {rankingGroup.map(ranking => {
@@ -95,8 +101,6 @@ const RankingGroupComponent = ({ rankingGroup, place, ranking, setRef }) => {
     </RankingGroupContainer>
   );
 };
-
-const placeIcons = ['🥇', '🥈', '🥉'];
 
 const View = () => {
   const [rankingList, setRankingList] = useState([]);
@@ -141,7 +145,6 @@ const View = () => {
                 setRef={r => (boardGroupRefs.current[index] = r)}
                 key={index}
                 rankingGroup={rankingGroup}
-                place={placeIcons[index] || index + 1}
                 ranking={index}
               />
             );
