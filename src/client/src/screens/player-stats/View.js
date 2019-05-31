@@ -42,7 +42,7 @@ const RankingGroupContainer = styled.div`
   align-items: center;
   padding: 10px 5px;
   grid-template-columns: 10% 90%;
-  background-image: linear-gradient(-90deg, ${props => props.bgColor}, #10030f);
+  background-image: linear-gradient(90deg, #10030f 15%, ${props => props.bgColor});
   color: #e2e9c0;
   border: 2px solid #10030f;
   border-radius: 7px;
