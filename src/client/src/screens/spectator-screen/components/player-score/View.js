@@ -110,21 +110,15 @@ const View = ({ playerKey }) => {
   const soundService = useContext(GameSoundContext);
   const scores = useContext(ScoreboardContext);
 
-  if (!scores || !playerKey) return null;
-
-  const playerScore = scores[playerKey];
-
-  if (!playerScore) return null;
-
   useEffect(() => {
-    if (playerScore.value === value) {
+    if (!scores || !scores[playerKey] || scores[playerKey].value === value) {
       return;
     }
 
-    setValue(playerScore.value);
+    setValue(scores[playerKey].value);
 
     if (value !== null) {
-      const totalPointsAwarded = playerScore.value - value;
+      const totalPointsAwarded = scores[playerKey].value - value;
       setIncremented(totalPointsAwarded);
       for (let i = 0; i < totalPointsAwarded; i++) {
         setTimeout(() => {
@@ -133,7 +127,7 @@ const View = ({ playerKey }) => {
       }
       setUpdated(true);
     }
-  });
+  }, [scores]);
 
   return (
     <Container>
@@ -147,7 +141,7 @@ const View = ({ playerKey }) => {
         isBonus={playerKey === 'BONUS'}
         className={updated ? 'updated' : ''}
       >
-        {playerScore.value}
+        {value}
       </Score>
     </Container>
   );
