@@ -1,12 +1,13 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle, Button } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { PlayerSelectionCard } from './PlayerSelectionCard';
+import { shuffle } from '../../../../utils/suffleArray';
 
 const ListContainer = styled.div`
   //width: 100vw;
@@ -22,14 +23,28 @@ const ButtonContainer = styled.div`
 const View = ({ onSelection }: MakeMoveSelection) => {
   const theme = useContext(GameThemeContext);
   const [focusCharacterIndex, setFocusCharacterIndex] = useState(0);
-  const items = Object.keys(theme.characters.selectMoveMapping).map(key => {
-    return focused => (
-      <PlayerSelectionCard moveSymbolKey={key} isFocused={focused} />
+  const [characterSelection, setCharacterSelection] = useState({});
+
+  useEffect(() => {
+    const randomCharacterMapping = shuffle(
+      Object.keys(theme.characters.selectMoveMapping)
     );
-  });
+    const items = randomCharacterMapping.map(key => {
+      return focused => (
+        <PlayerSelectionCard moveSymbolKey={key} isFocused={focused} />
+      );
+    });
+
+    const characterSelection = {
+      moveMapping: randomCharacterMapping,
+      items,
+    };
+
+    setCharacterSelection(characterSelection);
+  }, []);
 
   const selectCharacter = index => {
-    const move = Object.keys(theme.characters.selectMoveMapping)[index];
+    const move = characterSelection.moveMapping[index];
     onSelection && onSelection(move);
   };
 
@@ -38,7 +53,7 @@ const View = ({ onSelection }: MakeMoveSelection) => {
       <PageSubTitle>Make your move 做你的動作</PageSubTitle>
       <ListContainer>
         <ItemCardSelection
-          items={items}
+          items={characterSelection.items}
           selectedItem={focusCharacterIndex}
           onItemSelected={selectCharacter}
           onItemFocused={index => setFocusCharacterIndex(index)}

@@ -32,7 +32,12 @@ const ItemItem = styled.div`
   height: 80%;
 `;
 
-const View = ({ items, selectedItem = 0, onItemSelected, onItemFocused }) => {
+const View = ({
+  items = [],
+  selectedItem = 0,
+  onItemSelected,
+  onItemFocused,
+}) => {
   const [focusItemIndex, setFocusItemIndex] = useState(selectedItem);
 
   const setItemFocus = index => {
