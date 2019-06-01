@@ -1,6 +1,6 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle, Button } from '../../../styled';
