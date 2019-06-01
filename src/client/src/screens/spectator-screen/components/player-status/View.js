@@ -34,7 +34,7 @@ const View = ({ moved, name, badge, avatar }: Props) => {
         <TranslatedPlayerName playerName={name} />
       </Title>
       <p style={{ margin: '0', padding: '0' }}>
-        {avatar ? `${avatar.name} ✅` : 'Waiting...'}
+        {avatar ? `${avatar.name} ✅` : 'Waiting 等候...'}
       </p>
       {badge && <BadgeContainer>{badge}</BadgeContainer>}
     </WaitingIndicator>
