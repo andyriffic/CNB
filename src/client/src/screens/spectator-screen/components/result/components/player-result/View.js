@@ -45,7 +45,7 @@ const dim = keyframes`
     opacity: 1;
   }
   100% {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
 
@@ -101,7 +101,7 @@ const CharacterPosition = styled.div`
   width: 100%;
   text-align: center;
   transition: opacity 2s ease;
-  opacity: ${props => (props.isWinner ? '1' : '0.3')};
+  opacity: ${props => (props.isWinner ? '1' : '0.8')};
 `;
 
 const InitialCharacterAnimaton = styled.div`
