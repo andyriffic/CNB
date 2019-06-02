@@ -15,12 +15,14 @@ const sendMessage = socket => message => {
   socket.emit(message.type, message.payload);
 };
 
-const init = (socketIo, store, userNamespace) => {
+const init = (socketIo, store, clientsSrv) => {
   const namespace = socketIo.of(PATH);
 
   namespace.on('connection', function(socket) {
     console.log('user connected!', socket.id);
-    userNamespace.userConnected(socket.id);
+    console.log('user handshake headers', socket.handshake.headers);
+    console.log('user headers', socket.headers);
+    clientsSrv.userConnected(socket.id, socket.handshake.headers['user-agent']);
 
     sendMessage(socket)(connectionEstablishedMessage(socket.id));
 
@@ -38,7 +40,7 @@ const init = (socketIo, store, userNamespace) => {
 
     socket.on('disconnect', function() {
       console.log('Got disconnect!', socket.id);
-      userNamespace.userDisconnected(socket.id);
+      clientsSrv.userDisconnected(socket.id);
     });
   });
 };

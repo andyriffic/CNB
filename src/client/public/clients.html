@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Server test</title>
+    <style>
+      dt {
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <h1>Connected Clients</h1>
@@ -19,12 +24,17 @@
       });
 
       socket.on('USER_UPDATE', function(users) {
-        console.log('USERS', users);
+        console.log('Connected Clients', users);
         connectedUsersElem.innerHTML = '';
-        users.forEach(user => {
-          const liElem = document.createElement('li');
-          liElem.innerText = user;
-          connectedUsersElem.appendChild(liElem);
+        Object.keys(users).forEach(clientId => {
+          const dlElem = document.createElement('dl');
+          const dtElem = document.createElement('dt');
+          const ddElem = document.createElement('dd');
+          dtElem.innerText = clientId;
+          ddElem.innerText = users[clientId].userAgent;
+          dlElem.appendChild(dtElem);
+          dlElem.appendChild(ddElem);
+          connectedUsersElem.appendChild(dlElem);
         });
       });
     </script>

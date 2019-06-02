@@ -2,7 +2,7 @@ const PATH = '/clients';
 const EVENT_USER_UPDATE = 'USER_UPDATE';
 
 const init = (socketIo) => {
-  let users = [];
+  let users = {};
 
   const namespace = socketIo.of(PATH);
   namespace.on('connection', function(socket) {
@@ -11,14 +11,21 @@ const init = (socketIo) => {
   });
 
   return {
-    userConnected: username => {
+    userConnected: (clientId, userAgent) => {
       console.log('======USER CONNECTED=======', PATH, users);
-      users = [...users, username];
+      users = {...users, [clientId]: {userAgent}};
       socketIo.of(PATH).emit(EVENT_USER_UPDATE, users);
     },
-    userDisconnected: username => {
+    userDisconnected: clientId => {
       console.log('======USER DISCONNECTED=======', PATH, users);
-      users = users.filter(user => user !== username);
+      if (!users[clientId]) {
+        console.log('Disconnecting clientId but not found :/', clientId);
+        return;
+      }
+      delete users[clientId];
+      users = {
+        ...users,
+      };
       socketIo.of(PATH).emit(EVENT_USER_UPDATE, users);
     },
   };
