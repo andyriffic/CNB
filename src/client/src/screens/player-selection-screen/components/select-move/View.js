@@ -7,7 +7,7 @@ import { PageSubTitle, Button } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
 import { PlayerSelectionCard } from './PlayerSelectionCard';
-import { shuffle } from '../../../../utils/suffleArray';
+// import { shuffle } from '../../../../utils/suffleArray';
 
 const ListContainer = styled.div`
   //width: 100vw;
