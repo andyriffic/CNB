@@ -26,8 +26,12 @@ const View = ({ onSelection }: MakeMoveSelection) => {
   const [characterSelection, setCharacterSelection] = useState({});
 
   useEffect(() => {
-    const randomCharacterMapping = shuffle(
-      Object.keys(theme.characters.selectMoveMapping)
+    // const randomCharacterMapping = shuffle(
+    //   Object.keys(theme.characters.selectMoveMapping)
+    // );
+    // Not so random at the moment, but replace the following lines with the previos to re-add random selection
+    const randomCharacterMapping = Object.keys(
+      theme.characters.selectMoveMapping
     );
     const items = randomCharacterMapping.map(key => {
       return focused => (
