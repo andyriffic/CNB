@@ -41,7 +41,7 @@ const RankingGroupContainer = styled.div`
   display: grid;
   align-items: center;
   padding: 10px 5px;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 100fr;
   background-image: linear-gradient(90deg, #10030f 15%, ${props =>
     props.bgColor});
   color: #e2e9c0;
@@ -57,7 +57,7 @@ const RankingGroupContainer = styled.div`
 
 const RankingGroupPlace = styled.h3`
   margin: 0;
-  padding: 14px 0 0 0;
+  padding: 0;
   text-align: center;
   color: #fff;
   opacity: 0.8;
@@ -65,6 +65,8 @@ const RankingGroupPlace = styled.h3`
 `;
 
 const RankingGroupPlayer = styled.div`
+  width: 80%;
+  margin: 0 auto;
   > div {
     border-bottom: 2px solid #10030f;
     padding: 10px 0;
@@ -88,7 +90,7 @@ const placeIcons = ['🥇', '🥈', '🥉'];
 const placeBackgroundColor = ['#AF9500', '#B4B4B4', '#6A3805'];
 
 const RankingGroupComponent = ({ rankingGroup, ranking, setRef }) => {
-  const place = placeIcons[ranking] || ranking + 1;
+  const place = placeIcons[ranking] || `${ranking + 1}th`;
   const bgColor = placeBackgroundColor[ranking] || '#231922';
 
   return (
@@ -124,12 +126,12 @@ const View = () => {
       boardGroupRefs.current.reverse().forEach((elem, index) => {
         const rect = elem.getBoundingClientRect();
         console.log('THIS', elem.getBoundingClientRect());
-        new TimelineLite({ delay: index * 6 })
+        new TimelineLite({ delay: index * 4.5 })
           .to(elem, 1.5, { opacity: 1, ease: Power3.easeOut })
           .from(elem, 2, {
             y: parentRefRect.top - rect.top,
             ease: Bounce.easeOut,
-            delay: 3,
+            delay: 1.5,
           });
       });
     }
