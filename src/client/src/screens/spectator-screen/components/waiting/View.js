@@ -34,20 +34,6 @@ type Props = {
   trophyPoints: TrophyPoints,
 };
 
-const pulse = keyframes`
-  from {
-    transform: scale3d(1, 1, 1) rotate(0deg);
-  }
-
-  50% {
-    transform: scale3d(1.2, 1.2, 1.2) rotate(30deg);
-  }
-
-  to {
-    transform: scale3d(1, 1, 1) rotate(0deg);
-  }
-`;
-
 const BonusPointSection = styled.div`
   text-align: center;
 `;
