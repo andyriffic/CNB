@@ -101,7 +101,7 @@ describe('PowerUp Appliers', () => {
           gameState
         );
         expect(pointsAssignment).toEqual({
-          player1: 2,
+          player1: 1,
           player2: -1,
           bonus: 0,
         });

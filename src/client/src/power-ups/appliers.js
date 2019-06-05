@@ -39,8 +39,6 @@ function applyPowerUpDouble(currentPointsAssignment, gameFinishedResult) {
 function applyPowerUpSteal(currentPointsAssignment, gameFinishedResult) {
   return {
     ...currentPointsAssignment,
-    [gameFinishedResult.winnerKey]:
-      currentPointsAssignment[gameFinishedResult.winnerKey] + 1,
     [gameFinishedResult.loserKey]: -1,
   };
 }
