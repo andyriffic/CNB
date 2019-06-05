@@ -56,18 +56,6 @@ const BonusHeading = styled.h2`
   font-size: 1rem;
 `;
 
-const PowerUpBanner = styled.div`
-  position: absolute;
-  z-index: 9;
-  width: 15vmin;
-  height: 15vmin;
-  top: 0;
-  right: 0;
-  display: flex;
-  transform: rotate(20deg);
-  animation: ${pulse} 3s ease infinite forwards;
-`;
-
 const PointGoalContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -133,9 +121,6 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
 
   return (
     <PageLayout>
-      <PowerUpBanner>
-        <PowerUpBadge type="AVATAR" />
-      </PowerUpBanner>
       <IntroBanner />
       <PointGoalContainer>
         {trophyPoints.loaded && <TrophyGoal goal={trophyPoints.goal} />}
