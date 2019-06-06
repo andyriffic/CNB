@@ -1,7 +1,7 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useState, useContext } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
