@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Server test</title>
+    <style>
+      dt {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Stats Admin</h1>
+    <p id="statusText"></p>
+    <button type="button" onclick="triggerStatsRefresh()">Refresh stats</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript">
+      console.log('loaded');
+      var socket = io('http://localhost:3002/stats');
+
+      const statusText = document.getElementById('statusText');
+
+      socket.on('CONNECTION_ESTABLISHED', function() {
+        console.log('CONNECTION_ESTABLISHED');
+      });
+
+      socket.on('LEADERBOARD_UPDATE', function(leaderboard) {
+        console.log('LEADERBOARD_UPDATE', leaderboard);
+      });
+
+      function triggerStatsRefresh() {
+        console.log('STATS REFRESH');
+        socket.emit('TRIGGER_STATS_REFRESH');
+      }
+    </script>
+  </body>
+</html>

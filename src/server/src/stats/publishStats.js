@@ -34,7 +34,7 @@ let q = Queue((id, cb) => {
 
 /* Make a SQL query and display results */
 const runTestQuery = () => {
-  makeQuery(playerLeaderboardQuery)
+  const leaderboardQuery = makeQuery(playerLeaderboardQuery)
     .then(data => {
       console.log('DATA: ', data);
       statsS3Bucket.saveStats(
@@ -47,7 +47,7 @@ const runTestQuery = () => {
       console.log('ERROR: ', e);
     });
 
-  makeQuery(gameHistoryQuery)
+  const historyQuery = makeQuery(gameHistoryQuery)
     .then(data => {
       console.log('DATA: ', data);
       statsS3Bucket.saveStats(
@@ -59,10 +59,12 @@ const runTestQuery = () => {
     .catch(e => {
       console.log('ERROR: ', e);
     });
+
+  return [leaderboardQuery, historyQuery];
 };
 
 export const publishStats = () => {
-  runTestQuery();
+  return runTestQuery();
 };
 
 function makeQuery(sql) {

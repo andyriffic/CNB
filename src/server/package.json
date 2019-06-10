@@ -38,6 +38,7 @@
   "dependencies": {
     "async": "^2.6.2",
     "aws-sdk": "^2.442.0",
+    "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
