@@ -32,5 +32,18 @@
         socket.emit('TRIGGER_STATS_REFRESH');
       }
     </script>
+        <script type="text/javascript">
+          console.log('loaded');
+          var socket = io('http://localhost:3002/players');
+    
+          socket.on('CONNECTION_ESTABLISHED', function() {
+            console.log('CONNECTION_ESTABLISHED');
+          });
+    
+          socket.on('PLAYERS_UPDATE', function(players) {
+            console.log('PLAYERS_UPDATE', players);
+          });
+        </script>
+    
   </body>
 </html>

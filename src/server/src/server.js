@@ -6,6 +6,7 @@ import reducer from './state/reducer';
 import initUserNamespace from './socket-namespaces/clients';
 import initGameNamespace from './socket-namespaces/game';
 import initStats from './socket-namespaces/stats';
+import initPlayers from './socket-namespaces/players';
 
 const store = createStore(reducer);
 
@@ -27,5 +28,6 @@ app.get('*', (req, res) => {
 const userNamespace = initUserNamespace(io);
 initGameNamespace(io, store, userNamespace);
 initStats(io);
+initPlayers(io);
 
 console.log(`App running on http://localhost:${port}`);
