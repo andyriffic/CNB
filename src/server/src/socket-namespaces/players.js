@@ -1,6 +1,6 @@
 import { getAllPlayers } from '../players/players';
 
-const PATH = '/players';
+const PATH = '/game';
 const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
 
 let cachedPlayers;
