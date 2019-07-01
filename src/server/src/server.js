@@ -7,6 +7,7 @@ import initUserNamespace from './socket-namespaces/clients';
 import initGameNamespace from './socket-namespaces/game';
 import initStats from './socket-namespaces/stats';
 import initPlayers from './socket-namespaces/players';
+import initTheme from './socket-namespaces/theme';
 
 const store = createStore(reducer);
 
@@ -21,6 +22,7 @@ server.listen(port);
 
 
 app.use(express.static(path.join(__dirname, '/../client')));
+app.use(express.static(path.join(__dirname, './static')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
@@ -29,5 +31,7 @@ const userNamespace = initUserNamespace(io);
 initGameNamespace(io, store, userNamespace);
 initStats(io);
 initPlayers(io);
+initTheme(io);
+
 
 console.log(`App running on http://localhost:${port}`);
