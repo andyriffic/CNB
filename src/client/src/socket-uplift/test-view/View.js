@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { GameServiceContext } from '../socket-context/GameServiceProvider';
+import { GameStateView } from './GameStateView';
 
 const View = () => {
   const gameService = useContext(GameServiceContext);
@@ -7,7 +8,7 @@ const View = () => {
   return (
     <React.Fragment>
       <h1>TEST</h1>
-      <p>{JSON.stringify(gameService.game)}</p>
+      <GameStateView />
       <p>{JSON.stringify(gameService.theme)}</p>
       <p>{JSON.stringify(gameService.players)}</p>
     </React.Fragment>

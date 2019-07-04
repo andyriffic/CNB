@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import TestApp from './socket-uplift/test-view';
+import UpliftApp from './socket-uplift/test-view';
+import { isFeatureEnabled } from './featureToggle';
 
-//ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<TestApp />, document.getElementById('root'));
+if (isFeatureEnabled('uplift')) {
+  ReactDOM.render(<UpliftApp />, document.getElementById('root'));
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'));
+}
