@@ -8,6 +8,7 @@ import initGameNamespace from './socket-namespaces/game';
 import initStats from './socket-namespaces/stats';
 import initPlayers from './socket-namespaces/players';
 import initTheme from './socket-namespaces/theme';
+import initPowerUps from './socket-namespaces/power-ups';
 
 const store = createStore(reducer);
 
@@ -32,6 +33,7 @@ initGameNamespace(io, store, userNamespace);
 initStats(io);
 initPlayers(io);
 initTheme(io);
+initPowerUps(io);
 
 
 console.log(`App running on http://localhost:${port}`);

@@ -1,7 +1,7 @@
 import { COUNTER_API_BASE_URL } from '../environment';
 import { POWER_UP_TYPE } from './constants';
 
-export const getCounters = processCounters => {
+export const getCounters = (processCounters = counters => counters) => {
   return fetch(`${COUNTER_API_BASE_URL}`)
     .then(resp => resp.json())
     .then(scoreboard => scoreboard.counters)

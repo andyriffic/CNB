@@ -18,7 +18,7 @@ const init = socketIo => {
   const namespace = socketIo.of(PATH);
 
   const refreshAndBroadcastStats = () => {
-    fetchAndParseLeaderboardStats().then(({ data }) => {
+    fetchAndParseLeaderboardStats().then((data) => {
       playerLeaderboard = data;
       socketIo.of(PATH).emit(EVENT_LEADERBOARD_UPDATE, playerLeaderboard);
     });
