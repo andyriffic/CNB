@@ -15,7 +15,8 @@
     "flow": "flow ./src",
     "test": "npm run build:test && ./node_modules/.bin/mocha ./test/**/*.test.js",
     "lint": "eslint src",
-    "verify": "npm run lint && npm run flow && npm run test"
+    "verify": "npm run lint && npm run flow && npm run test",
+    "check-types": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.4",
     "chai": "^4.1.2",
@@ -33,7 +35,8 @@
     "eslint-plugin-flowtype": "^2.50.0",
     "flow-bin": "^0.77.0",
     "mocha": "^5.2.0",
-    "sinon": "^6.3.3"
+    "sinon": "^6.3.3",
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "async": "^2.6.2",
