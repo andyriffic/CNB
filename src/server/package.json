@@ -9,11 +9,11 @@
     "serve:local": "PORT=3002 npm run serve",
     "start": "npm run build && node ../../lib/server/index.js",
     "build:deps": "cp ./package.json ../../lib/server/package.json && cd ../../lib/server && npm install --production",
-    "babel": "babel ./src -d ../../lib/server --copy-files --ignore '**/*.test.js'",
+    "babel": "babel ./src -d ../../lib/server --copy-files --ignore '**/*.test.js' --extensions '.ts,.js'",
     "build": "npm run babel && npm run build:deps",
-    "build:test": "babel ./src -d ./test --copy-files",
+    "build:test": "babel ./src -d ./test --copy-files --extensions '.ts,.js'",
     "flow": "flow ./src",
-    "test": "npm run build:test && ./node_modules/.bin/mocha ./test/**/*.test.js",
+    "test": "npm run build:test && ./node_modules/.bin/mocha ./test/**/*.test.{js,ts}",
     "lint": "eslint src",
     "verify": "npm run lint && npm run flow && npm run test",
     "check-types": "tsc"
@@ -28,6 +28,9 @@
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/shortid": "0.0.29",
     "@types/socket.io": "^2.1.2",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.4",
@@ -47,6 +50,7 @@
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "ramda": "^0.25.0",
+    "shortid": "^2.2.14",
     "socket.io": "^2.1.1",
     "uuid": "^3.3.2"
   }

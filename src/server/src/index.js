@@ -6,10 +6,8 @@ import receiveMessage from './receiveMessage';
 
 import type { Message } from './messages/MessageType';
 import { incomingMessageTypes } from './messages/typeConstants';
-import { testTsFunc } from './uplift/typescript';
 
 console.log('Hello GAME');
-console.log('TEST TS:', testTsFunc(false));
 
 /*
   CONNECT (name)

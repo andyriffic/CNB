@@ -7,9 +7,8 @@ const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
 
 let cachedPlayers: PlayerList;
 
-const init = (socketIo: Server) => {
-  // const gameHistory = {};
-  const namespace = socketIo.of(PATH);
+const init = (socketServer: Server) => {
+  const namespace = socketServer.of(PATH);
 
   namespace.on('connection', function(socket: Socket) {
     console.log('someone connected to players', socket.id);
