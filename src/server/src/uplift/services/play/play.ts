@@ -17,16 +17,23 @@ const playGame = (
   ]);
 
   const updatedPoints: PointsParams = [{ ...points[0] }, { ...points[1] }];
+  let updatedBonusPoints = { ...bonusPoints };
 
   if (result.winnerIndex !== undefined) {
     updatedPoints[result.winnerIndex] = counterService.incrementCounter(
       points[result.winnerIndex],
       bonusPoints.value + 1
     );
+    updatedBonusPoints = counterService.resetCounter(updatedBonusPoints);
+  }
+
+  if (result.draw) {
+    updatedBonusPoints = counterService.incrementCounter(updatedBonusPoints);
   }
 
   return {
     gameResult: result,
     points: updatedPoints,
+    bonusPoints: updatedBonusPoints,
   };
 };

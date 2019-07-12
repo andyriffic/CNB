@@ -27,7 +27,7 @@ const init = socketIo => {
   const namespace = socketIo.of(PATH);
 
   namespace.on('connection', function(socket) {
-    console.log('someone connected to theme', socket.id);
+    // console.log('someone connected to theme', socket.id);
     socket.emit(THEME_UPDATE, theme);
   });
 };

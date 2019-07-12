@@ -27,11 +27,11 @@ const init = socketIo => {
   refreshAndBroadcastStats();
 
   namespace.on('connection', function(socket) {
-    console.log('someone connected to stats', socket.id);
+    // console.log('someone connected to stats', socket.id);
     socket.emit(EVENT_LEADERBOARD_UPDATE, playerLeaderboard);
 
     socket.on(EVENT_TRIGGER_STATS_REFRESH, function(socket) {
-      console.log('REFRESH');
+      // console.log('REFRESH');
       Promise.all(publishStats()).then(() => {
         console.log('stats published');
         refreshAndBroadcastStats();

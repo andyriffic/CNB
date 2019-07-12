@@ -11,7 +11,7 @@ const init = socketIo => {
 
 
   namespace.on('connection', function(socket) {
-    console.log('someone connected to players', socket.id);
+    // console.log('someone connected to players', socket.id);
 
     if (cachedPlayers) {
       socket.emit(PLAYERS_UPDATE, cachedPlayers);

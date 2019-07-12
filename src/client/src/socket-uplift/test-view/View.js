@@ -9,8 +9,8 @@ const View = () => {
     <React.Fragment>
       <h1>TEST</h1>
       <GameStateView />
-      <p>{JSON.stringify(gameService.theme)}</p>
-      <p>{JSON.stringify(gameService.players)}</p>
+      {/* <p>{JSON.stringify(gameService.theme)}</p>
+      <p>{JSON.stringify(gameService.players)}</p> */}
     </React.Fragment>
   );
 };
