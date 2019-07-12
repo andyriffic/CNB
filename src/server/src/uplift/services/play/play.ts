@@ -1,39 +1,32 @@
-import { TeamMatchup, Game } from '../game/types';
-import { games } from '../game';
+import { Game } from '../matchup/types';
+import { Counter } from '../counter/types';
+import { PlayResult } from './types';
+import { gameResult } from '../game-result';
+import counterService from '../counter';
 
-const melbXianMatchup: TeamMatchup = {
-  id: 'melb+xian',
-  teamIds: ['melb', 'xian'],
-};
+type PointsParams = [Counter, Counter];
 
-let teamMatchups: TeamMatchup[] = [melbXianMatchup];
-let gamesInProgress: { [matchupId: string]: Game } = {};
+const playGame = (
+  game: Game,
+  points: PointsParams,
+  bonusPoints: Counter
+): PlayResult => {
+  const result = gameResult.getWinner([
+    game.moves[0].moveId!,
+    game.moves[1].moveId!,
+  ]);
 
-const requestGameForMatchupAsync = (matchupId: string): Promise<Game> => {
-  const promise = new Promise<Game>((resolve, reject) => {
-    const existingGame = gamesInProgress[matchupId];
+  const updatedPoints: PointsParams = [{ ...points[0] }, { ...points[1] }];
 
-    if (existingGame) {
-      return resolve(existingGame);
-    }
+  if (result.winnerIndex !== undefined) {
+    updatedPoints[result.winnerIndex] = counterService.incrementCounter(
+      points[result.winnerIndex],
+      bonusPoints.value + 1
+    );
+  }
 
-    const matchup = teamMatchups.find(mu => mu.id === matchupId);
-    if (!matchup) {
-      return reject(`Matchup for id ${matchupId} does not exist`);
-    }
-
-    games.createGameForMatchupAsync(matchup.teamIds).then(game => {
-      gamesInProgress = {
-        ...gamesInProgress,
-        [matchupId]: game,
-      };
-      return resolve(game);
-    });
-  });
-
-  return promise;
-};
-
-export default {
-  requestGameForMatchupAsync,
+  return {
+    gameResult: result,
+    points: updatedPoints,
+  };
 };

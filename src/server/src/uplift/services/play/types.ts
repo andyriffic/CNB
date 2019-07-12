@@ -1,3 +1,8 @@
-export enum GameStatus {
-  WAITING_MOVES
-}
+import { Counter } from '../counter/types';
+import { GameResult } from '../game-result/types';
+
+export type PlayResult = {
+  gameResult: GameResult;
+  points: [Counter, Counter];
+  bonusPoints: Counter;
+};

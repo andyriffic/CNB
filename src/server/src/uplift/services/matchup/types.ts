@@ -1,7 +1,9 @@
+import { GAME_MOVE } from "../game-result/types";
+
 export enum GAME_STATUS {
-  WaitingPlayerMoves = 0,
-  ReadyToPlay = 1,
-  Finished = 2,
+  WaitingPlayerMoves = 'WaitingPlayerMoves',
+  ReadyToPlay = 'ReadyToPlay',
+  Finished = 'Finished',
 }
 
 export type TeamMatchup = {
@@ -13,23 +15,17 @@ export type TeamMatchup = {
 export type GameMove = {
   teamId: string,
   playerId?: string;
-  moveId?: string;
+  moveId?: GAME_MOVE;
   powerUpId?: string;
 };
 
 export type GameMoveUpdate = {
   playerId?: string;
-  moveId?: string;
+  moveId?: GAME_MOVE;
   powerUpId?: string;
 }
-
-export type GameResult = {
-  winnerPlayerId: string;
-  draw: boolean;
-};
 
 export type Game = {
   id: string;
   moves: [GameMove, GameMove];
-  gameResult?: GameResult;
 };
