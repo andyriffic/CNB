@@ -4,11 +4,9 @@ import { PlayResult } from './types';
 import { gameResult } from '../game-result';
 import counterService from '../counter';
 
-type PointsParams = [Counter, Counter];
-
 const playGame = (
   game: Game,
-  points: PointsParams,
+  points: [Counter, Counter],
   bonusPoints: Counter
 ): PlayResult => {
   const result = gameResult.getWinner([
@@ -16,7 +14,7 @@ const playGame = (
     game.moves[1].moveId!,
   ]);
 
-  const updatedPoints: PointsParams = [{ ...points[0] }, { ...points[1] }];
+  const updatedPoints: [Counter, Counter] = [{ ...points[0] }, { ...points[1] }];
   let updatedBonusPoints = { ...bonusPoints };
 
   if (result.winnerIndex !== undefined) {

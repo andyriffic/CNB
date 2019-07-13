@@ -1,1 +1,2 @@
-export { default } from './counterCRUD';
+import { default as counterOperations } from './counterCRUD';
+export { counterOperations };

@@ -1,4 +1,4 @@
-import { GAME_MOVE } from "../game-result/types";
+import { GAME_MOVE } from '../game-result/types';
 
 export enum GAME_STATUS {
   WaitingPlayerMoves = 'WaitingPlayerMoves',
@@ -9,11 +9,12 @@ export enum GAME_STATUS {
 export type TeamMatchup = {
   id: string;
   teamIds: [string, string];
-  // TODO: trophy points goal?
+  pointCounterIds: [string, string];
+  // TODO: trophy points goal + trophy counters?
 };
 
 export type GameMove = {
-  teamId: string,
+  teamId: string;
   playerId?: string;
   moveId?: GAME_MOVE;
   powerUpId?: string;
@@ -23,7 +24,7 @@ export type GameMoveUpdate = {
   playerId?: string;
   moveId?: GAME_MOVE;
   powerUpId?: string;
-}
+};
 
 export type Game = {
   id: string;

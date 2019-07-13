@@ -1,22 +1,19 @@
-import { IdGenerator } from '../../@types/IdGenerator';
-import shortId from 'shortid';
 import { TeamMatchup, Game, GameMove, GameMoveUpdate } from './types';
 
 const createTeamMatchup = (
   id: string,
-  teamIds: [string, string]
+  teamIds: [string, string],
+  pointCounterIds: [string, string]
 ): TeamMatchup => {
   const matchUp: TeamMatchup = {
     id,
     teamIds: [teamIds[0], teamIds[1]],
+    pointCounterIds: [pointCounterIds[0], pointCounterIds[1]],
   };
   return matchUp;
 };
 
-const createGame = (
-  id: string,
-  teamIds: [string, string],
-): Game => {
+const createGame = (id: string, teamIds: [string, string]): Game => {
   const game: Game = {
     id,
     moves: [{ teamId: teamIds[0] }, { teamId: teamIds[1] }],
@@ -30,7 +27,6 @@ const updateTeamMove = (
   teamId: string,
   gameMoveUpdate: GameMoveUpdate
 ): Game => {
-
   const teamMoveIndex = game.moves.findIndex(m => m && m.teamId === teamId);
   if (teamMoveIndex < 0) {
     throw new Error('Team move not found :(');
@@ -40,7 +36,7 @@ const updateTeamMove = (
 
   const newGame: Game = {
     ...game,
-  }
+  };
   newGame.moves[teamMoveIndex] = updatedMove;
 
   return newGame;

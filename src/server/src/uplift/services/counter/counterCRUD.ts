@@ -1,16 +1,16 @@
 import { Counter } from './types';
 
-const createCounter = (id: string): Counter => {
+const createCounter = (id: string, initialValue: number = 0): Counter => {
   return {
     id,
-    value: 0,
+    value: initialValue,
   };
 };
 
-const resetCounter = (counter: Counter): Counter => {
+const resetCounter = (counter: Counter, to: number = 0): Counter => {
   return {
     ...counter,
-    value: 0,
+    value: to,
   };
 };
 

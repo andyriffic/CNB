@@ -4,6 +4,8 @@ import {
   ScanOutput,
   PutItemInput,
   PutItemOutput,
+  GetItemInput,
+  GetItemOutput,
 } from 'aws-sdk/clients/dynamodb';
 
 import {
@@ -19,7 +21,27 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getItem = (tableName: string, id: string) => {};
+export function getItemById<T>(tableName: string, id: string): Promise<T> {
+  const params: GetItemInput = {
+    TableName: tableName,
+    Key: {
+      id: { S: id },
+    },
+  };
+
+  const promise = new Promise<T>((resolve, reject) => {
+    docClient.get(params, (err: AWSError, data: GetItemOutput) => {
+      if (err) {
+        console.log(err);
+        reject('Error getting item');
+      } else {
+        resolve(data as T);
+      }
+    });
+  });
+
+  return promise;
+}
 
 export const putDynamoDbItem = (tableName: string, item: any): Promise<any> => {
   const params: PutItemInput = {
@@ -31,7 +53,7 @@ export const putDynamoDbItem = (tableName: string, item: any): Promise<any> => {
     docClient.put(params, (err: AWSError, data: PutItemOutput) => {
       if (err) {
         console.log(err);
-        reject('Error adding matchup');
+        reject('Error adding item');
       } else {
         resolve(data);
       }

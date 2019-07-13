@@ -13,6 +13,7 @@ const useSocket = setMatchups => {
       console.log('RECEIVED MATCHUPS', data);
       setMatchups(data);
     });
+    socket.emit('REQUEST_MATCHUPS');
   }, []);
 };
 

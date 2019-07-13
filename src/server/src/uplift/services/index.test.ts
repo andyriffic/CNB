@@ -5,6 +5,7 @@ import { games } from './matchup';
 import { getGameStatus } from './matchup/gameStatus';
 import { gameResult } from './game-result';
 import { GAME_MOVE } from './game-result/types';
+import { counterOperations } from '../services/counter';
 
 describe('game scenarios', () => {
   it('runs game scenario test', done => {
@@ -22,10 +23,13 @@ describe('game scenarios', () => {
         allTeams = teams;
       }),
     ]).then(() => {
-      const matchup = games.createTeamMatchup('test_matchup_id', [
-        allTeams[0].id,
-        allTeams[1].id,
-      ]);
+      const c1 = counterOperations.createCounter('c1');
+      const c2 = counterOperations.createCounter('c2');
+      const matchup = games.createTeamMatchup(
+        'test_matchup_id',
+        [allTeams[0].id, allTeams[1].id],
+        [c1.id, c2.id]
+      );
       let game = games.createGame('test_game_id', matchup.teamIds);
 
       console.log('GAME STATUS', getGameStatus(game));
