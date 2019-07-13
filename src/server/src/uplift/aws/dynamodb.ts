@@ -25,7 +25,8 @@ export function getItemById<T>(tableName: string, id: string): Promise<T> {
   const params: GetItemInput = {
     TableName: tableName,
     Key: {
-      id: { S: id },
+      // @ts-ignore (Typescript definition doesn't work if used as intended, e.g. id: { S: id })
+      id, 
     },
   };
 
@@ -34,8 +35,10 @@ export function getItemById<T>(tableName: string, id: string): Promise<T> {
       if (err) {
         console.log(err);
         reject('Error getting item');
+      } else if (!data.Item) {
+        reject('Item not found');
       } else {
-        resolve(data as T);
+        resolve((<unknown>data.Item!) as T);
       }
     });
   });

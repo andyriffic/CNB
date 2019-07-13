@@ -1,13 +1,17 @@
-import { Socket, Server } from 'socket.io';
+import { Socket, Server, Namespace } from 'socket.io';
 import { games } from '../services/matchup';
 import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterOperations } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
+import { getItemById } from '../aws/dynamodb';
+import { TeamMatchup } from '../services/matchup/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
 const ADD_MATCHUP = 'ADD_MATCHUP';
+const WATCH_MATCHUP = 'WATCH_MATCHUP';
+const MATCHUP_VIEW = 'MATCHUP_VIEW';
 
 let cachedMatchups: any[] | null = null;
 
@@ -24,6 +28,13 @@ const resyncMatchups = (socket: Socket) => {
     });
 };
 
+const sendMatchupView = (matchupId: string, namespace: Namespace) => {
+  matchupDatastore.getMatchup(matchupId).then(matchup => {
+    console.log('Found matchup', matchup);
+    namespace.to(matchupId).emit(MATCHUP_VIEW, matchup);
+  })
+};
+
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
@@ -37,6 +48,13 @@ const init = (socketServer: Server, path: string) => {
       } else {
         resyncMatchups(socket);
       }
+    });
+
+    socket.on(WATCH_MATCHUP, matchupId => {
+      console.log('RECEIVED WATCH MATCHUP', matchupId);
+      socket.join(matchupId);
+      // socket.emit(MATCHUP_VIEW, "TEST");
+      sendMatchupView(matchupId, namespace);
     });
 
     socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {
