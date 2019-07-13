@@ -11,6 +11,7 @@ export type TeamMatchup = {
   teamIds: [string, string];
   pointCounterIds: [string, string];
   // TODO: trophy points goal + trophy counters?
+  // TODO: bonus points counter
 };
 
 export type GameMove = {

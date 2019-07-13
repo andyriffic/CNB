@@ -15,6 +15,7 @@ const useSocket = (setMatchups, setCurrentMatchup) => {
     });
     socket.on('MATCHUP_VIEW', matchup => {
       console.log('Is the the matchup you want?', matchup);
+      setCurrentMatchup(matchup);
     });
     socket.emit('REQUEST_MATCHUPS');
   }, []);

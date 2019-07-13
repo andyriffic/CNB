@@ -3,6 +3,7 @@ import View from './View';
 import { MatchupAdminView } from './MatchupAdminView';
 import { GameServiceProvider } from '../socket-context/GameServiceProvider';
 import { MatchupProvider } from '../socket-context/MatchupProvider';
+import { MatchupView } from './MatchupView';
 
 export default () => {
   return (
@@ -12,6 +13,7 @@ export default () => {
       </GameServiceProvider>
       <MatchupProvider>
         <MatchupAdminView />
+        <MatchupView />
       </MatchupProvider>
     </React.Fragment>
   );
