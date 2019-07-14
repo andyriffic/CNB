@@ -16,10 +16,18 @@ const useSocket = setGame => {
   }, []);
 };
 
+const watchMatchupGame = matchupId => {
+  socket.emit('WATCH_GAME_FOR_MATCHUP', matchupId);
+};
+
+const makeMove = (matchupId, team, move) => {
+  console.log('Gonna make a move', matchupId, team, move);
+  socket.emit('MAKE_MATCHUP_MOVE', matchupId, team, move);
+};
+
 const startNewGame = matchupId => {
   console.log('Try to start game', matchupId);
   socket.emit('START_GAME_FOR_MATCHUP', matchupId);
-  socket.emit('WATCH_GAME_FOR_MATCHUP', matchupId);
 };
 
 export const GameProvider = ({ children }) => {
@@ -28,7 +36,9 @@ export const GameProvider = ({ children }) => {
   useSocket(setGame);
 
   return (
-    <GameContext.Provider value={{ game, startNewGame }}>
+    <GameContext.Provider
+      value={{ game, startNewGame, watchMatchupGame, makeMove }}
+    >
       {children}
     </GameContext.Provider>
   );

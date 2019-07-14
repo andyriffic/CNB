@@ -12,7 +12,10 @@ export const MatchupView = () => {
 
   return (
     <div>
-      <DebugView title={`GAME: ${currentMatchup.id}`} value={currentMatchup} />
+      <DebugView
+        title={`MATCHUP: ${currentMatchup.id}`}
+        value={currentMatchup}
+      />
       <GameProvider>
         <GameView matchupId={currentMatchup.id} />
       </GameProvider>

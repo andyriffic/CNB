@@ -32,6 +32,13 @@ const updateTeamMove = (
     throw new Error('Team move not found :(');
   }
 
+  if (game.moves[teamMoveIndex].moveId) {
+    // throw new Error('Already moved');
+    // TODO throw an error but handle gracefully in calling code
+    console.info('Player has already moved')
+    return game;
+  }
+
   const updatedMove = updateMove(game.moves[teamMoveIndex], gameMoveUpdate);
 
   const newGame: Game = {

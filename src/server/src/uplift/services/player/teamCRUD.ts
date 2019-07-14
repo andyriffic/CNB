@@ -1,6 +1,5 @@
 import { TeamList, Team } from './types';
-
-const ALL_TEAMS = [{ id: 'xian', name: 'Xian' }, { id: 'melb', name: 'Melbourne' }];
+import { ALL_TEAMS } from './constants';
 
 const getAllTeamsAsync = (): Promise<TeamList> => {
   return Promise.resolve(ALL_TEAMS);
