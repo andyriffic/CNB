@@ -1,11 +1,9 @@
 import { Socket, Server, Namespace } from 'socket.io';
-import { games } from '../services/matchup';
+import { matchupService } from '../services/matchup';
 import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
-import { counterOperations } from '../services/counter';
+import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
-import { getItemById } from '../aws/dynamodb';
-import { TeamMatchup } from '../services/matchup/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
@@ -58,10 +56,10 @@ const init = (socketServer: Server, path: string) => {
     });
 
     socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {
-      const player1PointsCounter = counterOperations.createCounter(
+      const player1PointsCounter = counterService.createCounter(
         shortid.generate()
       );
-      const player2PointsCounter = counterOperations.createCounter(
+      const player2PointsCounter = counterService.createCounter(
         shortid.generate()
       );
       const playerPointCounterIds: [string, string] = [
@@ -69,7 +67,7 @@ const init = (socketServer: Server, path: string) => {
         player2PointsCounter.id,
       ];
 
-      const matchup = games.createTeamMatchup(
+      const matchup = matchupService.createTeamMatchup(
         shortid.generate(),
         teamIds,
         playerPointCounterIds

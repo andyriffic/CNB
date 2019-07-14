@@ -27,6 +27,6 @@ const getWinner = (inputs: GameResultInput): GameResult => {
   );
 };
 
-export const gameResult = {
+export const gameResultService = {
   getWinner,
 };

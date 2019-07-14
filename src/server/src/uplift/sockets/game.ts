@@ -1,7 +1,7 @@
 import { Socket, Server } from 'socket.io';
 import shortid from 'shortid';
 import { Game, GameMoveUpdate } from '../services/matchup/types';
-import { games } from '../services/matchup';
+import { matchupService } from '../services/matchup';
 import { matchupDatastore } from '../datastore/matchup';
 
 const WATCH_GAME_FOR_MATCHUP = 'WATCH_GAME_FOR_MATCHUP';
@@ -31,19 +31,29 @@ const init = (socketServer: Server, path: string) => {
     socket.on(START_GAME, matchupId => {
       console.log('TRY TO START GAME FOR MATCHUP', matchupId);
       matchupDatastore.getMatchup(matchupId).then(matchup => {
-      console.log('GOT MATCHUP', matchup);
-      const game = games.createGame(shortid.generate(), matchup.teamIds);
+        console.log('GOT MATCHUP', matchup);
+        const game = matchupService.createGame(
+          shortid.generate(),
+          matchup.teamIds
+        );
         gamesInProgress[matchupId] = game;
         namespace.to(matchupId).emit(GAME_VIEW, game);
       });
     });
 
-    socket.on(MAKE_MOVE, (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
-      console.log('MAKE MOVE RECEIVED', matchupId, teamId, moveUpdate);
-      const updatedGame = games.updateTeamMove(gamesInProgress[matchupId], teamId, moveUpdate);
-      gamesInProgress[matchupId] = updatedGame;
-      namespace.to(matchupId).emit(GAME_VIEW, updatedGame);
-    })
+    socket.on(
+      MAKE_MOVE,
+      (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
+        console.log('MAKE MOVE RECEIVED', matchupId, teamId, moveUpdate);
+        const updatedGame = matchupService.updateTeamMove(
+          gamesInProgress[matchupId],
+          teamId,
+          moveUpdate
+        );
+        gamesInProgress[matchupId] = updatedGame;
+        namespace.to(matchupId).emit(GAME_VIEW, updatedGame);
+      }
+    );
   });
 };
 

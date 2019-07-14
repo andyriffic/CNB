@@ -1,6 +1,6 @@
-import playersCRUD from '../services/player/playerCRUD';
+import { playerService } from '../services/player';
 import { PlayerList } from '../services/player/types';
-import { Socket, Server } from 'socket.io'
+import { Socket, Server } from 'socket.io';
 
 const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
 
@@ -15,7 +15,7 @@ const init = (socketServer: Server, path: string) => {
     if (cachedPlayers) {
       socket.emit(PLAYERS_UPDATE, cachedPlayers);
     } else {
-      playersCRUD.getPlayersAsync().then(players => {
+      playerService.getPlayersAsync().then(players => {
         cachedPlayers = players;
         socket.emit(PLAYERS_UPDATE, cachedPlayers);
       });
