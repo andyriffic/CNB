@@ -7,6 +7,7 @@ import { counterDatastore } from '../datastore/counters';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
+const REQUEST_MATCHUPS_FOR_PLAYER = 'REQUEST_MATCHUPS_FOR_PLAYER';
 const ADD_MATCHUP = 'ADD_MATCHUP';
 const WATCH_MATCHUP = 'WATCH_MATCHUP';
 const MATCHUP_VIEW = 'MATCHUP_VIEW';
@@ -38,6 +39,15 @@ const init = (socketServer: Server, path: string) => {
 
   namespace.on('connection', function(socket: Socket) {
     console.log('someone connected to MATCHUPS', socket.id);
+
+    socket.on(REQUEST_MATCHUPS, () => {
+      if (cachedMatchups) {
+        console.log('Sending cached matchps', cachedMatchups);
+        socket.emit(MATCHUPS_UPDATE, cachedMatchups);
+      } else {
+        resyncMatchups(socket);
+      }
+    });
 
     socket.on(REQUEST_MATCHUPS, () => {
       if (cachedMatchups) {
