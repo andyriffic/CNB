@@ -31,3 +31,13 @@ export type Game = {
   id: string;
   moves: [GameMove, GameMove];
 };
+
+export type TeamSpectatorView = {
+  name: string;
+  points: number;
+};
+
+export type MatchupSpectatorView = {
+  id: string;
+  teams: [TeamSpectatorView, TeamSpectatorView];
+};

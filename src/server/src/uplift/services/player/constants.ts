@@ -29,7 +29,7 @@ export const ALL_TEAMS = [
   { id: 'melb', name: 'Melbourne' },
 ];
 
-export const PLAYER_IDS_BY_TEAM = {
+export const PLAYER_IDS_BY_TEAM: {[teamId: string]: string[]} = {
   xian: ['bin', 'yingjian', 'yixing', 'yujin'],
   melb: [
     'albert',

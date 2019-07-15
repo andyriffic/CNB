@@ -17,7 +17,12 @@ const useSocket = (setMatchups, setCurrentMatchup) => {
       console.log('Is the the matchup you want?', matchup);
       setCurrentMatchup(matchup);
     });
+    socket.on('PLAYER_MATCHUP_VIEW', matchups => {
+      console.log('Are these the player matchups you want', matchups);
+      // setCurrentMatchup(matchup);
+    });
     socket.emit('REQUEST_MATCHUPS');
+    socket.emit('REQUEST_MATCHUPS_FOR_PLAYER', 'andy');
   }, []);
 
   return id => {
@@ -31,7 +36,7 @@ const addMatchup = (team1, team2) => {
 };
 
 export const MatchupProvider = ({ children }) => {
-  const [matchups, setMatchups] = useState();
+  const [matchups, setMatchups] = useState([]);
   const [currentMatchup, setCurrentMatchup] = useState();
 
   const watchMatchup = useSocket(setMatchups, setCurrentMatchup);

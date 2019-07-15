@@ -4,15 +4,34 @@ import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
+import { TeamMatchup } from '../services/matchup/types';
+import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
+import { viewsDatastore } from '../datastore/views';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
 const REQUEST_MATCHUPS_FOR_PLAYER = 'REQUEST_MATCHUPS_FOR_PLAYER';
+const PLAYER_MATCHUP_VIEW = 'PLAYER_MATCHUP_VIEW';
 const ADD_MATCHUP = 'ADD_MATCHUP';
 const WATCH_MATCHUP = 'WATCH_MATCHUP';
 const MATCHUP_VIEW = 'MATCHUP_VIEW';
 
-let cachedMatchups: any[] | null = null;
+let cachedMatchups: TeamMatchup[] | null = null;
+
+const ensureMatchups = (): Promise<TeamMatchup[]> => {
+  const promise = new Promise<TeamMatchup[]>(resolve => {
+    if (cachedMatchups) {
+      resolve(cachedMatchups);
+      return;
+    }
+    matchupDatastore.getAllMatchups().then(matchups => {
+      cachedMatchups = matchups;
+      resolve(matchups);
+    });
+  });
+
+  return promise;
+};
 
 const resyncMatchups = (socket: Socket) => {
   matchupDatastore
@@ -28,10 +47,10 @@ const resyncMatchups = (socket: Socket) => {
 };
 
 const sendMatchupView = (matchupId: string, namespace: Namespace) => {
-  matchupDatastore.getMatchup(matchupId).then(matchup => {
-    console.log('Found matchup', matchup);
-    namespace.to(matchupId).emit(MATCHUP_VIEW, matchup);
-  })
+  viewsDatastore.getMatchupSpectatorView(matchupId).then(matchupView => {
+    console.log('Found matchup', matchupView);
+    namespace.to(matchupId).emit(MATCHUP_VIEW, matchupView);
+  });
 };
 
 const init = (socketServer: Server, path: string) => {
@@ -41,21 +60,28 @@ const init = (socketServer: Server, path: string) => {
     console.log('someone connected to MATCHUPS', socket.id);
 
     socket.on(REQUEST_MATCHUPS, () => {
-      if (cachedMatchups) {
-        console.log('Sending cached matchps', cachedMatchups);
-        socket.emit(MATCHUPS_UPDATE, cachedMatchups);
-      } else {
-        resyncMatchups(socket);
-      }
+      ensureMatchups().then(matchups => {
+        socket.emit(MATCHUPS_UPDATE, matchups);
+      });
     });
 
-    socket.on(REQUEST_MATCHUPS, () => {
-      if (cachedMatchups) {
-        console.log('Sending cached matchps', cachedMatchups);
-        socket.emit(MATCHUPS_UPDATE, cachedMatchups);
-      } else {
-        resyncMatchups(socket);
-      }
+    socket.on(REQUEST_MATCHUPS_FOR_PLAYER, (player: string) => {
+      ensureMatchups().then(matchups => {
+        const playerTeams = Object.keys(PLAYER_IDS_BY_TEAM).map(teamId => {
+          const teamPlayers = PLAYER_IDS_BY_TEAM[teamId];
+          return teamPlayers.includes(player) ? teamId : undefined;
+        });
+
+        console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', matchups);
+
+        const playerMatchups = matchups.filter(mu => {
+          return mu.teamIds.some(t => playerTeams.includes(t));
+        })
+        console.log('Matchups for player', playerMatchups);
+
+        socket.join(player);
+        socket.emit(PLAYER_MATCHUP_VIEW, playerMatchups);
+      });
     });
 
     socket.on(WATCH_MATCHUP, matchupId => {
