@@ -39,5 +39,6 @@ export type TeamSpectatorView = {
 
 export type MatchupSpectatorView = {
   id: string;
+  gameInProgress: boolean;
   teams: [TeamSpectatorView, TeamSpectatorView];
 };

@@ -7,6 +7,7 @@ const MatchupListItem = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 export const MatchupsSpectatorList = () => {
@@ -16,7 +17,15 @@ export const MatchupsSpectatorList = () => {
     <React.Fragment>
       <h1>Matchups</h1>
       {matchups.map(matchup => (
-        <MatchupListItem key={matchup.id}>
+        <MatchupListItem
+          key={matchup.id}
+          onClick={() =>
+            window.open(
+              `/?feature=uplift-spectator&matchupid=${matchup.id}`,
+              '_self'
+            )
+          }
+        >
           {matchup.teamIds[0]} <strong>vs</strong> {matchup.teamIds[1]}
         </MatchupListItem>
       ))}

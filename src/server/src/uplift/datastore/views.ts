@@ -5,7 +5,8 @@ import { Counter } from '../services/counter/types';
 import { ALL_TEAMS } from '../services/player/constants';
 
 const getMatchupSpectatorView = (
-  matchupId: string
+  matchupId: string,
+  gameInProgress: boolean
 ): Promise<MatchupSpectatorView> => {
   const promise = new Promise<MatchupSpectatorView>(resolve => {
     matchupDatastore.getMatchup(matchupId).then(matchup => {
@@ -15,6 +16,7 @@ const getMatchupSpectatorView = (
       ]).then((points: [Counter, Counter]) => {
         const view: MatchupSpectatorView = {
           id: matchup.id,
+          gameInProgress,
           teams: [
             {
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.name,

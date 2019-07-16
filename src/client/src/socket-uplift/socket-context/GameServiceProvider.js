@@ -28,7 +28,7 @@ const useSocket = (setGame, setTheme, setPlayers) => {
 export const GameServiceProvider = ({ children }) => {
   const [game, setGame] = useState({});
   const [theme, setTheme] = useState({});
-  const [players, setPlayers] = useState({});
+  const [players, setPlayers] = useState([]);
 
   useSocket(setGame, setTheme, setPlayers);
 

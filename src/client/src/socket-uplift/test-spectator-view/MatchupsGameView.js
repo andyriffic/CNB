@@ -44,6 +44,9 @@ export const MatchupsGameView = ({ matchupId }) => {
             <br />
             {currentMatchup.teams[1].points}
           </MatchupPlayer>
+          <div>
+            {currentMatchup.gameInProgress ? 'Game in progress' : 'No Game'}
+          </div>
         </MatchupListItem>
       )}
     </React.Fragment>

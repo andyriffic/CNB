@@ -4,7 +4,7 @@ import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
-import { TeamMatchup } from '../services/matchup/types';
+import { TeamMatchup, Game } from '../services/matchup/types';
 import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 import { viewsDatastore } from '../datastore/views';
 
@@ -17,6 +17,7 @@ const WATCH_MATCHUP = 'WATCH_MATCHUP';
 const MATCHUP_VIEW = 'MATCHUP_VIEW';
 
 let cachedMatchups: TeamMatchup[] | null = null;
+let gamesInProgress: { [matchupId: string]: Game } = {};
 
 const ensureMatchups = (): Promise<TeamMatchup[]> => {
   const promise = new Promise<TeamMatchup[]>(resolve => {
@@ -47,10 +48,13 @@ const resyncMatchups = (socket: Socket) => {
 };
 
 const sendMatchupView = (matchupId: string, namespace: Namespace) => {
-  viewsDatastore.getMatchupSpectatorView(matchupId).then(matchupView => {
-    console.log('Found matchup', matchupView);
-    namespace.to(matchupId).emit(MATCHUP_VIEW, matchupView);
-  });
+  const hasGameInProgress = !!gamesInProgress[matchupId];
+  viewsDatastore
+    .getMatchupSpectatorView(matchupId, hasGameInProgress)
+    .then(matchupView => {
+      console.log('Found matchup', matchupView);
+      namespace.to(matchupId).emit(MATCHUP_VIEW, matchupView);
+    });
 };
 
 const init = (socketServer: Server, path: string) => {
@@ -76,7 +80,7 @@ const init = (socketServer: Server, path: string) => {
 
         const playerMatchups = matchups.filter(mu => {
           return mu.teamIds.some(t => playerTeams.includes(t));
-        })
+        });
         console.log('Matchups for player', playerMatchups);
 
         socket.join(player);
@@ -89,6 +93,19 @@ const init = (socketServer: Server, path: string) => {
       socket.join(matchupId);
       // socket.emit(MATCHUP_VIEW, "TEST");
       sendMatchupView(matchupId, namespace);
+    });
+
+    socket.on(START_GAME, matchupId => {
+      console.log('TRY TO START GAME FOR MATCHUP', matchupId);
+      matchupDatastore.getMatchup(matchupId).then(matchup => {
+        console.log('GOT MATCHUP', matchup);
+        const game = matchupService.createGame(
+          shortid.generate(),
+          matchup.teamIds
+        );
+        gamesInProgress[matchupId] = game;
+        namespace.to(matchupId).emit(GAME_VIEW, game);
+      });
     });
 
     socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {
