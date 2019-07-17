@@ -4,7 +4,13 @@ import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
-import { TeamMatchup, Game } from '../services/matchup/types';
+import {
+  TeamMatchup,
+  Game,
+  MatchupSpectatorView,
+  GameMoveUpdate,
+  MatchupPlayerView,
+} from '../services/matchup/types';
 import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 import { viewsDatastore } from '../datastore/views';
 
@@ -15,6 +21,10 @@ const PLAYER_MATCHUP_VIEW = 'PLAYER_MATCHUP_VIEW';
 const ADD_MATCHUP = 'ADD_MATCHUP';
 const WATCH_MATCHUP = 'WATCH_MATCHUP';
 const MATCHUP_VIEW = 'MATCHUP_VIEW';
+const START_GAME = 'START_GAME_FOR_MATCHUP';
+const GAME_VIEW = 'MATCHUP_GAME_VIEW';
+const MAKE_MOVE = 'MAKE_MATCHUP_MOVE';
+const WATCH_GAME_FOR_MATCHUP = 'WATCH_GAME_FOR_MATCHUP';
 
 let cachedMatchups: TeamMatchup[] | null = null;
 let gamesInProgress: { [matchupId: string]: Game } = {};
@@ -47,14 +57,23 @@ const resyncMatchups = (socket: Socket) => {
     });
 };
 
-const sendMatchupView = (matchupId: string, namespace: Namespace) => {
+const getMatchupView = (matchupId: string): Promise<MatchupSpectatorView> => {
   const hasGameInProgress = !!gamesInProgress[matchupId];
-  viewsDatastore
-    .getMatchupSpectatorView(matchupId, hasGameInProgress)
-    .then(matchupView => {
-      console.log('Found matchup', matchupView);
-      namespace.to(matchupId).emit(MATCHUP_VIEW, matchupView);
-    });
+  return viewsDatastore.getMatchupSpectatorView(matchupId, hasGameInProgress);
+};
+
+const getPlayerMatchupView = (matchupId: string, playerId: string): Promise<MatchupPlayerView> => {
+  console.log('getPlayerMatchupView', playerId);
+  const hasGameInProgress = !!gamesInProgress[matchupId];
+  return viewsDatastore.getPlayerMatchupView(matchupId, hasGameInProgress, playerId);
+};
+
+
+const sendMatchupView = (matchupId: string, namespace: Namespace) => {
+  getMatchupView(matchupId).then(matchupView => {
+    console.log('Found matchup', matchupView);
+    namespace.to(matchupId).emit(MATCHUP_VIEW, matchupView);
+  });
 };
 
 const init = (socketServer: Server, path: string) => {
@@ -69,22 +88,26 @@ const init = (socketServer: Server, path: string) => {
       });
     });
 
-    socket.on(REQUEST_MATCHUPS_FOR_PLAYER, (player: string) => {
+    socket.on(REQUEST_MATCHUPS_FOR_PLAYER, (playerId: string) => {
       ensureMatchups().then(matchups => {
         const playerTeams = Object.keys(PLAYER_IDS_BY_TEAM).map(teamId => {
           const teamPlayers = PLAYER_IDS_BY_TEAM[teamId];
-          return teamPlayers.includes(player) ? teamId : undefined;
+          return teamPlayers.includes(playerId) ? teamId : undefined;
         });
 
-        console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', matchups);
+        console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', playerId, matchups);
 
         const playerMatchups = matchups.filter(mu => {
           return mu.teamIds.some(t => playerTeams.includes(t));
         });
         console.log('Matchups for player', playerMatchups);
 
-        socket.join(player);
-        socket.emit(PLAYER_MATCHUP_VIEW, playerMatchups);
+        Promise.all(playerMatchups.map(mu => getPlayerMatchupView(mu.id, playerId))).then(
+          allMatchupViews => {
+            socket.join(playerId);
+            socket.emit(PLAYER_MATCHUP_VIEW, allMatchupViews);
+          }
+        );
       });
     });
 
@@ -105,7 +128,33 @@ const init = (socketServer: Server, path: string) => {
         );
         gamesInProgress[matchupId] = game;
         namespace.to(matchupId).emit(GAME_VIEW, game);
+        sendMatchupView(matchupId, namespace);
       });
+    });
+
+    socket.on(
+      MAKE_MOVE,
+      (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
+        console.log('MAKE MOVE RECEIVED', matchupId, teamId, moveUpdate);
+        const updatedGame = matchupService.updateTeamMove(
+          gamesInProgress[matchupId],
+          teamId,
+          moveUpdate
+        );
+        gamesInProgress[matchupId] = updatedGame;
+        namespace.to(matchupId).emit(GAME_VIEW, updatedGame);
+      }
+    );
+
+    socket.on(WATCH_GAME_FOR_MATCHUP, matchupId => {
+      console.log('Watching matchup for game', matchupId);
+      socket.join(matchupId);
+      const gameInProgress = gamesInProgress[matchupId];
+      if (gameInProgress) {
+        namespace.to(matchupId).emit(GAME_VIEW, gameInProgress);
+      } else {
+        namespace.to(matchupId).emit(GAME_VIEW, null);
+      }
     });
 
     socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {

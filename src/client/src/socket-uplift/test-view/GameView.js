@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { DebugView } from './DebugView';
 import { GameContext } from '../socket-context/GameProvider';
 import { TeamMoveView } from './TeamMoveView';
+import { MatchupContext } from '../socket-context/MatchupProvider';
 
 export const GameView = ({ matchupId }) => {
-  const { game, watchMatchupGame, startNewGame, makeMove } = useContext(
-    GameContext
-  );
+  const { makeMove } = useContext(GameContext);
+  const { watchMatchupGame, game, startNewGame } = useContext(MatchupContext);
 
   useEffect(() => {
     watchMatchupGame(matchupId);

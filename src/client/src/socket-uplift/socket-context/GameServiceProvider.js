@@ -8,12 +8,12 @@ const socket = socketIOClient(
   { autoConnect: false }
 );
 
-const useSocket = (setGame, setTheme, setPlayers) => {
+const useSocket = (setTheme, setPlayers) => {
   useEffect(() => {
     console.log('LOADED');
-    socket.on('GAME_VIEW', data => {
-      setGame(data);
-    });
+    // socket.on('GAME_VIEW', data => {
+    //   setGame(data);
+    // });
     socket.on('THEME_UPDATE', data => {
       setTheme(data);
     });
@@ -26,14 +26,14 @@ const useSocket = (setGame, setTheme, setPlayers) => {
 };
 
 export const GameServiceProvider = ({ children }) => {
-  const [game, setGame] = useState({});
+  // const [game, setGame] = useState({});
   const [theme, setTheme] = useState({});
   const [players, setPlayers] = useState([]);
 
-  useSocket(setGame, setTheme, setPlayers);
+  useSocket(setTheme, setPlayers);
 
   return (
-    <GameServiceContext.Provider value={{ game, theme, players }}>
+    <GameServiceContext.Provider value={{ theme, players }}>
       {children}
     </GameServiceContext.Provider>
   );

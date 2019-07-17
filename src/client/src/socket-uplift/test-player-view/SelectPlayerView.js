@@ -8,18 +8,27 @@ const PlayerItem = styled.option``;
 export const SelectPlayerView = ({ setSelectedPlayer }) => {
   const { players } = useContext(GameServiceContext);
 
+  console.log('HERE ARE YOUR PLAYERS', players);
+
   return (
     <PlayerList
-      onChange={(e) => {
+      onChange={e => {
+        console.log('change handler', e.target.value);
         setSelectedPlayer(e.target.value);
       }}
     >
-      {players &&
-        players.map(player => (
-          <PlayerItem key={player.id} value={player.id}>
-            {player.name}
+      {players && (
+        <React.Fragment>
+          <PlayerItem key="" value="">
+            Select
           </PlayerItem>
-        ))}
+          {players.map(player => (
+            <PlayerItem key={player.id} value={player.imageName}>
+              {player.name}
+            </PlayerItem>
+          ))}
+        </React.Fragment>
+      )}
     </PlayerList>
   );
 };

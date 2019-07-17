@@ -1,8 +1,11 @@
 import { matchupDatastore } from './matchup';
 import { counterDatastore } from './counters';
-import { MatchupSpectatorView } from '../services/matchup/types';
+import {
+  MatchupSpectatorView,
+  MatchupPlayerView,
+} from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
-import { ALL_TEAMS } from '../services/player/constants';
+import { ALL_TEAMS, PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 
 const getMatchupSpectatorView = (
   matchupId: string,
@@ -19,10 +22,12 @@ const getMatchupSpectatorView = (
           gameInProgress,
           teams: [
             {
+              id: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.id,
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.name,
               points: points[0].value,
             },
             {
+              id: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.id,
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.name,
               points: points[1].value,
             },
@@ -36,6 +41,31 @@ const getMatchupSpectatorView = (
   return promise;
 };
 
+const getPlayerMatchupView = (
+  matchupId: string,
+  gameInProgress: boolean,
+  playerId: string
+): Promise<MatchupPlayerView> => {
+  const promise = new Promise<MatchupPlayerView>(resolve => {
+    getMatchupSpectatorView(matchupId, gameInProgress).then(
+      matchupSpectatorView => {
+        // TODO: null checking
+        console.log('CHECKING PLAYERS TEAM', playerId);
+        const playersTeam = matchupSpectatorView.teams.find(team => {
+          const inTeam = PLAYER_IDS_BY_TEAM[team.id].includes(playerId);
+          console.log('Player is in team', team, inTeam);
+          return inTeam;
+        })!;
+        console.log('Player in team', playersTeam);
+
+        resolve({ ...matchupSpectatorView, playerTeamId: playersTeam.id });
+      }
+    );
+  });
+  return promise;
+};
+
 export const viewsDatastore = {
   getMatchupSpectatorView,
+  getPlayerMatchupView,
 };
