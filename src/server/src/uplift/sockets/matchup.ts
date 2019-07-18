@@ -11,10 +11,13 @@ import {
   GameMoveUpdate,
   MatchupPlayerView,
   GameSpectatorView,
+  GAME_STATUS,
 } from '../services/matchup/types';
 import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 import { viewsDatastore } from '../datastore/views';
 import { getGameStatus } from '../services/matchup/gameStatus';
+import { playService } from '../services/play';
+import { Counter } from '../services/counter/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
@@ -27,6 +30,7 @@ const START_GAME = 'START_GAME_FOR_MATCHUP';
 const GAME_VIEW = 'MATCHUP_GAME_VIEW';
 const MAKE_MOVE = 'MAKE_MATCHUP_MOVE';
 const WATCH_GAME_FOR_MATCHUP = 'WATCH_GAME_FOR_MATCHUP';
+const PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP';
 
 let cachedMatchups: TeamMatchup[] | null = null;
 let gamesInProgress: { [matchupId: string]: Game } = {};
@@ -123,6 +127,10 @@ const init = (socketServer: Server, path: string) => {
         });
         console.log('Matchups for player', playerMatchups);
 
+        playerMatchups.forEach(mu => {
+          socket.join(mu.id);
+        });
+
         Promise.all(
           playerMatchups.map(mu => getPlayerMatchupView(mu.id, playerId))
         ).then(allMatchupViews => {
@@ -163,6 +171,7 @@ const init = (socketServer: Server, path: string) => {
           moveUpdate
         );
         gamesInProgress[matchupId] = updatedGame;
+        sendMatchupView(matchupId, namespace);
         namespace.to(matchupId).emit(GAME_VIEW, updatedGame);
       }
     );
@@ -176,6 +185,39 @@ const init = (socketServer: Server, path: string) => {
       } else {
         namespace.to(matchupId).emit(GAME_VIEW, null);
       }
+    });
+
+    socket.on(PLAY_GAME_FOR_MATCHUP, (matchupId: string) => {
+      console.log('RECEIVED: PLAY_GAME_FOR_MATCHUP', matchupId);
+
+      const gameInProgress = gamesInProgress[matchupId];
+      if (
+        !gameInProgress ||
+        getGameStatus(gameInProgress) !== GAME_STATUS.ReadyToPlay
+      ) {
+        return; // TODO: could throw error
+      }
+
+      ensureMatchups().then(matchups => {
+        const matchup = matchups.find(mu => mu.id === matchupId)!;
+        console.log('PLAYING GAME FOR MATCHUP', matchup);
+        Promise.all([
+          counterDatastore.getCounter(matchup.pointCounterIds[0]),
+          counterDatastore.getCounter(matchup.pointCounterIds[1]),
+        ]).then((points: [Counter, Counter]) => {
+          const result = playService.playGame(gameInProgress, points);
+          console.log('RESULT------------->', result);
+
+          Promise.all([
+            counterDatastore.updateCounter(result.points[0]),
+            counterDatastore.updateCounter(result.points[1]),
+          ]).then(() => {
+            console.log('Saved!');
+            sendMatchupView(matchup.id, namespace);
+          });
+
+        });
+      });
     });
 
     socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {

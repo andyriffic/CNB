@@ -12,7 +12,7 @@ const getMatchup = (id: string): Promise<TeamMatchup> => {
 }
 
 const getAllMatchups = (): Promise<TeamMatchup[]> => {
-  return scanDynamoTable(DYNAMO_DB_TABLE_NAME, 'id, teamIds');
+  return scanDynamoTable(DYNAMO_DB_TABLE_NAME, 'id, teamIds, pointCounterIds');
 };
 
 export const matchupDatastore = {

@@ -7,7 +7,7 @@ import { counterService } from '../counter';
 const playGame = (
   game: Game,
   points: [Counter, Counter],
-  bonusPoints: Counter
+  bonusPoints: Counter = counterService.createCounter('unused')
 ): PlayResult => {
   const result = gameResultService.getWinner([
     game.moves[0].moveId!,

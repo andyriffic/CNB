@@ -22,7 +22,7 @@ const Vs = styled.div`
 `;
 
 export const MatchupsGameView = ({ matchupId }) => {
-  const { watchMatchup, currentMatchup } = useContext(MatchupContext);
+  const { watchMatchup, currentMatchup, playGame } = useContext(MatchupContext);
 
   useEffect(() => {
     watchMatchup(matchupId);
@@ -45,7 +45,17 @@ export const MatchupsGameView = ({ matchupId }) => {
             {currentMatchup.teams[1].points}
           </MatchupPlayer>
           <div>
-            {currentMatchup.gameInProgress ? 'Game in progress' : 'No Game'}
+            (
+            {currentMatchup.gameInProgress
+              ? currentMatchup.gameInProgress.status
+              : 'No Game'}
+            )
+            {currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status === 'ReadyToPlay' && (
+                <button type="text" onClick={() => playGame(matchupId)}>
+                  PLAY!
+                </button>
+              )}
           </div>
         </MatchupListItem>
       )}

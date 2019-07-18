@@ -6,6 +6,8 @@ import {
   PutItemOutput,
   GetItemInput,
   GetItemOutput,
+  UpdateItemInput,
+  UpdateItemOutput,
 } from 'aws-sdk/clients/dynamodb';
 
 import {
@@ -26,7 +28,7 @@ export function getItemById<T>(tableName: string, id: string): Promise<T> {
     TableName: tableName,
     Key: {
       // @ts-ignore (Typescript definition doesn't work if used as intended, e.g. id: { S: id })
-      id, 
+      id,
     },
   };
 
@@ -45,6 +47,38 @@ export function getItemById<T>(tableName: string, id: string): Promise<T> {
 
   return promise;
 }
+
+export const updateDynamoDbItem = (
+  tableName: string,
+  id: string,
+  updateExpression: string,
+  expressionNames: { [key: string]: any },
+  expressionValues: { [key: string]: any }
+): Promise<any> => {
+  const params: UpdateItemInput = {
+    TableName: tableName,
+    Key: {
+      // @ts-ignore (Typescript definition doesn't work if used as intended, e.g. id: { S: id })
+      id,
+    },
+    UpdateExpression: updateExpression,
+    ExpressionAttributeNames: expressionNames,
+    ExpressionAttributeValues: expressionValues,
+    ReturnValues: 'UPDATED_NEW',
+  };
+
+  const promise = new Promise<any>((resolve, reject) => {
+    docClient.update(params, (err: AWSError, data: UpdateItemOutput) => {
+      if (err) {
+        console.log(err);
+        reject('Error updating item');
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  return promise;
+};
 
 export const putDynamoDbItem = (tableName: string, item: any): Promise<any> => {
   const params: PutItemInput = {

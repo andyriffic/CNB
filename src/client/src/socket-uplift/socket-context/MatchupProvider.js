@@ -67,6 +67,11 @@ const startNewGame = matchupId => {
   socket.emit('START_GAME_FOR_MATCHUP', matchupId);
 };
 
+const playGame = matchupId => {
+  console.log('Gonna play the game', matchupId);
+  socket.emit('PLAY_GAME_FOR_MATCHUP', matchupId);
+};
+
 export const MatchupProvider = ({ children }) => {
   const [matchups, setMatchups] = useState([]);
   const [currentMatchup, setCurrentMatchup] = useState();
@@ -93,6 +98,7 @@ export const MatchupProvider = ({ children }) => {
         requestMatchupsForPlayer,
         playerMatchups,
         makeMove,
+        playGame,
       }}
     >
       {children}
