@@ -7,4 +7,4 @@ export const IS_PRODUCTION =
 
 export const STATS_API_BASE_URL =
   process.env.REACT_APP_STATS_API_BASE_URL ||
-  'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-dev-results';
+  'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-prod-results';

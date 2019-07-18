@@ -10,6 +10,7 @@ import { groupPlayerRankings } from './groupPlayerRankings';
 
 import { Bounce, Power3 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
+import { rankByWinDrawPlayedRatio } from './rankPlayers';
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 const fetchRankings = () => {
@@ -115,7 +116,9 @@ const View = () => {
   useEffect(() => {
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
-      setRankingList(groupPlayerRankings(rankings.result));
+      setRankingList(
+        groupPlayerRankings(rankByWinDrawPlayedRatio(rankings.result))
+      );
     });
   }, []);
 
@@ -125,13 +128,13 @@ const View = () => {
       console.log('PARENT', parentRefRect);
       boardGroupRefs.current.reverse().forEach((elem, index) => {
         const rect = elem.getBoundingClientRect();
-        console.log('THIS', elem.getBoundingClientRect());
-        new TimelineLite({ delay: index * 4.5 })
-          .to(elem, 1.5, { opacity: 1, ease: Power3.easeOut })
-          .from(elem, 2, {
+        // console.log('THIS', elem.getBoundingClientRect());
+        new TimelineLite({ delay: index })
+          .to(elem, 0.5, { opacity: 1, ease: Power3.easeOut })
+          .from(elem, 0.5, {
             y: parentRefRect.top - rect.top,
             ease: Bounce.easeOut,
-            delay: 1.5,
+            delay: 0.5,
           });
       });
     }

@@ -2,20 +2,20 @@ export const groupPlayerRankings = playerRankings => {
   // Take a flat list of rankings and group into 1st, 2nd, 3rd etc
   /* e.g.
     [
-      {player: 'A', times_won: 2},
-      {player: 'B', times_won: 2},
-      {player: 'C', times_won: 1},
+      {player: 'A', rankScore: 2},
+      {player: 'B', rankScore: 2},
+      {player: 'C', rankScore: 1},
     ]
     becomes =>
     [
-      [{player: 'A', times_won: 2}, {player: 'B', times_won: 2}],
-      [{player: 'C', times_won: 1}]
+      [{player: 'A', rankScore: 2}, {player: 'B', rankScore: 2}],
+      [{player: 'C', rankScore: 1}]
     ]
 
     This is so we can show equal placings
   */
 
-  let lastScore = playerRankings[0].times_won;
+  let lastScore = playerRankings[0].rankScore;
   let tempRankingGroup = [];
   const groupedRankings = [];
   playerRankings.forEach(ranking => {
@@ -23,12 +23,12 @@ export const groupPlayerRankings = playerRankings => {
       // TODO: filter guest out on server
       return;
     }
-    if (ranking.times_won === lastScore) {
+    if (ranking.rankScore === lastScore) {
       tempRankingGroup.push(ranking);
       return;
     }
 
-    lastScore = ranking.times_won;
+    lastScore = ranking.rankScore;
 
     groupedRankings.push(tempRankingGroup);
     tempRankingGroup = [ranking];

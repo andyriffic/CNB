@@ -27,7 +27,9 @@ const Stats = styled.div`
 export const PlayerRanking = ({ playerRanking }) => {
   return (
     <Container>
-      <Name>{playerRanking.player}</Name>
+      <Name>
+        {playerRanking.player}({playerRanking.rankScore})
+      </Name>
       <Stats>
         <SubStatItem title="Wins" value={playerRanking.times_won} />
         <SubStatItem
