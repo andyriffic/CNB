@@ -3,13 +3,14 @@ import { counterDatastore } from './counters';
 import {
   MatchupSpectatorView,
   MatchupPlayerView,
+  GameSpectatorView,
 } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
 import { ALL_TEAMS, PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 
 const getMatchupSpectatorView = (
   matchupId: string,
-  gameInProgress: boolean
+  gameInProgress: GameSpectatorView | null
 ): Promise<MatchupSpectatorView> => {
   const promise = new Promise<MatchupSpectatorView>(resolve => {
     matchupDatastore.getMatchup(matchupId).then(matchup => {
@@ -43,7 +44,7 @@ const getMatchupSpectatorView = (
 
 const getPlayerMatchupView = (
   matchupId: string,
-  gameInProgress: boolean,
+  gameInProgress: GameSpectatorView | null,
   playerId: string
 ): Promise<MatchupPlayerView> => {
   const promise = new Promise<MatchupPlayerView>(resolve => {

@@ -10,9 +10,11 @@ import {
   MatchupSpectatorView,
   GameMoveUpdate,
   MatchupPlayerView,
+  GameSpectatorView,
 } from '../services/matchup/types';
 import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
 import { viewsDatastore } from '../datastore/views';
+import { getGameStatus } from '../services/matchup/gameStatus';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
@@ -57,17 +59,36 @@ const resyncMatchups = (socket: Socket) => {
     });
 };
 
+const getGameInProgress = (matchupId: string): GameSpectatorView | null => {
+  const gameInProgress = gamesInProgress[matchupId];
+  if (!gameInProgress) {
+    return null;
+  }
+
+  return {
+    id: gameInProgress.id,
+    status: getGameStatus(gameInProgress),
+  };
+};
+
 const getMatchupView = (matchupId: string): Promise<MatchupSpectatorView> => {
-  const hasGameInProgress = !!gamesInProgress[matchupId];
-  return viewsDatastore.getMatchupSpectatorView(matchupId, hasGameInProgress);
+  return viewsDatastore.getMatchupSpectatorView(
+    matchupId,
+    getGameInProgress(matchupId)
+  );
 };
 
-const getPlayerMatchupView = (matchupId: string, playerId: string): Promise<MatchupPlayerView> => {
+const getPlayerMatchupView = (
+  matchupId: string,
+  playerId: string
+): Promise<MatchupPlayerView> => {
   console.log('getPlayerMatchupView', playerId);
-  const hasGameInProgress = !!gamesInProgress[matchupId];
-  return viewsDatastore.getPlayerMatchupView(matchupId, hasGameInProgress, playerId);
+  return viewsDatastore.getPlayerMatchupView(
+    matchupId,
+    getGameInProgress(matchupId),
+    playerId
+  );
 };
-
 
 const sendMatchupView = (matchupId: string, namespace: Namespace) => {
   getMatchupView(matchupId).then(matchupView => {
@@ -102,12 +123,12 @@ const init = (socketServer: Server, path: string) => {
         });
         console.log('Matchups for player', playerMatchups);
 
-        Promise.all(playerMatchups.map(mu => getPlayerMatchupView(mu.id, playerId))).then(
-          allMatchupViews => {
-            socket.join(playerId);
-            socket.emit(PLAYER_MATCHUP_VIEW, allMatchupViews);
-          }
-        );
+        Promise.all(
+          playerMatchups.map(mu => getPlayerMatchupView(mu.id, playerId))
+        ).then(allMatchupViews => {
+          socket.join(playerId);
+          socket.emit(PLAYER_MATCHUP_VIEW, allMatchupViews);
+        });
       });
     });
 

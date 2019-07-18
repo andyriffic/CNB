@@ -38,9 +38,14 @@ export type TeamSpectatorView = {
   points: number;
 };
 
+export type GameSpectatorView = {
+  id: string,
+  status: GAME_STATUS,
+}
+
 export type MatchupSpectatorView = {
   id: string;
-  gameInProgress: boolean;
+  gameInProgress: GameSpectatorView | null;
   teams: [TeamSpectatorView, TeamSpectatorView];
 };
 
