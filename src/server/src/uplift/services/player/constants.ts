@@ -27,6 +27,8 @@ export const ALL_PLAYERS: PlayerList = [
 export const ALL_TEAMS = [
   { id: 'xian', name: 'Xian' },
   { id: 'melb', name: 'Melbourne' },
+  { id: 'us', name: 'Us' },
+  { id: 'them', name: 'Them' },
 ];
 
 export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
@@ -50,4 +52,6 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'ray',
     'yujin',
   ],
+  us: ['albert', 'alex'],
+  them: ['ray', 'yujin'],
 };
