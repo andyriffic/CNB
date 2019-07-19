@@ -15,16 +15,23 @@ export const PlayerMatchupsView = ({ playerId, selectMatchup }) => {
     <div>
       <h2>{playerId}</h2>
       {playerMatchups &&
-        playerMatchups.map(mu => (
-          <p
-            key={mu.id}
-            onClick={() => selectMatchup(mu)}
-            style={{ cursor: 'pointer' }}
-          >
-            {mu.teams[0].name} <strong>vs</strong> {mu.teams[1].name}{' '}
-            {mu.gameInProgress ? '✅' : '❌'}
-          </p>
-        ))}
+        playerMatchups.map(mu => {
+          const gameEnabled =
+            mu.gameInProgress && mu.gameInProgress.status !== 'Finished';
+          const gameFinished =
+            mu.gameInProgress && mu.gameInProgress.status === 'Finished';
+
+          return (
+            <p
+              key={mu.id}
+              onClick={() => gameEnabled && selectMatchup(mu)}
+              style={{ cursor: 'pointer' }}
+            >
+              {mu.teams[0].name} <strong>vs</strong> {mu.teams[1].name}{' '}
+              {gameEnabled ? '✅' : gameFinished ? '🏁' : '❌'}
+            </p>
+          );
+        })}
     </div>
   );
 };

@@ -12,12 +12,17 @@ import {
   MatchupPlayerView,
   GameSpectatorView,
   GAME_STATUS,
+  GameMove,
+  MoveSpectatorView,
+  GameResultSpectatorView,
+  GameMoveResultSpectatorView,
 } from '../services/matchup/types';
-import { PLAYER_IDS_BY_TEAM } from '../services/player/constants';
+import { PLAYER_IDS_BY_TEAM, ALL_PLAYERS } from '../services/player/constants';
 import { viewsDatastore } from '../datastore/views';
 import { getGameStatus } from '../services/matchup/gameStatus';
 import { playService } from '../services/play';
 import { Counter } from '../services/counter/types';
+import { GameResult } from '../services/game-result/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const REQUEST_MATCHUPS = 'REQUEST_MATCHUPS';
@@ -63,6 +68,42 @@ const resyncMatchups = (socket: Socket) => {
     });
 };
 
+const getSpectatorMove = (move: GameMove): MoveSpectatorView => {
+  return {
+    moved: !!move.moveId,
+    usedPowerup: !!move.powerUpId && move.powerUpId !== 'NONE',
+    playerName: move.playerId
+      ? ALL_PLAYERS.find(p => p.id === move.playerId)!.name
+      : null,
+  };
+};
+
+const getSpectatorResultGameMove = (
+  move: GameMove
+): GameMoveResultSpectatorView => {
+  return {
+    moveId: move.moveId!,
+    powerUpId: move.powerUpId!,
+  };
+};
+
+const getSpectatorGameResult = (
+  game: Game
+): GameResultSpectatorView | undefined => {
+  if (!game.result) {
+    return undefined;
+  }
+
+  return {
+    draw: game.result.draw,
+    winnerIndex: game.result.winnerIndex,
+    moves: [
+      getSpectatorResultGameMove(game.moves[0]),
+      getSpectatorResultGameMove(game.moves[1]),
+    ],
+  };
+};
+
 const getGameInProgress = (matchupId: string): GameSpectatorView | null => {
   const gameInProgress = gamesInProgress[matchupId];
   if (!gameInProgress) {
@@ -72,6 +113,11 @@ const getGameInProgress = (matchupId: string): GameSpectatorView | null => {
   return {
     id: gameInProgress.id,
     status: getGameStatus(gameInProgress),
+    moves: [
+      getSpectatorMove(gameInProgress.moves[0]),
+      getSpectatorMove(gameInProgress.moves[1]),
+    ],
+    result: getSpectatorGameResult(gameInProgress),
   };
 };
 
@@ -195,6 +241,9 @@ const init = (socketServer: Server, path: string) => {
         !gameInProgress ||
         getGameStatus(gameInProgress) !== GAME_STATUS.ReadyToPlay
       ) {
+        console.log(
+          'GAME COULD NOT BE PLAYED (may not exist, already have been played or not ready to be played'
+        );
         return; // TODO: could throw error
       }
 
@@ -213,9 +262,12 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.updateCounter(result.points[1]),
           ]).then(() => {
             console.log('Saved!');
+            gamesInProgress[matchupId] = matchupService.resolveGame(
+              gamesInProgress[matchupId],
+              result.gameResult
+            );
             sendMatchupView(matchup.id, namespace);
           });
-
         });
       });
     });

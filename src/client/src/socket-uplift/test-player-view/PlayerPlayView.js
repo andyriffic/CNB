@@ -14,6 +14,7 @@ export const PlayerPlayView = ({ playerId, matchup }) => {
   return (
     <div>
       {game && <p>{game.id}</p>}
+      <h3>{playerId}</h3>
       <h3>{matchup.playerTeamId}</h3>
       <div>
         {moves.map(m => (

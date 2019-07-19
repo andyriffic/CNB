@@ -1,4 +1,5 @@
 import { TeamMatchup, Game, GameMove, GameMoveUpdate } from './types';
+import { GameResult } from '../game-result/types';
 
 const createTeamMatchup = (
   id: string,
@@ -22,6 +23,13 @@ const createGame = (id: string, teamIds: [string, string]): Game => {
   return game;
 };
 
+const resolveGame = (game: Game, result: GameResult): Game => {
+  return {
+    ...game,
+    result
+  };
+};
+
 const updateTeamMove = (
   game: Game,
   teamId: string,
@@ -35,7 +43,7 @@ const updateTeamMove = (
   if (game.moves[teamMoveIndex].moveId) {
     // throw new Error('Already moved');
     // TODO throw an error but handle gracefully in calling code
-    console.info('Player has already moved')
+    console.info('Player has already moved');
     return game;
   }
 
@@ -63,4 +71,5 @@ export const matchupService = {
   createTeamMatchup,
   createGame,
   updateTeamMove,
+  resolveGame,
 };

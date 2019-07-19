@@ -5,11 +5,14 @@ const moveComplete = (move: GameMove): Boolean => {
 }
 
 export const getGameStatus = (game: Game): GAME_STATUS => {
+
+  if (game.result) {
+    return GAME_STATUS.Finished;
+  }
+
   if (moveComplete(game.moves[0]) && moveComplete(game.moves[1])) {
     return GAME_STATUS.ReadyToPlay;
   }
-
-  // TODO: how to determine if game finished
 
   return GAME_STATUS.WaitingPlayerMoves;
 };

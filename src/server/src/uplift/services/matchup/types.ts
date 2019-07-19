@@ -1,4 +1,4 @@
-import { GAME_MOVE } from '../game-result/types';
+import { GAME_MOVE, GameResult } from '../game-result/types';
 
 export enum GAME_STATUS {
   WaitingPlayerMoves = 'WaitingPlayerMoves',
@@ -30,6 +30,7 @@ export type GameMoveUpdate = {
 export type Game = {
   id: string;
   moves: [GameMove, GameMove];
+  result?: GameResult;
 };
 
 export type TeamSpectatorView = {
@@ -38,10 +39,29 @@ export type TeamSpectatorView = {
   points: number;
 };
 
+export type GameMoveResultSpectatorView = {
+  moveId: GAME_MOVE;
+  powerUpId: string;
+};
+
+export type GameResultSpectatorView = {
+  draw?: boolean;
+  winnerIndex?: number;
+  moves: [GameMoveResultSpectatorView, GameMoveResultSpectatorView];
+};
+
+export type MoveSpectatorView = {
+  moved: boolean;
+  usedPowerup: boolean;
+  playerName: string | null;
+};
+
 export type GameSpectatorView = {
-  id: string,
-  status: GAME_STATUS,
-}
+  id: string;
+  status: GAME_STATUS;
+  moves: [MoveSpectatorView, MoveSpectatorView];
+  result?: GameResultSpectatorView;
+};
 
 export type MatchupSpectatorView = {
   id: string;
@@ -50,5 +70,5 @@ export type MatchupSpectatorView = {
 };
 
 export type MatchupPlayerView = {
-  playerTeamId: string
-} & MatchupSpectatorView
+  playerTeamId: string;
+} & MatchupSpectatorView;
