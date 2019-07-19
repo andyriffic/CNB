@@ -51,13 +51,11 @@ const getPlayerMatchupView = (
     getMatchupSpectatorView(matchupId, gameInProgress).then(
       matchupSpectatorView => {
         // TODO: null checking
-        console.log('CHECKING PLAYERS TEAM', playerId);
         const playersTeam = matchupSpectatorView.teams.find(team => {
           const inTeam = PLAYER_IDS_BY_TEAM[team.id].includes(playerId);
           console.log('Player is in team', team, inTeam);
           return inTeam;
         })!;
-        console.log('Player in team', playersTeam);
 
         resolve({ ...matchupSpectatorView, playerTeamId: playersTeam.id });
       }

@@ -2,8 +2,8 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 
 const MATCHUP_EVENTS = {
-  SUBSCRIBE_TO_ALL_MATCHUPS: 'REQUEST_MATCHUPS',
-  ON_MATCHUPS_RECEIVED: 'MATCHUPS_UPDATE',
+  SUBSCRIBE_TO_ALL_MATCHUPS: 'SUBSCRIBE_TO_ALL_MATCHUPS',
+  ON_MATCHUPS_RECEIVED: 'ALL_MATCHUPS_UPDATE',
 };
 
 export type Team = {
@@ -30,7 +30,7 @@ const initialValue: MatchupService = {
 export const MatchupContext = React.createContext<MatchupService>(initialValue);
 
 const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/matchups`
+  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/matchups-realz`
 );
 
 export const MatchupProvider = ({ children }: { children: ReactNode }) => {
