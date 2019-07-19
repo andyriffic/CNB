@@ -4,6 +4,7 @@ import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { MatchupContext } from '../../contexts/MatchupProvider';
 import { MatchupSummaryView } from '../components/matchup-summary';
+import { RouteComponentProps } from '@reach/router';
 
 const MatchupsContainer = styled.div`
   width: 80%;
@@ -11,7 +12,7 @@ const MatchupsContainer = styled.div`
   margin: 0 auto;
 `;
 
-export default () => {
+export default ({ navigate }: RouteComponentProps) => {
   const { allMatchups, loadingAllMatchups } = useContext(MatchupContext);
   return (
     <FullPageLayout pageTitle="Matchup Lobby" alignTop={true}>
@@ -23,7 +24,7 @@ export default () => {
             <MatchupSummaryView
               key={matchup.id}
               matchup={matchup}
-              onSelected={() => false}
+              onSelected={() => navigate && navigate(`/matchup/${matchup.id}?feature=uplift`)}
             />
           ))
         )}
