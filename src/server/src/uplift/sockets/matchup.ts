@@ -154,8 +154,12 @@ const init = (socketServer: Server, path: string) => {
     console.log('someone connected to MATCHUPS', socket.id);
 
     socket.on(REQUEST_MATCHUPS, () => {
-      ensureMatchups().then(matchups => {
-        socket.emit(MATCHUPS_UPDATE, matchups);
+      ensureMatchups().then((matchups: TeamMatchup[]) => {
+        Promise.all(
+          matchups.map(matchup => getMatchupView(matchup.id))
+        ).then((matchupViews: MatchupSpectatorView[]) => {
+          socket.emit(MATCHUPS_UPDATE, matchupViews);
+        });
       });
     });
 
