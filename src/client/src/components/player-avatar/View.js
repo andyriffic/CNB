@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -26,11 +25,7 @@ const Name = styled.div`
   opacity: 0.7;
 `;
 
-type Props = {
-  avatar: Object,
-};
-
-const View = ({ avatar }: Props) => {
+const View = ({ avatar }) => {
   if (!(avatar && avatar.imageName)) return null;
   return (
     <Container>

@@ -1,12 +1,11 @@
-/* @flow */
 import React from 'react';
 
-const TRANSLATATIONS: { [string]: string } = {
+const TRANSLATATIONS = {
   XIAN: '西安',
   MELB: '墨爾本',
 };
 
-export const safeGetTranslation = (playerName: string): string => {
+export const safeGetTranslation = playerName => {
   if (TRANSLATATIONS[playerName]) {
     return `${playerName} ${TRANSLATATIONS[playerName]}`;
   }
@@ -14,11 +13,7 @@ export const safeGetTranslation = (playerName: string): string => {
   return playerName;
 };
 
-type Props = {
-  playerName: string,
-};
-
-const View = ({ playerName }: Props) => {
+const View = ({ playerName }) => {
   return <React.Fragment>{safeGetTranslation(playerName)}</React.Fragment>;
 };
 

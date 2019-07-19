@@ -1,8 +1,5 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import type { MakeMoveSelection } from '../../types';
 import { PageSubTitle, Button } from '../../../styled';
 import ItemCardSelection from '../../../../components/item-card-selection';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
@@ -20,7 +17,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const View = ({ onSelection }: MakeMoveSelection) => {
+const View = ({ onSelection }) => {
   const theme = useContext(GameThemeContext);
   const [focusCharacterIndex, setFocusCharacterIndex] = useState(0);
   const [characterSelection, setCharacterSelection] = useState({});

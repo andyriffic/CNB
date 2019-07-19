@@ -1,10 +1,4 @@
-// @flow
-import type { PointsAssignment, Scores } from './types';
-
-export const getStandardPointsAssignment = (
-  scores: Scores,
-  gameFinishedResult: Object
-): PointsAssignment => {
+export const getStandardPointsAssignment = (scores, gameFinishedResult) => {
   if (gameFinishedResult.draw) {
     return {
       player1: 0,

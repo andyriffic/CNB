@@ -1,8 +1,6 @@
-/* @flow */
-import type { ThemeProvider } from './types';
 import CowboyNinjaBearTheme from '../cowboy-ninja-bear';
 
-class Provider implements ThemeProvider {
+class Provider {
   getTheme = () => {
     return CowboyNinjaBearTheme;
   };

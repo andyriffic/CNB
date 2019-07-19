@@ -1,17 +1,8 @@
-/* @flow */
 import React from 'react';
-import type { ComponentType } from 'react';
 import styled from 'styled-components';
 
 import TranslatedPlayerName from '../../../../components/translated-player-name';
 import WaitingIndicator from '../../../../components/waiting-indicator';
-
-type Props = {
-  moved: boolean,
-  name: string,
-  badge?: ComponentType<*>,
-  avatar: Object,
-};
 
 const Title = styled.div`
   margin: 0;
@@ -27,7 +18,7 @@ const BadgeContainer = styled.div`
   opacity: 0.7;
 `;
 
-const View = ({ moved, name, badge, avatar }: Props) => {
+const View = ({ moved, name, badge, avatar }) => {
   return (
     <WaitingIndicator loaded={moved}>
       <Title>

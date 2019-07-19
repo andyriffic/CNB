@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import SelectedIcon from '../../../../components/icons/selected';
 

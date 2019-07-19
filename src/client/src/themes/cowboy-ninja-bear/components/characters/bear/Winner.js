@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,12 +6,7 @@ const StyledBear = styled.svg`
   width: ${props => props.width}%;
 `;
 
-type Props = {
-  height: number,
-  width: number,
-};
-
-const Winner = ({ height, width }: Props) => {
+const Winner = ({ height, width }) => {
   return (
     <StyledBear viewBox="0 0 491.313 491.313" height={height} width={width}>
       <polygon

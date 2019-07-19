@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,12 +6,7 @@ const StyledNinja = styled.svg`
   width: ${props => props.width}%;
 `;
 
-type Props = {
-  height: number,
-  width: number,
-};
-
-const Winner = ({ height, width }: Props) => {
+const Winner = ({ height, width }) => {
   return (
     <StyledNinja viewBox="0 0 512 512" height={height} width={width}>
       <path

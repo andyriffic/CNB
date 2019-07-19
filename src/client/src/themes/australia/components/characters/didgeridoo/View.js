@@ -1,15 +1,8 @@
-/* @flow */
 import React from 'react';
 
 import Winner from './Winner';
 
-type Props = {
-  height: number,
-  width: number,
-  loser?: boolean,
-};
-
-const View = ({ height, width, loser }: Props) => {
+const View = ({ height, width, loser }) => {
   return <Winner />;
 };
 

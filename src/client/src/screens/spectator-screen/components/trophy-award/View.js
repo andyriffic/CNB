@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useContext, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import {
@@ -13,7 +11,6 @@ import TrophyImage from './trophy.png';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import VisibilityContainer from '../../../../components/visibility-placeholder';
-import type { TrophyPoints } from '../../../../trophy-points/types';
 import { FancyLink } from '../../../../components/FancyLink';
 
 const Pulse = keyframes`
@@ -102,12 +99,7 @@ const Image = styled.img`
   width: 35vmin;
 `;
 
-type Props = {
-  trophyPoints: TrophyPoints,
-  resetGame: () => void,
-};
-
-const View = ({ trophyPoints, resetGame }: Props) => {
+const View = ({ trophyPoints, resetGame }) => {
   const soundService = useContext(GameSoundContext);
   const [showButton, setShowButton] = useState(false);
 

@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -178,12 +177,7 @@ const NinjaStar = ({ animationDelay, keyframes, isLeft }) => {
   );
 };
 
-type Props = {
-  animationDelay: number,
-  isLeft: boolean,
-};
-
-const View = ({ animationDelay, isLeft }: Props) => {
+const View = ({ animationDelay, isLeft }) => {
   const smallKeyframes = isLeft ? rotateSmallLeft : rotateSmallRight;
   const mediumKeyframes = isLeft ? rotateMediumLeft : rotateMediumRight;
   const heapsKeyframes = isLeft ? rotateHeapsLeft : rotateHeapsRight;

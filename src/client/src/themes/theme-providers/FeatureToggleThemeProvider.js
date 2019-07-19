@@ -1,19 +1,16 @@
-/* @flow */
-import type { ThemeProvider } from './types';
 import CowboyNinjaBearTheme from '../cowboy-ninja-bear';
 import PandaPizzaPirateTheme from '../panda-pizza-pirate';
 import XmasTheme from '../xmas';
 import NewYearTheme from '../new-year';
 import AustraliaTheme from '../australia';
 import EasterTheme from '../easter';
-import type { IsFeatureEnabled } from '../../featureToggle';
 
-class Provider implements ThemeProvider {
-  _featureEnabled: IsFeatureEnabled = () => {
+class Provider {
+  _featureEnabled = () => {
     throw new Error('Feature Enabled function has not been set');
   };
 
-  constructor(isFeatureEnabled: IsFeatureEnabled) {
+  constructor(isFeatureEnabled) {
     this._featureEnabled = isFeatureEnabled;
   }
 

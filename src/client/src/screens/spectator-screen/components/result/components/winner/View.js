@@ -1,13 +1,5 @@
-/* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-
-type Props = {
-  result: Object,
-  player1: Object,
-  player2: Object,
-  setContainerRef?: () => void,
-};
 
 const WinnerView = styled.div`
   display: flex;
@@ -61,12 +53,7 @@ const TranslatedWinnerText = ({ winner }) => {
   return null;
 };
 
-const View = ({
-  player1,
-  player2,
-  result,
-  setContainerRef = () => {},
-}: Props) => {
+const View = ({ player1, player2, result, setContainerRef = () => {} }) => {
   const winner = result.winner === 'player1' ? player1 : player2;
 
   return (

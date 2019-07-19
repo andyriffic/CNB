@@ -1,9 +1,5 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useState, useEffect, useContext } from 'react';
 import socketIOClient from 'socket.io-client';
-
-import type { Node } from 'react';
 
 import ServerMessagesContext from '../contexts/ServerMessagesContext';
 import GameStateContext from '../contexts/GameStateContext';
@@ -24,10 +20,6 @@ const socket = socketIOClient(
 const mapPlayerNameToSlot = {
   XIAN: 'player1',
   MELB: 'player2',
-};
-
-type Props = {
-  children: Node,
 };
 
 const saveStats = (
@@ -58,7 +50,7 @@ const saveStats = (
   );
 };
 
-const SocketsConnection = ({ children }: Props) => {
+const SocketsConnection = ({ children }) => {
   const [gameState, setGameState] = useState(null);
   const [connectionDetails, setConnectionDetails] = useState(null);
   const scores = useContext(ScoreboardContext);

@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -175,11 +174,7 @@ const Trail = styled.span`
   }
 `;
 
-type Props = {
-  animationDelay: number,
-};
-
-const View = ({ animationDelay }: Props) => {
+const View = ({ animationDelay }) => {
   return (
     <ViewContainer>
       <Claws animationDelay={animationDelay}>

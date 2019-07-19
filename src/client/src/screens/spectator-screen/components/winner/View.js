@@ -1,15 +1,6 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
-
-type Props = {
-  result: Object,
-  player1: Object,
-  player2: Object,
-  setContainerRef?: () => void,
-};
 
 const WinnerView = styled.div`
   display: flex;
@@ -101,12 +92,7 @@ const TranslatedWinnerText = ({ winner }) => {
   return null;
 };
 
-const View = ({
-  player1,
-  player2,
-  result,
-  setContainerRef = () => {},
-}: Props) => {
+const View = ({ player1, player2, result, setContainerRef = () => {} }) => {
   const theme = useContext(GameThemeContext);
   const winner = result.winner === 'player1' ? player1 : player2;
   const loser = winner === player1 ? player2 : player1;

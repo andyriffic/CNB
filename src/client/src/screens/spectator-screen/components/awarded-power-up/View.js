@@ -1,12 +1,7 @@
-/* @flow */
 import React from 'react';
 import RainbowText from '../../../../components/rainbow-text';
 
-type Props = {
-  powerUp?: string,
-};
-
-const View = ({ powerUp }: Props) => {
+const View = ({ powerUp }) => {
   return (
     <RainbowText>
       {powerUp ? (

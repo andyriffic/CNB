@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -7,15 +5,6 @@ import Switch from '../../../../components/switch';
 
 import TranslatedPlayerName from '../../../../components/translated-player-name';
 import GameThemeContext from '../../../../contexts/GameThemeContext';
-
-type Props = {
-  player: Object,
-  isWinner: boolean,
-  isDraw: boolean,
-  otherPlayersMove: string,
-  isLeft: boolean,
-  setContainerRef?: () => void,
-};
 
 const initialAnimationDelay = 0;
 const resultAnimationDelay = 1;
@@ -141,7 +130,7 @@ const PlayerResult = ({
   otherPlayersMove,
   isLeft,
   setContainerRef = () => {},
-}: Props) => {
+}) => {
   const theme = useContext(GameThemeContext);
   const characterMapping = theme.characters.characterMapping;
   const animationMapping = theme.characters.winningAnimationMapping;

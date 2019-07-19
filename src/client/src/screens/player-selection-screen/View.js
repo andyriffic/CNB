@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext, useState, useEffect } from 'react';
 
 import useGetGameState from '../hooks/useGetGameState';
@@ -18,11 +16,6 @@ import AwardedPowerUps from './components/awarded-power-ups';
 import { safeGetTranslation } from '../../components/translated-player-name/View';
 import PowerUpContext from '../../contexts/PowerUpContext';
 
-type Props = {
-  // todo: do better than this
-  playerKey: 'XIAN' | 'MELB',
-};
-
 const hasGameResult = gameState => !!(gameState && gameState.result);
 const playerHasMoved = (gameState, playerState) =>
   playerState && playerState.player && playerState.player.moved;
@@ -30,7 +23,7 @@ const hasSelectedAvatar = (playerState, selectedAvatar) =>
   selectedAvatar ||
   (playerState && playerState.player && playerState.player.avatar);
 
-const View = ({ playerKey }: Props) => {
+const View = ({ playerKey }) => {
   const playerState = usePlayerState(playerKey);
 
   const [selectedPowerUp, setSelectedPowerUp] = useState(null);

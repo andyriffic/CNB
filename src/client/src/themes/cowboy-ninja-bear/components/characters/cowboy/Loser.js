@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,12 +6,7 @@ const StyledCowboy = styled.svg`
   width: ${props => props.width}%;
 `;
 
-type Props = {
-  height: number,
-  width: number,
-};
-
-const Loser = ({ height, width }: Props) => {
+const Loser = ({ height, width }) => {
   return (
     <StyledCowboy viewBox="0 0 496 496" height={height} width={width}>
       <rect x="80" y="440" width="336" height="48" fill="#f9e0a6" />

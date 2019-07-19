@@ -1,14 +1,12 @@
-/* @flow */
-import type { ThemeProvider } from './types';
 import NewYearTheme from '../new-year';
 import AustraliaTheme from '../australia';
 import PizzaPandaPirate from '../panda-pizza-pirate';
 import EasterTheme from '../easter';
 
-class Provider implements ThemeProvider {
-  _date: Date;
+class Provider {
+  _date;
 
-  constructor(date: Date = new Date()) {
+  constructor(date = new Date()) {
     this._date = date;
   }
 

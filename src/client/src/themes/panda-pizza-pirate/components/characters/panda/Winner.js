@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 import image from './panda.png';
@@ -8,9 +7,7 @@ const StyledCowboy = styled.img`
   width: 100%;
 `;
 
-type Props = {};
-
-const Winner = ({ height, width }: Props) => {
+const Winner = ({ height, width }) => {
   return <StyledCowboy src={image} />;
 };
 

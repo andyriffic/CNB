@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 import {
@@ -11,12 +10,6 @@ import PlayerScore from '../player-score';
 import PlayerStatus from '../player-status';
 import PageLayout from '../../../../components/page-layout/FullPage';
 
-type Props = {
-  player1: Object,
-  player2: Object,
-  playGame: () => void,
-};
-
 const BonusPointSection = styled.div`
   text-align: center;
 `;
@@ -26,7 +19,7 @@ const BonusHeading = styled.h2`
   font-size: 1rem;
 `;
 
-const View = ({ player1, player2, playGame }: Props) => {
+const View = ({ player1, player2, playGame }) => {
   return (
     <PageLayout pageTitle="Ready 准备">
       <PlayerSpectatorContainer>

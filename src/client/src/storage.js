@@ -1,15 +1,13 @@
-/* @flow */
 import { DEFAULT_GAME_SETTINGS } from './defaultGameSettings';
-import type { PersistantGameSettings } from './defaultGameSettings';
 
 const LOCAL_STORAGE_KEY = 'CNB';
 
-const setGameSettings = (gameSettings: PersistantGameSettings): void => {
+const setGameSettings = gameSettings => {
   const serialisedSettings = JSON.stringify(gameSettings);
   localStorage.setItem(LOCAL_STORAGE_KEY, serialisedSettings);
 };
 
-export const getGameSettings = (): PersistantGameSettings => {
+export const getGameSettings = () => {
   const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (!savedSettings) {
@@ -19,9 +17,7 @@ export const getGameSettings = (): PersistantGameSettings => {
   return JSON.parse(savedSettings);
 };
 
-export const setGameSetting = (
-  gameSetting: PersistantGameSettings
-): PersistantGameSettings => {
+export const setGameSetting = gameSetting => {
   const currentSettings = getGameSettings();
 
   const settings = {

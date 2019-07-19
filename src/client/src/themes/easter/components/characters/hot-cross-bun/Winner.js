@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled from 'styled-components';
 import image from './bun.png';
@@ -8,9 +7,7 @@ const StyledBear = styled.img`
   width: 100%;
 `;
 
-type Props = {};
-
-const Winner = ({ height, width }: Props) => {
+const Winner = ({ height, width }) => {
   return <StyledBear src={image} />;
 };
 

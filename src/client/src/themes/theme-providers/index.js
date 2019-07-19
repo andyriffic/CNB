@@ -1,11 +1,10 @@
-/* @flow */
 import { isFeatureEnabled } from '../../featureToggle';
 import DefaultThemeProvider from '../theme-providers/DefaultThemeProvider';
 import FeatureToggleThemeProvider from '../theme-providers/FeatureToggleThemeProvider';
 import DayOfWeekThemeProvider from '../theme-providers/DayOfWeekThemeProvider';
 import SpecialDateThemeProvider from '../theme-providers/SpecialDateThemeProvider';
 
-export const getThemeForDate = (date: Date) => {
+export const getThemeForDate = date => {
   /* TODO: creating theme provider instances each time this function is called due to date requirements.
     Consider different way?
   */

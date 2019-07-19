@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext, useEffect } from 'react';
 import { Router } from '@reach/router';
 

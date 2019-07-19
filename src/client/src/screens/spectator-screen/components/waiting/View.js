@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useState, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -23,17 +21,9 @@ import BaseBadge from '../../../../components/power-up-badges/BaseBadge';
 import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
 import { POWER_UP_TYPE } from '../../../../power-ups/constants';
-import type { TrophyPoints } from '../../../../trophy-points/types';
 import GameDataContext from '../../../../game-data/GameDataContext';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
-
-type Props = {
-  player1: Object,
-  player2: Object,
-  playGame: () => void,
-  trophyPoints: TrophyPoints,
-};
 
 const BonusPointSection = styled.div`
   text-align: center;
@@ -75,7 +65,7 @@ const PowerUpBanner = styled.div`
   font-size: 0.8rem;
 `;
 
-const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
+const View = ({ player1, player2, playGame, trophyPoints }) => {
   const [player1El, setPlayer1El] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
   const [bonusPointsEl, setBonusPointsEl] = useState(null);

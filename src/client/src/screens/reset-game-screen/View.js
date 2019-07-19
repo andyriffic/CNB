@@ -1,5 +1,3 @@
-/* @flow */
-// flow:disable no typedefs for useState, useEffect yet
 import React, { useContext } from 'react';
 import ServerMessagesContext from '../../contexts/ServerMessagesContext';
 import { Button, PageFooterContainer, PageSubTitle } from '../styled';

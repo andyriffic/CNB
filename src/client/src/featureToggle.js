@@ -1,14 +1,6 @@
-/* @flow */
 import React from 'react';
-import type { Node } from 'react';
-export type IsFeatureEnabled = string => boolean;
 
-type Props = {
-  children: boolean => Node,
-  feature: string,
-};
-
-export const isFeatureEnabled: IsFeatureEnabled = feature => {
+export const isFeatureEnabled = feature => {
   var urlParams = new URLSearchParams(window.location.search);
 
   const featureToggleUrlParam = urlParams.get('feature');
@@ -20,6 +12,6 @@ export const isFeatureEnabled: IsFeatureEnabled = feature => {
   return featuresActive.includes(feature);
 };
 
-export const FeatureToggle = ({ children, feature }: Props) => {
+export const FeatureToggle = ({ children, feature }) => {
   return <React.Fragment>{children(isFeatureEnabled(feature))}</React.Fragment>;
 };

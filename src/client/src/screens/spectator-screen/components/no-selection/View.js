@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -21,11 +20,7 @@ const Container = styled.div`
   height: 100%;
 `;
 
-type Props = {
-  animationDelay: number,
-};
-
-const View = ({ animationDelay }: Props) => {
+const View = ({ animationDelay }) => {
   return (
     <Container animationDelay={animationDelay}>
       <WaitingIcon animationDelay={animationDelay} />
