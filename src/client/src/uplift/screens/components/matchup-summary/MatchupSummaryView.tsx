@@ -9,7 +9,6 @@ const Container = styled.div`
   border: 2px solid black;
   border-radius: 8px;
   background-color: #f5f5f5;
-  padding: 10px;
   cursor: pointer;
 
   transition: background-color 200ms ease-in-out, color 400ms ease-in-out,

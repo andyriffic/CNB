@@ -52,7 +52,7 @@ const View = ({ pageTitle, alignTop, children }) => {
   const theme = useContext(GameThemeContext);
 
   return (
-    <FullPage {...theme.style}>
+    <FullPage {...theme.style} className="margins-off">
       {pageTitle && (
         <Header {...theme.style}>
           <PageHeading>{pageTitle}</PageHeading>

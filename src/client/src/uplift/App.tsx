@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router } from '@reach/router';
 import GameTheme from '../themes';
-import GlobalStyle from '../GlobalStyle';
+import GlobalStyle from './GlobalStyle';
 import { MatchupLobby } from './screens/matchup-lobby';
 import { MatchupProvider } from './contexts/MatchupProvider';
 import { MatchupView } from './screens/matchup-view';
