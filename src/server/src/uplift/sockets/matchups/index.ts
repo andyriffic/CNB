@@ -9,6 +9,8 @@ import { getMatchupView } from './view-helpers';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
+const SUBSCRIBE_TO_MATCHUP = 'SUBSCRIBE_TO_MATCHUP';
+const ON_MATCHUP_UPDATED = 'ON_MATCHUP_UPDATED';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
 
@@ -27,6 +29,16 @@ const init = (socketServer: Server, path: string) => {
         });
       });
     });
+
+    socket.on(SUBSCRIBE_TO_MATCHUP, matchupId => {
+      console.log('RECEIVED', SUBSCRIBE_TO_MATCHUP, matchupId);
+      getMatchupView(matchupId, gamesInProgress).then((matchupView: MatchupSpectatorView) => {
+        const matchupChannel = `matchup-${matchupId}`;
+        socket.join(matchupChannel);
+        namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
+      })
+    });
+
   });
 };
 

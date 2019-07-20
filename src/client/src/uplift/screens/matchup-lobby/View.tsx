@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
-import { MatchupContext } from '../../contexts/MatchupProvider';
+import { MatchupContext, MatchupService } from '../../contexts/MatchupProvider';
 import { MatchupSummaryView } from '../components/matchup-summary';
 import { RouteComponentProps } from '@reach/router';
 

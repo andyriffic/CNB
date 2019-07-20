@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * + * {
-	  margin-top: 1.5em;
+	  margin-top: 1.2em;
   }
 
   .margins-off > * {

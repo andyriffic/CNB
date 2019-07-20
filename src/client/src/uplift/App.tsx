@@ -5,17 +5,20 @@ import GlobalStyle from './GlobalStyle';
 import { MatchupLobby } from './screens/matchup-lobby';
 import { MatchupProvider } from './contexts/MatchupProvider';
 import { MatchupView } from './screens/matchup-view';
+import { Theme } from './contexts/ThemeProvider';
 
 export default () => {
   return (
-    <GameTheme>
-      <GlobalStyle />
-      <MatchupProvider>
-        <Router>
-          <MatchupLobby path="/" />
-          <MatchupView path="/matchup/:matchupId" />
-        </Router>
-      </MatchupProvider>
-    </GameTheme>
+    <Theme>
+      <GameTheme>
+        <GlobalStyle />
+        <MatchupProvider>
+          <Router>
+            <MatchupLobby path="/" />
+            <MatchupView path="/matchup/:matchupId" />
+          </Router>
+        </MatchupProvider>
+      </GameTheme>
+    </Theme>
   );
 };

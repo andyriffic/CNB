@@ -1,10 +1,12 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 
-const MATCHUP_EVENTS = {
-  SUBSCRIBE_TO_ALL_MATCHUPS: 'SUBSCRIBE_TO_ALL_MATCHUPS',
-  ON_MATCHUPS_RECEIVED: 'ALL_MATCHUPS_UPDATE',
-};
+enum MATCHUP_EVENTS {
+  SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS',
+  ON_MATCHUPS_RECEIVED = 'ALL_MATCHUPS_UPDATE',
+  SUBSCRIBE_TO_MATCHUP = 'SUBSCRIBE_TO_MATCHUP',
+  ON_MATCHUP_UPDATED = 'ON_MATCHUP_UPDATED',
+}
 
 export type Team = {
   id: string;
@@ -20,11 +22,18 @@ export type Matchup = {
 export type MatchupService = {
   loadingAllMatchups: boolean;
   allMatchups: Matchup[];
+  subscribeToMatchup: (matchupId: string) => void;
+  currentMatchup?: Matchup;
+  clearCurrentMatchup: () => void;
 };
 
 const initialValue: MatchupService = {
   loadingAllMatchups: true,
   allMatchups: [],
+  subscribeToMatchup: matchupId => {
+    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUP, matchupId);
+  },
+  clearCurrentMatchup: () => {},
 };
 
 export const MatchupContext = React.createContext<MatchupService>(initialValue);
@@ -41,6 +50,8 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
     initialValue.allMatchups
   );
 
+  const [currentMatchup, setCurrentMatchup] = useState<Matchup>();
+
   useEffect(() => {
     socket.on(MATCHUP_EVENTS.ON_MATCHUPS_RECEIVED, (matchups: Matchup[]) => {
       setTimeout(() => {
@@ -50,11 +61,26 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
       }, 1000);
     });
 
+    socket.on(MATCHUP_EVENTS.ON_MATCHUP_UPDATED, (matchup: Matchup) => {
+      console.log('Received Matchup', matchup);
+      setCurrentMatchup(matchup);
+    });
+
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS);
   }, []);
 
   return (
-    <MatchupContext.Provider value={{ allMatchups, loadingAllMatchups }}>
+    <MatchupContext.Provider
+      value={{
+        allMatchups,
+        loadingAllMatchups,
+        subscribeToMatchup: initialValue.subscribeToMatchup,
+        currentMatchup: currentMatchup,
+        clearCurrentMatchup: () => {
+          setCurrentMatchup(undefined);
+        },
+      }}
+    >
       {children}
     </MatchupContext.Provider>
   );
