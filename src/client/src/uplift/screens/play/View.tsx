@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
+import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
+import { SelectPlayer } from './components/SelectPlayer';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -10,11 +12,17 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({  }: RouteComponentProps) => {
+  const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   return (
-    <FullPageLayout pageTitle="" alignTop={true}>
-      <MatchupsContainer>
-        <h1>Player</h1>
-      </MatchupsContainer>
-    </FullPageLayout>
+    <PlayersProvider>
+      <FullPageLayout pageTitle="" alignTop={true}>
+        <MatchupsContainer>
+          <SelectPlayer
+            selectedPlayer={selectedPlayer}
+            selectPlayer={setSelectedPlayer}
+          />
+        </MatchupsContainer>
+      </FullPageLayout>
+    </PlayersProvider>
   );
 };

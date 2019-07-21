@@ -11,6 +11,7 @@ import initTheme from './socket-namespaces/theme';
 import initMatchupsSocket from './uplift/sockets/matchup';
 import initMatchupsSocketForRealz from './uplift/sockets/matchups';
 import initGameSocket from './uplift/sockets/game';
+import initPlayersSocket from './uplift/sockets/players';
 
 const store = createStore(reducer);
 
@@ -35,9 +36,11 @@ initGameNamespace(io, store, userNamespace);
 initStats(io);
 initPlayers(io);
 initTheme(io);
-initMatchupsSocket(io, '/matchups');
 initGameSocket(io, '/games');
+initMatchupsSocket(io, '/matchups');
+
 initMatchupsSocketForRealz(io, '/matchups-realz');
+initPlayersSocket(io, '/players-realz');
 
 
 console.log(`App running on http://localhost:${port}`);

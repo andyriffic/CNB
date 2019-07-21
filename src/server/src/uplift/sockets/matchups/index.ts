@@ -5,6 +5,7 @@ import {
   TeamMatchup,
   Game,
   MatchupSpectatorView,
+  GameMoveUpdate,
 } from '../../services/matchup/types';
 import { getMatchupView } from './view-helpers';
 import { matchupService } from '../../services/matchup';
@@ -14,6 +15,7 @@ const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
 const SUBSCRIBE_TO_MATCHUP = 'SUBSCRIBE_TO_MATCHUP';
 const ON_MATCHUP_UPDATED = 'ON_MATCHUP_UPDATED';
 const START_GAME_FOR_MATCHUP = 'START_GAME_FOR_MATCHUP';
+const MAVE_MOVE_FOR_MATCHUP = 'MAVE_MOVE_FOR_MATCHUP';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
 
@@ -59,6 +61,29 @@ const init = (socketServer: Server, path: string) => {
         });
       });
     });
+
+    socket.on(
+      MAVE_MOVE_FOR_MATCHUP,
+      (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
+        console.log(
+          'RECEIVED',
+          MAVE_MOVE_FOR_MATCHUP,
+          matchupId,
+          teamId,
+          moveUpdate
+        );
+        const updatedGame = matchupService.updateTeamMove(
+          gamesInProgress[matchupId],
+          teamId,
+          moveUpdate
+        );
+        gamesInProgress[matchupId] = updatedGame;
+        getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+          const matchupChannel = `matchup-${matchupId}`;
+          namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
+        });
+      }
+    );
   });
 };
 
