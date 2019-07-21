@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
-import { MatchupContext } from '../../contexts/MatchupProvider';
+import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { TeamDetail } from './components/TeamDetail';
+import { StartGame } from './components/StartGame';
+import { Button } from '../../../screens/styled';
+import { GameWaitingOnPlayers } from './components/GameWaitingOnPlayers';
 
 const MatchupsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 95%;
   padding: 40px 0;
   margin: 0 auto;
+`;
+
+const TeamDetailsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TeamContainer = styled.div`
@@ -32,6 +38,7 @@ export default ({ matchupId }: MatchupViewProps) => {
     subscribeToMatchup,
     currentMatchup,
     clearCurrentMatchup,
+    startGameForMatchup,
   } = useContext(MatchupContext);
 
   useEffect(() => {
@@ -44,18 +51,34 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageLayout pageTitle="" alignTop={true}>
-      <MatchupsContainer className="margins-off">
+      <MatchupsContainer>
         {!currentMatchup ? (
           <LoadingSpinner text="Loading matchup..." />
         ) : (
           <React.Fragment>
-            <TeamContainer>
-              <TeamDetail team={currentMatchup.teams[0]} />
-            </TeamContainer>
-            <Vs>vs</Vs>
-            <TeamContainer>
-              <TeamDetail team={currentMatchup.teams[1]} />
-            </TeamContainer>
+            <TeamDetailsContainer className="margins-off">
+              <TeamContainer>
+                <TeamDetail team={currentMatchup.teams[0]} />
+              </TeamContainer>
+              <Vs>vs</Vs>
+              <TeamContainer>
+                <TeamDetail team={currentMatchup.teams[1]} />
+              </TeamContainer>
+            </TeamDetailsContainer>
+            {!currentMatchup.gameInProgress && (
+              <Button
+                onClick={() => matchupId && startGameForMatchup(matchupId)}
+              >
+                PLAY
+              </Button>
+            )}
+            {currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status ===
+                GAME_STATUS.WaitingPlayerMoves && (
+                <GameWaitingOnPlayers
+                  moves={currentMatchup.gameInProgress.moves}
+                />
+              )}
           </React.Fragment>
         )}
       </MatchupsContainer>

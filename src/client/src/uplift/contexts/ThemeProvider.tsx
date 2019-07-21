@@ -7,14 +7,6 @@ export type GameTheme = {
   textColor: string;
 };
 
-/*
-  style: {
-    headerBackgroundColor: '#9DADBC',
-    pageBackgroundColor: '#6ba2cc',
-    textColor: '#000000',
-  },
-*/
-
 const defaultTheme = {
   headerBackgroundColor: '#E36E65',
   pageBackgroundColor: '#95C0AB',
