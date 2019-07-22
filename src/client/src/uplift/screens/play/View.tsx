@@ -5,6 +5,7 @@ import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
 import { SelectPlayer } from './components/SelectPlayer';
 import { SelectMatchup } from './components/SelectMatchup';
+import { SelectMove } from './components/SelectMove';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -14,15 +15,35 @@ const MatchupsContainer = styled.div`
 
 export default ({  }: RouteComponentProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
+  const [selectedMatchupId, setSelectedMatchupId] = useState('');
+  const [selectedTeamId, setSelectedTeamId] = useState('');
+
+  const readyToMakeMove = !!(selectedMatchupId && selectedTeamId);
+
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="" alignTop={true}>
         <MatchupsContainer>
           <SelectPlayer
             selectedPlayer={selectedPlayer}
-            selectPlayer={setSelectedPlayer}
+            selectPlayer={player => {
+              setSelectedMatchupId('');
+              setSelectedTeamId('');
+              setSelectedPlayer(player);
+            }}
           />
-          {selectedPlayer && <SelectMatchup player={selectedPlayer} />}
+          {selectedPlayer && !readyToMakeMove && (
+            <SelectMatchup
+              player={selectedPlayer}
+              selectMatchup={(matchupId, teamId) => {
+                setSelectedMatchupId(matchupId);
+                setSelectedTeamId(teamId);
+              }}
+            />
+          )}
+          {readyToMakeMove && (
+            <SelectMove matchupId={selectedMatchupId} teamId={selectedTeamId} />
+          )}
         </MatchupsContainer>
       </FullPageLayout>
     </PlayersProvider>

@@ -8,8 +8,22 @@ import {
   GAME_STATUS,
 } from '../../../contexts/MatchupProvider';
 
+const MatchupContainer = styled.div`
+  border: 2px solid ${props => props.theme.textColor};
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.8rem;
+`;
+
+const TeamName = styled.span<{ highlighted?: boolean }>`
+  color: ${props =>
+    props.highlighted ? props.theme.headerBackgroundColor : 'inherit'};
+  font-size: 1.8rem;
+`;
+
 type SelectMatchupProps = {
   player: Player;
+  selectMatchup: (matchupId: string, teamId: string) => void;
 };
 
 const readyToPlayFilter = (matchup: MatchupForPlayer) => {
@@ -26,7 +40,10 @@ const notReadyToPlayFilter = (matchup: MatchupForPlayer) => {
   );
 };
 
-export const SelectMatchup = ({ player }: SelectMatchupProps) => {
+export const SelectMatchup = ({
+  player,
+  selectMatchup,
+}: SelectMatchupProps) => {
   const { subscribeToMatchupsForPlayer, matchupsByPlayerId } = useContext(
     MatchupContext
   );
@@ -39,13 +56,30 @@ export const SelectMatchup = ({ player }: SelectMatchupProps) => {
     <div>
       <div>
         <h3>Games ready for you...</h3>
+        {!matchupsByPlayerId[player.id] && (
+          <LoadingSpinner text="Finding your matchups..." />
+        )}
         {matchupsByPlayerId[player.id] &&
           matchupsByPlayerId[player.id]
             .filter(readyToPlayFilter)
             .map(matchup => (
-              <p key={matchup.id}>
-                {matchup.teams[0].name} vs {matchup.teams[1].name} ✅
-              </p>
+              <MatchupContainer
+                key={matchup.id}
+                onClick={() => selectMatchup(matchup.id, matchup.playerTeamId)}
+              >
+                <TeamName
+                  highlighted={matchup.teams[0].id === matchup.playerTeamId}
+                >
+                  {matchup.teams[0].name}
+                </TeamName>{' '}
+                vs{' '}
+                <TeamName
+                  highlighted={matchup.teams[1].id === matchup.playerTeamId}
+                >
+                  {matchup.teams[1].name}
+                </TeamName>{' '}
+                ✅
+              </MatchupContainer>
             ))}
       </div>
       <div>
@@ -54,9 +88,20 @@ export const SelectMatchup = ({ player }: SelectMatchupProps) => {
           matchupsByPlayerId[player.id]
             .filter(notReadyToPlayFilter)
             .map(matchup => (
-              <p key={matchup.id}>
-                {matchup.teams[0].name} vs {matchup.teams[1].name} ⚠️
-              </p>
+              <MatchupContainer key={matchup.id}>
+                <TeamName
+                  highlighted={matchup.teams[0].id === matchup.playerTeamId}
+                >
+                  {matchup.teams[0].name}
+                </TeamName>{' '}
+                vs{' '}
+                <TeamName
+                  highlighted={matchup.teams[1].id === matchup.playerTeamId}
+                >
+                  {matchup.teams[1].name}
+                </TeamName>{' '}
+                ⚠️
+              </MatchupContainer>
             ))}
       </div>
     </div>

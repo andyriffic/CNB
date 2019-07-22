@@ -53,5 +53,5 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'yujin',
   ],
   us: ['albert', 'alex'],
-  them: ['ray', 'yujin'],
+  them: ['yixing', 'yujin'],
 };

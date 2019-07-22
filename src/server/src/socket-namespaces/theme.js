@@ -2,6 +2,7 @@ const PATH = '/game';
 const THEME_UPDATE = 'THEME_UPDATE';
 
 const theme = {
+  id: 'ppp',
   name: 'Pizza, Panda, Pirate',
   moves: [
     {
