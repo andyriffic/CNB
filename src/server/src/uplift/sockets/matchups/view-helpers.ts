@@ -6,6 +6,7 @@ import {
   MoveSpectatorView,
   GameResultSpectatorView,
   GameMoveResultSpectatorView,
+  MatchupPlayerView,
 } from '../../services/matchup/types';
 import { ALL_PLAYERS } from '../../services/player/constants';
 import { viewsDatastore } from '../../datastore/views';
@@ -74,5 +75,18 @@ export const getMatchupView = (
   return viewsDatastore.getMatchupSpectatorView(
     matchupId,
     getGameInProgress(matchupId, gamesInProgress)
+  );
+};
+
+export const getPlayerMatchupView = (
+  matchupId: string,
+  playerId: string,
+  gamesInProgress: { [matchupId: string]: Game }
+): Promise<MatchupPlayerView> => {
+  console.log('getPlayerMatchupView', playerId);
+  return viewsDatastore.getPlayerMatchupView(
+    matchupId,
+    getGameInProgress(matchupId, gamesInProgress),
+    playerId
   );
 };

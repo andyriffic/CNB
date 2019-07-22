@@ -8,6 +8,8 @@ enum MATCHUP_EVENTS {
   ON_MATCHUP_UPDATED = 'ON_MATCHUP_UPDATED',
   START_GAME_FOR_MATCHUP = 'START_GAME_FOR_MATCHUP',
   MAVE_MOVE_FOR_MATCHUP = 'MAVE_MOVE_FOR_MATCHUP',
+  SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER',
+  MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE',
 }
 
 export enum GAME_STATUS {
@@ -40,6 +42,10 @@ export type Matchup = {
   gameInProgress?: Game;
 };
 
+export type MatchupForPlayer = {
+  playerTeamId: string;
+} & Matchup;
+
 export type MatchupService = {
   loadingAllMatchups: boolean;
   allMatchups: Matchup[];
@@ -47,6 +53,8 @@ export type MatchupService = {
   currentMatchup?: Matchup;
   clearCurrentMatchup: () => void;
   startGameForMatchup: (matchupId: string) => void;
+  subscribeToMatchupsForPlayer: (playerId: string) => void;
+  matchupsByPlayerId: { [playerId: string]: MatchupForPlayer[] };
 };
 
 const initialValue: MatchupService = {
@@ -59,6 +67,10 @@ const initialValue: MatchupService = {
   startGameForMatchup: matchupId => {
     socket.emit(MATCHUP_EVENTS.START_GAME_FOR_MATCHUP, matchupId);
   },
+  subscribeToMatchupsForPlayer: playerId => {
+    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);
+  },
+  matchupsByPlayerId: {},
 };
 
 export const MatchupContext = React.createContext<MatchupService>(initialValue);
@@ -76,6 +88,9 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const [currentMatchup, setCurrentMatchup] = useState<Matchup>();
+  const [matchupsByPlayerId, setMatchupsByPlayerId] = useState(
+    initialValue.matchupsByPlayerId
+  );
 
   useEffect(() => {
     socket.on(MATCHUP_EVENTS.ON_MATCHUPS_RECEIVED, (matchups: Matchup[]) => {
@@ -91,7 +106,15 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
       setCurrentMatchup(matchup);
     });
 
-    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS);
+    socket.on(
+      MATCHUP_EVENTS.MATCHUPS_FOR_PLAYER_UPDATE,
+      (matchupsForPlayer: { [playerId: string]: MatchupForPlayer[] }) => {
+        console.log('Received Matchup', matchupsForPlayer);
+        setMatchupsByPlayerId(matchupsForPlayer);
+      }
+    );
+
+    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS); // TODO: don't always emit this
   }, []);
 
   return (
@@ -105,6 +128,8 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
         clearCurrentMatchup: () => {
           setCurrentMatchup(undefined);
         },
+        subscribeToMatchupsForPlayer: initialValue.subscribeToMatchupsForPlayer,
+        matchupsByPlayerId,
       }}
     >
       {children}

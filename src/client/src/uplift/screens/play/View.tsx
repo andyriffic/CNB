@@ -4,6 +4,7 @@ import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
 import { SelectPlayer } from './components/SelectPlayer';
+import { SelectMatchup } from './components/SelectMatchup';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -21,6 +22,7 @@ export default ({  }: RouteComponentProps) => {
             selectedPlayer={selectedPlayer}
             selectPlayer={setSelectedPlayer}
           />
+          {selectedPlayer && <SelectMatchup player={selectedPlayer} />}
         </MatchupsContainer>
       </FullPageLayout>
     </PlayersProvider>
