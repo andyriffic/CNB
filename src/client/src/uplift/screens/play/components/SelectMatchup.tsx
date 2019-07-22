@@ -33,6 +33,7 @@ export const SelectMatchup = ({ player }: SelectMatchupProps) => {
 
   useEffect(() => {
     subscribeToMatchupsForPlayer(player.id);
+    // TODO: unsubscribe on unmount
   }, []);
   return (
     <div>

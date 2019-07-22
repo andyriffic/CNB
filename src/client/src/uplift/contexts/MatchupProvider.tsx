@@ -109,8 +109,8 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
     socket.on(
       MATCHUP_EVENTS.MATCHUPS_FOR_PLAYER_UPDATE,
       (matchupsForPlayer: { [playerId: string]: MatchupForPlayer[] }) => {
-        console.log('Received Matchup', matchupsForPlayer);
-        setMatchupsByPlayerId(matchupsForPlayer);
+        console.log('Received Player Matchups', matchupsForPlayer);
+        setMatchupsByPlayerId({ ...matchupsByPlayerId, ...matchupsForPlayer });
       }
     );
 

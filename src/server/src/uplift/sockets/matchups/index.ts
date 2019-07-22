@@ -10,6 +10,7 @@ import {
 import { getMatchupView, getPlayerMatchupView } from './view-helpers';
 import { matchupService } from '../../services/matchup';
 import { PLAYER_IDS_BY_TEAM } from '../../services/player/constants';
+import { broadcastPlayerMatchups } from './common';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -21,6 +22,7 @@ const SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER';
 const MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
+let watchupPlayerIds: string[] = [];
 
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
@@ -62,6 +64,10 @@ const init = (socketServer: Server, path: string) => {
           const matchupChannel = `matchup-${matchupId}`;
           namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
         });
+
+        watchupPlayerIds.forEach(playerId => {
+          broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
+        })
       });
     });
 
@@ -90,34 +96,10 @@ const init = (socketServer: Server, path: string) => {
 
     socket.on(SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, (playerId: string) => {
       console.log('RECEIVED', SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);
-      matchupDatastore.getAllMatchups().then(matchups => {
-        const playerTeams = Object.keys(PLAYER_IDS_BY_TEAM).map(teamId => {
-          const teamPlayers = PLAYER_IDS_BY_TEAM[teamId];
-          return teamPlayers.includes(playerId) ? teamId : undefined;
-        });
-
-        console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', playerId, matchups);
-
-        const playerMatchups = matchups.filter(mu => {
-          return mu.teamIds.some(t => playerTeams.includes(t));
-        });
-        console.log('Matchups for player', playerMatchups);
-
-        playerMatchups.forEach(mu => {
-          socket.join(mu.id);
-        });
-
-        Promise.all(
-          playerMatchups.map(mu =>
-            getPlayerMatchupView(mu.id, playerId, gamesInProgress)
-          )
-        ).then(allMatchupViews => {
-          // socket.join(playerId); TODO: how to keep player updated of their matchups...
-          socket.emit(MATCHUPS_FOR_PLAYER_UPDATE, {
-            [playerId]: allMatchupViews,
-          });
-        });
-      });
+      if (!watchupPlayerIds.includes(playerId)) {
+        watchupPlayerIds = [...watchupPlayerIds, playerId];
+      }
+      broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
     });
   });
 };
