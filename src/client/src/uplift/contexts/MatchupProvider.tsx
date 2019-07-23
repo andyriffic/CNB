@@ -10,6 +10,7 @@ enum MATCHUP_EVENTS {
   MAVE_MOVE_FOR_MATCHUP = 'MAVE_MOVE_FOR_MATCHUP',
   SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER',
   MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE',
+  MAKE_MOVE = 'MAVE_MOVE_FOR_MATCHUP',
 }
 
 export enum GAME_STATUS {
@@ -46,6 +47,12 @@ export type MatchupForPlayer = {
   playerTeamId: string;
 } & Matchup;
 
+export type GameMoveUpdate = {
+  playerId?: string;
+  moveId?: string;
+  powerUpId?: string;
+};
+
 export type MatchupService = {
   loadingAllMatchups: boolean;
   allMatchups: Matchup[];
@@ -55,6 +62,11 @@ export type MatchupService = {
   startGameForMatchup: (matchupId: string) => void;
   subscribeToMatchupsForPlayer: (playerId: string) => void;
   matchupsByPlayerId: { [playerId: string]: MatchupForPlayer[] };
+  makeMove: (
+    matchupId: string,
+    teamId: string,
+    gameMoveUpdate: GameMoveUpdate
+  ) => void;
 };
 
 const initialValue: MatchupService = {
@@ -71,6 +83,9 @@ const initialValue: MatchupService = {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);
   },
   matchupsByPlayerId: {},
+  makeMove: (matchupId, teamId, gameMoveUpdate) => {
+    socket.emit(MATCHUP_EVENTS.MAKE_MOVE, matchupId, teamId, gameMoveUpdate);
+  },
 };
 
 export const MatchupContext = React.createContext<MatchupService>(initialValue);
@@ -130,6 +145,7 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
         },
         subscribeToMatchupsForPlayer: initialValue.subscribeToMatchupsForPlayer,
         matchupsByPlayerId,
+        makeMove: initialValue.makeMove,
       }}
     >
       {children}

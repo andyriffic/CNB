@@ -73,8 +73,8 @@ export default ({ matchupId }: MatchupViewProps) => {
               </Button>
             )}
             {currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status ===
-                GAME_STATUS.WaitingPlayerMoves && (
+              currentMatchup.gameInProgress.status !==
+                GAME_STATUS.Finished && (
                 <GameWaitingOnPlayers
                   moves={currentMatchup.gameInProgress.moves}
                 />

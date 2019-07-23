@@ -42,7 +42,11 @@ export default ({  }: RouteComponentProps) => {
             />
           )}
           {readyToMakeMove && (
-            <SelectMove matchupId={selectedMatchupId} teamId={selectedTeamId} />
+            <SelectMove
+              matchupId={selectedMatchupId}
+              teamId={selectedTeamId}
+              playerId={selectedPlayer ? selectedPlayer.id : ''}
+            />
           )}
         </MatchupsContainer>
       </FullPageLayout>

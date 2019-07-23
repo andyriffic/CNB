@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { Player, PlayersContext } from '../../../contexts/PlayersProvider';
-import { LoadingSpinner } from '../../../components/loading-spinner';
-import {
-  MatchupContext,
-  MatchupForPlayer,
-  GAME_STATUS,
-} from '../../../contexts/MatchupProvider';
+import { Button } from '../../../../screens/styled';
+import { MatchupContext } from '../../../contexts/MatchupProvider';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -34,6 +29,7 @@ type Move = {
 type MakeMoveProps = {
   matchupId: string;
   teamId: string;
+  playerId: string;
 };
 
 const moves: Move[] = [
@@ -51,24 +47,44 @@ const moves: Move[] = [
   },
 ];
 
-export const SelectMove = ({ matchupId, teamId }: MakeMoveProps) => {
+export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
+  const { makeMove } = useContext(MatchupContext);
   const [selectedMove, setSelectedMove] = useState<Move>();
+  const [moveMade, setMoveMade] = useState(false);
 
   return (
     <div>
       <div>
         <h2>Make your move</h2>
-        <MoveContainer className="margins-off">
+        <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
           {moves.map(move => (
             <Move
               key={move.id}
               selected={selectedMove && selectedMove.id === move.id}
-              onClick={() => setSelectedMove(move)}
+              onClick={() => !moveMade && setSelectedMove(move)}
             >
               {move.name}
             </Move>
           ))}
         </MoveContainer>
+        <Button
+          type="button"
+          disabled={!selectedMove}
+          className={!!selectedMove && !moveMade ? 'radioactive' : ''}
+          style={{ display: 'block', width: '100%' }}
+          onClick={() => {
+            !moveMade &&
+              selectedMove &&
+              makeMove(matchupId, teamId, {
+                playerId,
+                moveId: selectedMove.id,
+                powerUpId: 'NONE',
+              });
+            setMoveMade(true);
+          }}
+        >
+          {moveMade ? 'Watch result on the screen' : 'Play!'}
+        </Button>
       </div>
     </div>
   );
