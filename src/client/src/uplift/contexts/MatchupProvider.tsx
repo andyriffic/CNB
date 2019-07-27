@@ -11,6 +11,7 @@ enum MATCHUP_EVENTS {
   SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER',
   MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE',
   MAKE_MOVE = 'MAVE_MOVE_FOR_MATCHUP',
+  PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP',
 }
 
 export enum GAME_STATUS {
@@ -31,10 +32,21 @@ export type SpectatorMove = {
   playerName: string | null;
 };
 
+export type GameMoveResult = {
+  moveId: string;
+}
+
+export type GameResult = {
+  draw?: boolean;
+  winnerIndex?: number;
+  moves: [GameMoveResult, GameMoveResult];
+};
+
 export type Game = {
   id: string;
   status: GAME_STATUS;
   moves: [SpectatorMove, SpectatorMove];
+  result?: GameResult;
 };
 
 export type Matchup = {
@@ -67,6 +79,7 @@ export type MatchupService = {
     teamId: string,
     gameMoveUpdate: GameMoveUpdate
   ) => void;
+  playGameForMatchup: (matchupId: string) => void;
 };
 
 const initialValue: MatchupService = {
@@ -85,6 +98,9 @@ const initialValue: MatchupService = {
   matchupsByPlayerId: {},
   makeMove: (matchupId, teamId, gameMoveUpdate) => {
     socket.emit(MATCHUP_EVENTS.MAKE_MOVE, matchupId, teamId, gameMoveUpdate);
+  },
+  playGameForMatchup: matchupId => {
+    socket.emit(MATCHUP_EVENTS.PLAY_GAME_FOR_MATCHUP, matchupId);
   },
 };
 
@@ -146,6 +162,7 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
         subscribeToMatchupsForPlayer: initialValue.subscribeToMatchupsForPlayer,
         matchupsByPlayerId,
         makeMove: initialValue.makeMove,
+        playGameForMatchup: initialValue.playGameForMatchup,
       }}
     >
       {children}

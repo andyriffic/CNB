@@ -5,9 +5,9 @@ import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { TeamDetail } from './components/TeamDetail';
-import { StartGame } from './components/StartGame';
 import { Button } from '../../../screens/styled';
 import { GameWaitingOnPlayers } from './components/GameWaitingOnPlayers';
+import { GameResult } from './components/GameResult';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -39,6 +39,7 @@ export default ({ matchupId }: MatchupViewProps) => {
     currentMatchup,
     clearCurrentMatchup,
     startGameForMatchup,
+    playGameForMatchup,
   } = useContext(MatchupContext);
 
   useEffect(() => {
@@ -69,14 +70,33 @@ export default ({ matchupId }: MatchupViewProps) => {
               <Button
                 onClick={() => matchupId && startGameForMatchup(matchupId)}
               >
-                PLAY
+                Start a game
               </Button>
             )}
             {currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status !==
-                GAME_STATUS.Finished && (
+              currentMatchup.gameInProgress.status !== GAME_STATUS.Finished && (
                 <GameWaitingOnPlayers
                   moves={currentMatchup.gameInProgress.moves}
+                />
+              )}
+            {currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status ===
+                GAME_STATUS.ReadyToPlay && (
+                <Button
+                  className="radioactive"
+                  style={{ width: '100%' }}
+                  onClick={() => matchupId && playGameForMatchup(matchupId)}
+                >
+                  PLAY!
+                </Button>
+              )}
+            {currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status === GAME_STATUS.Finished && (
+                <GameResult
+                  game={currentMatchup.gameInProgress!}
+                  startNewGame={() =>
+                    matchupId && startGameForMatchup(matchupId)
+                  }
                 />
               )}
           </React.Fragment>
