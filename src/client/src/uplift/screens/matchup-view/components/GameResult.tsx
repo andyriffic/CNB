@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Game } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
+import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -20,46 +21,9 @@ export const GameResult = ({
   game: Game;
   startNewGame: () => void;
 }) => {
-  const [shownCharacter, setShownCharacter] = useState(false);
-  const [shownMove, setShownMove] = useState(false);
-  const [shownResult, setShownResult] = useState(false);
-  const [gameplayFinished, setGameplayFinished] = useState(false);
-
-  const gameplayTimeouts: NodeJS.Timeout[] = [];
+  const gameTiming = useGameViewTimingEffect();
 
   const draw = !!game.result!.draw;
-
-  useEffect(() => {
-    gameplayTimeouts.push(
-      setTimeout(() => {
-        setShownCharacter(true);
-
-        gameplayTimeouts.push(
-          setTimeout(() => {
-            setShownMove(true);
-
-            gameplayTimeouts.push(
-              setTimeout(() => {
-                setShownResult(true);
-
-                gameplayTimeouts.push(
-                  setTimeout(() => {
-                    setGameplayFinished(true);
-                  }, 1000)
-                );
-              }, 1000)
-            );
-          }, 1000)
-        );
-      }, 1000)
-    );
-
-    return () => {
-      gameplayTimeouts.forEach(timeout => {
-        clearTimeout(timeout);
-      });
-    };
-  }, []);
 
   return (
     <div>
@@ -71,16 +35,22 @@ export const GameResult = ({
           return (
             <div key={index} style={{ margin: '0 auto' }}>
               <PlayerSide>
-                {shownCharacter && <p>{move.playerName}</p>}
-                {shownMove && <p>{game.result!.moves[index].moveId}</p>}
-                {shownResult && <p>{winner ? '✅' : draw ? '➖' : '❌'}</p>}
+                {gameTiming.shownCharacter && <p>{move.playerName}</p>}
+                {gameTiming.shownMove && (
+                  <p>{game.result!.moves[index].moveId}</p>
+                )}
+                {gameTiming.shownResult && (
+                  <p>{winner ? '✅' : draw ? '➖' : '❌'}</p>
+                )}
               </PlayerSide>
             </div>
           );
         })}
       </MovesContainer>
       <div>
-        {gameplayFinished && <Button onClick={startNewGame}>New Game</Button>}
+        {gameTiming.gameplayFinished && (
+          <Button onClick={startNewGame}>New Game</Button>
+        )}
       </div>
     </div>
   );
