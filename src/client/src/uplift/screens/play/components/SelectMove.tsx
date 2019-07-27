@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../../../../screens/styled';
 import { MatchupContext } from '../../../contexts/MatchupProvider';
+import { MoveSummary } from './MoveSummary';
+import { LoadingSpinner } from '../../../components/loading-spinner';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -48,9 +50,25 @@ const moves: Move[] = [
 ];
 
 export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
-  const { makeMove } = useContext(MatchupContext);
+  const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMove, setSelectedMove] = useState<Move>();
   const [moveMade, setMoveMade] = useState(false);
+
+  if (!currentMatchup) {
+    return <LoadingSpinner text="Checking current game..." />;
+  }
+
+  if (currentMatchup && currentMatchup.gameInProgress) {
+    const teamIndex = currentMatchup.teams.findIndex(t => t.id === teamId);
+    if (
+      teamIndex > -1 &&
+      currentMatchup.gameInProgress.moves[teamIndex].moved
+    ) {
+      return (
+        <MoveSummary move={currentMatchup.gameInProgress.moves[teamIndex]} />
+      );
+    }
+  }
 
   return (
     <div>

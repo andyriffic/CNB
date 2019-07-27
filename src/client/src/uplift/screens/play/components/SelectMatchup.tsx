@@ -44,9 +44,11 @@ export const SelectMatchup = ({
   player,
   selectMatchup,
 }: SelectMatchupProps) => {
-  const { subscribeToMatchupsForPlayer, matchupsByPlayerId } = useContext(
-    MatchupContext
-  );
+  const {
+    subscribeToMatchupsForPlayer,
+    matchupsByPlayerId,
+    subscribeToMatchup,
+  } = useContext(MatchupContext);
 
   useEffect(() => {
     subscribeToMatchupsForPlayer(player.id);
@@ -65,7 +67,10 @@ export const SelectMatchup = ({
             .map(matchup => (
               <MatchupContainer
                 key={matchup.id}
-                onClick={() => selectMatchup(matchup.id, matchup.playerTeamId)}
+                onClick={() => {
+                  subscribeToMatchup(matchup.id);
+                  selectMatchup(matchup.id, matchup.playerTeamId);
+                }}
               >
                 <TeamName
                   highlighted={matchup.teams[0].id === matchup.playerTeamId}
