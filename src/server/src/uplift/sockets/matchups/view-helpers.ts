@@ -19,6 +19,7 @@ const getSpectatorMove = (move: GameMove): MoveSpectatorView => {
     playerName: move.playerId
       ? ALL_PLAYERS.find(p => p.id === move.playerId)!.name
       : null,
+    playerAvatarUrl: move.playerId ? `/players/${move.playerId}.png` : null,
   };
 };
 

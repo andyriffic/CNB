@@ -16,6 +16,11 @@ const PlayerSide = styled.div`
   text-align: center;
 `;
 
+const PlayerCharacter = styled.img`
+  width: 20vmin;
+  height: 30vmin;
+`;
+
 export const GameResult = ({
   game,
   startNewGame,
@@ -38,7 +43,13 @@ export const GameResult = ({
           return (
             <div key={index} style={{ margin: '0 auto' }}>
               <PlayerSide>
-                {gameTiming.shownCharacter && <p>{move.playerName}</p>}
+                {gameTiming.shownCharacter && (
+                  <PlayerCharacter
+                    src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${
+                      move.playerAvatarUrl
+                    }`}
+                  />
+                )}
                 {gameTiming.shownMove && (
                   <p>
                     {themedMoves[game.result!.moves[index].moveId].name}{' '}

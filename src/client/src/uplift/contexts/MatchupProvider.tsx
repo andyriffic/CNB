@@ -30,11 +30,12 @@ export type SpectatorMove = {
   moved: boolean;
   usedPowerup: boolean;
   playerName: string | null;
+  playerAvatarUrl: string | null;
 };
 
 export type GameMoveResult = {
   moveId: string;
-}
+};
 
 export type GameResult = {
   draw?: boolean;
