@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Game } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
 import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
+import { GameThemeContext } from '../../../contexts/ThemeProvider';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -12,6 +13,7 @@ const MovesContainer = styled.div`
 
 const PlayerSide = styled.div`
   flex: 1;
+  text-align: center;
 `;
 
 export const GameResult = ({
@@ -21,6 +23,7 @@ export const GameResult = ({
   game: Game;
   startNewGame: () => void;
 }) => {
+  const { themedMoves } = useContext(GameThemeContext);
   const gameTiming = useGameViewTimingEffect();
 
   const draw = !!game.result!.draw;
@@ -37,7 +40,10 @@ export const GameResult = ({
               <PlayerSide>
                 {gameTiming.shownCharacter && <p>{move.playerName}</p>}
                 {gameTiming.shownMove && (
-                  <p>{game.result!.moves[index].moveId}</p>
+                  <p>
+                    {themedMoves[game.result!.moves[index].moveId].name}{' '}
+                    {themedMoves[game.result!.moves[index].moveId].translation}
+                  </p>
                 )}
                 {gameTiming.shownResult && (
                   <p>{winner ? '✅' : draw ? '➖' : '❌'}</p>

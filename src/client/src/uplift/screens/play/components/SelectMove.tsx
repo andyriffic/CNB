@@ -4,29 +4,36 @@ import { Button } from '../../../../screens/styled';
 import { MatchupContext } from '../../../contexts/MatchupProvider';
 import { MoveSummary } from './MoveSummary';
 import { LoadingSpinner } from '../../../components/loading-spinner';
+import { GameThemeContext } from '../../../contexts/ThemeProvider';
 
 const MoveContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const Move = styled.div<{ selected?: boolean }>`
-  border: 1px solid
+const Move = styled.button<{ selected?: boolean }>`
+  flex: 1;
+  margin: 0 5px;
+  border: 2px solid
     ${props =>
       props.selected
         ? props.theme.headerBackgroundColor
         : props.theme.textColor};
-  color: ${props =>
+  color: white;
+  background-color: ${props =>
     props.selected ? props.theme.headerBackgroundColor : props.theme.textColor};
   padding: 10px;
   font-size: 1.8rem;
   cursor: pointer;
-`;
 
-type Move = {
-  id: string;
-  name: string;
-};
+  :first-child {
+    margin-left: 0;
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+`;
 
 type MakeMoveProps = {
   matchupId: string;
@@ -34,24 +41,10 @@ type MakeMoveProps = {
   playerId: string;
 };
 
-const moves: Move[] = [
-  {
-    id: 'A',
-    name: 'Move A',
-  },
-  {
-    id: 'B',
-    name: 'Move B',
-  },
-  {
-    id: 'C',
-    name: 'Move C',
-  },
-];
-
 export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
+  const { themedMoves } = useContext(GameThemeContext);
   const { makeMove, currentMatchup } = useContext(MatchupContext);
-  const [selectedMove, setSelectedMove] = useState<Move>();
+  const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [moveMade, setMoveMade] = useState(false);
 
   if (!currentMatchup) {
@@ -75,34 +68,38 @@ export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
       <div>
         <h2>Make your move</h2>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
-          {moves.map(move => (
+          {Object.keys(themedMoves).map(moveId => (
             <Move
-              key={move.id}
-              selected={selectedMove && selectedMove.id === move.id}
-              onClick={() => !moveMade && setSelectedMove(move)}
+              key={moveId}
+              selected={selectedMoveId === moveId}
+              onClick={() => !moveMade && setSelectedMoveId(moveId)}
             >
-              {move.name}
+              {themedMoves[moveId].name}
+              <br />
+              {themedMoves[moveId].translation}
             </Move>
           ))}
         </MoveContainer>
-        <Button
-          type="button"
-          disabled={!selectedMove}
-          className={!!selectedMove && !moveMade ? 'radioactive' : ''}
-          style={{ display: 'block', width: '100%' }}
-          onClick={() => {
-            !moveMade &&
-              selectedMove &&
-              makeMove(matchupId, teamId, {
-                playerId,
-                moveId: selectedMove.id,
-                powerUpId: 'NONE',
-              });
-            setMoveMade(true);
-          }}
-        >
-          {moveMade ? 'Watch result on the screen' : 'Play!'}
-        </Button>
+        {!moveMade && (
+          <Button
+            type="button"
+            disabled={!selectedMoveId}
+            className={!!selectedMoveId && !moveMade ? 'radioactive' : ''}
+            style={{ display: 'block', width: '100%' }}
+            onClick={() => {
+              !moveMade &&
+                selectedMoveId &&
+                makeMove(matchupId, teamId, {
+                  playerId,
+                  moveId: selectedMoveId,
+                  powerUpId: 'NONE',
+                });
+              setMoveMade(true);
+            }}
+          >
+            Play!
+          </Button>
+        )}
       </div>
     </div>
   );
