@@ -4,6 +4,18 @@ const sortByRankScore = results => {
   });
 };
 
+export const rankByTotalWins = rawRankings => {
+  const rankingsWithScore = rawRankings.map(ranking => {
+    return {
+      ...ranking,
+      rankScore: parseInt(ranking.times_won),
+    };
+  });
+  console.log('UNSORTED RANKINGS', rankingsWithScore);
+
+  return sortByRankScore(rankingsWithScore);
+};
+
 export const rankByWinDrawPlayedRatio = rawRankings => {
   const rankingsWithScore = rawRankings.map(ranking => {
     return {
@@ -54,8 +66,10 @@ export const rankByWinDrawLossRatio = rawRankings => {
     return {
       ...ranking,
       rankScore:
-        (parseInt(ranking.times_won) * 2 + parseInt(ranking.times_drawn)) /
-        (parseInt(ranking.times_lost) + 1),
+        (parseInt(ranking.times_won) * 4 +
+          parseInt(ranking.times_drawn) * 2 +
+          parseInt(ranking.times_lost) * 1) /
+        parseInt(ranking.times_played),
     };
   });
   console.log('UNSORTED RANKINGS', rankingsWithScore);

@@ -27,20 +27,18 @@ const Stats = styled.div`
 export const PlayerRanking = ({ playerRanking }) => {
   return (
     <Container>
-      <Name>
-        {playerRanking.player}({playerRanking.rankScore})
-      </Name>
+      <Name>{playerRanking.player}</Name>
       <Stats>
         <SubStatItem title="Wins" value={playerRanking.times_won} />
-        <SubStatItem
-          type="losses"
-          title="Losses"
-          value={playerRanking.times_lost}
-        />
         <SubStatItem
           type="draws"
           title="Draws"
           value={playerRanking.times_drawn}
+        />
+        <SubStatItem
+          type="losses"
+          title="Losses"
+          value={playerRanking.times_lost}
         />
       </Stats>
     </Container>

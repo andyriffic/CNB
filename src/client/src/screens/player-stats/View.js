@@ -10,7 +10,8 @@ import { groupPlayerRankings } from './groupPlayerRankings';
 
 import { Bounce, Power3 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
-import { rankByWinDrawPlayedRatio } from './rankPlayers';
+import { rankByWinDrawLossRatio, rankByTotalWins } from './rankPlayers';
+import { isFeatureEnabled } from '../../featureToggle';
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
 const fetchRankings = () => {
@@ -90,6 +91,10 @@ const Link = styled.a`
 const placeIcons = ['🥇', '🥈', '🥉'];
 const placeBackgroundColor = ['#AF9500', '#B4B4B4', '#6A3805'];
 
+const rankingFunction = isFeatureEnabled('ranking')
+  ? rankByWinDrawLossRatio
+  : rankByTotalWins;
+
 const RankingGroupComponent = ({ rankingGroup, ranking, setRef }) => {
   const place = placeIcons[ranking] || `${ranking + 1}th`;
   const bgColor = placeBackgroundColor[ranking] || '#231922';
@@ -116,9 +121,7 @@ const View = () => {
   useEffect(() => {
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
-      setRankingList(
-        groupPlayerRankings(rankByWinDrawPlayedRatio(rankings.result))
-      );
+      setRankingList(groupPlayerRankings(rankingFunction(rankings.result)));
     });
   }, []);
 
@@ -127,11 +130,17 @@ const View = () => {
       const parentRefRect = rankingContanerRef.current.getBoundingClientRect();
       console.log('PARENT', parentRefRect);
       boardGroupRefs.current.reverse().forEach((elem, index) => {
+        if (index < boardGroupRefs.current.length - 3) {
+          new TimelineLite().to(elem, 0, { opacity: 1, ease: Power3.easeOut });
+          return;
+        }
         const rect = elem.getBoundingClientRect();
         // console.log('THIS', elem.getBoundingClientRect());
-        new TimelineLite({ delay: index })
+        new TimelineLite({
+          delay: (index - (boardGroupRefs.current.length - 3)) * 3,
+        })
           .to(elem, 0.5, { opacity: 1, ease: Power3.easeOut })
-          .from(elem, 0.5, {
+          .from(elem, 1, {
             y: parentRefRect.top - rect.top,
             ease: Bounce.easeOut,
             delay: 0.5,
