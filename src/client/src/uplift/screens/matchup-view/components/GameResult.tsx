@@ -4,6 +4,7 @@ import { Game } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
 import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
+import { PlayerWithMoveReveal } from './PlayerWithMoveReveal';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -47,19 +48,13 @@ export const GameResult = ({
           return (
             <div key={index} style={{ margin: '0 auto' }}>
               <PlayerSide>
-                {gameTiming.shownCharacter && (
-                  <PlayerCharacter
-                    src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${
-                      move.playerAvatarUrl
-                    }`}
-                  />
-                )}
-                {gameTiming.shownMove && (
-                  <p>
-                    {themedMoves[game.result!.moves[index].moveId].name}{' '}
-                    {themedMoves[game.result!.moves[index].moveId].translation}
-                  </p>
-                )}
+                <PlayerWithMoveReveal
+                  playerAvatarUrl={move.playerAvatarUrl!}
+                  revealPlayer={gameTiming.shownCharacter}
+                  revealMove={gameTiming.shownMove}
+                  move={themedMoves[game.result!.moves[index].moveId]}
+                  position={index === 0 ? 'LEFT' : 'RIGHT'}
+                />
                 {gameTiming.shownResult && (
                   <p>{winner ? '✅' : draw ? '➖' : '❌'}</p>
                 )}
@@ -68,7 +63,7 @@ export const GameResult = ({
           );
         })}
       </MovesContainer>
-      <div>
+      <div style={{ textAlign: 'center' }}>
         {gameTiming.gameplayFinished && (
           <Button onClick={startNewGame}>New Game</Button>
         )}

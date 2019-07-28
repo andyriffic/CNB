@@ -7,9 +7,10 @@ type ThemeStyle = {
   textColor: string;
 };
 
-type ThemedMove = {
+export type ThemedMove = {
   name: string;
   translation: string;
+  imageUrl: string;
 };
 
 export type GameTheme = {
@@ -24,9 +25,9 @@ const defaultTheme = {
     textColor: '#1A414D',
   },
   themedMoves: {
-    A: { name: 'Ninja', translation: '忍者' },
-    B: { name: 'Cowboy', translation: '牛仔' },
-    C: { name: 'Bear', translation: '熊' },
+    A: { name: 'Ninja', translation: '忍者', imageUrl: '/theme/cnb/ninja.png' },
+    B: { name: 'Cowboy', translation: '牛仔', imageUrl: '/theme/cnb/cowboy.png' },
+    C: { name: 'Bear', translation: '熊', imageUrl: '/theme/cnb/bear.png' },
   },
 };
 
