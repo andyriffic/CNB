@@ -42,6 +42,14 @@ export default ({ matchupId }: MatchupViewProps) => {
     playGameForMatchup,
   } = useContext(MatchupContext);
 
+  const [showScoreUpdate, setShowScoreUpdate] = useState(false);
+
+  const onGameViewFinished = () => {
+    setTimeout(() => {
+      setShowScoreUpdate(true);
+    }, 2000);
+  };
+
   useEffect(() => {
     matchupId && subscribeToMatchup(matchupId);
 
@@ -59,11 +67,17 @@ export default ({ matchupId }: MatchupViewProps) => {
           <React.Fragment>
             <TeamDetailsContainer className="margins-off">
               <TeamContainer>
-                <TeamDetail team={currentMatchup.teams[0]} />
+                <TeamDetail
+                  team={currentMatchup.teams[0]}
+                  showUpdatedValue={showScoreUpdate}
+                />
               </TeamContainer>
               <Vs>vs</Vs>
               <TeamContainer>
-                <TeamDetail team={currentMatchup.teams[1]} />
+                <TeamDetail
+                  team={currentMatchup.teams[1]}
+                  showUpdatedValue={showScoreUpdate}
+                />
               </TeamContainer>
             </TeamDetailsContainer>
             {!currentMatchup.gameInProgress && (
@@ -85,7 +99,12 @@ export default ({ matchupId }: MatchupViewProps) => {
                 <Button
                   className="radioactive"
                   style={{ width: '100%' }}
-                  onClick={() => matchupId && playGameForMatchup(matchupId)}
+                  onClick={() => {
+                    if (matchupId) {
+                      setShowScoreUpdate(false);
+                      playGameForMatchup(matchupId);
+                    }
+                  }}
                 >
                   PLAY!
                 </Button>
@@ -97,6 +116,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                   startNewGame={() =>
                     matchupId && startGameForMatchup(matchupId)
                   }
+                  gameViewFinished={onGameViewFinished}
                 />
               )}
           </React.Fragment>

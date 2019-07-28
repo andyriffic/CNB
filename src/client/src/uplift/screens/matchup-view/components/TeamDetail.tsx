@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Team } from '../../../contexts/MatchupProvider';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
+import { DynamicUpdatingPoints } from '../../../components/dynamic-updating-points';
 
 const Container = styled.div`
   border: 2px solid black;
@@ -23,12 +24,21 @@ const TeamPoints = styled.div`
   background-color: #f5f5f5;
 `;
 
-export const TeamDetail = ({ team }: { team: Team }) => {
+export const TeamDetail = ({
+  team,
+  showUpdatedValue,
+}: {
+  team: Team;
+  showUpdatedValue: boolean;
+}) => {
   return (
     <Container>
       <TeamName>{team.name}</TeamName>
       <TeamPoints>
-        <ReadableNumberFont>{team.points}</ReadableNumberFont>
+        <DynamicUpdatingPoints
+          value={team.points}
+          showUpdatedValue={showUpdatedValue}
+        />
       </TeamPoints>
     </Container>
   );

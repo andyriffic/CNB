@@ -7,7 +7,7 @@ export type GameViewTiming = {
   gameplayFinished: boolean;
 };
 
-export const useGameViewTimingEffect = () => {
+export const useGameViewTimingEffect = (finished: () => void) => {
   const [shownCharacter, setShownCharacter] = useState(false);
   const [shownMove, setShownMove] = useState(false);
   const [shownResult, setShownResult] = useState(false);
@@ -31,6 +31,7 @@ export const useGameViewTimingEffect = () => {
                 gameplayTimeouts.push(
                   setTimeout(() => {
                     setGameplayFinished(true);
+                    finished();
                   }, 1000)
                 );
               }, 1000)

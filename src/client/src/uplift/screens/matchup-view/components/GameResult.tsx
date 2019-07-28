@@ -21,15 +21,19 @@ const PlayerCharacter = styled.img`
   height: 30vmin;
 `;
 
+type GameResultProps = {
+  game: Game;
+  startNewGame: () => void;
+  gameViewFinished: () => void;
+};
+
 export const GameResult = ({
   game,
   startNewGame,
-}: {
-  game: Game;
-  startNewGame: () => void;
-}) => {
+  gameViewFinished,
+}: GameResultProps) => {
   const { themedMoves } = useContext(GameThemeContext);
-  const gameTiming = useGameViewTimingEffect();
+  const gameTiming = useGameViewTimingEffect(gameViewFinished);
 
   const draw = !!game.result!.draw;
 
