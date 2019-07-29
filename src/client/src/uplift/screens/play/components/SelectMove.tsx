@@ -21,7 +21,7 @@ const Move = styled.button<{ selected?: boolean }>`
         : props.theme.textColor};
   color: white;
   background-color: ${props =>
-    props.selected ? props.theme.headerBackgroundColor : props.theme.textColor};
+    props.selected ? props.theme.headerBackgroundColor : 'transparent'};
   padding: 10px;
   font-size: 1.8rem;
   cursor: pointer;
@@ -74,9 +74,12 @@ export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
               selected={selectedMoveId === moveId}
               onClick={() => !moveMade && setSelectedMoveId(moveId)}
             >
-              {themedMoves[moveId].name}
-              <br />
-              {themedMoves[moveId].translation}
+              <img
+                src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${
+                  themedMoves[moveId].imageUrl
+                }`}
+                style={{ width: '100%', height: '100%' }}
+              />
             </Move>
           ))}
         </MoveContainer>

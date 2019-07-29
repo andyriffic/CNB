@@ -4,14 +4,11 @@ import { SpectatorMove } from '../../../contexts/MatchupProvider';
 export const MoveSummary = ({ move }: { move: SpectatorMove }) => {
   return (
     <div style={{ fontSize: '2rem', textAlign: 'center' }}>
+      <p>Watch the Main screen for the result</p>
       <p>
-        Watch the Main screen for the result
-        <span
-          style={{ display: 'block', fontSize: '5rem' }}
-        >
-          🤞
-        </span>
+        <span style={{ display: 'block', fontSize: '5rem' }}>🤞</span>
       </p>
+      <p>祝好運</p>
     </div>
   );
 };
