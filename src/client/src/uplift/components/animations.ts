@@ -39,3 +39,19 @@ export const pulseAnimation = keyframes`
   80% {transform: scale(1.2);}
   100% {transform: scale(1);}
 `;
+
+// export const Pulse = keyframes`
+//   0% { transform: scale(1); }
+//   50% { transform: scale(1.1); }
+//   100% { transform: scale(1); }
+// `;
+
+export const growAnimation = keyframes`
+  0% { transform: scale(0.2); }
+  100% { transform: scale(1); }
+`;
+
+export const rotateAnimation = keyframes`
+  0% { transform: rotate3d(0); }
+  100% { transform: rotate(360deg); }
+`;

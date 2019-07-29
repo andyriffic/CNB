@@ -54,10 +54,8 @@ export const GameResult = ({
                   revealMove={gameTiming.shownMove}
                   move={themedMoves[game.result!.moves[index].moveId]}
                   position={index === 0 ? 'LEFT' : 'RIGHT'}
+                  winner={gameTiming.shownResult && winner}
                 />
-                {gameTiming.shownResult && (
-                  <p>{winner ? '✅' : draw ? '➖' : '❌'}</p>
-                )}
               </PlayerSide>
             </div>
           );

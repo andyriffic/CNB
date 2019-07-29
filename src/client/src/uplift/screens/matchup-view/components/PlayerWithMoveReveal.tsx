@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemedMove } from '../../../contexts/ThemeProvider';
+import star from './star-md.png';
+import { rotateAnimation, growAnimation } from '../../../components/animations';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -8,6 +10,7 @@ type PlayerWithRevealProps = {
   move: ThemedMove;
   playerAvatarUrl: string;
   position: 'LEFT' | 'RIGHT';
+  winner: boolean;
 };
 
 const Container = styled.div`
@@ -20,20 +23,47 @@ const PlayerCharacter = styled.img<{
 }>`
   width: 20vmin;
   height: 30vmin;
-  opacity: ${props => props.reveal ? '1' : '0'};
+  opacity: ${props => (props.reveal ? '1' : '0')};
   transition: opacity 500ms ease-in-out;
   ${props => props.position === 'RIGHT' && 'transform: scaleX(-1);'}
 `;
 
-const PlayerMove = styled.img<{ position: 'LEFT' | 'RIGHT'; reveal: boolean }>`
-  width: 15vmin;
-  height: 15vmin;
+const WinnerIndicator = styled.div<{
+  position: 'LEFT' | 'RIGHT';
+  reveal: boolean;
+}>`
   position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent url(${star}) no-repeat center center;
+  background-size: contain;
+  animation: ${growAnimation} 300ms linear 0s backwards,
+    ${rotateAnimation} 5s linear 300ms infinite;
+`;
+
+const PlayerMoveContainer = styled.div<{
+  position: 'LEFT' | 'RIGHT';
+  reveal: boolean;
+}>`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20vmin;
+  height: 20vmin;
   top: 25%;
   ${props => (props.position === 'LEFT' ? 'right: -70%' : 'left: -70%')};
   ${props => props.position === 'RIGHT' && 'transform: scaleX(-1);'}
+`;
+
+const PlayerMove = styled.img<{ position: 'LEFT' | 'RIGHT'; reveal: boolean }>`
+  width: 80%;
+  height: 80%;
   transition: opacity 500ms ease-in-out;
-  opacity: ${props => props.reveal ? '1' : '0'};
+  opacity: ${props => (props.reveal ? '1' : '0')};
+  position: absolute;
 `;
 
 export const PlayerWithMoveReveal = ({
@@ -42,6 +72,7 @@ export const PlayerWithMoveReveal = ({
   move,
   playerAvatarUrl,
   position,
+  winner,
 }: PlayerWithRevealProps) => {
   return (
     <Container className="margins-off">
@@ -50,11 +81,18 @@ export const PlayerWithMoveReveal = ({
         reveal={revealPlayer}
         src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${playerAvatarUrl}`}
       />
-      <PlayerMove
+      <PlayerMoveContainer
         position={position}
         reveal={revealMove}
-        src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${move.imageUrl}`}
-      />
+        className="margins-off"
+      >
+        {winner && <WinnerIndicator position={position} reveal={revealMove} />}
+        <PlayerMove
+          position={position}
+          reveal={revealMove}
+          src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${move.imageUrl}`}
+        />
+      </PlayerMoveContainer>
     </Container>
   );
 };

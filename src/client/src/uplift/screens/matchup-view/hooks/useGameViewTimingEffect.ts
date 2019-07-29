@@ -32,9 +32,9 @@ export const useGameViewTimingEffect = (finished: () => void) => {
                   setTimeout(() => {
                     setGameplayFinished(true);
                     finished();
-                  }, 5000) //Finished
+                  }, 3000) //Finished
                 );
-              }, 5000) // Show result
+              }, 4000) // Show result
             );
           }, 3000) // Show move
         );
