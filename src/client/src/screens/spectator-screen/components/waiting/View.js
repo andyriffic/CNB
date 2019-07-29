@@ -1,7 +1,7 @@
 /* @flow */
 // flow:disable no typedefs for useState, useEffect yet
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import PlayerStatus from '../player-status';
 import PlayerScore from '../player-score';
@@ -19,6 +19,7 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import MultiArea from '../../../../components/multi-area';
 import PowerUpBadge from '../../../../components/power-up-badges';
+import BaseBadge from '../../../../components/power-up-badges/BaseBadge';
 import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
 import { POWER_UP_TYPE } from '../../../../power-ups/constants';
@@ -47,6 +48,33 @@ const PointGoalContainer = styled.div`
   justify-content: center;
 `;
 
+const pulse = keyframes`
+  from {
+    transform: scale3d(1, 1, 1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2) rotate(30deg);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1) rotate(0deg);
+  }
+`;
+
+const PowerUpBanner = styled.div`
+  position: absolute;
+  z-index: 9;
+  width: 15vmin;
+  height: 15vmin;
+  top: 0;
+  right: 0;
+  display: flex;
+  transform: rotate(20deg);
+  animation: ${pulse} 3s ease infinite forwards;
+  font-size: 0.8rem;
+`;
+
 const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   const [player1El, setPlayer1El] = useState(null);
   const [player2El, setPlayer2El] = useState(null);
@@ -55,10 +83,13 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
   const [player1Timeline, setPlayer1Timeline] = useState(null);
   const soundService = useContext(GameSoundContext);
   const gameData = useContext(GameDataContext);
+  const [badgeVariation] = useState(Math.floor(Math.random() * 2));
 
   useEffect(() => {
     gameData.set({ autoPlayResult: true });
   }, []);
+
+  useEffect(() => {});
 
   useEffect(() => {
     if (player1El && player2El && buttonEl && bonusPointsEl) {
@@ -107,6 +138,21 @@ const View = ({ player1, player2, playGame, trophyPoints }: Props) => {
 
   return (
     <PageLayout>
+      <PowerUpBanner>
+        {badgeVariation === 0 ? (
+          <BaseBadge
+            text="Changes are coming!"
+            backgroundColor="#6389df"
+            textShadowColor="#1f2b6c"
+          />
+        ) : (
+          <BaseBadge
+            text="Changes are coming!"
+            backgroundColor="#f9ab00"
+            textShadowColor="#e2683c"
+          />
+        )}
+      </PowerUpBanner>
       <IntroBanner />
       <PointGoalContainer>
         {trophyPoints.loaded && <TrophyGoal goal={trophyPoints.goal} />}

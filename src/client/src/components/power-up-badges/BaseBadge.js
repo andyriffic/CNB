@@ -41,6 +41,7 @@ const Text = styled.p`
   display: flex;
   flex-direction: column;
   font-size: ${props => (props.bigText ? '1.8' : '0.6')}rem;
+  line-height: 1;
 `;
 
 const Count = styled.span`
