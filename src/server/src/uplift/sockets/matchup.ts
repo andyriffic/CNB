@@ -4,9 +4,7 @@ import shortid from 'shortid';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
-import {
-  TeamMatchup,
-} from '../services/matchup/types';
+import { TeamMatchup } from '../services/matchup/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const ADD_MATCHUP = 'ADD_MATCHUP';
@@ -47,7 +45,8 @@ const init = (socketServer: Server, path: string) => {
       const matchup = matchupService.createTeamMatchup(
         shortid.generate(),
         teamIds,
-        playerPointCounterIds
+        playerPointCounterIds,
+        2
       );
 
       console.log('CREATING MATCHUP', matchup);

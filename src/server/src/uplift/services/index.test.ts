@@ -28,7 +28,8 @@ describe('game scenarios', () => {
       const matchup = matchupService.createTeamMatchup(
         'test_matchup_id',
         [allTeams[0].id, allTeams[1].id],
-        [c1.id, c2.id]
+        [c1.id, c2.id],
+        2
       );
       let game = matchupService.createGame('test_game_id', matchup.teamIds);
 
@@ -53,7 +54,10 @@ describe('game scenarios', () => {
 
       console.log(
         'WINNER',
-        gameResultService.getWinner([game.moves[0].moveId!, game.moves[1].moveId!])
+        gameResultService.getWinner([
+          game.moves[0].moveId!,
+          game.moves[1].moveId!,
+        ])
       );
     });
   });

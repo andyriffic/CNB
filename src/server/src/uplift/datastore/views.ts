@@ -33,6 +33,7 @@ const getMatchupSpectatorView = (
               points: points[1].value,
             },
           ],
+          trophyGoal: matchup.trophyGoal,
         };
         resolve(view);
       });

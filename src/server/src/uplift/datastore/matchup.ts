@@ -8,8 +8,13 @@ const saveNewMatchup = (matchup: TeamMatchup): Promise<TeamMatchup> => {
 };
 
 const getMatchup = (id: string): Promise<TeamMatchup> => {
-  return getItemById(DYNAMO_DB_TABLE_NAME, id);
-}
+  return getItemById<TeamMatchup>(DYNAMO_DB_TABLE_NAME, id).then(matchup => {
+    return {
+      ...matchup,
+      trophyGoal: 2,
+    };
+  });
+};
 
 const getAllMatchups = (): Promise<TeamMatchup[]> => {
   return scanDynamoTable(DYNAMO_DB_TABLE_NAME, 'id, teamIds, pointCounterIds');

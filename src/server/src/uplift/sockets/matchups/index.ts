@@ -128,7 +128,12 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
           counterDatastore.getCounter(matchup.pointCounterIds[1]),
         ]).then((points: [Counter, Counter]) => {
-          const result = playService.playGame(gameInProgress, points);
+          const result = playService.playGame(
+            gameInProgress,
+            points,
+            undefined,
+            matchup.trophyGoal
+          );
           console.log('RESULT------------->', result);
 
           Promise.all([

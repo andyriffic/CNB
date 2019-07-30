@@ -5,4 +5,5 @@ export type PlayResult = {
   gameResult: GameResult;
   points: [Counter, Counter];
   bonusPoints: Counter;
+  trophyWon: boolean;
 };
