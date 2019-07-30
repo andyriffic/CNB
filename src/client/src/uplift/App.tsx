@@ -6,6 +6,7 @@ import { MatchupLobby } from './screens/matchup-lobby';
 import { MatchupProvider } from './contexts/MatchupProvider';
 import { MatchupView } from './screens/matchup-view';
 import { PlayView } from './screens/play';
+import { ComponentTestView } from './screens/_component-test';
 import { Theme } from './contexts/ThemeProvider';
 
 export default () => {
@@ -18,6 +19,7 @@ export default () => {
             <MatchupLobby path="/" />
             <MatchupView path="/matchup/:matchupId" />
             <PlayView path="/play" />
+            <ComponentTestView path="/component-test" />
           </Router>
         </MatchupProvider>
       </GameTheme>
