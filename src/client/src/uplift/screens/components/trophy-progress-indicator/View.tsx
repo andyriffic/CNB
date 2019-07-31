@@ -51,7 +51,7 @@ const TrophyIcon = styled.div<{ complete: boolean }>`
 export default ({
   goal,
   points,
-  reverse = true,
+  reverse = false,
 }: TrophyProgressIndicatorProps) => {
   const percentComplete = (points / goal) * 100;
   return (

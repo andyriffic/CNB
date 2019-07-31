@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Team } from '../../../contexts/MatchupProvider';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import { DynamicUpdatingPoints } from '../../../components/dynamic-updating-points';
+import { TrophyProgressIndicator } from '../../components/trophy-progress-indicator';
 
 const Container = styled.div`
   border: 2px solid black;
@@ -27,19 +28,28 @@ const TeamPoints = styled.div`
 export const TeamDetail = ({
   team,
   showUpdatedValue,
+  reverse,
 }: {
   team: Team;
   showUpdatedValue: boolean;
+  reverse?: boolean;
 }) => {
   return (
-    <Container>
-      <TeamName>{team.name}</TeamName>
-      <TeamPoints>
-        <DynamicUpdatingPoints
-          value={team.points}
-          showUpdatedValue={showUpdatedValue}
-        />
-      </TeamPoints>
-    </Container>
+    <div className="margins-off">
+      <TrophyProgressIndicator
+        points={team.points}
+        goal={10}
+        reverse={reverse}
+      />
+      <Container>
+        <TeamName>{team.name}</TeamName>
+        <TeamPoints>
+          <DynamicUpdatingPoints
+            value={team.points}
+            showUpdatedValue={showUpdatedValue}
+          />
+        </TeamPoints>
+      </Container>
+    </div>
   );
 };
