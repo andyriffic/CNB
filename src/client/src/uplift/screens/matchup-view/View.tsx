@@ -43,12 +43,23 @@ export default ({ matchupId }: MatchupViewProps) => {
   } = useContext(MatchupContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
+  const [delayedTeamDetails, setDelayedTeamDetails] = useState();
 
   const onGameViewFinished = () => {
     setTimeout(() => {
       setShowScoreUpdate(true);
     }, 2000);
   };
+
+  useEffect(() => {
+    if (!currentMatchup) {
+      return;
+    }
+
+    if (!delayedTeamDetails || showScoreUpdate) {
+      setDelayedTeamDetails(currentMatchup.teams);
+    }
+  }, [currentMatchup, showScoreUpdate]);
 
   useEffect(() => {
     matchupId && subscribeToMatchup(matchupId);
@@ -61,22 +72,22 @@ export default ({ matchupId }: MatchupViewProps) => {
   return (
     <FullPageLayout pageTitle="" alignTop={true}>
       <MatchupsContainer>
-        {!currentMatchup ? (
+        {!(currentMatchup && delayedTeamDetails) ? (
           <LoadingSpinner text="Loading matchup..." />
         ) : (
           <React.Fragment>
             <TeamDetailsContainer className="margins-off">
               <TeamContainer>
                 <TeamDetail
-                  team={currentMatchup.teams[0]}
-                  showUpdatedValue={showScoreUpdate}
+                  team={delayedTeamDetails && delayedTeamDetails[0]}
+                  showUpdatedValue={true}
                 />
               </TeamContainer>
               <Vs>vs</Vs>
               <TeamContainer>
                 <TeamDetail
-                  team={currentMatchup.teams[1]}
-                  showUpdatedValue={showScoreUpdate}
+                  team={delayedTeamDetails && delayedTeamDetails[1]}
+                  showUpdatedValue={true}
                   reverse
                 />
               </TeamContainer>
@@ -99,7 +110,6 @@ export default ({ matchupId }: MatchupViewProps) => {
                 GAME_STATUS.ReadyToPlay && (
                 <Button
                   className="radioactive"
-                  style={{ width: '100%' }}
                   onClick={() => {
                     if (matchupId) {
                       setShowScoreUpdate(false);
