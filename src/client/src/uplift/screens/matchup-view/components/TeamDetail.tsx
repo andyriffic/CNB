@@ -27,11 +27,9 @@ const TeamPoints = styled.div`
 
 export const TeamDetail = ({
   team,
-  showUpdatedValue,
   reverse,
 }: {
   team: Team;
-  showUpdatedValue: boolean;
   reverse?: boolean;
 }) => {
   return (
@@ -44,10 +42,7 @@ export const TeamDetail = ({
       <Container>
         <TeamName>{team.name}</TeamName>
         <TeamPoints>
-          <DynamicUpdatingPoints
-            value={team.points}
-            showUpdatedValue={showUpdatedValue}
-          />
+          <DynamicUpdatingPoints value={team.points} />
         </TeamPoints>
       </Container>
     </div>

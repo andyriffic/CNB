@@ -80,14 +80,12 @@ export default ({ matchupId }: MatchupViewProps) => {
               <TeamContainer>
                 <TeamDetail
                   team={delayedTeamDetails && delayedTeamDetails[0]}
-                  showUpdatedValue={true}
                 />
               </TeamContainer>
               <Vs>vs</Vs>
               <TeamContainer>
                 <TeamDetail
                   team={delayedTeamDetails && delayedTeamDetails[1]}
-                  showUpdatedValue={true}
                   reverse
                 />
               </TeamContainer>
