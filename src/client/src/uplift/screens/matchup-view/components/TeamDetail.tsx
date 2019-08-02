@@ -8,13 +8,12 @@ import { TrophyProgressIndicator } from '../../components/trophy-progress-indica
 const Container = styled.div`
   border: 2px solid black;
   border-radius: 8px 8px 0 0;
+  overflow: hidden;
 `;
 
 const TeamName = styled.h4`
   margin: 0;
   text-align: center;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   background-color: ${props => props.theme.headerBackgroundColor};
 `;
 

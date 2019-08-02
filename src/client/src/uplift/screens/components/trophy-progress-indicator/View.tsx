@@ -16,8 +16,7 @@ const Container = styled.div<{ reverse: boolean }>`
 const ProgressBar = styled.div`
   border: 1px solid black;
   background-color: white;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-radius: 8px;
   height: 30px;
   width: 96%;
   overflow: hidden;
@@ -28,8 +27,6 @@ const ProgressFill = styled.div<{ percentComplete: number }>`
   height: 100%;
   background-color: steelblue;
   transition: width 800ms ease-in-out;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
 `;
 
 const TrophyIcon = styled.div<{ complete: boolean }>`
@@ -61,7 +58,7 @@ export default ({
         <ProgressFill percentComplete={percentComplete} />
       </ProgressBar>
       <TrophyIcon complete={points >= goal}>
-        <span>🏆</span>
+        <span style={{ paddingTop: '5px' }}>🏆</span>
       </TrophyIcon>
     </Container>
   );
