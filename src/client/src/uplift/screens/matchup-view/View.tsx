@@ -43,11 +43,16 @@ export default ({ matchupId }: MatchupViewProps) => {
   } = useContext(MatchupContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
+  const [showNewGame, setShowNewGame] = useState(false);
   const [delayedTeamDetails, setDelayedTeamDetails] = useState();
 
   const onGameViewFinished = () => {
     setTimeout(() => {
       setShowScoreUpdate(true);
+
+      setTimeout(() => {
+        setShowNewGame(true);
+      }, 2000);
     }, 2000);
   };
 
@@ -122,12 +127,23 @@ export default ({ matchupId }: MatchupViewProps) => {
               currentMatchup.gameInProgress.status === GAME_STATUS.Finished && (
                 <GameResult
                   game={currentMatchup.gameInProgress!}
-                  startNewGame={() =>
-                    matchupId && startGameForMatchup(matchupId)
-                  }
                   gameViewFinished={onGameViewFinished}
                 />
               )}
+            {showNewGame && (
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  onClick={() => {
+                    if (matchupId) {
+                      startGameForMatchup(matchupId);
+                      setShowNewGame(false);
+                    }
+                  }}
+                >
+                  New Game
+                </Button>
+              </div>
+            )}
           </React.Fragment>
         )}
       </MatchupsContainer>

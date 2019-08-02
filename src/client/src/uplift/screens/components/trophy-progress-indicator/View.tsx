@@ -20,6 +20,7 @@ const ProgressBar = styled.div`
   border-bottom-left-radius: 8px;
   height: 30px;
   width: 96%;
+  overflow: hidden;
 `;
 
 const ProgressFill = styled.div<{ percentComplete: number }>`

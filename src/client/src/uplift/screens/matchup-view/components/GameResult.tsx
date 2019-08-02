@@ -24,13 +24,11 @@ const PlayerCharacter = styled.img`
 
 type GameResultProps = {
   game: Game;
-  startNewGame: () => void;
   gameViewFinished: () => void;
 };
 
 export const GameResult = ({
   game,
-  startNewGame,
   gameViewFinished,
 }: GameResultProps) => {
   const { themedMoves } = useContext(GameThemeContext);
@@ -61,11 +59,6 @@ export const GameResult = ({
           );
         })}
       </MovesContainer>
-      <div style={{ textAlign: 'center' }}>
-        {gameTiming.gameplayFinished && (
-          <Button onClick={startNewGame}>New Game</Button>
-        )}
-      </div>
     </div>
   );
 };
