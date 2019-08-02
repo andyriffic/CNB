@@ -1,4 +1,4 @@
-import {keyframes} from 'styled-components';
+import { keyframes } from 'styled-components';
 
 export const rubberBandAnimation = keyframes`
   0% {
@@ -54,4 +54,20 @@ export const growAnimation = keyframes`
 export const rotateAnimation = keyframes`
   0% { transform: rotate3d(0); }
   100% { transform: rotate(360deg); }
+`;
+
+export const stampAnimation = keyframes`
+  0%{
+    opacity: 0;
+  }
+  10%{
+    opacity:.50;
+    transform-origin: 50% 50%;
+    transform: rotate(-2deg) scale(5);
+    transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+  }
+  100%{
+    opacity:1;
+    transform: rotate(-15deg) scale(1);
+  }
 `;
