@@ -86,6 +86,11 @@ export default ({ matchupId }: MatchupViewProps) => {
                 <TeamDetail
                   team={delayedTeamDetails && delayedTeamDetails[0]}
                   trophyGoal={currentMatchup.trophyGoal}
+                  showPointDiff={
+                    !!currentMatchup.gameInProgress &&
+                    currentMatchup.gameInProgress.status ===
+                      GAME_STATUS.Finished
+                  }
                 />
               </TeamContainer>
               <Vs>vs</Vs>
@@ -94,6 +99,11 @@ export default ({ matchupId }: MatchupViewProps) => {
                   team={delayedTeamDetails && delayedTeamDetails[1]}
                   reverse
                   trophyGoal={currentMatchup.trophyGoal}
+                  showPointDiff={
+                    !!currentMatchup.gameInProgress &&
+                    currentMatchup.gameInProgress.status ===
+                      GAME_STATUS.Finished
+                  }
                 />
               </TeamContainer>
             </TeamDetailsContainer>

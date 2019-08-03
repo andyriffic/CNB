@@ -27,11 +27,13 @@ const TeamPoints = styled.div`
 export const TeamDetail = ({
   team,
   reverse,
-  trophyGoal
+  trophyGoal,
+  showPointDiff,
 }: {
   team: Team;
   reverse?: boolean;
   trophyGoal: number;
+  showPointDiff: boolean;
 }) => {
   return (
     <div className="margins-off">
@@ -43,7 +45,10 @@ export const TeamDetail = ({
       <Container>
         <TeamName>{team.name}</TeamName>
         <TeamPoints>
-          <DynamicUpdatingPoints value={team.points} />
+          <DynamicUpdatingPoints
+            value={team.points}
+            showPointDiff={showPointDiff}
+          />
         </TeamPoints>
       </Container>
     </div>

@@ -5,6 +5,7 @@ import { pulseAnimation } from '../animations';
 
 type DynamicUpdatingPointsProps = {
   value: number;
+  showPointDiff: boolean;
 };
 
 const Container = styled.span`
@@ -29,21 +30,19 @@ const BadgeContainer = styled.div`
   animation: ${pulseAnimation} 1.5s infinite;
 `;
 
-export default ({ value }: DynamicUpdatingPointsProps) => {
+export default ({ value, showPointDiff }: DynamicUpdatingPointsProps) => {
   const [displayValue, setDisplayValue] = useState(value);
-  const [pointsDifference, setPointsDifference] = useState<number>();
+  const [pointsDifference, setPointsDifference] = useState<number>(0);
 
   useEffect(() => {
-    if (value !== displayValue) {
-      setDisplayValue(value);
-      setPointsDifference(value - displayValue);
-    }
-  }, [value]);
+    setPointsDifference(showPointDiff ? value - displayValue : 0);
+    setDisplayValue(value);
+  }, [value, showPointDiff]);
 
   return (
     <Container className="margins-off">
-      <ReadableNumberFont>{value}</ReadableNumberFont>
-      {pointsDifference && (
+      <ReadableNumberFont>{displayValue}</ReadableNumberFont>
+      {pointsDifference > 0 && (
         <BadgeContainer>
           <ReadableNumberFont>+{pointsDifference}</ReadableNumberFont>
         </BadgeContainer>
