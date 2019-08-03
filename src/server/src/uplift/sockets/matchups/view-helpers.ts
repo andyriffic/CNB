@@ -66,6 +66,8 @@ const getGameInProgress = (
       getSpectatorMove(gameInProgress.moves[1]),
     ],
     result: getSpectatorGameResult(gameInProgress),
+    trophyWon: gameInProgress.trophyWon,
+    trophyReset: gameInProgress.trophyReset,
   };
 };
 

@@ -31,7 +31,11 @@ describe('game scenarios', () => {
         [c1.id, c2.id],
         2
       );
-      let game = matchupService.createGame('test_game_id', matchup.teamIds);
+      let game = matchupService.createGame(
+        'test_game_id',
+        matchup.teamIds,
+        false
+      );
 
       console.log('GAME STATUS', getGameStatus(game));
 

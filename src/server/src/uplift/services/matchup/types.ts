@@ -31,6 +31,8 @@ export type Game = {
   id: string;
   moves: [GameMove, GameMove];
   result?: GameResult;
+  trophyWon: boolean;
+  trophyReset: boolean;
 };
 
 export type TeamSpectatorView = {
@@ -62,6 +64,8 @@ export type GameSpectatorView = {
   status: GAME_STATUS;
   moves: [MoveSpectatorView, MoveSpectatorView];
   result?: GameResultSpectatorView;
+  trophyWon: boolean;
+  trophyReset: boolean;
 };
 
 export type MatchupSpectatorView = {

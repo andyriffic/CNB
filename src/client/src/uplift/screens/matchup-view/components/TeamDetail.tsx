@@ -27,15 +27,17 @@ const TeamPoints = styled.div`
 export const TeamDetail = ({
   team,
   reverse,
+  trophyGoal
 }: {
   team: Team;
   reverse?: boolean;
+  trophyGoal: number;
 }) => {
   return (
     <div className="margins-off">
       <TrophyProgressIndicator
         points={team.points}
-        goal={10}
+        goal={trophyGoal}
         reverse={reverse}
       />
       <Container>

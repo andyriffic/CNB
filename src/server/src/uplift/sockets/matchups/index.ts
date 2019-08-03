@@ -16,6 +16,7 @@ import { getGameStatus } from '../../services/matchup/gameStatus';
 import { counterDatastore } from '../../datastore/counters';
 import { Counter } from '../../services/counter/types';
 import { playService } from '../../services/play';
+import { counterService } from '../../services/counter';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -61,19 +62,57 @@ const init = (socketServer: Server, path: string) => {
       console.log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
       matchupDatastore.getMatchup(matchupId).then(matchup => {
         console.log('GOT MATCHUP', matchup);
-        const game = matchupService.createGame(
-          shortid.generate(),
-          matchup.teamIds
-        );
-        gamesInProgress[matchupId] = game;
-        getMatchupView(matchupId, gamesInProgress).then(matchupView => {
-          const matchupChannel = `matchup-${matchupId}`;
-          namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
-        });
 
-        watchupPlayerIds.forEach(playerId => {
-          broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
-        });
+        Promise.all([
+          counterDatastore.getCounter(matchup.pointCounterIds[0]),
+          counterDatastore.getCounter(matchup.pointCounterIds[1]),
+        ])
+          .then(
+            (
+              currentPoints: [Counter, Counter]
+            ): [Counter, Counter] | Promise<[Counter, Counter]> => {
+              const trophyWon = currentPoints.reduce(
+                (acc, point) => acc || point.value >= matchup.trophyGoal,
+                false
+              );
+
+              const game = matchupService.createGame(
+                shortid.generate(),
+                matchup.teamIds,
+                trophyWon
+              );
+
+              gamesInProgress[matchupId] = game;
+
+              if (trophyWon) {
+                console.log('------- RESET POINTS--------');
+                return Promise.all([
+                  counterDatastore.updateCounter(
+                    counterService.resetCounter(currentPoints[0])
+                  ),
+                  counterDatastore.updateCounter(
+                    counterService.resetCounter(currentPoints[1])
+                  ),
+                ]);
+              }
+
+              console.log('------- DONT NEED TO RESET POINTS--------');
+              return currentPoints;
+            }
+          )
+          .finally(() => {
+            console.log('------- CREATE NEW GAME --------');
+            getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+              const matchupChannel = `matchup-${matchupId}`;
+              namespace
+                .to(matchupChannel)
+                .emit(ON_MATCHUP_UPDATED, matchupView);
+            });
+
+            watchupPlayerIds.forEach(playerId => {
+              broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
+            });
+          });
       });
     });
 
@@ -136,6 +175,11 @@ const init = (socketServer: Server, path: string) => {
           );
           console.log('RESULT------------->', result);
 
+          const trophyWon = result.points.reduce(
+            (acc, point) => acc || point.value >= matchup.trophyGoal,
+            false
+          );
+
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),
             counterDatastore.updateCounter(result.points[1]),
@@ -143,7 +187,8 @@ const init = (socketServer: Server, path: string) => {
             console.log('Saved!');
             gamesInProgress[matchupId] = matchupService.resolveGame(
               gamesInProgress[matchupId],
-              result.gameResult
+              result.gameResult,
+              trophyWon
             );
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               const matchupChannel = `matchup-${matchupId}`;

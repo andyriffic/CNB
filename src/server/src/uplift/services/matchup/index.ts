@@ -5,30 +5,41 @@ const createTeamMatchup = (
   id: string,
   teamIds: [string, string],
   pointCounterIds: [string, string],
-  trophyGoal: number,
+  trophyGoal: number
 ): TeamMatchup => {
   const matchUp: TeamMatchup = {
     id,
     teamIds: [teamIds[0], teamIds[1]],
     pointCounterIds: [pointCounterIds[0], pointCounterIds[1]],
-    trophyGoal
+    trophyGoal,
   };
   return matchUp;
 };
 
-const createGame = (id: string, teamIds: [string, string]): Game => {
+const createGame = (
+  id: string,
+  teamIds: [string, string],
+  trophyReset: boolean
+): Game => {
   const game: Game = {
     id,
     moves: [{ teamId: teamIds[0] }, { teamId: teamIds[1] }],
+    trophyWon: false,
+    trophyReset,
   };
 
   return game;
 };
 
-const resolveGame = (game: Game, result: GameResult): Game => {
+const resolveGame = (
+  game: Game,
+  result: GameResult,
+  trophyWon: boolean
+): Game => {
   return {
     ...game,
-    result
+    result,
+    trophyWon,
   };
 };
 

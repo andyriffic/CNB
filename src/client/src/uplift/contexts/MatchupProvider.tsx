@@ -48,12 +48,15 @@ export type Game = {
   status: GAME_STATUS;
   moves: [SpectatorMove, SpectatorMove];
   result?: GameResult;
+  trophyWon: boolean;
+  trophyReset: boolean;
 };
 
 export type Matchup = {
   id: string;
   teams: [Team, Team];
   gameInProgress?: Game;
+  trophyGoal: number;
 };
 
 export type MatchupForPlayer = {

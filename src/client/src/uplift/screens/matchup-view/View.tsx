@@ -85,6 +85,7 @@ export default ({ matchupId }: MatchupViewProps) => {
               <TeamContainer>
                 <TeamDetail
                   team={delayedTeamDetails && delayedTeamDetails[0]}
+                  trophyGoal={currentMatchup.trophyGoal}
                 />
               </TeamContainer>
               <Vs>vs</Vs>
@@ -92,15 +93,18 @@ export default ({ matchupId }: MatchupViewProps) => {
                 <TeamDetail
                   team={delayedTeamDetails && delayedTeamDetails[1]}
                   reverse
+                  trophyGoal={currentMatchup.trophyGoal}
                 />
               </TeamContainer>
             </TeamDetailsContainer>
             {!currentMatchup.gameInProgress && (
-              <Button
-                onClick={() => matchupId && startGameForMatchup(matchupId)}
-              >
-                Start a game
-              </Button>
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  onClick={() => matchupId && startGameForMatchup(matchupId)}
+                >
+                  Start a game
+                </Button>
+              </div>
             )}
             {currentMatchup.gameInProgress &&
               currentMatchup.gameInProgress.status !== GAME_STATUS.Finished && (
@@ -111,17 +115,19 @@ export default ({ matchupId }: MatchupViewProps) => {
             {currentMatchup.gameInProgress &&
               currentMatchup.gameInProgress.status ===
                 GAME_STATUS.ReadyToPlay && (
-                <Button
-                  className="radioactive"
-                  onClick={() => {
-                    if (matchupId) {
-                      setShowScoreUpdate(false);
-                      playGameForMatchup(matchupId);
-                    }
-                  }}
-                >
-                  PLAY!
-                </Button>
+                <div style={{ textAlign: 'center' }}>
+                  <Button
+                    className="radioactive"
+                    onClick={() => {
+                      if (matchupId) {
+                        setShowScoreUpdate(false);
+                        playGameForMatchup(matchupId);
+                      }
+                    }}
+                  >
+                    PLAY!
+                  </Button>
+                </div>
               )}
             {currentMatchup.gameInProgress &&
               currentMatchup.gameInProgress.status === GAME_STATUS.Finished && (
