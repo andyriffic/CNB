@@ -1,8 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ThemedMove } from '../../../contexts/ThemeProvider';
 import star from './star-md.png';
-import { rotateAnimation, growAnimation } from '../../../components/animations';
+import {
+  rotateAnimation,
+  growAnimation,
+  shakeAnimationRight,
+  shakeAnimationLeft,
+} from '../../../components/animations';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -17,15 +22,28 @@ const Container = styled.div`
   position: relative;
 `;
 
+const shakeCssLeft = css`
+  animation: ${shakeAnimationLeft} 2s infinite;
+`;
+
+const shakeCssRight = css`
+  animation: ${shakeAnimationRight} 2s infinite;
+`;
+
 const PlayerCharacter = styled.img<{
   position: 'LEFT' | 'RIGHT';
   reveal: boolean;
+  winner: boolean;
 }>`
   width: 20vmin;
   height: 30vmin;
   opacity: ${props => (props.reveal ? '1' : '0')};
   transition: opacity 500ms ease-in-out;
   ${props => props.position === 'RIGHT' && 'transform: scaleX(-1);'}
+  ${props =>
+    props.reveal &&
+    props.winner &&
+    (props.position === 'RIGHT' ? shakeCssRight : shakeCssLeft)}
 `;
 
 const WinnerIndicator = styled.div<{
@@ -79,6 +97,7 @@ export const PlayerWithMoveReveal = ({
       <PlayerCharacter
         position={position}
         reveal={revealPlayer}
+        winner={winner}
         src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${playerAvatarUrl}`}
       />
       <PlayerMoveContainer
