@@ -5,6 +5,7 @@ import { Button } from '../../../../screens/styled';
 import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { PlayerWithMoveReveal } from './PlayerWithMoveReveal';
+import { StampText } from '../../../components/stamp-text';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -27,10 +28,7 @@ type GameResultProps = {
   gameViewFinished: () => void;
 };
 
-export const GameResult = ({
-  game,
-  gameViewFinished,
-}: GameResultProps) => {
+export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
   const { themedMoves } = useContext(GameThemeContext);
   const gameTiming = useGameViewTimingEffect(gameViewFinished);
 
@@ -44,7 +42,11 @@ export const GameResult = ({
             game.result!.winnerIndex !== undefined &&
             index === game.result!.winnerIndex;
           return (
-            <div key={index} style={{ margin: '0 auto' }}>
+            <div
+              className="margins-off"
+              key={index}
+              style={{ margin: '0 auto', position: 'relative' }}
+            >
               <PlayerSide>
                 <PlayerWithMoveReveal
                   playerAvatarUrl={move.playerAvatarUrl!}
@@ -55,6 +57,18 @@ export const GameResult = ({
                   winner={gameTiming.shownResult && winner}
                 />
               </PlayerSide>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-30%',
+                }}
+                className="margins-off"
+              >
+                <StampText
+                  text="Winner!"
+                  show={gameTiming.shownResult && winner}
+                />
+              </div>
             </div>
           );
         })}
