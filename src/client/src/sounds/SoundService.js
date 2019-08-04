@@ -11,6 +11,7 @@ import powerUpWin from './power-up-win.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import pokeball from './pokeball.wav';
 import scoreboardMusic from './scoreboard.mp3';
+import elevatorMusic from './elevator-music.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -28,6 +29,7 @@ export const SOUND_KEYS = {
   AWARD_TROPHY: 'AWARD_TROPHY',
   POKEBALL: 'POKEBALL',
   SCOREBOARD_MUSIC: 'SCOREBOARD_MUSIC',
+  ELEVATOR_MUSIC: 'ELEVATOR_MUSIC',
 };
 
 export class SoundService {
@@ -69,6 +71,15 @@ export class SoundService {
         resumeable: true,
         sound: new Howl({
           src: [this._theme.sounds.waitingMusic],
+          loop: true,
+          volume: 0.6,
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
+        resumeable: true,
+        sound: new Howl({
+          src: [elevatorMusic],
           loop: true,
           volume: 0.6,
         }),

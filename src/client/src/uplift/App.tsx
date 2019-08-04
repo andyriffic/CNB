@@ -1,5 +1,7 @@
 import React from 'react';
 import { Router } from '@reach/router';
+import Sound from '../sounds/Provider';
+import GameSettings from '../game-settings';
 import GameTheme from '../themes';
 import GlobalStyle from './GlobalStyle';
 import { MatchupLobby } from './screens/matchup-lobby';
@@ -13,15 +15,19 @@ export default () => {
   return (
     <Theme>
       <GameTheme>
-        <GlobalStyle />
-        <MatchupProvider>
-          <Router>
-            <MatchupLobby path="/" />
-            <MatchupView path="/matchup/:matchupId" />
-            <PlayView path="/play" />
-            <ComponentTestView path="/component-test" />
-          </Router>
-        </MatchupProvider>
+        <Sound>
+          <GameSettings>
+            <GlobalStyle />
+            <MatchupProvider>
+              <Router>
+                <MatchupLobby path="/" />
+                <MatchupView path="/matchup/:matchupId" />
+                <PlayView path="/play" />
+                <ComponentTestView path="/component-test" />
+              </Router>
+            </MatchupProvider>
+          </GameSettings>
+        </Sound>
       </GameTheme>
     </Theme>
   );
