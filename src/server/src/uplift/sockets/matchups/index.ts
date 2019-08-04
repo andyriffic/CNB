@@ -166,29 +166,29 @@ const init = (socketServer: Server, path: string) => {
         Promise.all([
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
           counterDatastore.getCounter(matchup.pointCounterIds[1]),
-        ]).then((points: [Counter, Counter]) => {
+          counterDatastore.getCounter(matchup.trophyCounterIds[0]),
+          counterDatastore.getCounter(matchup.trophyCounterIds[1]),
+        ]).then((counters: [Counter, Counter, Counter, Counter]) => {
           const result = playService.playGame(
             gameInProgress,
-            points,
+            [counters[0], counters[1]],
+            [counters[2], counters[3]],
             undefined,
             matchup.trophyGoal
           );
           console.log('RESULT------------->', result);
 
-          const trophyWon = result.points.reduce(
-            (acc, point) => acc || point.value >= matchup.trophyGoal,
-            false
-          );
-
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),
             counterDatastore.updateCounter(result.points[1]),
+            counterDatastore.updateCounter(result.trophies[0]),
+            counterDatastore.updateCounter(result.trophies[1]),
           ]).then(() => {
             console.log('Saved!');
             gamesInProgress[matchupId] = matchupService.resolveGame(
               gamesInProgress[matchupId],
               result.gameResult,
-              trophyWon
+              result.trophyWon
             );
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               const matchupChannel = `matchup-${matchupId}`;

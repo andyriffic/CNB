@@ -11,7 +11,7 @@ const getMatchup = (id: string): Promise<TeamMatchup> => {
   return getItemById<TeamMatchup>(DYNAMO_DB_TABLE_NAME, id).then(matchup => {
     return {
       ...matchup,
-      trophyGoal: 2,
+      trophyGoal: matchup.trophyGoal || 3,
     };
   });
 };

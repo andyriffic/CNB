@@ -7,6 +7,7 @@ import { counterService } from '../counter';
 const playGame = (
   game: Game,
   points: [Counter, Counter],
+  trophies: [Counter, Counter],
   bonusPoints: Counter = counterService.createCounter('unused'),
   trophyGoal: number
 ): PlayResult => {
@@ -37,10 +38,22 @@ const playGame = (
     result.winnerIndex !== undefined &&
     updatedPoints[result.winnerIndex].value >= trophyGoal;
 
+  let updatedTrophies: [Counter, Counter] = [
+    { ...trophies[0] },
+    { ...trophies[1] },
+  ];
+  if (trophyWon && result.winnerIndex !== undefined) {
+    updatedTrophies[result.winnerIndex] = counterService.incrementCounter(
+      trophies[result.winnerIndex],
+      1
+    );
+  }
+
   return {
     gameResult: result,
     points: updatedPoints,
     bonusPoints: updatedBonusPoints,
+    trophies: updatedTrophies,
     trophyWon,
   };
 };

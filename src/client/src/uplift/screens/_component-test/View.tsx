@@ -34,6 +34,7 @@ export default ({  }: RouteComponentProps) => {
           <div style={{ width: '500px', border: '1px solid black' }}>
             <TrophyProgressIndicator
               goal={5}
+              trophies={3}
               points={trophyPoints}
               reverse={trophyProgressReverse}
             />

@@ -39,6 +39,7 @@ export const TeamDetail = ({
     <div className="margins-off">
       <TrophyProgressIndicator
         points={team.points}
+        trophies={team.trophies}
         goal={trophyGoal}
         reverse={reverse}
       />

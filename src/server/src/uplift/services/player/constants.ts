@@ -29,6 +29,8 @@ export const ALL_TEAMS = [
   { id: 'melb', name: 'Melbourne' },
   { id: 'us', name: 'Us' },
   { id: 'them', name: 'Them' },
+  { id: 'team_a', name: 'Team A' },
+  { id: 'team_2', name: 'Team 2' },
 ];
 
 export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
@@ -66,6 +68,31 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'jay',
   ],
   them: [
+    'yixing',
+    'yujin',
+    'yingjian',
+    'shuming',
+    'ray',
+    'stacey',
+    'michael_b',
+    'marion',
+    'liujing',
+    'jim',
+  ],
+  team_2: [
+    'albert',
+    'alex',
+    'andy',
+    'azra',
+    'bin',
+    'bjorn',
+    'chris',
+    'du',
+    'duyen',
+    'jatin',
+    'jay',
+  ],
+  team_a: [
     'yixing',
     'yujin',
     'yingjian',

@@ -25,10 +25,13 @@ describe('game scenarios', () => {
     ]).then(() => {
       const c1 = counterService.createCounter('c1');
       const c2 = counterService.createCounter('c2');
+      const t1 = counterService.createCounter('t1');
+      const t2 = counterService.createCounter('t2');
       const matchup = matchupService.createTeamMatchup(
         'test_matchup_id',
         [allTeams[0].id, allTeams[1].id],
         [c1.id, c2.id],
+        [t1.id, t2.id],
         2
       );
       let game = matchupService.createGame(

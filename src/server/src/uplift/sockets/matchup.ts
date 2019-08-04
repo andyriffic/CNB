@@ -5,6 +5,7 @@ import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
 import { TeamMatchup } from '../services/matchup/types';
+import { Counter } from '../services/counter/types';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const ADD_MATCHUP = 'ADD_MATCHUP';
@@ -30,35 +31,40 @@ const init = (socketServer: Server, path: string) => {
   namespace.on('connection', function(socket: Socket) {
     console.log('someone connected to OLD MATCHUPS', socket.id);
 
-    socket.on(ADD_MATCHUP, (teamIds: [string, string]) => {
-      const player1PointsCounter = counterService.createCounter(
-        shortid.generate()
-      );
-      const player2PointsCounter = counterService.createCounter(
-        shortid.generate()
-      );
-      const playerPointCounterIds: [string, string] = [
-        player1PointsCounter.id,
-        player2PointsCounter.id,
-      ];
+    socket.on(
+      ADD_MATCHUP,
+      (teamIds: [string, string], trophyGoal: number = 3) => {
+        const playerPointCounters: [Counter, Counter] = [
+          counterService.createCounter(shortid.generate()),
+          counterService.createCounter(shortid.generate()),
+        ];
 
-      const matchup = matchupService.createTeamMatchup(
-        shortid.generate(),
-        teamIds,
-        playerPointCounterIds,
-        2
-      );
+        const trophyCounters: [Counter, Counter] = [
+          counterService.createCounter(shortid.generate()),
+          counterService.createCounter(shortid.generate()),
+        ];
 
-      console.log('CREATING MATCHUP', matchup);
-      Promise.all([
-        counterDatastore.saveNewCounter(player1PointsCounter),
-        counterDatastore.saveNewCounter(player2PointsCounter),
-      ]).then(() => {
-        matchupDatastore.saveNewMatchup(matchup).then(() => {
-          resyncMatchups(socket);
+        const matchup = matchupService.createTeamMatchup(
+          shortid.generate(),
+          teamIds,
+          [playerPointCounters[0].id, playerPointCounters[1].id],
+          [trophyCounters[0].id, trophyCounters[1].id],
+          trophyGoal
+        );
+
+        console.log('CREATING MATCHUP', matchup);
+        Promise.all([
+          counterDatastore.saveNewCounter(playerPointCounters[0]),
+          counterDatastore.saveNewCounter(playerPointCounters[1]),
+          counterDatastore.saveNewCounter(trophyCounters[0]),
+          counterDatastore.saveNewCounter(trophyCounters[1]),
+        ]).then(() => {
+          matchupDatastore.saveNewMatchup(matchup).then(() => {
+            resyncMatchups(socket);
+          });
         });
-      });
-    });
+      }
+    );
   });
 };
 

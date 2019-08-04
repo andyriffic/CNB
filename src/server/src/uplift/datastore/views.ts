@@ -17,7 +17,9 @@ const getMatchupSpectatorView = (
       Promise.all([
         counterDatastore.getCounter(matchup.pointCounterIds[0]),
         counterDatastore.getCounter(matchup.pointCounterIds[1]),
-      ]).then((points: [Counter, Counter]) => {
+        counterDatastore.getCounter(matchup.trophyCounterIds[0]),
+        counterDatastore.getCounter(matchup.trophyCounterIds[1]),
+      ]).then((counters: [Counter, Counter, Counter, Counter]) => {
         const view: MatchupSpectatorView = {
           id: matchup.id,
           gameInProgress,
@@ -25,12 +27,14 @@ const getMatchupSpectatorView = (
             {
               id: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.id,
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.name,
-              points: points[0].value,
+              points: counters[0].value,
+              trophies: counters[2].value,
             },
             {
               id: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.id,
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.name,
-              points: points[1].value,
+              points: counters[1].value,
+              trophies: counters[3].value,
             },
           ],
           trophyGoal: matchup.trophyGoal,

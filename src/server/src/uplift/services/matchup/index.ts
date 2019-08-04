@@ -5,12 +5,14 @@ const createTeamMatchup = (
   id: string,
   teamIds: [string, string],
   pointCounterIds: [string, string],
+  trophyCounterIds: [string, string],
   trophyGoal: number
 ): TeamMatchup => {
   const matchUp: TeamMatchup = {
     id,
     teamIds: [teamIds[0], teamIds[1]],
     pointCounterIds: [pointCounterIds[0], pointCounterIds[1]],
+    trophyCounterIds: [trophyCounterIds[0], trophyCounterIds[1]],
     trophyGoal,
   };
   return matchUp;
