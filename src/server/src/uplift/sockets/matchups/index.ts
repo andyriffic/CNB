@@ -1,5 +1,6 @@
 import { Socket, Server, Namespace } from 'socket.io';
 import shortid from 'shortid';
+import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { matchupDatastore } from '../../datastore/matchup';
 import {
   TeamMatchup,
@@ -31,11 +32,13 @@ const PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP';
 let gamesInProgress: { [matchupId: string]: Game } = {};
 let watchupPlayerIds: string[] = [];
 
+const log = createLogger('matchups', LOG_NAMESPACE.socket);
+
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
   namespace.on('connection', function(socket: Socket) {
-    console.log('someone connected to MATCHUPS', socket.id);
+    log('someone connected to MATCHUPS', socket.id);
 
     socket.on(SUBSCRIBE_TO_ALL_MATCHUPS, () => {
       matchupDatastore.getAllMatchups().then((matchups: TeamMatchup[]) => {
@@ -48,7 +51,7 @@ const init = (socketServer: Server, path: string) => {
     });
 
     socket.on(SUBSCRIBE_TO_MATCHUP, matchupId => {
-      console.log('RECEIVED', SUBSCRIBE_TO_MATCHUP, matchupId);
+      log('RECEIVED', SUBSCRIBE_TO_MATCHUP, matchupId);
       getMatchupView(matchupId, gamesInProgress).then(
         (matchupView: MatchupSpectatorView) => {
           const matchupChannel = `matchup-${matchupId}`;
@@ -59,9 +62,9 @@ const init = (socketServer: Server, path: string) => {
     });
 
     socket.on(START_GAME_FOR_MATCHUP, matchupId => {
-      console.log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
+      log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
       matchupDatastore.getMatchup(matchupId).then(matchup => {
-        console.log('GOT MATCHUP', matchup);
+        log('GOT MATCHUP', matchup);
 
         Promise.all([
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
@@ -85,7 +88,7 @@ const init = (socketServer: Server, path: string) => {
               gamesInProgress[matchupId] = game;
 
               if (trophyWon) {
-                console.log('------- RESET POINTS--------');
+                log('------- RESET POINTS--------');
                 return Promise.all([
                   counterDatastore.updateCounter(
                     counterService.resetCounter(currentPoints[0])
@@ -96,12 +99,12 @@ const init = (socketServer: Server, path: string) => {
                 ]);
               }
 
-              console.log('------- DONT NEED TO RESET POINTS--------');
+              log('------- DONT NEED TO RESET POINTS--------');
               return currentPoints;
             }
           )
           .finally(() => {
-            console.log('------- CREATE NEW GAME --------');
+            log('------- CREATE NEW GAME --------');
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               const matchupChannel = `matchup-${matchupId}`;
               namespace
@@ -119,7 +122,7 @@ const init = (socketServer: Server, path: string) => {
     socket.on(
       MAVE_MOVE_FOR_MATCHUP,
       (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
-        console.log(
+        log(
           'RECEIVED',
           MAVE_MOVE_FOR_MATCHUP,
           matchupId,
@@ -140,7 +143,7 @@ const init = (socketServer: Server, path: string) => {
     );
 
     socket.on(SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, (playerId: string) => {
-      console.log('RECEIVED', SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);
+      log('RECEIVED', SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);
       if (!watchupPlayerIds.includes(playerId)) {
         watchupPlayerIds = [...watchupPlayerIds, playerId];
       }
@@ -148,21 +151,21 @@ const init = (socketServer: Server, path: string) => {
     });
 
     socket.on(PLAY_GAME_FOR_MATCHUP, (matchupId: string) => {
-      console.log('RECEIVED', PLAY_GAME_FOR_MATCHUP, matchupId);
+      log('RECEIVED', PLAY_GAME_FOR_MATCHUP, matchupId);
 
       const gameInProgress = gamesInProgress[matchupId];
       if (
         !gameInProgress ||
         getGameStatus(gameInProgress) !== GAME_STATUS.ReadyToPlay
       ) {
-        console.log(
+        log(
           'GAME COULD NOT BE PLAYED (may not exist, already have been played or not ready to be played'
         );
         return; // TODO: could throw error
       }
 
       matchupDatastore.getMatchup(matchupId).then(matchup => {
-        console.log('PLAYING GAME FOR MATCHUP', matchup);
+        log('PLAYING GAME FOR MATCHUP', matchup);
         Promise.all([
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
           counterDatastore.getCounter(matchup.pointCounterIds[1]),
@@ -176,7 +179,7 @@ const init = (socketServer: Server, path: string) => {
             undefined,
             matchup.trophyGoal
           );
-          console.log('RESULT------------->', result);
+          log('RESULT------------->', result);
 
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),
@@ -184,7 +187,7 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.updateCounter(result.trophies[0]),
             counterDatastore.updateCounter(result.trophies[1]),
           ]).then(() => {
-            console.log('Saved!');
+            log('Saved!');
             gamesInProgress[matchupId] = matchupService.resolveGame(
               gamesInProgress[matchupId],
               result.gameResult,
