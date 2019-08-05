@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
+import { SOCKETS_ENDPOINT } from '../../environment';
 
 export const GameContext = React.createContext();
 
-const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/games`
-);
+const socket = socketIOClient(`${SOCKETS_ENDPOINT}/games`);
 
 const useSocket = setGame => {
   useEffect(() => {

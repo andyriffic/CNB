@@ -8,6 +8,7 @@ import {
   shakeAnimationRight,
   shakeAnimationLeft,
 } from '../../../components/animations';
+import { SOCKETS_ENDPOINT } from '../../../../environment';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -98,7 +99,7 @@ export const PlayerWithMoveReveal = ({
         position={position}
         reveal={revealPlayer}
         winner={winner}
-        src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${playerAvatarUrl}`}
+        src={`${SOCKETS_ENDPOINT}${playerAvatarUrl}`}
       />
       <PlayerMoveContainer
         position={position}
@@ -109,7 +110,7 @@ export const PlayerWithMoveReveal = ({
         <PlayerMove
           position={position}
           reveal={revealMove}
-          src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${move.imageUrl}`}
+          src={`${SOCKETS_ENDPOINT}${move.imageUrl}`}
         />
       </PlayerMoveContainer>
     </Container>

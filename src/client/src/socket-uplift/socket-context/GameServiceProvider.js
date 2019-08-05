@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
+import { SOCKETS_ENDPOINT } from '../../environment';
 
 export const GameServiceContext = React.createContext();
 
-const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/game`,
-  { autoConnect: false }
-);
+const socket = socketIOClient(`${SOCKETS_ENDPOINT}/game`, {
+  autoConnect: false,
+});
 
 const useSocket = (setTheme, setPlayers) => {
   useEffect(() => {

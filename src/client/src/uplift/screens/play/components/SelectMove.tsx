@@ -5,6 +5,7 @@ import { MatchupContext } from '../../../contexts/MatchupProvider';
 import { MoveSummary } from './MoveSummary';
 import { LoadingSpinner } from '../../../components/loading-spinner';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
+import { SOCKETS_ENDPOINT } from '../../../../environment';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -75,9 +76,7 @@ export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
               onClick={() => !moveMade && setSelectedMoveId(moveId)}
             >
               <img
-                src={`${process.env.REACT_APP_SERVER_ENDPOINT || ''}${
-                  themedMoves[moveId].imageUrl
-                }`}
+                src={`${SOCKETS_ENDPOINT}${themedMoves[moveId].imageUrl}`}
                 style={{ width: '100%', height: '100%' }}
               />
             </Move>

@@ -11,10 +11,9 @@ import PowerUpContext from '../contexts/PowerUpContext';
 import TrophyPointsContext from '../trophy-points/Context';
 import { onGameComplete } from '../onGameComplete';
 import GameThemeContext from '../contexts/GameThemeContext';
+import { SOCKETS_ENDPOINT } from '../environment';
 
-const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/game`
-);
+const socket = socketIOClient(`${SOCKETS_ENDPOINT}/game`);
 
 // TODO: we use this mapping in various places. combine into same place and also try to make usage consistent
 const mapPlayerNameToSlot = {

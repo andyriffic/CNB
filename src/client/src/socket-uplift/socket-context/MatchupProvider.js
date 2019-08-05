@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
+import { SOCKETS_ENDPOINT } from '../../environment';
 
 export const MatchupContext = React.createContext();
 
-const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/matchups`
-);
+const socket = socketIOClient(`${SOCKETS_ENDPOINT}/matchups`);
 
 const useSocket = (
   setMatchups,

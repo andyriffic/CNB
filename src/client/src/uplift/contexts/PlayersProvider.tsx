@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
+import { SOCKETS_ENDPOINT } from '../../environment';
 
 enum PLAYER_EVENTS {
   SUBSCRIBE_TO_ALL_PLAYERS = 'SUBSCRIBE_TO_ALL_PLAYERS',
@@ -27,9 +28,7 @@ const initialValue: PlayerService = {
 
 export const PlayersContext = React.createContext<PlayerService>(initialValue);
 
-const socket = socketIOClient(
-  `${process.env.REACT_APP_SERVER_ENDPOINT || ''}/players-realz`
-);
+const socket = socketIOClient(`${SOCKETS_ENDPOINT}/players-realz`);
 
 export const PlayersProvider = ({ children }: { children: ReactNode }) => {
   const [loadingPlayers, setLoadingPlayers] = useState(
