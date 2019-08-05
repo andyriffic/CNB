@@ -22,6 +22,9 @@ import TrophyTotal from '../../../../components/trophy-total';
 import TrophyGoal from '../../../../components/trophy-goal';
 import { POWER_UP_TYPE } from '../../../../power-ups/constants';
 import GameDataContext from '../../../../game-data/GameDataContext';
+import grootImage from './Baby-Groot.png';
+import sunImage from './sun.png';
+import snowImage from './snow.png';
 
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -57,8 +60,8 @@ const PowerUpBanner = styled.div`
   z-index: 9;
   width: 15vmin;
   height: 15vmin;
-  top: 0;
-  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   transform: rotate(20deg);
   animation: ${pulse} 3s ease infinite forwards;
@@ -73,7 +76,7 @@ const View = ({ player1, player2, playGame, trophyPoints }) => {
   const [player1Timeline, setPlayer1Timeline] = useState(null);
   const soundService = useContext(GameSoundContext);
   const gameData = useContext(GameDataContext);
-  const [badgeVariation] = useState(Math.floor(Math.random() * 2));
+  const [badgeVariation] = useState(Math.floor(Math.random() * 3));
 
   useEffect(() => {
     gameData.set({ autoPlayResult: true });
@@ -129,17 +132,24 @@ const View = ({ player1, player2, playGame, trophyPoints }) => {
   return (
     <PageLayout>
       <PowerUpBanner>
-        {badgeVariation === 0 ? (
+        {badgeVariation === 0 && (
           <BaseBadge
-            text="Changes are coming!"
+            text={<img src={snowImage} />}
             backgroundColor="#6389df"
             textShadowColor="#1f2b6c"
           />
-        ) : (
+        )}
+        {badgeVariation === 1 && (
           <BaseBadge
-            text="Changes are coming!"
+            text={<img src={sunImage} />}
             backgroundColor="#f9ab00"
             textShadowColor="#e2683c"
+          />
+        )}
+        {badgeVariation === 2 && (
+          <BaseBadge
+            text={<img src={grootImage} />}
+            backgroundColor="#7e00df"
           />
         )}
       </PowerUpBanner>
