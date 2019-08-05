@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import styled from 'styled-components';
 import { MatchupContext } from '../socket-context/MatchupProvider';
 
 const moves = ['A', 'B', 'C'];

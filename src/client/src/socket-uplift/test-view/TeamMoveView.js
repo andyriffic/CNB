@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { DebugView } from './DebugView';
 
 const moves = ['A', 'B', 'C'];

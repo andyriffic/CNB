@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
-import { GameServiceContext } from '../socket-context/GameServiceProvider';
+import React from 'react';
 import { GameStateView } from './GameStateView';
 
 const View = () => {
-  const gameService = useContext(GameServiceContext);
-
   return (
     <React.Fragment>
       <h1>TEST</h1>

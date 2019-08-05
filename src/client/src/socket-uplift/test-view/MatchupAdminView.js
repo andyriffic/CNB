@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { MatchupContext } from '../socket-context/MatchupProvider';
-import { DebugView } from './DebugView';
 
 export const MatchupAdminView = () => {
   const { matchups, addMatchup, watchMatchup } = useContext(MatchupContext);
