@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SoundToggle from '../sound-toggle';
 import ThemeCalendar from '../theme-calendar';
+import { FancyLink } from '../../../components/FancyLink';
 
 const drawerWidth = 300;
 
@@ -61,6 +62,7 @@ const View = () => {
           Go to Alternate Leaderboard
         </Link>
         <Link href="/game-history">Go to Game History</Link>
+        <FancyLink href="/tournament-info">Super secret info</FancyLink>
       </div>
     </Drawer>
   );

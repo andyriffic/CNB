@@ -22,6 +22,7 @@ import TrophyPoints from './trophy-points/Provider';
 import { IS_PRODUCTION } from './environment';
 import PowerUpProvider from './power-ups/PowerUpProvider';
 import GameDataProvider from './game-data/GameDataProvider';
+import { TournamentInfoView } from './uplift/screens/tournament-info';
 
 const App = () => {
   const connectionDetails = useContext(ConnectionDetailsContext);
@@ -45,6 +46,7 @@ const App = () => {
                 <GlobalStyle />
                 <Router>
                   <SpectatorScreen path="/" />
+                  <TournamentInfoView path="tournament-info" />
                   <PageLayoutScreen path="layouttest" />
                   <IndividualPlayersTest path="players" />
                   <ItemSelectionTestScreen path="itemtest" />
