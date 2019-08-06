@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
@@ -18,7 +18,9 @@ export default ({  }: RouteComponentProps) => {
       <MatchupsContainer>
         <ol>
           <li>
-            Register players
+            <a href="/tournament-players?feature=uplift">
+              Register players
+            </a>
             <ul>
               <li>Must have a SuperSquad picture</li>
               <li>There WILL be special guest players</li>
@@ -27,8 +29,8 @@ export default ({  }: RouteComponentProps) => {
           <li>Players randomly grouped into teams of 二 (2)</li>
           <li>Each team to choose a team name</li>
           <li>
-            All teams randomly assigned starting matchup on a tournament ladder <br />{' '}
-            <img src={tournamentLadderSample} />
+            All teams randomly assigned starting matchup on a tournament ladder{' '}
+            <br /> <img src={tournamentLadderSample} />
           </li>
           <li>
             Each day we play one matchup to get a winner

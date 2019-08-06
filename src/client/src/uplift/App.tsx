@@ -10,6 +10,7 @@ import { MatchupView } from './screens/matchup-view';
 import { PlayView } from './screens/play';
 import { ComponentTestView } from './screens/_component-test';
 import { Theme } from './contexts/ThemeProvider';
+import { PlayerListView } from './screens/player-list';
 
 export default () => {
   return (
@@ -23,6 +24,7 @@ export default () => {
                 <MatchupLobby path="/" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
+                <PlayerListView path="/tournament-players" />
                 <ComponentTestView path="/component-test" />
               </Router>
             </MatchupProvider>

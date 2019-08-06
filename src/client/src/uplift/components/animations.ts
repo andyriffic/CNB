@@ -32,6 +32,11 @@ export const rubberBandAnimation = keyframes`
   }
 `;
 
+export const fadeInAnimation = keyframes`
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+`;
+
 export const pulseAnimation = keyframes`
   0% {transform: scale(1);}
   20% {transform: scale(1.4); }

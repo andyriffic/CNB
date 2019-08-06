@@ -10,6 +10,9 @@ enum PLAYER_EVENTS {
 export type Player = {
   id: string;
   name: string;
+  tags: string[];
+  teams: string[];
+  avatarImageUrl: string;
 };
 
 export type PlayerService = {
