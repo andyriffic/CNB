@@ -8,6 +8,8 @@ import { TeamDetail } from './components/TeamDetail';
 import { Button } from '../../../screens/styled';
 import { GameWaitingOnPlayers } from './components/GameWaitingOnPlayers';
 import { GameResult } from './components/GameResult';
+import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
+import GameSoundContext from '../../../contexts/GameSoundContext';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -45,10 +47,16 @@ export default ({ matchupId }: MatchupViewProps) => {
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
   const [showNewGame, setShowNewGame] = useState(false);
   const [delayedTeamDetails, setDelayedTeamDetails] = useState();
+  const soundService = useContext<SoundService>(GameSoundContext);
+
+  useEffect(() => {
+    soundService.load();
+  }, []);
 
   const onGameViewFinished = () => {
     setTimeout(() => {
       setShowScoreUpdate(true);
+      soundService.play(SOUND_KEYS.COLLECT_POINTS);
 
       setTimeout(() => {
         setShowNewGame(true);

@@ -7,13 +7,7 @@ import { MatchupSummaryView } from '../components/matchup-summary';
 import { RouteComponentProps } from '@reach/router';
 import { GameSettingsDrawer } from '../../../game-settings';
 import GameSoundContext from '../../../contexts/GameSoundContext';
-import { SOUND_KEYS } from '../../../sounds/SoundService';
-
-type SoundService = {
-  load: () => void;
-  stopAll: () => void;
-  play: (soundKey: string) => void;
-};
+import { SOUND_KEYS, SoundService } from '../../../sounds/SoundService';
 
 const MatchupsContainer = styled.div`
   width: 80%;

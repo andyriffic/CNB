@@ -94,6 +94,7 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'duyen',
     'jatin',
     'jay',
+    'dunny',
   ],
   team_a: [
     'yixing',
