@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Game } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
@@ -6,6 +6,8 @@ import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { PlayerWithMoveReveal } from './PlayerWithMoveReveal';
 import { StampText } from '../../../components/stamp-text';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
+import { SoundService, SOUND_KEYS } from '../../../../sounds/SoundService';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -30,9 +32,16 @@ type GameResultProps = {
 
 export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
   const { themedMoves } = useContext(GameThemeContext);
+  const soundService = useContext<SoundService>(GameSoundContext);
   const gameTiming = useGameViewTimingEffect(gameViewFinished);
 
   const draw = !!game.result!.draw;
+
+  useEffect(() => {
+    if (gameTiming.shownResult) {
+      soundService.play(SOUND_KEYS.STAMP);
+    }
+  }, [gameTiming.shownResult])
 
   return (
     <div>

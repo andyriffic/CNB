@@ -13,6 +13,7 @@ import pokeball from './pokeball.wav';
 import scoreboardMusic from './scoreboard.mp3';
 import elevatorMusic from './elevator-music.mp3';
 import collectPoint from './collect-point.mp3';
+import winnerStamp from './stamp.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -32,6 +33,7 @@ export const SOUND_KEYS = {
   POKEBALL: 'POKEBALL',
   SCOREBOARD_MUSIC: 'SCOREBOARD_MUSIC',
   ELEVATOR_MUSIC: 'ELEVATOR_MUSIC',
+  STAMP: 'STAMP',
 };
 
 export class SoundService {
@@ -147,6 +149,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.COLLECT_POINTS] = {
         sound: new Howl({ src: [collectPoint] }),
+      };
+
+      this._sounds[SOUND_KEYS.STAMP] = {
+        sound: new Howl({ src: [winnerStamp] }),
       };
 
       // Pre-load winning sounds
