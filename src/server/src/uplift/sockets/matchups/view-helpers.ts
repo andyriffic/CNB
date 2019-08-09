@@ -68,6 +68,7 @@ const getGameInProgress = (
     result: getSpectatorGameResult(gameInProgress),
     trophyWon: gameInProgress.trophyWon,
     trophyReset: gameInProgress.trophyReset,
+    viewed: gameInProgress.viewed,
   };
 };
 

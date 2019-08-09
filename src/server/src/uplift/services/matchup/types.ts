@@ -34,6 +34,7 @@ export type Game = {
   result?: GameResult;
   trophyWon: boolean;
   trophyReset: boolean;
+  viewed: boolean;
 };
 
 export type TeamSpectatorView = {
@@ -68,6 +69,7 @@ export type GameSpectatorView = {
   result?: GameResultSpectatorView;
   trophyWon: boolean;
   trophyReset: boolean;
+  viewed: boolean;
 };
 
 export type MatchupSpectatorView = {

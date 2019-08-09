@@ -28,6 +28,7 @@ const createGame = (
     moves: [{ teamId: teamIds[0] }, { teamId: teamIds[1] }],
     trophyWon: false,
     trophyReset,
+    viewed: false,
   };
 
   return game;
@@ -44,6 +45,15 @@ const resolveGame = (
     trophyWon,
   };
 };
+
+const setGamedViewed = (
+  game: Game,
+): Game => {
+  return {
+    ...game,
+    viewed: true,
+  }
+}
 
 const updateTeamMove = (
   game: Game,
@@ -87,4 +97,5 @@ export const matchupService = {
   createGame,
   updateTeamMove,
   resolveGame,
+  setGamedViewed,
 };

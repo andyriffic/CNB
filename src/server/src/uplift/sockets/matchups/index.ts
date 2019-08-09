@@ -28,6 +28,7 @@ const MAVE_MOVE_FOR_MATCHUP = 'MAVE_MOVE_FOR_MATCHUP';
 const SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER';
 const MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE';
 const PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP';
+const SET_GAME_VIEWED = 'SET_GAME_VIEWED';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
 let watchupPlayerIds: string[] = [];
@@ -122,13 +123,7 @@ const init = (socketServer: Server, path: string) => {
     socket.on(
       MAVE_MOVE_FOR_MATCHUP,
       (matchupId: string, teamId: string, moveUpdate: GameMoveUpdate) => {
-        log(
-          'RECEIVED',
-          MAVE_MOVE_FOR_MATCHUP,
-          matchupId,
-          teamId,
-          moveUpdate
-        );
+        log('RECEIVED', MAVE_MOVE_FOR_MATCHUP, matchupId, teamId, moveUpdate);
         const updatedGame = matchupService.updateTeamMove(
           gamesInProgress[matchupId],
           teamId,
@@ -201,6 +196,25 @@ const init = (socketServer: Server, path: string) => {
             });
           });
         });
+      });
+    });
+
+    socket.on(SET_GAME_VIEWED, (matchupId: string) => {
+      log('RECEIVED', SET_GAME_VIEWED, matchupId);
+
+      const gameInProgress = gamesInProgress[matchupId];
+      if (!gameInProgress) {
+        log('GAME COULD NOT BE FOUND');
+        return; // TODO: could throw error
+      }
+
+      gamesInProgress[matchupId] = matchupService.setGamedViewed(
+        gameInProgress
+      );
+
+      getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+        const matchupChannel = `matchup-${matchupId}`;
+        namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
       });
     });
   });

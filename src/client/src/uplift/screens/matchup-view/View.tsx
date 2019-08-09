@@ -42,6 +42,7 @@ export default ({ matchupId }: MatchupViewProps) => {
     clearCurrentMatchup,
     startGameForMatchup,
     playGameForMatchup,
+    setGameViewed,
   } = useContext(MatchupContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
@@ -60,6 +61,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
       setTimeout(() => {
         setShowNewGame(true);
+        currentMatchup && setGameViewed(currentMatchup.id);
       }, 2000);
     }, 2000);
   };
