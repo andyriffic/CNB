@@ -208,6 +208,11 @@ const init = (socketServer: Server, path: string) => {
         return; // TODO: could throw error
       }
 
+      if (gameInProgress.viewed) {
+        log('Game has already been viewed, no need to update');
+        return;
+      }
+
       gamesInProgress[matchupId] = matchupService.setGamedViewed(
         gameInProgress
       );
