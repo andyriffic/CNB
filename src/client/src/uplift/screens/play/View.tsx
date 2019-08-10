@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
@@ -6,6 +6,8 @@ import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
 import { SelectPlayer } from './components/SelectPlayer';
 import { SelectMatchup } from './components/SelectMatchup';
 import { SelectMove } from './components/SelectMove';
+import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
+import { PlayerGameResult } from './components/PlayerGameResult';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -14,39 +16,66 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({  }: RouteComponentProps) => {
+  const { currentMatchup } = useContext(MatchupContext);
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [selectedMatchupId, setSelectedMatchupId] = useState('');
   const [selectedTeamId, setSelectedTeamId] = useState('');
 
-  const readyToMakeMove = !!(selectedMatchupId && selectedTeamId);
+  const readyToMakeMove = !!(
+    selectedMatchupId &&
+    selectedTeamId &&
+    selectedPlayer
+  );
+
+  const gameFinished = !!(
+    selectedMatchupId &&
+    currentMatchup &&
+    currentMatchup.gameInProgress &&
+    currentMatchup.gameInProgress.status === GAME_STATUS.Finished
+  );
+
+  const returnToMatchups = () => {
+    setSelectedMatchupId('');
+  };
 
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="" alignTop={true}>
         <MatchupsContainer>
-          <SelectPlayer
-            selectedPlayer={selectedPlayer}
-            selectPlayer={player => {
-              setSelectedMatchupId('');
-              setSelectedTeamId('');
-              setSelectedPlayer(player);
-            }}
-          />
-          {selectedPlayer && !readyToMakeMove && (
-            <SelectMatchup
-              player={selectedPlayer}
-              selectMatchup={(matchupId, teamId) => {
-                setSelectedMatchupId(matchupId);
-                setSelectedTeamId(teamId);
-              }}
+          {gameFinished && (
+            <PlayerGameResult
+              matchup={currentMatchup}
+              teamId={selectedTeamId}
+              backToMatchups={returnToMatchups}
             />
           )}
-          {readyToMakeMove && (
-            <SelectMove
-              matchupId={selectedMatchupId}
-              teamId={selectedTeamId}
-              playerId={selectedPlayer ? selectedPlayer.id : ''}
-            />
+          {!gameFinished && (
+            <React.Fragment>
+              <SelectPlayer
+                selectedPlayer={selectedPlayer}
+                selectPlayer={player => {
+                  setSelectedMatchupId('');
+                  setSelectedTeamId('');
+                  setSelectedPlayer(player);
+                }}
+              />
+              {selectedPlayer && !readyToMakeMove && (
+                <SelectMatchup
+                  player={selectedPlayer}
+                  selectMatchup={(matchupId, teamId) => {
+                    setSelectedMatchupId(matchupId);
+                    setSelectedTeamId(teamId);
+                  }}
+                />
+              )}
+              {readyToMakeMove && (
+                <SelectMove
+                  matchupId={selectedMatchupId}
+                  teamId={selectedTeamId}
+                  player={selectedPlayer!}
+                />
+              )}
+            </React.Fragment>
           )}
         </MatchupsContainer>
       </FullPageLayout>

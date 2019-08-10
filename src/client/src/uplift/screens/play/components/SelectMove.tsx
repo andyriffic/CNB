@@ -6,6 +6,7 @@ import { MoveSummary } from './MoveSummary';
 import { LoadingSpinner } from '../../../components/loading-spinner';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
+import { Player } from '../../../contexts/PlayersProvider';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -39,10 +40,10 @@ const Move = styled.button<{ selected?: boolean }>`
 type MakeMoveProps = {
   matchupId: string;
   teamId: string;
-  playerId: string;
+  player: Player;
 };
 
-export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
+export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   const { themedMoves } = useContext(GameThemeContext);
   const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
@@ -92,7 +93,7 @@ export const SelectMove = ({ matchupId, teamId, playerId }: MakeMoveProps) => {
               !moveMade &&
                 selectedMoveId &&
                 makeMove(matchupId, teamId, {
-                  playerId,
+                  playerId: player.id,
                   moveId: selectedMoveId,
                   powerUpId: 'NONE',
                 });
