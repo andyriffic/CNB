@@ -1,6 +1,7 @@
 export const PLAYERS = {
   XIAN: [
     { name: 'Bin', imageName: 'bin' },
+    { name: 'Liujing', imageName: 'liujing' },
     { name: 'Shuming', imageName: 'shuming' },
     { name: 'Yingjian', imageName: 'yingjian' },
     { name: 'Yixing', imageName: 'yixing' },
@@ -17,7 +18,6 @@ export const PLAYERS = {
     { name: 'Jatin', imageName: 'jatin' },
     { name: 'Jay', imageName: 'jay' },
     { name: 'Jim', imageName: 'jim' },
-    { name: 'Liujing', imageName: 'liujing' },
     { name: 'Marion', imageName: 'marion' },
     { name: 'Michael B', imageName: 'michael_b' },
     { name: 'Michael W', imageName: 'michael_w' },
