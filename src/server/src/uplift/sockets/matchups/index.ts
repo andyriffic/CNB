@@ -18,6 +18,8 @@ import { counterDatastore } from '../../datastore/counters';
 import { Counter } from '../../services/counter/types';
 import { playService } from '../../services/play';
 import { counterService } from '../../services/counter';
+import { StatsService } from '../../services/stats';
+import { mapMatchupGameToGameStatsEntry } from '../../services/stats/mappers';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -174,6 +176,7 @@ const init = (socketServer: Server, path: string) => {
             undefined,
             matchup.trophyGoal
           );
+
           log('RESULT------------->', result);
 
           Promise.all([
@@ -182,12 +185,20 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.updateCounter(result.trophies[0]),
             counterDatastore.updateCounter(result.trophies[1]),
           ]).then(() => {
-            log('Saved!');
+            log('Saved all counters');
             gamesInProgress[matchupId] = matchupService.resolveGame(
               gamesInProgress[matchupId],
               result.gameResult,
               result.trophyWon
             );
+
+            const statsEntry = mapMatchupGameToGameStatsEntry(
+              matchup,
+              gamesInProgress[matchup.id],
+              'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
+            );
+            statsEntry && StatsService.saveGameStatsEntry(statsEntry);
+
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               const matchupChannel = `matchup-${matchupId}`;
               namespace
