@@ -10,7 +10,7 @@ import { groupPlayerRankings } from './groupPlayerRankings';
 
 import { Bounce, Power3 } from 'gsap/EasePack';
 import { CSSPlugin, TimelineLite } from 'gsap/all';
-import { rankByWinDrawLossRatio, rankByTotalWins } from './rankPlayers';
+import { rankByTotalWins, rankByWinsDrawsOverLosses } from './rankPlayers';
 import { isFeatureEnabled } from '../../featureToggle';
 const plugins = [CSSPlugin]; // eslint-disable-line no-unused-vars
 
@@ -92,7 +92,7 @@ const placeIcons = ['🥇', '🥈', '🥉'];
 const placeBackgroundColor = ['#AF9500', '#B4B4B4', '#6A3805'];
 
 const rankingFunction = isFeatureEnabled('ranking')
-  ? rankByWinDrawLossRatio
+  ? rankByWinsDrawsOverLosses
   : rankByTotalWins;
 
 const RankingGroupComponent = ({ rankingGroup, ranking, setRef }) => {
