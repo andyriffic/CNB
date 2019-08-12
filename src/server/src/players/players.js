@@ -11,7 +11,7 @@ const ALL_PLAYERS = [
   { name: 'Jatin', imageName: 'jatin', team: 'MELB', slot: 'player2' },
   { name: 'Jay', imageName: 'jay', team: 'MELB', slot: 'player2' },
   { name: 'Jim', imageName: 'jim', team: 'MELB', slot: 'player2' },
-  { name: 'Liujing', imageName: 'liujing', team: 'MELB', slot: 'player2' },
+  { name: 'Liujing', imageName: 'liujing', team: 'XIAN', slot: 'player1' },
   { name: 'Marion', imageName: 'marion', team: 'MELB', slot: 'player2' },
   { name: 'Michael B', imageName: 'michael_b', team: 'MELB', slot: 'player2' },
   { name: 'Michael W', imageName: 'michael_w', team: 'MELB', slot: 'player2' },
