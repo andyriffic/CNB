@@ -129,6 +129,8 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const [currentMatchup, setCurrentMatchup] = useState<Matchup>();
+
+  const [currentWatchingPlayerId, setCurrentWatchingPlayer] = useState('');
   const [matchupsByPlayerId, setMatchupsByPlayerId] = useState(
     initialValue.matchupsByPlayerId
   );
@@ -147,16 +149,20 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
       setCurrentMatchup(matchup);
     });
 
+    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS); // TODO: don't always emit this
+  }, []);
+
+  useEffect(() => {
     socket.on(
       MATCHUP_EVENTS.MATCHUPS_FOR_PLAYER_UPDATE,
       (matchupsForPlayer: { [playerId: string]: MatchupForPlayer[] }) => {
         console.log('Received Player Matchups', matchupsForPlayer);
-        setMatchupsByPlayerId({ ...matchupsByPlayerId, ...matchupsForPlayer });
+        if (matchupsForPlayer[currentWatchingPlayerId]) {
+          setMatchupsByPlayerId(matchupsForPlayer);
+        }
       }
     );
-
-    socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS); // TODO: don't always emit this
-  }, []);
+  }, [currentWatchingPlayerId]);
 
   return (
     <MatchupContext.Provider
@@ -169,7 +175,10 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
         clearCurrentMatchup: () => {
           setCurrentMatchup(undefined);
         },
-        subscribeToMatchupsForPlayer: initialValue.subscribeToMatchupsForPlayer,
+        subscribeToMatchupsForPlayer: (playerId: string) => {
+          setCurrentWatchingPlayer(playerId); // Not really sold on this pattern but just going with what works for now :/
+          initialValue.subscribeToMatchupsForPlayer(playerId);
+        },
         matchupsByPlayerId,
         makeMove: initialValue.makeMove,
         playGameForMatchup: initialValue.playGameForMatchup,
