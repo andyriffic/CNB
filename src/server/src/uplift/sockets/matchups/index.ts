@@ -19,7 +19,7 @@ import { Counter } from '../../services/counter/types';
 import { playService } from '../../services/play';
 import { counterService } from '../../services/counter';
 import { StatsService } from '../../services/stats';
-import { mapMatchupGameToGameStatsEntry } from '../../services/stats/mappers';
+import { mapMatchupGameToGameStatsEntry, mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -192,14 +192,13 @@ const init = (socketServer: Server, path: string) => {
               result.trophyWon
             );
 
-            const statsEntry = mapMatchupGameToGameStatsEntry(
-              matchup,
-              gamesInProgress[matchup.id],
-              'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
-            );
-            statsEntry && StatsService.saveGameStatsEntry(statsEntry);
-
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+              const statsEntry = mapMatchupViewToGameStatsEntry(
+                matchupView,
+                'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
+              );
+              statsEntry && StatsService.saveGameStatsEntry(statsEntry);
+
               const matchupChannel = `matchup-${matchupId}`;
               namespace
                 .to(matchupChannel)

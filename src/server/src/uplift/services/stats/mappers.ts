@@ -1,4 +1,10 @@
-import { TeamMatchup, Game } from '../matchup/types';
+import {
+  TeamMatchup,
+  Game,
+  MatchupSpectatorView,
+  TeamSpectatorView,
+  GameSpectatorView,
+} from '../matchup/types';
 import { GameStatsEntry, PlayerStatsEntry } from './types';
 
 const mapMatchupPlayerToPlayerStatsEntry = (
@@ -48,6 +54,54 @@ export const mapMatchupGameToGameStatsEntry = (
       winner:
         game.result.winnerIndex !== undefined
           ? getWinner(game.result.winnerIndex)
+          : undefined,
+    },
+  };
+};
+
+const mapMatchupPlayerViewToPlayerStatsEntry = (
+  playerIndex: number,
+  team: TeamSpectatorView,
+  game: GameSpectatorView
+): PlayerStatsEntry => {
+  return {
+    team: team.name,
+    move: game.result!.moves[playerIndex].moveId,
+    powerUp: 'NONE',
+    player: game.moves[playerIndex].playerName!,
+    winner:
+      game.result!.winnerIndex !== undefined &&
+      game.result!.winnerIndex === playerIndex,
+  };
+};
+
+export const mapMatchupViewToGameStatsEntry = (
+  matchupView: MatchupSpectatorView,
+  theme: string
+): GameStatsEntry | undefined => {
+  if (!matchupView.gameInProgress) {
+    return;
+  }
+
+  return {
+    date: new Date().toISOString(),
+    matchupId: matchupView.id,
+    theme,
+    player1: mapMatchupPlayerViewToPlayerStatsEntry(
+      0,
+      matchupView.teams[0],
+      matchupView.gameInProgress
+    ),
+    player2: mapMatchupPlayerViewToPlayerStatsEntry(
+      1,
+      matchupView.teams[1],
+      matchupView.gameInProgress
+    ),
+    result: {
+      draw: matchupView.gameInProgress!.result!.draw ? true : false,
+      winner:
+        matchupView.gameInProgress!.result!.winnerIndex !== undefined
+          ? getWinner(matchupView.gameInProgress!.result!.winnerIndex)
           : undefined,
     },
   };
