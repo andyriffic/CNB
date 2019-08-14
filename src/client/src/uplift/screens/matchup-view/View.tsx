@@ -57,10 +57,14 @@ export default ({ matchupId }: MatchupViewProps) => {
   const onGameViewFinished = () => {
     setTimeout(() => {
       setShowScoreUpdate(true);
-      currentMatchup &&
+
+      if (
+        currentMatchup &&
         currentMatchup.gameInProgress &&
-        !currentMatchup.gameInProgress.viewed &&
+        !currentMatchup.gameInProgress.viewed
+      ) {
         soundService.play(SOUND_KEYS.COLLECT_POINTS);
+      }
 
       setTimeout(() => {
         setShowNewGame(true);

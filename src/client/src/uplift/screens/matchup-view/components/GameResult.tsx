@@ -39,9 +39,12 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
 
   useEffect(() => {
     if (gameTiming.shownResult) {
-      soundService.play(SOUND_KEYS.STAMP);
+      // soundService.play(SOUND_KEYS.MOVE_IT_MUSIC);
+      setTimeout(() => {
+        soundService.play(SOUND_KEYS.STAMP);
+      }, 800);
     }
-  }, [gameTiming.shownResult])
+  }, [gameTiming.shownResult]);
 
   return (
     <div>
@@ -63,7 +66,10 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
                   revealMove={gameTiming.shownMove}
                   move={themedMoves[game.result!.moves[index].moveId]}
                   position={index === 0 ? 'LEFT' : 'RIGHT'}
-                  winner={gameTiming.shownResult && winner}
+                  winner={winner}
+                  revealResult={gameTiming.shownResult}
+                  playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
+                  playLoserAnimation={gameTiming.shownLoserMoveAnimation}
                 />
               </PlayerSide>
               <div

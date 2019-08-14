@@ -104,3 +104,20 @@ export const shakeAnimationRight = keyframes`
   90% { transform: translate(1px, 2px) rotate(0deg) scaleX(-1); }
   100% { transform: translate(1px, -2px) rotate(-1deg) scaleX(-1); }
 `;
+
+export const spinAwayAnimationRight = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(800px, 0) rotate(1080deg); }
+`;
+
+export const spinAwayAnimationLeft = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-800px, 0) rotate(-1080deg); }
+`;
+
+export const hadoukenAnimation = keyframes`
+  0% { transform: translateX(0); opacity: 0; }
+  40% { transform: translateX(400px); opacity: 1; }
+  60% { transform: translateX(600px); opacity: 1; }
+  100% { transform: translateX(800px); opacity: 0; }
+`;

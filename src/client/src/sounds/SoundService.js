@@ -14,6 +14,9 @@ import scoreboardMusic from './scoreboard.mp3';
 import elevatorMusic from './elevator-music.mp3';
 import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
+import hadouken from './hadouken.mp3';
+import iLikeToMoveIt from './i_like_to_move_it.mp3';
+import scream from './scream.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -34,6 +37,9 @@ export const SOUND_KEYS = {
   SCOREBOARD_MUSIC: 'SCOREBOARD_MUSIC',
   ELEVATOR_MUSIC: 'ELEVATOR_MUSIC',
   STAMP: 'STAMP',
+  HADOUKEN: 'HADOUKEN',
+  MOVE_IT_MUSIC: 'MOVE_IT_MUSIC',
+  SCREAM: 'SCREAM',
 };
 
 export class SoundService {
@@ -153,6 +159,19 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.STAMP] = {
         sound: new Howl({ src: [winnerStamp] }),
+      };
+
+      this._sounds[SOUND_KEYS.HADOUKEN] = {
+        sound: new Howl({ src: [hadouken] }),
+        preload: true,
+      };
+
+      this._sounds[SOUND_KEYS.MOVE_IT_MUSIC] = {
+        sound: new Howl({ src: [iLikeToMoveIt] }),
+      };
+
+      this._sounds[SOUND_KEYS.SCREAM] = {
+        sound: new Howl({ src: [scream] }),
       };
 
       // Pre-load winning sounds

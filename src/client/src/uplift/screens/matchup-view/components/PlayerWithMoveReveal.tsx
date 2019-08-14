@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { ThemedMove } from '../../../contexts/ThemeProvider';
 import star from './star-md.png';
@@ -7,8 +7,15 @@ import {
   growAnimation,
   shakeAnimationRight,
   shakeAnimationLeft,
+  hadoukenAnimation,
+  spinAwayAnimationRight,
+  spinAwayAnimationLeft,
 } from '../../../components/animations';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
+import hadoukenImage from './hadouken-ball.png';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
+import { SoundService } from '../../../contexts/types';
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -17,10 +24,27 @@ type PlayerWithRevealProps = {
   playerAvatarUrl: string;
   position: 'LEFT' | 'RIGHT';
   winner: boolean;
+  revealResult: boolean;
+  playWinnerAnimation: boolean;
+  playLoserAnimation: boolean;
 };
 
-const Container = styled.div`
-  position: relative;
+const blowAwayCssLeft = css`
+  animation: ${spinAwayAnimationLeft} 1s ease-in-out 1 forwards;
+`;
+
+const blowAwayCssRight = css`
+  animation: ${spinAwayAnimationRight} 1s ease-in-out 1 forwards;
+`;
+
+const Container = styled.div<{
+  playLoserAnimation: boolean;
+  position: 'LEFT' | 'RIGHT';
+}>`
+  ${props =>
+    props.playLoserAnimation && (props.position === 'LEFT'
+      ? blowAwayCssLeft
+      : blowAwayCssRight)}
 `;
 
 const shakeCssLeft = css`
@@ -28,6 +52,7 @@ const shakeCssLeft = css`
 `;
 
 const shakeCssRight = css`
+  transform-origin: center;
   animation: ${shakeAnimationRight} 2s infinite;
 `;
 
@@ -62,6 +87,15 @@ const WinnerIndicator = styled.div<{
     ${rotateAnimation} 5s linear 300ms infinite;
 `;
 
+const Hadouken = styled.div`
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: transparent url(${hadoukenImage}) no-repeat center center;
+  background-size: contain;
+  animation: ${hadoukenAnimation} 2s linear 1 0s forwards;
+`;
+
 const PlayerMoveContainer = styled.div<{
   position: 'LEFT' | 'RIGHT';
   reveal: boolean;
@@ -92,13 +126,39 @@ export const PlayerWithMoveReveal = ({
   playerAvatarUrl,
   position,
   winner,
+  revealResult,
+  playWinnerAnimation,
+  playLoserAnimation,
 }: PlayerWithRevealProps) => {
+  const soundService = useContext<SoundService>(GameSoundContext);
+
+  const winnerSoundPlayed = useRef(false);
+  const loserSoundPlayed = useRef(false);
+
+  useEffect(() => {
+    if (playWinnerAnimation && !winnerSoundPlayed.current) {
+      soundService.play(SOUND_KEYS.HADOUKEN);
+      winnerSoundPlayed.current = true;
+    }
+  }, [playWinnerAnimation]);
+
+  useEffect(() => {
+    if (playLoserAnimation && !loserSoundPlayed.current) {
+      soundService.play(SOUND_KEYS.SCREAM);
+      loserSoundPlayed.current = true;
+    }
+  }, [playLoserAnimation]);
+
   return (
-    <Container className="margins-off">
+    <Container
+      className="margins-off"
+      position={position}
+      playLoserAnimation={playLoserAnimation && !winner}
+    >
       <PlayerCharacter
         position={position}
         reveal={revealPlayer}
-        winner={winner}
+        winner={revealResult && winner}
         src={`${SOCKETS_ENDPOINT}${playerAvatarUrl}`}
       />
       <PlayerMoveContainer
@@ -106,12 +166,15 @@ export const PlayerWithMoveReveal = ({
         reveal={revealMove}
         className="margins-off"
       >
-        {winner && <WinnerIndicator position={position} reveal={revealMove} />}
+        {revealResult && winner && (
+          <WinnerIndicator position={position} reveal={revealMove} />
+        )}
         <PlayerMove
           position={position}
           reveal={revealMove}
           src={`${SOCKETS_ENDPOINT}${move.imageUrl}`}
         />
+        {playWinnerAnimation && winner && <Hadouken />}
       </PlayerMoveContainer>
     </Container>
   );

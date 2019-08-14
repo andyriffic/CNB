@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 export type GameViewTiming = {
   shownCharacter: boolean;
   shownMove: boolean;
+  shownWinnerMoveAnimation: boolean;
+  shownLoserMoveAnimation: boolean;
   shownResult: boolean;
   gameplayFinished: boolean;
 };
@@ -10,6 +12,10 @@ export type GameViewTiming = {
 export const useGameViewTimingEffect = (finished: () => void) => {
   const [shownCharacter, setShownCharacter] = useState(false);
   const [shownMove, setShownMove] = useState(false);
+  const [shownWinnerMoveAnimation, setShownWinnerMoveAnimation] = useState(
+    false
+  );
+  const [shownLoserMoveAnimation, setShownLoserMoveAnimation] = useState(false);
   const [shownResult, setShownResult] = useState(false);
   const [gameplayFinished, setGameplayFinished] = useState(false);
 
@@ -26,15 +32,27 @@ export const useGameViewTimingEffect = (finished: () => void) => {
 
             gameplayTimeouts.push(
               setTimeout(() => {
-                setShownResult(true);
+                setShownWinnerMoveAnimation(true);
 
                 gameplayTimeouts.push(
                   setTimeout(() => {
-                    setGameplayFinished(true);
-                    finished();
-                  }, 3000) //Finished
+                    setShownLoserMoveAnimation(true);
+
+                    gameplayTimeouts.push(
+                      setTimeout(() => {
+                        setShownResult(true);
+
+                        gameplayTimeouts.push(
+                          setTimeout(() => {
+                            setGameplayFinished(true);
+                            finished();
+                          }, 3000) //Finished
+                        );
+                      }, 1000) // Show result
+                    );
+                  }, 1000) // show loser move animation
                 );
-              }, 4000) // Show result
+              }, 2000) // show winner move animation
             );
           }, 3000) // Show move
         );
@@ -51,6 +69,8 @@ export const useGameViewTimingEffect = (finished: () => void) => {
   return {
     shownCharacter,
     shownMove,
+    shownWinnerMoveAnimation,
+    shownLoserMoveAnimation,
     shownResult,
     gameplayFinished,
   };
