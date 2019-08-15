@@ -8,7 +8,7 @@ import initGameNamespace from './socket-namespaces/game';
 import initStats from './socket-namespaces/stats';
 import initPlayers from './socket-namespaces/players';
 import initTheme from './socket-namespaces/theme';
-import initMatchupsSocket from './uplift/sockets/matchup';
+import initMatchupsSocket from './uplift/sockets/matchup-admin';
 import initMatchupsSocketForRealz from './uplift/sockets/matchups';
 import initGameSocket from './uplift/sockets/game';
 import initPlayersSocket from './uplift/sockets/players';
