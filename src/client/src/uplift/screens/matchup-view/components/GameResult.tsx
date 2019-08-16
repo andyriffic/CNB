@@ -8,7 +8,7 @@ import { PlayerWithMoveReveal } from './PlayerWithMoveReveal';
 import { StampText } from '../../../components/stamp-text';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService, SOUND_KEYS } from '../../../../sounds/SoundService';
-import { withDoOnce } from '../../../hooks/withDoOnce';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
 
   const draw = !!game.result!.draw;
 
-  withDoOnce(gameTiming.shownCharacter, () => {
+  useDoOnce(gameTiming.shownCharacter, () => {
     soundService.play(SOUND_KEYS.DRUMROLL);
   })
 

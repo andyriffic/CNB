@@ -5,7 +5,7 @@ import { WaitingContentContainer } from '../../../components/waiting-content-con
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService } from '../../../contexts/types';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
-import { withDoOnce } from '../../../hooks/withDoOnce';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 const Container = styled.div`
   display: flex;
@@ -28,11 +28,11 @@ export const GameWaitingOnPlayers = ({
 }) => {
   const soundService = useContext<SoundService>(GameSoundContext);
 
-  withDoOnce(moves[0].moved, () => {
+  useDoOnce(moves[0].moved, () => {
     soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);    
   })
 
-  withDoOnce(moves[1].moved, () => {
+  useDoOnce(moves[1].moved, () => {
     soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);    
   })
 
