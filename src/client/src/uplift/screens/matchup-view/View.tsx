@@ -11,6 +11,7 @@ import { GameResult } from './components/GameResult';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
+import { GamePlaySection } from './components/GameplaySection';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -99,46 +100,21 @@ export default ({ matchupId }: MatchupViewProps) => {
           <LoadingSpinner text="Loading matchup..." />
         ) : (
           <React.Fragment>
-            <TeamDetailsSection teams={delayedTeamDetails} matchup={currentMatchup}/>
-            {!currentMatchup.gameInProgress && (
-              <div style={{ textAlign: 'center' }}>
-                <Button
-                  onClick={() => matchupId && startGameForMatchup(matchupId)}
-                >
-                  Start a game
-                </Button>
-              </div>
-            )}
-            {currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status !== GAME_STATUS.Finished && (
-                <GameWaitingOnPlayers
-                  moves={currentMatchup.gameInProgress.moves}
-                />
-              )}
-            {currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status ===
-                GAME_STATUS.ReadyToPlay && (
-                <div style={{ textAlign: 'center' }}>
-                  <Button
-                    className="radioactive"
-                    onClick={() => {
-                      if (matchupId) {
-                        setShowScoreUpdate(false);
-                        playGameForMatchup(matchupId);
-                      }
-                    }}
-                  >
-                    PLAY!
-                  </Button>
-                </div>
-              )}
-            {currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status === GAME_STATUS.Finished && (
-                <GameResult
-                  game={currentMatchup.gameInProgress!}
-                  gameViewFinished={onGameViewFinished}
-                />
-              )}
+            <TeamDetailsSection
+              teams={delayedTeamDetails}
+              matchup={currentMatchup}
+            />
+            <GamePlaySection
+              matchup={currentMatchup}
+              startGame={() => matchupId && startGameForMatchup(matchupId)}
+              playGame={() => {
+                if (matchupId) {
+                  setShowScoreUpdate(false);
+                  playGameForMatchup(matchupId);
+                }
+              }}
+              onGameFinished={onGameViewFinished}
+            />
             {showNewGame && (
               <div style={{ textAlign: 'center' }}>
                 <Button
