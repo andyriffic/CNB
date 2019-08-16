@@ -18,6 +18,7 @@ import hadouken from './hadouken.mp3';
 import iLikeToMoveIt from './i_like_to_move_it.mp3';
 import scream from './scream.mp3';
 import trumpet from './trumpet.wav';
+import drumroll from './drumroll.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -42,6 +43,7 @@ export const SOUND_KEYS = {
   MOVE_IT_MUSIC: 'MOVE_IT_MUSIC',
   SCREAM: 'SCREAM',
   PLAYER_JOINED_GAME: 'PLAYER_JOINED_GAME',
+  DRUMROLL: 'DRUMROLL',
 };
 
 export class SoundService {
@@ -178,6 +180,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
         sound: new Howl({ src: [trumpet] }),
+      };
+
+      this._sounds[SOUND_KEYS.DRUMROLL] = {
+        sound: new Howl({ src: [drumroll] }),
       };
 
       // Pre-load winning sounds

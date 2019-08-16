@@ -54,7 +54,7 @@ export const useGameViewTimingEffect = (finished: () => void) => {
                 );
               }, 2000) // show winner move animation
             );
-          }, 3000) // Show move
+          }, 4000) // Show move
         );
       }, 1000) // Show character
     );
