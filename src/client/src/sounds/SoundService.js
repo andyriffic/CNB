@@ -242,10 +242,13 @@ export class SoundService {
   }
 
   playForDuration(soundKey, milliseconds) {
+    const FADE_MILLISECONDS = 2000;
+    const timeoutDuration = Math.max(0, milliseconds - FADE_MILLISECONDS);
+
     if (this.play(soundKey)) {
       setTimeout(() => {
-        this.stop(soundKey);
-      }, milliseconds);
+        this._sounds[soundKey].sound.fade(1, 0, 2000);
+      }, timeoutDuration);
     }
   }
 
