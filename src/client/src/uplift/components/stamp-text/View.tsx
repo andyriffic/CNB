@@ -4,15 +4,26 @@ import styled from 'styled-components';
 import grungeImage from './grunge.png';
 import { stampAnimation } from '../animations';
 
+type StyleType = 'success' | 'average';
+
+type Style = {
+  color: string;
+}
+
 type StampTextProps = {
   text: string | React.ReactNode;
   show: boolean;
+  style?: StyleType;
 };
 
-const Container = styled.div`
-`;
+const styles: {[styleName: string]: Style} = {
+  'success': { color: '#0a9928'},
+  'average': { color: '#FFC105'},
+}
 
-const Text = styled.p`
+const Container = styled.div``;
+
+const Text = styled.p<{style: Style}>`
   animation: ${stampAnimation} 500ms ease-in 1s 1 both;
   transform: rotate(12deg);
   font-size: 1.2rem;
@@ -25,14 +36,16 @@ const Text = styled.p`
   mask-size: 944px 604px;
   mix-blend-mode: multiply;
 
-  color: #0a9928;
-  border: 10px solid #0a9928;
+  color: ${props => props.style.color};
+  border: 10px solid ${props => props.style.color};
   mask-position: 13rem 6rem;
   transform: rotate(-14deg);
 `;
 
-export default ({ text, show }: StampTextProps) => {
+export default ({ text, show, style = 'success' }: StampTextProps) => {
   return (
-    <Container className="margins-off">{show && <Text>{text}</Text>}</Container>
+    <Container className="margins-off">
+      {show && <Text style={styles[style]}>{text}</Text>}
+    </Container>
   );
 };

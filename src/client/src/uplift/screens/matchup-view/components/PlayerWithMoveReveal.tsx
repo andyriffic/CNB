@@ -16,6 +16,7 @@ import hadoukenImage from './hadouken-ball.png';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService } from '../../../contexts/types';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -24,6 +25,7 @@ type PlayerWithRevealProps = {
   playerAvatarUrl: string;
   position: 'LEFT' | 'RIGHT';
   winner: boolean;
+  draw: boolean;
   revealResult: boolean;
   playWinnerAnimation: boolean;
   playLoserAnimation: boolean;
@@ -42,9 +44,8 @@ const Container = styled.div<{
   position: 'LEFT' | 'RIGHT';
 }>`
   ${props =>
-    props.playLoserAnimation && (props.position === 'LEFT'
-      ? blowAwayCssLeft
-      : blowAwayCssRight)}
+    props.playLoserAnimation &&
+    (props.position === 'LEFT' ? blowAwayCssLeft : blowAwayCssRight)}
 `;
 
 const shakeCssLeft = css`
@@ -126,34 +127,30 @@ export const PlayerWithMoveReveal = ({
   playerAvatarUrl,
   position,
   winner,
+  draw,
   revealResult,
   playWinnerAnimation,
   playLoserAnimation,
 }: PlayerWithRevealProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
 
-  const winnerSoundPlayed = useRef(false);
-  const loserSoundPlayed = useRef(false);
+  useDoOnce(draw && playWinnerAnimation, () => {
+    soundService.play(SOUND_KEYS.DRAW);
+  });
 
-  useEffect(() => {
-    if (playWinnerAnimation && !winnerSoundPlayed.current) {
-      soundService.play(SOUND_KEYS.HADOUKEN);
-      winnerSoundPlayed.current = true;
-    }
-  }, [playWinnerAnimation]);
+  useDoOnce(!draw && playWinnerAnimation, () => {
+    soundService.play(SOUND_KEYS.HADOUKEN);
+  });
 
-  useEffect(() => {
-    if (playLoserAnimation && !loserSoundPlayed.current) {
-      soundService.play(SOUND_KEYS.SCREAM);
-      loserSoundPlayed.current = true;
-    }
-  }, [playLoserAnimation]);
+  useDoOnce(!draw && playLoserAnimation, () => {
+    soundService.play(SOUND_KEYS.SCREAM);
+  });
 
   return (
     <Container
       className="margins-off"
       position={position}
-      playLoserAnimation={playLoserAnimation && !winner}
+      playLoserAnimation={!draw && playLoserAnimation && !winner}
     >
       <PlayerCharacter
         position={position}

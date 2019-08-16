@@ -40,16 +40,17 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
 
   useDoOnce(gameTiming.shownCharacter, () => {
     soundService.play(SOUND_KEYS.DRUMROLL);
-  })
+  });
 
-  useEffect(() => {
-    if (gameTiming.shownResult) {
-      soundService.playForDuration(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST, 9000);
-      setTimeout(() => {
-        soundService.play(SOUND_KEYS.STAMP);
-      }, 800);
-    }
-  }, [gameTiming.shownResult]);
+  useDoOnce(gameTiming.shownResult && !draw, () => {
+    soundService.playForDuration(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST, 9000);
+  });
+
+  useDoOnce(gameTiming.shownResult, () => {
+    setTimeout(() => {
+      soundService.play(SOUND_KEYS.STAMP);
+    }, 800);
+  });
 
   return (
     <div>
@@ -72,6 +73,7 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
                   move={themedMoves[game.result!.moves[index].moveId]}
                   position={index === 0 ? 'LEFT' : 'RIGHT'}
                   winner={winner}
+                  draw={draw}
                   revealResult={gameTiming.shownResult}
                   playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
                   playLoserAnimation={gameTiming.shownLoserMoveAnimation}
@@ -87,6 +89,11 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
                 <StampText
                   text="Winner!"
                   show={gameTiming.shownResult && winner}
+                />
+                <StampText
+                  text="Draw!"
+                  style="average"
+                  show={gameTiming.shownResult && draw}
                 />
               </div>
             </div>
