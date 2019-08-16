@@ -19,6 +19,7 @@ import iLikeToMoveIt from './i_like_to_move_it.mp3';
 import scream from './scream.mp3';
 import trumpet from './trumpet.wav';
 import drumroll from './drumroll.wav';
+import biteDust from './bites-the-dust.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -44,6 +45,7 @@ export const SOUND_KEYS = {
   SCREAM: 'SCREAM',
   PLAYER_JOINED_GAME: 'PLAYER_JOINED_GAME',
   DRUMROLL: 'DRUMROLL',
+  ANOTHER_ONE_BITES_THE_DUST: 'ANOTHER_ONE_BITES_THE_DUST',
 };
 
 export class SoundService {
@@ -184,6 +186,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
         sound: new Howl({ src: [drumroll] }),
+      };
+
+      this._sounds[SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST] = {
+        sound: new Howl({ src: [biteDust] }),
       };
 
       // Pre-load winning sounds

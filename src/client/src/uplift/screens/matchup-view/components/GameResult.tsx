@@ -44,7 +44,7 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
 
   useEffect(() => {
     if (gameTiming.shownResult) {
-      // soundService.play(SOUND_KEYS.MOVE_IT_MUSIC);
+      soundService.play(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST);
       setTimeout(() => {
         soundService.play(SOUND_KEYS.STAMP);
       }, 800);
