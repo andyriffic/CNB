@@ -4,12 +4,13 @@ import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
-import { TeamDetail } from './components/TeamDetail';
+import { TeamDetailItem } from './components/TeamDetailItem';
 import { Button } from '../../../screens/styled';
 import { GameWaitingOnPlayers } from './components/GameWaitingOnPlayers';
 import { GameResult } from './components/GameResult';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
+import { TeamDetailsSection } from './components/TeamDetailSection';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -98,32 +99,7 @@ export default ({ matchupId }: MatchupViewProps) => {
           <LoadingSpinner text="Loading matchup..." />
         ) : (
           <React.Fragment>
-            <TeamDetailsContainer className="margins-off">
-              <TeamContainer>
-                <TeamDetail
-                  team={delayedTeamDetails && delayedTeamDetails[0]}
-                  trophyGoal={currentMatchup.trophyGoal}
-                  showPointDiff={
-                    !!currentMatchup.gameInProgress &&
-                    currentMatchup.gameInProgress.status ===
-                      GAME_STATUS.Finished
-                  }
-                />
-              </TeamContainer>
-              <Vs>vs</Vs>
-              <TeamContainer>
-                <TeamDetail
-                  team={delayedTeamDetails && delayedTeamDetails[1]}
-                  reverse
-                  trophyGoal={currentMatchup.trophyGoal}
-                  showPointDiff={
-                    !!currentMatchup.gameInProgress &&
-                    currentMatchup.gameInProgress.status ===
-                      GAME_STATUS.Finished
-                  }
-                />
-              </TeamContainer>
-            </TeamDetailsContainer>
+            <TeamDetailsSection teams={delayedTeamDetails} matchup={currentMatchup}/>
             {!currentMatchup.gameInProgress && (
               <div style={{ textAlign: 'center' }}>
                 <Button

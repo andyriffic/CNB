@@ -24,7 +24,7 @@ const TeamPoints = styled.div`
   background-color: #f5f5f5;
 `;
 
-export const TeamDetail = ({
+export const TeamDetailItem = ({
   team,
   reverse,
   trophyGoal,
