@@ -63,6 +63,8 @@ export default ({ matchupId }: MatchupViewProps) => {
       if (
         currentMatchup &&
         currentMatchup.gameInProgress &&
+        currentMatchup.gameInProgress.result &&
+        currentMatchup.gameInProgress.result.winnerIndex !== undefined &&
         !currentMatchup.gameInProgress.viewed
       ) {
         soundService.play(SOUND_KEYS.COLLECT_POINTS);
