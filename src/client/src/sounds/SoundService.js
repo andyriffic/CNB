@@ -230,14 +230,23 @@ export class SoundService {
     }
 
     if (!this._musicEnabled) {
-      return;
+      return false;
     }
 
     if (!forceIfStillPlaying && this._sounds[soundKey].sound.playing()) {
-      return;
+      return false;
     }
 
     this._sounds[soundKey].sound.play();
+    return true;
+  }
+
+  playForDuration(soundKey, milliseconds) {
+    if (this.play(soundKey)) {
+      setTimeout(() => {
+        this.stop(soundKey);
+      }, milliseconds);
+    }
   }
 
   stop(soundKey) {
