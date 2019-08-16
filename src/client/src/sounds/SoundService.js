@@ -11,12 +11,13 @@ import powerUpWin from './power-up-win.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import pokeball from './pokeball.wav';
 import scoreboardMusic from './scoreboard.mp3';
-import elevatorMusic from './elevator-music.mp3';
+import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
 import iLikeToMoveIt from './i_like_to_move_it.mp3';
 import scream from './scream.mp3';
+import trumpet from './trumpet.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -40,6 +41,7 @@ export const SOUND_KEYS = {
   HADOUKEN: 'HADOUKEN',
   MOVE_IT_MUSIC: 'MOVE_IT_MUSIC',
   SCREAM: 'SCREAM',
+  PLAYER_JOINED_GAME: 'PLAYER_JOINED_GAME',
 };
 
 export class SoundService {
@@ -172,6 +174,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.SCREAM] = {
         sound: new Howl({ src: [scream] }),
+      };
+
+      this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
+        sound: new Howl({ src: [trumpet] }),
       };
 
       // Pre-load winning sounds
