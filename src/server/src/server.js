@@ -12,6 +12,7 @@ import initMatchupsSocket from './uplift/sockets/matchup-admin';
 import initMatchupsSocketForRealz from './uplift/sockets/matchups';
 import initGameSocket from './uplift/sockets/game';
 import initPlayersSocket from './uplift/sockets/players';
+import initThemes from './uplift/sockets/theme';
 
 const store = createStore(reducer);
 
@@ -23,7 +24,6 @@ const path = require('path');
 
 const port = process.env.PORT || 3000;
 server.listen(port);
-
 
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use(express.static(path.join(__dirname, './static')));
@@ -41,6 +41,6 @@ initMatchupsSocket(io, '/matchups');
 
 initMatchupsSocketForRealz(io, '/matchups-realz');
 initPlayersSocket(io, '/players-realz');
-
+initThemes(io, '/theme-realz');
 
 console.log(`App running on http://localhost:${port}`);

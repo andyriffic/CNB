@@ -19,11 +19,11 @@ const Move = styled.button<{ selected?: boolean }>`
   border: 2px solid
     ${props =>
       props.selected
-        ? props.theme.headerBackgroundColor
-        : props.theme.textColor};
+        ? props.theme.featureBackgroundColor
+        : props.theme.primaryTextColor};
   color: white;
   background-color: ${props =>
-    props.selected ? props.theme.headerBackgroundColor : 'transparent'};
+    props.selected ? props.theme.featureBackgroundColor : 'transparent'};
   padding: 10px;
   font-size: 1.8rem;
   cursor: pointer;
@@ -44,7 +44,9 @@ type MakeMoveProps = {
 };
 
 export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
-  const { themedMoves } = useContext(GameThemeContext);
+  const {
+    theme: { moves: themedMoves },
+  } = useContext(GameThemeContext);
   const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [moveMade, setMoveMade] = useState(false);

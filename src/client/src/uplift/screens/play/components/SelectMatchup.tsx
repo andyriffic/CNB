@@ -7,9 +7,10 @@ import {
   MatchupForPlayer,
   GAME_STATUS,
 } from '../../../contexts/MatchupProvider';
+import { GameThemeContext } from '../../../contexts/ThemeProvider';
 
 const MatchupContainer = styled.div`
-  border: 2px solid ${props => props.theme.textColor};
+  border: 2px solid ${props => props.theme.primaryTextColor};
   padding: 10px;
   border-radius: 8px;
   font-size: 1.8rem;
@@ -17,7 +18,7 @@ const MatchupContainer = styled.div`
 
 const TeamName = styled.span<{ highlighted?: boolean }>`
   color: ${props =>
-    props.highlighted ? props.theme.headerBackgroundColor : 'inherit'};
+    props.highlighted ? props.theme.featureBackgroundColor : 'inherit'};
   font-size: 1.8rem;
 `;
 
@@ -50,10 +51,13 @@ export const SelectMatchup = ({
     subscribeToMatchup,
   } = useContext(MatchupContext);
 
+  const {setTheme} = useContext(GameThemeContext);
+
   useEffect(() => {
     subscribeToMatchupsForPlayer(player.id);
     // TODO: unsubscribe on unmount
   }, []);
+
   return (
     <div>
       <div>
@@ -69,6 +73,7 @@ export const SelectMatchup = ({
                 key={matchup.id}
                 onClick={() => {
                   subscribeToMatchup(matchup.id);
+                  setTheme('rock-paper-scissors');
                   selectMatchup(matchup.id, matchup.playerTeamId);
                 }}
               >

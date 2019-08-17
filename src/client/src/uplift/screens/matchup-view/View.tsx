@@ -12,25 +12,12 @@ import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
 import { GamePlaySection } from './components/GameplaySection';
+import { GameThemeContext } from '../../contexts/ThemeProvider';
 
 const MatchupsContainer = styled.div`
   width: 95%;
   padding: 40px 0;
   margin: 0 auto;
-`;
-
-const TeamDetailsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const TeamContainer = styled.div`
-  flex: 1;
-`;
-
-const Vs = styled.div`
-  padding: 0 20px;
 `;
 
 type MatchupViewProps = {
@@ -47,6 +34,8 @@ export default ({ matchupId }: MatchupViewProps) => {
     setGameViewed,
   } = useContext(MatchupContext);
 
+  const { setTheme } = useContext(GameThemeContext);
+
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
   const [showNewGame, setShowNewGame] = useState(false);
   const [delayedTeamDetails, setDelayedTeamDetails] = useState();
@@ -55,6 +44,12 @@ export default ({ matchupId }: MatchupViewProps) => {
   useEffect(() => {
     soundService.load();
   }, []);
+
+  useEffect(() => {
+    console.log('SET THEME (Matchup-View)');
+    
+    setTheme('rock-paper-scissors');
+  }, [])
 
   const onGameViewFinished = () => {
     setTimeout(() => {

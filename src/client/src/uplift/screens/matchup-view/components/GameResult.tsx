@@ -32,7 +32,9 @@ type GameResultProps = {
 };
 
 export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
-  const { themedMoves } = useContext(GameThemeContext);
+  const {
+    theme: { moves: themedMoves },
+  } = useContext(GameThemeContext);
   const soundService = useContext<SoundService>(GameSoundContext);
   const gameTiming = useGameViewTimingEffect(gameViewFinished);
 
