@@ -1,5 +1,11 @@
-export const playerLeaderboardQuery = `SELECT *
-FROM 
+export const playerLeaderboardQuery = `SELECT 
+  player,
+  sum(times_played) as times_played, 
+  sum(times_won) as times_won, 
+  sum(total_points) as total_points, 
+  sum(times_lost) as times_lost, 
+  sum(times_drawn) as times_drawn
+FROM (
     (SELECT a.player,
          a.times_played,
          coalesce(b.times_won,
@@ -75,4 +81,6 @@ FROM
                                 WHERE result.draw
                                 GROUP BY  player2.player) d
                                     ON a.player=d.player)
-                            ORDER BY  times_won desc, total_points desc, times_played desc, player;`;
+                            ORDER BY  times_won desc, total_points desc, times_played desc, player
+      )
+  group by player;`;
