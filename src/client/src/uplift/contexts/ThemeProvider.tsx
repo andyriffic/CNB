@@ -8,12 +8,14 @@ enum THEME_EVENTS {
   REQUEST_THEMES = 'REQUEST_THEMES',
 }
 
-type ThemeStyle = {
+export type ThemeStyle = {
+  headerBackgroundColor: string;
+  headerTextColor: string;
   featureBackgroundColor: string;
   featureTextColor: string;
-  primaryPageBackgroundColor: string;
-  secondaryPageBackgroundColor: string;
+  pageBackgroundColor: string;
   primaryTextColor: string;
+  primaryBorderColor: string;
 };
 
 export type ThemedMove = {
@@ -45,11 +47,13 @@ const defaultValue: GameThemeService = {
   theme: {
     name: { english: 'Rock, Paper, Scissors', chinese: '牛仔，忍者，熊' },
     style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      primaryPageBackgroundColor: '#95C0AB',
-      secondaryPageBackgroundColor: '#95C0AB',
-      primaryTextColor: '#1A414D',
+      headerBackgroundColor: '#F8F8FF',
+      headerTextColor: '#000',
+      featureBackgroundColor: '#F8F8FF',
+      featureTextColor: '#000',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#000',
+      primaryBorderColor: '#000'
     },
     moves: {
       A: {
@@ -81,7 +85,7 @@ export const GameThemeContext = React.createContext<GameThemeService>(
 );
 
 export const Theme = ({ children }: { children: any }) => {
-  const [currentThemeId, setCurrentThemeId] = useState('cnb');
+  const [currentThemeId, setCurrentThemeId] = useState('');
   const [allThemes, setAllThemes] = useState({
     [currentThemeId]: defaultValue.theme,
   });

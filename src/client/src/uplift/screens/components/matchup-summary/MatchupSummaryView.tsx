@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Matchup } from '../../../contexts/MatchupProvider';
+import { GameTheme } from '../../../contexts/ThemeProvider';
 
-const Container = styled.div`
+const Container = styled.div<{theme: GameTheme}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid black;
+  border: 2px solid ${props => props.theme.primaryBorderColor};
   border-radius: 8px;
   background-color: #f5f5f5;
   cursor: pointer;

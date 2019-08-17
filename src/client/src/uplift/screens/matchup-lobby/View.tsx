@@ -8,6 +8,7 @@ import { RouteComponentProps } from '@reach/router';
 import { GameSettingsDrawer } from '../../../game-settings';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SOUND_KEYS, SoundService } from '../../../sounds/SoundService';
+import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 
 const MatchupsContainer = styled.div`
   width: 80%;
@@ -29,7 +30,7 @@ export default ({ navigate }: RouteComponentProps) => {
   }, []);
 
   return (
-    <FullPageLayout pageTitle="Matchup Lobby" alignTop={true}>
+    <FullPageScreenLayout title="Matchup Lobby" alignTop={true}>
       <GameSettingsDrawer />
       <MatchupsContainer>
         {loadingAllMatchups ? (
@@ -46,6 +47,6 @@ export default ({ navigate }: RouteComponentProps) => {
           ))
         )}
       </MatchupsContainer>
-    </FullPageLayout>
+    </FullPageScreenLayout>
   );
 };

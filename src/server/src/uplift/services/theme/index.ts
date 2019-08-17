@@ -12,9 +12,9 @@ export type GameTheme = {
   style: {
     featureBackgroundColor: string;
     featureTextColor: string;
-    primaryPageBackgroundColor: string;
-    secondaryPageBackgroundColor: string;
+    pageBackgroundColor: string;
     primaryTextColor: string;
+    primaryBorderColor: string;
   };
   sounds: {
     musicUrl: string;
@@ -41,9 +41,9 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     style: {
       featureBackgroundColor: '#E36E65',
       featureTextColor: '#1A414D',
-      primaryPageBackgroundColor: '#95C0AB',
-      secondaryPageBackgroundColor: '#95C0AB',
+      pageBackgroundColor: '#95C0AB',
       primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
     },
     sounds: {
       musicUrl: '/theme/cnb/theme-music.mp3',
@@ -68,9 +68,9 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     style: {
       featureBackgroundColor: '#807c7e',
       featureTextColor: '#000',
-      primaryPageBackgroundColor: '#f4f6f5',
-      secondaryPageBackgroundColor: '#aba6a8',
+      pageBackgroundColor: '#f4f6f5',
       primaryTextColor: '#000',
+      primaryBorderColor: '#000',
     },
     sounds: {
       musicUrl: '/theme/cnb/theme-music.mp3',
