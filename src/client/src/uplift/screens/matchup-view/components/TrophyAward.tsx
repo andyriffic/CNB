@@ -19,7 +19,7 @@ const Rotate = keyframes`
 
 const Container = styled.div`
   display: flex;
-  animation: ${Grow} 2s ease-in-out 1 forwards;
+  animation: ${Pulse} 3s linear 5s infinite, ${Grow} 5s linear;
 `;
 
 const Trophy = styled.div`

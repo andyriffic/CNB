@@ -55,6 +55,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   const onGameViewFinished = () => {
     setTimeout(() => {
+      currentMatchup && setGameViewed(currentMatchup.id);
       setShowScoreUpdate(true);
 
       if (
@@ -67,13 +68,22 @@ export default ({ matchupId }: MatchupViewProps) => {
         soundService.play(SOUND_KEYS.COLLECT_POINTS);
       }
 
-      setTimeout(() => {
-        setShowNewGame(true);
-        currentMatchup && setGameViewed(currentMatchup.id);
-      }, 2000);
+      if (1 === 1) {
+        // TODO: replace with test to see if trophy was won
+        setTimeout(() => {
+          soundService.play(SOUND_KEYS.AWARD_TROPHY);
+          setShowTrophyAward(true);
 
-      setShowTrophyAward(true);
-    }, 2000);
+          setTimeout(() => {
+            setShowNewGame(true);
+          }, 5000); // Wait this long after showing trophy
+        }, 2000); // Wait this long after points updated
+      } else {
+        setTimeout(() => {
+          setShowTrophyAward(true);
+        }, 2000); // Wait this long after points updated
+      }
+    }, 3000); // Wait this long after game finished to show points update
   };
 
   useEffect(() => {
