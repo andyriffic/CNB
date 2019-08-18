@@ -17,6 +17,7 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService } from '../../../contexts/types';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
+import { selectRandomOneOf } from '../../../utils/random';
 
 type PlayerWithRevealProps = {
   revealPlayer: boolean;
@@ -143,7 +144,14 @@ export const PlayerWithMoveReveal = ({
   });
 
   useDoOnce(!draw && playLoserAnimation, () => {
-    soundService.play(SOUND_KEYS.SCREAM);
+    soundService.play(
+      selectRandomOneOf([
+        SOUND_KEYS.SCREAM_01,
+        SOUND_KEYS.SCREAM_02,
+        SOUND_KEYS.SCREAM_03,
+        SOUND_KEYS.SCREAM_04,
+      ])
+    );
   });
 
   return (

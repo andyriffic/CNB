@@ -16,7 +16,10 @@ import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
 import iLikeToMoveIt from './i_like_to_move_it.mp3';
-import scream from './scream.mp3';
+import scream01 from './scream-01.mp3';
+import scream02 from './scream-02.wav';
+import scream03 from './scream-03.wav';
+import scream04 from './scream-04.wav';
 import trumpet from './trumpet.wav';
 import drumroll from './drumroll.wav';
 import biteDust from './bites-the-dust.mp3';
@@ -42,7 +45,10 @@ export const SOUND_KEYS = {
   STAMP: 'STAMP',
   HADOUKEN: 'HADOUKEN',
   MOVE_IT_MUSIC: 'MOVE_IT_MUSIC',
-  SCREAM: 'SCREAM',
+  SCREAM_01: 'SCREAM_01',
+  SCREAM_02: 'SCREAM_02',
+  SCREAM_03: 'SCREAM_03',
+  SCREAM_04: 'SCREAM_04',
   PLAYER_JOINED_GAME: 'PLAYER_JOINED_GAME',
   DRUMROLL: 'DRUMROLL',
   ANOTHER_ONE_BITES_THE_DUST: 'ANOTHER_ONE_BITES_THE_DUST',
@@ -176,8 +182,20 @@ export class SoundService {
         sound: new Howl({ src: [iLikeToMoveIt] }),
       };
 
-      this._sounds[SOUND_KEYS.SCREAM] = {
-        sound: new Howl({ src: [scream] }),
+      this._sounds[SOUND_KEYS.SCREAM_01] = {
+        sound: new Howl({ src: [scream01] }),
+      };
+
+      this._sounds[SOUND_KEYS.SCREAM_02] = {
+        sound: new Howl({ src: [scream02] }),
+      };
+
+      this._sounds[SOUND_KEYS.SCREAM_03] = {
+        sound: new Howl({ src: [scream03] }),
+      };
+
+      this._sounds[SOUND_KEYS.SCREAM_04] = {
+        sound: new Howl({ src: [scream04] }),
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
