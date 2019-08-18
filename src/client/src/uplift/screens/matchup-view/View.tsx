@@ -68,7 +68,7 @@ export default ({ matchupId }: MatchupViewProps) => {
         soundService.play(SOUND_KEYS.COLLECT_POINTS);
       }
 
-      if (1 === 1) {
+      if (currentMatchup!.gameInProgress!.trophyWon) {
         // TODO: replace with test to see if trophy was won
         setTimeout(() => {
           soundService.play(SOUND_KEYS.AWARD_TROPHY);
@@ -76,11 +76,11 @@ export default ({ matchupId }: MatchupViewProps) => {
 
           setTimeout(() => {
             setShowNewGame(true);
-          }, 5000); // Wait this long after showing trophy
+          }, 7000); // Wait this long after showing trophy
         }, 2000); // Wait this long after points updated
       } else {
         setTimeout(() => {
-          setShowTrophyAward(true);
+          setShowNewGame(true);
         }, 2000); // Wait this long after points updated
       }
     }, 3000); // Wait this long after game finished to show points update
