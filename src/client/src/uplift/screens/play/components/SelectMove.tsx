@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../../../../screens/styled';
 import { MatchupContext } from '../../../contexts/MatchupProvider';
@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../../../components/loading-spinner';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { Player } from '../../../contexts/PlayersProvider';
+import { shuffle } from '../../../../utils/suffleArray';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -50,6 +51,13 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [moveMade, setMoveMade] = useState(false);
+  const [randomMoveOrder, setRandomMoveOrder] = useState<string[]>()
+
+  useEffect(() => {
+    if (themedMoves && !randomMoveOrder) {
+      setRandomMoveOrder(shuffle(Object.keys(themedMoves)))
+    }
+  }, [themedMoves])
 
   if (!currentMatchup) {
     return <LoadingSpinner text="Checking current game..." />;
@@ -72,7 +80,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
       <div>
         <h2>Make your move</h2>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
-          {Object.keys(themedMoves).map(moveId => (
+          {randomMoveOrder && randomMoveOrder.map(moveId => (
             <Move
               key={moveId}
               selected={selectedMoveId === moveId}

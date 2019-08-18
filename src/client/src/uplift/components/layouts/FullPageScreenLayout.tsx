@@ -17,6 +17,7 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   background-color: ${props => props.theme.headerBackgroundColor};
+  transition: background-color 800ms ease-out;
 `;
 
 const PageHeading = styled.h1`
@@ -25,6 +26,7 @@ const PageHeading = styled.h1`
 `;
 
 const Body = styled.div<{ theme: ThemeStyle; alignTop: boolean }>`
+  transition: background-color 800ms ease-out;
   background-color: ${props => props.theme.pageBackgroundColor};
   flex: 1;
   display: flex;
@@ -34,6 +36,7 @@ const Body = styled.div<{ theme: ThemeStyle; alignTop: boolean }>`
 `;
 
 const Footer = styled.footer<{ theme: ThemeStyle }>`
+  transition: background-color 800ms ease-out;
   background-color: ${props => props.theme.pageBackgroundColor};
   color: white;
   height: 5vh;

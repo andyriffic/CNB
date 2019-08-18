@@ -50,7 +50,7 @@ export default ({ matchupId }: MatchupViewProps) => {
   useEffect(() => {
     console.log('SET THEME (Matchup-View)');
 
-    setTheme('rock-paper-scissors');
+    setTheme('cnb');
   }, []);
 
   const onGameViewFinished = () => {

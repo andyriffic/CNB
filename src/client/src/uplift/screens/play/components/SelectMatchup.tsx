@@ -83,7 +83,7 @@ export const SelectMatchup = ({
                 key={matchup.id}
                 onClick={() => {
                   subscribeToMatchup(matchup.id);
-                  setTheme('rock-paper-scissors');
+                  setTheme('cnb');
                   selectMatchup(matchup.id, matchup.playerTeamId);
                 }}
               >
