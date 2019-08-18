@@ -8,6 +8,8 @@ import { SelectMatchup } from './components/SelectMatchup';
 import { SelectMove } from './components/SelectMove';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { PlayerGameResult } from './components/PlayerGameResult';
+import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
+import { GameThemeContext } from '../../contexts/ThemeProvider';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -16,6 +18,7 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({  }: RouteComponentProps) => {
+  const {setTheme} = useContext(GameThemeContext);
   const { currentMatchup } = useContext(MatchupContext);
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [selectedMatchupId, setSelectedMatchupId] = useState('');
@@ -34,13 +37,19 @@ export default ({  }: RouteComponentProps) => {
     currentMatchup.gameInProgress.status === GAME_STATUS.Finished
   );
 
+  useEffect(() => {
+    if (!selectedMatchupId) {
+      setTheme('');
+    }
+  }, [selectedPlayer, selectedMatchupId, selectedTeamId]);
+
   const returnToMatchups = () => {
     setSelectedMatchupId('');
   };
 
   return (
     <PlayersProvider>
-      <FullPageLayout pageTitle="" alignTop={true}>
+      <FullPageScreenLayout title="" alignTop={true}>
         <MatchupsContainer>
           {gameFinished && (
             <PlayerGameResult
@@ -78,7 +87,7 @@ export default ({  }: RouteComponentProps) => {
             </React.Fragment>
           )}
         </MatchupsContainer>
-      </FullPageLayout>
+      </FullPageScreenLayout>
     </PlayersProvider>
   );
 };

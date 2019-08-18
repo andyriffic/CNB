@@ -7,6 +7,7 @@ const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
   color: ${props => props.theme.primaryTextColor};
 `;
 
