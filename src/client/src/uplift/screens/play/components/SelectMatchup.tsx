@@ -11,6 +11,7 @@ import { GameThemeContext } from '../../../contexts/ThemeProvider';
 
 const MatchupContainer = styled.div`
   border: 2px solid ${props => props.theme.primaryTextColor};
+  background-color: #F8F9FA;
   padding: 10px;
   border-radius: 8px;
   font-size: 1.8rem;
@@ -18,8 +19,17 @@ const MatchupContainer = styled.div`
 
 const TeamName = styled.span<{ highlighted?: boolean }>`
   color: ${props =>
-    props.highlighted ? props.theme.featureBackgroundColor : 'inherit'};
+    props.highlighted ? props.theme.primaryTextColor : 'inherit'};
   font-size: 1.8rem;
+`;
+
+const MatchupStatusText = styled.p<{ type: 'GOOD' | 'WARN' }>`
+  font-size: 1rem;
+  font-weight: bold;
+  color: ${props => (props.type === 'GOOD' ? '#28A745' : '#FFC105')};
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
 `;
 
 type SelectMatchupProps = {
@@ -51,7 +61,7 @@ export const SelectMatchup = ({
     subscribeToMatchup,
   } = useContext(MatchupContext);
 
-  const {setTheme} = useContext(GameThemeContext);
+  const { setTheme } = useContext(GameThemeContext);
 
   useEffect(() => {
     subscribeToMatchupsForPlayer(player.id);
@@ -61,7 +71,7 @@ export const SelectMatchup = ({
   return (
     <div>
       <div>
-        <h3>Games ready for you...</h3>
+        <h3>Your matchups</h3>
         {!matchupsByPlayerId[player.id] && (
           <LoadingSpinner text="Finding your matchups..." />
         )}
@@ -88,12 +98,11 @@ export const SelectMatchup = ({
                 >
                   {matchup.teams[1].name}
                 </TeamName>{' '}
-                ✅
+                <MatchupStatusText type="GOOD">Ready to play</MatchupStatusText>
               </MatchupContainer>
             ))}
       </div>
       <div>
-        <h3>Matchups you're in but not ready yet</h3>
         {matchupsByPlayerId[player.id] &&
           matchupsByPlayerId[player.id]
             .filter(notReadyToPlayFilter)
@@ -110,7 +119,7 @@ export const SelectMatchup = ({
                 >
                   {matchup.teams[1].name}
                 </TeamName>{' '}
-                ⚠️
+                <MatchupStatusText type="WARN">Game not started yet</MatchupStatusText>
               </MatchupContainer>
             ))}
       </div>
