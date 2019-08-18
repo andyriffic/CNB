@@ -9,6 +9,7 @@ import { StampText } from '../../../components/stamp-text';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService, SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
+import { TrophyAward } from './TrophyAward';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -21,17 +22,23 @@ const PlayerSide = styled.div`
   text-align: center;
 `;
 
-const PlayerCharacter = styled.img`
-  width: 20vmin;
-  height: 30vmin;
+const TrophyContainer = styled.div<{ position: 'LEFT' | 'RIGHT' }>`
+  position: absolute;
+  top: 50px;
+  ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -50px;
 `;
 
 type GameResultProps = {
   game: Game;
+  showTrophy: boolean;
   gameViewFinished: () => void;
 };
 
-export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
+export const GameResult = ({
+  game,
+  showTrophy,
+  gameViewFinished,
+}: GameResultProps) => {
   const {
     theme: { moves: themedMoves },
   } = useContext(GameThemeContext);
@@ -80,6 +87,11 @@ export const GameResult = ({ game, gameViewFinished }: GameResultProps) => {
                   playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
                   playLoserAnimation={gameTiming.shownLoserMoveAnimation}
                 />
+                {showTrophy && winner && (
+                  <TrophyContainer position={index === 0 ? 'LEFT' : 'RIGHT'}>
+                    <TrophyAward />
+                  </TrophyContainer>
+                )}
               </PlayerSide>
               <div
                 style={{

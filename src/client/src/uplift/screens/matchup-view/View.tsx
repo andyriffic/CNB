@@ -13,6 +13,7 @@ import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
 import { GamePlaySection } from './components/GameplaySection';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
+import { TrophyAward } from './components/TrophyAward';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -37,6 +38,7 @@ export default ({ matchupId }: MatchupViewProps) => {
   const { setTheme } = useContext(GameThemeContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
+  const [showTrophyAward, setShowTrophyAward] = useState(false);
   const [showNewGame, setShowNewGame] = useState(false);
   const [delayedTeamDetails, setDelayedTeamDetails] = useState();
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -47,9 +49,9 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   useEffect(() => {
     console.log('SET THEME (Matchup-View)');
-    
+
     setTheme('rock-paper-scissors');
-  }, [])
+  }, []);
 
   const onGameViewFinished = () => {
     setTimeout(() => {
@@ -69,6 +71,8 @@ export default ({ matchupId }: MatchupViewProps) => {
         setShowNewGame(true);
         currentMatchup && setGameViewed(currentMatchup.id);
       }, 2000);
+
+      setShowTrophyAward(true);
     }, 2000);
   };
 
@@ -111,6 +115,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                 }
               }}
               onGameFinished={onGameViewFinished}
+              showTrophy={showTrophyAward}
             />
             {showNewGame && (
               <div style={{ textAlign: 'center' }}>
@@ -119,6 +124,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                     if (matchupId) {
                       startGameForMatchup(matchupId);
                       setShowNewGame(false);
+                      setShowTrophyAward(false);
                     }
                   }}
                 >

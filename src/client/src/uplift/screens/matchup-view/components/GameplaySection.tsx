@@ -14,11 +14,13 @@ export const GamePlaySection = ({
   startGame,
   playGame,
   onGameFinished,
+  showTrophy,
 }: {
   matchup: Matchup;
   startGame: () => void;
   playGame: () => void;
   onGameFinished: () => void;
+  showTrophy: boolean;
 }) => {
   const showNewGameButton = !matchup.gameInProgress;
   const showWaitingOnPlayers =
@@ -46,6 +48,7 @@ export const GamePlaySection = ({
       {gameFinished && (
         <GameResult
           game={matchup.gameInProgress!}
+          showTrophy={showTrophy}
           gameViewFinished={onGameFinished}
         />
       )}
