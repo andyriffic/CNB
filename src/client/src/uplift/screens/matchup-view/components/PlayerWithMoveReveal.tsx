@@ -139,11 +139,11 @@ export const PlayerWithMoveReveal = ({
     soundService.play(SOUND_KEYS.DRAW);
   });
 
-  useDoOnce(!draw && playWinnerAnimation, () => {
+  useDoOnce(winner && playWinnerAnimation, () => {
     soundService.play(SOUND_KEYS.HADOUKEN);
   });
 
-  useDoOnce(!draw && playLoserAnimation, () => {
+  useDoOnce(winner && playLoserAnimation, () => {
     soundService.play(
       selectRandomOneOf([
         SOUND_KEYS.SCREAM_01,
