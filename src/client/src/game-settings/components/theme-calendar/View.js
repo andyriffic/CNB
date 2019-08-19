@@ -41,7 +41,7 @@ const View = () => {
   }
 
   return (
-    <div style={{ padding: '10px 0' }}>
+    <div>
       <Heading>Coming up 接下來...</Heading>
       <div>
         {themesCalendar.map((themeDetails, index) => (

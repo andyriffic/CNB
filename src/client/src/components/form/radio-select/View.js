@@ -10,13 +10,13 @@ import {
 
 const View = ({ title, items, selectedValue, onChange }) => {
   return (
-    <div>
+    <div className="margins-off">
       <Heading>{title}</Heading>
-      <RadioContainer className="radio-items">
+      <RadioContainer className="radio-items margins-off">
         {items.map(item => {
           const itemId = `radioItem_${item.id}`;
           return (
-            <RadioItem key={item.value} className="radio-item">
+            <RadioItem key={item.value} className="radio-item margins-off">
               <Radio
                 type="radio"
                 value={item.value}

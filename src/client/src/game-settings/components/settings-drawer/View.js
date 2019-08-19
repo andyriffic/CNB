@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SoundToggle from '../sound-toggle';
-import ThemeCalendar from '../theme-calendar';
 import { FancyLink } from '../../../components/FancyLink';
 
 const drawerWidth = 300;
@@ -10,7 +9,7 @@ const Drawer = styled.div`
   z-index: 10;
   top: 0;
   width: ${drawerWidth}px;
-  padding: 20px 10px;
+  padding: 0 10px;
   box-shadow: 2px 0 5px -2px rgba(136, 136, 136, 0.8);
   background-color: #eee;
   border-radius: 0 0 10px 0;
@@ -41,7 +40,6 @@ const Link = styled.a`
   font-size: 0.7rem;
   text-decoration: none;
   color: inherit;
-  padding: 10px 0;
 `;
 
 const View = () => {
@@ -55,7 +53,6 @@ const View = () => {
     <Drawer className={open ? 'open' : 'closed'}>
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
-      <ThemeCalendar />
       <div>
         <Link href="/player-stats">Go to Leaderboard</Link>
         <Link href="/player-stats?feature=ranking">
