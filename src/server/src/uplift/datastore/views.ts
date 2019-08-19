@@ -38,6 +38,7 @@ const getMatchupSpectatorView = (
             },
           ],
           trophyGoal: matchup.trophyGoal,
+          themeId: matchup.themeId,
         };
         resolve(view);
       });

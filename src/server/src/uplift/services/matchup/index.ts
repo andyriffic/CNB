@@ -6,7 +6,8 @@ const createTeamMatchup = (
   teamIds: [string, string],
   pointCounterIds: [string, string],
   trophyCounterIds: [string, string],
-  trophyGoal: number
+  trophyGoal: number,
+  themeId: string,
 ): TeamMatchup => {
   const matchUp: TeamMatchup = {
     id,
@@ -14,6 +15,7 @@ const createTeamMatchup = (
     pointCounterIds: [pointCounterIds[0], pointCounterIds[1]],
     trophyCounterIds: [trophyCounterIds[0], trophyCounterIds[1]],
     trophyGoal,
+    themeId,
   };
   return matchUp;
 };

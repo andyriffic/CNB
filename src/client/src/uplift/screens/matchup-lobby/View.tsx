@@ -9,6 +9,7 @@ import { GameSettingsDrawer } from '../../../game-settings';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SOUND_KEYS, SoundService } from '../../../sounds/SoundService';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
+import { GameThemeContext } from '../../contexts/ThemeProvider';
 
 const MatchupsContainer = styled.div`
   width: 80%;
@@ -17,8 +18,13 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({ navigate }: RouteComponentProps) => {
+  const { setTheme } = useContext(GameThemeContext);
   const { allMatchups, loadingAllMatchups } = useContext(MatchupContext);
   const soundService = useContext<SoundService>(GameSoundContext);
+
+  useEffect(() => {
+    setTheme('');
+  }, []);
 
   useEffect(() => {
     soundService.load();
@@ -26,7 +32,7 @@ export default ({ navigate }: RouteComponentProps) => {
 
     return () => {
       soundService.stopAll();
-    }
+    };
   }, []);
 
   return (

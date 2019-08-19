@@ -12,6 +12,7 @@ export type TeamMatchup = {
   pointCounterIds: [string, string];
   trophyCounterIds: [string, string];
   trophyGoal: number;
+  themeId: string;
   // TODO: bonus points counter
 };
 
@@ -77,6 +78,7 @@ export type MatchupSpectatorView = {
   gameInProgress: GameSpectatorView | null;
   teams: [TeamSpectatorView, TeamSpectatorView];
   trophyGoal: number;
+  themeId: string;
 };
 
 export type MatchupPlayerView = {

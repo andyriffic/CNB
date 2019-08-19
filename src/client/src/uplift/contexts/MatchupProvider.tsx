@@ -61,6 +61,7 @@ export type Matchup = {
   teams: [Team, Team];
   gameInProgress?: Game;
   trophyGoal: number;
+  themeId: string;
 };
 
 export type MatchupForPlayer = {
