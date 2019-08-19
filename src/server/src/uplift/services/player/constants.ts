@@ -1,30 +1,34 @@
 import { PlayerList } from './types';
 
 const tournamentTag = 'tournament';
+const retired = 'retired';
 
 export const ALL_PLAYERS: PlayerList = [
   { name: 'Albert', id: 'albert', tags: [tournamentTag] },
   { name: 'Alex', id: 'alex', tags: [tournamentTag] },
   { name: 'Andy', id: 'andy', tags: [tournamentTag] },
   { name: 'Azra', id: 'azra', tags: [tournamentTag] },
+  { name: 'Bec', id: 'bec', tags: [tournamentTag] },
   { name: 'Bin', id: 'bin', tags: [tournamentTag] },
   { name: 'Bjorn', id: 'bjorn', tags: [tournamentTag] },
   { name: 'Chris', id: 'chris', tags: [tournamentTag] },
   { name: 'Du', id: 'du', tags: [tournamentTag] },
   { name: 'Dunny', id: 'dunny', tags: [tournamentTag] },
   { name: 'Duyen', id: 'duyen', tags: [tournamentTag] },
-  { name: 'Jatin', id: 'jatin', tags: [] },
+  { name: 'Jatin', id: 'jatin', tags: [tournamentTag] },
   { name: 'Jay', id: 'jay', tags: [tournamentTag] },
   { name: 'Jim', id: 'jim', tags: [tournamentTag] },
   { name: 'Liujing', id: 'liujing', tags: [tournamentTag] },
   { name: 'Marion', id: 'marion', tags: [tournamentTag] },
   { name: 'Michael B', id: 'michael_b', tags: [tournamentTag] },
   { name: 'Stacey', id: 'stacey', tags: [tournamentTag] },
-  { name: 'Ray', id: 'ray', tags: [] },
+  { name: 'Ray', id: 'ray', tags: [retired] },
+  { name: 'Ricky', id: 'ricky', tags: [tournamentTag] },
   { name: 'Shuming', id: 'shuming', tags: [tournamentTag] },
+  { name: 'Sime', id: 'sime', tags: [tournamentTag] },
   { name: 'Yingjian', id: 'yingjian', tags: [tournamentTag] },
   { name: 'Yixing', id: 'yixing', tags: [tournamentTag] },
-  { name: 'Yujin', id: 'yujin', tags: [] },
+  { name: 'Yujin', id: 'yujin', tags: [retired] },
 ];
 
 export const ALL_TEAMS = [
@@ -55,6 +59,7 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'michael_b',
     'stacey',
     'ray',
+    'ricky',
     'yujin',
   ],
   us: [
@@ -88,13 +93,14 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'andy',
     'azra',
     'bin',
+    'bec',
     'bjorn',
     'chris',
     'du',
+    'dunny',
     'duyen',
     'jatin',
     'jay',
-    'dunny',
   ],
   team_a: [
     'yixing',
@@ -102,7 +108,9 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'yingjian',
     'shuming',
     'ray',
+    'ricky',
     'stacey',
+    'sime',
     'michael_b',
     'marion',
     'liujing',
