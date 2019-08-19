@@ -6,7 +6,11 @@ import {
   GameSpectatorView,
 } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
-import { ALL_TEAMS, PLAYER_IDS_BY_TEAM } from '../services/player/constants';
+import {
+  ALL_TEAMS,
+  PLAYER_IDS_BY_TEAM,
+  ALL_PLAYERS,
+} from '../services/player/constants';
 
 const getMatchupSpectatorView = (
   matchupId: string,
@@ -29,12 +33,18 @@ const getMatchupSpectatorView = (
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.name,
               points: counters[0].value,
               trophies: counters[2].value,
+              playerNames: PLAYER_IDS_BY_TEAM[matchup.teamIds[0]].map(
+                playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+              ),
             },
             {
               id: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.id,
               name: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.name,
               points: counters[1].value,
               trophies: counters[3].value,
+              playerNames: PLAYER_IDS_BY_TEAM[matchup.teamIds[1]].map(
+                playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+              ),
             },
           ],
           trophyGoal: matchup.trophyGoal,

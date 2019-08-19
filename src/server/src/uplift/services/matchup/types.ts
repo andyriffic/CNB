@@ -43,6 +43,7 @@ export type TeamSpectatorView = {
   name: string;
   points: number;
   trophies: number;
+  playerNames: string[];
 };
 
 export type GameMoveResultSpectatorView = {
