@@ -32,7 +32,8 @@ describe('game scenarios', () => {
         [allTeams[0].id, allTeams[1].id],
         [c1.id, c2.id],
         [t1.id, t2.id],
-        2
+        2,
+        'theme'
       );
       let game = matchupService.createGame(
         'test_game_id',

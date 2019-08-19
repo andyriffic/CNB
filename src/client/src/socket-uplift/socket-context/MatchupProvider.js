@@ -43,8 +43,8 @@ const useSocket = (
   };
 };
 
-const addMatchup = (team1, team2) => {
-  socket.emit('ADD_MATCHUP', [team1, team2]);
+const addMatchup = (team1, team2, trophyGoal, themeId) => {
+  socket.emit('ADD_MATCHUP', [team1, team2], trophyGoal, themeId);
 };
 
 const watchMatchupGame = matchupId => {

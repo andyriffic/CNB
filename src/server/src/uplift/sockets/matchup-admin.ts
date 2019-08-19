@@ -33,7 +33,7 @@ const init = (socketServer: Server, path: string) => {
 
     socket.on(
       ADD_MATCHUP,
-      (teamIds: [string, string], trophyGoal: number = 3) => {
+      (teamIds: [string, string], trophyGoal: number, themeId: string) => {
         const playerPointCounters: [Counter, Counter] = [
           counterService.createCounter(shortid.generate()),
           counterService.createCounter(shortid.generate()),
@@ -49,7 +49,8 @@ const init = (socketServer: Server, path: string) => {
           teamIds,
           [playerPointCounters[0].id, playerPointCounters[1].id],
           [trophyCounters[0].id, trophyCounters[1].id],
-          trophyGoal
+          trophyGoal,
+          themeId
         );
 
         console.log('CREATING MATCHUP', matchup);

@@ -14,6 +14,7 @@ import { TeamDetailsSection } from './components/TeamDetailSection';
 import { GamePlaySection } from './components/GameplaySection';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { TrophyAward } from './components/TrophyAward';
+import { GameSettingsDrawer } from '../../../game-settings';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -106,6 +107,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageLayout pageTitle="" alignTop={true}>
+      <GameSettingsDrawer />
       <MatchupsContainer>
         {!(currentMatchup && delayedTeamDetails) ? (
           <LoadingSpinner text="Loading matchup..." />

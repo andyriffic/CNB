@@ -16,7 +16,7 @@ const Container = styled.div<{theme: GameTheme}>`
     transform 300ms ease-in-out;
 
   :hover {
-    background-color: steelblue;
+    background-color: #1d1145;
     color: white;
     transform: scale(1.05);
   }
