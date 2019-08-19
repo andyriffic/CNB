@@ -10,12 +10,12 @@ export const ALL_PLAYERS: PlayerList = [
   { name: 'Azra', id: 'azra', tags: [tournamentTag] },
   { name: 'Bec', id: 'bec', tags: [tournamentTag] },
   { name: 'Bin', id: 'bin', tags: [tournamentTag] },
-  { name: 'Bjorn', id: 'bjorn', tags: [tournamentTag] },
+  { name: 'Bjorn', id: 'bjorn', tags: [retired] },
   { name: 'Chris', id: 'chris', tags: [tournamentTag] },
   { name: 'Du', id: 'du', tags: [tournamentTag] },
   { name: 'Dunny', id: 'dunny', tags: [tournamentTag] },
   { name: 'Duyen', id: 'duyen', tags: [tournamentTag] },
-  { name: 'Jatin', id: 'jatin', tags: [tournamentTag] },
+  { name: 'Jatin', id: 'jatin', tags: [retired] },
   { name: 'Jay', id: 'jay', tags: [tournamentTag] },
   { name: 'Jim', id: 'jim', tags: [tournamentTag] },
   { name: 'Liujing', id: 'liujing', tags: [tournamentTag] },
@@ -28,7 +28,7 @@ export const ALL_PLAYERS: PlayerList = [
   { name: 'Sime', id: 'sime', tags: [tournamentTag] },
   { name: 'Yingjian', id: 'yingjian', tags: [tournamentTag] },
   { name: 'Yixing', id: 'yixing', tags: [tournamentTag] },
-  { name: 'Yujin', id: 'yujin', tags: [retired] },
+  { name: 'Yujin', id: 'yujin', tags: [tournamentTag] },
 ];
 
 export const ALL_TEAMS = [
