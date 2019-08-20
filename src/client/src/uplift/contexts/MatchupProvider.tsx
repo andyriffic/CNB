@@ -27,6 +27,7 @@ export type Team = {
   name: string;
   points: number;
   trophies: number;
+  playerNames: string[];
 };
 
 export type SpectatorMove = {

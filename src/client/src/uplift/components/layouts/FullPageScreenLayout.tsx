@@ -15,6 +15,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #1d1145;
   background-color: ${props => props.theme.headerBackgroundColor};
   transition: background-color 800ms ease-out;
 `;
@@ -24,14 +25,18 @@ const PageHeading = styled.h1`
   padding: 0;
 `;
 
-const Body = styled.div<{ theme: ThemeStyle; alignTop: boolean }>`
+const Body = styled.div<{
+  theme: ThemeStyle;
+  alignTop: boolean;
+  scrollable: boolean;
+}>`
   transition: background-color 800ms ease-out;
   background-color: ${props => props.theme.pageBackgroundColor};
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: ${props => (props.alignTop ? 'flex-start' : 'center')};
-  overflow: hidden;
+  overflow: ${props => (props.scrollable ? 'scroll' : 'hidden')};
 `;
 
 const Footer = styled.footer<{ theme: ThemeStyle }>`
@@ -55,12 +60,14 @@ type FullPageScreenLayoutProps = {
   title: string;
   alignTop: boolean;
   children: React.ReactNode | React.ReactNodeArray;
+  scrollable?: boolean;
 };
 
 export const FullPageScreenLayout = ({
   title,
   alignTop,
   children,
+  scrollable = false,
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off">
@@ -69,7 +76,7 @@ export const FullPageScreenLayout = ({
           <PageHeading>{title}</PageHeading>
         </Header>
       )}
-      <Body alignTop={alignTop}>
+      <Body alignTop={alignTop} scrollable={scrollable}>
         <BodyContent>{children}</BodyContent>
       </Body>
       <Footer>

@@ -36,7 +36,7 @@ export default ({ navigate }: RouteComponentProps) => {
   }, []);
 
   return (
-    <FullPageScreenLayout title="Matchup Lobby" alignTop={true}>
+    <FullPageScreenLayout title="Matchup Lobby" alignTop={true} scrollable>
       <GameSettingsDrawer />
       <MatchupsContainer>
         {loadingAllMatchups ? (
