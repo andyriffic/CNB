@@ -41,6 +41,7 @@ export const ALL_TEAMS = [
   { id: 'dropping_bombs', name: 'Dropping Bombs' },
   { id: 'silvinstones', name: 'Silvinstones' },
   { id: 'cowboy_needs_a_beer', name: 'Cowboy Needs a Beer' },
+  { id: 'go_duck', name: 'Go Duck' },
 ];
 
 export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
@@ -122,4 +123,5 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
   'dropping_bombs': ['azra', 'shuming'],
   'silvinstones': ['dunny', 'chris'],
   'cowboy_needs_a_beer': ['alex', 'marion'],
+  'go_duck': ['duyen', 'yixing'],
 };
