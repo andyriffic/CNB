@@ -44,6 +44,7 @@ export const ALL_TEAMS = [
   { id: 'go_duck', name: 'Go Duck' },
   { id: 'a_team', name: 'The A Team' },
   { id: 'bake_my_day', name: 'Bake My Day' },
+  { id: 'fatboy_slim', name: 'Fatboy Slim' },
   { id: 'developers', name: 'Developers' },
   { id: 'bas', name: 'Business Analysts' },
 ];
@@ -130,6 +131,7 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
   'go_duck': ['duyen', 'yixing'],
   'a_team': ['albert', 'andy'],
   'bake_my_day': ['michael_b', 'yujin'],
+  'fatboy_slim': ['jay', 'bec'],
   'developers': ['michael_b', 'du'],
   'bas': ['alex', 'marion'],
 };
