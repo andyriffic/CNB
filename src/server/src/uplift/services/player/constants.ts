@@ -130,6 +130,6 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
   'go_duck': ['duyen', 'yixing'],
   'a_team': ['albert', 'andy'],
   'bake_my_day': ['michael_b', 'yujin'],
-  'developers': ['michael_b'],
-  'bas': ['alex'],
+  'developers': ['michael_b', 'du'],
+  'bas': ['alex', 'marion'],
 };
