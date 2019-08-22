@@ -254,7 +254,6 @@ export class SoundService {
     if (!forceIfStillPlaying && this._sounds[soundKey].sound.playing()) {
       return false;
     }
-
     this._sounds[soundKey].sound.play();
     return true;
   }
@@ -266,6 +265,10 @@ export class SoundService {
     if (this.play(soundKey)) {
       setTimeout(() => {
         this._sounds[soundKey].sound.fade(1, 0, 2000);
+        setTimeout(() => {
+          this.stop(soundKey);
+          this._sounds[soundKey].sound.volume(1);
+        }, 2000);
       }, timeoutDuration);
     }
   }
