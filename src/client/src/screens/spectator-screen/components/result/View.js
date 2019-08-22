@@ -220,7 +220,9 @@ const View = ({ result, player1, player2, resetGame, trophyPoints }) => {
                 <br /> 再玩一次
               </Button>
               <div>
-                <FancyLink href="/player-stats">See Leaderboard</FancyLink>
+                <FancyLink href="/player-stats?feature=down-push">
+                  See Leaderboard
+                </FancyLink>
               </div>
             </VisibilityContainer>
           </PlayerSpectatorSection>
