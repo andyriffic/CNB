@@ -42,11 +42,9 @@ export const TeamsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     socket.on(TEAM_EVENTS.TEAMS_UPDATE, (teamDetails: TeamDetails[]) => {
-      setTimeout(() => {
-        console.log('Team Details', teamDetails);
-        setAllTeamDetails(teamDetails);
-        setLoading(false);
-      }, 1000);
+      console.log('Team Details', teamDetails);
+      setAllTeamDetails(teamDetails);
+      setLoading(false);
     });
     socket.emit(TEAM_EVENTS.REQUEST_TEAMS);
   }, []);
