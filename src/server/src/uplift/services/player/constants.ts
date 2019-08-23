@@ -126,7 +126,7 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
     'jim',
   ],
   'dropping_bombs': ['azra', 'shuming'],
-  'silvinstones': ['dunny', 'chris'],
+  'silvinstones': ['dunny', 'marion'],
   'cowboy_needs_a_beer': ['alex', 'chris'],
   'go_duck': ['duyen', 'yixing'],
   'a_team': ['albert', 'andy'],
