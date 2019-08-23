@@ -28,6 +28,7 @@ export type Team = {
   points: number;
   trophies: number;
   playerNames: string[];
+  tags: string[];
 };
 
 export type SpectatorMove = {
@@ -99,7 +100,7 @@ const initialValue: MatchupService = {
   subscribeToMatchup: matchupId => {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUP, matchupId);
   },
-  clearCurrentMatchup: () => {},
+  clearCurrentMatchup: () => { },
   startGameForMatchup: matchupId => {
     socket.emit(MATCHUP_EVENTS.START_GAME_FOR_MATCHUP, matchupId);
   },

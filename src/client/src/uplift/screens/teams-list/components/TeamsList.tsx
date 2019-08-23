@@ -23,11 +23,12 @@ export const TeamsList = () => {
           <Container>
             <ListContainer className="margins-off">
               {allTeamDetails
+                .filter(teamDetails => teamDetails.team.tags.includes('tournament'))
                 .map((teamDetails, index) => (
                   <TeamDetailsItemContainer key={teamDetails.team.id}>
                     <h2 style={{ marginBottom: '0' }}>{teamDetails.team.name}</h2>
                     <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0' }} className="margins-off">
-                      {teamDetails.players.map((player, index) => <PlayersView key={player.id} index={index} player={player} />)}
+                      {teamDetails.map((player, index) => <PlayersView key={player.id} index={index} player={player} />)}
                     </div>
                   </TeamDetailsItemContainer>
                 ))}

@@ -16,6 +16,7 @@ const getTeamByIdAsync = (id: string): Promise<Team | undefined> => {
 const getTeamsWithPlayers = (): TeamDetails[] => {
   return ALL_TEAMS.map((team) => {
     const teamPlayerIds = PLAYER_IDS_BY_TEAM[team.id];
+    console.log('TEAMS-----', team, teamPlayerIds);
     const players = teamPlayerIds.map(
       (playerId) => ALL_PLAYERS.find((player) => player.id === playerId)!);
     return {

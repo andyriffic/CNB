@@ -11,6 +11,7 @@ export type Player = {
 export type Team = {
   id: string;
   name: string;
+  tags: string[];
 }
 
 export type TeamDetails = {
