@@ -59,6 +59,8 @@ const View = () => {
           Go to Alternate Leaderboard
         </Link>
         <Link href="/game-history">Go to Game History</Link>
+        <Link href="/tournament-players">Tournament Players</Link>
+        <Link href="/teams">Teams</Link>
         <FancyLink href="/tournament-info">Super secret info</FancyLink>
       </div>
     </Drawer>

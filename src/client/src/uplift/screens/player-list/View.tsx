@@ -13,11 +13,11 @@ const MatchupsContainer = styled.div`
   overflow-y: scroll;
 `;
 
-export default ({  }: RouteComponentProps) => {
+export default ({ }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageLayout
-        pageTitle="Tournament players (...so far)"
+        pageTitle="Tournament players"
         alignTop={true}
       >
         <MatchupsContainer>
