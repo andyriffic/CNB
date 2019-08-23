@@ -28,7 +28,7 @@ export const TeamsList = () => {
                   <TeamDetailsItemContainer key={teamDetails.team.id}>
                     <h2 style={{ marginBottom: '0' }}>{teamDetails.team.name}</h2>
                     <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0' }} className="margins-off">
-                      {teamDetails.map((player, index) => <PlayersView key={player.id} index={index} player={player} />)}
+                      {teamDetails.players.map((player, index) => <PlayersView key={player.id} index={index} player={player} />)}
                     </div>
                   </TeamDetailsItemContainer>
                 ))}

@@ -42,7 +42,7 @@ export const ALL_TEAMS: Team[] = [
   { id: 'tournament_team_06', name: 'Night Fury', tags: [tournamentTag] },
   { id: 'tournament_team_07', name: 'Dropping Bombs', tags: [tournamentTag] },
   { id: 'tournament_team_08', name: 'Cowboy Needs a Beer', tags: [tournamentTag] },
-  { id: 'tournament_team_09', name: 'Trouble', tags: [tournamentTag] },
+  { id: 'tournament_team_09', name: 'Team Trouble', tags: [tournamentTag] },
   { id: 'tournament_team_10', name: 'Chilly Bin', tags: [tournamentTag] },
   { id: 'tournament_team_11', name: 'Go Duck', tags: [tournamentTag] },
 ];
