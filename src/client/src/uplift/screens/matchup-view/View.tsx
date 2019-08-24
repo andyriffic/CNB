@@ -4,17 +4,15 @@ import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
-import { TeamDetailItem } from './components/TeamDetailItem';
 import { Button } from '../../../screens/styled';
-import { GameWaitingOnPlayers } from './components/GameWaitingOnPlayers';
-import { GameResult } from './components/GameResult';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
 import { GamePlaySection } from './components/GameplaySection';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
-import { TrophyAward } from './components/TrophyAward';
 import { GameSettingsDrawer } from '../../../game-settings';
+import { ThemeInfoView } from '../components/theme-info';
+import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -36,7 +34,7 @@ export default ({ matchupId }: MatchupViewProps) => {
     setGameViewed,
   } = useContext(MatchupContext);
 
-  const { setTheme } = useContext(GameThemeContext);
+  const { setTheme, theme } = useContext(GameThemeContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
   const [showTrophyAward, setShowTrophyAward] = useState(false);
@@ -106,7 +104,7 @@ export default ({ matchupId }: MatchupViewProps) => {
   }, []);
 
   return (
-    <FullPageLayout pageTitle="" alignTop={true}>
+    <FullPageScreenLayout title="" alignTop>
       <GameSettingsDrawer />
       <MatchupsContainer>
         {!(currentMatchup && delayedTeamDetails) ? (
@@ -117,6 +115,7 @@ export default ({ matchupId }: MatchupViewProps) => {
               teams={delayedTeamDetails}
               matchup={currentMatchup}
             />
+            <ThemeInfoView theme={theme} />
             <GamePlaySection
               matchup={currentMatchup}
               startGame={() => matchupId && startGameForMatchup(matchupId)}
@@ -147,6 +146,6 @@ export default ({ matchupId }: MatchupViewProps) => {
           </React.Fragment>
         )}
       </MatchupsContainer>
-    </FullPageLayout>
+    </FullPageScreenLayout>
   );
 };

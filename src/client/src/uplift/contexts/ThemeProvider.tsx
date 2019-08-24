@@ -23,6 +23,10 @@ export type ThemedMove = {
     english: string;
     chinese: string;
   };
+  winsBy: {
+    english: string;
+    chinese: string;
+  };
   imageUrl: string;
 };
 
@@ -58,14 +62,17 @@ const defaultValue: GameThemeService = {
     moves: {
       A: {
         name: { english: 'Ninja', chinese: '忍者' },
+        winsBy: { english: 'slices', chinese: '片' },
         imageUrl: '/theme/cnb/ninja.png',
       },
       B: {
         name: { english: 'Cowboy', chinese: '牛仔' },
+        winsBy: { english: 'shoots', chinese: '芽' },
         imageUrl: '/theme/cnb/cowboy.png',
       },
       C: {
         name: { english: 'Bear', chinese: '熊' },
+        winsBy: { english: 'eats', chinese: '吃' },
         imageUrl: '/theme/cnb/bear.png',
       },
     },

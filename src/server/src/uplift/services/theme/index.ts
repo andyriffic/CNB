@@ -3,6 +3,7 @@ import { GAME_MOVE } from '../game-result/types';
 
 export type ThemedMove = {
   name: MultiLingualText;
+  winsBy: MultiLingualText;
   imageUrl: string;
 };
 
@@ -27,21 +28,24 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     moves: {
       [GAME_MOVE.A]: {
         name: { english: 'Ninja', chinese: '忍者' },
+        winsBy: { english: 'slices', chinese: '片' },
         imageUrl: '/theme/cnb/ninja.png',
       },
       [GAME_MOVE.B]: {
         name: { english: 'Cowboy', chinese: '牛仔' },
+        winsBy: { english: 'shoots', chinese: '芽' },
         imageUrl: '/theme/cnb/cowboy.png',
       },
       [GAME_MOVE.C]: {
         name: { english: 'Bear', chinese: '熊' },
+        winsBy: { english: 'eats', chinese: '吃' },
         imageUrl: '/theme/cnb/bear.png',
       },
     },
     style: {
       featureBackgroundColor: '#E36E65',
       featureTextColor: '#1A414D',
-      pageBackgroundColor: '#95C0AB',
+      pageBackgroundColor: '#F8F8FF',
       primaryTextColor: '#1A414D',
       primaryBorderColor: '#000',
     },
@@ -54,14 +58,17 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     moves: {
       [GAME_MOVE.A]: {
         name: { english: 'Paper', chinese: '紙' },
+        winsBy: { english: 'wraps', chinese: '包裝' },
         imageUrl: '/theme/rock-paper-scissors/paper.png',
       },
       [GAME_MOVE.B]: {
         name: { english: 'Rock', chinese: '岩石' },
+        winsBy: { english: 'blunts', chinese: '成風' },
         imageUrl: '/theme/rock-paper-scissors/rock.png',
       },
       [GAME_MOVE.C]: {
         name: { english: 'Scissors', chinese: '剪刀' },
+        winsBy: { english: 'cuts', chinese: '削減' },
         imageUrl: '/theme/rock-paper-scissors/scissors.png',
       },
     },
