@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
 import { GameResult } from './GameResult';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 const Container = styled.div`
   text-align: center;

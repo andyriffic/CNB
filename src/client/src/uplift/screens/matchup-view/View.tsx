@@ -48,6 +48,12 @@ export default ({ matchupId }: MatchupViewProps) => {
   }, []);
 
   useEffect(() => {
+    return () => {
+      soundService.stopAll();
+    };
+  }, []);
+
+  useEffect(() => {
     console.log('SET THEME (Matchup-View)');
 
     setTheme(currentMatchup ? currentMatchup.themeId : '');
@@ -105,15 +111,6 @@ export default ({ matchupId }: MatchupViewProps) => {
     };
   }, []);
 
-  useDoOnce(
-    !!currentMatchup &&
-      !!currentMatchup.gameInProgress &&
-      currentMatchup.gameInProgress.status === GAME_STATUS.WaitingPlayerMoves,
-    () => {
-      soundService.play(SOUND_KEYS.INTENSE_MUSIC);
-    }
-  );
-
   return (
     <FullPageScreenLayout title="" alignTop>
       <GameSettingsDrawer />
@@ -138,7 +135,6 @@ export default ({ matchupId }: MatchupViewProps) => {
               playGame={() => {
                 if (matchupId) {
                   setShowScoreUpdate(false);
-                  soundService.stop(SOUND_KEYS.INTENSE_MUSIC);
                   playGameForMatchup(matchupId);
                 }
               }}

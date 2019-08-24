@@ -28,13 +28,21 @@ export const GameWaitingOnPlayers = ({
 }) => {
   const soundService = useContext<SoundService>(GameSoundContext);
 
+  useEffect(() => {
+    soundService.play(SOUND_KEYS.INTENSE_MUSIC);
+
+    return () => {
+      soundService.stop(SOUND_KEYS.INTENSE_MUSIC);
+    };
+  }, []);
+
   useDoOnce(moves[0].moved, () => {
-    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);    
-  })
+    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);
+  });
 
   useDoOnce(moves[1].moved, () => {
-    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);    
-  })
+    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);
+  });
 
   return (
     <Container className="margins-off">
