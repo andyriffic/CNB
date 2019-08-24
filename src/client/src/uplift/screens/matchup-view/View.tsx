@@ -115,8 +115,12 @@ export default ({ matchupId }: MatchupViewProps) => {
               teams={delayedTeamDetails}
               matchup={currentMatchup}
             />
-            {currentMatchup!.gameInProgress!.status ===
-              GAME_STATUS.WaitingPlayerMoves && <ThemeInfoView theme={theme} />}
+            {currentMatchup &&
+              currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status ===
+                GAME_STATUS.WaitingPlayerMoves && (
+                <ThemeInfoView theme={theme} />
+              )}
             <GamePlaySection
               matchup={currentMatchup}
               startGame={() => matchupId && startGameForMatchup(matchupId)}

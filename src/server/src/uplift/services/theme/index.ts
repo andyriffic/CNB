@@ -83,4 +83,34 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  'summer-winter': {
+    name: { english: 'Summer/Winter Tournament', chinese: '夏季/冬季 比賽' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Sun', chinese: '太陽' },
+        winsBy: { english: 'melts', chinese: '熔體' },
+        imageUrl: '/theme/summer-winter/sun.gif',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Snow', chinese: '雪' },
+        winsBy: { english: 'freezes', chinese: '凍結' },
+        imageUrl: '/theme/summer-winter/snow.gif',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Pool', chinese: '池' },
+        winsBy: { english: 'cools', chinese: '冷卻' },
+        imageUrl: '/theme/summer-winter/pool.gif',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#e1a959',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
 };
