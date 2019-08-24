@@ -13,6 +13,7 @@ import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
+import { useDoOnce } from '../../hooks/useDoOnce';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -70,6 +71,7 @@ export default ({ matchupId }: MatchupViewProps) => {
       if (currentMatchup!.gameInProgress!.trophyWon) {
         // TODO: replace with test to see if trophy was won
         setTimeout(() => {
+          soundService.stop(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST);
           soundService.play(SOUND_KEYS.AWARD_TROPHY);
           setShowTrophyAward(true);
 
@@ -103,6 +105,15 @@ export default ({ matchupId }: MatchupViewProps) => {
     };
   }, []);
 
+  useDoOnce(
+    !!currentMatchup &&
+      !!currentMatchup.gameInProgress &&
+      currentMatchup.gameInProgress.status === GAME_STATUS.WaitingPlayerMoves,
+    () => {
+      soundService.play(SOUND_KEYS.INTENSE_MUSIC);
+    }
+  );
+
   return (
     <FullPageScreenLayout title="" alignTop>
       <GameSettingsDrawer />
@@ -127,6 +138,7 @@ export default ({ matchupId }: MatchupViewProps) => {
               playGame={() => {
                 if (matchupId) {
                   setShowScoreUpdate(false);
+                  soundService.stop(SOUND_KEYS.INTENSE_MUSIC);
                   playGameForMatchup(matchupId);
                 }
               }}

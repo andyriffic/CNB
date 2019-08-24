@@ -23,6 +23,7 @@ import scream04 from './scream-04.wav';
 import trumpet from './trumpet.wav';
 import drumroll from './drumroll.wav';
 import biteDust from './bites-the-dust.mp3';
+import intenseMusicLoop from './intense-music-loop.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -52,6 +53,7 @@ export const SOUND_KEYS = {
   PLAYER_JOINED_GAME: 'PLAYER_JOINED_GAME',
   DRUMROLL: 'DRUMROLL',
   ANOTHER_ONE_BITES_THE_DUST: 'ANOTHER_ONE_BITES_THE_DUST',
+  INTENSE_MUSIC: 'INTENSE_MUSIC',
 };
 
 export class SoundService {
@@ -95,6 +97,14 @@ export class SoundService {
           src: [this._theme.sounds.waitingMusic],
           loop: true,
           volume: 0.6,
+        }),
+      };
+
+      this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
+        resumeable: true,
+        sound: new Howl({
+          src: [intenseMusicLoop],
+          loop: true,
         }),
       };
 
