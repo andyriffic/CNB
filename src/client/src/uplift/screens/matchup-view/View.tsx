@@ -76,13 +76,13 @@ export default ({ matchupId }: MatchupViewProps) => {
           setTimeout(() => {
             setShowNewGame(true);
           }, 7000); // Wait this long after showing trophy
-        }, 2000); // Wait this long after points updated
+        }, 1000); // Wait this long after points updated
       } else {
         setTimeout(() => {
           setShowNewGame(true);
-        }, 2000); // Wait this long after points updated
+        }, 1000); // Wait this long after points updated
       }
-    }, 3000); // Wait this long after game finished to show points update
+    }, 2000); // Wait this long after game finished to show points update
   };
 
   useEffect(() => {
