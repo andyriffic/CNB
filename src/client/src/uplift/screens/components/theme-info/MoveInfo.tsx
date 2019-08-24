@@ -8,9 +8,27 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const MoveContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const MoveImage = styled.img`
   width: 8vmin;
   height: 8vmin;
+`;
+
+const MoveName = styled.p`
+  margin: 0;
+  padding: 0;
+  font-size: 0.4rem;
+  text-align: center;
+`;
+
+const WinsByText = styled.p`
+  margin: 0;
+  padding: 0 20px;
+  font-size: 0.6rem;
 `;
 
 type MoveInfoProps = {
@@ -20,13 +38,25 @@ type MoveInfoProps = {
 export const MoveInfo = ({ moves }: MoveInfoProps) => {
   return (
     <Container className="margins-off">
-      <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
-      {moves[0].winsBy.english}
-      <MoveImage src={`${SOCKETS_ENDPOINT}${moves[1].imageUrl}`} />
-      {moves[1].winsBy.english}
-      <MoveImage src={`${SOCKETS_ENDPOINT}${moves[2].imageUrl}`} />
-      {moves[2].winsBy.english}
-      <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
+      <MoveContainer>
+        <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
+        <MoveName>{moves[0].name.english}</MoveName>
+      </MoveContainer>
+      <WinsByText>{moves[0].winsBy.english}</WinsByText>
+      <MoveContainer>
+        <MoveImage src={`${SOCKETS_ENDPOINT}${moves[1].imageUrl}`} />
+        <MoveName>{moves[1].name.english}</MoveName>
+      </MoveContainer>
+      <WinsByText>{moves[1].winsBy.english}</WinsByText>
+      <MoveContainer>
+        <MoveImage src={`${SOCKETS_ENDPOINT}${moves[2].imageUrl}`} />
+        <MoveName>{moves[2].name.english}</MoveName>
+      </MoveContainer>
+      <WinsByText>{moves[2].winsBy.english}</WinsByText>
+      <MoveContainer>
+        <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
+        <MoveName>{moves[0].name.english}</MoveName>
+      </MoveContainer>
     </Container>
   );
 };
