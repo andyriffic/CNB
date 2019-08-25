@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
+import { isFeatureEnabled } from '../../featureToggle';
 
 enum MATCHUP_EVENTS {
   SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS',
@@ -100,7 +101,7 @@ const initialValue: MatchupService = {
   subscribeToMatchup: matchupId => {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUP, matchupId);
   },
-  clearCurrentMatchup: () => { },
+  clearCurrentMatchup: () => {},
   startGameForMatchup: matchupId => {
     socket.emit(MATCHUP_EVENTS.START_GAME_FOR_MATCHUP, matchupId);
   },
@@ -118,6 +119,11 @@ const initialValue: MatchupService = {
     socket.emit(MATCHUP_EVENTS.SET_GAME_VIEWED, matchupId);
   },
 };
+
+const matchupsTestFilter = isFeatureEnabled('test')
+  ? () => true
+  : (matchup: Matchup) =>
+      matchup.teams.some(team => !team.name.toLowerCase().startsWith('test'));
 
 export const MatchupContext = React.createContext<MatchupService>(initialValue);
 
@@ -142,7 +148,7 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
     socket.on(MATCHUP_EVENTS.ON_MATCHUPS_RECEIVED, (matchups: Matchup[]) => {
       setTimeout(() => {
         console.log('Matchups', matchups);
-        setAllMatchups(matchups);
+        setAllMatchups(matchups.filter(matchupsTestFilter));
         setLoadingAllMatchups(false);
       }, 1000);
     });

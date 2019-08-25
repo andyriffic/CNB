@@ -74,39 +74,37 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
           counterDatastore.getCounter(matchup.pointCounterIds[1]),
         ])
-          .then(
-            (
-              currentPoints: [Counter, Counter]
-            ): [Counter, Counter] | Promise<[Counter, Counter]> => {
-              const trophyWon = currentPoints.reduce(
-                (acc, point) => acc || point.value >= matchup.trophyGoal,
-                false
-              );
+          .then((currentPoints: [Counter, Counter]):
+            | [Counter, Counter]
+            | Promise<[Counter, Counter]> => {
+            const trophyWon = currentPoints.reduce(
+              (acc, point) => acc || point.value >= matchup.trophyGoal,
+              false
+            );
 
-              const game = matchupService.createGame(
-                shortid.generate(),
-                matchup.teamIds,
-                trophyWon
-              );
+            const game = matchupService.createGame(
+              shortid.generate(),
+              matchup.teamIds,
+              trophyWon
+            );
 
-              gamesInProgress[matchupId] = game;
+            gamesInProgress[matchupId] = game;
 
-              if (trophyWon) {
-                log('------- RESET POINTS--------');
-                return Promise.all([
-                  counterDatastore.updateCounter(
-                    counterService.resetCounter(currentPoints[0])
-                  ),
-                  counterDatastore.updateCounter(
-                    counterService.resetCounter(currentPoints[1])
-                  ),
-                ]);
-              }
-
-              log('------- DONT NEED TO RESET POINTS--------');
-              return currentPoints;
+            if (trophyWon) {
+              log('------- RESET POINTS--------');
+              return Promise.all([
+                counterDatastore.updateCounter(
+                  counterService.resetCounter(currentPoints[0])
+                ),
+                counterDatastore.updateCounter(
+                  counterService.resetCounter(currentPoints[1])
+                ),
+              ]);
             }
-          )
+
+            log('------- DONT NEED TO RESET POINTS--------');
+            return currentPoints;
+          })
           .finally(() => {
             log('------- CREATE NEW GAME --------');
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
@@ -194,15 +192,23 @@ const init = (socketServer: Server, path: string) => {
             );
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
-              const statsEntry = mapMatchupViewToGameStatsEntry(
-                matchupView,
-                'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
-              );
-              if (statsEntry) {
-                log('Saving stats entry...');
-                StatsService.saveGameStatsEntry(statsEntry);
-                log('Publishing stats...');
-                publishStats();
+              if (
+                matchupView.teams.some(team =>
+                  team.name.toLowerCase().startsWith('test')
+                )
+              ) {
+                log('Test team, not saving stats');
+              } else {
+                const statsEntry = mapMatchupViewToGameStatsEntry(
+                  matchupView,
+                  'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
+                );
+                if (statsEntry) {
+                  log('Saving stats entry...');
+                  StatsService.saveGameStatsEntry(statsEntry);
+                  log('Publishing stats...');
+                  publishStats();
+                }
               }
 
               const matchupChannel = `matchup-${matchupId}`;

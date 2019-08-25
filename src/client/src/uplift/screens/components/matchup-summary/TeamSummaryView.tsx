@@ -36,7 +36,7 @@ export const TeamSummaryView = ({ team }: { team: Team }) => {
       <TeamName>{team.name}</TeamName>
       <PlayerList>
         {team.playerNames.map(name => (
-          <PlayerItem>{name}</PlayerItem>
+          <PlayerItem key={name}>{name}</PlayerItem>
         ))}
       </PlayerList>
     </Container>
