@@ -47,7 +47,7 @@ export default ({ navigate }: RouteComponentProps) => {
               key={matchup.id}
               matchup={matchup}
               onSelected={() =>
-                navigate && navigate(`/matchup/${matchup.id}?feature=uplift`)
+                navigate && navigate(`/matchup/${matchup.id}`)
               }
             />
           ))

@@ -18,7 +18,7 @@ export default ({  }: RouteComponentProps) => {
       <MatchupsContainer>
         <ol>
           <li>
-            <a href="/tournament-players?feature=uplift">
+            <a href="/tournament-players">
               Register players
             </a>
             <ul>
