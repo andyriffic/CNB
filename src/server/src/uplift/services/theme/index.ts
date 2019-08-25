@@ -84,7 +84,7 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     },
   },
   'summer-winter': {
-    name: { english: 'Summer/Winter Tournament', chinese: '夏季/冬季 比賽' },
+    name: { english: 'Summer/Winter Tournament (beta*)', chinese: '夏季/冬季 比賽' },
     moves: {
       [GAME_MOVE.A]: {
         name: { english: 'Sun', chinese: '太陽' },
