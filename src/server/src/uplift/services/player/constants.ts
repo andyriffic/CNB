@@ -35,7 +35,7 @@ export const ALL_TEAMS: Team[] = [
   { id: 'xian', name: 'Xian', tags: [] },
   { id: 'melb', name: 'Melbourne', tags: [] },
   { id: 'tournament_team_01', name: 'Fatboy Slim', tags: [tournamentTag] },
-  { id: 'tournament_team_02', name: 'Silvinstones', tags: [tournamentTag] },
+  { id: 'tournament_team_02', name: 'Groot Force', tags: [tournamentTag] },
   { id: 'tournament_team_03', name: 'The A Team', tags: [tournamentTag] },
   { id: 'tournament_team_04', name: 'Highway to Hell', tags: [tournamentTag] },
   { id: 'tournament_team_05', name: 'Bake My Day', tags: [tournamentTag] },
