@@ -199,10 +199,7 @@ const init = (socketServer: Server, path: string) => {
               ) {
                 log('Test team, not saving stats');
               } else {
-                const statsEntry = mapMatchupViewToGameStatsEntry(
-                  matchupView,
-                  'Cowboy, Ninja, Bear' // TODO: get from server theme (when it's been coded!)
-                );
+                const statsEntry = mapMatchupViewToGameStatsEntry(matchupView);
                 if (statsEntry) {
                   log('Saving stats entry...');
                   StatsService.saveGameStatsEntry(statsEntry);

@@ -77,7 +77,6 @@ const mapMatchupPlayerViewToPlayerStatsEntry = (
 
 export const mapMatchupViewToGameStatsEntry = (
   matchupView: MatchupSpectatorView,
-  theme: string
 ): GameStatsEntry | undefined => {
   if (!matchupView.gameInProgress) {
     return;
@@ -86,7 +85,7 @@ export const mapMatchupViewToGameStatsEntry = (
   return {
     date: new Date().toISOString(),
     matchupId: matchupView.id,
-    theme,
+    theme: matchupView.themeId,
     player1: mapMatchupPlayerViewToPlayerStatsEntry(
       0,
       matchupView.teams[0],
