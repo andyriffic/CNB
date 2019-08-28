@@ -17,7 +17,10 @@ const Container = styled.div<{ theme: GameTheme }>`
 const TrophyContainer = styled.div`
   font-size: 1.3rem;
   margin: 0;
-  color: #0db4b9;
+`;
+
+const Point = styled.span<{isLeading: boolean}>`
+  color: ${props => props.isLeading ? '#0db4b9' : '#7BD6D8'};
 `;
 
 type MatchupStatsSummaryProps = {
@@ -30,8 +33,13 @@ export const MatchupStatsSummaryView = ({
   return (
     <Container className="margins-off">
       <TrophyContainer>
-        <ReadableNumberFont>{teams[0].trophies}</ReadableNumberFont> 🏆{' '}
-        <ReadableNumberFont>{teams[1].trophies}</ReadableNumberFont>
+        <Point isLeading={teams[0].trophies > teams[1].trophies}>
+          <ReadableNumberFont>{teams[0].trophies}</ReadableNumberFont>
+        </Point>{' '}
+        🏆{' '}
+        <Point isLeading={teams[1].trophies > teams[0].trophies}>
+          <ReadableNumberFont>{teams[1].trophies}</ReadableNumberFont>
+        </Point>
       </TrophyContainer>
     </Container>
   );
