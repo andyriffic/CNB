@@ -2,7 +2,9 @@ import React, { useEffect, useContext, useState } from 'react';
 import { MatchupContext } from '../socket-context/MatchupProvider';
 
 export const MatchupAdminView = () => {
-  const { matchups, addMatchup, watchMatchup } = useContext(MatchupContext);
+  const { matchups, addMatchup, watchMatchup, republishStats } = useContext(
+    MatchupContext
+  );
   const [addMatchupTeam1, setAddMatchupTeam1] = useState('');
   const [addMatchupTeam2, setAddMatchupTeam2] = useState('');
   const [addMatchupTrophyGoal, setAddMatchupTrophyGoal] = useState(3);
@@ -62,6 +64,14 @@ export const MatchupAdminView = () => {
             }}
           >
             Add Matchup
+          </button>
+        </fieldset>
+      </form>
+      <form>
+        <fieldset>
+          <legend>Stats</legend>
+          <button type="button" onClick={republishStats}>
+            Re-publish stats
           </button>
         </fieldset>
       </form>

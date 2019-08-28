@@ -6,9 +6,14 @@ import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
 import { TeamMatchup } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
+import { publishStats } from '../../stats/publishStats';
+import { createLogger, LOG_NAMESPACE } from '../../utils/debug';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const ADD_MATCHUP = 'ADD_MATCHUP';
+const TRIGGER_STATS_PUBLISH = 'TRIGGER_STATS_PUBLISH';
+
+const log = createLogger('matchup-admin', LOG_NAMESPACE.socket);
 
 let cachedMatchups: TeamMatchup[] | null = null;
 
@@ -29,7 +34,7 @@ const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
   namespace.on('connection', function(socket: Socket) {
-    console.log('someone connected to OLD MATCHUPS', socket.id);
+    log('someone connected to OLD MATCHUPS', socket.id);
 
     socket.on(
       ADD_MATCHUP,
@@ -53,7 +58,7 @@ const init = (socketServer: Server, path: string) => {
           themeId
         );
 
-        console.log('CREATING MATCHUP', matchup);
+        log('CREATING MATCHUP', matchup);
         Promise.all([
           counterDatastore.saveNewCounter(playerPointCounters[0]),
           counterDatastore.saveNewCounter(playerPointCounters[1]),
@@ -66,6 +71,11 @@ const init = (socketServer: Server, path: string) => {
         });
       }
     );
+
+    socket.on(TRIGGER_STATS_PUBLISH, () => {
+      log('Re-publish stats');
+      publishStats();
+    })
   });
 };
 

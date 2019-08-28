@@ -71,6 +71,11 @@ const playGame = matchupId => {
   socket.emit('PLAY_GAME_FOR_MATCHUP', matchupId);
 };
 
+const republishStats = () => {
+  console.log('Re-publish stats');
+  socket.emit('TRIGGER_STATS_PUBLISH');
+};
+
 export const MatchupProvider = ({ children }) => {
   const [matchups, setMatchups] = useState([]);
   const [currentMatchup, setCurrentMatchup] = useState();
@@ -98,6 +103,7 @@ export const MatchupProvider = ({ children }) => {
         playerMatchups,
         makeMove,
         playGame,
+        republishStats,
       }}
     >
       {children}
