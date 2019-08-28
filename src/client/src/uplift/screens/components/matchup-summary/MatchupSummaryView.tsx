@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Matchup } from '../../../contexts/MatchupProvider';
 import { GameTheme } from '../../../contexts/ThemeProvider';
 import { TeamSummaryView } from './TeamSummaryView';
+import { MatchupStatsSummaryView } from './MatchupStatsSummaryView';
 
 const Container = styled.div<{ theme: GameTheme }>`
   display: flex;
@@ -10,7 +11,7 @@ const Container = styled.div<{ theme: GameTheme }>`
   align-items: center;
   border: 2px solid ${props => props.theme.primaryBorderColor};
   border-radius: 8px;
-  background-color: #E5E4E9;
+  background-color: #e5e4e9;
   padding: 20px;
   cursor: pointer;
 
@@ -24,13 +25,6 @@ const Container = styled.div<{ theme: GameTheme }>`
   }
 `;
 
-const Vs = styled.p`
-  font-size: 2rem;
-  margin: 0;
-  padding: 0 40px;
-  color: #0db4b9;
-`;
-
 type MatchupSummaryViewProps = {
   matchup: Matchup;
   onSelected: () => void;
@@ -40,7 +34,7 @@ export default ({ matchup, onSelected }: MatchupSummaryViewProps) => {
   return (
     <Container onClick={onSelected} className="margins-off">
       <TeamSummaryView team={matchup.teams[0]} />
-      <Vs>vs</Vs>
+      <MatchupStatsSummaryView teams={matchup.teams} />
       <TeamSummaryView team={matchup.teams[1]} />
     </Container>
   );
