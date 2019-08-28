@@ -54,11 +54,7 @@ const View = () => {
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
       <div>
-        <Link href="/player-stats?feature=down-push">Go to Leaderboard</Link>
-        <Link href="/player-stats?feature=ranking,down-push">
-          Go to Alternate Leaderboard
-        </Link>
-        <Link href="/game-history">Go to Game History</Link>
+        <Link href="/player-stats?feature=ranking,down-push">Leaderboard</Link>
         <Link href="/tournament-players">Tournament Players</Link>
         <Link href="/teams">Teams</Link>
         <FancyLink href="/tournament-info">Super secret info</FancyLink>
