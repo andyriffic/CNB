@@ -1,5 +1,5 @@
 export const playerLeaderboardQuery = `SELECT 
-  team,
+  team as player,
   sum(times_played) as times_played, 
   sum(times_won) as times_won, 
   sum(total_points) as total_points, 
