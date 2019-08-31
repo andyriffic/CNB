@@ -9,7 +9,10 @@ export type GameViewTiming = {
   gameplayFinished: boolean;
 };
 
-export const useGameViewTimingEffect = (finished: () => void) => {
+export const useGameViewTimingEffect = (
+  resultIsaDraw: boolean,
+  finished: () => void
+) => {
   const [shownCharacter, setShownCharacter] = useState(false);
   const [shownMove, setShownMove] = useState(false);
   const [shownWinnerMoveAnimation, setShownWinnerMoveAnimation] = useState(
@@ -31,28 +34,40 @@ export const useGameViewTimingEffect = (finished: () => void) => {
             setShownMove(true);
 
             gameplayTimeouts.push(
-              setTimeout(() => {
-                setShownWinnerMoveAnimation(true);
+              setTimeout(
+                () => {
+                  setShownWinnerMoveAnimation(true);
 
-                gameplayTimeouts.push(
-                  setTimeout(() => {
-                    setShownLoserMoveAnimation(true);
-
-                    gameplayTimeouts.push(
-                      setTimeout(() => {
-                        setShownResult(true);
+                  gameplayTimeouts.push(
+                    setTimeout(
+                      () => {
+                        setShownLoserMoveAnimation(true);
 
                         gameplayTimeouts.push(
-                          setTimeout(() => {
-                            setGameplayFinished(true);
-                            finished();
-                          }, 1000) //Finished
+                          setTimeout(
+                            () => {
+                              setShownResult(true);
+
+                              gameplayTimeouts.push(
+                                setTimeout(
+                                  () => {
+                                    setGameplayFinished(true);
+                                    finished();
+                                  },
+                                  resultIsaDraw ? 0 : 1000
+                                ) //Finished
+                              );
+                            },
+                            resultIsaDraw ? 0 : 1000
+                          ) // Show result
                         );
-                      }, 1000) // Show result
-                    );
-                  }, 1000) // show loser move animation
-                );
-              }, 2000) // show winner move animation
+                      },
+                      resultIsaDraw ? 0 : 1000
+                    ) // show loser move animation
+                  );
+                },
+                resultIsaDraw ? 0 : 2000
+              ) // show winner move animation
             );
           }, 4000) // Show move
         );

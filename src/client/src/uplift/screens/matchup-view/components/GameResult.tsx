@@ -43,9 +43,8 @@ export const GameResult = ({
     theme: { moves: themedMoves },
   } = useContext(GameThemeContext);
   const soundService = useContext<SoundService>(GameSoundContext);
-  const gameTiming = useGameViewTimingEffect(gameViewFinished);
-
   const draw = !!game.result!.draw;
+  const gameTiming = useGameViewTimingEffect(draw, gameViewFinished);
 
   useDoOnce(gameTiming.shownCharacter, () => {
     soundService.play(SOUND_KEYS.DRUMROLL);
