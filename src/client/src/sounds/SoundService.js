@@ -24,6 +24,7 @@ import trumpet from './trumpet.wav';
 import drumroll from './drumroll.wav';
 import biteDust from './bites-the-dust.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
+import yay from './yay.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -209,7 +210,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
-        sound: new Howl({ src: [trumpet] }),
+        sound: new Howl({ src: [yay] }),
       };
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
