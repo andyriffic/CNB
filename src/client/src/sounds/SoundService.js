@@ -20,7 +20,6 @@ import scream01 from './scream-01.mp3';
 import scream02 from './scream-02.wav';
 import scream03 from './scream-03.wav';
 import scream04 from './scream-04.wav';
-import trumpet from './trumpet.wav';
 import drumroll from './drumroll.wav';
 import biteDust from './bites-the-dust.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';

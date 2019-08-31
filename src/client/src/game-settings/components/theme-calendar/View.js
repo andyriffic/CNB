@@ -12,9 +12,7 @@ const Theme = styled.dl`
   padding: 5px;
   color: ${props => props.themeStyle.textColor};
   background-image: ${props =>
-    `linear-gradient(140deg, ${props.themeStyle.headerBackgroundColor}, ${
-      props.themeStyle.pageBackgroundColor
-    })`};
+    `linear-gradient(140deg, ${props.themeStyle.headerBackgroundColor}, ${props.themeStyle.pageBackgroundColor})`};
 `;
 
 const ThemeDate = styled.dt`
