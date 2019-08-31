@@ -38,11 +38,11 @@ const PowerUp = styled.div`
 `;
 
 const View = ({ awardedPowerUp, onClose }) => {
+  const [show, setShow] = useState(true);
+
   if (!awardedPowerUp) {
     return null;
   }
-
-  const [show, setShow] = useState(true);
 
   if (!show) {
     return null;
