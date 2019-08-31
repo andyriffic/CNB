@@ -16,8 +16,8 @@ import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLay
 import { useDoOnce } from '../../hooks/useDoOnce';
 
 const MatchupsContainer = styled.div`
-  width: 95%;
-  padding: 40px 0;
+  width: 1200px;
+  padding: 0;
   margin: 0 auto;
 `;
 
@@ -123,12 +123,6 @@ export default ({ matchupId }: MatchupViewProps) => {
               teams={delayedTeamDetails}
               matchup={currentMatchup}
             />
-            {currentMatchup &&
-              currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status ===
-                GAME_STATUS.WaitingPlayerMoves && (
-                <ThemeInfoView theme={theme} />
-              )}
             <GamePlaySection
               matchup={currentMatchup}
               startGame={() => matchupId && startGameForMatchup(matchupId)}
@@ -141,6 +135,12 @@ export default ({ matchupId }: MatchupViewProps) => {
               onGameFinished={onGameViewFinished}
               showTrophy={showTrophyAward}
             />
+            {currentMatchup &&
+              currentMatchup.gameInProgress &&
+              currentMatchup.gameInProgress.status ===
+                GAME_STATUS.WaitingPlayerMoves && (
+                <ThemeInfoView theme={theme} />
+              )}
             {showNewGame && (
               <div style={{ textAlign: 'center' }}>
                 <Button
