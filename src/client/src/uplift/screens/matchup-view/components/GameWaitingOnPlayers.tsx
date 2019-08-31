@@ -37,11 +37,11 @@ export const GameWaitingOnPlayers = ({
   }, []);
 
   useDoOnce(moves[0].moved, () => {
-    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);
+    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME, true);
   });
 
   useDoOnce(moves[1].moved, () => {
-    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME);
+    soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME, true);
   });
 
   return (
