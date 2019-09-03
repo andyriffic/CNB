@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import GameSettingsContext from '../../../contexts/GameSettingsContext';
 import RadioSelectList from '../../../components/form/radio-select';
 
