@@ -14,7 +14,12 @@ export const getGameSettings = () => {
     return DEFAULT_GAME_SETTINGS;
   }
 
-  return JSON.parse(savedSettings);
+  const parsedSettings = JSON.parse(savedSettings);
+
+  return {
+    ...DEFAULT_GAME_SETTINGS,
+    ...parsedSettings,
+  };
 };
 
 export const setGameSetting = gameSetting => {

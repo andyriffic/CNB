@@ -8,6 +8,7 @@ const View = ({ children }) => {
   const [savedGameSettings, setSavedGameSettings] = useState(getGameSettings());
   const soundService = useContext(GameSoundContext);
   soundService.setMusicEnabled(savedGameSettings.soundOn);
+  soundService.setVolume(savedGameSettings.volume / 10);
 
   const gameSettings = {
     musicEnabled: {
@@ -15,6 +16,13 @@ const View = ({ children }) => {
       set: value => {
         setSavedGameSettings(setGameSetting({ soundOn: value }));
         soundService.setMusicEnabled(value); // pass setting into music service
+      },
+    },
+    soundVolume: {
+      value: savedGameSettings.volume,
+      set: value => {
+        setSavedGameSettings(setGameSetting({ volume: parseInt(value) }));
+        soundService.setVolume(value / 10);
       },
     },
   };

@@ -1,4 +1,4 @@
-import { Howl } from 'howler';
+import { Howler, Howl } from 'howler';
 import drawSound from './draw.mp3';
 import pointsSound from './points.mp3';
 import playerEnter from './player-enter.wav';
@@ -232,7 +232,14 @@ export class SoundService {
     }
   }
 
+  setVolume(volume) {
+    Howler.volume(volume);
+  }
+
   setMusicEnabled(enabled) {
+    if (enabled === this._musicEnabled) {
+      return;
+    }
     this._musicEnabled = enabled;
 
     if (enabled) {
