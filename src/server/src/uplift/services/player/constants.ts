@@ -187,7 +187,7 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
   tournament_team_06: ['liujing', 'sime'],
   tournament_team_07: ['shuming', 'azra'],
   tournament_team_08: ['chris', 'alex'],
-  tournament_team_09: ['jim', 'shuming'],
+  tournament_team_09: ['jim', 'yingjian'],
   tournament_team_10: ['bin', 'stacey'],
   tournament_team_11: ['yixing', 'duyen'],
 };
