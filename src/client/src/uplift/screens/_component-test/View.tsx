@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
 import { TrophyProgressIndicator } from '../components/trophy-progress-indicator';
 import { StampText } from '../../components/stamp-text';
+import { ConfettiContext } from '../../contexts/ConfettiProvider';
+import { ConfettiTrigger } from './ConfettiTrigger';
 
 const ComponentContainer = styled.div``;
 
 export default ({  }: RouteComponentProps) => {
   const [trophyPoints, setTrophyPoints] = useState(3);
   const [trophyProgressReverse, setTrophyProgressReverse] = useState(false);
+  const { setConfettiOn } = useContext(ConfettiContext);
 
   const [stampText, setStampText] = useState('Winner!');
   const [showStampText, setShowStampText] = useState(false);
+  const [confetti, setConfetti] = useState(false);
+
+  console.log(setConfettiOn);
 
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="Test components" alignTop={true}>
+        <ComponentContainer>
+          <ConfettiTrigger />
+        </ComponentContainer>
         <ComponentContainer>
           <h3>Trophy progress indicator</h3>
           <input

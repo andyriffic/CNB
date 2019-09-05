@@ -14,6 +14,7 @@ import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { useDoOnce } from '../../hooks/useDoOnce';
+import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -113,52 +114,54 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageScreenLayout title="" alignTop>
-      <GameSettingsDrawer />
-      <MatchupsContainer>
-        {!(currentMatchup && delayedTeamDetails) ? (
-          <LoadingSpinner text="Loading matchup..." />
-        ) : (
-          <React.Fragment>
-            <TeamDetailsSection
-              teams={delayedTeamDetails}
-              matchup={currentMatchup}
-            />
-            <GamePlaySection
-              matchup={currentMatchup}
-              startGame={() => matchupId && startGameForMatchup(matchupId)}
-              playGame={() => {
-                if (matchupId) {
-                  setShowScoreUpdate(false);
-                  playGameForMatchup(matchupId);
-                }
-              }}
-              onGameFinished={onGameViewFinished}
-              showTrophy={showTrophyAward}
-            />
-            {currentMatchup &&
-              currentMatchup.gameInProgress &&
-              currentMatchup.gameInProgress.status ===
-                GAME_STATUS.WaitingPlayerMoves && (
-                <ThemeInfoView theme={theme} />
+      <ConfettiProvider>
+        <GameSettingsDrawer />
+        <MatchupsContainer>
+          {!(currentMatchup && delayedTeamDetails) ? (
+            <LoadingSpinner text="Loading matchup..." />
+          ) : (
+            <React.Fragment>
+              <TeamDetailsSection
+                teams={delayedTeamDetails}
+                matchup={currentMatchup}
+              />
+              <GamePlaySection
+                matchup={currentMatchup}
+                startGame={() => matchupId && startGameForMatchup(matchupId)}
+                playGame={() => {
+                  if (matchupId) {
+                    setShowScoreUpdate(false);
+                    playGameForMatchup(matchupId);
+                  }
+                }}
+                onGameFinished={onGameViewFinished}
+                showTrophy={showTrophyAward}
+              />
+              {currentMatchup &&
+                currentMatchup.gameInProgress &&
+                currentMatchup.gameInProgress.status ===
+                  GAME_STATUS.WaitingPlayerMoves && (
+                  <ThemeInfoView theme={theme} />
+                )}
+              {showNewGame && (
+                <div style={{ textAlign: 'center' }}>
+                  <Button
+                    onClick={() => {
+                      if (matchupId) {
+                        startGameForMatchup(matchupId);
+                        setShowNewGame(false);
+                        setShowTrophyAward(false);
+                      }
+                    }}
+                  >
+                    New Game
+                  </Button>
+                </div>
               )}
-            {showNewGame && (
-              <div style={{ textAlign: 'center' }}>
-                <Button
-                  onClick={() => {
-                    if (matchupId) {
-                      startGameForMatchup(matchupId);
-                      setShowNewGame(false);
-                      setShowTrophyAward(false);
-                    }
-                  }}
-                >
-                  New Game
-                </Button>
-              </div>
-            )}
-          </React.Fragment>
-        )}
-      </MatchupsContainer>
+            </React.Fragment>
+          )}
+        </MatchupsContainer>
+      </ConfettiProvider>
     </FullPageScreenLayout>
   );
 };

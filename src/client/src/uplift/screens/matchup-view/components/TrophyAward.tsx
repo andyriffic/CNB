@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { ConfettiContext } from '../../../contexts/ConfettiProvider';
+import GameSoundContext from '../../../../contexts/GameSoundContext';
+import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import { SoundService } from '../../../contexts/types';
 
 const Grow = keyframes`
   0% { transform: scale(0.2); }
@@ -26,6 +30,22 @@ const Trophy = styled.div`
 type TrophyAwardProps = {};
 
 export const TrophyAward = ({  }: TrophyAwardProps) => {
+  const { setConfettiOn } = useContext(ConfettiContext);
+  const soundService = useContext<SoundService>(GameSoundContext);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setConfettiOn(true);
+      soundService.play(SOUND_KEYS.CROWD_CHEER);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+      setConfettiOn(false);
+      soundService.stop(SOUND_KEYS.CROWD_CHEER);
+    };
+  }, []);
+
   return (
     <Container>
       <Trophy>🏆</Trophy>

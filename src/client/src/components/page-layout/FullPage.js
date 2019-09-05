@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import GameThemeContext from '../../contexts/GameThemeContext';
 import { IS_PRODUCTION } from '../../environment';
+import { ConfettiProvider } from '../../uplift/contexts/ConfettiProvider';
 
 const FullPage = styled.div`
   display: flex;
@@ -52,19 +53,21 @@ const View = ({ pageTitle, alignTop, children }) => {
   const theme = useContext(GameThemeContext);
 
   return (
-    <FullPage {...theme.style} className="margins-off">
-      {pageTitle && (
-        <Header {...theme.style}>
-          <PageHeading>{pageTitle}</PageHeading>
-        </Header>
-      )}
-      <Body {...theme.style} alignTop={alignTop}>
-        <BodyContent>{children}</BodyContent>
-      </Body>
-      <Footer {...theme.style}>
-        <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
-      </Footer>
-    </FullPage>
+    <ConfettiProvider>
+      <FullPage {...theme.style} className="margins-off">
+        {pageTitle && (
+          <Header {...theme.style}>
+            <PageHeading>{pageTitle}</PageHeading>
+          </Header>
+        )}
+        <Body {...theme.style} alignTop={alignTop}>
+          <BodyContent>{children}</BodyContent>
+        </Body>
+        <Footer {...theme.style}>
+          <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
+        </Footer>
+      </FullPage>
+    </ConfettiProvider>
   );
 };
 
