@@ -2,13 +2,27 @@ import React, { useEffect, useContext, useState } from 'react';
 import { MatchupContext } from '../socket-context/MatchupProvider';
 
 export const MatchupAdminView = () => {
-  const { matchups, addMatchup, watchMatchup, republishStats } = useContext(
-    MatchupContext
-  );
+  const {
+    matchups,
+    addMatchup,
+    watchMatchup,
+    republishStats,
+    addInstantMatchup,
+  } = useContext(MatchupContext);
   const [addMatchupTeam1, setAddMatchupTeam1] = useState('');
   const [addMatchupTeam2, setAddMatchupTeam2] = useState('');
   const [addMatchupTrophyGoal, setAddMatchupTrophyGoal] = useState(3);
   const [addMatchupThemeId, setAddMatchupThemeId] = useState('cnb');
+
+  const [addInstantMatchupPlayer1, setAddInstantMatchupPlayer1] = useState('');
+  const [addInstantMatchupPlayer2, setAddInstantMatchupPlayer2] = useState('');
+  const [
+    addInstantMatchupTrophyGoal,
+    setAddInstantMatchupTrophyGoal,
+  ] = useState(3);
+  const [addInstantMatchupThemeId, setAddInstantMatchupThemeId] = useState(
+    'cnb'
+  );
 
   useEffect(() => {
     console.log('Matchups::mount');
@@ -67,6 +81,59 @@ export const MatchupAdminView = () => {
           </button>
         </fieldset>
       </form>
+      <hr />
+      <form>
+        <fieldset>
+          <legend>Add Instant Matchup</legend>
+          <label>Player 1</label>
+          <input
+            type="text"
+            maxLength="20"
+            value={addInstantMatchupPlayer1}
+            onChange={e => setAddInstantMatchupPlayer1(e.target.value)}
+          />
+          <label>Player 2</label>
+          <input
+            type="text"
+            maxLength="20"
+            value={addInstantMatchupPlayer2}
+            onChange={e => setAddInstantMatchupPlayer2(e.target.value)}
+          />
+          <br />
+          <label>Trophy goal</label>
+          <input
+            type="number"
+            value={addInstantMatchupTrophyGoal}
+            onChange={e => setAddInstantMatchupTrophyGoal(e.target.value)}
+          />
+          <label>Theme Id</label>
+          <input
+            type="text"
+            maxLength="20"
+            value={addInstantMatchupThemeId}
+            onChange={e => setAddInstantMatchupThemeId(e.target.value)}
+          />
+
+          <br />
+          <button
+            type="submit"
+            onClick={e => {
+              e.preventDefault();
+              if (addInstantMatchupPlayer1 && addInstantMatchupPlayer2) {
+                addInstantMatchup(
+                  addInstantMatchupPlayer1,
+                  addInstantMatchupPlayer2,
+                  addInstantMatchupTrophyGoal,
+                  addInstantMatchupThemeId
+                );
+              }
+            }}
+          >
+            Add Matchup
+          </button>
+        </fieldset>
+      </form>
+      <hr />
       <form>
         <fieldset>
           <legend>Stats</legend>

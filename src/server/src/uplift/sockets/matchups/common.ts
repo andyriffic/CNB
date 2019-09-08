@@ -1,8 +1,8 @@
 import { matchupDatastore } from '../../datastore/matchup';
-import { PLAYER_IDS_BY_TEAM } from '../../services/player/constants';
 import { getPlayerMatchupView } from './view-helpers';
 import { Game } from '../../services/matchup/types';
 import { Namespace } from 'socket.io';
+import { playerService } from '../../services/player';
 
 const MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE';
 
@@ -12,8 +12,9 @@ export const broadcastPlayerMatchups = (
   namespace: Namespace
 ) => {
   matchupDatastore.getAllMatchups().then(matchups => {
-    const playerTeams = Object.keys(PLAYER_IDS_BY_TEAM).map(teamId => {
-      const teamPlayers = PLAYER_IDS_BY_TEAM[teamId];
+    const playerIdsByTeam = playerService.getPlayerIdsByTeam();
+    const playerTeams = Object.keys(playerIdsByTeam).map(teamId => {
+      const teamPlayers = playerIdsByTeam[teamId];
       return teamPlayers.includes(playerId) ? teamId : undefined;
     });
 

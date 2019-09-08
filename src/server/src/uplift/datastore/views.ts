@@ -6,11 +6,9 @@ import {
   GameSpectatorView,
 } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
-import {
-  ALL_TEAMS,
-  PLAYER_IDS_BY_TEAM,
-  ALL_PLAYERS,
-} from '../services/player/constants';
+import { ALL_PLAYERS } from '../services/player/constants';
+import { playerService } from '../services/player';
+import { Team } from '../services/player/types';
 
 const getMatchupSpectatorView = (
   matchupId: string,
@@ -24,27 +22,32 @@ const getMatchupSpectatorView = (
         counterDatastore.getCounter(matchup.trophyCounterIds[0]),
         counterDatastore.getCounter(matchup.trophyCounterIds[1]),
       ]).then((counters: [Counter, Counter, Counter, Counter]) => {
+        const allTeams = playerService.getAllTeams();
         const view: MatchupSpectatorView = {
           id: matchup.id,
           gameInProgress,
           teams: [
             {
-              id: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.id,
-              name: ALL_TEAMS.find(t => t.id === matchup.teamIds[0])!.name,
+              id: allTeams.find(t => t.id === matchup.teamIds[0])!.id,
+              name: allTeams.find(t => t.id === matchup.teamIds[0])!.name,
               points: counters[0].value,
               trophies: counters[2].value,
-              playerNames: PLAYER_IDS_BY_TEAM[matchup.teamIds[0]].map(
-                playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
-              ),
+              playerNames: playerService
+                .getPlayerIdsByTeam()
+                [matchup.teamIds[0]].map(
+                  playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+                ),
             },
             {
-              id: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.id,
-              name: ALL_TEAMS.find(t => t.id === matchup.teamIds[1])!.name,
+              id: allTeams.find(t => t.id === matchup.teamIds[1])!.id,
+              name: allTeams.find(t => t.id === matchup.teamIds[1])!.name,
               points: counters[1].value,
               trophies: counters[3].value,
-              playerNames: PLAYER_IDS_BY_TEAM[matchup.teamIds[1]].map(
-                playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
-              ),
+              playerNames: playerService
+                .getPlayerIdsByTeam()
+                [matchup.teamIds[1]].map(
+                  playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+                ),
             },
           ],
           trophyGoal: matchup.trophyGoal,
@@ -68,7 +71,9 @@ const getPlayerMatchupView = (
       matchupSpectatorView => {
         // TODO: null checking
         const playersTeam = matchupSpectatorView.teams.find(team => {
-          const inTeam = PLAYER_IDS_BY_TEAM[team.id].includes(playerId);
+          const inTeam = playerService
+            .getPlayerIdsByTeam()
+            [team.id].includes(playerId);
           console.log('Player is in team', team, inTeam);
           return inTeam;
         })!;

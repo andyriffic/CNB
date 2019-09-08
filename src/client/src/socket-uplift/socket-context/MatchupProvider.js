@@ -47,6 +47,10 @@ const addMatchup = (team1, team2, trophyGoal, themeId) => {
   socket.emit('ADD_MATCHUP', [team1, team2], trophyGoal, themeId);
 };
 
+const addInstantMatchup = (player1, player2, trophyGoal, themeId) => {
+  socket.emit('ADD_INSTANT_MATCHUP', [player1, player2], trophyGoal, themeId);
+};
+
 const watchMatchupGame = matchupId => {
   socket.emit('WATCH_GAME_FOR_MATCHUP', matchupId);
 };
@@ -104,6 +108,7 @@ export const MatchupProvider = ({ children }) => {
         makeMove,
         playGame,
         republishStats,
+        addInstantMatchup,
       }}
     >
       {children}

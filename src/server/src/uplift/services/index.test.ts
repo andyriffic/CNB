@@ -17,56 +17,50 @@ describe('game scenarios', () => {
   });
 
   it('plays full game', () => {
-    let allTeams: TeamList;
-    Promise.all([
-      playerService.getAllTeamsAsync().then(teams => {
-        allTeams = teams;
-      }),
-    ]).then(() => {
-      const c1 = counterService.createCounter('c1');
-      const c2 = counterService.createCounter('c2');
-      const t1 = counterService.createCounter('t1');
-      const t2 = counterService.createCounter('t2');
-      const matchup = matchupService.createTeamMatchup(
-        'test_matchup_id',
-        [allTeams[0].id, allTeams[1].id],
-        [c1.id, c2.id],
-        [t1.id, t2.id],
-        2,
-        'theme'
-      );
-      let game = matchupService.createGame(
-        'test_game_id',
-        matchup.teamIds,
-        false
-      );
+    const allTeams = playerService.getAllTeams();
+    const c1 = counterService.createCounter('c1');
+    const c2 = counterService.createCounter('c2');
+    const t1 = counterService.createCounter('t1');
+    const t2 = counterService.createCounter('t2');
+    const matchup = matchupService.createTeamMatchup(
+      'test_matchup_id',
+      [allTeams[0].id, allTeams[1].id],
+      [c1.id, c2.id],
+      [t1.id, t2.id],
+      2,
+      'theme'
+    );
+    let game = matchupService.createGame(
+      'test_game_id',
+      matchup.teamIds,
+      false
+    );
 
-      console.log('GAME STATUS', getGameStatus(game));
+    console.log('GAME STATUS', getGameStatus(game));
 
-      game = matchupService.updateTeamMove(game, allTeams[0].id, {
-        playerId: 'them',
-        moveId: GAME_MOVE.A,
-        powerUpId: 'NONE',
-      });
-
-      console.log('GAME STATUS', getGameStatus(game));
-
-      game = matchupService.updateTeamMove(game, allTeams[1].id, {
-        playerId: 'they',
-        moveId: GAME_MOVE.B,
-        powerUpId: 'NONE',
-      });
-
-      console.log('GAME RESULT', game);
-      console.log('GAME STATUS', getGameStatus(game));
-
-      console.log(
-        'WINNER',
-        gameResultService.getWinner([
-          game.moves[0].moveId!,
-          game.moves[1].moveId!,
-        ])
-      );
+    game = matchupService.updateTeamMove(game, allTeams[0].id, {
+      playerId: 'them',
+      moveId: GAME_MOVE.A,
+      powerUpId: 'NONE',
     });
+
+    console.log('GAME STATUS', getGameStatus(game));
+
+    game = matchupService.updateTeamMove(game, allTeams[1].id, {
+      playerId: 'they',
+      moveId: GAME_MOVE.B,
+      powerUpId: 'NONE',
+    });
+
+    console.log('GAME RESULT', game);
+    console.log('GAME STATUS', getGameStatus(game));
+
+    console.log(
+      'WINNER',
+      gameResultService.getWinner([
+        game.moves[0].moveId!,
+        game.moves[1].moveId!,
+      ])
+    );
   });
 });

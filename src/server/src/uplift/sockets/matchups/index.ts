@@ -45,13 +45,18 @@ const init = (socketServer: Server, path: string) => {
     log('someone connected to MATCHUPS', socket.id);
 
     socket.on(SUBSCRIBE_TO_ALL_MATCHUPS, () => {
-      matchupDatastore.getAllMatchups().then((matchups: TeamMatchup[]) => {
-        Promise.all(
-          matchups.map(matchup => getMatchupView(matchup.id, gamesInProgress))
-        ).then((matchupViews: MatchupSpectatorView[]) => {
-          socket.emit(ALL_MATCHUPS_UPDATE, matchupViews);
+      matchupDatastore
+        .getAllMatchups()
+        .then(matchups =>
+          matchups.filter(matchup => !matchup.id.startsWith('instant'))
+        )
+        .then((matchups: TeamMatchup[]) => {
+          Promise.all(
+            matchups.map(matchup => getMatchupView(matchup.id, gamesInProgress))
+          ).then((matchupViews: MatchupSpectatorView[]) => {
+            socket.emit(ALL_MATCHUPS_UPDATE, matchupViews);
+          });
         });
-      });
     });
 
     socket.on(SUBSCRIBE_TO_MATCHUP, matchupId => {
