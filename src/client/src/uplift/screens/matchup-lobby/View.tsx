@@ -4,7 +4,7 @@ import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { MatchupContext, MatchupService } from '../../contexts/MatchupProvider';
 import { MatchupSummaryView } from '../components/matchup-summary';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, Link } from '@reach/router';
 import { GameSettingsDrawer } from '../../../game-settings';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SOUND_KEYS, SoundService } from '../../../sounds/SoundService';
@@ -42,15 +42,18 @@ export default ({ navigate }: RouteComponentProps) => {
         {loadingAllMatchups ? (
           <LoadingSpinner text="loading matchups..." />
         ) : (
-          allMatchups.map(matchup => (
-            <MatchupSummaryView
-              key={matchup.id}
-              matchup={matchup}
-              onSelected={() =>
-                navigate && navigate(`/matchup/${matchup.id}`)
-              }
-            />
-          ))
+          <React.Fragment>
+            <Link to="/instant-matchup">Instant Matchup</Link>
+            {allMatchups.map(matchup => (
+              <MatchupSummaryView
+                key={matchup.id}
+                matchup={matchup}
+                onSelected={() =>
+                  navigate && navigate(`/matchup/${matchup.id}`)
+                }
+              />
+            ))}
+          </React.Fragment>
         )}
       </MatchupsContainer>
     </FullPageScreenLayout>

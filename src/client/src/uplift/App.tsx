@@ -13,6 +13,7 @@ import { Theme } from './contexts/ThemeProvider';
 import { PlayerListView } from './screens/player-list';
 import { TeamsListView } from './screens/teams-list';
 import { TournamentInfoView } from './screens/tournament-info';
+import { InstantMatchup } from './screens/instant-matchup';
 
 export default () => {
   return (
@@ -24,6 +25,7 @@ export default () => {
             <MatchupProvider>
               <Router>
                 <MatchupLobby path="/" />
+                <InstantMatchup path="/instant-matchup" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
                 <PlayerListView path="/tournament-players" />

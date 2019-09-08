@@ -32,13 +32,13 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Bec',
     id: 'bec',
     avatarImageUrl: '/players/bec.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Bin',
     id: 'bin',
     avatarImageUrl: '/players/bin.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Bjorn',
@@ -122,7 +122,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Ricky',
     id: 'ricky',
     avatarImageUrl: '/players/ricky.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Shuming',
@@ -140,7 +140,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Yingjian',
     id: 'yingjian',
     avatarImageUrl: '/players/yingjian.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Yixing',
@@ -152,7 +152,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Yujin',
     id: 'yujin',
     avatarImageUrl: '/players/yujin.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
 ];
 

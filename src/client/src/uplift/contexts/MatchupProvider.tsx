@@ -15,6 +15,7 @@ enum MATCHUP_EVENTS {
   MAKE_MOVE = 'MAVE_MOVE_FOR_MATCHUP',
   PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP',
   SET_GAME_VIEWED = 'SET_GAME_VIEWED',
+  ADD_INSTANT_MATCHUP = 'ADD_INSTANT_MATCHUP',
 }
 
 export enum GAME_STATUS {
@@ -93,6 +94,13 @@ export type MatchupService = {
   ) => void;
   playGameForMatchup: (matchupId: string) => void;
   setGameViewed: (matchupId: string) => void;
+  addInstantMatchup: (
+    player1Id: string,
+    player2Id: string,
+    trophyGoal: number,
+    themeId: string,
+    confirmation: (matchupId: string) => void
+  ) => void;
 };
 
 const initialValue: MatchupService = {
@@ -117,6 +125,21 @@ const initialValue: MatchupService = {
   },
   setGameViewed: matchupId => {
     socket.emit(MATCHUP_EVENTS.SET_GAME_VIEWED, matchupId);
+  },
+  addInstantMatchup: (
+    player1Id,
+    player2Id,
+    trophyGoal,
+    themeId,
+    confirmation
+  ) => {
+    socket.emit(
+      'ADD_INSTANT_MATCHUP',
+      [player1Id, player2Id],
+      trophyGoal,
+      themeId,
+      confirmation
+    );
   },
 };
 
@@ -192,6 +215,7 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
         makeMove: initialValue.makeMove,
         playGameForMatchup: initialValue.playGameForMatchup,
         setGameViewed: initialValue.setGameViewed,
+        addInstantMatchup: initialValue.addInstantMatchup,
       }}
     >
       {children}

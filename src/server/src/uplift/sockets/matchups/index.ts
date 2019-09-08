@@ -21,6 +21,7 @@ import { counterService } from '../../services/counter';
 import { StatsService } from '../../services/stats';
 import { publishStats } from '../../../stats/publishStats';
 import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
+import { playerService } from '../../services/player';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -32,6 +33,7 @@ const SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER = 'SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER';
 const MATCHUPS_FOR_PLAYER_UPDATE = 'MATCHUPS_FOR_PLAYER_UPDATE';
 const PLAY_GAME_FOR_MATCHUP = 'PLAY_GAME_FOR_MATCHUP';
 const SET_GAME_VIEWED = 'SET_GAME_VIEWED';
+const ADD_INSTANT_MATCHUP = 'ADD_INSTANT_MATCHUP';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
 let watchupPlayerIds: string[] = [];
@@ -246,6 +248,67 @@ const init = (socketServer: Server, path: string) => {
         namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
       });
     });
+
+    socket.on(
+      ADD_INSTANT_MATCHUP,
+      (
+        playerIds: [string, string],
+        trophyGoal: number,
+        themeId: string,
+        confirmation: (matchupId: string) => void
+      ) => {
+        const playerPointCounters: [Counter, Counter] = [
+          counterService.createCounter(`instant-${shortid.generate()}`),
+          counterService.createCounter(`instant-${shortid.generate()}`),
+        ];
+
+        const trophyCounters: [Counter, Counter] = [
+          counterService.createCounter(`instant-${shortid.generate()}`),
+          counterService.createCounter(`instant-${shortid.generate()}`),
+        ];
+
+        const instantTeamIds: [string, string] = [
+          `instant-team-${playerIds[0]}-${shortid.generate()}`,
+          `instant-team-${playerIds[1]}-${shortid.generate()}`,
+        ];
+
+        playerIds.forEach((playerId, index) => {
+          playerService.addInstantTeam({
+            id: instantTeamIds[index],
+            name: playerId,
+            tags: ['instant'],
+          });
+          playerService.addPlayersToInstantTeam(
+            [playerId],
+            instantTeamIds[index]
+          );
+        });
+
+        log('TEAMS ARE NOW', playerService.getAllTeams());
+        log('PLAYER IDS BY TEAM ARE NOW', playerService.getPlayerIdsByTeam());
+
+        const matchup = matchupService.createTeamMatchup(
+          `instant-${shortid.generate()}`,
+          instantTeamIds,
+          [playerPointCounters[0].id, playerPointCounters[1].id],
+          [trophyCounters[0].id, trophyCounters[1].id],
+          trophyGoal,
+          themeId
+        );
+
+        log('CREATING MATCHUP', matchup);
+        Promise.all([
+          counterDatastore.saveNewCounter(playerPointCounters[0]),
+          counterDatastore.saveNewCounter(playerPointCounters[1]),
+          counterDatastore.saveNewCounter(trophyCounters[0]),
+          counterDatastore.saveNewCounter(trophyCounters[1]),
+        ]).then(() => {
+          matchupDatastore.saveNewMatchup(matchup).then(() => {
+            confirmation(matchup.id);
+          });
+        });
+      }
+    );
   });
 };
 
