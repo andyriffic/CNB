@@ -9,9 +9,9 @@ import {
   GameMoveUpdate,
   GAME_STATUS,
 } from '../../services/matchup/types';
-import { getMatchupView, getPlayerMatchupView } from './view-helpers';
+import { getMatchupView } from './view-helpers';
 import { matchupService } from '../../services/matchup';
-import { PLAYER_IDS_BY_TEAM } from '../../services/player/constants';
+import { ALL_PLAYERS } from '../../services/player/constants';
 import { broadcastPlayerMatchups } from './common';
 import { getGameStatus } from '../../services/matchup/gameStatus';
 import { counterDatastore } from '../../datastore/counters';
@@ -275,7 +275,7 @@ const init = (socketServer: Server, path: string) => {
         playerIds.forEach((playerId, index) => {
           playerService.addInstantTeam({
             id: instantTeamIds[index],
-            name: playerId,
+            name: ALL_PLAYERS.find(p => p.id === playerId)!.name,
             tags: ['instant'],
           });
           playerService.addPlayersToInstantTeam(
