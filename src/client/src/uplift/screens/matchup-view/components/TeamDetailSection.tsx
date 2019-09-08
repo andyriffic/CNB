@@ -8,12 +8,22 @@ import { TeamDetailItem } from './TeamDetailItem';
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 `;
 
 const TeamContainer = styled.div`
   flex: 1;
+`;
+
+const MiddleSection = styled.div``;
+
+const TrophyGoal = styled.div`
+  text-align: center;
+  font-size: 0.6rem;
+  line-height: 1.25;
+  padding-top: 10px;
+  text-transform: uppercase;
 `;
 
 const Vs = styled.div`
@@ -39,7 +49,14 @@ export const TeamDetailsSection = ({
           }
         />
       </TeamContainer>
-      <Vs>vs</Vs>
+      <MiddleSection>
+        <TrophyGoal>
+          Goal
+          <br />
+          <ReadableNumberFont>{matchup.trophyGoal}</ReadableNumberFont>
+        </TrophyGoal>
+        <Vs>vs</Vs>
+      </MiddleSection>
       <TeamContainer>
         <TeamDetailItem
           team={teams && teams[1]}
