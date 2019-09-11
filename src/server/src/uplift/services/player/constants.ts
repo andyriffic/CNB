@@ -95,6 +95,12 @@ export const ALL_PLAYERS: PlayerList = [
     tags: [tournamentTag],
   },
   {
+    name: 'Ma Hong',
+    id: 'ma_hong',
+    avatarImageUrl: '/players/ma_hong.png',
+    tags: [],
+  },
+  {
     name: 'Marion',
     id: 'marion',
     avatarImageUrl: '/players/marion.png',
