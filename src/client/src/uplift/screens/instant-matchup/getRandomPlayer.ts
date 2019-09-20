@@ -1,6 +1,10 @@
 import { Player } from '../../contexts/PlayersProvider';
 import { GameHistoryRecord } from '../../types';
-import { selectRandomOneOf } from '../../utils/random';
+import {
+  selectRandomOneOf,
+  WeightedItem,
+  selectWeightedRandomOneOf,
+} from '../../utils/random';
 
 export const getRandomPlayer = (
   allPlayers: Player[],
@@ -12,13 +16,25 @@ export const getRandomPlayer = (
     },
     []
   );
-  const uniqueRecentPlayers = Array.from(new Set(allRecentPlayerNames)).splice(
-    0,
-    10
-  );
+  const uniqueRecentPlayers = Array.from(new Set(allRecentPlayerNames));
+
   console.log('recent players', uniqueRecentPlayers);
-  const eligiblePlayers = allPlayers
-    .filter(p => !p.tags.includes('retired'))
-    .filter(p => !uniqueRecentPlayers.includes(p.name));
-  return selectRandomOneOf(eligiblePlayers);
+  const eligiblePlayers = allPlayers.filter(p => !p.tags.includes('retired'));
+
+  const weightedPlayers = eligiblePlayers.map(player => {
+    let lastPlayedIndex = uniqueRecentPlayers.findIndex(
+      name => name === player.name
+    );
+    if (lastPlayedIndex === -1) {
+      lastPlayedIndex = uniqueRecentPlayers.length;
+    }
+
+    return {
+      item: player,
+      weight: lastPlayedIndex + 1,
+    } as WeightedItem<Player>;
+  });
+  console.log('player weightings', weightedPlayers);
+
+  return selectWeightedRandomOneOf(weightedPlayers);
 };
