@@ -8,7 +8,8 @@ import {
 
 export const getRandomPlayer = (
   allPlayers: Player[],
-  gameHistory: GameHistoryRecord[]
+  gameHistory: GameHistoryRecord[],
+  excludePlayers: Player[] = []
 ): Player => {
   const allRecentPlayerNames = gameHistory.reduce(
     (accumulator: string[], record) => {
@@ -19,7 +20,9 @@ export const getRandomPlayer = (
   const uniqueRecentPlayers = Array.from(new Set(allRecentPlayerNames));
 
   console.log('recent players', uniqueRecentPlayers);
-  const eligiblePlayers = allPlayers.filter(p => !p.tags.includes('retired'));
+  const eligiblePlayers = allPlayers
+    .filter(p => !p.tags.includes('retired'))
+    .filter(p => !excludePlayers.find(ep => ep.id === p.id));
 
   const weightedPlayers = eligiblePlayers.map(player => {
     let lastPlayedIndex = uniqueRecentPlayers.findIndex(

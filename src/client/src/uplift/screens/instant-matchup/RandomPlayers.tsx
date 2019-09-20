@@ -43,8 +43,11 @@ export const RandomPlayers = ({
       !player1 &&
       !player2
     ) {
-      setPlayer1(getRandomPlayer(allPlayers, gameHistory.result));
-      setPlayer2(getRandomPlayer(allPlayers, gameHistory.result));
+      const randomPlayer1 = getRandomPlayer(allPlayers, gameHistory.result);
+      setPlayer1(randomPlayer1);
+      setPlayer2(
+        getRandomPlayer(allPlayers, gameHistory.result, [randomPlayer1])
+      );
     }
   }, [
     loadingPlayers,
