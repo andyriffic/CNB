@@ -37,7 +37,7 @@ export const RandomPlayers = ({
 
   useEffect(() => {
     if (
-      allPlayers &&
+      allPlayers.length &&
       gameHistory &&
       !loadingGameHistory &&
       !player1 &&
