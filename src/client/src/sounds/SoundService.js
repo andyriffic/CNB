@@ -93,14 +93,6 @@ export class SoundService {
     if (!this._loaded) {
       this._loaded = true;
       // Pre-load sounds
-      this._sounds[SOUND_KEYS.WAITING_MUSIC] = {
-        resumeable: true,
-        sound: new Howl({
-          src: [this._theme.sounds.waitingMusic],
-          loop: true,
-          volume: 0.6,
-        }),
-      };
 
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
@@ -119,30 +111,8 @@ export class SoundService {
         }),
       };
 
-      this._sounds[SOUND_KEYS.POINTS_INCREASE] = {
-        sound: new Howl({
-          src: [pointsSound],
-        }),
-      };
-
-      this._sounds[SOUND_KEYS.COUNTDOWN_BLIP] = {
-        sound: new Howl({
-          src: [this._theme.sounds.countdownBeep],
-        }),
-      };
-
-      this._sounds[SOUND_KEYS.PLAYER_MOVED_SELECTED] = {
-        sound: new Howl({
-          src: [this._theme.sounds.playerMoveSelected],
-        }),
-      };
-
       this._sounds[SOUND_KEYS.DRAW] = {
         sound: new Howl({ src: [drawSound] }),
-      };
-
-      this._sounds[SOUND_KEYS.PLAYER_ENTER] = {
-        sound: new Howl({ src: [playerEnter] }),
       };
 
       this._sounds[SOUND_KEYS.GAME_START] = {
