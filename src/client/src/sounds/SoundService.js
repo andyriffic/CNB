@@ -1,15 +1,5 @@
 import { Howler, Howl } from 'howler';
 import drawSound from './draw.mp3';
-import pointsSound from './points.mp3';
-import playerEnter from './player-enter.wav';
-import gameStart from './game-start-2.wav';
-import bonusPointsEnter from './bonus-points-enter.wav';
-import resultPlayerEnter from './result-player-enter-2.wav';
-import vs from './vs.wav';
-import fight from './go.ogg';
-import powerUpWin from './power-up-win.mp3';
-import awardTrophy from './trophy-jingle.ogg';
-import pokeball from './pokeball.wav';
 import scoreboardMusic from './scoreboard.mp3';
 import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
@@ -115,38 +105,6 @@ export class SoundService {
         sound: new Howl({ src: [drawSound] }),
       };
 
-      this._sounds[SOUND_KEYS.GAME_START] = {
-        sound: new Howl({ src: [gameStart] }),
-      };
-
-      this._sounds[SOUND_KEYS.BONUS_POINTS_ENTER] = {
-        sound: new Howl({ src: [bonusPointsEnter] }),
-      };
-
-      this._sounds[SOUND_KEYS.RESULT_PLAYER_ENTER] = {
-        sound: new Howl({ src: [resultPlayerEnter] }),
-      };
-
-      this._sounds[SOUND_KEYS.VS] = {
-        sound: new Howl({ src: [vs] }),
-      };
-
-      this._sounds[SOUND_KEYS.FIGHT] = {
-        sound: new Howl({ src: [fight] }),
-      };
-
-      this._sounds[SOUND_KEYS.POWER_UP_WIN] = {
-        sound: new Howl({ src: [powerUpWin] }),
-      };
-
-      this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
-        sound: new Howl({ src: [awardTrophy] }),
-      };
-
-      this._sounds[SOUND_KEYS.POKEBALL] = {
-        sound: new Howl({ src: [pokeball] }),
-      };
-
       this._sounds[SOUND_KEYS.COLLECT_POINTS] = {
         sound: new Howl({ src: [collectPoint] }),
       };
@@ -233,6 +191,10 @@ export class SoundService {
 
   play(soundKey, forceIfStillPlaying = false) {
     // Place sound in resumable sounds in case music gets turned on
+    if (!this._sounds[soundKey]) {
+      return;
+    }
+
     if (
       this._sounds[soundKey].resumeable &&
       !this._resumableSoundKeys.includes(soundKey)
