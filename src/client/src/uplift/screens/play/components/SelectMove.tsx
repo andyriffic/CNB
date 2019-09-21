@@ -11,12 +11,13 @@ import { shuffle } from '../../../../utils/suffleArray';
 
 const MoveContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const Move = styled.button<{ selected?: boolean }>`
-  flex: 1;
-  margin: 0 5px;
+  flex-basis: 25vw;
+  margin: 0 5px 5px;
   border: 2px solid
     ${props =>
       props.selected
@@ -51,13 +52,13 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [moveMade, setMoveMade] = useState(false);
-  const [randomMoveOrder, setRandomMoveOrder] = useState<string[]>()
+  const [randomMoveOrder, setRandomMoveOrder] = useState<string[]>();
 
   useEffect(() => {
     if (themedMoves && !randomMoveOrder) {
-      setRandomMoveOrder(shuffle(Object.keys(themedMoves)))
+      setRandomMoveOrder(shuffle(Object.keys(themedMoves)));
     }
-  }, [themedMoves])
+  }, [themedMoves]);
 
   if (!currentMatchup) {
     return <LoadingSpinner text="Checking current game..." />;
@@ -80,18 +81,19 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
       <div>
         <h2>Make your move</h2>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
-          {randomMoveOrder && randomMoveOrder.map(moveId => (
-            <Move
-              key={moveId}
-              selected={selectedMoveId === moveId}
-              onClick={() => !moveMade && setSelectedMoveId(moveId)}
-            >
-              <img
-                src={`${SOCKETS_ENDPOINT}${themedMoves[moveId].imageUrl}`}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </Move>
-          ))}
+          {randomMoveOrder &&
+            randomMoveOrder.map(moveId => (
+              <Move
+                key={moveId}
+                selected={selectedMoveId === moveId}
+                onClick={() => !moveMade && setSelectedMoveId(moveId)}
+              >
+                <img
+                  src={`${SOCKETS_ENDPOINT}${themedMoves[moveId].imageUrl}`}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </Move>
+            ))}
         </MoveContainer>
         {!moveMade && (
           <Button

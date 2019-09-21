@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GameTheme } from '../../../contexts/ThemeProvider';
-import { MoveInfo } from './MoveInfo';
+import { MoveInfo as MoveInfoThree } from './MoveInfo_3';
+import { MoveInfo as MoveInfoFive } from './MoveInfo_5';
 
 const Container = styled.div<{ theme: GameTheme }>`
   text-align: center;
@@ -28,7 +29,14 @@ export default ({ theme }: MatchupSummaryViewProps) => {
     <Container className="margins-off">
       <ThemeName>{theme.name.english}</ThemeName>
       <MoveInfoContainer className="margins-off">
-        <MoveInfo moves={[theme.moves.A, theme.moves.B, theme.moves.C]} />
+        {Object.keys(theme.moves).length === 3 && (
+          <MoveInfoThree
+            moves={[theme.moves.A, theme.moves.B, theme.moves.C]}
+          />
+        )}
+        {Object.keys(theme.moves).length === 5 && (
+          <MoveInfoFive moves={theme.moves} />
+        )}
       </MoveInfoContainer>
     </Container>
   );

@@ -1,5 +1,13 @@
 import { GameResultInput, GameResult, GAME_MOVE } from './types';
 
+const gameOutcomes = {
+  [GAME_MOVE.A]: { beats: [GAME_MOVE.B, GAME_MOVE.D] },
+  [GAME_MOVE.B]: { beats: [GAME_MOVE.C, GAME_MOVE.E] },
+  [GAME_MOVE.C]: { beats: [GAME_MOVE.D, GAME_MOVE.A] },
+  [GAME_MOVE.D]: { beats: [GAME_MOVE.B, GAME_MOVE.E] },
+  [GAME_MOVE.E]: { beats: [GAME_MOVE.A, GAME_MOVE.C] },
+};
+
 const getWinner = (inputs: GameResultInput): GameResult => {
   const [player1Move, player2Move] = inputs;
 
@@ -7,24 +15,12 @@ const getWinner = (inputs: GameResultInput): GameResult => {
     return { draw: true };
   }
 
-  if (player1Move === GAME_MOVE.A && player2Move === GAME_MOVE.B)
+  const player1MoveOutcome = gameOutcomes[player1Move];
+  if (player1MoveOutcome.beats.includes(player2Move)) {
     return { winnerIndex: 0 };
-  if (player1Move === GAME_MOVE.B && player2Move === GAME_MOVE.C)
-    return { winnerIndex: 0 };
-  if (player1Move === GAME_MOVE.C && player2Move === GAME_MOVE.A)
-    return { winnerIndex: 0 };
+  }
 
-  if (player2Move === GAME_MOVE.A && player1Move === GAME_MOVE.B)
-    return { winnerIndex: 1 };
-  if (player2Move === GAME_MOVE.B && player1Move === GAME_MOVE.C)
-    return { winnerIndex: 1 };
-  if (player2Move === GAME_MOVE.C && player1Move === GAME_MOVE.A)
-    return { winnerIndex: 1 };
-
-  // BOOM! :(
-  throw new Error(
-    `Cannot resolve game for moves [${player1Move},${player2Move}]`
-  );
+  return { winnerIndex: 1 };
 };
 
 export const gameResultService = {

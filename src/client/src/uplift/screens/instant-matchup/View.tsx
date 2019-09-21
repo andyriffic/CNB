@@ -37,7 +37,7 @@ export default ({ navigate }: RouteComponentProps) => {
                   player1.id,
                   player2.id,
                   2,
-                  'cnb',
+                  'cnbop',
                   matchupId => {
                     navigate && navigate(`/matchup/${matchupId}`);
                   }

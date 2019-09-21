@@ -84,7 +84,10 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     },
   },
   'summer-winter': {
-    name: { english: 'Summer/Winter Tournament (beta*)', chinese: '夏季/冬季 比賽' },
+    name: {
+      english: 'Summer/Winter Tournament (beta*)',
+      chinese: '夏季/冬季 比賽',
+    },
     moves: {
       [GAME_MOVE.A]: {
         name: { english: 'Sun', chinese: '太陽' },
@@ -100,6 +103,46 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         name: { english: 'Pool', chinese: '池' },
         winsBy: { english: 'cools', chinese: '冷卻' },
         imageUrl: '/theme/summer-winter/pool.gif',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#e1a959',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
+  cnbop: {
+    name: { english: 'Cowboy, Ninja, Bear, Octopus, Pirate', chinese: '' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Ninja', chinese: '忍者' },
+        winsBy: { english: 'slices', chinese: '片' },
+        imageUrl: '/theme/cnb/ninja.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Cowboy', chinese: '牛仔' },
+        winsBy: { english: 'shoots', chinese: '芽' },
+        imageUrl: '/theme/cnbop/cowboy.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Bear', chinese: '熊' },
+        winsBy: { english: 'eats', chinese: '吃' },
+        imageUrl: '/theme/cnb/bear.png',
+      },
+      [GAME_MOVE.D]: {
+        name: { english: 'Octopus', chinese: '章魚' },
+        winsBy: { english: 'strangles', chinese: '芽' },
+        imageUrl: '/theme/cnbop/octopus.png',
+      },
+      [GAME_MOVE.E]: {
+        name: { english: 'Pirate', chinese: '海盜' },
+        winsBy: { english: 'plunders', chinese: '吃' },
+        imageUrl: '/theme/cnbop/pirate.png',
       },
     },
     style: {
