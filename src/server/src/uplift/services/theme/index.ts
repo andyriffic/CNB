@@ -146,7 +146,7 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       },
     },
     style: {
-      featureBackgroundColor: '#e1a959',
+      featureBackgroundColor: '#7AE7C7',
       featureTextColor: '#1A414D',
       pageBackgroundColor: '#F8F8FF',
       primaryTextColor: '#1A414D',

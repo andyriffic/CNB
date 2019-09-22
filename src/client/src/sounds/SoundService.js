@@ -5,6 +5,7 @@ import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
+import awardTrophy from './trophy-jingle.ogg';
 import iLikeToMoveIt from './i_like_to_move_it.mp3';
 import scream01 from './scream-01.mp3';
 import scream02 from './scream-02.wav';
@@ -148,6 +149,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST] = {
         sound: new Howl({ src: [biteDust] }),
+      };
+
+      this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
+        sound: new Howl({ src: [awardTrophy] }),
       };
 
       this._sounds[SOUND_KEYS.CROWD_CHEER] = {
