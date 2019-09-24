@@ -1,4 +1,10 @@
-import { TeamMatchup, Game, GameMove, GameMoveUpdate } from './types';
+import {
+  TeamMatchup,
+  Game,
+  GameMove,
+  GameMoveUpdate,
+  PLAY_MODE,
+} from './types';
 import { GameResult } from '../game-result/types';
 
 const createTeamMatchup = (
@@ -7,7 +13,7 @@ const createTeamMatchup = (
   pointCounterIds: [string, string],
   trophyCounterIds: [string, string],
   trophyGoal: number,
-  themeId: string,
+  themeId: string
 ): TeamMatchup => {
   const matchUp: TeamMatchup = {
     id,
@@ -23,7 +29,9 @@ const createTeamMatchup = (
 const createGame = (
   id: string,
   teamIds: [string, string],
-  trophyReset: boolean
+  trophyReset: boolean,
+  playMode: PLAY_MODE = PLAY_MODE.Standard,
+  gameAttributes: { [key: string]: any } = {}
 ): Game => {
   const game: Game = {
     id,
@@ -31,6 +39,8 @@ const createGame = (
     trophyWon: false,
     trophyReset,
     viewed: false,
+    playMode,
+    gameAttributes,
   };
 
   return game;
@@ -48,14 +58,12 @@ const resolveGame = (
   };
 };
 
-const setGamedViewed = (
-  game: Game,
-): Game => {
+const setGamedViewed = (game: Game): Game => {
   return {
     ...game,
     viewed: true,
-  }
-}
+  };
+};
 
 const updateTeamMove = (
   game: Game,

@@ -58,6 +58,7 @@ export type Game = {
   trophyWon: boolean;
   trophyReset: boolean;
   viewed: boolean;
+  playMode: string;
 };
 
 export type Matchup = {
@@ -84,7 +85,11 @@ export type MatchupService = {
   subscribeToMatchup: (matchupId: string) => void;
   currentMatchup?: Matchup;
   clearCurrentMatchup: () => void;
-  startGameForMatchup: (matchupId: string) => void;
+  startGameForMatchup: (
+    matchupId: string,
+    gameMode?: string,
+    gameAttributes?: { [key: string]: any }
+  ) => void;
   subscribeToMatchupsForPlayer: (playerId: string) => void;
   matchupsByPlayerId: { [playerId: string]: MatchupForPlayer[] };
   makeMove: (
@@ -110,8 +115,13 @@ const initialValue: MatchupService = {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUP, matchupId);
   },
   clearCurrentMatchup: () => {},
-  startGameForMatchup: matchupId => {
-    socket.emit(MATCHUP_EVENTS.START_GAME_FOR_MATCHUP, matchupId);
+  startGameForMatchup: (matchupId, gameMode?, gameAttributes?) => {
+    socket.emit(
+      MATCHUP_EVENTS.START_GAME_FOR_MATCHUP,
+      matchupId,
+      gameMode,
+      gameAttributes
+    );
   },
   subscribeToMatchupsForPlayer: playerId => {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUPS_FOR_PLAYER, playerId);

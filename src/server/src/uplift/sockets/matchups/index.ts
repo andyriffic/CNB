@@ -8,6 +8,7 @@ import {
   MatchupSpectatorView,
   GameMoveUpdate,
   GAME_STATUS,
+  PLAY_MODE,
 } from '../../services/matchup/types';
 import { getMatchupView } from './view-helpers';
 import { matchupService } from '../../services/matchup';
@@ -22,6 +23,7 @@ import { StatsService } from '../../services/stats';
 import { publishStats } from '../../../stats/publishStats';
 import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 import { playerService } from '../../services/player';
+import { getStartingGameAttributes } from '../../services/matchup/timebomb';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -72,61 +74,72 @@ const init = (socketServer: Server, path: string) => {
       );
     });
 
-    socket.on(START_GAME_FOR_MATCHUP, matchupId => {
-      log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
-      matchupDatastore.getMatchup(matchupId).then(matchup => {
-        log('GOT MATCHUP', matchup);
+    socket.on(
+      START_GAME_FOR_MATCHUP,
+      (
+        matchupId: string,
+        playMode?: PLAY_MODE,
+        startingAttributes?: { [key: string]: any }
+      ) => {
+        log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
+        matchupDatastore.getMatchup(matchupId).then(matchup => {
+          log('GOT MATCHUP', matchup);
 
-        Promise.all([
-          counterDatastore.getCounter(matchup.pointCounterIds[0]),
-          counterDatastore.getCounter(matchup.pointCounterIds[1]),
-        ])
-          .then((currentPoints: [Counter, Counter]):
-            | [Counter, Counter]
-            | Promise<[Counter, Counter]> => {
-            const trophyWon = currentPoints.reduce(
-              (acc, point) => acc || point.value >= matchup.trophyGoal,
-              false
-            );
+          Promise.all([
+            counterDatastore.getCounter(matchup.pointCounterIds[0]),
+            counterDatastore.getCounter(matchup.pointCounterIds[1]),
+          ])
+            .then((currentPoints: [Counter, Counter]):
+              | [Counter, Counter]
+              | Promise<[Counter, Counter]> => {
+              const trophyWon = currentPoints.reduce(
+                (acc, point) => acc || point.value >= matchup.trophyGoal,
+                false
+              );
 
-            const game = matchupService.createGame(
-              shortid.generate(),
-              matchup.teamIds,
-              trophyWon
-            );
+              const game = matchupService.createGame(
+                shortid.generate(),
+                matchup.teamIds,
+                trophyWon,
+                playMode,
+                playMode === PLAY_MODE.Timebomb
+                  ? getStartingGameAttributes(startingAttributes!.gameCount)
+                  : undefined
+              );
 
-            gamesInProgress[matchupId] = game;
+              gamesInProgress[matchupId] = game;
 
-            if (trophyWon) {
-              log('------- RESET POINTS--------');
-              return Promise.all([
-                counterDatastore.updateCounter(
-                  counterService.resetCounter(currentPoints[0])
-                ),
-                counterDatastore.updateCounter(
-                  counterService.resetCounter(currentPoints[1])
-                ),
-              ]);
-            }
+              if (trophyWon) {
+                log('------- RESET POINTS--------');
+                return Promise.all([
+                  counterDatastore.updateCounter(
+                    counterService.resetCounter(currentPoints[0])
+                  ),
+                  counterDatastore.updateCounter(
+                    counterService.resetCounter(currentPoints[1])
+                  ),
+                ]);
+              }
 
-            log('------- DONT NEED TO RESET POINTS--------');
-            return currentPoints;
-          })
-          .finally(() => {
-            log('------- CREATE NEW GAME --------');
-            getMatchupView(matchupId, gamesInProgress).then(matchupView => {
-              const matchupChannel = `matchup-${matchupId}`;
-              namespace
-                .to(matchupChannel)
-                .emit(ON_MATCHUP_UPDATED, matchupView);
+              log('------- DONT NEED TO RESET POINTS--------');
+              return currentPoints;
+            })
+            .finally(() => {
+              log('------- BROADCAST UPDATE --------');
+              getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+                const matchupChannel = `matchup-${matchupId}`;
+                namespace
+                  .to(matchupChannel)
+                  .emit(ON_MATCHUP_UPDATED, matchupView);
+              });
+
+              watchupPlayerIds.forEach(playerId => {
+                broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
+              });
             });
-
-            watchupPlayerIds.forEach(playerId => {
-              broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
-            });
-          });
-      });
-    });
+        });
+      }
+    );
 
     socket.on(
       MAVE_MOVE_FOR_MATCHUP,

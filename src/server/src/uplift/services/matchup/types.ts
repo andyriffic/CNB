@@ -6,6 +6,11 @@ export enum GAME_STATUS {
   Finished = 'Finished',
 }
 
+export enum PLAY_MODE {
+  Standard = 'Standard',
+  Timebomb = 'Timebomb',
+}
+
 export type TeamMatchup = {
   id: string;
   teamIds: [string, string];
@@ -36,6 +41,8 @@ export type Game = {
   trophyWon: boolean;
   trophyReset: boolean;
   viewed: boolean;
+  playMode: PLAY_MODE;
+  gameAttributes: { [key: string]: any };
 };
 
 export type TeamSpectatorView = {
@@ -72,6 +79,7 @@ export type GameSpectatorView = {
   trophyWon: boolean;
   trophyReset: boolean;
   viewed: boolean;
+  attributes: { [key: string]: any };
 };
 
 export type MatchupSpectatorView = {
