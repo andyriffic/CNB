@@ -116,6 +116,39 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  yixing: {
+    name: {
+      english: 'Yixing',
+      chinese: '',
+    },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Yixing Eating', chinese: '宜興飲食' },
+        winsBy: { english: 'beats', chinese: '節拍' },
+        imageUrl: '/theme/yixing/eating.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Yixing Drinking', chinese: '宜興飲酒' },
+        winsBy: { english: 'beats', chinese: '節拍' },
+        imageUrl: '/theme/yixing/drinking.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Yixing Sleeping', chinese: '宜興睡覺' },
+        winsBy: { english: 'beats', chinese: '節拍' },
+        imageUrl: '/theme/yixing/sleeping.png',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#DC143C',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
   cnbop: {
     name: { english: 'Cowboy, Ninja, Bear, Octopus, Pirate', chinese: '' },
     moves: {

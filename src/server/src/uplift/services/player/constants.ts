@@ -180,6 +180,8 @@ export const ALL_TEAMS: Team[] = [
   { id: 'tournament_team_09', name: 'Team Trouble', tags: [tournamentTag] },
   { id: 'tournament_team_10', name: 'Chilly Bin', tags: [tournamentTag] },
   { id: 'tournament_team_11', name: 'Go Duck', tags: [tournamentTag] },
+  { id: 'yixing', name: 'Yixing', tags: [] },
+  { id: 'not_yixing', name: 'Not Yixing', tags: [] },
 ];
 
 export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
@@ -195,5 +197,6 @@ export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
   tournament_team_08: ['chris', 'alex'],
   tournament_team_09: ['jim', 'yingjian'],
   tournament_team_10: ['bin', 'stacey'],
-  tournament_team_11: ['yixing', 'duyen'],
+  yixing: ['yixing'],
+  not_yixing: ALL_PLAYERS.filter(p => p.id !== 'yixing').map(p => p.id),
 };
