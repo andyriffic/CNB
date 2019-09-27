@@ -15,6 +15,7 @@ import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { useDoOnce } from '../../hooks/useDoOnce';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
+import { TimebombStrip } from './components/TimebombStrip';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -122,12 +123,20 @@ export default ({ matchupId }: MatchupViewProps) => {
           ) : (
             <React.Fragment>
               <TeamDetailsSection
+                playMode={
+                  (currentMatchup &&
+                    currentMatchup.gameInProgress &&
+                    currentMatchup.gameInProgress.playMode) ||
+                  ''
+                }
                 teams={delayedTeamDetails}
                 matchup={currentMatchup}
               />
               <GamePlaySection
                 matchup={currentMatchup}
-                startGame={() => matchupId && startGameForMatchup(matchupId)}
+                startGame={() =>
+                  matchupId && startGameForMatchup(matchupId, 'Timebomb')
+                }
                 playGame={() => {
                   if (matchupId) {
                     setShowScoreUpdate(false);
@@ -139,6 +148,16 @@ export default ({ matchupId }: MatchupViewProps) => {
               />
               {currentMatchup &&
                 currentMatchup.gameInProgress &&
+                currentMatchup.gameInProgress.playMode === 'Timebomb' && (
+                  <TimebombStrip
+                    playerWithTimebombIndex={
+                      currentMatchup.gameInProgress.attributes
+                        .playerIndexHoldingTimebomb
+                    }
+                  />
+                )}
+              {currentMatchup &&
+                currentMatchup.gameInProgress &&
                 currentMatchup.gameInProgress.status ===
                   GAME_STATUS.WaitingPlayerMoves && (
                   <ThemeInfoView theme={theme} />
@@ -148,7 +167,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                   <Button
                     onClick={() => {
                       if (matchupId) {
-                        startGameForMatchup(matchupId);
+                        startGameForMatchup(matchupId, 'Timebomb');
                         setShowNewGame(false);
                         setShowTrophyAward(false);
                       }

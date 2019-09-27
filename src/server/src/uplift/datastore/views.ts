@@ -74,7 +74,7 @@ const getPlayerMatchupView = (
           const inTeam = playerService
             .getPlayerIdsByTeam()
             [team.id].includes(playerId);
-          console.log('Player is in team', team, inTeam);
+          // console.log('Player is in team', team, inTeam);
           return inTeam;
         })!;
 

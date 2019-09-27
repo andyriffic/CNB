@@ -59,6 +59,7 @@ export type Game = {
   trophyReset: boolean;
   viewed: boolean;
   playMode: string;
+  attributes: { [key: string]: any };
 };
 
 export type Matchup = {
@@ -116,6 +117,7 @@ const initialValue: MatchupService = {
   },
   clearCurrentMatchup: () => {},
   startGameForMatchup: (matchupId, gameMode?, gameAttributes?) => {
+    console.log('starting game for matchup', gameMode);
     socket.emit(
       MATCHUP_EVENTS.START_GAME_FOR_MATCHUP,
       matchupId,

@@ -1,4 +1,4 @@
-import { Game } from '../matchup/types';
+import { Game, PLAY_MODE } from '../matchup/types';
 import { Counter } from '../counter/types';
 import { PlayResult } from './types';
 import { gameResultService } from '../game-result';
@@ -35,6 +35,7 @@ const playGame = (
   }
 
   const trophyWon =
+    game.playMode === PLAY_MODE.Standard &&
     result.winnerIndex !== undefined &&
     updatedPoints[result.winnerIndex].value >= trophyGoal;
 

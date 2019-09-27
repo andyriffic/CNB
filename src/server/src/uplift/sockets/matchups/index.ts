@@ -23,7 +23,10 @@ import { StatsService } from '../../services/stats';
 import { publishStats } from '../../../stats/publishStats';
 import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 import { playerService } from '../../services/player';
-import { getStartingGameAttributes } from '../../services/matchup/timebomb';
+import {
+  getStartingGameAttributes,
+  getMoveGameAttributes,
+} from '../../services/matchup/timebomb';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -97,13 +100,16 @@ const init = (socketServer: Server, path: string) => {
                 false
               );
 
+              log('PLAY MODE IS', playMode);
+
+              //TODO: playmode specific code can move somewhere else (just adding to the mess for now 😝)
               const game = matchupService.createGame(
                 shortid.generate(),
                 matchup.teamIds,
                 trophyWon,
                 playMode,
                 playMode === PLAY_MODE.Timebomb
-                  ? getStartingGameAttributes(startingAttributes!.gameCount)
+                  ? getStartingGameAttributes(gamesInProgress[matchupId])
                   : undefined
               );
 
@@ -210,6 +216,24 @@ const init = (socketServer: Server, path: string) => {
               result.gameResult,
               result.trophyWon
             );
+
+            //TODO: tidy up or move! 😬
+            if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
+              gamesInProgress[matchupId] = {
+                ...gamesInProgress[matchupId],
+                gameAttributes: {
+                  ...getMoveGameAttributes(
+                    gamesInProgress[matchupId],
+                    gamesInProgress[matchupId].result!
+                  ),
+                },
+              };
+
+              log(
+                'TIMEBOMB ATTRIBUTES------------->',
+                gamesInProgress[matchupId]
+              );
+            }
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               if (

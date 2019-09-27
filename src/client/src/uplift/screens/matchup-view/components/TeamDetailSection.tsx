@@ -33,14 +33,17 @@ const Vs = styled.div`
 export const TeamDetailsSection = ({
   teams,
   matchup,
+  playMode,
 }: {
   teams: [Team, Team];
   matchup: Matchup;
+  playMode: string;
 }) => {
   return (
     <Container className="margins-off">
       <TeamContainer>
         <TeamDetailItem
+          playMode={playMode}
           team={teams && teams[0]}
           trophyGoal={matchup.trophyGoal}
           showPointDiff={
@@ -50,15 +53,18 @@ export const TeamDetailsSection = ({
         />
       </TeamContainer>
       <MiddleSection>
-        <TrophyGoal>
-          Goal
-          <br />
-          <ReadableNumberFont>{matchup.trophyGoal}</ReadableNumberFont>
-        </TrophyGoal>
+        {playMode === 'Standard' && (
+          <TrophyGoal>
+            Goal
+            <br />
+            <ReadableNumberFont>{matchup.trophyGoal}</ReadableNumberFont>
+          </TrophyGoal>
+        )}
         <Vs>vs</Vs>
       </MiddleSection>
       <TeamContainer>
         <TeamDetailItem
+          playMode={playMode}
           team={teams && teams[1]}
           reverse
           trophyGoal={matchup.trophyGoal}

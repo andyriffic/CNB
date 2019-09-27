@@ -29,20 +29,24 @@ export const TeamDetailItem = ({
   reverse,
   trophyGoal,
   showPointDiff,
+  playMode,
 }: {
   team: Team;
   reverse?: boolean;
   trophyGoal: number;
   showPointDiff: boolean;
+  playMode: string;
 }) => {
   return (
     <div className="margins-off">
-      <TrophyProgressIndicator
-        points={team.points}
-        trophies={team.trophies}
-        goal={trophyGoal}
-        reverse={reverse}
-      />
+      {playMode === 'Standard' && (
+        <TrophyProgressIndicator
+          points={team.points}
+          trophies={team.trophies}
+          goal={trophyGoal}
+          reverse={reverse}
+        />
+      )}
       <Container>
         <TeamName>{team.name}</TeamName>
         <TeamPoints>

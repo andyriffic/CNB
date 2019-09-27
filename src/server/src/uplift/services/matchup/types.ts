@@ -79,6 +79,7 @@ export type GameSpectatorView = {
   trophyWon: boolean;
   trophyReset: boolean;
   viewed: boolean;
+  playMode: string;
   attributes: { [key: string]: any };
 };
 

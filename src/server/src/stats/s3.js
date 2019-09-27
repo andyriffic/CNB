@@ -24,10 +24,8 @@ export const statsS3Bucket = {
         console.log('ERROR ADDING STATS', err, err.stack);
         return;
       }
-  
-      console.log('STATS ADDED', data);
-    });
-  
-  }
-}
 
+      // console.log('STATS ADDED', data);
+    });
+  },
+};

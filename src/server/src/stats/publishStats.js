@@ -36,7 +36,7 @@ let q = Queue((id, cb) => {
 const runTestQuery = () => {
   const leaderboardQuery = makeQuery(playerLeaderboardQuery)
     .then(data => {
-      console.log('DATA: ', data);
+      // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
         'players-by-points-ranking.json',
@@ -49,7 +49,7 @@ const runTestQuery = () => {
 
   const historyQuery = makeQuery(gameHistoryQuery)
     .then(data => {
-      console.log('DATA: ', data);
+      // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
         'game-result-history.json',

@@ -20,9 +20,9 @@ const saveGameStatsEntry = (gameStatsEntry: GameStatsEntry) => {
     1}-${today.getDate()}-${shortid.generate()}.json`;
 
   log('--- Saving stats record ---');
-  log('filename', filename);
-  log('bucket', STATS_AWS_SOURCE_BUCKET_NAME);
-  log('entry', gameStatsEntry);
+  // log('filename', filename);
+  // log('bucket', STATS_AWS_SOURCE_BUCKET_NAME);
+  // log('entry', gameStatsEntry);
 
   statsS3Bucket.saveStats(
     STATS_AWS_SOURCE_BUCKET_NAME,

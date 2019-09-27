@@ -69,6 +69,7 @@ const getGameInProgress = (
     trophyWon: gameInProgress.trophyWon,
     trophyReset: gameInProgress.trophyReset,
     viewed: gameInProgress.viewed,
+    playMode: gameInProgress.playMode,
     attributes: { ...gameInProgress.gameAttributes },
   };
 };
