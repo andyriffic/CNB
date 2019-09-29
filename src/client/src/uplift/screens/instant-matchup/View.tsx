@@ -44,7 +44,22 @@ export default ({ navigate }: RouteComponentProps) => {
                 )
               }
             >
-              START
+              CNBOP
+            </Button>
+            <Button
+              onClick={() =>
+                addInstantMatchup(
+                  player1.id,
+                  player2.id,
+                  2,
+                  'cnb',
+                  matchupId => {
+                    navigate && navigate(`/matchup/${matchupId}`);
+                  }
+                )
+              }
+            >
+              CNB
             </Button>
           </div>
         )}
