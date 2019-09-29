@@ -152,7 +152,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Yixing',
     id: 'yixing',
     avatarImageUrl: '/players/yixing.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Yujin',
