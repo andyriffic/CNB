@@ -139,7 +139,7 @@ export const PlayerWithMoveRevealTimebomb = ({
     <Container
       className="margins-off"
       position={position}
-      playLoserAnimation={!draw && playLoserAnimation && !winner}
+      playLoserAnimation={playLoserAnimation && !winner}
     >
       <PlayerCharacter
         position={position}

@@ -1,4 +1,7 @@
-import { selectRandomOneOf } from '../../utils/random';
+import {
+  selectRandomOneOf,
+  selectWeightedRandomOneOf,
+} from '../../utils/random';
 import { Game } from './types';
 import { GameResult } from '../game-result/types';
 
@@ -37,6 +40,15 @@ export const getStartingGameAttributes = (
   };
 };
 
+const didExplode = (gameCount: number) => {
+  const weightedList = [
+    { item: true, weight: gameCount },
+    { item: false, weight: 3 },
+  ];
+
+  return selectWeightedRandomOneOf<boolean>(weightedList);
+};
+
 export const getMoveGameAttributes = (
   game: Game,
   result: GameResult
@@ -46,7 +58,8 @@ export const getMoveGameAttributes = (
     [TimebombAttributes.PlayerIndexHoldingTimebomb]: result.draw
       ? game.gameAttributes[TimebombAttributes.PlayerIndexHoldingTimebomb]
       : [1, 0][result.winnerIndex!],
-    [TimebombAttributes.Exploded]:
-      game.gameAttributes[TimebombAttributes.GameCount] === 2,
+    [TimebombAttributes.Exploded]: didExplode(
+      game.gameAttributes[TimebombAttributes.GameCount]
+    ),
   };
 };

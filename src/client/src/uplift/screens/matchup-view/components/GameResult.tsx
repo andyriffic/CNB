@@ -101,7 +101,10 @@ export const GameResult = ({
                     revealMove={gameTiming.shownMove}
                     move={themedMoves[game.result!.moves[index].moveId]}
                     position={index === 0 ? 'LEFT' : 'RIGHT'}
-                    winner={winner}
+                    winner={
+                      game.attributes.exploded &&
+                      index !== game.attributes.playerIndexHoldingTimebomb
+                    }
                     draw={draw}
                     revealResult={gameTiming.shownResult}
                     playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
