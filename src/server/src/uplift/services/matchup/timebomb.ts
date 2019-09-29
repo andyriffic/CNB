@@ -2,7 +2,7 @@ import { selectRandomOneOf } from '../../utils/random';
 import { Game } from './types';
 import { GameResult } from '../game-result/types';
 
-enum TimebombAttributes {
+export enum TimebombAttributes {
   GameCount = 'gameCount',
   PlayerIndexHoldingTimebomb = 'playerIndexHoldingTimebomb',
   Exploded = 'exploded',
@@ -22,6 +22,14 @@ export const getStartingGameAttributes = (
     };
   }
 
+  if (previousGame.gameAttributes.exploded) {
+    return {
+      ...previousGame.gameAttributes,
+      [TimebombAttributes.GameCount]: 1,
+      [TimebombAttributes.Exploded]: false,
+    };
+  }
+
   return {
     ...previousGame.gameAttributes,
     [TimebombAttributes.GameCount]:
@@ -32,11 +40,13 @@ export const getStartingGameAttributes = (
 export const getMoveGameAttributes = (
   game: Game,
   result: GameResult
-): { [key: TimebombAttributes]: any } => {
+): { [name: string]: any } => {
   return {
+    ...game.gameAttributes,
     [TimebombAttributes.PlayerIndexHoldingTimebomb]: result.draw
       ? game.gameAttributes[TimebombAttributes.PlayerIndexHoldingTimebomb]
       : [1, 0][result.winnerIndex!],
-    [TimebombAttributes.Exploded]: selectRandomOneOf([true, false]),
+    [TimebombAttributes.Exploded]:
+      game.gameAttributes[TimebombAttributes.GameCount] === 2,
   };
 };

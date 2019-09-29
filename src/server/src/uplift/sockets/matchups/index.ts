@@ -26,6 +26,7 @@ import { playerService } from '../../services/player';
 import {
   getStartingGameAttributes,
   getMoveGameAttributes,
+  TimebombAttributes,
 } from '../../services/matchup/timebomb';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
@@ -95,10 +96,17 @@ const init = (socketServer: Server, path: string) => {
             .then((currentPoints: [Counter, Counter]):
               | [Counter, Counter]
               | Promise<[Counter, Counter]> => {
-              const trophyWon = currentPoints.reduce(
-                (acc, point) => acc || point.value >= matchup.trophyGoal,
-                false
-              );
+              //TODO: more tidy
+              const trophyWon =
+                playMode === PLAY_MODE.Timebomb
+                  ? gamesInProgress[matchupId] &&
+                    gamesInProgress[matchupId].gameAttributes[
+                      TimebombAttributes.Exploded
+                    ]
+                  : currentPoints.reduce(
+                      (acc, point) => acc || point.value >= matchup.trophyGoal,
+                      false
+                    );
 
               log('PLAY MODE IS', playMode);
 
@@ -114,6 +122,7 @@ const init = (socketServer: Server, path: string) => {
               );
 
               gamesInProgress[matchupId] = game;
+              log('NEW GAME ------------->', game);
 
               if (trophyWon) {
                 log('------- RESET POINTS--------');
@@ -211,6 +220,7 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.updateCounter(result.trophies[1]),
           ]).then(() => {
             log('Saved all counters');
+
             gamesInProgress[matchupId] = matchupService.resolveGame(
               gamesInProgress[matchupId],
               result.gameResult,
@@ -219,20 +229,20 @@ const init = (socketServer: Server, path: string) => {
 
             //TODO: tidy up or move! 😬
             if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
+              const gameAttributes = getMoveGameAttributes(
+                gamesInProgress[matchupId],
+                gamesInProgress[matchupId].result!
+              );
+
+              log('TIMEBOMB ATTRIBUTES------------->', gameAttributes);
+
               gamesInProgress[matchupId] = {
                 ...gamesInProgress[matchupId],
                 gameAttributes: {
-                  ...getMoveGameAttributes(
-                    gamesInProgress[matchupId],
-                    gamesInProgress[matchupId].result!
-                  ),
+                  ...gameAttributes,
                 },
+                trophyWon: !!gameAttributes[TimebombAttributes.Exploded],
               };
-
-              log(
-                'TIMEBOMB ATTRIBUTES------------->',
-                gamesInProgress[matchupId]
-              );
             }
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {

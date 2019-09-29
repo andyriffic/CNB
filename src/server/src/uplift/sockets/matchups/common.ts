@@ -18,7 +18,7 @@ export const broadcastPlayerMatchups = (
       return teamPlayers.includes(playerId) ? teamId : undefined;
     });
 
-    console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', playerId, matchups);
+    // console.log('REQUEST PLAYER MATCHUPS, MATCHUPS', playerId, matchups);
 
     const playerMatchups = matchups.filter(mu => {
       return mu.teamIds.some(t => playerTeams.includes(t));

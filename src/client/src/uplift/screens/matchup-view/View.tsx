@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import FullPageLayout from '../../../components/page-layout/FullPage';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
@@ -13,9 +12,7 @@ import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
-import { useDoOnce } from '../../hooks/useDoOnce';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
-import { TimebombStrip } from './components/TimebombStrip';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -146,16 +143,6 @@ export default ({ matchupId }: MatchupViewProps) => {
                 onGameFinished={onGameViewFinished}
                 showTrophy={showTrophyAward}
               />
-              {currentMatchup &&
-                currentMatchup.gameInProgress &&
-                currentMatchup.gameInProgress.playMode === 'Timebomb' && (
-                  <TimebombStrip
-                    playerWithTimebombIndex={
-                      currentMatchup.gameInProgress.attributes
-                        .playerIndexHoldingTimebomb
-                    }
-                  />
-                )}
               {currentMatchup &&
                 currentMatchup.gameInProgress &&
                 currentMatchup.gameInProgress.status ===

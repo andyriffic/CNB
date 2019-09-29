@@ -16,6 +16,8 @@ import biteDust from './bites-the-dust.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
+import explosion from './explosion.mp3';
+import ticking from './ticking.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -47,6 +49,8 @@ export const SOUND_KEYS = {
   ANOTHER_ONE_BITES_THE_DUST: 'ANOTHER_ONE_BITES_THE_DUST',
   INTENSE_MUSIC: 'INTENSE_MUSIC',
   CROWD_CHEER: 'CROWD_CHEER',
+  EXPLOSION: 'EXPLOSION',
+  TICKING: 'TICKING',
 };
 
 export class SoundService {
@@ -157,6 +161,14 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.CROWD_CHEER] = {
         sound: new Howl({ src: [crowdCheer] }),
+      };
+
+      this._sounds[SOUND_KEYS.EXPLOSION] = {
+        sound: new Howl({ src: [explosion] }),
+      };
+
+      this._sounds[SOUND_KEYS.TICKING] = {
+        sound: new Howl({ src: [ticking], loop: true }),
       };
 
       // Pre-load winning sounds

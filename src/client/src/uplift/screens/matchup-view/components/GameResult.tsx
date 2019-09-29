@@ -10,6 +10,7 @@ import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SoundService, SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
 import { TrophyAward } from './TrophyAward';
+import { PlayerWithMoveRevealTimebomb } from './PlayerWithMoveRevealTimebomb';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -44,7 +45,12 @@ export const GameResult = ({
   } = useContext(GameThemeContext);
   const soundService = useContext<SoundService>(GameSoundContext);
   const draw = !!game.result!.draw;
-  const gameTiming = useGameViewTimingEffect(draw, gameViewFinished);
+  const gameTiming = useGameViewTimingEffect(
+    draw,
+    game.playMode === 'Timebomb',
+    !!game.attributes.exploded,
+    gameViewFinished
+  );
 
   useDoOnce(gameTiming.shownCharacter, () => {
     soundService.play(SOUND_KEYS.DRUMROLL);
@@ -74,18 +80,35 @@ export const GameResult = ({
               style={{ margin: '0 auto', position: 'relative' }}
             >
               <PlayerSide>
-                <PlayerWithMoveReveal
-                  playerAvatarUrl={move.playerAvatarUrl!}
-                  revealPlayer={gameTiming.shownCharacter}
-                  revealMove={gameTiming.shownMove}
-                  move={themedMoves[game.result!.moves[index].moveId]}
-                  position={index === 0 ? 'LEFT' : 'RIGHT'}
-                  winner={winner}
-                  draw={draw}
-                  revealResult={gameTiming.shownResult}
-                  playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
-                  playLoserAnimation={gameTiming.shownLoserMoveAnimation}
-                />
+                {game.playMode === 'Standard' && (
+                  <PlayerWithMoveReveal
+                    playerAvatarUrl={move.playerAvatarUrl!}
+                    revealPlayer={gameTiming.shownCharacter}
+                    revealMove={gameTiming.shownMove}
+                    move={themedMoves[game.result!.moves[index].moveId]}
+                    position={index === 0 ? 'LEFT' : 'RIGHT'}
+                    winner={winner}
+                    draw={draw}
+                    revealResult={gameTiming.shownResult}
+                    playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
+                    playLoserAnimation={gameTiming.shownLoserMoveAnimation}
+                  />
+                )}
+                {game.playMode === 'Timebomb' && (
+                  <PlayerWithMoveRevealTimebomb
+                    playerAvatarUrl={move.playerAvatarUrl!}
+                    revealPlayer={gameTiming.shownCharacter}
+                    revealMove={gameTiming.shownMove}
+                    move={themedMoves[game.result!.moves[index].moveId]}
+                    position={index === 0 ? 'LEFT' : 'RIGHT'}
+                    winner={winner}
+                    draw={draw}
+                    revealResult={gameTiming.shownResult}
+                    playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
+                    playLoserAnimation={gameTiming.shownLoserMoveAnimation}
+                  />
+                )}
+
                 {showTrophy && winner && (
                   <TrophyContainer position={index === 0 ? 'LEFT' : 'RIGHT'}>
                     <TrophyAward />

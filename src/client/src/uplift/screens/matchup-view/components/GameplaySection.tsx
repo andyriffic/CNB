@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
 import { Button } from '../../../../screens/styled';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
 import { GameResult } from './GameResult';
 import { useDoOnce } from '../../../hooks/useDoOnce';
+import { TimebombStrip } from './TimebombStrip';
 
 const Container = styled.div`
   text-align: center;
@@ -23,6 +24,15 @@ export const GamePlaySection = ({
   onGameFinished: () => void;
   showTrophy: boolean;
 }) => {
+  const [
+    delayedTimebombPlayerHoldingIndex,
+    setDelayedTimebombPlayerHoldingIndex,
+  ] = useState(
+    (matchup.gameInProgress &&
+      matchup.gameInProgress.attributes.playerIndexHoldingTimebomb) ||
+      0
+  );
+  const [runTimebomb, setRunTimebomb] = useState(false);
   const showNewGameButton = !matchup.gameInProgress;
   const showWaitingOnPlayers =
     matchup.gameInProgress &&
@@ -34,6 +44,27 @@ export const GamePlaySection = ({
   const gameFinished =
     matchup.gameInProgress &&
     matchup.gameInProgress.status === GAME_STATUS.Finished;
+
+  const gameplaySectionFinished = () => {
+    if (
+      matchup.gameInProgress &&
+      matchup.gameInProgress.playMode === 'Timebomb'
+    ) {
+      setRunTimebomb(true);
+      setDelayedTimebombPlayerHoldingIndex(
+        (matchup.gameInProgress &&
+          matchup.gameInProgress.attributes.playerIndexHoldingTimebomb) ||
+          0
+      );
+    } else {
+      onGameFinished();
+    }
+  };
+
+  const onTimebombFinished = () => {
+    setRunTimebomb(false);
+    onGameFinished();
+  };
 
   return (
     <Container>
@@ -50,9 +81,21 @@ export const GamePlaySection = ({
         <GameResult
           game={matchup.gameInProgress!}
           showTrophy={showTrophy}
-          gameViewFinished={onGameFinished}
+          gameViewFinished={gameplaySectionFinished}
         />
       )}
+      {matchup.gameInProgress &&
+        matchup.gameInProgress.playMode === 'Timebomb' && (
+          <TimebombStrip
+            run={runTimebomb}
+            exploded={
+              !!matchup.gameInProgress &&
+              matchup.gameInProgress.attributes.exploded
+            }
+            onComplete={onTimebombFinished}
+            playerWithTimebombIndex={delayedTimebombPlayerHoldingIndex}
+          />
+        )}
     </Container>
   );
 };

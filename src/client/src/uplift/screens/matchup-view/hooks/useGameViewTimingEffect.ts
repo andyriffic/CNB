@@ -11,6 +11,8 @@ export type GameViewTiming = {
 
 export const useGameViewTimingEffect = (
   resultIsaDraw: boolean,
+  timebomb: boolean,
+  exploded: boolean,
   finished: () => void
 ) => {
   const [shownCharacter, setShownCharacter] = useState(false);
@@ -41,7 +43,14 @@ export const useGameViewTimingEffect = (
                   gameplayTimeouts.push(
                     setTimeout(
                       () => {
-                        setShownLoserMoveAnimation(true);
+                        !timebomb && setShownLoserMoveAnimation(true);
+                        timebomb &&
+                          exploded &&
+                          gameplayTimeouts.push(
+                            setTimeout(() => {
+                              setShownLoserMoveAnimation(true);
+                            }, 5000)
+                          );
 
                         gameplayTimeouts.push(
                           setTimeout(
