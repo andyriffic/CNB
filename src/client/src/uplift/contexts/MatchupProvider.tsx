@@ -116,7 +116,7 @@ const initialValue: MatchupService = {
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_MATCHUP, matchupId);
   },
   clearCurrentMatchup: () => {},
-  startGameForMatchup: (matchupId, gameMode?, gameAttributes?) => {
+  startGameForMatchup: (matchupId, gameMode = 'Standard', gameAttributes?) => {
     console.log('starting game for matchup', gameMode);
     socket.emit(
       MATCHUP_EVENTS.START_GAME_FOR_MATCHUP,

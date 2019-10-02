@@ -82,7 +82,7 @@ const init = (socketServer: Server, path: string) => {
       START_GAME_FOR_MATCHUP,
       (
         matchupId: string,
-        playMode?: PLAY_MODE,
+        playMode?: PLAY_MODE = PLAY_MODE.Standard,
         startingAttributes?: { [key: string]: any }
       ) => {
         log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);

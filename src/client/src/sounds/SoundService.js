@@ -18,6 +18,7 @@ import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
+import fuse from './fuse.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -51,6 +52,7 @@ export const SOUND_KEYS = {
   CROWD_CHEER: 'CROWD_CHEER',
   EXPLOSION: 'EXPLOSION',
   TICKING: 'TICKING',
+  FUSE: 'FUSE',
 };
 
 export class SoundService {
@@ -169,6 +171,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.TICKING] = {
         sound: new Howl({ src: [ticking], loop: true }),
+      };
+
+      this._sounds[SOUND_KEYS.FUSE] = {
+        sound: new Howl({ src: [fuse] }),
       };
 
       // Pre-load winning sounds

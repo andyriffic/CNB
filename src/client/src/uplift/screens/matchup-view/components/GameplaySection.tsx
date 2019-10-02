@@ -19,7 +19,7 @@ export const GamePlaySection = ({
   showTrophy,
 }: {
   matchup: Matchup;
-  startGame: () => void;
+  startGame: (playMode?: string) => void;
   playGame: () => void;
   onGameFinished: () => void;
   showTrophy: boolean;
@@ -68,7 +68,12 @@ export const GamePlaySection = ({
 
   return (
     <Container>
-      {showNewGameButton && <Button onClick={startGame}>Start a game</Button>}
+      {showNewGameButton && (
+        <div>
+          <Button onClick={() => startGame()}>Classic Mode</Button>
+          <Button onClick={() => startGame('Timebomb')}>Timebomb!</Button>
+        </div>
+      )}
       {showWaitingOnPlayers && (
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
