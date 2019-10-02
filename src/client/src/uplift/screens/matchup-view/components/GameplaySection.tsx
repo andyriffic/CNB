@@ -6,6 +6,7 @@ import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
 import { GameResult } from './GameResult';
 import { useDoOnce } from '../../../hooks/useDoOnce';
 import { TimebombStrip } from './TimebombStrip';
+import { isFeatureEnabled } from '../../../../featureToggle';
 
 const Container = styled.div`
   text-align: center;
@@ -62,7 +63,12 @@ export const GamePlaySection = ({
   };
 
   const onTimebombFinished = () => {
-    setRunTimebomb(false);
+    const noExplosion = !(
+      matchup.gameInProgress && matchup.gameInProgress.attributes.exploded
+    );
+    if (noExplosion) {
+      setRunTimebomb(false);
+    }
     onGameFinished();
   };
 
@@ -71,7 +77,9 @@ export const GamePlaySection = ({
       {showNewGameButton && (
         <div>
           <Button onClick={() => startGame()}>Classic Mode</Button>
-          <Button onClick={() => startGame('Timebomb')}>Timebomb!</Button>
+          {isFeatureEnabled('timebomb') && (
+            <Button onClick={() => startGame('Timebomb')}>Timebomb!</Button>
+          )}
         </div>
       )}
       {showWaitingOnPlayers && (

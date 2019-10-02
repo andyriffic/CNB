@@ -37,6 +37,7 @@ export const Timebomb = ({ exploded, ticking, onComplete }: TimebombProps) => {
     setTimeout(() => {
       soundService.play(SOUND_KEYS.EXPLOSION);
       setBoom(true);
+      onComplete();
     }, 2000);
   }, [exploded]);
 

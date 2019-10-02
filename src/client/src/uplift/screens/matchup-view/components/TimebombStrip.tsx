@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { SoundService } from '../../../contexts/types';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import { Timebomb } from './Timebomb';
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const TeamContainer = styled.div`
 const Bomb = styled.div<{ position: 'LEFT' | 'RIGHT' }>`
   position: relative;
   font-size: 2rem;
-  transition: left 1000ms ease-in-out;
+  transition: left 500ms ease-in-out;
   ${props => props.position === 'LEFT' && 'left: -300px;'}
   ${props => props.position === 'RIGHT' && 'left: 300px;'}
 `;
@@ -48,38 +49,16 @@ export const TimebombStrip = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (run) {
-      setTimeout(() => {
-        setShowTicking(true);
-      }, 1000);
-
-      setTimeout(() => {
-        setShowTicking(false);
-        if (exploded) {
-          soundService.stop(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST);
-          soundService.stop(SOUND_KEYS.TICKING);
-          soundService.play(SOUND_KEYS.EXPLOSION);
-        }
-        setShowExplosion(true);
-      }, 3000);
-
-      setTimeout(() => {
-        onComplete();
-      }, 4000);
-    } else {
-      setShowExplosion(showExplosion && exploded);
-      // setShowTicking(false);
-    }
-  }, [run, done]);
-
   return (
     <Container className="margins-off">
       <Bomb position={playerWithTimebombIndex === 0 ? 'LEFT' : 'RIGHT'}>
-        {!showExplosion && '💣'}
-        {showExplosion && exploded && '💥'}
-        {showExplosion && !exploded && '😅'}
-        {showTicking && <span>Tick, tick, tick</span>}
+        <Timebomb
+          exploded={exploded && run}
+          ticking={!exploded && run}
+          onComplete={() => {
+            onComplete();
+          }}
+        />
       </Bomb>
     </Container>
   );

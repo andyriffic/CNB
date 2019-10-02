@@ -41,7 +41,6 @@ export default ({ matchupId }: MatchupViewProps) => {
   const [showNewGame, setShowNewGame] = useState(false);
   const [delayedTeamDetails, setDelayedTeamDetails] = useState();
   const soundService = useContext<SoundService>(GameSoundContext);
-  const [lastPlayMode, setLastPlayMode] = useState('Standard');
 
   useEffect(() => {
     soundService.load();
@@ -133,7 +132,6 @@ export default ({ matchupId }: MatchupViewProps) => {
               <GamePlaySection
                 matchup={currentMatchup}
                 startGame={(playMode: string = 'Standard') => {
-                  setLastPlayMode(playMode);
                   matchupId && startGameForMatchup(matchupId, playMode);
                 }}
                 playGame={() => {
@@ -156,7 +154,11 @@ export default ({ matchupId }: MatchupViewProps) => {
                   <Button
                     onClick={() => {
                       if (matchupId) {
-                        startGameForMatchup(matchupId, lastPlayMode);
+                        const samePlayMode =
+                          currentMatchup &&
+                          currentMatchup.gameInProgress &&
+                          currentMatchup.gameInProgress.playMode;
+                        startGameForMatchup(matchupId, samePlayMode);
                         setShowNewGame(false);
                         setShowTrophyAward(false);
                       }
