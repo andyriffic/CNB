@@ -24,8 +24,8 @@ export default () => {
             <GlobalStyle />
             <MatchupProvider>
               <Router>
-                <MatchupLobby path="/" />
-                <InstantMatchup path="/instant-matchup" />
+                <InstantMatchup path="/" />
+                <MatchupLobby path="/lobby" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
                 <PlayerListView path="/tournament-players" />
