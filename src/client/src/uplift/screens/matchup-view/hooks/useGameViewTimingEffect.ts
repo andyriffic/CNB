@@ -47,9 +47,12 @@ export const useGameViewTimingEffect = (
                         timebomb &&
                           exploded &&
                           gameplayTimeouts.push(
-                            setTimeout(() => {
-                              setShownLoserMoveAnimation(true);
-                            }, 5000)
+                            setTimeout(
+                              () => {
+                                setShownLoserMoveAnimation(true);
+                              },
+                              resultIsaDraw ? 4000 : 5000
+                            )
                           );
 
                         gameplayTimeouts.push(

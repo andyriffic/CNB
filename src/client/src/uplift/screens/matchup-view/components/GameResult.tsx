@@ -45,6 +45,7 @@ export const GameResult = ({
   } = useContext(GameThemeContext);
   const soundService = useContext<SoundService>(GameSoundContext);
   const draw = !!game.result!.draw;
+
   const gameTiming = useGameViewTimingEffect(
     draw,
     game.playMode === 'Timebomb',
@@ -70,9 +71,23 @@ export const GameResult = ({
     <div>
       <MovesContainer className="margins-off">
         {game.moves.map((move, index) => {
-          const winner =
+          const classicWinner =
             game.result!.winnerIndex !== undefined &&
             index === game.result!.winnerIndex;
+
+          const timebombWinner =
+            game.playMode === 'Timebomb' &&
+            game.attributes.exploded &&
+            index !== game.attributes.playerIndexHoldingTimebomb;
+
+          const winner =
+            game.playMode === 'Standard'
+              ? classicWinner
+              : classicWinner || timebombWinner;
+
+          const showWinnerStamp =
+            game.playMode === 'Standard' ? winner : winner && !draw;
+
           return (
             <div
               className="margins-off"
@@ -101,10 +116,8 @@ export const GameResult = ({
                     revealMove={gameTiming.shownMove}
                     move={themedMoves[game.result!.moves[index].moveId]}
                     position={index === 0 ? 'LEFT' : 'RIGHT'}
-                    winner={
-                      game.attributes.exploded &&
-                      index !== game.attributes.playerIndexHoldingTimebomb
-                    }
+                    winner={winner}
+                    showWinnerMoveHighlight={winner && !draw}
                     draw={draw}
                     revealResult={gameTiming.shownResult}
                     playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
@@ -127,7 +140,7 @@ export const GameResult = ({
               >
                 <StampText
                   text="Winner!"
-                  show={gameTiming.shownResult && winner}
+                  show={gameTiming.shownResult && showWinnerStamp}
                 />
                 <StampText
                   text="Draw!"

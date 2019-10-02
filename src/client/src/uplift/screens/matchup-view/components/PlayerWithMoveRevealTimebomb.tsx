@@ -26,6 +26,7 @@ type PlayerWithRevealProps = {
   playerAvatarUrl: string;
   position: 'LEFT' | 'RIGHT';
   winner: boolean;
+  showWinnerMoveHighlight: boolean;
   draw: boolean;
   revealResult: boolean;
   playWinnerAnimation: boolean;
@@ -113,6 +114,7 @@ export const PlayerWithMoveRevealTimebomb = ({
   playerAvatarUrl,
   position,
   winner,
+  showWinnerMoveHighlight,
   draw,
   revealResult,
   playWinnerAnimation,
@@ -144,7 +146,7 @@ export const PlayerWithMoveRevealTimebomb = ({
       <PlayerCharacter
         position={position}
         reveal={revealPlayer}
-        winner={revealResult && winner}
+        winner={revealResult && winner && showWinnerMoveHighlight}
         src={`${SOCKETS_ENDPOINT}${playerAvatarUrl}`}
       />
       <PlayerMoveContainer
@@ -152,7 +154,7 @@ export const PlayerWithMoveRevealTimebomb = ({
         reveal={revealMove}
         className="margins-off"
       >
-        {revealResult && winner && (
+        {revealResult && showWinnerMoveHighlight && (
           <WinnerIndicator position={position} reveal={revealMove} />
         )}
         <PlayerMove
