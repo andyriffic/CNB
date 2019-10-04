@@ -55,6 +55,7 @@ export const TimebombStrip = ({
         <Timebomb
           exploded={exploded && run}
           ticking={!exploded && run}
+          intensity={1}
           onComplete={() => {
             onComplete();
           }}

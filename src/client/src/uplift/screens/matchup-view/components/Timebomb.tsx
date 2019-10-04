@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { SoundService } from '../../../contexts/types';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
+import {BombImage} from './BombImage';
 
 const Container = styled.div`
   display: flex;
@@ -17,13 +18,26 @@ const Bomb = styled.div<{ exploded: boolean }>`
   ${props => props.exploded && 'transform: scale(5);'}
 `;
 
+
+const BombImageContainer = styled.div<{intensity: number}>`
+transition: width 100ms ease-in-out, height 100ms ease-in-out;
+  width: ${props => props.intensity * 5 + 50}px;
+  height: ${props => props.intensity * 5 + 50}px;
+
+  #bomb-body {
+    fill: red;
+  }
+`;
+
+
 type TimebombProps = {
   exploded: boolean;
   ticking: boolean;
+  intensity: number;
   onComplete: () => void;
 };
 
-export const Timebomb = ({ exploded, ticking, onComplete }: TimebombProps) => {
+export const Timebomb = ({ exploded, ticking, intensity = 1, onComplete }: TimebombProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
   const [boom, setBoom] = useState(false);
 
@@ -66,7 +80,8 @@ export const Timebomb = ({ exploded, ticking, onComplete }: TimebombProps) => {
       <Bomb exploded={boom}>
         {(ticking || exploded) && !boom && '😬'}
         {boom && '💥'}
-        {!ticking && !exploded && '💣'}
+        {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
+        {!ticking && !exploded && <BombImageContainer intensity={intensity}><BombImage /></BombImageContainer>}
       </Bomb>
     </Container>
   );

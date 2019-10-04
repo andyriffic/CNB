@@ -25,6 +25,7 @@ export default ({  }: RouteComponentProps) => {
 
   const [bombExploded, setBombExploded] = useState(false);
   const [bombTicking, setBombTicking] = useState(false);
+  const [bombIntensity, setBombIntensity] = useState(1);
 
   console.log(setConfettiOn);
 
@@ -80,6 +81,11 @@ export default ({  }: RouteComponentProps) => {
             checked={bombTicking}
             onChange={e => setBombTicking(e.target.checked)}
           />
+          <input
+            type="number"
+            value={bombIntensity}
+            onChange={e => setBombIntensity(parseInt(e.target.value))}
+          />
 
           <div
             style={{
@@ -92,9 +98,12 @@ export default ({  }: RouteComponentProps) => {
               <Timebomb
                 exploded={bombExploded}
                 ticking={bombTicking}
+                intensity={bombIntensity}
                 onComplete={() => {
+                  if (!bombExploded) {
                   setBombTicking(false);
                   setBombExploded(false);
+                  }
                 }}
               />
             </div>
