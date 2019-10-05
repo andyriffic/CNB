@@ -6,6 +6,7 @@ import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import {
   pulseAnimation,
   shakeAnimationLeft,
+  bounceInAnimation,
 } from '../../../components/animations';
 
 const Container = styled.div`
@@ -15,7 +16,10 @@ const Container = styled.div`
 `;
 
 const pulseCss = (intensity: number) => css`
-  animation: ${pulseAnimation} ${10000 / intensity}ms ease-in-out infinite;
+  animation: ${bounceInAnimation} ${2000 / intensity}ms ease-in-out infinite;
+  /* intensity}ms ease-in-out infinite; */
+  /* filter: brightness(${intensity * 50}%); */
+  filter: saturate(${intensity * 2});
 `;
 
 const shakeCss = css`
@@ -65,6 +69,7 @@ export const Timebomb = ({
     setBoomCountdown(true);
     soundService.play(SOUND_KEYS.FUSE);
     setTimeout(() => {
+      soundService.stop(SOUND_KEYS.TICKING);
       soundService.play(SOUND_KEYS.EXPLOSION);
       setBoomCountdown(false);
       setBoom(true);

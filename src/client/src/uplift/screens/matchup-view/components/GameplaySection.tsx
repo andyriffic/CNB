@@ -105,6 +105,11 @@ export const GamePlaySection = ({
               !!matchup.gameInProgress &&
               matchup.gameInProgress.attributes.exploded
             }
+            intensity={
+              (matchup.gameInProgress &&
+                matchup.gameInProgress.attributes.gameCount) ||
+              1
+            }
             onComplete={onTimebombFinished}
             playerWithTimebombIndex={delayedTimebombPlayerHoldingIndex}
           />

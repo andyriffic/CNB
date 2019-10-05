@@ -51,7 +51,7 @@ export const useGameViewTimingEffect = (
                               () => {
                                 setShownLoserMoveAnimation(true);
                               },
-                              resultIsaDraw ? 4000 : 5000
+                              resultIsaDraw ? 2000 : 4000
                             )
                           );
 

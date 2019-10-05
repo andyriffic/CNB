@@ -28,6 +28,7 @@ type TimebombStripProps = {
   playerWithTimebombIndex: number;
   run: boolean;
   exploded: boolean;
+  intensity: number;
   onComplete: () => void;
 };
 
@@ -36,11 +37,9 @@ export const TimebombStrip = ({
   onComplete,
   run,
   exploded,
+  intensity,
 }: TimebombStripProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
-  const [showExplosion, setShowExplosion] = useState(false);
-  const [showTicking, setShowTicking] = useState(false);
-  const [done, setDone] = useState(false);
 
   useEffect(() => {
     soundService.play(SOUND_KEYS.TICKING);
@@ -55,7 +54,7 @@ export const TimebombStrip = ({
         <Timebomb
           exploded={exploded && run}
           ticking={!exploded && run}
-          intensity={1}
+          intensity={intensity}
           onComplete={() => {
             onComplete();
           }}
