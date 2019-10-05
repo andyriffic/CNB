@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components';
+import { keyframes, css } from 'styled-components';
 
 export const rubberBandAnimation = keyframes`
   0% {

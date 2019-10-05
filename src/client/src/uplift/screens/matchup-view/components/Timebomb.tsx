@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { SoundService } from '../../../contexts/types';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
-import {BombImage} from './BombImage';
+import {
+  pulseAnimation,
+  shakeAnimationLeft,
+} from '../../../components/animations';
 
 const Container = styled.div`
   display: flex;
@@ -11,24 +14,29 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Bomb = styled.div<{ exploded: boolean }>`
+const pulseCss = (intensity: number) => css`
+  animation: ${pulseAnimation} ${10000 / intensity}ms ease-in-out infinite;
+`;
+
+const shakeCss = css`
+  animation: ${shakeAnimationLeft} 300ms ease-in-out infinite;
+`;
+
+const Bomb = styled.div<{
+  exploded: boolean;
+  intensity: number;
+  ticking: boolean;
+}>`
   position: relative;
   font-size: 2rem;
   transition: transform 200ms ease-in-out;
-  ${props => props.exploded && 'transform: scale(5);'}
+  ${props =>
+    props.exploded
+      ? 'transform: scale(5);'
+      : props.ticking
+      ? shakeCss
+      : props.intensity > 1 && pulseCss(props.intensity)}
 `;
-
-
-const BombImageContainer = styled.div<{intensity: number}>`
-transition: width 100ms ease-in-out, height 100ms ease-in-out;
-  width: ${props => props.intensity * 5 + 50}px;
-  height: ${props => props.intensity * 5 + 50}px;
-
-  #bomb-body {
-    fill: red;
-  }
-`;
-
 
 type TimebombProps = {
   exploded: boolean;
@@ -37,19 +45,28 @@ type TimebombProps = {
   onComplete: () => void;
 };
 
-export const Timebomb = ({ exploded, ticking, intensity = 1, onComplete }: TimebombProps) => {
+export const Timebomb = ({
+  exploded,
+  ticking,
+  intensity = 1,
+  onComplete,
+}: TimebombProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
+  const [boomCountdown, setBoomCountdown] = useState(false);
   const [boom, setBoom] = useState(false);
 
   useEffect(() => {
     setBoom(false);
+    setBoomCountdown(false);
     if (!exploded) {
       return;
     }
 
+    setBoomCountdown(true);
     soundService.play(SOUND_KEYS.FUSE);
     setTimeout(() => {
       soundService.play(SOUND_KEYS.EXPLOSION);
+      setBoomCountdown(false);
       setBoom(true);
       onComplete();
     }, 2000);
@@ -77,11 +94,15 @@ export const Timebomb = ({ exploded, ticking, intensity = 1, onComplete }: Timeb
 
   return (
     <Container className="margins-off">
-      <Bomb exploded={boom}>
-        {(ticking || exploded) && !boom && '😬'}
+      <Bomb
+        exploded={boom}
+        intensity={intensity}
+        ticking={ticking || boomCountdown}
+      >
+        {/* {(ticking || exploded) && !boom && '😬'} */}
         {boom && '💥'}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!ticking && !exploded && <BombImageContainer intensity={intensity}><BombImage /></BombImageContainer>}
+        {!boom && '💣'}
       </Bomb>
     </Container>
   );
