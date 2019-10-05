@@ -45,7 +45,7 @@ export default ({ navigate }: RouteComponentProps) => {
               }
             >
               CNBOP
-            </Button>
+            </Button>{' '}
             <Button
               onClick={() =>
                 addInstantMatchup(

@@ -76,10 +76,8 @@ export const GamePlaySection = ({
     <Container>
       {showNewGameButton && (
         <div>
-          <Button onClick={() => startGame()}>Classic Mode</Button>
-          {isFeatureEnabled('timebomb') && (
-            <Button onClick={() => startGame('Timebomb')}>Timebomb!</Button>
-          )}
+          <Button onClick={() => startGame()}>Classic Mode 😴</Button>{' '}
+          <Button onClick={() => startGame('Timebomb')}>Timebomb 💣</Button>
         </div>
       )}
       {showWaitingOnPlayers && (
