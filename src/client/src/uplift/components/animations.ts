@@ -152,3 +152,26 @@ export const bounceInAnimation = keyframes`
     transform: translate3d(0, -2px, 0);
   }
 `;
+
+export const fadeOutDownAnimation = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+`;
+
+export const fadeInDownAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+`;

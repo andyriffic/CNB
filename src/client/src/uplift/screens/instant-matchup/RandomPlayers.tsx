@@ -74,6 +74,7 @@ export const RandomPlayers = ({
       <PlayerSide>
         <RandomPlayerSelector
           selectedPlayer={player2}
+          playerPosition="right"
           reroll={rerollPlayer(setPlayer2)}
         />
       </PlayerSide>

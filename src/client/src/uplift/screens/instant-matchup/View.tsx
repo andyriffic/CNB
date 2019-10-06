@@ -6,6 +6,9 @@ import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLay
 import { Button } from '../../../screens/styled';
 import { MatchupContext } from '../../contexts/MatchupProvider';
 import { RandomPlayers } from './RandomPlayers';
+import { GameSettingsDrawer } from '../../../game-settings';
+import { SoundService } from '../../contexts/types';
+import GameSoundContext from '../../../contexts/GameSoundContext';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -15,12 +18,18 @@ const MatchupsContainer = styled.div`
 
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
+  const soundService = useContext<SoundService>(GameSoundContext);
   const [player1, setPlayer1] = useState<Player>();
   const [player2, setPlayer2] = useState<Player>();
+
+  useEffect(() => {
+    soundService.load();
+  }, []);
 
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true}>
+        <GameSettingsDrawer />
         <MatchupsContainer className="margins-off">
           <RandomPlayers
             player1={player1}
