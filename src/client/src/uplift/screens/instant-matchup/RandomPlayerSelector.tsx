@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { Player } from '../../contexts/PlayersProvider';
 import {
   fadeInDownAnimation,
-  fadeInAnimation,
   fadeOutDownAnimation,
 } from '../../components/animations';
 import {
@@ -12,7 +11,7 @@ import {
 } from '../../components/PlayerAvatar';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
-import { selectRandomOneOf } from '../../utils/random';
+import { SecondaryButton } from '../../components/SecondaryButton';
 
 type AnimationState = 'enter' | 'exit';
 const ENTER_ANIMATION_TIMEOUT_MS = 300;
@@ -30,9 +29,7 @@ const exitAnimationCss = css`
 
 const Container = styled.div`
   padding: 50px 0 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  font-size: 2rem;
 `;
 
 const PlayerCharacter = styled.div<{ state: AnimationState }>`
@@ -43,6 +40,7 @@ const PlayerCharacter = styled.div<{ state: AnimationState }>`
 const PlayerName = styled.h2`
   margin: 0;
   padding: 0;
+  font-size: 0.9rem;
 `;
 
 type RandomPlayerSelectorProps = {
@@ -60,16 +58,8 @@ export const RandomPlayerSelector = ({
   const [state, setState] = useState<AnimationState>('enter');
 
   const onNewPlayer = () => {
+    soundService.play(SOUND_KEYS.SLIDE_FALL_WHISTLE, true);
     setState('exit');
-    soundService.play(
-      selectRandomOneOf([
-        SOUND_KEYS.SCREAM_01,
-        SOUND_KEYS.SCREAM_02,
-        SOUND_KEYS.SCREAM_03,
-        SOUND_KEYS.SCREAM_04,
-      ]),
-      true
-    );
     setTimeout(() => {
       reroll();
       setState('enter');
@@ -86,7 +76,9 @@ export const RandomPlayerSelector = ({
           </React.Fragment>
         )}
       </PlayerCharacter>
-      {selectedPlayer && <button onClick={onNewPlayer}>Someone else</button>}
+      {selectedPlayer && (
+        <SecondaryButton onClick={onNewPlayer}>Someone else</SecondaryButton>
+      )}
     </Container>
   );
 };

@@ -19,6 +19,7 @@ import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './fuse.wav';
+import slideFallWhistle from './slide-fall-whistle.wav';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -53,6 +54,7 @@ export const SOUND_KEYS = {
   EXPLOSION: 'EXPLOSION',
   TICKING: 'TICKING',
   FUSE: 'FUSE',
+  SLIDE_FALL_WHISTLE: 'SLIDE_FALL_WHISTLE',
 };
 
 export class SoundService {
@@ -106,6 +108,10 @@ export class SoundService {
           loop: true,
           volume: 0.6,
         }),
+      };
+
+      this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {
+        sound: new Howl({ src: [slideFallWhistle] }),
       };
 
       this._sounds[SOUND_KEYS.DRAW] = {
