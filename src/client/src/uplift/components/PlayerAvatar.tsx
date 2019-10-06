@@ -25,7 +25,7 @@ export const PlayerAvatar = ({
   return (
     <StyledPlayer
       position={position}
-      src={`${SOCKETS_ENDPOINT}/${player.avatarImageUrl}`}
+      src={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
     ></StyledPlayer>
   );
 };
