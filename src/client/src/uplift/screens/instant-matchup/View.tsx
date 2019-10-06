@@ -9,6 +9,7 @@ import { RandomPlayers } from './RandomPlayers';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
+import { PrimaryButton } from '../../components/PrimaryButton';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -40,7 +41,7 @@ export default ({ navigate }: RouteComponentProps) => {
         </MatchupsContainer>
         {player1 && player2 && (
           <div style={{ textAlign: 'center' }}>
-            <Button
+            <PrimaryButton
               onClick={() =>
                 addInstantMatchup(
                   player1.id,
@@ -54,8 +55,8 @@ export default ({ navigate }: RouteComponentProps) => {
               }
             >
               CNBOP
-            </Button>{' '}
-            <Button
+            </PrimaryButton>{' '}
+            <PrimaryButton
               onClick={() =>
                 addInstantMatchup(
                   player1.id,
@@ -69,7 +70,7 @@ export default ({ navigate }: RouteComponentProps) => {
               }
             >
               CNB
-            </Button>
+            </PrimaryButton>
           </div>
         )}
       </FullPageScreenLayout>
