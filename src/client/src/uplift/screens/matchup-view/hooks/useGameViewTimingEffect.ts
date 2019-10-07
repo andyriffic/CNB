@@ -51,7 +51,7 @@ export const useGameViewTimingEffect = (
                               () => {
                                 setShownLoserMoveAnimation(true);
                               },
-                              resultIsaDraw ? 2000 : 4000
+                              resultIsaDraw ? 2000 : 2000
                             )
                           );
 
@@ -66,11 +66,11 @@ export const useGameViewTimingEffect = (
                                     setGameplayFinished(true);
                                     finished();
                                   },
-                                  resultIsaDraw ? 0 : 1000
+                                  resultIsaDraw ? 0 : timebomb ? 0 : 1000
                                 ) //Finished
                               );
                             },
-                            resultIsaDraw ? 0 : 1000
+                            resultIsaDraw ? 0 : timebomb ? 0 : 1000
                           ) // Show result
                         );
                       },
