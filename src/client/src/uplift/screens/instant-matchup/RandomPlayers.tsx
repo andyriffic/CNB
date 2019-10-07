@@ -30,6 +30,7 @@ export const RandomPlayers = ({
   console.log('PLAYER SELECTOR');
 
   const { allPlayers, loadingPlayers } = useContext(PlayersContext);
+  const [discardedPlayers, setDiscardedPlayers] = useState<Player[]>([]);
 
   const [loadingGameHistory, gameHistory] = useFetchJson<GameHistory>(
     `${STATS_API_BASE_URL}/game-result-history.json`
@@ -43,11 +44,19 @@ export const RandomPlayers = ({
       !player1 &&
       !player2
     ) {
-      const randomPlayer1 = getRandomPlayer(allPlayers, gameHistory.result);
-      setPlayer1(randomPlayer1);
-      setPlayer2(
-        getRandomPlayer(allPlayers, gameHistory.result, [randomPlayer1])
+      const randomPlayer1 = getRandomPlayer(
+        allPlayers,
+        gameHistory.result,
+        discardedPlayers
       );
+      const randomPlayer2 = getRandomPlayer(allPlayers, gameHistory.result, [
+        ...discardedPlayers,
+        randomPlayer1,
+      ]);
+      setPlayer1(randomPlayer1);
+      setPlayer2(randomPlayer2);
+
+      setDiscardedPlayers([...discardedPlayers, randomPlayer1, randomPlayer2]);
     }
   }, [
     loadingPlayers,
@@ -59,7 +68,13 @@ export const RandomPlayers = ({
   ]);
 
   const rerollPlayer = (setPlayer: (player: Player) => void) => () => {
-    setPlayer(getRandomPlayer(allPlayers, gameHistory!.result));
+    const randomPlayer = getRandomPlayer(
+      allPlayers,
+      gameHistory!.result,
+      discardedPlayers
+    );
+    setPlayer(randomPlayer);
+    setDiscardedPlayers([...discardedPlayers, randomPlayer]);
   };
 
   return (

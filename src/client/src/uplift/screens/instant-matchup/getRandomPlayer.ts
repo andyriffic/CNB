@@ -11,6 +11,7 @@ export const getRandomPlayer = (
   gameHistory: GameHistoryRecord[],
   excludePlayers: Player[] = []
 ): Player => {
+  console.log('EXCLUDED PLAYERS', excludePlayers);
   const allRecentPlayerNames = gameHistory.reduce(
     (accumulator: string[], record) => {
       return [...accumulator, record.player1, record.player2];
@@ -23,6 +24,11 @@ export const getRandomPlayer = (
   const eligiblePlayers = allPlayers
     .filter(p => !p.tags.includes('retired'))
     .filter(p => !excludePlayers.find(ep => ep.id === p.id));
+
+  if (!eligiblePlayers.length) {
+    alert('out of players!');
+    return allPlayers[0];
+  }
 
   const weightedPlayers = eligiblePlayers.map(player => {
     let lastPlayedIndex = uniqueRecentPlayers.findIndex(
