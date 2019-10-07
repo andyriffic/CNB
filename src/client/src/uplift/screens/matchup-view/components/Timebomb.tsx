@@ -69,6 +69,7 @@ export const Timebomb = ({
     setBoomCountdown(true);
     soundService.play(SOUND_KEYS.FUSE);
     setTimeout(() => {
+      soundService.stop(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST);
       soundService.stop(SOUND_KEYS.TICKING);
       soundService.play(SOUND_KEYS.EXPLOSION);
       setBoomCountdown(false);
