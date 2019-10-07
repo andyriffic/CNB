@@ -164,7 +164,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
-        sound: new Howl({ src: [awardTrophy] }),
+        sound: new Howl({ src: [awardTrophy], volume: 0.4 }),
       };
 
       this._sounds[SOUND_KEYS.CROWD_CHEER] = {
