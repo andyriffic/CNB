@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
-import { Button } from '../../../../screens/styled';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
 import { GameResult } from './GameResult';
-import { useDoOnce } from '../../../hooks/useDoOnce';
 import { TimebombStrip } from './TimebombStrip';
-import { isFeatureEnabled } from '../../../../featureToggle';
+import { PrimaryButton } from '../../../components/PrimaryButton';
 
 const Container = styled.div`
   text-align: center;
@@ -76,17 +74,21 @@ export const GamePlaySection = ({
     <Container>
       {showNewGameButton && (
         <div>
-          <Button onClick={() => startGame()}>Classic Mode 😴</Button>{' '}
-          <Button onClick={() => startGame('Timebomb')}>Timebomb 💣</Button>
+          <PrimaryButton onClick={() => startGame()}>
+            Classic Mode 😴
+          </PrimaryButton>{' '}
+          <PrimaryButton onClick={() => startGame('Timebomb')}>
+            Timebomb 💣
+          </PrimaryButton>
         </div>
       )}
       {showWaitingOnPlayers && (
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
       {gameReadyToPlay && (
-        <Button className="radioactive" onClick={playGame}>
+        <PrimaryButton className="radioactive" onClick={playGame}>
           PLAY!
-        </Button>
+        </PrimaryButton>
       )}
       {gameFinished && (
         <GameResult

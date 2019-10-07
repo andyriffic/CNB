@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
-import { Button } from '../../../screens/styled';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
@@ -13,6 +12,7 @@ import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
+import { PrimaryButton } from '../../components/PrimaryButton';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -151,7 +151,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                 )}
               {showNewGame && (
                 <div style={{ textAlign: 'center' }}>
-                  <Button
+                  <PrimaryButton
                     onClick={() => {
                       if (matchupId) {
                         const samePlayMode =
@@ -165,7 +165,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                     }}
                   >
                     New Game
-                  </Button>
+                  </PrimaryButton>
                 </div>
               )}
             </React.Fragment>
