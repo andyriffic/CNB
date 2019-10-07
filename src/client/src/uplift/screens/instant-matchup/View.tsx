@@ -41,7 +41,7 @@ export default ({ navigate }: RouteComponentProps) => {
         </MatchupsContainer>
         {player1 && player2 && (
           <div style={{ textAlign: 'center' }}>
-            <PrimaryButton
+            {/* <PrimaryButton
               onClick={() =>
                 addInstantMatchup(
                   player1.id,
@@ -55,7 +55,7 @@ export default ({ navigate }: RouteComponentProps) => {
               }
             >
               CNBOP
-            </PrimaryButton>{' '}
+            </PrimaryButton>{' '} */}
             <PrimaryButton
               onClick={() =>
                 addInstantMatchup(
