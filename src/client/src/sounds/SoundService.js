@@ -12,7 +12,7 @@ import scream02 from './scream-02.wav';
 import scream03 from './scream-03.wav';
 import scream04 from './scream-04.wav';
 import drumroll from './drumroll.wav';
-import biteDust from './bites-the-dust.mp3';
+import biteDust from './boom-boom-shake-shake.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
