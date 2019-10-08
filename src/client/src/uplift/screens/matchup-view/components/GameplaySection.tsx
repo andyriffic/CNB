@@ -72,12 +72,14 @@ export const GamePlaySection = ({
       matchup.gameInProgress &&
       matchup.gameInProgress.playMode === 'Timebomb'
     ) {
-      setRunTimebomb(true);
       setDelayedTimebombPlayerHoldingIndex(
         (matchup.gameInProgress &&
           matchup.gameInProgress.attributes.playerIndexHoldingTimebomb) ||
           0
       );
+      setTimeout(() => {
+        setRunTimebomb(true);
+      }, 2000);
     } else {
       onGameFinished();
     }
