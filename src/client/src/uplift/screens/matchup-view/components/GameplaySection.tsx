@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
@@ -26,10 +26,9 @@ export const GamePlaySection = ({
   const [
     delayedTimebombPlayerHoldingIndex,
     setDelayedTimebombPlayerHoldingIndex,
-  ] = useState(
-    (matchup.gameInProgress &&
-      matchup.gameInProgress.attributes.playerIndexHoldingTimebomb) ||
-      0
+  ] = useState<number | undefined>(
+    matchup.gameInProgress &&
+      matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
   );
   const [runTimebomb, setRunTimebomb] = useState(false);
   const showNewGameButton = !matchup.gameInProgress;
@@ -43,6 +42,30 @@ export const GamePlaySection = ({
   const gameFinished =
     matchup.gameInProgress &&
     matchup.gameInProgress.status === GAME_STATUS.Finished;
+
+  useEffect(() => {
+    console.log(
+      'TRYING TO SET PLAYER HOLDING BOMB',
+      delayedTimebombPlayerHoldingIndex,
+      matchup
+    );
+    if (delayedTimebombPlayerHoldingIndex !== null) {
+      return;
+    }
+
+    if (
+      matchup.gameInProgress &&
+      matchup.gameInProgress.attributes.playerIndexHoldingTimebomb !== null
+    ) {
+      console.log(
+        'SETTING PLAYER HOLDING BOMB',
+        matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
+      );
+      setDelayedTimebombPlayerHoldingIndex(
+        matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
+      );
+    }
+  }, [matchup, delayedTimebombPlayerHoldingIndex]);
 
   const gameplaySectionFinished = () => {
     if (
@@ -111,7 +134,7 @@ export const GamePlaySection = ({
               1
             }
             onComplete={onTimebombFinished}
-            playerWithTimebombIndex={delayedTimebombPlayerHoldingIndex}
+            playerWithTimebombIndex={delayedTimebombPlayerHoldingIndex || 0}
           />
         )}
     </Container>
