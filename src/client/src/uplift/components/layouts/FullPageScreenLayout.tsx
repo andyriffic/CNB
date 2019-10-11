@@ -31,7 +31,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-color: ${props => props.theme.pageBackgroundColor};
+  background-image: radial-gradient(#f8f8ff, #d9d6e2);
   flex: 1;
   display: flex;
   flex-direction: column;
