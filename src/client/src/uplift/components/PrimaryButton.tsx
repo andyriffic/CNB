@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, ComponentPropsWithoutRef } from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  transition: background-color 200ms ease-in-out;
+  transition: background-color 200ms ease-in-out, transform 400ms ease-in-out;
   padding: 0.75em 1.4em;
   cursor: pointer;
   margin: 0 0.3em 0.3em 0;
@@ -19,6 +19,7 @@ const StyledButton = styled.button`
   &:hover {
     box-shadow: inset 0 -0.6em 0 -0.5em rgba(0, 0, 0, 0.17);
     background-color: #e72e07;
+    transform: scale(1.05);
   }
 `;
 
