@@ -69,7 +69,7 @@ export default ({ navigate }: RouteComponentProps) => {
                 )
               }
             >
-              CNB
+              Play
             </PrimaryButton>
           </div>
         )}

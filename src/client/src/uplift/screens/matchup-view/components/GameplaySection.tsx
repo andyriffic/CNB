@@ -99,9 +99,7 @@ export const GamePlaySection = ({
     <Container>
       {showNewGameButton && (
         <div>
-          <PrimaryButton onClick={() => startGame()}>
-            Classic Mode 😴
-          </PrimaryButton>{' '}
+          <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '}
           <PrimaryButton onClick={() => startGame('Timebomb')}>
             Timebomb 💣
           </PrimaryButton>
