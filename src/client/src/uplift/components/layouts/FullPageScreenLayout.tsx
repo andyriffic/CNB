@@ -41,7 +41,7 @@ const Body = styled.div<{
 
 const Footer = styled.footer<{ theme: ThemeStyle }>`
   transition: background-color 800ms ease-out;
-  background-color: ${props => props.theme.pageBackgroundColor};
+  background-color: #d9d6e2;
   color: white;
   height: 5vh;
   display: flex;
@@ -79,9 +79,9 @@ export const FullPageScreenLayout = ({
       <Body alignTop={alignTop} scrollable={scrollable}>
         <BodyContent>{children}</BodyContent>
       </Body>
-      <Footer>
+      {/* <Footer>
         <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
-      </Footer>
+      </Footer> */}
     </FullPage>
   );
 };
