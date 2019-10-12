@@ -54,7 +54,13 @@ export const GameResult = ({
   );
 
   useDoOnce(gameTiming.shownCharacter, () => {
-    soundService.play(SOUND_KEYS.DRUMROLL);
+    soundService.play(SOUND_KEYS.ZAP);
+  });
+
+  useDoOnce(gameTiming.shownCharacter, () => {
+    setTimeout(() => {
+      soundService.play(SOUND_KEYS.PUFF);
+    }, 1000);
   });
 
   useDoOnce(gameTiming.shownResult && !draw, () => {

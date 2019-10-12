@@ -78,7 +78,7 @@ export const useGameViewTimingEffect = (
                 resultIsaDraw ? 0 : timebomb ? 0 : 2000
               ) // show winner move animation
             );
-          }, 4000) // Show move
+          }, 1000) // Show move
         );
       }, 1000) // Show character
     );

@@ -12,6 +12,8 @@ import scream02 from './scream-02.wav';
 import scream03 from './scream-03.wav';
 import scream04 from './scream-04.wav';
 import drumroll from './drumroll.wav';
+import digital from './digital.wav';
+import puff from './puff.mp3';
 import biteDust from './boom-boom-shake-shake.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
 import yay from './yay.wav';
@@ -55,6 +57,8 @@ export const SOUND_KEYS = {
   TICKING: 'TICKING',
   FUSE: 'FUSE',
   SLIDE_FALL_WHISTLE: 'SLIDE_FALL_WHISTLE',
+  ZAP: 'ZAP',
+  PUFF: 'PUFF',
 };
 
 export class SoundService {
@@ -181,6 +185,14 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.FUSE] = {
         sound: new Howl({ src: [fuse] }),
+      };
+
+      this._sounds[SOUND_KEYS.ZAP] = {
+        sound: new Howl({ src: [digital] }),
+      };
+
+      this._sounds[SOUND_KEYS.PUFF] = {
+        sound: new Howl({ src: [puff] }),
       };
 
       // Pre-load winning sounds
