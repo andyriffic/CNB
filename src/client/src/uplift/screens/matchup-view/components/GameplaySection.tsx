@@ -44,11 +44,7 @@ export const GamePlaySection = ({
     matchup.gameInProgress.status === GAME_STATUS.Finished;
 
   useEffect(() => {
-    console.log(
-      'TRYING TO SET PLAYER HOLDING BOMB',
-      delayedTimebombPlayerHoldingIndex,
-      matchup
-    );
+    //Make sure timebomb is showing under the correct player at start of the game
     if (delayedTimebombPlayerHoldingIndex !== null) {
       return;
     }
@@ -57,10 +53,6 @@ export const GamePlaySection = ({
       matchup.gameInProgress &&
       matchup.gameInProgress.attributes.playerIndexHoldingTimebomb !== null
     ) {
-      console.log(
-        'SETTING PLAYER HOLDING BOMB',
-        matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
-      );
       setDelayedTimebombPlayerHoldingIndex(
         matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
       );
@@ -94,6 +86,9 @@ export const GamePlaySection = ({
     }
     onGameFinished();
   };
+
+  //Temporarily put this here to auto start the game and see how id goes
+  gameReadyToPlay && playGame();
 
   return (
     <Container>
