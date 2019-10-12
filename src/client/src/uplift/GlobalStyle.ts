@@ -3,7 +3,13 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box;
-    font-size: 3.5vmin;
+    font-size: 20px;
+  }
+
+  @media (min-width: 600px) {
+    html {
+      font-size: 20px;
+    }
   }
 
   *, *:before, *:after {

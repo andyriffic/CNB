@@ -8,6 +8,7 @@ import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { Player } from '../../../contexts/PlayersProvider';
 import { shuffle } from '../../../../utils/suffleArray';
+import { PrimaryButton } from '../../../components/PrimaryButton';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -96,7 +97,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
             ))}
         </MoveContainer>
         {!moveMade && (
-          <Button
+          <PrimaryButton
             type="button"
             disabled={!selectedMoveId}
             className={!!selectedMoveId && !moveMade ? 'radioactive' : ''}
@@ -112,8 +113,8 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
               setMoveMade(true);
             }}
           >
-            Play!
-          </Button>
+            Select
+          </PrimaryButton>
         )}
       </div>
     </div>

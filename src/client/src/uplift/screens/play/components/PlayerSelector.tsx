@@ -6,12 +6,12 @@ import { SecondaryButton } from '../../../components/SecondaryButton';
 
 const PlayerList = styled.ul`
   margin: 0;
-  padding: 0;
+  padding: 0 0 50px;
 `;
 
 const PlayerItem = styled.li<{ highlighted: boolean }>`
   transition: background-color 200ms ease-in-out, transform 400ms ease-in-out;
-  padding: 0.75em 1.4em;
+  padding: 0.75em 0.8em;
   cursor: pointer;
   margin: 1em 0 0;
   border-radius: 0.15em;
@@ -22,7 +22,7 @@ const PlayerItem = styled.li<{ highlighted: boolean }>`
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: left;
   position: relative;
-  font-size: 2rem;
+  font-size: 1.4rem;
 
   display: flex;
   justify-content: space-between;
@@ -45,24 +45,26 @@ export const PlayerSelector = ({
       {loadingPlayers && <LoadingSpinner text="Loading players..." />}
       {!loadingPlayers && !selectedPlayer && (
         <PlayerList>
-          {allPlayers.map(player => {
-            const isHighlighted =
-              !!highlightedPlayer && highlightedPlayer.id === player.id;
-            return (
-              <PlayerItem
-                highlighted={isHighlighted}
-                onClick={() => setHighlightedPlayer(player)}
-                key={player.id}
-              >
-                <span>{player.name}</span>
-                {isHighlighted && (
-                  <SecondaryButton onClick={() => selectPlayer(player)}>
-                    Play
-                  </SecondaryButton>
-                )}
-              </PlayerItem>
-            );
-          })}
+          {allPlayers
+            .filter(p => !p.tags.includes('retired'))
+            .map(player => {
+              const isHighlighted =
+                !!highlightedPlayer && highlightedPlayer.id === player.id;
+              return (
+                <PlayerItem
+                  highlighted={isHighlighted}
+                  onClick={() => setHighlightedPlayer(player)}
+                  key={player.id}
+                >
+                  <span>{player.name}</span>
+                  {isHighlighted && (
+                    <SecondaryButton onClick={() => selectPlayer(player)}>
+                      Play
+                    </SecondaryButton>
+                  )}
+                </PlayerItem>
+              );
+            })}
         </PlayerList>
       )}
       {!loadingPlayers && selectedPlayer && (

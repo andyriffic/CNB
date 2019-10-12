@@ -12,6 +12,7 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   color: #ffffff;
   background-color: #55595f;
+  border: 0;
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: center;
   position: relative;

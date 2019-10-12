@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Player, PlayersContext } from '../../../contexts/PlayersProvider';
 import { LoadingSpinner } from '../../../components/loading-spinner';
@@ -11,7 +11,7 @@ import { GameThemeContext } from '../../../contexts/ThemeProvider';
 
 const MatchupContainer = styled.div`
   border: 2px solid ${props => props.theme.primaryTextColor};
-  background-color: #F8F9FA;
+  background-color: #f8f9fa;
   padding: 10px;
   border-radius: 8px;
   font-size: 1.8rem;
@@ -62,66 +62,72 @@ export const SelectMatchup = ({
   } = useContext(MatchupContext);
 
   const { setTheme } = useContext(GameThemeContext);
+  const [waitingForMatchup, setWaitingForMatchup] = useState(true);
+  const [readyMatchups, setReadyMatchups] = useState<
+    MatchupForPlayer[] | undefined
+  >();
 
   useEffect(() => {
     subscribeToMatchupsForPlayer(player.id);
     // TODO: unsubscribe on unmount
   }, []);
 
+  useEffect(() => {
+    if (!matchupsByPlayerId[player.id]) {
+      return;
+    }
+
+    const matchupsReady = matchupsByPlayerId[player.id].filter(
+      readyToPlayFilter
+    );
+
+    if (!matchupsReady.length) {
+      return;
+    }
+
+    setWaitingForMatchup(false);
+
+    if (matchupsReady.length === 1) {
+      subscribeToMatchup(matchupsReady[0].id);
+      setTheme(matchupsReady[0].themeId);
+      selectMatchup(matchupsReady[0].id, matchupsReady[0].playerTeamId);
+    } else {
+      setReadyMatchups(matchupsReady);
+    }
+  }, [matchupsByPlayerId]);
+
   return (
     <div>
       <div>
         <h3>Your matchups</h3>
-        {!matchupsByPlayerId[player.id] && (
-          <LoadingSpinner text="Finding your matchups..." />
+        {waitingForMatchup && (
+          <LoadingSpinner text="Waiting for your game..." />
         )}
-        {matchupsByPlayerId[player.id] &&
-          matchupsByPlayerId[player.id]
-            .filter(readyToPlayFilter)
-            .map(matchup => (
-              <MatchupContainer
-                key={matchup.id}
-                onClick={() => {
-                  subscribeToMatchup(matchup.id);
-                  setTheme(matchup.themeId);
-                  selectMatchup(matchup.id, matchup.playerTeamId);
-                }}
+        {!waitingForMatchup &&
+          readyMatchups &&
+          readyMatchups.map(matchup => (
+            <MatchupContainer
+              key={matchup.id}
+              onClick={() => {
+                subscribeToMatchup(matchup.id);
+                setTheme(matchup.themeId);
+                selectMatchup(matchup.id, matchup.playerTeamId);
+              }}
+            >
+              <TeamName
+                highlighted={matchup.teams[0].id === matchup.playerTeamId}
               >
-                <TeamName
-                  highlighted={matchup.teams[0].id === matchup.playerTeamId}
-                >
-                  {matchup.teams[0].name}
-                </TeamName>{' '}
-                vs{' '}
-                <TeamName
-                  highlighted={matchup.teams[1].id === matchup.playerTeamId}
-                >
-                  {matchup.teams[1].name}
-                </TeamName>{' '}
-                <MatchupStatusText type="GOOD">Ready to play</MatchupStatusText>
-              </MatchupContainer>
-            ))}
-      </div>
-      <div>
-        {matchupsByPlayerId[player.id] &&
-          matchupsByPlayerId[player.id]
-            .filter(notReadyToPlayFilter)
-            .map(matchup => (
-              <MatchupContainer key={matchup.id}>
-                <TeamName
-                  highlighted={matchup.teams[0].id === matchup.playerTeamId}
-                >
-                  {matchup.teams[0].name}
-                </TeamName>{' '}
-                vs{' '}
-                <TeamName
-                  highlighted={matchup.teams[1].id === matchup.playerTeamId}
-                >
-                  {matchup.teams[1].name}
-                </TeamName>{' '}
-                <MatchupStatusText type="WARN">Game not started yet</MatchupStatusText>
-              </MatchupContainer>
-            ))}
+                {matchup.teams[0].name}
+              </TeamName>{' '}
+              vs{' '}
+              <TeamName
+                highlighted={matchup.teams[1].id === matchup.playerTeamId}
+              >
+                {matchup.teams[1].name}
+              </TeamName>{' '}
+              <MatchupStatusText type="GOOD">Ready to play</MatchupStatusText>
+            </MatchupContainer>
+          ))}
       </div>
     </div>
   );
