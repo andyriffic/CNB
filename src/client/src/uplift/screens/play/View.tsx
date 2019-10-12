@@ -44,8 +44,9 @@ export default ({  }: RouteComponentProps) => {
     }
   }, [selectedPlayer, selectedMatchupId, selectedTeamId]);
 
-  const returnToMatchups = () => {
+  const resetPlayer = () => {
     setSelectedMatchupId('');
+    setSelectedPlayer(undefined);
   };
 
   return (
@@ -56,7 +57,7 @@ export default ({  }: RouteComponentProps) => {
             <PlayerGameResult
               matchup={currentMatchup}
               teamId={selectedTeamId}
-              backToMatchups={returnToMatchups}
+              backToMatchups={resetPlayer}
             />
           )}
           {!gameFinished && (

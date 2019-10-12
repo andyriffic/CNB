@@ -38,10 +38,7 @@ type SelectMatchupProps = {
 };
 
 const readyToPlayFilter = (matchup: MatchupForPlayer) => {
-  return (
-    !!matchup.gameInProgress &&
-    matchup.gameInProgress.status !== GAME_STATUS.Finished
-  );
+  return !!matchup.gameInProgress; // && matchup.gameInProgress.status !== GAME_STATUS.Finished
 };
 
 const notReadyToPlayFilter = (matchup: MatchupForPlayer) => {

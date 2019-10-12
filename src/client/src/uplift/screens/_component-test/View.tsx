@@ -27,8 +27,6 @@ export default ({  }: RouteComponentProps) => {
   const [bombTicking, setBombTicking] = useState(false);
   const [bombIntensity, setBombIntensity] = useState(1);
 
-  console.log(setConfettiOn);
-
   useEffect(() => {
     soundService.load();
   }, []);
@@ -101,8 +99,8 @@ export default ({  }: RouteComponentProps) => {
                 intensity={bombIntensity}
                 onComplete={() => {
                   if (!bombExploded) {
-                  setBombTicking(false);
-                  setBombExploded(false);
+                    setBombTicking(false);
+                    setBombExploded(false);
                   }
                 }}
               />
