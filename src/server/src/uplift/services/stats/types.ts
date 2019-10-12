@@ -6,6 +6,7 @@ export type PlayerStatsEntry = {
   powerUp: string;
   player: string;
   winner: boolean;
+  trophy: boolean;
 };
 
 export type GameStatsEntry = {
@@ -14,6 +15,7 @@ export type GameStatsEntry = {
   player1: PlayerStatsEntry;
   player2: PlayerStatsEntry;
   theme: string;
+  mode: string;
   result: {
     draw: boolean;
     winner?: 'player1' | 'player2';

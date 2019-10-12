@@ -69,6 +69,7 @@ const mapMatchupPlayerViewToPlayerStatsEntry = (
     move: game.result!.moves[playerIndex].moveId,
     powerUp: 'NONE',
     player: game.moves[playerIndex].playerName!,
+    trophy: game.trophyWon,
     winner:
       game.result!.winnerIndex !== undefined &&
       game.result!.winnerIndex === playerIndex,
@@ -76,7 +77,7 @@ const mapMatchupPlayerViewToPlayerStatsEntry = (
 };
 
 export const mapMatchupViewToGameStatsEntry = (
-  matchupView: MatchupSpectatorView,
+  matchupView: MatchupSpectatorView
 ): GameStatsEntry | undefined => {
   if (!matchupView.gameInProgress) {
     return;
@@ -86,6 +87,7 @@ export const mapMatchupViewToGameStatsEntry = (
     date: new Date().toISOString(),
     matchupId: matchupView.id,
     theme: matchupView.themeId,
+    mode: matchupView.gameInProgress.playMode,
     player1: mapMatchupPlayerViewToPlayerStatsEntry(
       0,
       matchupView.teams[0],
