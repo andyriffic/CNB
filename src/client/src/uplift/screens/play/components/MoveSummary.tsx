@@ -3,7 +3,7 @@ import { SpectatorMove } from '../../../contexts/MatchupProvider';
 
 export const MoveSummary = ({ move }: { move: SpectatorMove }) => {
   return (
-    <div style={{ fontSize: '2rem', textAlign: 'center' }}>
+    <div style={{ fontSize: '1.2rem', textAlign: 'center' }}>
       <p>
         <strong>{move.playerName}</strong> played for your team
         <br />
