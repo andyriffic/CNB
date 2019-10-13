@@ -87,9 +87,6 @@ export const GamePlaySection = ({
     onGameFinished();
   };
 
-  //Temporarily put this here to auto start the game and see how id goes
-  gameReadyToPlay && playGame();
-
   return (
     <Container>
       {showNewGameButton && (
@@ -104,7 +101,8 @@ export const GamePlaySection = ({
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
       {gameReadyToPlay && (
-        <PrimaryButton className="radioactive" onClick={playGame}>
+        // Note that onClick actually calls the playGame function. Temporarily do that to auto-start next game and see how it goes!
+        <PrimaryButton className="radioactive" onClick={playGame()}>
           PLAY!
         </PrimaryButton>
       )}
