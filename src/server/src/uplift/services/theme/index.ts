@@ -29,17 +29,17 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       [GAME_MOVE.A]: {
         name: { english: 'Ninja', chinese: '忍者' },
         winsBy: { english: 'slices', chinese: '片' },
-        imageUrl: '/theme/cnb/ninja.png',
+        imageUrl: '/theme/cnb-baby/ninja.png',
       },
       [GAME_MOVE.B]: {
         name: { english: 'Cowboy', chinese: '牛仔' },
         winsBy: { english: 'shoots', chinese: '芽' },
-        imageUrl: '/theme/cnb/cowboy.png',
+        imageUrl: '/theme/cnb-baby/cowboy.png',
       },
       [GAME_MOVE.C]: {
         name: { english: 'Bear', chinese: '熊' },
         winsBy: { english: 'eats', chinese: '吃' },
-        imageUrl: '/theme/cnb/bear.png',
+        imageUrl: '/theme/cnb-baby/bear.png',
       },
     },
     style: {
