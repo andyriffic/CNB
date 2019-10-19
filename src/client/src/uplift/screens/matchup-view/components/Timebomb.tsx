@@ -8,7 +8,6 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
-import nappyBomb from './nappy-bomb.png';
 
 const Container = styled.div`
   display: flex;
@@ -25,10 +24,6 @@ const pulseCss = (intensity: number) => css`
 
 const shakeCss = css`
   animation: ${shakeAnimationLeft} 300ms ease-in-out infinite;
-`;
-
-const NappyBomb = styled.img`
-  width: 50px;
 `;
 
 const Bomb = styled.div<{
@@ -111,9 +106,9 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && '💩'}
+        {boom && '💥'}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <NappyBomb src={nappyBomb} />}
+        {!boom && '💣'}
       </Bomb>
     </Container>
   );
