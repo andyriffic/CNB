@@ -101,8 +101,7 @@ export const GamePlaySection = ({
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
       {gameReadyToPlay && (
-        // Note that onClick actually calls the playGame function. Temporarily do that to auto-start next game and see how it goes!
-        <PrimaryButton className="radioactive" onClick={playGame()}>
+        <PrimaryButton className="radioactive" onClick={playGame}>
           PLAY!
         </PrimaryButton>
       )}
