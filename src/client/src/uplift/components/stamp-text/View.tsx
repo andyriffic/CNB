@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import grungeImage from './grunge.png';
 import { stampAnimation } from '../animations';
+import GameSoundContext from '../../../contexts/GameSoundContext';
+import { SoundService } from '../../contexts/types';
+import { SOUND_KEYS } from '../../../sounds/SoundService';
 
 type StyleType = 'success' | 'average';
 
 type Style = {
   color: string;
-}
+};
 
 type StampTextProps = {
   text: string | React.ReactNode;
@@ -16,14 +19,14 @@ type StampTextProps = {
   style?: StyleType;
 };
 
-const styles: {[styleName: string]: Style} = {
-  'success': { color: '#0a9928'},
-  'average': { color: '#FFC105'},
-}
+const styles: { [styleName: string]: Style } = {
+  success: { color: '#0a9928' },
+  average: { color: '#FFC105' },
+};
 
 const Container = styled.div``;
 
-const Text = styled.p<{style: Style}>`
+const Text = styled.p<{ style: Style }>`
   animation: ${stampAnimation} 500ms ease-in 1s 1 both;
   transform: rotate(12deg);
   font-size: 1.2rem;
@@ -43,6 +46,16 @@ const Text = styled.p<{style: Style}>`
 `;
 
 export default ({ text, show, style = 'success' }: StampTextProps) => {
+  const soundService = useContext<SoundService>(GameSoundContext);
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        soundService.play(SOUND_KEYS.STAMP);
+      }, 800);
+    }
+  }, [show]);
+
   return (
     <Container className="margins-off">
       {show && <Text style={styles[style]}>{text}</Text>}

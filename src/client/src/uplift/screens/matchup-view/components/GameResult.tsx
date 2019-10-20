@@ -67,12 +67,6 @@ export const GameResult = ({
     soundService.playForDuration(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST, 9000);
   });
 
-  useDoOnce(gameTiming.shownResult, () => {
-    setTimeout(() => {
-      soundService.play(SOUND_KEYS.STAMP);
-    }, 800);
-  });
-
   return (
     <div>
       <MovesContainer className="margins-off">
@@ -92,7 +86,11 @@ export const GameResult = ({
               : classicWinner || timebombWinner;
 
           const showWinnerStamp =
-            game.playMode === 'Standard' ? winner : winner && !draw;
+            game.playMode === 'Standard'
+              ? winner
+              : timebombWinner && showTrophy;
+
+          const showDrawStamp = game.playMode === 'Standard' ? draw : false;
 
           return (
             <div
@@ -151,7 +149,7 @@ export const GameResult = ({
                 <StampText
                   text="Draw!"
                   style="average"
-                  show={gameTiming.shownResult && draw}
+                  show={gameTiming.shownResult && showDrawStamp}
                 />
               </div>
             </div>
