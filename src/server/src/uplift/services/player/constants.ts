@@ -68,7 +68,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Duyen',
     id: 'duyen',
     avatarImageUrl: '/players/duyen.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Jatin',
@@ -110,7 +110,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Michael B',
     id: 'michael_b',
     avatarImageUrl: '/players/michael_b.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Stacey',
