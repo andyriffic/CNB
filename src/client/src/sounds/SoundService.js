@@ -6,7 +6,6 @@ import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
 import awardTrophy from './trophy-jingle.ogg';
-import iLikeToMoveIt from './i_like_to_move_it.mp3';
 import scream01 from './scream-01.mp3';
 import scream02 from './scream-02.wav';
 import scream03 from './scream-03.wav';
