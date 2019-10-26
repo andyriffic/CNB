@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
+import webImage from './web.png';
 
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: ${props => props.theme.primaryTextColor};
+  color: #e77120;
 `;
 
 const Header = styled.header`
@@ -31,7 +32,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#f8f8ff, #d9d6e2);
+  background-image: radial-gradient(#969696, #1b1919);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -56,6 +57,13 @@ const FooterText = styled.p`
 
 const BodyContent = styled.section``;
 
+const Web = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+`;
+
 type FullPageScreenLayoutProps = {
   title: string;
   alignTop: boolean;
@@ -76,9 +84,10 @@ export const FullPageScreenLayout = ({
           <PageHeading>{title}</PageHeading>
         </Header>
       )}
-      <Body alignTop={alignTop} scrollable={scrollable}>
+      <Body alignTop={alignTop} scrollable={scrollable} className="margins-off">
         <BodyContent>{children}</BodyContent>
       </Body>
+      <Web src={webImage} />
       {/* <Footer>
         <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
       </Footer> */}

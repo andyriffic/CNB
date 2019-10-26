@@ -10,6 +10,8 @@ import { GameSettingsDrawer } from '../../../game-settings';
 import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import { MainHeading } from '../../components/Heading';
+import { SOUND_KEYS } from '../../../sounds/SoundService';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -31,6 +33,7 @@ export default ({ navigate }: RouteComponentProps) => {
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true}>
         <GameSettingsDrawer />
+        <MainHeading>Select your players</MainHeading>
         <MatchupsContainer className="margins-off">
           <RandomPlayers
             player1={player1}
@@ -57,7 +60,8 @@ export default ({ navigate }: RouteComponentProps) => {
               CNBOP
             </PrimaryButton>{' '} */}
             <PrimaryButton
-              onClick={() =>
+              onClick={() => {
+                soundService.play(SOUND_KEYS.HALLOWEEN_BOO);
                 addInstantMatchup(
                   player1.id,
                   player2.id,
@@ -66,8 +70,8 @@ export default ({ navigate }: RouteComponentProps) => {
                   matchupId => {
                     navigate && navigate(`/matchup/${matchupId}`);
                   }
-                )
-              }
+                );
+              }}
             >
               Play
             </PrimaryButton>

@@ -132,7 +132,10 @@ export default ({ matchupId }: MatchupViewProps) => {
               <GamePlaySection
                 matchup={currentMatchup}
                 startGame={(playMode: string = 'Standard') => {
-                  matchupId && startGameForMatchup(matchupId, playMode);
+                  if (matchupId) {
+                    soundService.play(SOUND_KEYS.SCREAM_04);
+                    startGameForMatchup(matchupId, playMode);
+                  }
                 }}
                 playGame={() => {
                   if (matchupId) {
@@ -161,6 +164,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                         startGameForMatchup(matchupId, samePlayMode);
                         setShowNewGame(false);
                         setShowTrophyAward(false);
+                        soundService.play(SOUND_KEYS.HALLOWEEN_BOO);
                       }
                     }}
                   >

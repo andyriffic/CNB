@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   transition: background-color 300ms ease-in-out;
+  font-family: 'Creepster', cursive;
   padding: 0.75em 1.4em;
   cursor: pointer;
   margin: 0 0.3em 0.3em 0;
@@ -11,7 +12,7 @@ const StyledButton = styled.button`
   text-decoration: none;
   text-transform: uppercase;
   color: #ffffff;
-  background-color: #55595f;
+  background-color: #969696;
   border: 0;
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: center;

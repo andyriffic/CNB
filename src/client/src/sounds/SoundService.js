@@ -14,14 +14,16 @@ import scream04 from './scream-04.wav';
 import drumroll from './drumroll.wav';
 import digital from './digital.wav';
 import puff from './puff.mp3';
-import biteDust from './boom-boom-shake-shake.mp3';
-import intenseMusicLoop from './intense-music-loop.mp3';
-import yay from './yay.wav';
+import biteDust from './mj-thriller.mp3';
+import intenseMusicLoop from './spooky-ambience.mp3';
+// import yay from './yay.wav';
+import ghost from './ghost.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './fuse.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
+import halloweenBoo from './halloween-boo.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -59,6 +61,7 @@ export const SOUND_KEYS = {
   SLIDE_FALL_WHISTLE: 'SLIDE_FALL_WHISTLE',
   ZAP: 'ZAP',
   PUFF: 'PUFF',
+  HALLOWEEN_BOO: 'HALLOWEEN_BOO',
 };
 
 export class SoundService {
@@ -156,7 +159,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
-        sound: new Howl({ src: [yay] }),
+        sound: new Howl({ src: [ghost] }),
       };
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
@@ -193,6 +196,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.PUFF] = {
         sound: new Howl({ src: [puff] }),
+      };
+
+      this._sounds[SOUND_KEYS.HALLOWEEN_BOO] = {
+        sound: new Howl({ src: [halloweenBoo] }),
       };
 
       // Pre-load winning sounds
