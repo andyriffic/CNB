@@ -27,6 +27,10 @@ export default ({ navigate }: RouteComponentProps) => {
 
   useEffect(() => {
     soundService.load();
+
+    soundService.play(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
+
+    return () => soundService.stop(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
   }, []);
 
   return (
@@ -66,7 +70,7 @@ export default ({ navigate }: RouteComponentProps) => {
                   player1.id,
                   player2.id,
                   2,
-                  'cnb',
+                  'halloween',
                   matchupId => {
                     navigate && navigate(`/matchup/${matchupId}`);
                   }

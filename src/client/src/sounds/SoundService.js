@@ -24,6 +24,7 @@ import ticking from './ticking.wav';
 import fuse from './fuse.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
 import halloweenBoo from './halloween-boo.mp3';
+import spookyPianoMusic from './creepy-piano.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -62,6 +63,7 @@ export const SOUND_KEYS = {
   ZAP: 'ZAP',
   PUFF: 'PUFF',
   HALLOWEEN_BOO: 'HALLOWEEN_BOO',
+  INSTANT_MATCHUP_MUSIC: 'INSTANT_MATCHUP_MUSIC',
 };
 
 export class SoundService {
@@ -108,6 +110,14 @@ export class SoundService {
         }),
       };
 
+      this._sounds[SOUND_KEYS.INSTANT_MATCHUP_MUSIC] = {
+        resumeable: true,
+        sound: new Howl({
+          src: [spookyPianoMusic],
+          loop: true,
+        }),
+      };
+
       this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
         resumeable: true,
         sound: new Howl({
@@ -138,9 +148,9 @@ export class SoundService {
         preload: true,
       };
 
-      this._sounds[SOUND_KEYS.MOVE_IT_MUSIC] = {
-        sound: new Howl({ src: [iLikeToMoveIt] }),
-      };
+      // this._sounds[SOUND_KEYS.MOVE_IT_MUSIC] = {
+      //   sound: new Howl({ src: [iLikeToMoveIt] }),
+      // };
 
       this._sounds[SOUND_KEYS.SCREAM_01] = {
         sound: new Howl({ src: [scream01] }),
@@ -167,7 +177,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST] = {
-        sound: new Howl({ src: [biteDust] }),
+        sound: new Howl({ src: [biteDust], volume: 0.6 }),
       };
 
       this._sounds[SOUND_KEYS.AWARD_TROPHY] = {

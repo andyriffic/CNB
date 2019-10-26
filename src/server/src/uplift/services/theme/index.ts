@@ -53,6 +53,36 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  halloween: {
+    name: { english: 'Halloween', chinese: '萬聖節' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Zombie', chinese: '' },
+        winsBy: { english: 'eats brains', chinese: '' },
+        imageUrl: '/theme/halloween/zombie.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Witch', chinese: '' },
+        winsBy: { english: 'curses', chinese: '' },
+        imageUrl: '/theme/halloween/witch.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Werewolf', chinese: '' },
+        winsBy: { english: 'mauls', chinese: '' },
+        imageUrl: '/theme/halloween/werewolf.png',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#E36E65',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
   'rock-paper-scissors': {
     name: { english: 'Rock, Paper, Scissors', chinese: '岩石,紙,剪刀' },
     moves: {
