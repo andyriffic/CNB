@@ -8,6 +8,32 @@ const TextClipAnimation = keyframes`
   }
 `;
 
+export const slowRubberBandAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scaleX(1.1) scaleY(0.9);
+  }
+
+  20% {
+    transform: scaleX(0.9) scaleY(1.1);
+  }
+
+  30% {
+    transform: scaleX(1.05) scaleY(0.95);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`;
+
 const StyleHeading1 = styled.h1`
   margin: 0;
   padding: 0;
@@ -16,6 +42,7 @@ const StyleHeading1 = styled.h1`
   font-family: 'Creepster', cursive;
   color: #6ebe44;
   text-shadow: 0 0 20px #000, 0 0 8px #000;
+  animation: ${slowRubberBandAnimation} 8s ease-in-out 3s infinite;
 
   /* color: #fff; */
   /* text-transform: uppercase; */
