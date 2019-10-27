@@ -54,17 +54,17 @@ const Container = styled.div`
   width: 12px;
   height: 12px;
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   background: #fff;
   border-radius: 50%;
 }
 
 .spider .body .eye.left {
-  left: 10px;
+  left: 14px;
 }
 
 .spider .body .eye.right {
-  right: 10px;
+  right: 14px;
 }
 
 .spider .body .eye:after {
