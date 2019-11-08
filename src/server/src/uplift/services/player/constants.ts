@@ -68,7 +68,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Duyen',
     id: 'duyen',
     avatarImageUrl: '/players/duyen.png',
-    tags: [tournamentTag, retired],
+    tags: [tournamentTag],
   },
   {
     name: 'Jatin',
