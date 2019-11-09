@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
 import webImage from './web.png';
-import { Spider } from '../Spider';
 
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
@@ -70,7 +69,6 @@ type FullPageScreenLayoutProps = {
   alignTop: boolean;
   children: React.ReactNode | React.ReactNodeArray;
   scrollable?: boolean;
-  showSpider?: boolean;
 };
 
 export const FullPageScreenLayout = ({
@@ -78,7 +76,6 @@ export const FullPageScreenLayout = ({
   alignTop,
   children,
   scrollable = false,
-  showSpider = false,
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off">
@@ -86,11 +83,6 @@ export const FullPageScreenLayout = ({
         <Header>
           <PageHeading>{title}</PageHeading>
         </Header>
-      )}
-      {showSpider && (
-        <div style={{ position: 'absolute', top: '0', left: '10vw' }}>
-          <Spider />
-        </div>
       )}
       <Body alignTop={alignTop} scrollable={scrollable} className="margins-off">
         <BodyContent>{children}</BodyContent>

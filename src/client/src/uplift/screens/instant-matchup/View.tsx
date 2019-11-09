@@ -35,7 +35,7 @@ export default ({ navigate }: RouteComponentProps) => {
 
   return (
     <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true} showSpider={true}>
+      <FullPageScreenLayout title="" alignTop={true}>
         <GameSettingsDrawer />
         <MainHeading>Select your players</MainHeading>
         <MatchupsContainer className="margins-off">
