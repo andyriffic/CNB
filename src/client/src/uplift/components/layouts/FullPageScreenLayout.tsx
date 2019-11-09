@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
-import webImage from './web.png';
 
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
@@ -57,13 +56,6 @@ const FooterText = styled.p`
 
 const BodyContent = styled.section``;
 
-const Web = styled.img`
-  position: absolute;
-  top: 0;
-  right: 0;
-  pointer-events: none;
-`;
-
 type FullPageScreenLayoutProps = {
   title: string;
   alignTop: boolean;
@@ -87,7 +79,6 @@ export const FullPageScreenLayout = ({
       <Body alignTop={alignTop} scrollable={scrollable} className="margins-off">
         <BodyContent>{children}</BodyContent>
       </Body>
-      <Web src={webImage} />
       {/* <Footer>
         <FooterText>{IS_PRODUCTION ? 'Production' : 'Test'}</FooterText>
       </Footer> */}
