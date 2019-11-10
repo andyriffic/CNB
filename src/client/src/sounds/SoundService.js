@@ -13,7 +13,7 @@ import scream04 from './scream-04.wav';
 import drumroll from './drumroll.wav';
 import digital from './digital.wav';
 import puff from './puff.mp3';
-import biteDust from './mj-thriller.mp3';
+import biteDust from './bites-the-dust.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
