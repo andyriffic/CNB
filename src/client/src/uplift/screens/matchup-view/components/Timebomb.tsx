@@ -106,9 +106,9 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && '☠️'}
+        {boom && '💥'}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && '🎃'}
+        {!boom && '💣'}
       </Bomb>
     </Container>
   );
