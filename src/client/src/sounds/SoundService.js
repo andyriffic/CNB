@@ -15,8 +15,7 @@ import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './mj-thriller.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
-// import yay from './yay.wav';
-import ghost from './ghost.mp3';
+import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
@@ -166,7 +165,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
-        sound: new Howl({ src: [ghost] }),
+        sound: new Howl({ src: [yay] }),
       };
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
