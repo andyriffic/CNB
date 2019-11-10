@@ -140,7 +140,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Sime',
     id: 'sime',
     avatarImageUrl: '/players/sime.png',
-    tags: [tournamentTag],
+    tags: [tournamentTag, retired],
   },
   {
     name: 'Yingjian',
