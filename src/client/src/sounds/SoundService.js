@@ -19,7 +19,7 @@ import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
-import fuse from './fuse.wav';
+import fuse from './gasp.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
 import spookyPianoMusic from './creepy-piano.mp3';
 
