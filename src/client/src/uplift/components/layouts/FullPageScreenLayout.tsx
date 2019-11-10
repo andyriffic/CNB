@@ -7,7 +7,7 @@ const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #e77120;
+  color: #a8026e;
 `;
 
 const Header = styled.header`
@@ -31,7 +31,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#969696, #1b1919);
+  background-image: radial-gradient(#fff2d6, #ffd376);
   flex: 1;
   display: flex;
   flex-direction: column;
