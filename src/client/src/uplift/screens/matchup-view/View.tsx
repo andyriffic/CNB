@@ -164,7 +164,6 @@ export default ({ matchupId }: MatchupViewProps) => {
                         startGameForMatchup(matchupId, samePlayMode);
                         setShowNewGame(false);
                         setShowTrophyAward(false);
-                        soundService.play(SOUND_KEYS.HALLOWEEN_BOO);
                       }
                     }}
                   >

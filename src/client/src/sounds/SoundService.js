@@ -22,7 +22,6 @@ import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './fuse.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
-import halloweenBoo from './halloween-boo.mp3';
 import spookyPianoMusic from './creepy-piano.mp3';
 
 export const SOUND_KEYS = {
@@ -61,7 +60,6 @@ export const SOUND_KEYS = {
   SLIDE_FALL_WHISTLE: 'SLIDE_FALL_WHISTLE',
   ZAP: 'ZAP',
   PUFF: 'PUFF',
-  HALLOWEEN_BOO: 'HALLOWEEN_BOO',
   INSTANT_MATCHUP_MUSIC: 'INSTANT_MATCHUP_MUSIC',
 };
 
@@ -205,10 +203,6 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.PUFF] = {
         sound: new Howl({ src: [puff] }),
-      };
-
-      this._sounds[SOUND_KEYS.HALLOWEEN_BOO] = {
-        sound: new Howl({ src: [halloweenBoo] }),
       };
 
       // Pre-load winning sounds

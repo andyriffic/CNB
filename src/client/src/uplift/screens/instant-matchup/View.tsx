@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
-import { Button } from '../../../screens/styled';
 import { MatchupContext } from '../../contexts/MatchupProvider';
 import { RandomPlayers } from './RandomPlayers';
 import { GameSettingsDrawer } from '../../../game-settings';
@@ -11,7 +10,6 @@ import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { MainHeading } from '../../components/Heading';
-import { SOUND_KEYS } from '../../../sounds/SoundService';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -27,10 +25,6 @@ export default ({ navigate }: RouteComponentProps) => {
 
   useEffect(() => {
     soundService.load();
-
-    soundService.play(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
-
-    return () => soundService.stop(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
   }, []);
 
   return (
@@ -65,12 +59,11 @@ export default ({ navigate }: RouteComponentProps) => {
             </PrimaryButton>{' '} */}
             <PrimaryButton
               onClick={() => {
-                soundService.play(SOUND_KEYS.HALLOWEEN_BOO);
                 addInstantMatchup(
                   player1.id,
                   player2.id,
                   2,
-                  'halloween',
+                  'cnb',
                   matchupId => {
                     navigate && navigate(`/matchup/${matchupId}`);
                   }
