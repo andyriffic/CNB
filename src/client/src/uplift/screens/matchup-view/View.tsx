@@ -133,7 +133,6 @@ export default ({ matchupId }: MatchupViewProps) => {
                 matchup={currentMatchup}
                 startGame={(playMode: string = 'Standard') => {
                   if (matchupId) {
-                    soundService.play(SOUND_KEYS.SCREAM_04);
                     startGameForMatchup(matchupId, playMode);
                   }
                 }}
