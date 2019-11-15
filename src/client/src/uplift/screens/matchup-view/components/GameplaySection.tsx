@@ -59,6 +59,18 @@ export const GamePlaySection = ({
     }
   }, [matchup, delayedTimebombPlayerHoldingIndex]);
 
+  useEffect(() => {
+    if (!matchup.gameInProgress) {
+      return;
+    }
+
+    if (matchup.gameInProgress.status === GAME_STATUS.ReadyToPlay) {
+      setTimeout(() => {
+        playGame();
+      }, 100)
+    }
+  }, [matchup])
+
   const gameplaySectionFinished = () => {
     if (
       matchup.gameInProgress &&
