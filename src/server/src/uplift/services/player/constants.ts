@@ -110,7 +110,7 @@ export const ALL_PLAYERS: PlayerList = [
     name: 'Michael B',
     id: 'michael_b',
     avatarImageUrl: '/players/michael_b.png',
-    tags: [tournamentTag, retired],
+    tags: [tournamentTag],
   },
   {
     name: 'Stacey',
