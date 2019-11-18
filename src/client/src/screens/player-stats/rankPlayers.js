@@ -16,6 +16,21 @@ export const rankByTotalWins = rawRankings => {
   return sortByRankScore(rankingsWithScore);
 };
 
+export const rankBySum = rawRankings => {
+  const rankingsWithScore = rawRankings.map(ranking => {
+    return {
+      ...ranking,
+      rankScore:
+        parseInt(ranking.times_won) * 2 +
+        parseInt(ranking.times_drawn) -
+        parseInt(ranking.times_lost),
+    };
+  });
+  console.log('UNSORTED RANKINGS', rankingsWithScore);
+
+  return sortByRankScore(rankingsWithScore);
+};
+
 export const rankByWinDrawPlayedRatio = rawRankings => {
   const rankingsWithScore = rawRankings.map(ranking => {
     return {
