@@ -111,7 +111,7 @@ export default ({ matchupId }: MatchupViewProps) => {
   }, []);
 
   return (
-    <FullPageScreenLayout title="" alignTop>
+    <FullPageScreenLayout title="" alignTop showHolly={true}>
       <ConfettiProvider>
         <GameSettingsDrawer />
         <MatchupsContainer>

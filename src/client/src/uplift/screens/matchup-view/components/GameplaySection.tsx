@@ -67,9 +67,9 @@ export const GamePlaySection = ({
     if (matchup.gameInProgress.status === GAME_STATUS.ReadyToPlay) {
       setTimeout(() => {
         playGame();
-      }, 100)
+      }, 100);
     }
-  }, [matchup])
+  }, [matchup]);
 
   const gameplaySectionFinished = () => {
     if (
@@ -103,9 +103,9 @@ export const GamePlaySection = ({
     <Container>
       {showNewGameButton && (
         <div>
-          <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '}
+          {/* <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '} */}
           <PrimaryButton onClick={() => startGame('Timebomb')}>
-            Timebomb 💣
+            🎄Christmas Timebomb 🎄
           </PrimaryButton>
         </div>
       )}

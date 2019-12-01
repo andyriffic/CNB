@@ -53,6 +53,37 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  'xmas-2019': {
+    name: { english: 'Merry Christmas', chinese: '' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Ninja', chinese: '忍者' },
+        winsBy: { english: 'slices', chinese: '片' },
+        imageUrl: '/theme/xmas-2019/ninja.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Cowboy', chinese: '牛仔' },
+        winsBy: { english: 'shoots', chinese: '芽' },
+        imageUrl: '/theme/xmas-2019/cowboy.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Bear', chinese: '熊' },
+        winsBy: { english: 'eats', chinese: '吃' },
+        imageUrl: '/theme/xmas-2019/bear.png',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#E36E65',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
+
   halloween: {
     name: { english: 'Halloween', chinese: '萬聖節' },
     moves: {

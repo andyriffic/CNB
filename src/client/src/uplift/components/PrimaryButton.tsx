@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   transition: background-color 200ms ease-in-out, transform 400ms ease-in-out;
-  font-family: 'Rammetto One', cursive;
+  font-family: 'Mountains of Christmas', cursive;
   padding: 0.75em 1.4em;
   cursor: pointer;
   margin: 0 0.3em 0.3em 0;
@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   text-decoration: none;
   text-transform: uppercase;
   color: #fff;
-  background-color: #600049;
+  background-color: #378b29;
   border: 0;
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: center;
@@ -20,7 +20,7 @@ const StyledButton = styled.button`
   font-size: 1rem;
   &:hover {
     box-shadow: inset 0 -0.6em 0 -0.5em rgba(0, 0, 0, 0.17);
-    background-color: #300025;
+    background-color: #1b4514;
     transform: scale(1.05);
   }
 

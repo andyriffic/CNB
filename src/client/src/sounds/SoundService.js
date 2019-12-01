@@ -5,7 +5,7 @@ import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
 import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
-import awardTrophy from './trophy-jingle.ogg';
+import awardTrophy from './christmas_rock.mp3';
 import scream01 from './scream-01.mp3';
 import scream02 from './scream-02.wav';
 import scream03 from './scream-03.wav';
@@ -14,14 +14,15 @@ import drumroll from './drumroll.wav';
 import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
-import intenseMusicLoop from './intense-music-loop.mp3';
-import yay from './yay.wav';
+import intenseMusicLoop from './sleighbells.mp3';
+import yay from './santa_ho_ho_ho_ho_ho.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './gasp.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
-import spookyPianoMusic from './creepy-piano.mp3';
+import merryXmasMusic from './merry-xmas-music.mp3';
+import xmasBells1 from './xmas-bells-1.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -60,6 +61,7 @@ export const SOUND_KEYS = {
   ZAP: 'ZAP',
   PUFF: 'PUFF',
   INSTANT_MATCHUP_MUSIC: 'INSTANT_MATCHUP_MUSIC',
+  XMAS_BELLS_1: 'XMAS_BELLS_1',
 };
 
 export class SoundService {
@@ -103,13 +105,14 @@ export class SoundService {
         sound: new Howl({
           src: [intenseMusicLoop],
           loop: true,
+          volume: 0.5,
         }),
       };
 
       this._sounds[SOUND_KEYS.INSTANT_MATCHUP_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [spookyPianoMusic],
+          src: [merryXmasMusic],
           loop: true,
         }),
       };
@@ -202,6 +205,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.PUFF] = {
         sound: new Howl({ src: [puff] }),
+      };
+
+      this._sounds[SOUND_KEYS.XMAS_BELLS_1] = {
+        sound: new Howl({ src: [xmasBells1] }),
       };
 
       // Pre-load winning sounds

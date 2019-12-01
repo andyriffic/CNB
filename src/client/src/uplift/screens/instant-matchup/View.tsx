@@ -10,6 +10,7 @@ import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { MainHeading } from '../../components/Heading';
+import { SOUND_KEYS } from '../../../sounds/SoundService';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -27,9 +28,22 @@ export default ({ navigate }: RouteComponentProps) => {
     soundService.load();
   }, []);
 
+  useEffect(() => {
+    soundService.play(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
+
+    return () => {
+      soundService.stop(SOUND_KEYS.INSTANT_MATCHUP_MUSIC);
+    };
+  }, []);
+
   return (
     <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true}>
+      <FullPageScreenLayout
+        title=""
+        alignTop={true}
+        showHolly={true}
+        showSanta={true}
+      >
         <GameSettingsDrawer />
         <MainHeading>Select your players</MainHeading>
         <MatchupsContainer className="margins-off">
@@ -59,11 +73,12 @@ export default ({ navigate }: RouteComponentProps) => {
             </PrimaryButton>{' '} */}
             <PrimaryButton
               onClick={() => {
+                soundService.play(SOUND_KEYS.XMAS_BELLS_1);
                 addInstantMatchup(
                   player1.id,
                   player2.id,
                   2,
-                  'cnb',
+                  'xmas-2019',
                   matchupId => {
                     navigate && navigate(`/matchup/${matchupId}`);
                   }

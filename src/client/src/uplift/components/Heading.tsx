@@ -39,8 +39,8 @@ const StyleHeading1 = styled.h1`
   padding: 0;
   text-align: center;
   /* font-family: 'Rammetto One', cursive; */
-  font-family: 'Rammetto One', cursive;
-  color: #a8026e;
+  font-family: 'Mountains of Christmas', cursive;
+  color: #378b29;
   text-shadow: 0 0 20px #fff, 0 0 8px #fff;
   animation: ${slowRubberBandAnimation} 8s ease-in-out 3s infinite;
 

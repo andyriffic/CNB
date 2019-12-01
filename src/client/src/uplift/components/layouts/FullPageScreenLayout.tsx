@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
+import xmasDecorationImage from './christmas-corner-border-7.png';
+import santaImage from './santa-hello.gif';
 
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #a8026e;
+  color: #f8b229;
 `;
 
 const Header = styled.header`
@@ -31,7 +33,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#fff2d6, #ffd376);
+  background-image: radial-gradient(#ff7878, #ff0000);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -56,11 +58,36 @@ const FooterText = styled.p`
 
 const BodyContent = styled.section``;
 
+const XmasDecoration1 = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+`;
+
+const XmasDecoration2 = styled.img`
+  transform: scaleX(-1);
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+`;
+
+const Santa = styled.img`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+
 type FullPageScreenLayoutProps = {
   title: string;
   alignTop: boolean;
   children: React.ReactNode | React.ReactNodeArray;
   scrollable?: boolean;
+  showHolly?: boolean;
+  showSanta?: boolean;
 };
 
 export const FullPageScreenLayout = ({
@@ -68,9 +95,18 @@ export const FullPageScreenLayout = ({
   alignTop,
   children,
   scrollable = false,
+  showHolly = false,
+  showSanta = false,
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off">
+      {showHolly && (
+        <>
+          <XmasDecoration1 src={xmasDecorationImage} />
+          <XmasDecoration2 src={xmasDecorationImage} />
+        </>
+      )}
+      {showSanta && <Santa src={santaImage} />}
       {title && (
         <Header>
           <PageHeading>{title}</PageHeading>
