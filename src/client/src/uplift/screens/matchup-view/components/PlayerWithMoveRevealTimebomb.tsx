@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { ThemedMove } from '../../../contexts/ThemeProvider';
 import star from './star-md.png';
 import {
@@ -53,6 +53,12 @@ const shakeCssRight = css`
   animation: ${shakeAnimationRight} 2s infinite;
 `;
 
+const attackLeft = keyframes`
+  0% {transform: translate(0, 0);}
+  50% {transform: translate(400px, 0);}
+  100% {transform: translate(0, 0);}
+`;
+
 const PlayerCharacter = styled.img<{
   position: 'LEFT' | 'RIGHT';
   reveal: boolean;
@@ -99,12 +105,28 @@ const PlayerMoveContainer = styled.div<{
   ${props => props.position === 'RIGHT' && 'transform: scaleX(-1);'}
 `;
 
-const PlayerMove = styled.img<{ position: 'LEFT' | 'RIGHT'; reveal: boolean }>`
+const PlayerMove = styled.img<{
+  position: 'LEFT' | 'RIGHT';
+  reveal: boolean;
+  playWinnerAnimation: boolean;
+  playLoserAnimation: boolean;
+}>`
   width: 80%;
   height: 80%;
   transition: opacity 500ms ease-in-out;
   opacity: ${props => (props.reveal ? '1' : '0')};
   position: absolute;
+  ${props =>
+    props.playWinnerAnimation &&
+    css`
+      animation: ${attackLeft} 400ms linear 0s 1 forwards;
+    `}
+
+  ${props =>
+    props.playLoserAnimation &&
+    css`
+      animation: ${spinAwayAnimationLeft} 800ms linear 200ms 1 forwards;
+    `}
 `;
 
 export const PlayerWithMoveRevealTimebomb = ({
@@ -127,6 +149,7 @@ export const PlayerWithMoveRevealTimebomb = ({
   });
 
   useDoOnce(winner && playLoserAnimation, () => {
+    // Timebomb has gone off
     soundService.play(
       selectRandomOneOf([
         SOUND_KEYS.SCREAM_01,
@@ -135,6 +158,16 @@ export const PlayerWithMoveRevealTimebomb = ({
         SOUND_KEYS.SCREAM_04,
       ])
     );
+  });
+
+  useDoOnce(!draw && winner && playWinnerAnimation, () => {
+    // Player has winning move
+    soundService.play(SOUND_KEYS.MOVE_ATTACH_WHOOSH);
+  });
+
+  useDoOnce(!draw && !winner && playWinnerAnimation, () => {
+    // Player has losing move
+    soundService.play(SOUND_KEYS.MOVE_LOSE);
   });
 
   return (
@@ -159,8 +192,10 @@ export const PlayerWithMoveRevealTimebomb = ({
         )}
         <PlayerMove
           position={position}
-          reveal={revealMove}
+          reveal={revealMove && !(playLoserAnimation && !winner)}
           src={`${SOCKETS_ENDPOINT}${move.imageUrl}`}
+          playWinnerAnimation={!draw && playWinnerAnimation && winner}
+          playLoserAnimation={!draw && playWinnerAnimation && !winner}
         />
       </PlayerMoveContainer>
     </Container>

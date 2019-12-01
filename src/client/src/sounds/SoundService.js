@@ -23,6 +23,8 @@ import fuse from './gasp.wav';
 import slideFallWhistle from './slide-fall-whistle.wav';
 import merryXmasMusic from './merry-xmas-music.mp3';
 import xmasBells1 from './xmas-bells-1.mp3';
+import moveAttachWhoosh from './move-attach-whoosh.flac';
+import moveLose from './punch.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -62,6 +64,8 @@ export const SOUND_KEYS = {
   PUFF: 'PUFF',
   INSTANT_MATCHUP_MUSIC: 'INSTANT_MATCHUP_MUSIC',
   XMAS_BELLS_1: 'XMAS_BELLS_1',
+  MOVE_ATTACH_WHOOSH: 'MOVE_ATTACH_WHOOSH',
+  MOVE_LOSE: 'MOVE_LOSE',
 };
 
 export class SoundService {
@@ -209,6 +213,14 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.XMAS_BELLS_1] = {
         sound: new Howl({ src: [xmasBells1] }),
+      };
+
+      this._sounds[SOUND_KEYS.MOVE_ATTACH_WHOOSH] = {
+        sound: new Howl({ src: [moveAttachWhoosh] }),
+      };
+
+      this._sounds[SOUND_KEYS.MOVE_LOSE] = {
+        sound: new Howl({ src: [moveLose] }),
       };
 
       // Pre-load winning sounds

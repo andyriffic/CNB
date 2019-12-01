@@ -75,7 +75,7 @@ export const useGameViewTimingEffect = (
                     ) // show loser move animation
                   );
                 },
-                resultIsaDraw ? 0 : timebomb ? 0 : 2000
+                resultIsaDraw ? 0 : timebomb ? 2000 : 2000
               ) // show winner move animation
             );
           }, 1000) // Show move
