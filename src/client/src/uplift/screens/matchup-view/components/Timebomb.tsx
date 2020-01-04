@@ -8,7 +8,6 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
-import crackerImage from './christmas-cracker.png';
 
 const Container = styled.div`
   display: flex;
@@ -41,10 +40,6 @@ const Bomb = styled.div<{
       : props.ticking
       ? shakeCss
       : props.intensity > 1 && pulseCss(props.intensity)}
-`;
-
-const Cracker = styled.img`
-  transform: rotate(-20deg);
 `;
 
 type TimebombProps = {
@@ -113,7 +108,7 @@ export const Timebomb = ({
         {/* {(ticking || exploded) && !boom && '😬'} */}
         {boom && '💥'}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <Cracker src={crackerImage} />}
+        {!boom && '💣'}
       </Bomb>
     </Container>
   );

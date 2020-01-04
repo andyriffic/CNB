@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { keyframes, CSSProperties } from 'styled-components';
-import wreathImage from './wreath.gif';
 
 const SpinAnimation = keyframes`
   from {
@@ -17,7 +16,7 @@ const SpinningBorderContent = styled.div`
   position: relative;
 `;
 
-const LoadingCircle = styled.svg<{ loaded: boolean }>`
+const LoadingCircle = styled.svg<{loaded: boolean}>`
   z-index: 1;
   animation: ${SpinAnimation} 2s linear infinite;
   #track {
@@ -31,8 +30,8 @@ const LoadingCircle = styled.svg<{ loaded: boolean }>`
   }
 `;
 
-const LoadingContent = styled.div<{ loaded: boolean }>`
-  background-color: ${props => (props.loaded ? '#378b29' : '#378b29')};
+const LoadingContent = styled.div<{loaded: boolean}>`
+  background-color: ${props => (props.loaded ? 'white' : 'white')};
   position: absolute;
   top: 1px;
   left: 1px;
@@ -48,26 +47,33 @@ const LoadingContent = styled.div<{ loaded: boolean }>`
   font-size: 0.5rem;
 `;
 
-const Wreath = styled.img`
-  z-index: 1;
-  width: 40vmin;
-  height: 40vmin;
-  position: absolute;
-  top: -8vmin;
-  left: -8vmin;
-`;
-
 type WaitingContentContainerProps = {
   loaded: boolean;
   children: React.ReactNode;
-  style?: CSSProperties;
-};
+  style?: CSSProperties
+}
 
 const View = ({ loaded, children, style }: WaitingContentContainerProps) => {
   return (
     <SpinningBorderContent className="margins-off" style={style}>
-      <Wreath src={wreathImage} />
       <LoadingContent loaded={loaded}>{children}</LoadingContent>
+      <LoadingCircle
+        loaded={loaded}
+        id="loading-spinner"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 48 48"
+      >
+        <g fill="none">
+          <path
+            id="track"
+            d="M24,48 C10.745166,48 0,37.254834 0,24 C0,10.745166 10.745166,0 24,0 C37.254834,0 48,10.745166 48,24 C48,37.254834 37.254834,48 24,48 Z M24,44 C35.045695,44 44,35.045695 44,24 C44,12.954305 35.045695,4 24,4 C12.954305,4 4,12.954305 4,24 C4,35.045695 12.954305,44 24,44 Z"
+          />
+          <path
+            id="section"
+            d="M24,0 C37.254834,0 48,10.745166 48,24 L44,24 C44,12.954305 35.045695,4 24,4 L24,0 Z"
+          />
+        </g>
+      </LoadingCircle>
     </SpinningBorderContent>
   );
 };

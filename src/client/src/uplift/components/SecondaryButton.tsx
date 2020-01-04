@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   transition: background-color 300ms ease-in-out;
-  font-family: 'Mountains of Christmas', cursive;
+  font-family: 'Rammetto One', cursive;
   padding: 0.75em 1.4em;
   cursor: pointer;
   margin: 0 0.3em 0.3em 0;
