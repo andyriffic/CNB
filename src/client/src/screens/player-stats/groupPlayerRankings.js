@@ -19,7 +19,7 @@ export const groupPlayerRankings = playerRankings => {
   let tempRankingGroup = [];
   const groupedRankings = [];
   playerRankings.forEach(ranking => {
-    if (ranking.player === 'Guest') {
+    if (ranking.player_name === 'Guest') {
       // TODO: filter guest out on server
       return;
     }

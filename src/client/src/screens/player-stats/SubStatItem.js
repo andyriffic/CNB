@@ -36,6 +36,9 @@ const styles = {
   draws: {
     bgColor: '#E99D44',
   },
+  trophies: {
+    bgColor: '#17a2b8',
+  },
 };
 
 export const SubStatItem = ({ title, value, type = 'wins' }) => {

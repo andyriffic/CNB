@@ -8,7 +8,7 @@ import {
   STATS_AWS_RESULT_BUCKET_NAME,
 } from '../environment';
 import { statsS3Bucket } from './s3';
-import { playerLeaderboardQuery } from './player-leaderboard-query';
+import { playerLeaderboardQueryV2 } from './player-leaderboard-query-v2';
 import { gameHistoryQuery } from './game-history-query';
 
 const RESULT_SIZE = 1000;
@@ -34,7 +34,7 @@ let q = Queue((id, cb) => {
 
 /* Make a SQL query and display results */
 const runTestQuery = () => {
-  const leaderboardQuery = makeQuery(playerLeaderboardQuery)
+  const leaderboardQuery = makeQuery(playerLeaderboardQueryV2)
     .then(data => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(

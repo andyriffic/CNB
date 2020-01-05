@@ -150,7 +150,7 @@ const View = () => {
   });
 
   return (
-    <FullPage pageTitle="Leaderboard">
+    <FullPage pageTitle="Leaderboard 2020">
       <GameSettingsDrawer />
       <RankingScrollableContainer>
         <RankingContainer ref={rankingContanerRef}>
