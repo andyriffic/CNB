@@ -14,6 +14,7 @@ import { PlayerListView } from './screens/player-list';
 import { TeamsListView } from './screens/teams-list';
 import { TournamentInfoView } from './screens/tournament-info';
 import { InstantMatchup } from './screens/instant-matchup';
+import { PlayerProfileStats } from './screens/player-profile-stats';
 
 export default () => {
   return (
@@ -28,6 +29,7 @@ export default () => {
                 <MatchupLobby path="/lobby" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
+                <PlayerProfileStats path="/player/profile" />
                 <PlayerListView path="/tournament-players" />
                 <TeamsListView path="/teams" />
                 <TournamentInfoView path="tournament-info" />

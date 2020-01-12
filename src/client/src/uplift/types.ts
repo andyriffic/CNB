@@ -8,3 +8,11 @@ export type GameHistoryRecord = {
 export type GameHistory = {
   result: GameHistoryRecord[];
 };
+
+export type PlayerStatsRecord = {
+  player_name: string;
+  times_played: number;
+  times_won: number;
+  times_drawn: number;
+  times_lost: number;
+};
