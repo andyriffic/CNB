@@ -14,8 +14,7 @@ const MoveContainer = styled.div`
 `;
 
 const MoveImage = styled.img`
-  width: 8vmin;
-  height: 8vmin;
+  height: 15vmin;
 `;
 
 const MoveName = styled.p`

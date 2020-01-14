@@ -67,9 +67,9 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/chinese-new-year-2020/human.png',
       },
       [GAME_MOVE.C]: {
-        name: { english: 'fireworks', chinese: '爆竹' },
+        name: { english: 'firecrackers', chinese: '爆竹' },
         winsBy: { english: 'frighten', chinese: '吓走' },
-        imageUrl: '/theme/chinese-new-year-2020/firework.png',
+        imageUrl: '/theme/chinese-new-year-2020/firecrackers.png',
       },
     },
     style: {
