@@ -57,19 +57,19 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     name: { english: 'Chinese New Year 2020', chinese: '牛仔，忍者，熊' },
     moves: {
       [GAME_MOVE.A]: {
-        name: { english: 'Ninja', chinese: '忍者' },
-        winsBy: { english: 'slices', chinese: '片' },
-        imageUrl: '/theme/chinese-new-year-2020/ninja.png',
+        name: { english: 'Nian', chinese: '年兽' },
+        winsBy: { english: 'eats', chinese: '吃' },
+        imageUrl: '/theme/chinese-new-year-2020/nian.png',
       },
       [GAME_MOVE.B]: {
-        name: { english: 'Cowboy', chinese: '牛仔' },
-        winsBy: { english: 'shoots', chinese: '芽' },
-        imageUrl: '/theme/chinese-new-year-2020/cowboy.png',
+        name: { english: 'human', chinese: '人类' },
+        winsBy: { english: 'ignite', chinese: '点火' },
+        imageUrl: '/theme/chinese-new-year-2020/human.png',
       },
       [GAME_MOVE.C]: {
-        name: { english: 'Bear', chinese: '熊' },
-        winsBy: { english: 'eats', chinese: '吃' },
-        imageUrl: '/theme/chinese-new-year-2020/bear.png',
+        name: { english: 'fireworks', chinese: '爆竹' },
+        winsBy: { english: 'frighten', chinese: '吓走' },
+        imageUrl: '/theme/chinese-new-year-2020/firework.png',
       },
     },
     style: {
