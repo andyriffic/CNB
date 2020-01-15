@@ -31,6 +31,9 @@ const NewYearBackground2 = styled.div`
   height:100vh;
   color: #ff9d76;
   `
+const NewGameButton = styled(PrimaryButton)`
+  background-color: #ff9d76;
+`
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
@@ -162,7 +165,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                   )}
                 {showNewGame && (
                   <div style={{ textAlign: 'center' }}>
-                    <PrimaryButton
+                    <NewGameButton
                       onClick={() => {
                         if (matchupId) {
                           const samePlayMode =
@@ -176,7 +179,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                       }}
                     >
                       New Game
-                    </PrimaryButton>
+                    </NewGameButton>
                   </div>
                 )}
               </React.Fragment>
