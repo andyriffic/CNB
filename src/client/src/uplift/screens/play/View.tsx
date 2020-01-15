@@ -11,7 +11,7 @@ import { PlayerGameResult } from './components/PlayerGameResult';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { PlayerSelector } from './components/PlayerSelector';
-import NewYearBackgroundImg3 from '../../../images/3background.jpg'
+import NewYearBackgroundImgInPlayPage from '../../../images/play-page.jpg'
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -20,7 +20,7 @@ const MatchupsContainer = styled.div`
 `;
 
 const NewYearBackground3 = styled.div`
-  background-image:url(${NewYearBackgroundImg3});
+  background-image:url(${NewYearBackgroundImgInPlayPage});
   background-size: 100% 100%;
   height:100vh;
   color: #ff9d76;

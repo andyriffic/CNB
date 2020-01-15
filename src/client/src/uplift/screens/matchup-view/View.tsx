@@ -13,7 +13,7 @@ import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import NewYearBackgroundImg2 from '../../../images/4background.jpg'
+import NewYearBackgroundImgInMatchup from '../../../images/matchup.jpg'
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -26,7 +26,7 @@ type MatchupViewProps = {
 } & RouteComponentProps;
 
 const NewYearBackground2 = styled.div`
-  background-image:url(${NewYearBackgroundImg2});
+  background-image:url(${NewYearBackgroundImgInMatchup});
   background-size: 100% 100%;
   height:100vh;
   color: #ff9d76;
