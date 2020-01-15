@@ -38,50 +38,50 @@ export default ({ navigate }: RouteComponentProps) => {
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true}>
         <NewYearBackground>
-        <GameSettingsDrawer />
-        <MainHeading>Select your players</MainHeading>
-        <MatchupsContainer className="margins-off">
-          <RandomPlayers
-            player1={player1}
-            setPlayer1={setPlayer1}
-            player2={player2}
-            setPlayer2={setPlayer2}
-          />
-        </MatchupsContainer>
-        {player1 && player2 && (
-          <div style={{ textAlign: 'center' }}>
-            {/* <PrimaryButton
-              onClick={() =>
-                addInstantMatchup(
-                  player1.id,
-                  player2.id,
-                  2,
-                  'cnbop',
-                  matchupId => {
-                    navigate && navigate(`/matchup/${matchupId}`);
-                  }
-                )
-              }
-            >
-              CNBOP
-            </PrimaryButton>{' '} */}
-            <PrimaryButton
-              onClick={() => {
-                addInstantMatchup(
-                  player1.id,
-                  player2.id,
-                  2,
-                  'chinese-new-year-2020',
-                  matchupId => {
-                    navigate && navigate(`/matchup/${matchupId}`);
-                  }
-                );
-              }}
-            >
-              Play
-            </PrimaryButton>
-          </div>
-        )}
+          <GameSettingsDrawer />
+          <MainHeading>Select your players</MainHeading>
+          <MatchupsContainer className="margins-off">
+            <RandomPlayers
+              player1={player1}
+              setPlayer1={setPlayer1}
+              player2={player2}
+              setPlayer2={setPlayer2}
+            />
+          </MatchupsContainer>
+          {player1 && player2 && (
+            <div style={{ textAlign: 'center' }}>
+              {/* <PrimaryButton
+                onClick={() =>
+                  addInstantMatchup(
+                    player1.id,
+                    player2.id,
+                    2,
+                    'cnbop',
+                    matchupId => {
+                      navigate && navigate(`/matchup/${matchupId}`);
+                    }
+                  )
+                }
+              >
+                CNBOP
+              </PrimaryButton>{' '} */}
+              <PrimaryButton
+                onClick={() => {
+                  addInstantMatchup(
+                    player1.id,
+                    player2.id,
+                    2,
+                    'chinese-new-year-2020',
+                    matchupId => {
+                      navigate && navigate(`/matchup/${matchupId}`);
+                    }
+                  );
+                }}
+              >
+                Play
+              </PrimaryButton>
+            </div>
+          )}
         </NewYearBackground>
       </FullPageScreenLayout>
     </PlayersProvider>

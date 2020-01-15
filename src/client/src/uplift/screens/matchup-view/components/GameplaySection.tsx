@@ -10,6 +10,10 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const ModeButton = styled(PrimaryButton)`
+  background-color:#ff9d76;
+`
+
 export const GamePlaySection = ({
   matchup,
   startGame,
@@ -103,19 +107,19 @@ export const GamePlaySection = ({
     <Container>
       {showNewGameButton && (
         <div>
-          <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '}
-          <PrimaryButton onClick={() => startGame('Timebomb')}>
+          <ModeButton onClick={() => startGame()}>Classic 😴</ModeButton>{' '}
+          <ModeButton onClick={() => startGame('Timebomb')}>
             Timebomb 💣
-          </PrimaryButton>
+          </ModeButton>
         </div>
       )}
       {showWaitingOnPlayers && (
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
       {gameReadyToPlay && (
-        <PrimaryButton className="radioactive" onClick={playGame}>
+        <ModeButton className="radioactive" onClick={playGame}>
           PLAY!
-        </PrimaryButton>
+        </ModeButton>
       )}
       {gameFinished && (
         <GameResult
