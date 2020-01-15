@@ -14,7 +14,7 @@ import drumroll from './drumroll.wav';
 import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
-import intenseMusicLoop from './intense-music-loop.mp3';
+import radiantMusicLoop from './radiant.mp4';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
@@ -103,7 +103,7 @@ export class SoundService {
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [intenseMusicLoop],
+          src: [radiantMusicLoop],
           loop: true,
         }),
       };
@@ -183,7 +183,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.TICKING] = {
-        sound: new Howl({ src: [ticking], loop: true }),
+        sound: new Howl({ src: [ticking], loop: true, volume: 0.6, }),
       };
 
       this._sounds[SOUND_KEYS.FUSE] = {
