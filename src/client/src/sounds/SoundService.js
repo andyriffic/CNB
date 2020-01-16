@@ -15,7 +15,7 @@ import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
 import radiantMusicLoop from './radiant.mp4';
-import yay from './yay.wav';
+import yay from './gong.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
