@@ -40,7 +40,7 @@ const StyleHeading1 = styled.h1`
   text-align: center;
   /* font-family: 'Rammetto One', cursive; */
   font-family: 'Rammetto One', cursive;
-  color: #a8026e;
+  color: #51eaea;
   text-shadow: 0 0 20px #fff, 0 0 8px #fff;
   animation: ${slowRubberBandAnimation} 8s ease-in-out 3s infinite;
 

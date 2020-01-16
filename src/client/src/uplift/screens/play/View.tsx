@@ -11,11 +11,19 @@ import { PlayerGameResult } from './components/PlayerGameResult';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { PlayerSelector } from './components/PlayerSelector';
+import NewYearBackgroundImgInPlayPage from '../../../images/play-page.jpg';
 
 const MatchupsContainer = styled.div`
   width: 95%;
   padding: 40px 0;
   margin: 0 auto;
+`;
+
+const NewYearBackground3 = styled.div`
+  background-image: url(${NewYearBackgroundImgInPlayPage});
+  background-size: 100% 100%;
+  height: 100vh;
+  color: #ff9d76;
 `;
 
 export default ({  }: RouteComponentProps) => {
@@ -52,6 +60,7 @@ export default ({  }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
+        {/* <NewYearBackground3>   */}
         <MatchupsContainer>
           {gameFinished && (
             <PlayerGameResult
@@ -89,6 +98,7 @@ export default ({  }: RouteComponentProps) => {
             </React.Fragment>
           )}
         </MatchupsContainer>
+        {/* </NewYearBackground3> */}
       </FullPageScreenLayout>
     </PlayersProvider>
   );

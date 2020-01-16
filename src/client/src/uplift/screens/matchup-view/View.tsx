@@ -13,6 +13,7 @@ import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import NewYearBackgroundImgInMatchup from '../../../images/matchup.jpg'
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -23,6 +24,16 @@ const MatchupsContainer = styled.div`
 type MatchupViewProps = {
   matchupId?: string;
 } & RouteComponentProps;
+
+const NewYearBackground2 = styled.div`
+  background-image:url(${NewYearBackgroundImgInMatchup});
+  background-size: 100% 100%;
+  height:100vh;
+  color: #ff9d76;
+  `
+const NewGameButton = styled(PrimaryButton)`
+  background-color: #ff9d76;
+`
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
@@ -112,68 +123,70 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageScreenLayout title="" alignTop>
-      <ConfettiProvider>
-        <GameSettingsDrawer />
-        <MatchupsContainer>
-          {!(currentMatchup && delayedTeamDetails) ? (
-            <LoadingSpinner text="Loading matchup..." />
-          ) : (
-            <React.Fragment>
-              <TeamDetailsSection
-                playMode={
-                  (currentMatchup &&
-                    currentMatchup.gameInProgress &&
-                    currentMatchup.gameInProgress.playMode) ||
-                  ''
-                }
-                teams={delayedTeamDetails}
-                matchup={currentMatchup}
-              />
-              <GamePlaySection
-                matchup={currentMatchup}
-                startGame={(playMode: string = 'Standard') => {
-                  if (matchupId) {
-                    startGameForMatchup(matchupId, playMode);
+      <NewYearBackground2>
+        <ConfettiProvider>
+          <GameSettingsDrawer />
+          <MatchupsContainer>
+            {!(currentMatchup && delayedTeamDetails) ? (
+              <LoadingSpinner text="Loading matchup..." />
+            ) : (
+              <React.Fragment>
+                <TeamDetailsSection
+                  playMode={
+                    (currentMatchup &&
+                      currentMatchup.gameInProgress &&
+                      currentMatchup.gameInProgress.playMode) ||
+                    ''
                   }
-                }}
-                playGame={() => {
-                  if (matchupId) {
-                    setShowScoreUpdate(false);
-                    playGameForMatchup(matchupId);
-                  }
-                }}
-                onGameFinished={onGameViewFinished}
-                showTrophy={showTrophyAward}
-              />
-              {currentMatchup &&
-                currentMatchup.gameInProgress &&
-                currentMatchup.gameInProgress.status ===
-                  GAME_STATUS.WaitingPlayerMoves && (
-                  <ThemeInfoView theme={theme} />
+                  teams={delayedTeamDetails}
+                  matchup={currentMatchup}
+                />
+                <GamePlaySection
+                  matchup={currentMatchup}
+                  startGame={(playMode: string = 'Standard') => {
+                    if (matchupId) {
+                      startGameForMatchup(matchupId, playMode);
+                    }
+                  }}
+                  playGame={() => {
+                    if (matchupId) {
+                      setShowScoreUpdate(false);
+                      playGameForMatchup(matchupId);
+                    }
+                  }}
+                  onGameFinished={onGameViewFinished}
+                  showTrophy={showTrophyAward}
+                />
+                {currentMatchup &&
+                  currentMatchup.gameInProgress &&
+                  currentMatchup.gameInProgress.status ===
+                    GAME_STATUS.WaitingPlayerMoves && (
+                    <ThemeInfoView theme={theme} />
+                  )}
+                {showNewGame && (
+                  <div style={{ textAlign: 'center' }}>
+                    <NewGameButton
+                      onClick={() => {
+                        if (matchupId) {
+                          const samePlayMode =
+                            currentMatchup &&
+                            currentMatchup.gameInProgress &&
+                            currentMatchup.gameInProgress.playMode;
+                          startGameForMatchup(matchupId, samePlayMode);
+                          setShowNewGame(false);
+                          setShowTrophyAward(false);
+                        }
+                      }}
+                    >
+                      New Game
+                    </NewGameButton>
+                  </div>
                 )}
-              {showNewGame && (
-                <div style={{ textAlign: 'center' }}>
-                  <PrimaryButton
-                    onClick={() => {
-                      if (matchupId) {
-                        const samePlayMode =
-                          currentMatchup &&
-                          currentMatchup.gameInProgress &&
-                          currentMatchup.gameInProgress.playMode;
-                        startGameForMatchup(matchupId, samePlayMode);
-                        setShowNewGame(false);
-                        setShowTrophyAward(false);
-                      }
-                    }}
-                  >
-                    New Game
-                  </PrimaryButton>
-                </div>
-              )}
-            </React.Fragment>
-          )}
-        </MatchupsContainer>
-      </ConfettiProvider>
+              </React.Fragment>
+            )}
+          </MatchupsContainer>
+          </ConfettiProvider>
+        </NewYearBackground2>
     </FullPageScreenLayout>
   );
 };

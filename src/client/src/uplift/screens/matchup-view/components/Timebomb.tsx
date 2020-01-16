@@ -8,6 +8,7 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
+import dumplingImage from './dumpling.gif';
 
 const Container = styled.div`
   display: flex;
@@ -24,6 +25,11 @@ const pulseCss = (intensity: number) => css`
 
 const shakeCss = css`
   animation: ${shakeAnimationLeft} 300ms ease-in-out infinite;
+`;
+
+const Dumpling = styled.img`
+  width: 100px;
+  height: 100px;
 `;
 
 const Bomb = styled.div<{
@@ -108,7 +114,7 @@ export const Timebomb = ({
         {/* {(ticking || exploded) && !boom && '😬'} */}
         {boom && '💥'}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && '💣'}
+        {!boom && <Dumpling src={dumplingImage} alt="Dumpling" />}
       </Bomb>
     </Container>
   );

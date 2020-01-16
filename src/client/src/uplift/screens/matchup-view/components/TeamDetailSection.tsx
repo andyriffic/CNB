@@ -10,6 +10,7 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  color: #ff9d76;
 `;
 
 const TeamContainer = styled.div`

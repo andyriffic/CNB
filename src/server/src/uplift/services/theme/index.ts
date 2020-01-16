@@ -53,6 +53,36 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  ['chinese-new-year-2020']: {
+    name: { english: 'Chinese New Year 2020', chinese: '牛仔，忍者，熊' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Nian', chinese: '年兽' },
+        winsBy: { english: 'eats', chinese: '吃' },
+        imageUrl: '/theme/chinese-new-year-2020/nian.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'human', chinese: '人类' },
+        winsBy: { english: 'ignite', chinese: '点火' },
+        imageUrl: '/theme/chinese-new-year-2020/human.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'firecrackers', chinese: '爆竹' },
+        winsBy: { english: 'frighten', chinese: '吓走' },
+        imageUrl: '/theme/chinese-new-year-2020/firecrackers.png',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#E36E65',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
   halloween: {
     name: { english: 'Halloween', chinese: '萬聖節' },
     moves: {

@@ -41,6 +41,7 @@ const PlayerName = styled.h2`
   margin: 0;
   padding: 0;
   font-size: 0.9rem;
+  color:#fff;
 `;
 
 type RandomPlayerSelectorProps = {

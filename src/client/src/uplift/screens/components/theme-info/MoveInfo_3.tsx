@@ -6,6 +6,7 @@ import { SOCKETS_ENDPOINT } from '../../../../environment';
 const Container = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 20%;
 `;
 
 const MoveContainer = styled.div`
@@ -14,8 +15,7 @@ const MoveContainer = styled.div`
 `;
 
 const MoveImage = styled.img`
-  width: 8vmin;
-  height: 8vmin;
+  height: 15vmin;
 `;
 
 const MoveName = styled.p`
@@ -23,12 +23,13 @@ const MoveName = styled.p`
   padding: 0;
   font-size: 0.4rem;
   text-align: center;
+  font-size: 0.7rem;
 `;
 
 const WinsByText = styled.p`
   margin: 0;
   padding: 0 20px;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
 `;
 
 type MoveInfoProps = {
