@@ -183,7 +183,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.TICKING] = {
-        sound: new Howl({ src: [ticking], loop: true, volume: 0.6, }),
+        sound: new Howl({ src: [ticking], loop: true, volume: 0.6 }),
       };
 
       this._sounds[SOUND_KEYS.FUSE] = {
