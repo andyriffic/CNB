@@ -5,6 +5,8 @@ import { SOCKETS_ENDPOINT } from '../../environment';
 enum PLAYER_EVENTS {
   SUBSCRIBE_TO_ALL_PLAYERS = 'SUBSCRIBE_TO_ALL_PLAYERS',
   ON_PLAYERS_RECEIVED = 'ALL_PLAYERS_UPDATE',
+  ADD_PLAYER = 'ADD_PLAYER',
+  UPDATE_PLAYER = 'UPDATE_PLAYER',
 }
 
 export type Player = {
@@ -19,6 +21,8 @@ export type PlayerService = {
   allPlayers: Player[];
   loadingPlayers: boolean;
   subscribeToPlayers: () => void;
+  addPlayer: (id: string, name: string, avatarImageUrl: string) => void;
+  updatePlayer: (id: string, tags: string[]) => void;
 };
 
 const initialValue: PlayerService = {
@@ -26,6 +30,12 @@ const initialValue: PlayerService = {
   loadingPlayers: true,
   subscribeToPlayers: () => {
     socket.emit(PLAYER_EVENTS.SUBSCRIBE_TO_ALL_PLAYERS);
+  },
+  addPlayer: (id, name, avatarImageUrl) => {
+    socket.emit(PLAYER_EVENTS.ADD_PLAYER, id, name, avatarImageUrl);
+  },
+  updatePlayer: (id, tags) => {
+    socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags);
   },
 };
 
@@ -56,6 +66,8 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
         loadingPlayers,
         allPlayers,
         subscribeToPlayers: initialValue.subscribeToPlayers,
+        addPlayer: initialValue.addPlayer,
+        updatePlayer: initialValue.updatePlayer,
       }}
     >
       {children}

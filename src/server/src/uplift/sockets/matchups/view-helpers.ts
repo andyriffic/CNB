@@ -8,16 +8,20 @@ import {
   GameMoveResultSpectatorView,
   MatchupPlayerView,
 } from '../../services/matchup/types';
-import { ALL_PLAYERS } from '../../services/player/constants';
 import { viewsDatastore } from '../../datastore/views';
 import { getGameStatus } from '../../services/matchup/gameStatus';
+import { Player } from '../../services/player/types';
+import { playerService } from '../../services/player';
 
-const getSpectatorMove = (move: GameMove): MoveSpectatorView => {
+const getSpectatorMove = (
+  move: GameMove,
+  allPlayers: Player[]
+): MoveSpectatorView => {
   return {
     moved: !!move.moveId,
     usedPowerup: !!move.powerUpId && move.powerUpId !== 'NONE',
     playerName: move.playerId
-      ? ALL_PLAYERS.find(p => p.id === move.playerId)!.name
+      ? allPlayers.find(p => p.id === move.playerId)!.name
       : null,
     playerAvatarUrl: move.playerId ? `/players/${move.playerId}.png` : null,
   };
@@ -51,7 +55,8 @@ const getSpectatorGameResult = (
 
 const getGameInProgress = (
   matchupId: string,
-  gamesInProgress: { [matchupId: string]: Game }
+  gamesInProgress: { [matchupId: string]: Game },
+  allPlayers: Player[]
 ): GameSpectatorView | null => {
   const gameInProgress = gamesInProgress[matchupId];
   if (!gameInProgress) {
@@ -62,8 +67,8 @@ const getGameInProgress = (
     id: gameInProgress.id,
     status: getGameStatus(gameInProgress),
     moves: [
-      getSpectatorMove(gameInProgress.moves[0]),
-      getSpectatorMove(gameInProgress.moves[1]),
+      getSpectatorMove(gameInProgress.moves[0], allPlayers),
+      getSpectatorMove(gameInProgress.moves[1], allPlayers),
     ],
     result: getSpectatorGameResult(gameInProgress),
     trophyWon: gameInProgress.trophyWon,
@@ -78,10 +83,16 @@ export const getMatchupView = (
   matchupId: string,
   gamesInProgress: { [matchupId: string]: Game }
 ): Promise<MatchupSpectatorView> => {
-  return viewsDatastore.getMatchupSpectatorView(
-    matchupId,
-    getGameInProgress(matchupId, gamesInProgress)
-  );
+  return new Promise<MatchupSpectatorView>(resolve => {
+    playerService.getPlayersAsync().then(allPlayers => {
+      resolve(
+        viewsDatastore.getMatchupSpectatorView(
+          matchupId,
+          getGameInProgress(matchupId, gamesInProgress, allPlayers)
+        )
+      );
+    });
+  });
 };
 
 export const getPlayerMatchupView = (
@@ -89,10 +100,15 @@ export const getPlayerMatchupView = (
   playerId: string,
   gamesInProgress: { [matchupId: string]: Game }
 ): Promise<MatchupPlayerView> => {
-  console.log('getPlayerMatchupView', playerId);
-  return viewsDatastore.getPlayerMatchupView(
-    matchupId,
-    getGameInProgress(matchupId, gamesInProgress),
-    playerId
-  );
+  return new Promise<MatchupPlayerView>(resolve => {
+    playerService.getPlayersAsync().then(allPlayers => {
+      resolve(
+        viewsDatastore.getPlayerMatchupView(
+          matchupId,
+          getGameInProgress(matchupId, gamesInProgress, allPlayers),
+          playerId
+        )
+      );
+    });
+  });
 };

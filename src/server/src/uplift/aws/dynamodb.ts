@@ -102,11 +102,13 @@ export const putDynamoDbItem = (tableName: string, item: any): Promise<any> => {
 
 export const scanDynamoTable = (
   tableName: string,
-  attributeValues: string
+  attributeValues: string,
+  expressionNames?: { [key: string]: any }
 ): Promise<any> => {
   const params: ScanInput = {
     TableName: tableName,
     ProjectionExpression: attributeValues,
+    ExpressionAttributeNames: expressionNames,
   };
 
   const promise = new Promise<any>((resolve, reject) => {

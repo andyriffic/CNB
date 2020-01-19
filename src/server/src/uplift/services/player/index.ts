@@ -1,11 +1,24 @@
-import { PlayerList, TeamList, Team, TeamDetails } from './types';
-import { ALL_PLAYERS, ALL_TEAMS, PLAYER_IDS_BY_TEAM } from './constants';
+import { PlayerList, TeamList, Team, TeamDetails, Player } from './types';
+import { ALL_TEAMS, PLAYER_IDS_BY_TEAM } from './constants';
+import { playersDatastore } from '../../datastore/players';
 
 let instantTeams: Team[] = [];
 let instantPlayerIdsByTeam: { [teamId: string]: string[] } = {};
 
 const getPlayersAsync = (): Promise<PlayerList> => {
-  return Promise.resolve(ALL_PLAYERS);
+  return playersDatastore.getAllPlayers();
+};
+
+const getPlayer = (id: string) => {
+  return playersDatastore.getPlayer(id);
+};
+
+const updatePlayerTags = (player: Player, tags: string[]): Promise<Player> => {
+  const updatedPlayer: Player = {
+    ...player,
+    tags,
+  };
+  return playersDatastore.updatePlayerTags(updatedPlayer);
 };
 
 const getAllTeams = (): TeamList => {
@@ -30,12 +43,12 @@ const getPlayerIdsByTeam = (): { [teamId: string]: string[] } => {
   };
 };
 
-const getTeamsWithPlayers = (): TeamDetails[] => {
+const getTeamsWithPlayers = (allPlayers: Player[]): TeamDetails[] => {
   return ALL_TEAMS.map(team => {
     const teamPlayerIds = PLAYER_IDS_BY_TEAM[team.id];
     console.log('TEAMS-----', team, teamPlayerIds);
     const players = teamPlayerIds.map(
-      playerId => ALL_PLAYERS.find(player => player.id === playerId)!
+      playerId => allPlayers.find(player => player.id === playerId)!
     );
     return {
       team,
@@ -50,10 +63,12 @@ const addInstantTeam = (team: Team) => {
 
 export const playerService = {
   getPlayersAsync,
+  getPlayer,
   getAllTeams,
   getTeamByIdAsync,
   getTeamsWithPlayers,
   addInstantTeam,
   addPlayersToInstantTeam,
   getPlayerIdsByTeam,
+  updatePlayerTags,
 };

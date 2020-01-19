@@ -12,7 +12,6 @@ import {
 } from '../../services/matchup/types';
 import { getMatchupView } from './view-helpers';
 import { matchupService } from '../../services/matchup';
-import { ALL_PLAYERS } from '../../services/player/constants';
 import { broadcastPlayerMatchups } from './common';
 import { getGameStatus } from '../../services/matchup/gameStatus';
 import { counterDatastore } from '../../datastore/counters';
@@ -319,16 +318,18 @@ const init = (socketServer: Server, path: string) => {
           `instant-team-${playerIds[1]}-${shortid.generate()}`,
         ];
 
-        playerIds.forEach((playerId, index) => {
-          playerService.addInstantTeam({
-            id: instantTeamIds[index],
-            name: ALL_PLAYERS.find(p => p.id === playerId)!.name,
-            tags: ['instant'],
+        playerService.getPlayersAsync().then(allPlayers => {
+          playerIds.forEach((playerId, index) => {
+            playerService.addInstantTeam({
+              id: instantTeamIds[index],
+              name: allPlayers.find(p => p.id === playerId)!.name,
+              tags: ['instant'],
+            });
+            playerService.addPlayersToInstantTeam(
+              [playerId],
+              instantTeamIds[index]
+            );
           });
-          playerService.addPlayersToInstantTeam(
-            [playerId],
-            instantTeamIds[index]
-          );
         });
 
         log('TEAMS ARE NOW', playerService.getAllTeams());

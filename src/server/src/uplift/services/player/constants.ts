@@ -162,42 +162,6 @@ export const ALL_PLAYERS: PlayerList = [
   },
 ];
 
-export const ALL_TEAMS: Team[] = [
-  { id: 'test_01', name: 'Test Team One', tags: [] },
-  { id: 'test_02', name: 'Test Team Two', tags: [] },
-  { id: 'tournament_team_01', name: 'Fatboy Slim', tags: [tournamentTag] },
-  { id: 'tournament_team_02', name: 'Groot Force', tags: [tournamentTag] },
-  { id: 'tournament_team_03', name: 'The A Team', tags: [tournamentTag] },
-  { id: 'tournament_team_04', name: 'Highway to Hell', tags: [tournamentTag] },
-  { id: 'tournament_team_05', name: 'Bake My Day', tags: [tournamentTag] },
-  { id: 'tournament_team_06', name: 'Night Fury', tags: [tournamentTag] },
-  { id: 'tournament_team_07', name: 'Dropping Bombs', tags: [tournamentTag] },
-  {
-    id: 'tournament_team_08',
-    name: 'Cowboy Needs a Beer',
-    tags: [tournamentTag],
-  },
-  { id: 'tournament_team_09', name: 'Team Trouble', tags: [tournamentTag] },
-  { id: 'tournament_team_10', name: 'Chilly Bin', tags: [tournamentTag] },
-  { id: 'tournament_team_11', name: 'Go Duck', tags: [tournamentTag] },
-  { id: 'yixing', name: 'Yixing', tags: [] },
-  { id: 'not_yixing', name: 'Not Yixing', tags: [] },
-];
+export const ALL_TEAMS: Team[] = [];
 
-export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {
-  test_01: ['albert', 'alex', 'andy'],
-  test_02: ['yujin', 'yixing', 'yingjian'],
-  tournament_team_01: ['jay', 'bec'],
-  tournament_team_02: ['marion', 'dunny'],
-  tournament_team_03: ['albert', 'andy'],
-  tournament_team_04: ['du', 'ricky'],
-  tournament_team_05: ['yujin', 'michael_b'],
-  tournament_team_06: ['liujing', 'sime'],
-  tournament_team_07: ['shuming', 'azra'],
-  tournament_team_08: ['chris', 'alex'],
-  tournament_team_09: ['jim', 'yingjian'],
-  tournament_team_10: ['bin', 'stacey'],
-  tournament_team_11: ['yixing', 'duyen'],
-  yixing: ['yixing'],
-  not_yixing: ALL_PLAYERS.filter(p => p.id !== 'yixing').map(p => p.id),
-};
+export const PLAYER_IDS_BY_TEAM: { [teamId: string]: string[] } = {};

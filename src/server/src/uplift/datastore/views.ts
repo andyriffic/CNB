@@ -6,9 +6,8 @@ import {
   GameSpectatorView,
 } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
-import { ALL_PLAYERS } from '../services/player/constants';
 import { playerService } from '../services/player';
-import { Team } from '../services/player/types';
+import { Player } from '../services/player/types';
 
 const getMatchupSpectatorView = (
   matchupId: string,
@@ -21,7 +20,9 @@ const getMatchupSpectatorView = (
         counterDatastore.getCounter(matchup.pointCounterIds[1]),
         counterDatastore.getCounter(matchup.trophyCounterIds[0]),
         counterDatastore.getCounter(matchup.trophyCounterIds[1]),
-      ]).then((counters: [Counter, Counter, Counter, Counter]) => {
+        playerService.getPlayersAsync(),
+      ]).then((data: [Counter, Counter, Counter, Counter, Player[]]) => {
+        console.log('---------MATCHUP----------', matchup.id);
         const allTeams = playerService.getAllTeams();
         const view: MatchupSpectatorView = {
           id: matchup.id,
@@ -30,23 +31,23 @@ const getMatchupSpectatorView = (
             {
               id: allTeams.find(t => t.id === matchup.teamIds[0])!.id,
               name: allTeams.find(t => t.id === matchup.teamIds[0])!.name,
-              points: counters[0].value,
-              trophies: counters[2].value,
+              points: data[0].value,
+              trophies: data[2].value,
               playerNames: playerService
                 .getPlayerIdsByTeam()
                 [matchup.teamIds[0]].map(
-                  playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+                  playerId => data[4].find(p => p.id === playerId)!.name
                 ),
             },
             {
               id: allTeams.find(t => t.id === matchup.teamIds[1])!.id,
               name: allTeams.find(t => t.id === matchup.teamIds[1])!.name,
-              points: counters[1].value,
-              trophies: counters[3].value,
+              points: data[1].value,
+              trophies: data[3].value,
               playerNames: playerService
                 .getPlayerIdsByTeam()
                 [matchup.teamIds[1]].map(
-                  playerId => ALL_PLAYERS.find(p => p.id === playerId)!.name
+                  playerId => data[4].find(p => p.id === playerId)!.name
                 ),
             },
           ],
