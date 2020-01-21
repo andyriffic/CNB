@@ -22,6 +22,17 @@ const sortByPlayerName = (a: Player, b: Player) => {
   return 0;
 };
 
+const getChineseZodiacFromTag = (tags: string[]): string => {
+  const zodiac = tags.find(t => t.startsWith('chinese_zodiac:'));
+
+  return zodiac ? zodiac.split(':')[1] : '';
+}
+
+const getImageUrl = (playerId: string, tags: string[]): string => {
+  const zodiacSign = getChineseZodiacFromTag(tags);
+  return zodiacSign ? `/zodiac/chinese-zodiac-${zodiacSign}.gif` : `/players/${playerId}.png`;
+}
+
 const getUpdatedPlayerList = (): Promise<any> => {
   return new Promise<any>(resolve => {
     playerService.getPlayersAsync().then(allPlayers => {
@@ -33,10 +44,11 @@ const getUpdatedPlayerList = (): Promise<any> => {
               : null;
           })
           .filter(teamName => teamName !== null);
+
         return {
           ...player,
           teams: playerTeams,
-          avatarImageUrl: `/players/${player.id}.png`,
+          avatarImageUrl: getImageUrl(player.id, player.tags),
         };
       });
 
@@ -48,7 +60,7 @@ const getUpdatedPlayerList = (): Promise<any> => {
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
-  namespace.on('connection', function(socket: Socket) {
+  namespace.on('connection', function (socket: Socket) {
     log('someone connected to players', socket.id);
 
     socket.on(SUBSCRIBE_TO_ALL_PLAYERS, () => {

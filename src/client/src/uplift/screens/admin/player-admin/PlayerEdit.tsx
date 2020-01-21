@@ -7,6 +7,10 @@ const Container = styled.div`
   padding: 5px;
 `;
 
+const Tag = styled.span`
+  font-size: 0.7rem;
+`;
+
 export const PlayerEdit = ({ player }: { player: Player }) => {
   const { updatePlayer } = useContext(PlayersContext);
   const [newTag, setNewTag] = useState('');
@@ -33,10 +37,10 @@ export const PlayerEdit = ({ player }: { player: Player }) => {
         overrideStyle="width: 60px; height: 90px;"
       />
       {/* <p>{player.avatarImageUrl}</p> */}
-      <ul>
+      <ul style={{ margin: '0', padding: '0' }}>
         {player.tags.map(tag => (
-          <li key={tag}>
-            {tag}{' '}
+          <li key={tag} style={{ margin: '0', padding: '0', listStyleType: 'none' }}>
+            <Tag>{tag}</Tag>{' '}
             <button type="button" onClick={() => deleteTag(tag)}>
               x
             </button>
@@ -45,7 +49,7 @@ export const PlayerEdit = ({ player }: { player: Player }) => {
       </ul>
       <input
         type="text"
-        maxLength={20}
+        maxLength={50}
         onChange={e => setNewTag(e.target.value)}
       />
       <button type="button" onClick={addTag}>
