@@ -12,18 +12,22 @@ import { viewsDatastore } from '../../datastore/views';
 import { getGameStatus } from '../../services/matchup/gameStatus';
 import { Player } from '../../services/player/types';
 import { playerService } from '../../services/player';
+import { getPlayerImageUrl } from '../../sockets/players';
 
 const getSpectatorMove = (
   move: GameMove,
   allPlayers: Player[]
 ): MoveSpectatorView => {
+
+  const player = allPlayers.find(p => p.id === move.playerId);
+
   return {
     moved: !!move.moveId,
     usedPowerup: !!move.powerUpId && move.powerUpId !== 'NONE',
-    playerName: move.playerId
-      ? allPlayers.find(p => p.id === move.playerId)!.name
+    playerName: player
+      ? player.name
       : null,
-    playerAvatarUrl: move.playerId ? `/players/${move.playerId}.png` : null,
+    playerAvatarUrl: player ? getPlayerImageUrl(player.id, player.tags) : null,
   };
 };
 

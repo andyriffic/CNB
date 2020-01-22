@@ -28,7 +28,7 @@ const getChineseZodiacFromTag = (tags: string[]): string => {
   return zodiac ? zodiac.split(':')[1] : '';
 }
 
-const getImageUrl = (playerId: string, tags: string[]): string => {
+export const getPlayerImageUrl = (playerId: string, tags: string[]): string => {
   const zodiacSign = getChineseZodiacFromTag(tags);
   return zodiacSign ? `/zodiac/chinese-zodiac-${zodiacSign}.gif` : `/players/${playerId}.png`;
 }
@@ -48,7 +48,7 @@ const getUpdatedPlayerList = (): Promise<any> => {
         return {
           ...player,
           teams: playerTeams,
-          avatarImageUrl: getImageUrl(player.id, player.tags),
+          avatarImageUrl: getPlayerImageUrl(player.id, player.tags),
         };
       });
 
