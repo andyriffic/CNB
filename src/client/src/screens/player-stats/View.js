@@ -111,6 +111,14 @@ const RankingGroupComponent = ({ rankingGroup, ranking, setRef }) => {
   );
 };
 
+export const rankedPlayers = playerRankingsResult => {
+  const groupedRankedPlayers = groupPlayerRankings(
+    rankingFunction(playerRankingsResult)
+  );
+  console.log('----GROUPED RANKINGS-----', groupedRankedPlayers);
+  return groupedRankedPlayers;
+};
+
 const View = () => {
   const [rankingList, setRankingList] = useState([]);
   const boardGroupRefs = useRef([]);
@@ -121,7 +129,7 @@ const View = () => {
   useEffect(() => {
     soundService.play(SOUND_KEYS.SCOREBOARD_MUSIC);
     fetchRankings().then(rankings => {
-      setRankingList(groupPlayerRankings(rankingFunction(rankings.result)));
+      setRankingList(rankedPlayers(rankings.result));
     });
   }, []);
 

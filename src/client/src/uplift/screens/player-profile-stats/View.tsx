@@ -6,9 +6,10 @@ import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLay
 import { GameSettingsDrawer } from '../../../game-settings';
 import { MainHeading } from '../../components/Heading';
 import { usePlayerStats } from '../../hooks/usePlayerStats';
-import { PlayerStatsRecord } from '../../types';
+import { PlayerStatsRecord, PlayerStatsRecordWithRanking } from '../../types';
 import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
+import { rankPlayers, groupRankings } from './ranking';
 
 const MatchupsContainer = styled.div`
   width: 790px;
@@ -17,14 +18,22 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({ navigate }: RouteComponentProps) => {
-  const [loadingStats, playerStats] = usePlayerStats();
+  const [loadingPlayerStats, playerStats] = usePlayerStats();
   const [randomPlayerStats, setRandomPlayerStats] = useState<
-    PlayerStatsRecord | undefined
+    PlayerStatsRecordWithRanking | undefined
   >();
+  const [playerPosition, setPlayerPosition] = useState<number | undefined>();
 
   useEffect(() => {
     if (playerStats && !randomPlayerStats) {
-      setRandomPlayerStats(selectRandomOneOf(playerStats.result));
+      const rankedPlayers = rankPlayers(playerStats.result);
+      const groupedRankedPlayers = groupRankings(rankedPlayers);
+
+      const randomPositionGroup = selectRandomOneOf(groupedRankedPlayers);
+      const position = groupedRankedPlayers.indexOf(randomPositionGroup);
+      const randomStats = selectRandomOneOf(randomPositionGroup);
+      setRandomPlayerStats(randomStats);
+      setPlayerPosition(position + 1);
     }
   }, [playerStats, randomPlayerStats]);
 
@@ -34,7 +43,10 @@ export default ({ navigate }: RouteComponentProps) => {
         <GameSettingsDrawer />
         <MatchupsContainer>
           {randomPlayerStats && (
-            <PlayerStatsProfile playerStats={randomPlayerStats} />
+            <PlayerStatsProfile
+              playerStats={randomPlayerStats}
+              position={playerPosition}
+            />
           )}
         </MatchupsContainer>
       </FullPageScreenLayout>

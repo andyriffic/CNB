@@ -1,13 +1,16 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { PlayerStatsRecord } from '../../types';
+import { PlayerStatsRecordWithRanking } from '../../types';
 import { PlayerStatsAvatar } from './PlayerStatsAvatar';
 import { SubStatItem } from './SubStatItem';
 import { MainHeading } from '../../components/Heading';
 import {
   fadeInLeftAnimation,
   fadeInRightAnimation,
+  fadeInAnimation,
 } from '../../components/animations';
+import { Medal } from '../../components/Medal';
+import { getOrdinal } from '../../utils/ordinal';
 
 const Container = styled.div`
   margin-top: 50px;
@@ -16,11 +19,22 @@ const Container = styled.div`
 `;
 
 const AvatarContainer = styled.div`
+  position: relative;
   margin-right: 50px;
   animation: ${fadeInLeftAnimation} ease-in 500ms 1s both;
 `;
 
 const StatsContainer = styled.div``;
+
+const RankPositionContainer = styled.div`
+  display: flex;
+  width: 180px;
+  height: 180px;
+  position: absolute;
+  bottom: -90px;
+  left: 60px;
+  animation: ${fadeInAnimation} ease-in-out 400ms 5.5s both;
+`;
 
 const StatsItemContainer = styled.div<{ index: number }>`
   ${props =>
@@ -35,14 +49,18 @@ const PlayerName = styled.div`
 `;
 
 type Props = {
-  playerStats: PlayerStatsRecord;
+  playerStats: PlayerStatsRecordWithRanking;
+  position?: number;
 };
 
-export const PlayerStatsProfile = ({ playerStats }: Props) => {
+export const PlayerStatsProfile = ({ playerStats, position }: Props) => {
   return (
     <Container>
       <AvatarContainer>
         <PlayerStatsAvatar name={playerStats.player_name} />
+        <RankPositionContainer>
+          <Medal>{position !== undefined ? getOrdinal(position) : ''}</Medal>
+        </RankPositionContainer>
       </AvatarContainer>
       <StatsContainer className="margins-off">
         <PlayerName>

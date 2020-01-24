@@ -16,3 +16,7 @@ export type PlayerStatsRecord = {
   times_drawn: number;
   times_lost: number;
 };
+
+export type PlayerStatsRecordWithRanking = {
+  rank: number;
+} & PlayerStatsRecord;

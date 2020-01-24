@@ -12,6 +12,7 @@ const Container = styled.dl<{ style: Style }>`
   background-color: ${props => props.style.bgColor};
   color: white;
   border-radius: 7px;
+  border: 2px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
