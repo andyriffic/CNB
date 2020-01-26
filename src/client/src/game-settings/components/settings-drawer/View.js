@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SoundToggle from '../sound-toggle';
-import { FancyLink } from '../../../components/FancyLink';
 
 const drawerWidth = 300;
 
