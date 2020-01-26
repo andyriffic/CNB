@@ -10,7 +10,6 @@ import {
   PageLayoutScreen,
   ItemSelectionTestScreen,
   IndividualPlayersTest,
-  PlayerStats,
   GameHistory,
 } from './screens';
 import DebugOutput from './DebugOutput';
@@ -52,7 +51,6 @@ const App = () => {
                   <ItemSelectionTestScreen path="itemtest" />
                   <PlayerSelectionScreen path="xian" playerKey={'XIAN'} />
                   <PlayerSelectionScreen path="melb" playerKey={'MELB'} />
-                  <PlayerStats path="player-stats" />
                   <GameHistory path="game-history" />
                   <ResetGameScreen path="reset" />
                 </Router>

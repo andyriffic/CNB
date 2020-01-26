@@ -56,12 +56,13 @@ export const rankPlayers = (
   playerRecords: PlayerStatsRecord[]
 ): PlayerStatsRecordWithRanking[] => {
   const recordsWithRanking = playerRecords.map(playerRecord => {
+    const divisor = playerRecord.times_lost || 1;
     return {
       ...playerRecord,
-      rank:
-        parseInt(playerRecord.times_won.toString()) * 2 +
-        parseInt(playerRecord.times_drawn.toString()) -
-        parseInt(playerRecord.times_lost.toString()),
+      rank: +(playerRecord.times_won / divisor).toFixed(2),
+      // playerRecord.times_won * 2 +
+      // playerRecord.times_drawn -
+      // playerRecord.times_lost,
     };
   });
 

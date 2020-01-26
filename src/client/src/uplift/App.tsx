@@ -16,6 +16,7 @@ import { TournamentInfoView } from './screens/tournament-info';
 import { InstantMatchup } from './screens/instant-matchup';
 import { PlayerProfileStats } from './screens/player-profile-stats';
 import { PlayerAdminScreen } from './screens/admin/player-admin';
+import { LeaderboardScreen } from './screens/leaderboard';
 
 export default () => {
   return (
@@ -36,6 +37,7 @@ export default () => {
                 <TournamentInfoView path="tournament-info" />
                 <ComponentTestView path="/component-test" />
                 <PlayerAdminScreen path="/player-admin" />
+                <LeaderboardScreen path="/leaderboard" />
               </Router>
             </MatchupProvider>
           </GameSettings>

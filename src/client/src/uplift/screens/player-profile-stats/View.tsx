@@ -4,12 +4,10 @@ import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
-import { MainHeading } from '../../components/Heading';
-import { usePlayerStats } from '../../hooks/usePlayerStats';
-import { PlayerStatsRecord, PlayerStatsRecordWithRanking } from '../../types';
 import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
-import { rankPlayers, groupRankings } from './ranking';
+import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
+import { PlayerStatsRecordWithRanking } from '../../types';
 
 const MatchupsContainer = styled.div`
   width: 790px;
@@ -18,24 +16,21 @@ const MatchupsContainer = styled.div`
 `;
 
 export default ({ navigate }: RouteComponentProps) => {
-  const [loadingPlayerStats, playerStats] = usePlayerStats();
+  const [groupedStatsWithRanking] = useGroupedStatsWithRanking();
   const [randomPlayerStats, setRandomPlayerStats] = useState<
     PlayerStatsRecordWithRanking | undefined
   >();
   const [playerPosition, setPlayerPosition] = useState<number | undefined>();
 
   useEffect(() => {
-    if (playerStats && !randomPlayerStats) {
-      const rankedPlayers = rankPlayers(playerStats.result);
-      const groupedRankedPlayers = groupRankings(rankedPlayers);
-
-      const randomPositionGroup = selectRandomOneOf(groupedRankedPlayers);
-      const position = groupedRankedPlayers.indexOf(randomPositionGroup);
+    if (groupedStatsWithRanking && !randomPlayerStats) {
+      const randomPositionGroup = selectRandomOneOf(groupedStatsWithRanking);
+      const position = groupedStatsWithRanking.indexOf(randomPositionGroup);
       const randomStats = selectRandomOneOf(randomPositionGroup);
       setRandomPlayerStats(randomStats);
       setPlayerPosition(position + 1);
     }
-  }, [playerStats, randomPlayerStats]);
+  }, [groupedStatsWithRanking, randomPlayerStats]);
 
   return (
     <PlayersProvider>

@@ -53,11 +53,8 @@ const View = () => {
     <Drawer className={open ? 'open' : 'closed'}>
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
-      <div>
-        <Link href="/player-stats?feature=ranking,down-push">Leaderboard</Link>
-        <Link href="/tournament-players">Tournament Players</Link>
-        <Link href="/teams">Teams</Link>
-        <FancyLink href="/tournament-info">Super secret info</FancyLink>
+      <div style={{ paddingBottom: '30px' }}>
+        <Link href="/leaderboard">Leaderboard</Link>
       </div>
     </Drawer>
   );
