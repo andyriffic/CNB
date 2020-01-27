@@ -1,5 +1,7 @@
 export const gameHistoryQuery = `SELECT date,
          theme AS theme,
+         mode AS gameMode,
+         matchupid as matchupId,
          result.winner AS winner,
          player1.player AS player1,
          player1.team AS team1,

@@ -1,8 +1,11 @@
 export type GameHistoryRecord = {
   date: Date;
   theme: string;
+  matchupId: string;
   player1: string;
   player2: string;
+  trophy: boolean;
+  winner?: string;
 };
 
 export type GameHistory = {

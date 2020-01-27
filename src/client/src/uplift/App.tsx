@@ -17,6 +17,7 @@ import { InstantMatchup } from './screens/instant-matchup';
 import { PlayerProfileStats } from './screens/player-profile-stats';
 import { PlayerAdminScreen } from './screens/admin/player-admin';
 import { LeaderboardScreen } from './screens/leaderboard';
+import { GameHistoryScreen } from './screens/game-history';
 
 export default () => {
   return (
@@ -38,6 +39,7 @@ export default () => {
                 <ComponentTestView path="/component-test" />
                 <PlayerAdminScreen path="/player-admin" />
                 <LeaderboardScreen path="/leaderboard" />
+                <GameHistoryScreen path="/game-history" />
               </Router>
             </MatchupProvider>
           </GameSettings>
