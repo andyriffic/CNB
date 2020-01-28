@@ -27,6 +27,8 @@ const GamePlayerContainer = styled.div``;
 
 const GameHistoryContainer = styled.div`
   flex: 1;
+  margin: 0 30px;
+  font-size: 0.3rem;
 `;
 
 export default ({ navigate }: RouteComponentProps) => {

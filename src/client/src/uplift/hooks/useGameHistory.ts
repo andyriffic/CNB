@@ -34,7 +34,7 @@ const groupByMatchupId = (gameHistory: GameHistoryRecord[]) => {
         return [...acc, newGroup];
       }
 
-      lastResult.games = [gameHistoryRecord, ...lastResult.games]; //TODO: don't mutate games attribute
+      lastResult.games.push(gameHistoryRecord); //TODO: don't mutate
       return acc;
     },
     []

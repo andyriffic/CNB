@@ -3,9 +3,12 @@ export type GameHistoryRecord = {
   theme: string;
   matchupId: string;
   player1: string;
+  player1Move: string;
   player2: string;
-  trophy: boolean;
+  player2Move: string;
+  trophy?: string;
   winner?: string;
+  draw?: string;
 };
 
 export type GameHistory = {

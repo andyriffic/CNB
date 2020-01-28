@@ -44,6 +44,7 @@ export type GameTheme = {
 
 export type GameThemeService = {
   theme: GameTheme;
+  allThemes: { [key: string]: GameTheme };
   setTheme: (themeId: string) => void;
 };
 
@@ -57,7 +58,7 @@ const defaultValue: GameThemeService = {
       featureTextColor: '#000',
       pageBackgroundColor: '#F8F8FF',
       primaryTextColor: '#000',
-      primaryBorderColor: '#000'
+      primaryBorderColor: '#000',
     },
     moves: {
       A: {
@@ -80,6 +81,7 @@ const defaultValue: GameThemeService = {
       musicUrl: '',
     },
   },
+  allThemes: {},
   setTheme: () => {
     console.log('setTheme not implemented yet 😱');
   },
@@ -112,11 +114,13 @@ export const Theme = ({ children }: { children: any }) => {
     <GameThemeContext.Provider
       value={{
         theme: allThemes[currentThemeId] || defaultValue.theme,
-        setTheme: themeId =>
-          setCurrentThemeId(themeId),
+        setTheme: themeId => setCurrentThemeId(themeId),
+        allThemes,
       }}
     >
-      <ThemeProvider theme={(allThemes[currentThemeId] || defaultValue.theme).style}>
+      <ThemeProvider
+        theme={(allThemes[currentThemeId] || defaultValue.theme).style}
+      >
         {children}
       </ThemeProvider>
     </GameThemeContext.Provider>
