@@ -13,6 +13,7 @@ import loseMouse from './gifs/lose-mouse.gif';
 
 import { SecondaryButton } from '../../../components/SecondaryButton';
 import { selectRandomOneOf } from '../../../utils/random';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 type PlayerGameStatus = 'PlayingNow' | 'Draw' | 'Win' | 'Lose' | '¯_(ツ)_/¯';
 
@@ -34,6 +35,14 @@ export const PlayerGameResult = ({
 }) => {
   const [winningGif] = useState(selectRandomOneOf(winningImages));
   const [losingGif] = useState(selectRandomOneOf(losingImages));
+
+  useDoOnce(
+    !!matchup && !!matchup.gameInProgress && matchup.gameInProgress.viewed,
+    () => {
+      console.log('GAME VIEWED');
+      window.navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
+    }
+  );
 
   if (!(matchup && matchup.gameInProgress && matchup.gameInProgress.result)) {
     return null;
