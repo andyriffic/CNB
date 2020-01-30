@@ -15,7 +15,11 @@ const MatchupsContainer = styled.div`
   display: flex;
 `;
 
-export default ({ navigate }: RouteComponentProps) => {
+type Props = {
+  playerName?: string;
+} & RouteComponentProps;
+
+export default ({ playerName }: Props) => {
   const [groupedStatsWithRanking] = useGroupedStatsWithRanking();
   const [randomPlayerStats, setRandomPlayerStats] = useState<
     PlayerStatsRecordWithRanking | undefined
@@ -24,11 +28,22 @@ export default ({ navigate }: RouteComponentProps) => {
 
   useEffect(() => {
     if (groupedStatsWithRanking && !randomPlayerStats) {
-      const randomPositionGroup = selectRandomOneOf(groupedStatsWithRanking);
-      const position = groupedStatsWithRanking.indexOf(randomPositionGroup);
-      const randomStats = selectRandomOneOf(randomPositionGroup);
-      setRandomPlayerStats(randomStats);
-      setPlayerPosition(position + 1);
+      if (!playerName) {
+        const randomPositionGroup = selectRandomOneOf(groupedStatsWithRanking);
+        const position = groupedStatsWithRanking.indexOf(randomPositionGroup);
+        const randomStats = selectRandomOneOf(randomPositionGroup);
+        setRandomPlayerStats(randomStats);
+        setPlayerPosition(position + 1);
+      } else {
+        const playerPosition = groupedStatsWithRanking.findIndex(g =>
+          g.find(r => r.player_name === playerName)
+        );
+        const playerStats = groupedStatsWithRanking[playerPosition].find(
+          s => s.player_name === playerName
+        );
+        setRandomPlayerStats(playerStats);
+        setPlayerPosition(playerPosition + 1);
+      }
     }
   }, [groupedStatsWithRanking, randomPlayerStats]);
 

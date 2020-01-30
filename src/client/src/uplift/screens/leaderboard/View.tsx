@@ -36,9 +36,18 @@ const RankPosition = styled.div`
   white-space: nowrap;
 `;
 
-const RankName = styled.div`
+const RankName = styled.a`
   width: 25%;
   color: #754f44;
+  display: block;
+  text-decoration: none;
+
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    color: #ba3f1d;
+    transform: scale(1.2);
+  }
 `;
 
 const RankStats = styled.div`
@@ -79,7 +88,9 @@ export default ({ navigate }: RouteComponentProps) => {
                         {placeOrdinalOverride[i] || getOrdinal(i + 1)}
                         {equalPosition && '='}
                       </RankPosition>
-                      <RankName>{player.player_name}</RankName>
+                      <RankName href={`/player/profile/${player.player_name}`}>
+                        {player.player_name}
+                      </RankName>
                       <RankStats>
                         <StatsGraph
                           wins={player.times_won}

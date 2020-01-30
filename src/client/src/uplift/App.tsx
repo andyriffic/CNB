@@ -33,6 +33,7 @@ export default () => {
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
                 <PlayerProfileStats path="/player/profile" />
+                <PlayerProfileStats path="/player/profile/:playerName" />
                 <PlayerListView path="/tournament-players" />
                 <TeamsListView path="/teams" />
                 <TournamentInfoView path="tournament-info" />
