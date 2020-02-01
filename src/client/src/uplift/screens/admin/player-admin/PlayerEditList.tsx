@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { PlayersContext } from '../../../contexts/PlayersProvider';
 import { PlayerEdit } from './PlayerEdit';
@@ -13,7 +13,11 @@ const PlayerContainer = styled.div`
 `;
 
 export const PlayerEditList = () => {
-  const { allPlayers } = useContext(PlayersContext);
+  const { allPlayers, subscribeToPlayers } = useContext(PlayersContext);
+
+  useEffect(() => {
+    subscribeToPlayers();
+  }, []);
 
   return (
     <Container className="margins-off">
