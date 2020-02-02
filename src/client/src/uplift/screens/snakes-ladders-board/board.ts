@@ -1,3 +1,7 @@
+import { isFeatureEnabled } from '../../../featureToggle';
+
+export const gameBoardDebug = isFeatureEnabled('debug');
+
 export type BoardCoordinates = [number, number];
 
 export enum BOARD_CELL_TYPE {

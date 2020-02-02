@@ -7,6 +7,7 @@ type GameBoardPlayer = {
   player: Player;
   boardCellIndex: number;
   movesRemaining: number;
+  positionOffset: number;
 };
 
 type GameBoardService = {
@@ -39,17 +40,62 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
       const eligiblePlayers = allPlayers.filter(player =>
         player.tags.includes('sl_participant')
       );
-      setBoardPlayers(
-        eligiblePlayers.map(player => ({
-          player,
-          boardCellIndex: parseInt(
-            getPlayerAttributeValue(player.tags, 'sl_cell', '0')
-          ),
-          movesRemaining: parseInt(
-            getPlayerAttributeValue(player.tags, 'sl_moves', '0')
-          ),
-        }))
+
+      const initialBoardPlayers = eligiblePlayers.map(player => ({
+        player,
+        positionOffset: 0,
+        boardCellIndex: parseInt(
+          getPlayerAttributeValue(player.tags, 'sl_cell', '0')
+        ),
+        movesRemaining: parseInt(
+          getPlayerAttributeValue(player.tags, 'sl_moves', '0')
+        ),
+      }));
+
+      const cellPlayerCounts = initialBoardPlayers.reduce(
+        (acc: { [key: string]: number }, boardPlayer) => {
+          if (!acc[boardPlayer.boardCellIndex]) {
+            acc[boardPlayer.boardCellIndex] = 1;
+          } else {
+            acc[boardPlayer.boardCellIndex] =
+              acc[boardPlayer.boardCellIndex] + 1;
+          }
+
+          return acc;
+        },
+        {}
       );
+
+      const cellsWithMultiplePlayers = Object.keys(cellPlayerCounts).reduce(
+        (acc: { [key: string]: number }, cellIndex) => {
+          if (cellPlayerCounts[cellIndex] > 1) {
+            acc[cellIndex] = cellPlayerCounts[cellIndex];
+          }
+          return acc;
+        },
+        {}
+      );
+
+      Object.keys(cellsWithMultiplePlayers).forEach(cellIndex => {
+        const playersInCell = initialBoardPlayers.filter(
+          p => p.boardCellIndex === parseInt(cellIndex)
+        );
+
+        if (playersInCell.length !== cellsWithMultiplePlayers[cellIndex]) {
+          console.warn(
+            `Mismatch between players in cell and assigning index ${playersInCell.length}/${cellsWithMultiplePlayers[cellIndex]}`
+          );
+          return;
+        }
+
+        playersInCell.forEach((player, index) => {
+          player.positionOffset = index; // Naughty mutation 😅
+        });
+      });
+
+      console.log('---cellsWithMultiplePlayers---', cellsWithMultiplePlayers);
+
+      setBoardPlayers(initialBoardPlayers);
     }
   }, [allPlayers]);
 

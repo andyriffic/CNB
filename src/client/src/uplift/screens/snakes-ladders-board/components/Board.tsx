@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import boardImage from './board.jpg';
 import { GameBoard } from '../board';
@@ -35,6 +35,7 @@ export const Board = ({ board }: Props) => {
             key={`${boardPlayer.player.name}`}
             cell={cell}
             movesRemaining={boardPlayer.movesRemaining}
+            offset={boardPlayer.positionOffset}
             player={boardPlayer.player}
             onClick={() => {
               movePlayer(boardPlayer);
