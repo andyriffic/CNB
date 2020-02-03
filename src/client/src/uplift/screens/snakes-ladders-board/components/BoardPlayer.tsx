@@ -1,18 +1,28 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { GameBoardCell } from '../board';
 import { Player } from '../../../contexts/PlayersProvider';
 import { PlayerAvatar } from '../../../components/PlayerAvatar';
 import Rainbow from '../../../../components/rainbow-text';
-import { pulseAnimation } from '../../../components/animations';
+import {
+  pulseAnimation,
+  bounceInAnimation,
+} from '../../../components/animations';
 
 const offsets = [[0, 0], [-25, 0], [25, 0], [-35, 40], [-10, 40], [15, 40]];
+
+// background-image: radial-gradient(
+//   circle,
+//   rgba(255, 255, 255, 1) 0%,
+//   rgba(255, 255, 255, 0) 60%
+// );
 
 const CellPlayer = styled.div<{
   x: number;
   y: number;
   priority: number;
   offset: number;
+  hasMoves: boolean;
 }>`
   box-sizing: border-box;
   position: absolute;
@@ -21,11 +31,11 @@ const CellPlayer = styled.div<{
   top: ${props => `${props.y - 60}px`};
   z-index: ${props => props.priority + props.offset};
   pointer-events: ${props => (props.priority ? 'auto' : 'none')};
-  /* background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0) 60%
-  ); */
+  ${props =>
+    props.hasMoves &&
+    css`
+      animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite;
+    `}
 
   &:hover {
     cursor: pointer;
@@ -38,7 +48,7 @@ const MovesRemaining = styled.div`
   position: absolute;
   top: -60px;
   left: 15px;
-  animation: ${pulseAnimation} 1000ms ease-in-out 0s infinite;
+  /* animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite; */
 `;
 
 type Props = {
@@ -67,6 +77,7 @@ export const BoardPlayer = ({
   return (
     <CellPlayer
       onClick={onClick}
+      hasMoves={movesRemaining > 0}
       priority={movesRemaining}
       offset={offset}
       x={cell.coordinates[0] + appliedOffset[0]}
@@ -75,7 +86,7 @@ export const BoardPlayer = ({
       <div style={{ position: 'relative' }}>
         <PlayerAvatar
           player={player}
-          overrideStyle="width: 30px; height: 60px;"
+          overrideStyle="width: 40px; height: 60px;"
         />
         {!!movesRemaining && (
           <MovesRemaining>

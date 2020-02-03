@@ -3,8 +3,6 @@ import styled, { css } from 'styled-components';
 import { GameBoardCell, gameBoardDebug, BOARD_CELL_TYPE } from '../board';
 
 const Cell = styled.div<{ x: number; y: number }>`
-  color: blue;
-  font-size: 0.8rem;
   ${gameBoardDebug &&
     css`
       width: 8px;
@@ -18,6 +16,12 @@ const Cell = styled.div<{ x: number; y: number }>`
   top: ${props => `${props.y}px`};
 `;
 
+const DebugText = styled.span`
+  background-color: white;
+  color: blue;
+  font-size: 0.8rem;
+`;
+
 type Props = {
   cell: GameBoardCell;
 };
@@ -25,13 +29,13 @@ type Props = {
 export const BoardCell = ({ cell }: Props) => {
   return (
     <Cell x={cell.coordinates[0]} y={cell.coordinates[1]}>
-      {gameBoardDebug && cell.number}
-      {gameBoardDebug &&
-        cell.type === BOARD_CELL_TYPE.LADDER &&
-        `⬆(${cell.linkedCellIndex})`}
-      {gameBoardDebug &&
-        cell.type === BOARD_CELL_TYPE.SNAKE &&
-        `⬇(${cell.linkedCellIndex})`}
+      {gameBoardDebug && <DebugText>{cell.number}</DebugText>}
+      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.LADDER && (
+        <DebugText>⬆({cell.linkedCellIndex})</DebugText>
+      )}
+      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.SNAKE && (
+        <DebugText>⬇({cell.linkedCellIndex})</DebugText>
+      )}
     </Cell>
   );
 };
