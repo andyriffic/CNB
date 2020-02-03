@@ -39,8 +39,9 @@ export const PlayerGameResult = ({
   useDoOnce(
     !!matchup && !!matchup.gameInProgress && matchup.gameInProgress.viewed,
     () => {
-      console.log('GAME VIEWED');
-      window.navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
+      if (window.navigator.vibrate) {
+        window.navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
+      }
     }
   );
 
