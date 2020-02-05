@@ -56,7 +56,7 @@ const incrementPlayerSnakesAndLaddersMoveCount = (
       return;
     }
 
-    const tags = incrementIntegerTag('sl_moves:', 1, player.tags);
+    const tags = incrementIntegerTag('sl_moves:', by, player.tags);
     playerService.updatePlayerTags(player, tags);
   });
 };
@@ -242,13 +242,13 @@ const init = (socketServer: Server, path: string) => {
               result.trophyWon
             );
 
+            // ADD SNAKES AND LADDERS MOVE IF WON GAME
             if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
-              const winningPlayerId =
-                gamesInProgress[matchupId].moves[
-                  gamesInProgress[matchupId].result!.winnerIndex!
-                ].playerId!;
-              
-                incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+              const winningPlayerId = gamesInProgress[matchupId].moves[
+                gamesInProgress[matchupId].result!.winnerIndex!
+              ].playerId!;
+
+              incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
             }
 
             //TODO: tidy up or move! 😬
@@ -267,6 +267,23 @@ const init = (socketServer: Server, path: string) => {
                 },
                 trophyWon: !!gameAttributes[TimebombAttributes.Exploded],
               };
+
+              log('GAME ATTRIBUTES ------------->', gamesInProgress[matchupId]);
+
+              // ADD SNAKES AND LADDERS MOVE IF TIMEBOMB EXPLODED
+              if (gamesInProgress[matchupId].gameAttributes.exploded) {
+                const winningPlayerIndex = [1, 0][
+                  gamesInProgress[matchupId].gameAttributes
+                    .playerIndexHoldingTimebomb
+                ];
+                const winningPlayerId = gamesInProgress[matchupId].moves[
+                  winningPlayerIndex
+                ].playerId!;
+
+                log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
+
+                incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+              }
             }
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
