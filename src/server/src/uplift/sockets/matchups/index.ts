@@ -27,6 +27,7 @@ import {
   getMoveGameAttributes,
   TimebombAttributes,
 } from '../../services/matchup/timebomb';
+import { incrementIntegerTag } from '../../utils/tags';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -44,6 +45,21 @@ let gamesInProgress: { [matchupId: string]: Game } = {};
 let watchupPlayerIds: string[] = [];
 
 const log = createLogger('matchups', LOG_NAMESPACE.socket);
+
+const incrementPlayerSnakesAndLaddersMoveCount = (
+  playerId: string,
+  by: number
+) => {
+  playerService.getPlayersAsync().then(allPlayers => {
+    const player = allPlayers.find(p => p.id === playerId);
+    if (!player) {
+      return;
+    }
+
+    const tags = incrementIntegerTag('sl_moves:', 1, player.tags);
+    playerService.updatePlayerTags(player, tags);
+  });
+};
 
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
@@ -225,6 +241,15 @@ const init = (socketServer: Server, path: string) => {
               result.gameResult,
               result.trophyWon
             );
+
+            if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
+              const winningPlayerId =
+                gamesInProgress[matchupId].moves[
+                  gamesInProgress[matchupId].result!.winnerIndex!
+                ].playerId!;
+              
+                incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+            }
 
             //TODO: tidy up or move! 😬
             if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {

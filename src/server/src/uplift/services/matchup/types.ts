@@ -68,6 +68,7 @@ export type MoveSpectatorView = {
   moved: boolean;
   usedPowerup: boolean;
   playerName: string | null;
+  playerId: string | null;
   playerAvatarUrl: string | null;
 };
 

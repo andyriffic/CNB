@@ -115,6 +115,7 @@ export const GameResult = ({
                 )}
                 {game.playMode === 'Timebomb' && (
                   <PlayerWithMoveRevealTimebomb
+                    playerId={move.playerId}
                     playerAvatarUrl={move.playerAvatarUrl!}
                     revealPlayer={gameTiming.shownCharacter}
                     revealMove={gameTiming.shownMove}

@@ -20,6 +20,7 @@ import { useDoOnce } from '../../../hooks/useDoOnce';
 import { selectRandomOneOf } from '../../../utils/random';
 
 type PlayerWithRevealProps = {
+  playerId: string | null;
   revealPlayer: boolean;
   revealMove: boolean;
   move: ThemedMove;
@@ -130,6 +131,7 @@ const PlayerMove = styled.img<{
 `;
 
 export const PlayerWithMoveRevealTimebomb = ({
+  playerId,
   revealPlayer,
   revealMove,
   move,

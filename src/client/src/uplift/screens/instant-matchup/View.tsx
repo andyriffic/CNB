@@ -10,7 +10,7 @@ import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { MainHeading } from '../../components/Heading';
-import NewYearBackgroundImg from '../../../images/instant-matchup.jpg'
+import NewYearBackgroundImg from '../../../images/instant-matchup.jpg';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -19,10 +19,10 @@ const MatchupsContainer = styled.div`
 `;
 
 const NewYearBackground = styled.div`
-  background-image:url(${NewYearBackgroundImg});
+  background-image: url(${NewYearBackgroundImg});
   background-size: 100% 100%;
-  height:100vh;
-  `
+  height: 100vh;
+`;
 
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
@@ -50,21 +50,6 @@ export default ({ navigate }: RouteComponentProps) => {
           </MatchupsContainer>
           {player1 && player2 && (
             <div style={{ textAlign: 'center' }}>
-              {/* <PrimaryButton
-                onClick={() =>
-                  addInstantMatchup(
-                    player1.id,
-                    player2.id,
-                    2,
-                    'cnbop',
-                    matchupId => {
-                      navigate && navigate(`/matchup/${matchupId}`);
-                    }
-                  )
-                }
-              >
-                CNBOP
-              </PrimaryButton>{' '} */}
               <PrimaryButton
                 onClick={() => {
                   addInstantMatchup(
