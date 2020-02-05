@@ -61,6 +61,7 @@ type FullPageScreenLayoutProps = {
   alignTop: boolean;
   children: React.ReactNode | React.ReactNodeArray;
   scrollable?: boolean;
+  bodyStyle?: React.CSSProperties;
 };
 
 export const FullPageScreenLayout = ({
@@ -68,6 +69,7 @@ export const FullPageScreenLayout = ({
   alignTop,
   children,
   scrollable = false,
+  bodyStyle = {},
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off">
@@ -76,7 +78,12 @@ export const FullPageScreenLayout = ({
           <PageHeading>{title}</PageHeading>
         </Header>
       )}
-      <Body alignTop={alignTop} scrollable={scrollable} className="margins-off">
+      <Body
+        style={bodyStyle}
+        alignTop={alignTop}
+        scrollable={scrollable}
+        className="margins-off"
+      >
         <BodyContent>{children}</BodyContent>
       </Body>
       {/* <Footer>

@@ -19,7 +19,12 @@ export default ({  }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <GameBoardProvider>
-        <FullPageScreenLayout title="" alignTop={true} scrollable={false}>
+        <FullPageScreenLayout
+          title=""
+          alignTop={true}
+          scrollable={false}
+          bodyStyle={{ backgroundColor: '#335145', backgroundImage: 'none' }}
+        >
           <GameSettingsDrawer />
           <Container>
             <Board board={board} />
