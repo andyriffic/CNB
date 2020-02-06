@@ -29,10 +29,12 @@ const getChineseZodiacFromTag = (tags: string[]): string => {
 };
 
 export const getPlayerImageUrl = (playerId: string, tags: string[]): string => {
-  const zodiacSign = getChineseZodiacFromTag(tags);
-  return zodiacSign
-    ? `/zodiac/chinese-zodiac-${zodiacSign}.gif`
-    : `/players/${playerId}.png`;
+  return `/players/${playerId}.png`;
+
+  // const zodiacSign = getChineseZodiacFromTag(tags);
+  // return zodiacSign
+  //   ? `/zodiac/chinese-zodiac-${zodiacSign}.gif`
+  //   : `/players/${playerId}.png`;
 };
 
 const getUpdatedPlayerList = (): Promise<any> => {
