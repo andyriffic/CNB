@@ -86,7 +86,7 @@ export const BoardPlayer = ({
       <div style={{ position: 'relative' }}>
         <PlayerAvatar
           player={player}
-          overrideStyle="width: 40px; height: 60px;"
+          overrideStyle="width: 50px; height: 75px;"
         />
         {!!movesRemaining && (
           <MovesRemaining>
