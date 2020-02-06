@@ -5,6 +5,7 @@ import {
   WeightedItem,
   selectWeightedRandomOneOf,
 } from '../../utils/random';
+import { getPlayerAttributeValue } from '../../utils/player';
 
 export const getRandomPlayer = (
   allPlayers: Player[],
@@ -35,7 +36,7 @@ export const getRandomPlayer = (
       name => name === player.name
     );
     if (lastPlayedIndex === -1) {
-      lastPlayedIndex = uniqueRecentPlayers.length;
+      lastPlayedIndex = 30;
     }
 
     return {
@@ -44,6 +45,24 @@ export const getRandomPlayer = (
     } as WeightedItem<Player>;
   });
   console.log('player weightings', weightedPlayers);
+
+  const adjustedWeightingForSnakesAndLaddersPosition = weightedPlayers.map(
+    weightedPlayer => {
+      const currentBoardPosition = parseInt(
+        getPlayerAttributeValue(weightedPlayer.item.tags, 'sl_cell', '0')
+      );
+
+      return {
+        item: weightedPlayer.item,
+        weight: Math.max(weightedPlayer.weight - currentBoardPosition, 1),
+      };
+    }
+  );
+
+  console.log(
+    'adjusted weightings',
+    adjustedWeightingForSnakesAndLaddersPosition
+  );
 
   return selectWeightedRandomOneOf(weightedPlayers);
 };
