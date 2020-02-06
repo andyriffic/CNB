@@ -114,13 +114,89 @@ export const generateBoard = (): GameBoard => {
       {
         number: 17,
         coordinates: [300, 290],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 21,
       },
       {
         number: 18,
         coordinates: [220, 290],
         type: BOARD_CELL_TYPE.SNAKE,
         linkedCellIndex: 5,
+      },
+      {
+        number: 19,
+        coordinates: [140, 250],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 20,
+        coordinates: [190, 195],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 21,
+        coordinates: [280, 195],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 22,
+        coordinates: [370, 195],
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 3,
+      },
+      {
+        number: 23,
+        coordinates: [455, 195],
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 29,
+      },
+      {
+        number: 24,
+        coordinates: [535, 195],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 25,
+        coordinates: [620, 195],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 26,
+        coordinates: [685, 140],
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 12,
+      },
+      {
+        number: 27,
+        coordinates: [615, 95],
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 14,
+      },
+      {
+        number: 28,
+        coordinates: [530, 95],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 29,
+        coordinates: [440, 95],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 30,
+        coordinates: [355, 95],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 31,
+        coordinates: [270, 95],
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 19,
+      },
+      {
+        number: 32,
+        coordinates: [200, 95],
+        type: BOARD_CELL_TYPE.NORMAL,
       },
     ],
   };
