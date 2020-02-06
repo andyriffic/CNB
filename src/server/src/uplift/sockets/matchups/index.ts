@@ -57,6 +57,7 @@ const incrementPlayerSnakesAndLaddersMoveCount = (
     }
 
     const tags = incrementIntegerTag('sl_moves:', by, player.tags);
+    log('incrementPlayerSnakesAndLaddersMoveCount TAGS:', tags);
     playerService.updatePlayerTags(player, tags);
   });
 };
@@ -242,13 +243,17 @@ const init = (socketServer: Server, path: string) => {
               result.trophyWon
             );
 
+            const snakesAndLaddersMovesGained: { [key: string]: number } = {};
+
             // ADD SNAKES AND LADDERS MOVE IF WON GAME
             if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
               const winningPlayerId = gamesInProgress[matchupId].moves[
                 gamesInProgress[matchupId].result!.winnerIndex!
               ].playerId!;
 
-              incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+              log('PLAYER GETS POINT FOR WIN', winningPlayerId);
+              snakesAndLaddersMovesGained[winningPlayerId] = 1;
+              //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
             }
 
             //TODO: tidy up or move! 😬
@@ -281,10 +286,24 @@ const init = (socketServer: Server, path: string) => {
                 ].playerId!;
 
                 log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
-
-                incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+                if (snakesAndLaddersMovesGained[winningPlayerId]) {
+                  snakesAndLaddersMovesGained[winningPlayerId]++;
+                } else {
+                  snakesAndLaddersMovesGained[winningPlayerId] = 1;
+                }
+                //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
               }
             }
+
+            //UPDATE SNAKES AND LADDERS MOVES GAINED
+            log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
+
+            Object.keys(snakesAndLaddersMovesGained).forEach(playerId => {
+              incrementPlayerSnakesAndLaddersMoveCount(
+                playerId,
+                snakesAndLaddersMovesGained[playerId]
+              );
+            });
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               if (
