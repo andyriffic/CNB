@@ -249,4 +249,34 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  ['jungle-snakes-and-ladders']: {
+    name: { english: 'Snakes and Ladders', chinese: '牛仔，忍者，熊' }, // don't worry about chinese
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Nian', chinese: '年兽' },
+        winsBy: { english: 'eats', chinese: '吃' },
+        imageUrl: '/theme/jungles-snakes-and-ladders/xx.png', // images facing right
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'human', chinese: '人类' },
+        winsBy: { english: 'ignite', chinese: '点火' },
+        imageUrl: '/theme/chinese-new-year-2020/human.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'firecrackers', chinese: '爆竹' },
+        winsBy: { english: 'frighten', chinese: '吓走' },
+        imageUrl: '/theme/chinese-new-year-2020/firecrackers.png',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#E36E65',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
 };
