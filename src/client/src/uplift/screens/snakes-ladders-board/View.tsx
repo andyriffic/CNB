@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider } from '../../contexts/PlayersProvider';
@@ -7,6 +7,9 @@ import { GameSettingsDrawer } from '../../../game-settings';
 import { Board } from './components/Board';
 import { generateBoard } from './board';
 import { GameBoardProvider } from './GameBoardContext';
+import GameSoundContext from '../../../contexts/GameSoundContext';
+import { SoundService } from '../../contexts/types';
+import { JUNGLE_SOUND_KEYS } from '../../../sounds/SoundService';
 
 const Container = styled.div`
   width: 790px;
@@ -16,6 +19,14 @@ const Container = styled.div`
 const board = generateBoard();
 
 export default ({  }: RouteComponentProps) => {
+  const soundService = useContext<SoundService>(GameSoundContext);
+
+  useEffect(() => {
+    soundService.load();
+    soundService.loadJungle();
+    soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+  }, []);
+
   return (
     <PlayersProvider>
       <GameBoardProvider>

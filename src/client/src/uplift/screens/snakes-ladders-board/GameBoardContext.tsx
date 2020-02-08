@@ -1,7 +1,11 @@
 import React, { useState, useEffect, ReactNode, useContext } from 'react';
 import { Player, PlayersContext } from '../../contexts/PlayersProvider';
 import { getPlayerAttributeValue } from '../../utils/player';
-import { GameBoard } from './board';
+import { GameBoard, BOARD_CELL_TYPE } from './board';
+import { SoundService } from '../../contexts/types';
+import GameSoundContext from '../../../contexts/GameSoundContext';
+import { JUNGLE_SOUND_KEYS, SOUND_KEYS } from '../../../sounds/SoundService';
+import { selectRandomOneOf } from '../../utils/random';
 
 type GameBoardPlayer = {
   player: Player;
@@ -32,6 +36,7 @@ export const GameBoardContext = React.createContext<GameBoardService>(
 export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
   const { allPlayers, updatePlayer } = useContext(PlayersContext);
   const [boardPlayers, setBoardPlayers] = useState<GameBoardPlayer[]>([]);
+  const soundService = useContext<SoundService>(GameSoundContext);
 
   useEffect(() => {
     console.log('---GameBoardContext---', allPlayers);
@@ -108,6 +113,9 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
           if (!gameBoardPlayer.movesRemaining) {
             return;
           }
+          soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+          soundService.play(JUNGLE_SOUND_KEYS.MOVE);
+
           const destinationCellIndex =
             gameBoardPlayer.boardCellIndex + gameBoardPlayer.movesRemaining;
           const playerTags = gameBoardPlayer.player.tags
@@ -130,6 +138,12 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
           const playerTags = gameBoardPlayer.player.tags.filter(
             t => !t.startsWith('sl_cell:')
           );
+
+          if (cell.type === BOARD_CELL_TYPE.LADDER) {
+            soundService.play(JUNGLE_SOUND_KEYS.LADDER_UP);
+          } else if (cell.type === BOARD_CELL_TYPE.SNAKE) {
+            soundService.play(JUNGLE_SOUND_KEYS.SNAKE_DOWN);
+          }
 
           updatePlayer(gameBoardPlayer.player.id, [
             ...playerTags,
