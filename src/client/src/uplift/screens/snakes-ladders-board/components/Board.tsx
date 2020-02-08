@@ -40,6 +40,7 @@ export const Board = ({ board }: Props) => {
             onClick={() => {
               movePlayer(boardPlayer);
             }}
+            inLead={boardPlayer.inLead}
             onArrived={() => onArrivedInCell(boardPlayer, board)}
           />
         );
