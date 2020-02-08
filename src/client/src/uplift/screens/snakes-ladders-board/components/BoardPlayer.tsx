@@ -7,15 +7,11 @@ import Rainbow from '../../../../components/rainbow-text';
 import {
   pulseAnimation,
   bounceInAnimation,
+  shakeAnimationRight,
+  shakeAnimationLeft,
 } from '../../../components/animations';
 
 const offsets = [[0, 0], [-25, 0], [25, 0], [-35, 40], [-10, 40], [15, 40]];
-
-// background-image: radial-gradient(
-//   circle,
-//   rgba(255, 255, 255, 1) 0%,
-//   rgba(255, 255, 255, 0) 60%
-// );
 
 const CellPlayer = styled.div<{
   x: number;
@@ -23,6 +19,7 @@ const CellPlayer = styled.div<{
   priority: number;
   offset: number;
   hasMoves: boolean;
+  inLead: boolean;
 }>`
   box-sizing: border-box;
   position: absolute;
@@ -35,6 +32,12 @@ const CellPlayer = styled.div<{
     props.hasMoves &&
     css`
       animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite;
+    `}
+
+  ${props =>
+    props.inLead &&
+    css`
+      animation: ${shakeAnimationLeft} 2s ease-in-out infinite;
     `}
 
   &:hover {
@@ -58,6 +61,7 @@ type Props = {
   player: Player;
   onClick: () => void;
   onArrived: () => void;
+  inLead: boolean;
 };
 
 export const BoardPlayer = ({
@@ -67,6 +71,7 @@ export const BoardPlayer = ({
   player,
   onClick,
   onArrived,
+  inLead,
 }: Props) => {
   useEffect(() => {
     setTimeout(onArrived, 1000);
@@ -82,6 +87,7 @@ export const BoardPlayer = ({
       offset={offset}
       x={cell.coordinates[0] + appliedOffset[0]}
       y={cell.coordinates[1] + appliedOffset[1]}
+      inLead={inLead}
     >
       <div style={{ position: 'relative' }}>
         <PlayerAvatar

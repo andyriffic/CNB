@@ -12,6 +12,7 @@ type GameBoardPlayer = {
   boardCellIndex: number;
   movesRemaining: number;
   positionOffset: number;
+  inLead: boolean;
 };
 
 type GameBoardService = {
@@ -46,17 +47,21 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         player.tags.includes('sl_participant')
       );
 
-      const initialBoardPlayers = eligiblePlayers.map(player => ({
-        player,
-        positionOffset: 0,
-        boardCellIndex: parseInt(
-          getPlayerAttributeValue(player.tags, 'sl_cell', '0')
-        ),
-        movesRemaining: parseInt(
-          getPlayerAttributeValue(player.tags, 'sl_moves', '0')
-        ),
-      }));
+      const initialBoardPlayers: GameBoardPlayer[] = eligiblePlayers.map(
+        player => ({
+          player,
+          positionOffset: 0,
+          boardCellIndex: parseInt(
+            getPlayerAttributeValue(player.tags, 'sl_cell', '0')
+          ),
+          movesRemaining: parseInt(
+            getPlayerAttributeValue(player.tags, 'sl_moves', '0')
+          ),
+          inLead: false,
+        })
+      );
 
+      // Get counts of players in each cell
       const cellPlayerCounts = initialBoardPlayers.reduce(
         (acc: { [key: string]: number }, boardPlayer) => {
           if (!acc[boardPlayer.boardCellIndex]) {
@@ -71,6 +76,7 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         {}
       );
 
+      // Just get cells that have multiple players
       const cellsWithMultiplePlayers = Object.keys(cellPlayerCounts).reduce(
         (acc: { [key: string]: number }, cellIndex) => {
           if (cellPlayerCounts[cellIndex] > 1) {
@@ -81,6 +87,7 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         {}
       );
 
+      // Update players position offset if there are multiple players in a cell
       Object.keys(cellsWithMultiplePlayers).forEach(cellIndex => {
         const playersInCell = initialBoardPlayers.filter(
           p => p.boardCellIndex === parseInt(cellIndex)
@@ -96,6 +103,16 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         playersInCell.forEach((player, index) => {
           player.positionOffset = index; // Naughty mutation 😅
         });
+      });
+
+      // Find leading player(s)
+      const maxCell = initialBoardPlayers.reduce((acc: number, boardPlayer) => {
+        return Math.max(acc, boardPlayer.boardCellIndex);
+      }, 0);
+
+      initialBoardPlayers.forEach(boardPlayer => {
+        boardPlayer.inLead =
+          maxCell > 0 && boardPlayer.boardCellIndex === maxCell;
       });
 
       console.log('---cellsWithMultiplePlayers---', cellsWithMultiplePlayers);
@@ -131,6 +148,7 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         onArrivedInCell: (gameBoardPlayer, gameBoard) => {
           const cell = gameBoard.cells[gameBoardPlayer.boardCellIndex];
           if (!cell.linkedCellIndex) {
+            soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
             return;
           }
 
@@ -149,6 +167,10 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
             ...playerTags,
             `sl_cell:${destinationCellIndex}`,
           ]);
+
+          setTimeout(() => {
+            soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+          }, 2000);
         },
       }}
     >
