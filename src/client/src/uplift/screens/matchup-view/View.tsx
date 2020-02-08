@@ -13,7 +13,7 @@ import { ThemeInfoView } from '../components/theme-info';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import NewYearBackgroundImgInMatchup from '../../../images/matchup.jpg'
+import JungleBackgroundMatchupImg from '../../../images/jungle-cgi.jpg';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -25,15 +25,15 @@ type MatchupViewProps = {
   matchupId?: string;
 } & RouteComponentProps;
 
-const NewYearBackground2 = styled.div`
-  background-image:url(${NewYearBackgroundImgInMatchup});
+const JungleBackground2 = styled.div`
+  background-image: url(${JungleBackgroundMatchupImg});
   background-size: 100% 100%;
-  height:100vh;
-  color: #ff9d76;
-  `
+  height: 100vh;
+  color: #f25973;
+`;
 const NewGameButton = styled(PrimaryButton)`
   background-color: #ff9d76;
-`
+`;
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
@@ -123,7 +123,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageScreenLayout title="" alignTop>
-      <NewYearBackground2>
+      <JungleBackground2>
         <ConfettiProvider>
           <GameSettingsDrawer />
           <MatchupsContainer>
@@ -185,8 +185,8 @@ export default ({ matchupId }: MatchupViewProps) => {
               </React.Fragment>
             )}
           </MatchupsContainer>
-          </ConfettiProvider>
-        </NewYearBackground2>
+        </ConfettiProvider>
+      </JungleBackground2>
     </FullPageScreenLayout>
   );
 };

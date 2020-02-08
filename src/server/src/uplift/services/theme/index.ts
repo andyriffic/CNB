@@ -250,22 +250,22 @@ export const THEMES: { [themeId: string]: GameTheme } = {
     },
   },
   ['jungle-snakes-and-ladders']: {
-    name: { english: 'Snakes and Ladders', chinese: '牛仔，忍者，熊' }, // don't worry about chinese
+    name: { english: 'Snakes and Ladders', chinese: '牛仔，忍者，熊' },
     moves: {
       [GAME_MOVE.A]: {
-        name: { english: 'Nian', chinese: '年兽' },
-        winsBy: { english: 'eats', chinese: '吃' },
-        imageUrl: '/theme/jungles-snakes-and-ladders/xx.png', // images facing right
+        name: { english: 'monkey', chinese: '年兽' },
+        winsBy: { english: 'strangles', chinese: '吃' },
+        imageUrl: '/theme/jungle-snakes-and-ladders/monkey.png',
       },
       [GAME_MOVE.B]: {
-        name: { english: 'human', chinese: '人类' },
-        winsBy: { english: 'ignite', chinese: '点火' },
-        imageUrl: '/theme/chinese-new-year-2020/human.png',
+        name: { english: 'sloth', chinese: '人类' },
+        winsBy: { english: 'claws', chinese: '点火' },
+        imageUrl: '/theme/jungle-snakes-and-ladders/sloth.gif',
       },
       [GAME_MOVE.C]: {
-        name: { english: 'firecrackers', chinese: '爆竹' },
-        winsBy: { english: 'frighten', chinese: '吓走' },
-        imageUrl: '/theme/chinese-new-year-2020/firecrackers.png',
+        name: { english: 'tiger', chinese: '爆竹' },
+        winsBy: { english: 'bites', chinese: '吓走' },
+        imageUrl: '/theme/jungle-snakes-and-ladders/tiger.gif',
       },
     },
     style: {
