@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { LoadingSpinner } from '../../components/loading-spinner';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, Link } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
@@ -10,7 +10,10 @@ import { GamePlaySection } from './components/GameplaySection';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
-import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
+import {
+  FullPageScreenLayout,
+  featureFontFamily,
+} from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import JungleBackgroundMatchupImg from '../../../images/jungle-cgi.jpg';
@@ -34,6 +37,8 @@ const JungleBackground2 = styled.div`
 const NewGameButton = styled(PrimaryButton)`
   background-color: #ff9d76;
 `;
+
+const LinkButton = styled(PrimaryButton)``;
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
@@ -165,21 +170,27 @@ export default ({ matchupId }: MatchupViewProps) => {
                   )}
                 {showNewGame && (
                   <div style={{ textAlign: 'center' }}>
-                    <NewGameButton
-                      onClick={() => {
-                        if (matchupId) {
-                          const samePlayMode =
-                            currentMatchup &&
-                            currentMatchup.gameInProgress &&
-                            currentMatchup.gameInProgress.playMode;
-                          startGameForMatchup(matchupId, samePlayMode);
-                          setShowNewGame(false);
-                          setShowTrophyAward(false);
-                        }
-                      }}
-                    >
-                      New Game
-                    </NewGameButton>
+                    {!currentMatchup!.gameInProgress!.trophyWon ? (
+                      <NewGameButton
+                        onClick={() => {
+                          if (matchupId) {
+                            const samePlayMode =
+                              currentMatchup &&
+                              currentMatchup.gameInProgress &&
+                              currentMatchup.gameInProgress.playMode;
+                            startGameForMatchup(matchupId, samePlayMode);
+                            setShowNewGame(false);
+                            setShowTrophyAward(false);
+                          }
+                        }}
+                      >
+                        New Game
+                      </NewGameButton>
+                    ) : (
+                      <LinkButton>
+                        <Link to="/snakes-and-ladders">TO THE JUNGLE!</Link>
+                      </LinkButton>
+                    )}
                   </div>
                 )}
               </React.Fragment>
