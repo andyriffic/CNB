@@ -41,7 +41,7 @@ const PlayerName = styled.h2`
   margin: 0;
   padding: 0;
   font-size: 0.9rem;
-  color: #00ffff;
+  color: #135e46;
   text-shadow: 0 0 5px #fff;
 `;
 

@@ -28,6 +28,7 @@ import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
 import jungleSnakeDown from './jungle-sad-trombone.mp3';
 import jungleZoom from './jungle-zoom-away.mp3';
+import jungleAmbience from './jungle-ambiance.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -74,6 +75,7 @@ export const JUNGLE_SOUND_KEYS = {
   LADDER_UP: 'LADDER_UP',
   MOVE: 'MOVE',
   BACKGROUND_MUSIC: 'BACKGROUND_MUSIC',
+  AMBIENCE: 'AMBIENCE',
 };
 
 export class SoundService {
@@ -124,6 +126,14 @@ export class SoundService {
       }),
     };
 
+    this._sounds[JUNGLE_SOUND_KEYS.AMBIENCE] = {
+      resumeable: true,
+      sound: new Howl({
+        src: [jungleAmbience],
+        loop: true,
+      }),
+    };
+
     this._sounds[JUNGLE_SOUND_KEYS.LADDER_UP] = {
       sound: new Howl({ src: [jungleLadderUp] }),
     };
@@ -145,7 +155,7 @@ export class SoundService {
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [radiantMusicLoop],
+          src: [jungleAmbience],
           loop: true,
         }),
       };

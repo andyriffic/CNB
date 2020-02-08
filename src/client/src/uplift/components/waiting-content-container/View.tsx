@@ -16,21 +16,21 @@ const SpinningBorderContent = styled.div`
   position: relative;
 `;
 
-const LoadingCircle = styled.svg<{loaded: boolean}>`
+const LoadingCircle = styled.svg<{ loaded: boolean }>`
   z-index: 1;
   animation: ${SpinAnimation} 2s linear infinite;
   #track {
     transition: fill 1s ease-in-out;
-    fill: ${props => (props.loaded ? '#4F8A10' : '#ffdbc5')};
+    fill: ${props => (props.loaded ? '#346830' : '#B67B65')};
   }
 
   #section {
     transition: fill 1s ease-in-out;
-    fill: ${props => (props.loaded ? '#4F8A10' : '#ff9d76')};
+    fill: ${props => (props.loaded ? '#346830' : '#B67B65')};
   }
 `;
 
-const LoadingContent = styled.div<{loaded: boolean}>`
+const LoadingContent = styled.div<{ loaded: boolean }>`
   background-color: ${props => (props.loaded ? 'white' : 'white')};
   position: absolute;
   top: 1px;
@@ -50,8 +50,8 @@ const LoadingContent = styled.div<{loaded: boolean}>`
 type WaitingContentContainerProps = {
   loaded: boolean;
   children: React.ReactNode;
-  style?: CSSProperties
-}
+  style?: CSSProperties;
+};
 
 const View = ({ loaded, children, style }: WaitingContentContainerProps) => {
   return (

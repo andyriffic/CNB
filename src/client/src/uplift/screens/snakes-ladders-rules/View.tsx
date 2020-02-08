@@ -9,7 +9,6 @@ import { MainHeading } from '../../components/Heading';
 const Container = styled.div`
   width: 790px;
   margin: 0 auto 50px auto;
-  color: black;
 `;
 
 const List = styled.ul``;
