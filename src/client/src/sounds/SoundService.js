@@ -1,7 +1,7 @@
 import { Howler, Howl } from 'howler';
 import drawSound from './draw.mp3';
 import scoreboardMusic from './scoreboard.mp3';
-import elevatorMusic from './elevator-bossanova.mp3';
+// import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
 import winnerStamp from './jungle-elephant.mp3';
 import hadouken from './hadouken.mp3';
@@ -14,7 +14,7 @@ import drumroll from './drumroll.wav';
 import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
-import radiantMusicLoop from './radiant.mp4';
+// import radiantMusicLoop from './radiant.mp4';
 import yay from './jungle-monkey.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
