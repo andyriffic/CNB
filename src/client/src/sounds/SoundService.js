@@ -29,6 +29,7 @@ import jungleBackgroundMusic from './jungle-background-music.mp3';
 import jungleSnakeDown from './jungle-sad-trombone.mp3';
 import jungleZoom from './jungle-zoom-away.mp3';
 import jungleAmbience from './jungle-ambiance.mp3';
+import jungleRattle from './jungle-rattle.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -68,6 +69,7 @@ export const SOUND_KEYS = {
   PUFF: 'PUFF',
   MOVE_ATTACH_WHOOSH: 'MOVE_ATTACH_WHOOSH',
   MOVE_LOSE: 'MOVE_LOSE',
+  RATTLE: 'RATTLE',
 };
 
 export const JUNGLE_SOUND_KEYS = {
@@ -168,6 +170,10 @@ export class SoundService {
       //     volume: 0.6,
       //   }),
       // };
+
+      this._sounds[SOUND_KEYS.RATTLE] = {
+        sound: new Howl({ src: [jungleRattle] }),
+      };
 
       this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {
         sound: new Howl({ src: [slideFallWhistle] }),

@@ -69,7 +69,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   useEffect(() => {
     return () => {
-      soundService.stopAll();
+      soundService.stop(SOUND_KEYS.INTENSE_MUSIC);
     };
   }, []);
 
@@ -193,7 +193,14 @@ export default ({ matchupId }: MatchupViewProps) => {
                       </NewGameButton>
                     ) : (
                       <LinkButton>
-                        <Link to="/snakes-and-ladders">TO THE JUNGLE!</Link>
+                        <Link
+                          to="/snakes-and-ladders"
+                          onClick={() => {
+                            soundService.play(SOUND_KEYS.RATTLE);
+                          }}
+                        >
+                          TO THE JUNGLE!
+                        </Link>
                       </LinkButton>
                     )}
                   </div>
