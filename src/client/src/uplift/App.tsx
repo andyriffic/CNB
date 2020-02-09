@@ -18,6 +18,8 @@ import { PlayerProfileStats } from './screens/player-profile-stats';
 import { PlayerAdminScreen } from './screens/admin/player-admin';
 import { LeaderboardScreen } from './screens/leaderboard';
 import { GameHistoryScreen } from './screens/game-history';
+import { SnakesAndLaddersScreen } from './screens/snakes-ladders-board';
+import { SnakesAndLaddersRulesScreen } from './screens/snakes-ladders-rules';
 
 export default () => {
   return (
@@ -41,6 +43,8 @@ export default () => {
                 <PlayerAdminScreen path="/player-admin" />
                 <LeaderboardScreen path="/leaderboard" />
                 <GameHistoryScreen path="/game-history" />
+                <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
               </Router>
             </MatchupProvider>
           </GameSettings>

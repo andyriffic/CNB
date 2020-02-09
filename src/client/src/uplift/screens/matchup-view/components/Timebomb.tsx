@@ -8,7 +8,7 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
-import dumplingImage from './dumpling.gif';
+import butterflyImage from './butterfly.gif';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const shakeCss = css`
   animation: ${shakeAnimationLeft} 300ms ease-in-out infinite;
 `;
 
-const Dumpling = styled.img`
+const Butterfly = styled.img`
   width: 100px;
   height: 100px;
 `;
@@ -112,9 +112,10 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && '💥'}
+        {boom && '🐛'} {/* replace boom emoji*/}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <Dumpling src={dumplingImage} alt="Dumpling" />}
+        {!boom && <Butterfly src={butterflyImage} alt="Butterfly" />}{' '}
+        {/* replace timebomb*/}
       </Bomb>
     </Container>
   );

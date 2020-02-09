@@ -3,7 +3,7 @@ import drawSound from './draw.mp3';
 import scoreboardMusic from './scoreboard.mp3';
 import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
-import winnerStamp from './stamp.wav';
+import winnerStamp from './jungle-elephant.mp3';
 import hadouken from './hadouken.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import scream01 from './scream-01.mp3';
@@ -15,14 +15,20 @@ import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
 import radiantMusicLoop from './radiant.mp4';
-import yay from './gong.mp3';
+import yay from './jungle-monkey.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './gasp.wav';
-import slideFallWhistle from './slide-fall-whistle.wav';
+import slideFallWhistle from './jungle-bird.mp3';
 import moveAttachWhoosh from './move-attach-whoosh.flac';
 import moveLose from './punch.mp3';
+
+import jungleLadderUp from './jungle-ladder-up.mp3';
+import jungleBackgroundMusic from './jungle-background-music.mp3';
+import jungleSnakeDown from './jungle-sad-trombone.mp3';
+import jungleZoom from './jungle-zoom-away.mp3';
+import jungleAmbience from './jungle-ambiance.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -64,11 +70,20 @@ export const SOUND_KEYS = {
   MOVE_LOSE: 'MOVE_LOSE',
 };
 
+export const JUNGLE_SOUND_KEYS = {
+  SNAKE_DOWN: 'SNAKE_DOWN',
+  LADDER_UP: 'LADDER_UP',
+  MOVE: 'MOVE',
+  BACKGROUND_MUSIC: 'BACKGROUND_MUSIC',
+  AMBIENCE: 'AMBIENCE',
+};
+
 export class SoundService {
   _theme = null;
   _sounds = {};
   _resumableSoundKeys = []; // Sounds that can be played when music is toggled back on
   _musicEnabled = false;
+  _loadedJungle = false;
 
   constructor(theme, musicEnabled = false) {
     if (!theme) {
@@ -76,6 +91,7 @@ export class SoundService {
     }
     this._theme = theme;
     this._loaded = false;
+    this._loadedJungle = false;
     this._musicEnabled = musicEnabled;
   }
 
@@ -95,6 +111,42 @@ export class SoundService {
     };
   }
 
+  loadJungle() {
+    if (this._loadedJungle) {
+      return;
+    }
+
+    this._loadedJungle = true;
+
+    this._sounds[JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC] = {
+      resumeable: true,
+      sound: new Howl({
+        src: [jungleBackgroundMusic],
+        loop: true,
+      }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.AMBIENCE] = {
+      resumeable: true,
+      sound: new Howl({
+        src: [jungleAmbience],
+        loop: true,
+      }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.LADDER_UP] = {
+      sound: new Howl({ src: [jungleLadderUp] }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.SNAKE_DOWN] = {
+      sound: new Howl({ src: [jungleSnakeDown] }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.MOVE] = {
+      sound: new Howl({ src: [jungleZoom] }),
+    };
+  }
+
   load() {
     if (!this._loaded) {
       this._loaded = true;
@@ -103,19 +155,19 @@ export class SoundService {
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [radiantMusicLoop],
+          src: [jungleAmbience],
           loop: true,
         }),
       };
 
-      this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
-        resumeable: true,
-        sound: new Howl({
-          src: [elevatorMusic],
-          loop: true,
-          volume: 0.6,
-        }),
-      };
+      // this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
+      //   resumeable: true,
+      //   sound: new Howl({
+      //     src: [elevatorMusic],
+      //     loop: true,
+      //     volume: 0.6,
+      //   }),
+      // };
 
       this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {
         sound: new Howl({ src: [slideFallWhistle] }),

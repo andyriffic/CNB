@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { LoadingSpinner } from '../../components/loading-spinner';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, Link } from '@reach/router';
 import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
@@ -10,10 +10,13 @@ import { GamePlaySection } from './components/GameplaySection';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { ThemeInfoView } from '../components/theme-info';
-import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
+import {
+  FullPageScreenLayout,
+  featureFontFamily,
+} from '../../components/layouts/FullPageScreenLayout';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import NewYearBackgroundImgInMatchup from '../../../images/matchup.jpg'
+import JungleBackgroundMatchupImg from '../../../images/jungle-cgi.jpg';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -25,15 +28,22 @@ type MatchupViewProps = {
   matchupId?: string;
 } & RouteComponentProps;
 
-const NewYearBackground2 = styled.div`
-  background-image:url(${NewYearBackgroundImgInMatchup});
+const JungleBackground2 = styled.div`
+  background-image: url(${JungleBackgroundMatchupImg});
   background-size: 100% 100%;
-  height:100vh;
-  color: #ff9d76;
-  `
+  height: 100vh;
+  color: #f25973;
+`;
 const NewGameButton = styled(PrimaryButton)`
   background-color: #ff9d76;
-`
+`;
+
+const LinkButton = styled(PrimaryButton)`
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
@@ -123,7 +133,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageScreenLayout title="" alignTop>
-      <NewYearBackground2>
+      <JungleBackground2>
         <ConfettiProvider>
           <GameSettingsDrawer />
           <MatchupsContainer>
@@ -165,28 +175,34 @@ export default ({ matchupId }: MatchupViewProps) => {
                   )}
                 {showNewGame && (
                   <div style={{ textAlign: 'center' }}>
-                    <NewGameButton
-                      onClick={() => {
-                        if (matchupId) {
-                          const samePlayMode =
-                            currentMatchup &&
-                            currentMatchup.gameInProgress &&
-                            currentMatchup.gameInProgress.playMode;
-                          startGameForMatchup(matchupId, samePlayMode);
-                          setShowNewGame(false);
-                          setShowTrophyAward(false);
-                        }
-                      }}
-                    >
-                      New Game
-                    </NewGameButton>
+                    {!currentMatchup!.gameInProgress!.trophyWon ? (
+                      <NewGameButton
+                        onClick={() => {
+                          if (matchupId) {
+                            const samePlayMode =
+                              currentMatchup &&
+                              currentMatchup.gameInProgress &&
+                              currentMatchup.gameInProgress.playMode;
+                            startGameForMatchup(matchupId, samePlayMode);
+                            setShowNewGame(false);
+                            setShowTrophyAward(false);
+                          }
+                        }}
+                      >
+                        New Game
+                      </NewGameButton>
+                    ) : (
+                      <LinkButton>
+                        <Link to="/snakes-and-ladders">TO THE JUNGLE!</Link>
+                      </LinkButton>
+                    )}
                   </div>
                 )}
               </React.Fragment>
             )}
           </MatchupsContainer>
-          </ConfettiProvider>
-        </NewYearBackground2>
+        </ConfettiProvider>
+      </JungleBackground2>
     </FullPageScreenLayout>
   );
 };

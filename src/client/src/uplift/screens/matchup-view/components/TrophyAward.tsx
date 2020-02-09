@@ -50,7 +50,7 @@ export const TrophyAward = ({  }: TrophyAwardProps) => {
 
   return (
     <Container>
-      <Trophy>🏆</Trophy>
+      <Trophy>+1</Trophy>
     </Container>
   );
 };

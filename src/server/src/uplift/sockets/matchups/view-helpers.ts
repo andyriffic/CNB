@@ -18,15 +18,13 @@ const getSpectatorMove = (
   move: GameMove,
   allPlayers: Player[]
 ): MoveSpectatorView => {
-
   const player = allPlayers.find(p => p.id === move.playerId);
 
   return {
     moved: !!move.moveId,
     usedPowerup: !!move.powerUpId && move.powerUpId !== 'NONE',
-    playerName: player
-      ? player.name
-      : null,
+    playerName: player ? player.name : null,
+    playerId: player ? player.id : null,
     playerAvatarUrl: player ? getPlayerImageUrl(player.id, player.tags) : null,
   };
 };

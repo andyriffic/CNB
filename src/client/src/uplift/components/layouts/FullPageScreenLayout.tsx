@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
 
+export const featureFontFamily = 'Freckle Face';
+
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #a8026e;
+  color: #d09d7b;
 `;
 
 const Header = styled.header`
@@ -31,7 +33,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#ed6008, #ee0e08);
+  background-image: radial-gradient(#478966, #346830);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -61,6 +63,7 @@ type FullPageScreenLayoutProps = {
   alignTop: boolean;
   children: React.ReactNode | React.ReactNodeArray;
   scrollable?: boolean;
+  bodyStyle?: React.CSSProperties;
 };
 
 export const FullPageScreenLayout = ({
@@ -68,6 +71,7 @@ export const FullPageScreenLayout = ({
   alignTop,
   children,
   scrollable = false,
+  bodyStyle = {},
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off">
@@ -76,7 +80,12 @@ export const FullPageScreenLayout = ({
           <PageHeading>{title}</PageHeading>
         </Header>
       )}
-      <Body alignTop={alignTop} scrollable={scrollable} className="margins-off">
+      <Body
+        style={bodyStyle}
+        alignTop={alignTop}
+        scrollable={scrollable}
+        className="margins-off"
+      >
         <BodyContent>{children}</BodyContent>
       </Body>
       {/* <Footer>

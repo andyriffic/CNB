@@ -27,6 +27,7 @@ import {
   getMoveGameAttributes,
   TimebombAttributes,
 } from '../../services/matchup/timebomb';
+import { incrementIntegerTag } from '../../utils/tags';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -44,6 +45,22 @@ let gamesInProgress: { [matchupId: string]: Game } = {};
 let watchupPlayerIds: string[] = [];
 
 const log = createLogger('matchups', LOG_NAMESPACE.socket);
+
+const incrementPlayerSnakesAndLaddersMoveCount = (
+  playerId: string,
+  by: number
+) => {
+  playerService.getPlayersAsync().then(allPlayers => {
+    const player = allPlayers.find(p => p.id === playerId);
+    if (!player) {
+      return;
+    }
+
+    const tags = incrementIntegerTag('sl_moves:', by, player.tags);
+    log('incrementPlayerSnakesAndLaddersMoveCount TAGS:', tags);
+    playerService.updatePlayerTags(player, tags);
+  });
+};
 
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
@@ -226,6 +243,19 @@ const init = (socketServer: Server, path: string) => {
               result.trophyWon
             );
 
+            const snakesAndLaddersMovesGained: { [key: string]: number } = {};
+
+            // ADD SNAKES AND LADDERS MOVE IF WON GAME
+            if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
+              const winningPlayerId = gamesInProgress[matchupId].moves[
+                gamesInProgress[matchupId].result!.winnerIndex!
+              ].playerId!;
+
+              log('PLAYER GETS POINT FOR WIN', winningPlayerId);
+              snakesAndLaddersMovesGained[winningPlayerId] = 1;
+              //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+            }
+
             //TODO: tidy up or move! 😬
             if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
               const gameAttributes = getMoveGameAttributes(
@@ -242,7 +272,38 @@ const init = (socketServer: Server, path: string) => {
                 },
                 trophyWon: !!gameAttributes[TimebombAttributes.Exploded],
               };
+
+              log('GAME ATTRIBUTES ------------->', gamesInProgress[matchupId]);
+
+              // ADD SNAKES AND LADDERS MOVE IF TIMEBOMB EXPLODED
+              if (gamesInProgress[matchupId].gameAttributes.exploded) {
+                const winningPlayerIndex = [1, 0][
+                  gamesInProgress[matchupId].gameAttributes
+                    .playerIndexHoldingTimebomb
+                ];
+                const winningPlayerId = gamesInProgress[matchupId].moves[
+                  winningPlayerIndex
+                ].playerId!;
+
+                log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
+                if (snakesAndLaddersMovesGained[winningPlayerId]) {
+                  snakesAndLaddersMovesGained[winningPlayerId]++;
+                } else {
+                  snakesAndLaddersMovesGained[winningPlayerId] = 1;
+                }
+                //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+              }
             }
+
+            //UPDATE SNAKES AND LADDERS MOVES GAINED
+            log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
+
+            Object.keys(snakesAndLaddersMovesGained).forEach(playerId => {
+              incrementPlayerSnakesAndLaddersMoveCount(
+                playerId,
+                snakesAndLaddersMovesGained[playerId]
+              );
+            });
 
             getMatchupView(matchupId, gamesInProgress).then(matchupView => {
               if (

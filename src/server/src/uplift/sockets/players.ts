@@ -26,12 +26,16 @@ const getChineseZodiacFromTag = (tags: string[]): string => {
   const zodiac = tags.find(t => t.startsWith('chinese_zodiac:'));
 
   return zodiac ? zodiac.split(':')[1] : '';
-}
+};
 
 export const getPlayerImageUrl = (playerId: string, tags: string[]): string => {
-  const zodiacSign = getChineseZodiacFromTag(tags);
-  return zodiacSign ? `/zodiac/chinese-zodiac-${zodiacSign}.gif` : `/players/${playerId}.png`;
-}
+  return `/players/${playerId}.png`;
+
+  // const zodiacSign = getChineseZodiacFromTag(tags);
+  // return zodiacSign
+  //   ? `/zodiac/chinese-zodiac-${zodiacSign}.gif`
+  //   : `/players/${playerId}.png`;
+};
 
 const getUpdatedPlayerList = (): Promise<any> => {
   return new Promise<any>(resolve => {
@@ -60,12 +64,13 @@ const getUpdatedPlayerList = (): Promise<any> => {
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
-  namespace.on('connection', function (socket: Socket) {
+  namespace.on('connection', function(socket: Socket) {
     log('someone connected to players', socket.id);
 
     socket.on(SUBSCRIBE_TO_ALL_PLAYERS, () => {
       log('Received', SUBSCRIBE_TO_ALL_PLAYERS);
       getUpdatedPlayerList().then(playerList => {
+        log('EMIT', ALL_PLAYERS_UPDATE);
         socket.emit(ALL_PLAYERS_UPDATE, playerList);
       });
     });
@@ -83,6 +88,7 @@ const init = (socketServer: Server, path: string) => {
         };
         playersDatastore.addPlayer(player).then(() => {
           getUpdatedPlayerList().then(playerList => {
+            log('EMIT', ALL_PLAYERS_UPDATE);
             socket.emit(ALL_PLAYERS_UPDATE, playerList);
           });
         });
@@ -95,7 +101,8 @@ const init = (socketServer: Server, path: string) => {
       playerService.getPlayer(id).then(player => {
         playerService.updatePlayerTags(player, tags).then(() => {
           getUpdatedPlayerList().then(playerList => {
-            socket.emit(ALL_PLAYERS_UPDATE, playerList);
+            log('EMIT', ALL_PLAYERS_UPDATE);
+            namespace.emit(ALL_PLAYERS_UPDATE, playerList);
           });
         });
       });

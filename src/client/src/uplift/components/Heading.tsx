@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, ComponentPropsWithoutRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { pulseAnimation, rubberBandAnimation } from './animations';
+import { featureFontFamily } from './layouts/FullPageScreenLayout';
 
 const TextClipAnimation = keyframes`
   to {
@@ -39,9 +40,9 @@ const StyleHeading1 = styled.h1`
   padding: 0;
   text-align: center;
   /* font-family: 'Rammetto One', cursive; */
-  font-family: 'Rammetto One', cursive;
-  color: #51eaea;
-  text-shadow: 0 0 20px #fff, 0 0 8px #fff;
+  font-family: ${featureFontFamily};
+  color: #D9662D;
+  text-shadow: 0 0 20px #fff, 0 0 8px #000;
   animation: ${slowRubberBandAnimation} 8s ease-in-out 3s infinite;
 
   /* color: #fff; */
