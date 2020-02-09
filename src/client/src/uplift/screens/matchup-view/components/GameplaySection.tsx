@@ -5,14 +5,15 @@ import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
 import { GameResult } from './GameResult';
 import { TimebombStrip } from './TimebombStrip';
 import { PrimaryButton } from '../../../components/PrimaryButton';
+import { useDoOnce } from '../../../hooks/useDoOnce';
 
 const Container = styled.div`
   text-align: center;
 `;
 
 const ModeButton = styled(PrimaryButton)`
-  background-color:#ff9d76;
-`
+  background-color: #ff9d76;
+`;
 
 export const GamePlaySection = ({
   matchup,
@@ -71,9 +72,9 @@ export const GamePlaySection = ({
     if (matchup.gameInProgress.status === GAME_STATUS.ReadyToPlay) {
       setTimeout(() => {
         playGame();
-      }, 100)
+      }, 100);
     }
-  }, [matchup])
+  }, [matchup]);
 
   const gameplaySectionFinished = () => {
     if (
@@ -103,14 +104,20 @@ export const GamePlaySection = ({
     onGameFinished();
   };
 
+  if (showNewGameButton) {
+    setTimeout(() => {
+      startGame('Timebomb');
+    });
+  }
+
   return (
     <Container>
       {showNewGameButton && (
         <div>
-          <ModeButton onClick={() => startGame()}>Classic 😴</ModeButton>{' '}
-          <ModeButton onClick={() => startGame('Timebomb')}>
+          {/* <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '} */}
+          <PrimaryButton onClick={() => startGame('Timebomb')}>
             Timebomb 💣
-          </ModeButton>
+          </PrimaryButton>
         </div>
       )}
       {showWaitingOnPlayers && (

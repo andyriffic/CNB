@@ -51,6 +51,10 @@ export default ({  }: RouteComponentProps) => {
     soundService.load();
     soundService.loadJungle();
     soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+
+    return () => {
+      soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+    };
   }, []);
 
   return (

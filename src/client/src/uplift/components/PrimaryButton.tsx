@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   text-decoration: none;
   text-transform: uppercase;
   color: #fff;
-  background-color: #8000ff;
+  background-color: #989836;
   border: 0;
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: center;
@@ -21,7 +21,7 @@ const StyledButton = styled.button`
   font-size: 1rem;
   &:hover {
     box-shadow: inset 0 -0.6em 0 -0.5em rgba(0, 0, 0, 0.17);
-    background-color: #ffff00;
+    background-color: #60903b;
     transform: scale(1.05);
   }
 

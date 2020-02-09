@@ -3,7 +3,7 @@ import drawSound from './draw.mp3';
 import scoreboardMusic from './scoreboard.mp3';
 import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
-import winnerStamp from './stamp.wav';
+import winnerStamp from './jungle-elephant.mp3';
 import hadouken from './hadouken.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import scream01 from './scream-01.mp3';
@@ -15,12 +15,12 @@ import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
 import radiantMusicLoop from './radiant.mp4';
-import yay from './gong.mp3';
+import yay from './jungle-monkey.mp3';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 import fuse from './gasp.wav';
-import slideFallWhistle from './slide-fall-whistle.wav';
+import slideFallWhistle from './jungle-bird.mp3';
 import moveAttachWhoosh from './move-attach-whoosh.flac';
 import moveLose from './punch.mp3';
 
@@ -160,14 +160,14 @@ export class SoundService {
         }),
       };
 
-      this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
-        resumeable: true,
-        sound: new Howl({
-          src: [elevatorMusic],
-          loop: true,
-          volume: 0.6,
-        }),
-      };
+      // this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
+      //   resumeable: true,
+      //   sound: new Howl({
+      //     src: [elevatorMusic],
+      //     loop: true,
+      //     volume: 0.6,
+      //   }),
+      // };
 
       this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {
         sound: new Howl({ src: [slideFallWhistle] }),

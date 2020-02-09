@@ -38,7 +38,12 @@ const NewGameButton = styled(PrimaryButton)`
   background-color: #ff9d76;
 `;
 
-const LinkButton = styled(PrimaryButton)``;
+const LinkButton = styled(PrimaryButton)`
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
 
 export default ({ matchupId }: MatchupViewProps) => {
   const {
