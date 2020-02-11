@@ -14,12 +14,13 @@ import { PlayerListView } from './screens/player-list';
 import { TeamsListView } from './screens/teams-list';
 import { TournamentInfoView } from './screens/tournament-info';
 import { InstantMatchup } from './screens/instant-matchup';
-import { PlayerProfileStats } from './screens/player-profile-stats';
+import { PlayerProfileStatsScreen } from './screens/player-profile-stats';
 import { PlayerAdminScreen } from './screens/admin/player-admin';
 import { LeaderboardScreen } from './screens/leaderboard';
 import { GameHistoryScreen } from './screens/game-history';
 import { SnakesAndLaddersScreen } from './screens/snakes-ladders-board';
 import { SnakesAndLaddersRulesScreen } from './screens/snakes-ladders-rules';
+import { FinxFeatureDisplayScreen } from './screens/finx-feature-display';
 
 export default () => {
   return (
@@ -34,8 +35,8 @@ export default () => {
                 <MatchupLobby path="/lobby" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
-                <PlayerProfileStats path="/player/profile" />
-                <PlayerProfileStats path="/player/profile/:playerName" />
+                <PlayerProfileStatsScreen path="/player/profile" />
+                <PlayerProfileStatsScreen path="/player/profile/:playerName" />
                 <PlayerListView path="/tournament-players" />
                 <TeamsListView path="/teams" />
                 <TournamentInfoView path="tournament-info" />
@@ -45,6 +46,7 @@ export default () => {
                 <GameHistoryScreen path="/game-history" />
                 <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                 <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
+                <FinxFeatureDisplayScreen path="/finx-display" />
               </Router>
             </MatchupProvider>
           </GameSettings>

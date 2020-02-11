@@ -1,1 +1,1 @@
-export { default as PlayerProfileStats } from './View';
+export { default as PlayerProfileStatsScreen } from './View';

@@ -8,6 +8,7 @@ import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
 import { PlayerStatsRecordWithRanking } from '../../types';
+import { getBoardPlayers } from '../snakes-ladders-board/GameBoardContext';
 
 const MatchupsContainer = styled.div`
   width: 790px;
@@ -28,6 +29,7 @@ export default ({ playerName }: Props) => {
 
   useEffect(() => {
     if (groupedStatsWithRanking && !randomPlayerStats) {
+      //const snakesAndLaddersPlayers = getBoardPlayers(allPlayers);
       if (!playerName) {
         const randomPositionGroup = selectRandomOneOf(groupedStatsWithRanking);
         const position = groupedStatsWithRanking.indexOf(randomPositionGroup);
@@ -49,7 +51,7 @@ export default ({ playerName }: Props) => {
 
   return (
     <PlayersProvider>
-      <FullPageScreenLayout title="Cowboy/Ninja/Bear 2020" alignTop={true}>
+      <FullPageScreenLayout title="" alignTop={true}>
         <GameSettingsDrawer />
         <MatchupsContainer>
           {randomPlayerStats && (

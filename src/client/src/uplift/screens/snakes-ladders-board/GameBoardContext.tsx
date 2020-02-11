@@ -30,6 +30,26 @@ const initialValue: GameBoardService = {
   onArrivedInCell: () => {},
 };
 
+export const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
+  const eligiblePlayers = allPlayers.filter(player =>
+    player.tags.includes('sl_participant')
+  );
+
+  const boardPlayers: GameBoardPlayer[] = eligiblePlayers.map(player => ({
+    player,
+    positionOffset: 0,
+    boardCellIndex: parseInt(
+      getPlayerAttributeValue(player.tags, 'sl_cell', '0')
+    ),
+    movesRemaining: parseInt(
+      getPlayerAttributeValue(player.tags, 'sl_moves', '0')
+    ),
+    inLead: false,
+  }));
+
+  return boardPlayers;
+};
+
 export const GameBoardContext = React.createContext<GameBoardService>(
   initialValue
 );
@@ -43,23 +63,7 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
     console.log('---GameBoardContext---', allPlayers);
 
     if (allPlayers.length) {
-      const eligiblePlayers = allPlayers.filter(player =>
-        player.tags.includes('sl_participant')
-      );
-
-      const initialBoardPlayers: GameBoardPlayer[] = eligiblePlayers.map(
-        player => ({
-          player,
-          positionOffset: 0,
-          boardCellIndex: parseInt(
-            getPlayerAttributeValue(player.tags, 'sl_cell', '0')
-          ),
-          movesRemaining: parseInt(
-            getPlayerAttributeValue(player.tags, 'sl_moves', '0')
-          ),
-          inLead: false,
-        })
-      );
+      const initialBoardPlayers = getBoardPlayers(allPlayers);
 
       // Get counts of players in each cell
       const cellPlayerCounts = initialBoardPlayers.reduce(
