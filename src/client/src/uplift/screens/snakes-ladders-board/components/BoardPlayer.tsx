@@ -54,6 +54,13 @@ const MovesRemaining = styled.div`
   /* animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite; */
 `;
 
+const WinningMedal = styled.div`
+  position: absolute;
+  top: 0;
+  left: 25%;
+  font-size: 1.1rem;
+`;
+
 type Props = {
   cell: GameBoardCell;
   movesRemaining: number;
@@ -99,6 +106,7 @@ export const BoardPlayer = ({
             <Rainbow>{movesRemaining}</Rainbow>
           </MovesRemaining>
         )}
+        {inLead && <WinningMedal>🥇</WinningMedal>}
       </div>
     </CellPlayer>
   );
