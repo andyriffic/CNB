@@ -9,11 +9,11 @@ const Container = styled.div`
 `;
 const MedalCircle = styled.div`
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: bold;
   width: 80px;
   height: 80px;
   border-radius: 100%;
-  color: white;
+  color: steelblue;
   text-align: center;
   line-height: 70px;
   vertical-align: middle;

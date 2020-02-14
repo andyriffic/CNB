@@ -13,7 +13,6 @@ import { Medal } from '../../components/Medal';
 import { getOrdinal } from '../../utils/ordinal';
 
 const Container = styled.div`
-  margin-top: 50px;
   display: flex;
   align-items: flex-end;
 `;

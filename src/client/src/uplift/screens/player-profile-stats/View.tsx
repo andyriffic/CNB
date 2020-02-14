@@ -11,9 +11,10 @@ import { PlayerStatsRecordWithRanking } from '../../types';
 import { getBoardPlayers } from '../snakes-ladders-board/GameBoardContext';
 
 const MatchupsContainer = styled.div`
-  width: 790px;
+  /* width: 790px; */
   margin: 0 auto;
   display: flex;
+  justify-content: center;
 `;
 
 type Props = {
@@ -51,7 +52,7 @@ export default ({ playerName }: Props) => {
 
   return (
     <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true}>
+      <FullPageScreenLayout title="" alignTop={false}>
         <GameSettingsDrawer />
         <MatchupsContainer>
           {randomPlayerStats && (
