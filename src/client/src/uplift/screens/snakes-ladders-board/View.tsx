@@ -17,7 +17,7 @@ import snakeGif from './assets/snake.gif';
 
 const Container = styled.div`
   width: 790px;
-  margin: 50px auto;
+  margin: 0 auto;
   position: relative;
 `;
 
@@ -62,7 +62,7 @@ export default ({  }: RouteComponentProps) => {
       <GameBoardProvider>
         <FullPageScreenLayout
           title=""
-          alignTop={true}
+          alignTop={false}
           scrollable={false}
           bodyStyle={{ backgroundColor: '#fed357', backgroundImage: 'none' }}
         >
