@@ -10,7 +10,6 @@ import { useDoOnce } from '../../../hooks/useDoOnce';
 import { Heading } from '../../../../components/form/radio-select/styles';
 import { MainHeading } from '../../../components/Heading';
 import { StampText } from '../../../components/stamp-text';
-import starImage from './star.png';
 
 const MoveAndGrowAnimation = keyframes`
   0% { transform: scale(1) translate(0, 0); }
@@ -26,8 +25,6 @@ const Container = styled.div`
 const ChildrenContainer = styled.div`
   /* position: absolute; */
   /* animation: ${MoveAndGrowAnimation} 1s ease-in-out 0s 1 both; */
-  background: transparent url(${starImage}) no-repeat top left;
-  background-size: cover;
 `;
 
 const WinnerText = styled.div`
