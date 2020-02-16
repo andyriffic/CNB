@@ -22,7 +22,7 @@ type StampTextProps = {
 const styles: { [styleName: string]: CSSProperties } = {
   success: { color: '#0a9928' },
   average: { color: '#FFC105' },
-  jungle: { color: '#39110c', borderWidth: '4px', fontSize: '0.4rem' },
+  jungle: { color: '#EAECEE', borderWidth: '4px', fontSize: '0.4rem' },
 };
 
 const Container = styled.div``;

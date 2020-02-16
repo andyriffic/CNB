@@ -31,6 +31,7 @@ const WinnerText = styled.div`
   position: absolute;
   left: 160px;
   top: 30px;
+  z-index: 2;
 `;
 
 type Props = {
@@ -65,7 +66,7 @@ export const PlayerVictory = ({ show, children }: Props) => {
         <WinnerText>
           <StampText
             show={showText}
-            text="King of the jungle!"
+            text="Ruler of the jungle!"
             style="jungle"
           />
         </WinnerText>
