@@ -30,6 +30,7 @@ import jungleSnakeDown from './jungle-sad-trombone.mp3';
 import jungleZoom from './jungle-zoom-away.mp3';
 import jungleAmbience from './jungle-ambiance.mp3';
 import jungleRattle from './jungle-rattle.mp3';
+import jungleVictory from './jungle-victory.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -78,6 +79,7 @@ export const JUNGLE_SOUND_KEYS = {
   MOVE: 'MOVE',
   BACKGROUND_MUSIC: 'BACKGROUND_MUSIC',
   AMBIENCE: 'AMBIENCE',
+  VICTORY: 'VICTORY',
 };
 
 export class SoundService {
@@ -146,6 +148,10 @@ export class SoundService {
 
     this._sounds[JUNGLE_SOUND_KEYS.MOVE] = {
       sound: new Howl({ src: [jungleZoom] }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.VICTORY] = {
+      sound: new Howl({ src: [jungleVictory] }),
     };
   }
 

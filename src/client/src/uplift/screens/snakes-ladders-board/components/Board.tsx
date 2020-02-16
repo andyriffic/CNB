@@ -42,6 +42,7 @@ export const Board = ({ board }: Props) => {
             }}
             inLead={boardPlayer.inLead}
             onArrived={() => onArrivedInCell(boardPlayer, board)}
+            boardPlayer={boardPlayer}
           />
         );
       })}

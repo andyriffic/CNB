@@ -53,13 +53,13 @@ export default ({  }: RouteComponentProps) => {
     soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
 
     return () => {
-      soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+      soundService.stopAll();
     };
   }, []);
 
   return (
     <PlayersProvider>
-      <GameBoardProvider>
+      <GameBoardProvider board={board}>
         <FullPageScreenLayout
           title=""
           alignTop={false}

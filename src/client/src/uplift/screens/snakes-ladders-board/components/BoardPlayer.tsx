@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { GameBoardCell } from '../board';
+import { GameBoardPlayer } from '../GameBoardContext';
 import { Player } from '../../../contexts/PlayersProvider';
 import { PlayerAvatar } from '../../../components/PlayerAvatar';
 import Rainbow from '../../../../components/rainbow-text';
@@ -10,6 +10,8 @@ import {
   shakeAnimationRight,
   shakeAnimationLeft,
 } from '../../../components/animations';
+import { GameBoardCell } from '../board';
+import { PlayerVictory } from './PlayerVictory';
 
 const offsets = [[0, 0], [-25, 0], [25, 0], [-35, 40], [-10, 40], [15, 40]];
 
@@ -69,6 +71,7 @@ type Props = {
   onClick: () => void;
   onArrived: () => void;
   inLead: boolean;
+  boardPlayer: GameBoardPlayer;
 };
 
 export const BoardPlayer = ({
@@ -79,6 +82,7 @@ export const BoardPlayer = ({
   onClick,
   onArrived,
   inLead,
+  boardPlayer,
 }: Props) => {
   useEffect(() => {
     setTimeout(onArrived, 1000);
@@ -87,27 +91,29 @@ export const BoardPlayer = ({
   const appliedOffset = offsets[offset] || [0, 0];
 
   return (
-    <CellPlayer
-      onClick={onClick}
-      hasMoves={movesRemaining > 0}
-      priority={movesRemaining}
-      offset={offset}
-      x={cell.coordinates[0] + appliedOffset[0]}
-      y={cell.coordinates[1] + appliedOffset[1]}
-      inLead={inLead}
-    >
-      <div style={{ position: 'relative' }}>
-        <PlayerAvatar
-          player={player}
-          overrideStyle="width: 50px; height: 75px;"
-        />
-        {!!movesRemaining && (
-          <MovesRemaining>
-            <Rainbow>{movesRemaining}</Rainbow>
-          </MovesRemaining>
-        )}
-        {inLead && <WinningMedal>🥇</WinningMedal>}
-      </div>
-    </CellPlayer>
+    <PlayerVictory show={boardPlayer.isWinner}>
+      <CellPlayer
+        onClick={onClick}
+        hasMoves={movesRemaining > 0}
+        priority={movesRemaining}
+        offset={offset}
+        x={cell.coordinates[0] + appliedOffset[0]}
+        y={cell.coordinates[1] + appliedOffset[1]}
+        inLead={inLead}
+      >
+        <div style={{ position: 'relative' }}>
+          <PlayerAvatar
+            player={player}
+            overrideStyle="width: 50px; height: 75px;"
+          />
+          {!!movesRemaining && (
+            <MovesRemaining>
+              <Rainbow>{movesRemaining}</Rainbow>
+            </MovesRemaining>
+          )}
+          {inLead && <WinningMedal>🥇</WinningMedal>}
+        </div>
+      </CellPlayer>
+    </PlayerVictory>
   );
 };

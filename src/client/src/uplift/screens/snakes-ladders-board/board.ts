@@ -8,6 +8,7 @@ export enum BOARD_CELL_TYPE {
   NORMAL = 0,
   SNAKE = 1,
   LADDER = 2,
+  END = 3,
 }
 
 export type GameBoardCell = {
@@ -196,7 +197,7 @@ export const generateBoard = (): GameBoard => {
       {
         number: 32,
         coordinates: [200, 95],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.END,
       },
     ],
   };

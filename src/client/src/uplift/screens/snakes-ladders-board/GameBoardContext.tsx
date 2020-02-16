@@ -7,12 +7,13 @@ import GameSoundContext from '../../../contexts/GameSoundContext';
 import { JUNGLE_SOUND_KEYS, SOUND_KEYS } from '../../../sounds/SoundService';
 import { selectRandomOneOf } from '../../utils/random';
 
-type GameBoardPlayer = {
+export type GameBoardPlayer = {
   player: Player;
   boardCellIndex: number;
   movesRemaining: number;
   positionOffset: number;
   inLead: boolean;
+  isWinner: boolean;
 };
 
 type GameBoardService = {
@@ -30,22 +31,29 @@ const initialValue: GameBoardService = {
   onArrivedInCell: () => {},
 };
 
-export const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
+export const getBoardPlayers = (
+  allPlayers: Player[],
+  winningCellIndex: number
+): GameBoardPlayer[] => {
   const eligiblePlayers = allPlayers.filter(player =>
     player.tags.includes('sl_participant')
   );
 
-  const boardPlayers: GameBoardPlayer[] = eligiblePlayers.map(player => ({
-    player,
-    positionOffset: 0,
-    boardCellIndex: parseInt(
+  const boardPlayers: GameBoardPlayer[] = eligiblePlayers.map(player => {
+    const boardCellIndex = parseInt(
       getPlayerAttributeValue(player.tags, 'sl_cell', '0')
-    ),
-    movesRemaining: parseInt(
-      getPlayerAttributeValue(player.tags, 'sl_moves', '0')
-    ),
-    inLead: false,
-  }));
+    );
+    return {
+      player,
+      positionOffset: 0,
+      boardCellIndex,
+      movesRemaining: parseInt(
+        getPlayerAttributeValue(player.tags, 'sl_moves', '0')
+      ),
+      inLead: false,
+      isWinner: player.tags.includes('sl_winner'),
+    };
+  });
 
   return boardPlayers;
 };
@@ -54,7 +62,13 @@ export const GameBoardContext = React.createContext<GameBoardService>(
   initialValue
 );
 
-export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
+export const GameBoardProvider = ({
+  children,
+  board,
+}: {
+  children: ReactNode;
+  board: GameBoard;
+}) => {
   const { allPlayers, updatePlayer } = useContext(PlayersContext);
   const [boardPlayers, setBoardPlayers] = useState<GameBoardPlayer[]>([]);
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -63,7 +77,10 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
     console.log('---GameBoardContext---', allPlayers);
 
     if (allPlayers.length) {
-      const initialBoardPlayers = getBoardPlayers(allPlayers);
+      const initialBoardPlayers = getBoardPlayers(
+        allPlayers,
+        board.cells.length - 1
+      );
 
       // Get counts of players in each cell
       const cellPlayerCounts = initialBoardPlayers.reduce(
@@ -137,8 +154,10 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
           soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
           soundService.play(JUNGLE_SOUND_KEYS.MOVE);
 
-          const destinationCellIndex =
-            gameBoardPlayer.boardCellIndex + gameBoardPlayer.movesRemaining;
+          const destinationCellIndex = Math.min(
+            gameBoardPlayer.boardCellIndex + gameBoardPlayer.movesRemaining,
+            board.cells.length - 1
+          );
           const playerTags = gameBoardPlayer.player.tags
             .filter(t => !t.startsWith('sl_moves:'))
             .filter(t => !t.startsWith('sl_cell:'));
@@ -151,6 +170,15 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
         },
         onArrivedInCell: (gameBoardPlayer, gameBoard) => {
           const cell = gameBoard.cells[gameBoardPlayer.boardCellIndex];
+
+          if (cell.type === BOARD_CELL_TYPE.END) {
+            updatePlayer(gameBoardPlayer.player.id, [
+              ...gameBoardPlayer.player.tags.filter(t => t !== 'sl_winner'),
+              'sl_winner',
+            ]);
+            return;
+          }
+
           if (!cell.linkedCellIndex) {
             soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
             return;
@@ -167,10 +195,9 @@ export const GameBoardProvider = ({ children }: { children: ReactNode }) => {
             soundService.play(JUNGLE_SOUND_KEYS.SNAKE_DOWN);
           }
 
-          updatePlayer(gameBoardPlayer.player.id, [
-            ...playerTags,
-            `sl_cell:${destinationCellIndex}`,
-          ]);
+          const newTags = [`sl_cell:${destinationCellIndex}`];
+
+          updatePlayer(gameBoardPlayer.player.id, [...playerTags, ...newTags]);
 
           setTimeout(() => {
             soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
