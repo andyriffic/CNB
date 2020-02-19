@@ -64,7 +64,11 @@ const placeOrdinalOverride = [
   <PositionMedal>🥉</PositionMedal>,
 ];
 
-export default ({ navigate }: RouteComponentProps) => {
+type Props = {
+  maxPlacing?: number;
+} & RouteComponentProps;
+
+export default ({ maxPlacing }: Props) => {
   const [groupedStatsWithRanking] = useGroupedStatsWithRanking();
 
   return (
@@ -72,36 +76,42 @@ export default ({ navigate }: RouteComponentProps) => {
       <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
         <GameSettingsDrawer />
         <Container>
-          <MainHeading>Leaderboard 2020</MainHeading>
+          <MainHeading>
+            Leaderboard {maxPlacing && `top ${maxPlacing}`}
+          </MainHeading>
           <RankingList>
             {groupedStatsWithRanking &&
-              groupedStatsWithRanking.map((rankGroup, i) =>
-                rankGroup.map(player => {
-                  const equalPosition = groupedStatsWithRanking[i].length > 1;
-                  return (
-                    <RankItem
-                      key={player.player_name}
-                      className="margins-off"
-                      index={i}
-                    >
-                      <RankPosition>
-                        {placeOrdinalOverride[i] || getOrdinal(i + 1)}
-                        {equalPosition && '='}
-                      </RankPosition>
-                      <RankName href={`/player/profile/${player.player_name}`}>
-                        {player.player_name}
-                      </RankName>
-                      <RankStats>
-                        <StatsGraph
-                          wins={player.times_won}
-                          draws={player.times_drawn}
-                          losses={player.times_lost}
-                        />
-                      </RankStats>
-                    </RankItem>
-                  );
-                })
-              )}
+              groupedStatsWithRanking
+                .filter((s, i) => !maxPlacing || i <= maxPlacing - 1)
+                .map((rankGroup, i) =>
+                  rankGroup.map(player => {
+                    const equalPosition = groupedStatsWithRanking[i].length > 1;
+                    return (
+                      <RankItem
+                        key={player.player_name}
+                        className="margins-off"
+                        index={i}
+                      >
+                        <RankPosition>
+                          {placeOrdinalOverride[i] || getOrdinal(i + 1)}
+                          {equalPosition && '='}
+                        </RankPosition>
+                        <RankName
+                          href={`/player/profile/${player.player_name}`}
+                        >
+                          {player.player_name}
+                        </RankName>
+                        <RankStats>
+                          <StatsGraph
+                            wins={player.times_won}
+                            draws={player.times_drawn}
+                            losses={player.times_lost}
+                          />
+                        </RankStats>
+                      </RankItem>
+                    );
+                  })
+                )}
           </RankingList>
         </Container>
       </FullPageScreenLayout>

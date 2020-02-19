@@ -43,6 +43,7 @@ export default () => {
                 <ComponentTestView path="/component-test" />
                 <PlayerAdminScreen path="/player-admin" />
                 <LeaderboardScreen path="/leaderboard" />
+                <LeaderboardScreen path="/leaderboard/top/:maxPlacing" />
                 <GameHistoryScreen path="/game-history" />
                 <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                 <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
