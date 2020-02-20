@@ -9,6 +9,7 @@ import { PlayerStatsProfile } from './PlayerStatsProfile';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
 import { PlayerStatsRecordWithRanking } from '../../types';
 import { getBoardPlayers } from '../snakes-ladders-board/GameBoardContext';
+import { usePlayerStats } from '../../hooks/usePlayerStats';
 
 const MatchupsContainer = styled.div`
   /* width: 790px; */
@@ -22,7 +23,7 @@ type Props = {
 } & RouteComponentProps;
 
 export default ({ playerName }: Props) => {
-  const [groupedStatsWithRanking] = useGroupedStatsWithRanking();
+  const [groupedStatsWithRanking] = useGroupedStatsWithRanking(usePlayerStats);
   const [randomPlayerStats, setRandomPlayerStats] = useState<
     PlayerStatsRecordWithRanking | undefined
   >();

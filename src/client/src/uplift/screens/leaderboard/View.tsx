@@ -9,6 +9,9 @@ import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanki
 import { getOrdinal } from '../../utils/ordinal';
 import { StatsGraph } from './StatsGraph';
 import { fadeInRightAnimation } from '../../components/animations';
+import { usePlayerStats } from '../../hooks/usePlayerStats';
+import { usePlayerSnakesAndLaddersStats } from '../../hooks/usePlayerSnakesAndLaddersStats';
+import { isFeatureEnabled } from '../../../featureToggle';
 
 const Container = styled.div`
   width: 790px;
@@ -69,7 +72,11 @@ type Props = {
 } & RouteComponentProps;
 
 export default ({ maxPlacing }: Props) => {
-  const [groupedStatsWithRanking] = useGroupedStatsWithRanking();
+  const statsSource = isFeatureEnabled('sl')
+    ? usePlayerSnakesAndLaddersStats
+    : usePlayerStats;
+
+  const [groupedStatsWithRanking] = useGroupedStatsWithRanking(statsSource);
 
   return (
     <PlayersProvider>

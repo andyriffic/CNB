@@ -5,12 +5,12 @@ import {
   rankPlayers,
   groupRankings,
 } from '../screens/player-profile-stats/ranking';
-import { usePlayerStats } from './usePlayerStats';
+import { usePlayerStats, PlayerStatsJsonResult } from './usePlayerStats';
 
-export const useGroupedStatsWithRanking = (): [
-  PlayerStatsRecordWithRanking[][] | undefined
-] => {
-  const [loadingStats, playerStats] = usePlayerStats();
+export const useGroupedStatsWithRanking = (
+  stats: () => [boolean, PlayerStatsJsonResult | undefined]
+): [PlayerStatsRecordWithRanking[][] | undefined] => {
+  const [loadingStats, playerStats] = stats();
 
   const [groupedStatsWithRanking, setGroupedStatsWithRanking] = useState<
     PlayerStatsRecordWithRanking[][] | undefined

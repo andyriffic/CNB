@@ -10,6 +10,7 @@ import {
 import { statsS3Bucket } from './s3';
 import { playerLeaderboardQueryV2 } from './player-leaderboard-query-v2';
 import { gameHistoryQuery } from './game-history-query';
+import { playerSnakesAndLaddersLeaderboardQuery } from './player-leaderboard-snakes-and-ladders-query';
 
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
@@ -60,7 +61,20 @@ const runTestQuery = () => {
       console.log('ERROR: ', e);
     });
 
-  return [leaderboardQuery, historyQuery];
+  const slLeaderboardQuery = makeQuery(playerSnakesAndLaddersLeaderboardQuery)
+    .then(data => {
+      // console.log('DATA: ', data);
+      statsS3Bucket.saveStats(
+        STATS_AWS_RESULT_BUCKET_NAME,
+        'snakes-and-ladders-leaderboard.json',
+        { result: data, title: 'Snakes and ladders leaderboard' }
+      );
+    })
+    .catch(e => {
+      console.log('ERROR: ', e);
+    });
+
+  return [leaderboardQuery, historyQuery, slLeaderboardQuery];
 };
 
 export const publishStats = () => {
