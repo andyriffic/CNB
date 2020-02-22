@@ -3,12 +3,10 @@ import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
-import { GameSettingsDrawer } from '../../../game-settings';
 import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
 import { PlayerStatsRecordWithRanking } from '../../types';
-import { getBoardPlayers } from '../snakes-ladders-board/GameBoardContext';
 import { usePlayerStats } from '../../hooks/usePlayerStats';
 
 const MatchupsContainer = styled.div`
@@ -54,7 +52,6 @@ export default ({ playerName }: Props) => {
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={false}>
-        <GameSettingsDrawer />
         <MatchupsContainer>
           {randomPlayerStats && (
             <PlayerStatsProfile
