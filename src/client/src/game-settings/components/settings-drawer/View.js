@@ -53,8 +53,7 @@ const View = () => {
       <DrawerToggle onClick={toggleDrawer} />
       <SoundToggle />
       <div style={{ paddingBottom: '30px' }}>
-        <Link href="/leaderboard">Leaderboard 2020</Link>
-        <Link href="/leaderboard?feature=sl">🐍Leaderboard🐍</Link>
+        <Link href="/leaderboard">Leaderboard</Link>
         <Link href="/snakes-and-ladders-rules">Snakes and Ladders rules</Link>
         <Link href="/snakes-and-ladders">Snakes and Ladders board</Link>
       </div>

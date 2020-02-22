@@ -4,122 +4,57 @@ import { RouteComponentProps } from '@reach/router';
 import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
-import { MainHeading } from '../../components/Heading';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
-import { getOrdinal } from '../../utils/ordinal';
-import { StatsGraph } from './StatsGraph';
-import { fadeInRightAnimation } from '../../components/animations';
 import { usePlayerStats } from '../../hooks/usePlayerStats';
 import { usePlayerSnakesAndLaddersStats } from '../../hooks/usePlayerSnakesAndLaddersStats';
-import { isFeatureEnabled } from '../../../featureToggle';
+import { StatsGroup } from './StatsGroup';
 
 const Container = styled.div`
-  width: 790px;
-  margin: 0 auto 50px auto;
-`;
-
-const RankingList = styled.div``;
-const RankItem = styled.div<{ index: number }>`
+  max-width: 960px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #fbf6d9;
-  border-radius: 8px;
-  ${props =>
-    css`
-      animation: ${fadeInRightAnimation} 400ms ${props.index * 200}ms
-        ease-in-out both;
-    `}
+  min-height: 100vh;
 `;
 
-const RankPosition = styled.div`
-  font-family: 'Changa One', cursive;
-  width: 15%;
-  color: #ec7357;
-  white-space: nowrap;
-`;
-
-const RankName = styled.a`
-  width: 25%;
-  color: #754f44;
-  display: block;
-  text-decoration: none;
-
-  transition: all 200ms ease-in-out;
-
-  &:hover {
-    color: #ba3f1d;
-    transform: scale(1.2);
+const StatsContainer = styled.div`
+  width: 50%;
+  padding: 20px 20px 50px;
+  &:last-child {
+    background-color: #3d4a3e;
   }
 `;
-
-const RankStats = styled.div`
-  width: 60%;
-`;
-
-const PositionMedal = styled.span`
-  font-size: 1.6rem;
-`;
-
-const placeOrdinalOverride = [
-  <PositionMedal>🥇</PositionMedal>,
-  <PositionMedal>🥈</PositionMedal>,
-  <PositionMedal>🥉</PositionMedal>,
-];
 
 type Props = {
   maxPlacing?: number;
 } & RouteComponentProps;
 
 export default ({ maxPlacing }: Props) => {
-  const statsSource = isFeatureEnabled('sl')
-    ? usePlayerSnakesAndLaddersStats
-    : usePlayerStats;
-
-  const [groupedStatsWithRanking] = useGroupedStatsWithRanking(statsSource);
+  const [groupStats2020] = useGroupedStatsWithRanking(usePlayerStats);
+  const [groupStatsSnakesAndLadders] = useGroupedStatsWithRanking(
+    usePlayerSnakesAndLaddersStats
+  );
 
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
         <GameSettingsDrawer />
-        <Container>
-          <MainHeading>
-            Leaderboard {maxPlacing && `top ${maxPlacing}`}
-          </MainHeading>
-          <RankingList>
-            {groupedStatsWithRanking &&
-              groupedStatsWithRanking
-                .filter((s, i) => !maxPlacing || i <= maxPlacing - 1)
-                .map((rankGroup, i) =>
-                  rankGroup.map(player => {
-                    const equalPosition = groupedStatsWithRanking[i].length > 1;
-                    return (
-                      <RankItem
-                        key={player.player_name}
-                        className="margins-off"
-                        index={i}
-                      >
-                        <RankPosition>
-                          {placeOrdinalOverride[i] || getOrdinal(i + 1)}
-                          {equalPosition && '='}
-                        </RankPosition>
-                        <RankName
-                          href={`/player/profile/${player.player_name}`}
-                        >
-                          {player.player_name}
-                        </RankName>
-                        <RankStats>
-                          <StatsGraph
-                            wins={player.times_won}
-                            draws={player.times_drawn}
-                            losses={player.times_lost}
-                          />
-                        </RankStats>
-                      </RankItem>
-                    );
-                  })
-                )}
-          </RankingList>
+        <Container className="margins-off">
+          <StatsContainer>
+            <StatsGroup
+              maxPlacing={maxPlacing}
+              title={`2020 ${maxPlacing ? `top ${maxPlacing}` : ''}`}
+              groupedStatsWithRanking={groupStats2020}
+            />
+          </StatsContainer>
+          <StatsContainer>
+            <StatsGroup
+              maxPlacing={maxPlacing}
+              title={`Snakes & Ladders ${
+                maxPlacing ? `top ${maxPlacing}` : ''
+              }`}
+              groupedStatsWithRanking={groupStatsSnakesAndLadders}
+            />
+          </StatsContainer>
         </Container>
       </FullPageScreenLayout>
     </PlayersProvider>
