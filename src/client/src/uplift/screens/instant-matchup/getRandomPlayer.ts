@@ -52,9 +52,14 @@ export const getRandomPlayer = (
         getPlayerAttributeValue(weightedPlayer.item.tags, 'sl_cell', '0')
       );
 
+      const newWeight =
+        currentBoardPosition === 0
+          ? 100
+          : Math.max(weightedPlayer.weight - currentBoardPosition, 1);
+
       return {
         item: weightedPlayer.item,
-        weight: Math.max(weightedPlayer.weight - currentBoardPosition, 1),
+        weight: newWeight,
       };
     }
   );
@@ -64,5 +69,7 @@ export const getRandomPlayer = (
     adjustedWeightingForSnakesAndLaddersPosition
   );
 
-  return selectWeightedRandomOneOf(weightedPlayers);
+  return selectWeightedRandomOneOf(
+    adjustedWeightingForSnakesAndLaddersPosition
+  );
 };
