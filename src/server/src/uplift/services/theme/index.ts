@@ -279,4 +279,34 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
+  ['goodbye-mb']: {
+    name: { english: 'Goodbye Michael', chinese: '' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'IE11', chinese: '' },
+        winsBy: { english: 'beats', chinese: '' },
+        imageUrl: '/theme/goodbye-mb/ie11.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Javascript', chinese: '' },
+        winsBy: { english: 'beats', chinese: '' },
+        imageUrl: '/theme/goodbye-mb/javascript.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'iframes', chinese: '' },
+        winsBy: { english: 'beats', chinese: '' },
+        imageUrl: '/theme/goodbye-mb/iframes.jpg',
+      },
+    },
+    style: {
+      featureBackgroundColor: '#E36E65',
+      featureTextColor: '#1A414D',
+      pageBackgroundColor: '#F8F8FF',
+      primaryTextColor: '#1A414D',
+      primaryBorderColor: '#000',
+    },
+    sounds: {
+      musicUrl: '/theme/cnb/theme-music.mp3',
+    },
+  },
 };
