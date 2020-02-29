@@ -18,7 +18,7 @@ const PlayerItem = styled.li<{ highlighted: boolean }>`
   box-sizing: border-box;
   text-decoration: none;
   color: ${props => (props.highlighted ? '#ffffff' : '#2f4858')};
-  background-color: ${props => (props.highlighted ? '#E3C6AD' : '#fff5ee')};
+  background-color: ${props => (props.highlighted ? '#00887B' : '#fff5ee')};
   box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   text-align: left;
   position: relative;

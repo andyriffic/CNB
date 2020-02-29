@@ -14,7 +14,7 @@ const Container = styled.div`
 const TeamName = styled.h4`
   margin: 0;
   text-align: center;
-  background-color: #73a788;
+  background-color: steelblue;
 `;
 
 const TeamPoints = styled.div`
