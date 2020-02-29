@@ -27,8 +27,15 @@ export const getRandomPlayer = (
     .filter(p => !excludePlayers.find(ep => ep.id === p.id));
 
   if (!eligiblePlayers.length) {
-    alert('out of players!');
+    alert('out of players, reload the page to start again!');
     return allPlayers[0];
+  }
+
+  const priorityPlayer = eligiblePlayers.find(p =>
+    p.tags.includes('priority_player')
+  );
+  if (priorityPlayer) {
+    return priorityPlayer;
   }
 
   const weightedPlayers = eligiblePlayers.map(player => {
