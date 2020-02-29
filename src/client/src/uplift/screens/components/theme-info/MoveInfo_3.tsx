@@ -7,6 +7,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   margin-right: 20%;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const MoveContainer = styled.div`
