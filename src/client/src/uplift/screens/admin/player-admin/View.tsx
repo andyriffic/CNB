@@ -16,7 +16,7 @@ export default ({ navigate }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="Player Admin" alignTop={true} scrollable>
-        <Container>
+        <Container className="margins-off">
           <PlayerAdd />
           <PlayerEditList />
         </Container>

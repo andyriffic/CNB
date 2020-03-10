@@ -10,6 +10,7 @@ const Container = styled.div`
 
 const PlayerContainer = styled.div`
   border: 1px solid black;
+  flex-basis: 220px;
 `;
 
 export const PlayerEditList = () => {
