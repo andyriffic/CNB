@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemeStyle } from '../../contexts/ThemeProvider';
 
-export const featureFontFamily = 'Bangers';
+export const featureFontFamily = 'Freckle Face';
 
 const FullPage = styled.div<{ theme: ThemeStyle }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: black;
+  color: #d09d7b;
 `;
 
 const Header = styled.header`
@@ -33,7 +33,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(white, white);
+  background-image: radial-gradient(#478966, #346830);
   flex: 1;
   display: flex;
   flex-direction: column;

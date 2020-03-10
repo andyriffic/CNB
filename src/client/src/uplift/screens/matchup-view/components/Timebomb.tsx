@@ -8,7 +8,7 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
-import bigqueryImage from './bigquery.png';
+import butterflyImage from './butterfly.gif';
 
 const Container = styled.div`
   display: flex;
@@ -28,8 +28,8 @@ const shakeCss = css`
 `;
 
 const Butterfly = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
 `;
 
 const Bomb = styled.div<{
@@ -112,9 +112,9 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && '💵'} {/* replace boom emoji*/}
+        {boom && '🐛'} {/* replace boom emoji*/}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <Butterfly src={bigqueryImage} alt="Big Query" />}{' '}
+        {!boom && <Butterfly src={butterflyImage} alt="Butterfly" />}{' '}
         {/* replace timebomb*/}
       </Bomb>
     </Container>

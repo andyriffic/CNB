@@ -21,12 +21,12 @@ const LoadingCircle = styled.svg<{ loaded: boolean }>`
   animation: ${SpinAnimation} 2s linear infinite;
   #track {
     transition: fill 1s ease-in-out;
-    fill: ${props => (props.loaded ? '#346830' : '#EEE8A9')};
+    fill: ${props => (props.loaded ? '#346830' : '#B67B65')};
   }
 
   #section {
     transition: fill 1s ease-in-out;
-    fill: ${props => (props.loaded ? '#346830' : '#EEE8A9')};
+    fill: ${props => (props.loaded ? '#346830' : '#B67B65')};
   }
 `;
 

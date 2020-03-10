@@ -41,7 +41,7 @@ const StyleHeading1 = styled.h1`
   text-align: center;
   /* font-family: 'Rammetto One', cursive; */
   font-family: ${featureFontFamily};
-  color: #3B4856;
+  color: #D9662D;
   text-shadow: 0 0 20px #fff, 0 0 8px #000;
   animation: ${slowRubberBandAnimation} 8s ease-in-out 3s infinite;
 

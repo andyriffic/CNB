@@ -37,35 +37,37 @@ export default ({ navigate }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true}>
-        <GameSettingsDrawer />
-        <MainHeading>Select your players</MainHeading>
-        <MatchupsContainer className="margins-off">
-          <RandomPlayers
-            player1={player1}
-            setPlayer1={setPlayer1}
-            player2={player2}
-            setPlayer2={setPlayer2}
-          />
-        </MatchupsContainer>
-        {player1 && player2 && (
-          <div style={{ textAlign: 'center' }}>
-            <PrimaryButton
-              onClick={() => {
-                addInstantMatchup(
-                  player1.id,
-                  player2.id,
-                  2,
-                  'goodbye-mb',
-                  matchupId => {
-                    navigate && navigate(`/matchup/${matchupId}`);
-                  }
-                );
-              }}
-            >
-              Play
-            </PrimaryButton>
-          </div>
-        )}
+        <JungleBackground>
+          <GameSettingsDrawer />
+          <MainHeading>Select your players</MainHeading>
+          <MatchupsContainer className="margins-off">
+            <RandomPlayers
+              player1={player1}
+              setPlayer1={setPlayer1}
+              player2={player2}
+              setPlayer2={setPlayer2}
+            />
+          </MatchupsContainer>
+          {player1 && player2 && (
+            <div style={{ textAlign: 'center' }}>
+              <PrimaryButton
+                onClick={() => {
+                  addInstantMatchup(
+                    player1.id,
+                    player2.id,
+                    2,
+                    'goodbye-mb',
+                    matchupId => {
+                      navigate && navigate(`/matchup/${matchupId}`);
+                    }
+                  );
+                }}
+              >
+                Play
+              </PrimaryButton>
+            </div>
+          )}
+        </JungleBackground>
       </FullPageScreenLayout>
     </PlayersProvider>
   );
