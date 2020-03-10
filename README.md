@@ -10,22 +10,27 @@ auto/start
 
 ## Local dev
 
-### npm
+1. Open 2 terminal windows and run both Client and Server below...
 
-1. run `npm install`
-2. open two terminals
-3. in one terminal run `npm run local:client`
-4. in another terminal run `npm run local:server`
-5. in a browser you can then go to:
-  - **Spectator Mode:** http://localhost:3000
-  - **Player (Xian):** http://localhost:3000/xian
-  - **Player (Melb):** http://localhost:3000/melb
+### Client
 
+1. open terminal to path `/src/client`
+2. run `npm run start:local`
 
-Any dev in client will auto-update, any dev on server you'll need to stop/start **local:server** process
+### Server
 
+1. open terminal to path `/src/server`
+2. get access keys to fill in following command:
+3. run `DYNAMO_DB_PLAYERS_TABLE_NAME=cnb-players-dev DYNAMO_DB_MATCHUPS_TABLE_NAME=cnb-matchups-dev DYNAMO_DB_COUNTERS_TABLE_NAME=cnb-counters-dev STATS_ENABLED=true STATS_AWS_SOURCE_BUCKET_NAME=cnb-stats-dev STATS_AWS_RESULT_BUCKET_NAME=cnb-stats-dev-results STATS_AWS_ACCESS_KEY_ID=**ACCESS KEY ID** STATS_AWS_SECRET_ACCESS_KEY=**ACCESS KEY** STATS_AWS_ATHENA_DB_NAME=cnb_stats_dev npm run serve:local`
 
-## Publish to prod or staging
+### Run
+
+- **Spectator Mode:** http://localhost:3001
+- **Player:** http://localhost:3001/play
+
+Any dev in client will auto-update, any dev on server you'll need to restart the server by running server command above again
+
+## Publish to prod
 
 Open file `~/.aws/credentials`
 Add the following section
@@ -36,10 +41,4 @@ aws_access_key_id = GET_ME_FROM_SOMEONE_WHO_KNOWS
 aws_secret_access_key = GET_ME_FROM_SOMEONE_WHO_KNOWS
 ```
 
-Then login to AWS by running the following command:
-
-```bash
-(aws ecr get-login --no-include-email --region ap-southeast-2 --profile cnb) | sh
-```
-
-You can then run the `auto/deploy-staging` or `auto/deploy-prod` command to deploy the latest version
+Then run `auto/deploy-prod` to deploy your current branch to prod.
