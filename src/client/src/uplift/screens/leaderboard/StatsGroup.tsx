@@ -95,7 +95,7 @@ export const StatsGroup = ({
                     <RankStats>
                       <StatsGraph
                         wins={player.times_won}
-                        draws={player.times_drawn}
+                        draws={0}
                         losses={player.times_lost}
                       />
                     </RankStats>

@@ -34,16 +34,18 @@ const LossSegment = styled(BarSegment)`
 
 type Props = {
   wins: number;
-  draws: number;
+  draws?: number;
   losses: number;
 };
 
-export const StatsGraph = ({ wins, draws, losses }: Props) => {
+export const StatsGraph = ({ wins, draws = 0, losses }: Props) => {
   const total = wins + draws + losses;
   return (
     <Container className="margins-off">
       <WinSegment width={(wins / total) * 100}>{wins}</WinSegment>
-      <DrawSegment width={(draws / total) * 100}>{draws}</DrawSegment>
+      {!!draws && (
+        <DrawSegment width={(draws / total) * 100}>{draws}</DrawSegment>
+      )}
       <LossSegment width={(losses / total) * 100}>{losses}</LossSegment>
     </Container>
   );
