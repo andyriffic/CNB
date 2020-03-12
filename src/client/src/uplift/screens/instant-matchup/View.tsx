@@ -56,7 +56,7 @@ export default ({ navigate }: RouteComponentProps) => {
                     player1.id,
                     player2.id,
                     2,
-                    'goodbye-mb',
+                    'jungle-snakes-and-ladders',
                     matchupId => {
                       navigate && navigate(`/matchup/${matchupId}`);
                     }
