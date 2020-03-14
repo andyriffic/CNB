@@ -8,7 +8,7 @@ import {
 import { Player } from '../services/player/types';
 import shortid from 'shortid';
 
-const REQUEST_INVITATIONS = 'REQUEST_INVITATIONS';
+const SUBSCRIBE_TO_INVITATIONS = 'SUBSCRIBE_TO_INVITATIONS';
 const INVITATIONS_UPDATE = 'INVITATIONS_UPDATE';
 const CREATE_INVITATION = 'CREATE_INVITATION';
 const ACCEPT_INVITATION = 'ACCEPT_INVITATION';
@@ -23,7 +23,7 @@ const init = (socketServer: Server, path: string) => {
   namespace.on('connection', function(socket: Socket) {
     log('someone connected to invitations', socket.id);
 
-    socket.on(REQUEST_INVITATIONS, () => {
+    socket.on(SUBSCRIBE_TO_INVITATIONS, () => {
       socket.emit(INVITATIONS_UPDATE, invitations);
     });
 
