@@ -8,11 +8,12 @@ enum INVITATION_EVENTS {
   CREATE_INVITATION = 'CREATE_INVITATION',
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
   INVITATIONS_UPDATE = 'INVITATIONS_UPDATE',
+  USE_INVITATION = 'USE_INVITATION',
 }
 
 export type PlayerInvitation = {
   player: Player;
-  status: string;
+  status: 'WAITING' | 'ACCEPTED';
 };
 
 export type Invitation = {
@@ -22,7 +23,12 @@ export type Invitation = {
 
 export type InvitationsService = {
   invitations: Invitation[] | undefined;
-  createInvitation: (onCreated: (invitation: Invitation) => void) => void;
+  createInvitation: (
+    players: [Player, Player],
+    onCreated: (invitation: Invitation) => void
+  ) => void;
+  acceptInvitation: (invitationId: string, player: Player) => void;
+  useInvitation: (invitationId: string, onComplete: () => void) => void;
 };
 
 export const InvitationsContext = React.createContext<
@@ -49,7 +55,23 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
     <InvitationsContext.Provider
       value={{
         invitations: _invitations,
-        createInvitation: () => {},
+        createInvitation: (players, onCreated) => {
+          socket.emit(INVITATION_EVENTS.CREATE_INVITATION, players, onCreated);
+        },
+        acceptInvitation: (invitationId, player) => {
+          socket.emit(
+            INVITATION_EVENTS.ACCEPT_INVITATION,
+            invitationId,
+            player
+          );
+        },
+        useInvitation: (invitationId, onComplete) => {
+          socket.emit(
+            INVITATION_EVENTS.USE_INVITATION,
+            invitationId,
+            onComplete
+          );
+        },
       }}
     >
       {children}

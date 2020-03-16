@@ -1,13 +1,13 @@
 import { Player } from '../player/types';
 
 export enum InvitationStatus {
-  WAITING = 0,
-  READY = 1,
+  WAITING = 'WAITING',
+  READY = 'READY',
 }
 
 export enum PlayerInvitationStatus {
-  WAITING = 0,
-  ACCEPTED = 1,
+  WAITING = 'WAITING',
+  ACCEPTED = 'ACCEPTED',
 }
 
 export type PlayerInvitation = {

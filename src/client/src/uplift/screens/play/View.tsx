@@ -12,6 +12,8 @@ import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLay
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { PlayerSelector } from './components/PlayerSelector';
 import NewYearBackgroundImgInPlayPage from '../../../images/play-page.jpg';
+import { useInvitationsProvider } from '../../contexts/InvitationsProvider';
+import { PlayerInvitationAcknowledgement } from './components/PlayerInvitationAcknowledgement';
 
 const MatchupsContainer = styled.div`
   width: 95%;
@@ -32,6 +34,7 @@ export default ({  }: RouteComponentProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<Player>();
   const [selectedMatchupId, setSelectedMatchupId] = useState('');
   const [selectedTeamId, setSelectedTeamId] = useState('');
+  const invitationContext = useInvitationsProvider();
 
   const readyToMakeMove = !!(
     selectedMatchupId &&
@@ -79,6 +82,21 @@ export default ({  }: RouteComponentProps) => {
                   setSelectedPlayer(player);
                 }}
               />
+              {selectedPlayer && !readyToMakeMove && (
+                <PlayerInvitationAcknowledgement
+                  player={selectedPlayer}
+                  invitations={invitationContext.invitations}
+                  acceptInvitation={() => {
+                    if (!invitationContext.invitations) {
+                      return;
+                    }
+                    invitationContext.acceptInvitation(
+                      invitationContext.invitations[0].id,
+                      selectedPlayer
+                    );
+                  }}
+                />
+              )}
               {selectedPlayer && !readyToMakeMove && (
                 <SelectMatchup
                   player={selectedPlayer}
