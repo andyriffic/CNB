@@ -21,6 +21,7 @@ import { GameHistoryScreen } from './screens/game-history';
 import { SnakesAndLaddersScreen } from './screens/snakes-ladders-board';
 import { SnakesAndLaddersRulesScreen } from './screens/snakes-ladders-rules';
 import { FinxFeatureDisplayScreen } from './screens/finx-feature-display';
+import { InvitationMatchupScreen } from './screens/invitation-matchup';
 
 export default () => {
   return (
@@ -32,6 +33,7 @@ export default () => {
             <MatchupProvider>
               <Router>
                 <InstantMatchup path="/" />
+                <InvitationMatchupScreen path="/invitation" />
                 <MatchupLobby path="/lobby" />
                 <MatchupView path="/matchup/:matchupId" />
                 <PlayView path="/play" />
