@@ -38,7 +38,7 @@ export const getRandomPlayer = (
     return priorityPlayer;
   }
 
-  const weightedPlayers = eligiblePlayers.map(player => {
+  const weightedPlayersByLastTimePlayed = eligiblePlayers.map(player => {
     let lastPlayedIndex = uniqueRecentPlayers.findIndex(
       name => name === player.name
     );
@@ -51,32 +51,30 @@ export const getRandomPlayer = (
       weight: lastPlayedIndex + 1,
     } as WeightedItem<Player>;
   });
-  console.log('player weightings', weightedPlayers);
+  console.log('player weightings', weightedPlayersByLastTimePlayed);
 
-  const adjustedWeightingForSnakesAndLaddersPosition = weightedPlayers.map(
-    weightedPlayer => {
-      const currentBoardPosition = parseInt(
-        getPlayerAttributeValue(weightedPlayer.item.tags, 'sl_cell', '0')
-      );
+  // const adjustedWeightingForSnakesAndLaddersPosition = weightedPlayers.map(
+  //   weightedPlayer => {
+  //     const currentBoardPosition = parseInt(
+  //       getPlayerAttributeValue(weightedPlayer.item.tags, 'sl_cell', '0')
+  //     );
 
-      const newWeight =
-        currentBoardPosition === 0
-          ? 100
-          : Math.max(weightedPlayer.weight - currentBoardPosition, 1);
+  //     const newWeight =
+  //       currentBoardPosition === 0
+  //         ? 100
+  //         : Math.max(weightedPlayer.weight - currentBoardPosition, 1);
 
-      return {
-        item: weightedPlayer.item,
-        weight: newWeight,
-      };
-    }
-  );
+  //     return {
+  //       item: weightedPlayer.item,
+  //       weight: newWeight,
+  //     };
+  //   }
+  // );
 
-  console.log(
-    'adjusted weightings',
-    adjustedWeightingForSnakesAndLaddersPosition
-  );
+  // console.log(
+  //   'adjusted weightings',
+  //   adjustedWeightingForSnakesAndLaddersPosition
+  // );
 
-  return selectWeightedRandomOneOf(
-    adjustedWeightingForSnakesAndLaddersPosition
-  );
+  return selectWeightedRandomOneOf(weightedPlayersByLastTimePlayed);
 };
