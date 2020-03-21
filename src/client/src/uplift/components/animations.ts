@@ -37,6 +37,13 @@ export const fadeInAnimation = keyframes`
   100% {opacity: 1;}
 `;
 
+export const inOutAnimation = keyframes`
+  0% {opacity: 0; transform: scale(0)}
+  20% {opacity: 1; transform: scale(1)}
+  80% {opacity: 1; transform: scale(1)}
+  100% {opacity: 0; transform: scale(0)}
+`;
+
 export const pulseAnimation = keyframes`
   0% {transform: scale(1);}
   20% {transform: scale(1.4); }
@@ -202,5 +209,26 @@ export const fadeInRightAnimation = keyframes`
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+`;
+
+export const jackInTheBoxAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.1) rotate(30deg);
+    transform-origin: center bottom;
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+
+  70% {
+    transform: rotate(3deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 `;

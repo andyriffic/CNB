@@ -28,6 +28,7 @@ import cough from './cough.mp3';
 import slurp from './slurp.mp3';
 import death from './death.mp3';
 import blip from './blip.mp3';
+import smashBrosMusic from './super_smash_bros_3.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
@@ -36,6 +37,7 @@ import jungleZoom from './jungle-zoom-away.mp3';
 import jungleAmbience from './jungle-ambiance.mp3';
 import jungleRattle from './jungle-rattle.mp3';
 import jungleVictory from './jungle-victory.mp3';
+import doraSuccess from './dora_success_tone.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -76,6 +78,8 @@ export const SOUND_KEYS = {
   MOVE_ATTACH_WHOOSH: 'MOVE_ATTACH_WHOOSH',
   MOVE_LOSE: 'MOVE_LOSE',
   RATTLE: 'RATTLE',
+  PLAYER_SELECT_MUSIC: 'PLAYER_SELECT_MUSIC',
+  PLAYER_SELECT_INTRO: 'PLAYER_SELECT_INTRO',
 };
 
 export const JUNGLE_SOUND_KEYS = {
@@ -173,6 +177,15 @@ export class SoundService {
         }),
       };
 
+      this._sounds[SOUND_KEYS.PLAYER_SELECT_MUSIC] = {
+        resumeable: true,
+        sound: new Howl({
+          src: [smashBrosMusic],
+          loop: true,
+          volume: 0.5,
+        }),
+      };
+
       // this._sounds[SOUND_KEYS.ELEVATOR_MUSIC] = {
       //   resumeable: true,
       //   sound: new Howl({
@@ -184,6 +197,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.RATTLE] = {
         sound: new Howl({ src: [jungleRattle] }),
+      };
+
+      this._sounds[SOUND_KEYS.PLAYER_SELECT_INTRO] = {
+        sound: new Howl({ src: [doraSuccess] }),
       };
 
       this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {
