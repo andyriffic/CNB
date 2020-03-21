@@ -10,6 +10,7 @@ import {
   spinAwayAnimationRight,
   spinAwayAnimationLeft,
   spinAwayAnimationUp,
+  fallOverAnimation,
 } from '../../../components/animations';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import hadoukenImage from './hadouken-ball.png';
@@ -35,7 +36,8 @@ type PlayerWithRevealProps = {
 };
 
 const blowAwayCssUp = css`
-  animation: ${spinAwayAnimationUp} 1s ease-in-out 1 forwards;
+  transform-origin: 20% 80%;
+  animation: ${fallOverAnimation} 500ms ease-in-out 1 forwards;
 `;
 
 const Container = styled.div<{

@@ -133,83 +133,81 @@ export default ({ matchupId }: MatchupViewProps) => {
 
   return (
     <FullPageScreenLayout title="" alignTop>
-      <JungleBackground2>
-        <ConfettiProvider>
-          <GameSettingsDrawer />
-          <MatchupsContainer>
-            {!(currentMatchup && delayedTeamDetails) ? (
-              <LoadingSpinner text="Loading matchup..." />
-            ) : (
-              <React.Fragment>
-                <TeamDetailsSection
-                  playMode={
-                    (currentMatchup &&
-                      currentMatchup.gameInProgress &&
-                      currentMatchup.gameInProgress.playMode) ||
-                    ''
+      <ConfettiProvider>
+        <GameSettingsDrawer />
+        <MatchupsContainer>
+          {!(currentMatchup && delayedTeamDetails) ? (
+            <LoadingSpinner text="Loading matchup..." />
+          ) : (
+            <React.Fragment>
+              <TeamDetailsSection
+                playMode={
+                  (currentMatchup &&
+                    currentMatchup.gameInProgress &&
+                    currentMatchup.gameInProgress.playMode) ||
+                  ''
+                }
+                teams={delayedTeamDetails}
+                matchup={currentMatchup}
+              />
+              <GamePlaySection
+                matchup={currentMatchup}
+                startGame={(playMode: string = 'Standard') => {
+                  if (matchupId) {
+                    startGameForMatchup(matchupId, playMode);
                   }
-                  teams={delayedTeamDetails}
-                  matchup={currentMatchup}
-                />
-                <GamePlaySection
-                  matchup={currentMatchup}
-                  startGame={(playMode: string = 'Standard') => {
-                    if (matchupId) {
-                      startGameForMatchup(matchupId, playMode);
-                    }
-                  }}
-                  playGame={() => {
-                    if (matchupId) {
-                      setShowScoreUpdate(false);
-                      playGameForMatchup(matchupId);
-                    }
-                  }}
-                  onGameFinished={onGameViewFinished}
-                  showTrophy={showTrophyAward}
-                />
-                {currentMatchup &&
-                  currentMatchup.gameInProgress &&
-                  currentMatchup.gameInProgress.status ===
-                    GAME_STATUS.WaitingPlayerMoves && (
-                    <ThemeInfoView theme={theme} />
-                  )}
-                {showNewGame && (
-                  <div style={{ textAlign: 'center' }}>
-                    {!currentMatchup!.gameInProgress!.trophyWon ? (
-                      <NewGameButton
+                }}
+                playGame={() => {
+                  if (matchupId) {
+                    setShowScoreUpdate(false);
+                    playGameForMatchup(matchupId);
+                  }
+                }}
+                onGameFinished={onGameViewFinished}
+                showTrophy={showTrophyAward}
+              />
+              {currentMatchup &&
+                currentMatchup.gameInProgress &&
+                currentMatchup.gameInProgress.status ===
+                  GAME_STATUS.WaitingPlayerMoves && (
+                  <ThemeInfoView theme={theme} />
+                )}
+              {showNewGame && (
+                <div style={{ textAlign: 'center' }}>
+                  {!currentMatchup!.gameInProgress!.trophyWon ? (
+                    <NewGameButton
+                      onClick={() => {
+                        if (matchupId) {
+                          const samePlayMode =
+                            currentMatchup &&
+                            currentMatchup.gameInProgress &&
+                            currentMatchup.gameInProgress.playMode;
+                          startGameForMatchup(matchupId, samePlayMode);
+                          setShowNewGame(false);
+                          setShowTrophyAward(false);
+                        }
+                      }}
+                    >
+                      New Game
+                    </NewGameButton>
+                  ) : (
+                    <LinkButton>
+                      <Link
+                        to="/snakes-and-ladders"
                         onClick={() => {
-                          if (matchupId) {
-                            const samePlayMode =
-                              currentMatchup &&
-                              currentMatchup.gameInProgress &&
-                              currentMatchup.gameInProgress.playMode;
-                            startGameForMatchup(matchupId, samePlayMode);
-                            setShowNewGame(false);
-                            setShowTrophyAward(false);
-                          }
+                          soundService.play(SOUND_KEYS.RATTLE);
                         }}
                       >
-                        New Game
-                      </NewGameButton>
-                    ) : (
-                      <LinkButton>
-                        <Link
-                          to="/snakes-and-ladders"
-                          onClick={() => {
-                            soundService.play(SOUND_KEYS.RATTLE);
-                          }}
-                        >
-                          TO THE JUNGLE!
-                        </Link>
-                      </LinkButton>
-                    )}
-                  </div>
-                )}
-              </React.Fragment>
-            )}
-          </MatchupsContainer>
-        </ConfettiProvider>
-      </JungleBackground2>
+                        TO THE JUNGLE!
+                      </Link>
+                    </LinkButton>
+                  )}
+                </div>
+              )}
+            </React.Fragment>
+          )}
+        </MatchupsContainer>
+      </ConfettiProvider>
     </FullPageScreenLayout>
   );
 };

@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 
-export const featureFontFamily = 'Freckle Face';
+export const featureFontFamily = "'Alfa Slab One', cursive";
 
 const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #d09d7b;
+  color: #ed1b24;
 `;
 
 const Header = styled.header`
@@ -31,7 +31,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#478966, #346830);
+  background-image: radial-gradient(#ccc, #ccc);
   flex: 1;
   display: flex;
   flex-direction: column;

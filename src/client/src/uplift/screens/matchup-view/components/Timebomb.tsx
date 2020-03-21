@@ -32,6 +32,10 @@ const Butterfly = styled.img`
   height: 100px;
 `;
 
+const Emoji = styled.div`
+  font-size: 2.5rem;
+`;
+
 const Bomb = styled.div<{
   exploded: boolean;
   intensity: number;
@@ -42,7 +46,7 @@ const Bomb = styled.div<{
   transition: transform 200ms ease-in-out;
   ${props =>
     props.exploded
-      ? 'transform: scale(5);'
+      ? 'transform: scale(3);'
       : props.ticking
       ? shakeCss
       : props.intensity > 1 && pulseCss(props.intensity)}
@@ -112,10 +116,9 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && '🐛'} {/* replace boom emoji*/}
+        {boom && <Emoji>🦠</Emoji>} {/* replace boom emoji*/}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <Butterfly src={butterflyImage} alt="Butterfly" />}{' '}
-        {/* replace timebomb*/}
+        {!boom && <Emoji>🍜</Emoji>} {/* replace timebomb*/}
       </Bomb>
     </Container>
   );
