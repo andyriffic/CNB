@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
-import { ThemeStyle } from '../../contexts/ThemeProvider';
 
 export const featureFontFamily = 'Freckle Face';
 
-const FullPage = styled.div<{ theme: ThemeStyle }>`
+const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -28,7 +27,6 @@ const PageHeading = styled.h1`
 `;
 
 const Body = styled.div<{
-  theme: ThemeStyle;
   alignTop: boolean;
   scrollable: boolean;
 }>`
@@ -41,7 +39,7 @@ const Body = styled.div<{
   overflow: ${props => (props.scrollable ? 'scroll' : 'hidden')};
 `;
 
-const Footer = styled.footer<{ theme: ThemeStyle }>`
+const Footer = styled.footer`
   transition: background-color 800ms ease-out;
   background-color: #d9d6e2;
   color: white;

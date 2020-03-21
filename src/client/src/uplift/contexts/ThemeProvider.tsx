@@ -8,16 +8,6 @@ enum THEME_EVENTS {
   REQUEST_THEMES = 'REQUEST_THEMES',
 }
 
-export type ThemeStyle = {
-  headerBackgroundColor: string;
-  headerTextColor: string;
-  featureBackgroundColor: string;
-  featureTextColor: string;
-  pageBackgroundColor: string;
-  primaryTextColor: string;
-  primaryBorderColor: string;
-};
-
 export type ThemedMove = {
   name: {
     english: string;
@@ -36,10 +26,6 @@ export type GameTheme = {
     chinese: string;
   };
   moves: { [moveKey: string]: ThemedMove };
-  style: ThemeStyle;
-  sounds: {
-    musicUrl: string;
-  };
 };
 
 export type GameThemeService = {
@@ -51,15 +37,6 @@ export type GameThemeService = {
 const defaultValue: GameThemeService = {
   theme: {
     name: { english: 'Rock, Paper, Scissors', chinese: '牛仔，忍者，熊' },
-    style: {
-      headerBackgroundColor: '#F8F8FF',
-      headerTextColor: '#000',
-      featureBackgroundColor: '#F8F8FF',
-      featureTextColor: '#000',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#000',
-      primaryBorderColor: '#000',
-    },
     moves: {
       A: {
         name: { english: 'Ninja', chinese: '忍者' },
@@ -76,9 +53,6 @@ const defaultValue: GameThemeService = {
         winsBy: { english: 'eats', chinese: '吃' },
         imageUrl: '/theme/cnb/bear.png',
       },
-    },
-    sounds: {
-      musicUrl: '',
     },
   },
   allThemes: {},
@@ -118,11 +92,7 @@ export const Theme = ({ children }: { children: any }) => {
         allThemes,
       }}
     >
-      <ThemeProvider
-        theme={(allThemes[currentThemeId] || defaultValue.theme).style}
-      >
-        {children}
-      </ThemeProvider>
+      {children}
     </GameThemeContext.Provider>
   );
 };
