@@ -209,4 +209,24 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       },
     },
   },
+  ['covid-19']: {
+    name: { english: 'COVID-19', chinese: '' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Toilet Paper', chinese: '' },
+        winsBy: { english: 'more valuable than', chinese: '' },
+        imageUrl: '/theme/covid-19/toilet-paper.gif',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Hand Sanitiser', chinese: '' },
+        winsBy: { english: 'kills', chinese: '' },
+        imageUrl: '/theme/covid-19/hand-sanitiser.gif',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Coronavirus', chinese: '' },
+        winsBy: { english: 'causes mass buying of', chinese: '' },
+        imageUrl: '/theme/covid-19/virus.gif',
+      },
+    },
+  },
 };
