@@ -10,16 +10,6 @@ export type ThemedMove = {
 export type GameTheme = {
   name: MultiLingualText;
   moves: { [moveKey: string]: ThemedMove };
-  style: {
-    featureBackgroundColor: string;
-    featureTextColor: string;
-    pageBackgroundColor: string;
-    primaryTextColor: string;
-    primaryBorderColor: string;
-  };
-  sounds: {
-    musicUrl: string;
-  };
 };
 
 export const THEMES: { [themeId: string]: GameTheme } = {
@@ -42,16 +32,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/cnb/bear.png',
       },
     },
-    style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
-    },
   },
   ['chinese-new-year-2020']: {
     name: { english: 'Chinese New Year 2020', chinese: '牛仔，忍者，熊' },
@@ -71,16 +51,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         winsBy: { english: 'frighten', chinese: '吓走' },
         imageUrl: '/theme/chinese-new-year-2020/firecrackers.png',
       },
-    },
-    style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
   halloween: {
@@ -102,16 +72,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/halloween/werewolf.png',
       },
     },
-    style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
-    },
   },
   'rock-paper-scissors': {
     name: { english: 'Rock, Paper, Scissors', chinese: '岩石,紙,剪刀' },
@@ -131,16 +91,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         winsBy: { english: 'cuts', chinese: '削減' },
         imageUrl: '/theme/rock-paper-scissors/scissors.png',
       },
-    },
-    style: {
-      featureBackgroundColor: '#807c7e',
-      featureTextColor: '#000',
-      pageBackgroundColor: '#f4f6f5',
-      primaryTextColor: '#000',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
   'summer-winter': {
@@ -165,16 +115,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/summer-winter/pool.gif',
       },
     },
-    style: {
-      featureBackgroundColor: '#e1a959',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
-    },
   },
   yixing: {
     name: {
@@ -197,16 +137,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         winsBy: { english: 'beats', chinese: '節拍' },
         imageUrl: '/theme/yixing/sleeping.png',
       },
-    },
-    style: {
-      featureBackgroundColor: '#DC143C',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
   cnbop: {
@@ -238,16 +168,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/cnbop/pirate.png',
       },
     },
-    style: {
-      featureBackgroundColor: '#7AE7C7',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
-    },
   },
   ['jungle-snakes-and-ladders']: {
     name: { english: 'Snakes and Ladders', chinese: '牛仔，忍者，熊' },
@@ -268,16 +188,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         imageUrl: '/theme/jungle-snakes-and-ladders/tiger.gif',
       },
     },
-    style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
-    },
   },
   ['goodbye-mb']: {
     name: { english: 'Goodbye Michael', chinese: '' },
@@ -297,16 +207,6 @@ export const THEMES: { [themeId: string]: GameTheme } = {
         winsBy: { english: 'beats', chinese: '' },
         imageUrl: '/theme/goodbye-mb/iframes.jpg',
       },
-    },
-    style: {
-      featureBackgroundColor: '#E36E65',
-      featureTextColor: '#1A414D',
-      pageBackgroundColor: '#F8F8FF',
-      primaryTextColor: '#1A414D',
-      primaryBorderColor: '#000',
-    },
-    sounds: {
-      musicUrl: '/theme/cnb/theme-music.mp3',
     },
   },
 };
