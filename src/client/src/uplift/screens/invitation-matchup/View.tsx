@@ -15,11 +15,12 @@ import {
   useInvitationsProvider,
   Invitation,
 } from '../../contexts/InvitationsProvider';
+import { SOUND_KEYS } from '../../../sounds/SoundService';
+import { SplashText } from '../../components/SplashText';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
   margin: 0 auto;
-  display: flex;
 `;
 
 const JungleBackground = styled.div`
@@ -28,6 +29,11 @@ const JungleBackground = styled.div`
   height: 100vh;
 `;
 
+type ViewState = {
+  shownTitle: boolean;
+  bothPlayersSelected: boolean;
+};
+
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -35,9 +41,21 @@ export default ({ navigate }: RouteComponentProps) => {
   const [player2, setPlayer2] = useState<Player>();
   const invitationsContext = useInvitationsProvider();
   const [invitationReady, setInvitationReady] = useState(false);
+  const [viewState, setViewState] = useState<ViewState>({
+    shownTitle: false,
+    bothPlayersSelected: false,
+  });
+
+  const updateViewState = (updatedViewState: Partial<ViewState>) => {
+    setViewState({ ...viewState, ...updatedViewState });
+  };
 
   useEffect(() => {
     soundService.load();
+  }, []);
+
+  useEffect(() => {
+    soundService.play(SOUND_KEYS.PLAYER_SELECT_INTRO);
   }, []);
 
   useEffect(() => {
@@ -66,17 +84,18 @@ export default ({ navigate }: RouteComponentProps) => {
     );
 
     if (acceptedInvitations.length === 2) {
-      invitationsContext.useInvitation(invitation.id, () => {
-        addInstantMatchup(
-          player1.id,
-          player2.id,
-          2,
-          'jungle-snakes-and-ladders',
-          matchupId => {
-            navigate && navigate(`/matchup/${matchupId}`);
-          }
-        );
-      });
+      updateViewState({ bothPlayersSelected: true });
+      // invitationsContext.useInvitation(invitation.id, () => {
+      //   addInstantMatchup(
+      //     player1.id,
+      //     player2.id,
+      //     2,
+      //     'jungle-snakes-and-ladders',
+      //     matchupId => {
+      //       navigate && navigate(`/matchup/${matchupId}`);
+      //     }
+      //   );
+      // });
     }
   }, [player1, player2, invitationsContext.invitations]);
 
@@ -84,20 +103,39 @@ export default ({ navigate }: RouteComponentProps) => {
     <PlayersProvider>
       <FullPageScreenLayout title="" alignTop={true}>
         <GameSettingsDrawer />
-        <MainHeading>Select your players</MainHeading>
-        <MatchupsContainer className="margins-off">
-          <RandomPlayers
-            player1={player1}
-            setPlayer1={setPlayer1}
-            player2={player2}
-            setPlayer2={setPlayer2}
-            invitation={
-              (invitationReady ? true : undefined) &&
-              invitationsContext.invitations &&
-              invitationsContext.invitations[0]
-            }
-          />
-        </MatchupsContainer>
+        <SplashText
+          onComplete={() => {
+            updateViewState({ shownTitle: true });
+            soundService.play(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+          }}
+        >
+          Today's Players...
+        </SplashText>
+        {viewState.bothPlayersSelected && (
+          <SplashText
+            onComplete={() => {
+              soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+            }}
+          >
+            Let's go!
+          </SplashText>
+        )}
+
+        {viewState.shownTitle && (
+          <MatchupsContainer className="margins-off">
+            <RandomPlayers
+              player1={player1}
+              setPlayer1={setPlayer1}
+              player2={player2}
+              setPlayer2={setPlayer2}
+              invitation={
+                (invitationReady ? true : undefined) &&
+                invitationsContext.invitations &&
+                invitationsContext.invitations[0]
+              }
+            />
+          </MatchupsContainer>
+        )}
       </FullPageScreenLayout>
     </PlayersProvider>
   );

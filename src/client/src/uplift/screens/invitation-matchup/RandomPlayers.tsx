@@ -8,10 +8,19 @@ import { PlayersContext, Player } from '../../contexts/PlayersProvider';
 import { getRandomPlayer } from './getRandomPlayer';
 import { Invitation } from '../../contexts/InvitationsProvider';
 
+const PlayersContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+
 const PlayerSide = styled.div`
   flex: 1;
   text-align: center;
   justify-content: center;
+`;
+
+const InstructionText = styled.p`
+  text-align: center;
 `;
 
 type RandomPlayerProps = {
@@ -82,34 +91,36 @@ export const RandomPlayers = ({
 
   return (
     <React.Fragment>
-      <PlayerSide>
-        {invitation && player1 && (
-          <RandomPlayerSelector
-            selectedPlayer={player1}
-            reroll={rerollPlayer(setPlayer1)}
-            invitationStatus={
-              invitation.playerInvitations.find(
-                i => i.player.id === player1.id
-              )!.status
-            }
-          />
-        )}
-      </PlayerSide>
+      {player1 && player2 && (
+        <InstructionText>cnb.finx-rocks.com/play</InstructionText>
+      )}
 
-      <PlayerSide>
-        {invitation && player2 && (
-          <RandomPlayerSelector
-            selectedPlayer={player2}
-            playerPosition="right"
-            reroll={rerollPlayer(setPlayer2)}
-            invitationStatus={
-              invitation.playerInvitations.find(
+      <PlayersContainer>
+        <PlayerSide>
+          {invitation && player1 && (
+            <RandomPlayerSelector
+              selectedPlayer={player1}
+              reroll={rerollPlayer(setPlayer1)}
+              playerInvitation={invitation.playerInvitations.find(
+                i => i.player.id === player1.id
+              )}
+            />
+          )}
+        </PlayerSide>
+
+        <PlayerSide>
+          {invitation && player2 && (
+            <RandomPlayerSelector
+              selectedPlayer={player2}
+              playerPosition="right"
+              reroll={rerollPlayer(setPlayer2)}
+              playerInvitation={invitation.playerInvitations.find(
                 i => i.player.id === player2.id
-              )!.status
-            }
-          />
-        )}
-      </PlayerSide>
+              )}
+            />
+          )}
+        </PlayerSide>
+      </PlayersContainer>
     </React.Fragment>
   );
 };
