@@ -8,6 +8,8 @@ export const playerSnakesAndLaddersLeaderboardQuery = `SELECT
 FROM
     v_player_move_results
 WHERE 
-    theme = 'jungle-snakes-and-ladders'
+    theme = 'jungle-snakes-and-ladders' OR
+    theme = 'goodbye-mb' OR
+    theme = 'covid-19'
 GROUP BY
     player_name`;
