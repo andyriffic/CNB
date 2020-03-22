@@ -3,7 +3,7 @@ import drawSound from './draw.mp3';
 import scoreboardMusic from './scoreboard.mp3';
 // import elevatorMusic from './elevator-bossanova.mp3';
 import collectPoint from './collect-point.mp3';
-import winnerStamp from './jungle-elephant.mp3';
+import winnerStamp from './stamp.wav';
 import hadouken from './hadouken.mp3';
 import awardTrophy from './trophy-jingle.ogg';
 import scream01 from './scream-01.mp3';
@@ -15,7 +15,7 @@ import digital from './digital.wav';
 import puff from './puff.mp3';
 import biteDust from './bites-the-dust.mp3';
 // import radiantMusicLoop from './radiant.mp4';
-import yay from './jungle-monkey.mp3';
+import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
@@ -23,6 +23,10 @@ import fuse from './gasp.wav';
 import slideFallWhistle from './jungle-bird.mp3';
 import moveAttachWhoosh from './move-attach-whoosh.flac';
 import moveLose from './punch.mp3';
+import intenseMusicLoop from './intense-music-loop.mp3';
+import cough from './cough.mp3';
+import slurp from './slurp.mp3';
+import death from './death.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
@@ -163,7 +167,7 @@ export class SoundService {
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [jungleAmbience],
+          src: [intenseMusicLoop],
           loop: true,
         }),
       };
@@ -223,7 +227,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
-        sound: new Howl({ src: [yay] }),
+        sound: new Howl({ src: [cough] }),
       };
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
@@ -231,7 +235,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST] = {
-        sound: new Howl({ src: [biteDust], volume: 0.6 }),
+        sound: new Howl({ src: [yay] }),
       };
 
       this._sounds[SOUND_KEYS.AWARD_TROPHY] = {
@@ -243,7 +247,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.EXPLOSION] = {
-        sound: new Howl({ src: [explosion] }),
+        sound: new Howl({ src: [death] }),
       };
 
       this._sounds[SOUND_KEYS.TICKING] = {
@@ -251,7 +255,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.FUSE] = {
-        sound: new Howl({ src: [fuse] }),
+        sound: new Howl({ src: [slurp] }),
       };
 
       this._sounds[SOUND_KEYS.ZAP] = {

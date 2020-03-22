@@ -224,7 +224,7 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       },
       [GAME_MOVE.C]: {
         name: { english: 'Coronavirus', chinese: '' },
-        winsBy: { english: 'causes mass buying of', chinese: '' },
+        winsBy: { english: 'depletes stocks of', chinese: '' },
         imageUrl: '/theme/covid-19/virus.gif',
       },
     },

@@ -120,6 +120,11 @@ export const spinAwayAnimationUp = keyframes`
   100% { transform: translate(0, -1000px) rotate(-1080deg); }
 `;
 
+export const fallOverAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-90deg); }
+`;
+
 export const hadoukenAnimation = keyframes`
   0% { transform: translateX(0); opacity: 0; }
   40% { transform: translateX(400px); opacity: 1; }
