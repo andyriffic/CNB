@@ -10,8 +10,17 @@ import { ConfettiTrigger } from './ConfettiTrigger';
 import { Timebomb } from '../matchup-view/components/Timebomb';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SoundService } from '../../../sounds/SoundService';
+import { AnimateFadeIn } from '../../components/animation/AnimateFadeIn';
+import { AnimateSpin } from '../../components/animation/AnimateSpin';
 
 const ComponentContainer = styled.div``;
+
+const AnimationTestText = styled.div`
+  font-size: 5rem;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+`;
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -27,6 +36,9 @@ export default ({  }: RouteComponentProps) => {
   const [bombTicking, setBombTicking] = useState(false);
   const [bombIntensity, setBombIntensity] = useState(1);
 
+  const [animateFadeIn, setAnimateFadeIn] = useState(false);
+  const [animateSpin, setAnimateSpin] = useState(false);
+
   useEffect(() => {
     soundService.load();
   }, []);
@@ -34,6 +46,29 @@ export default ({  }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="Test components" alignTop={true}>
+        <ComponentContainer>
+          <h3>Animations</h3>
+          <input
+            id="animate_fadein"
+            type="checkbox"
+            checked={animateFadeIn}
+            onChange={e => setAnimateFadeIn(!animateFadeIn)}
+          />
+          <label htmlFor="animate_fadein">Fade In</label>
+          <input
+            id="animate_spin"
+            type="checkbox"
+            checked={animateSpin}
+            onChange={e => setAnimateSpin(!animateSpin)}
+          />
+          <label htmlFor="animate_spin">Spin</label>
+
+          <AnimateSpin play={animateSpin}>
+            <AnimateFadeIn play={animateFadeIn}>
+              <AnimationTestText>😎</AnimationTestText>
+            </AnimateFadeIn>
+          </AnimateSpin>
+        </ComponentContainer>
         <ComponentContainer>
           <ConfettiTrigger />
         </ComponentContainer>
