@@ -26,7 +26,7 @@ const Drawer = styled.div`
 const DrawerToggle = styled.div`
   width: 20px;
   height: 40px;
-  background-color: #ccc;
+  background-color: #23408e;
   position: absolute;
   right: -20px;
   top: 0;
