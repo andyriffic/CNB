@@ -68,6 +68,9 @@ export default ({ navigate }: RouteComponentProps) => {
   }, [player1, player2]);
 
   useEffect(() => {
+    if (!invitationReady) {
+      return;
+    }
     if (!(player1 && player2)) {
       return;
     }
@@ -97,7 +100,7 @@ export default ({ navigate }: RouteComponentProps) => {
       //   );
       // });
     }
-  }, [player1, player2, invitationsContext.invitations]);
+  }, [player1, player2, invitationsContext.invitations, invitationReady]);
 
   return (
     <PlayersProvider>
@@ -111,15 +114,6 @@ export default ({ navigate }: RouteComponentProps) => {
         >
           Today's Players...
         </SplashText>
-        {viewState.bothPlayersSelected && (
-          <SplashText
-            onComplete={() => {
-              soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
-            }}
-          >
-            Let's go!
-          </SplashText>
-        )}
 
         {viewState.shownTitle && (
           <MatchupsContainer className="margins-off">
@@ -135,6 +129,15 @@ export default ({ navigate }: RouteComponentProps) => {
               }
             />
           </MatchupsContainer>
+        )}
+        {viewState.bothPlayersSelected && (
+          <SplashText
+            onComplete={() => {
+              soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+            }}
+          >
+            Let's go!
+          </SplashText>
         )}
       </FullPageScreenLayout>
     </PlayersProvider>
