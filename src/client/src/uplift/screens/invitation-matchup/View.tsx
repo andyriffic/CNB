@@ -134,6 +134,20 @@ export default ({ navigate }: RouteComponentProps) => {
           <SplashText
             onComplete={() => {
               soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+              invitationsContext.useInvitation(
+                invitationsContext.invitations![0].id,
+                () => {
+                  addInstantMatchup(
+                    player1!.id,
+                    player2!.id,
+                    2,
+                    'jungle-snakes-and-ladders',
+                    matchupId => {
+                      navigate && navigate(`/matchup/${matchupId}`);
+                    }
+                  );
+                }
+              );
             }}
           >
             Let's go!
