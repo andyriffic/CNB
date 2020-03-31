@@ -148,9 +148,9 @@ export const RandomPlayerSelector = ({
           </React.Fragment>
         )}
       </PlayerCharacter>
-      {/* {selectedPlayer && (
+      {selectedPlayer && (
         <SecondaryButton onClick={onNewPlayer}>Someone else</SecondaryButton>
-      )} */}
+      )}
     </Container>
   );
 };

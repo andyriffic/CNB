@@ -6,7 +6,10 @@ import { GameHistory } from '../../types';
 import { STATS_API_BASE_URL } from '../../../environment';
 import { PlayersContext, Player } from '../../contexts/PlayersProvider';
 import { getRandomPlayer } from './getRandomPlayer';
-import { Invitation } from '../../contexts/InvitationsProvider';
+import {
+  Invitation,
+  useInvitationsProvider,
+} from '../../contexts/InvitationsProvider';
 
 const PlayersContainer = styled.div`
   display: flex;
@@ -43,6 +46,7 @@ export const RandomPlayers = ({
 
   const { allPlayers, loadingPlayers } = useContext(PlayersContext);
   const [discardedPlayers, setDiscardedPlayers] = useState<Player[]>([]);
+  const invitationsContext = useInvitationsProvider();
 
   const [loadingGameHistory, gameHistory] = useFetchJson<GameHistory>(
     `${STATS_API_BASE_URL}/game-result-history.json`
@@ -79,14 +83,24 @@ export const RandomPlayers = ({
     player2,
   ]);
 
-  const rerollPlayer = (setPlayer: (player: Player) => void) => () => {
+  const rerollPlayer = (
+    currentPlayer: Player,
+    setPlayer: (player: Player) => void
+  ) => () => {
     const randomPlayer = getRandomPlayer(
       allPlayers,
       gameHistory!.result,
       discardedPlayers
     );
-    setPlayer(randomPlayer);
-    setDiscardedPlayers([...discardedPlayers, randomPlayer]);
+    invitationsContext.replacePlayerOnInvitation(
+      invitationsContext.invitations![0].id,
+      currentPlayer,
+      randomPlayer,
+      () => {
+        setPlayer(randomPlayer);
+        setDiscardedPlayers([...discardedPlayers, randomPlayer]);
+      }
+    );
   };
 
   return (
@@ -100,7 +114,7 @@ export const RandomPlayers = ({
           {invitation && player1 && (
             <RandomPlayerSelector
               selectedPlayer={player1}
-              reroll={rerollPlayer(setPlayer1)}
+              reroll={rerollPlayer(player1, setPlayer1)}
               playerInvitation={invitation.playerInvitations.find(
                 i => i.player.id === player1.id
               )}
@@ -113,7 +127,7 @@ export const RandomPlayers = ({
             <RandomPlayerSelector
               selectedPlayer={player2}
               playerPosition="right"
-              reroll={rerollPlayer(setPlayer2)}
+              reroll={rerollPlayer(player2, setPlayer2)}
               playerInvitation={invitation.playerInvitations.find(
                 i => i.player.id === player2.id
               )}
