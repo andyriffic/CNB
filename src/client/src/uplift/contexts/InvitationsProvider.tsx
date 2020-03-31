@@ -6,6 +6,7 @@ import { Player } from './PlayersProvider';
 enum INVITATION_EVENTS {
   SUBSCRIBE_TO_INVITATIONS = 'SUBSCRIBE_TO_INVITATIONS',
   CREATE_INVITATION = 'CREATE_INVITATION',
+  REPLACE_PLAYER_ON_INVITATION = 'REPLACE_PLAYER_ON_INVITATION',
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
   INVITATIONS_UPDATE = 'INVITATIONS_UPDATE',
   USE_INVITATION = 'USE_INVITATION',
@@ -26,6 +27,12 @@ export type InvitationsService = {
   createInvitation: (
     players: [Player, Player],
     onCreated: (invitation: Invitation) => void
+  ) => void;
+  replacePlayerOnInvitation: (
+    invitationId: string,
+    existingPlayer: Player,
+    newPlayer: Player,
+    onComplete: () => void
   ) => void;
   acceptInvitation: (invitationId: string, player: Player) => void;
   useInvitation: (invitationId: string, onComplete: () => void) => void;
@@ -57,6 +64,20 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
         invitations: _invitations,
         createInvitation: (players, onCreated) => {
           socket.emit(INVITATION_EVENTS.CREATE_INVITATION, players, onCreated);
+        },
+        replacePlayerOnInvitation: (
+          invitationId,
+          existingPlayer,
+          newPlayer,
+          onComplete
+        ) => {
+          socket.emit(
+            INVITATION_EVENTS.REPLACE_PLAYER_ON_INVITATION,
+            invitationId,
+            existingPlayer,
+            newPlayer,
+            onComplete
+          );
         },
         acceptInvitation: (invitationId, player) => {
           socket.emit(

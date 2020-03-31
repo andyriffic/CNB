@@ -4,6 +4,7 @@ import {
   Invitation,
   createInvitation,
   acceptPlayerInvitation,
+  replacePlayerInvitation,
 } from '../services/invitation';
 import { Player } from '../services/player/types';
 import shortid from 'shortid';
@@ -11,6 +12,7 @@ import shortid from 'shortid';
 const SUBSCRIBE_TO_INVITATIONS = 'SUBSCRIBE_TO_INVITATIONS';
 const INVITATIONS_UPDATE = 'INVITATIONS_UPDATE';
 const CREATE_INVITATION = 'CREATE_INVITATION';
+const REPLACE_PLAYER_ON_INVITATION = 'REPLACE_PLAYER_ON_INVITATION';
 const ACCEPT_INVITATION = 'ACCEPT_INVITATION';
 const USE_INVITATION = 'USE_INVITATION';
 
@@ -38,6 +40,30 @@ const init = (socketServer: Server, path: string) => {
         invitations = [newInvitation];
         namespace.emit(INVITATIONS_UPDATE, invitations);
         confirmation(newInvitation);
+      }
+    );
+
+    socket.on(
+      REPLACE_PLAYER_ON_INVITATION,
+      (
+        invitationId: string,
+        existingPlayer: Player,
+        newPlayer: Player,
+        confirmation: () => void
+      ) => {
+        const invitation = invitations.find(i => i.id === invitationId);
+        if (!invitation) {
+          log('Invitation not found', invitationId);
+          return;
+        }
+        const newInvitation = replacePlayerInvitation(
+          invitation,
+          existingPlayer,
+          newPlayer
+        );
+        invitations = [newInvitation];
+        namespace.emit(INVITATIONS_UPDATE, invitations);
+        confirmation();
       }
     );
 
