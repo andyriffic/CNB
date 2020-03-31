@@ -17,6 +17,8 @@ import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SecondaryButton } from '../../components/SecondaryButton';
 import { PlayerInvitation } from '../../contexts/InvitationsProvider';
 import { useDoOnce } from '../../hooks/useDoOnce';
+import { StatusIndicator, STATUS_TYPE } from './StatusIndicator';
+import { RainbowText } from '../../components/RainbowText';
 
 type AnimationState = 'enter' | 'exit';
 const ENTER_ANIMATION_TIMEOUT_MS = 800;
@@ -42,6 +44,12 @@ const PlayerCharacter = styled.div<{ state: AnimationState }>`
   ${props => props.state === 'exit' && exitAnimationCss};
 `;
 
+const StatusIndicatorContainer = styled.div`
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+`;
+
 const PlayerName = styled.h2`
   margin: 0;
   padding: 0;
@@ -51,7 +59,7 @@ const PlayerName = styled.h2`
 `;
 
 const PlayerAnimationContainer = styled.div<{ waiting: boolean }>`
-  opacity: ${props => (props.waiting ? 0.4 : 1)};
+  opacity: ${props => (props.waiting ? 0.7 : 1)};
   ${props =>
     props.waiting
       ? css`
@@ -61,6 +69,21 @@ const PlayerAnimationContainer = styled.div<{ waiting: boolean }>`
           animation: ${jackInTheBoxAnimation} 1s ease-in-out;
         `}
 `;
+
+const getPlayerInvitationStatusText = (
+  invitation?: PlayerInvitation
+): React.ReactNode => {
+  if (!invitation) {
+    return <>Waiting</>;
+  }
+
+  switch (invitation.status) {
+    case 'ACCEPTED':
+      return <RainbowText>Ready ✅</RainbowText>;
+    case 'WAITING':
+      return <>Waiting</>;
+  }
+};
 
 type RandomPlayerSelectorProps = {
   selectedPlayer?: Player;
@@ -97,6 +120,17 @@ export const RandomPlayerSelector = ({
   return (
     <Container>
       <PlayerCharacter state={state} className="margins-off">
+        <StatusIndicatorContainer>
+          <StatusIndicator
+            status={
+              playerInvitation && playerInvitation.status === 'ACCEPTED'
+                ? STATUS_TYPE.READY
+                : STATUS_TYPE.WAITING
+            }
+          >
+            {getPlayerInvitationStatusText(playerInvitation)}
+          </StatusIndicator>
+        </StatusIndicatorContainer>
         {selectedPlayer && (
           <React.Fragment>
             <PlayerAnimationContainer
