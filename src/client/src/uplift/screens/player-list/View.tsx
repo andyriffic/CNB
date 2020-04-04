@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import FullPageLayout from '../../../components/page-layout/FullPage';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { PlayersList } from './components/PlayersList';
 
 const MatchupsContainer = styled.div`
@@ -13,17 +12,12 @@ const MatchupsContainer = styled.div`
   overflow-y: scroll;
 `;
 
-export default ({ }: RouteComponentProps) => {
+export default ({  }: RouteComponentProps) => {
   return (
-    <PlayersProvider>
-      <FullPageLayout
-        pageTitle="Tournament players"
-        alignTop={true}
-      >
-        <MatchupsContainer>
-          <PlayersList />
-        </MatchupsContainer>
-      </FullPageLayout>
-    </PlayersProvider>
+    <FullPageLayout pageTitle="Tournament players" alignTop={true}>
+      <MatchupsContainer>
+        <PlayersList />
+      </MatchupsContainer>
+    </FullPageLayout>
   );
 };

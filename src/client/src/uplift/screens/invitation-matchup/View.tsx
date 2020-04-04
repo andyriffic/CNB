@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
+import { Player } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { MatchupContext } from '../../contexts/MatchupProvider';
 import { RandomPlayers } from './RandomPlayers';
@@ -103,57 +103,56 @@ export default ({ navigate }: RouteComponentProps) => {
   }, [player1, player2, invitationsContext.invitations, invitationReady]);
 
   return (
-    <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true}>
-        <GameSettingsDrawer />
+    <FullPageScreenLayout title="" alignTop={true}>
+      <GameSettingsDrawer />
+      <SplashText
+        onComplete={() => {
+          updateViewState({ shownTitle: true });
+          soundService.play(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+        }}
+      >
+        Today's Players...
+      </SplashText>
+
+      {viewState.shownTitle && (
+        <MatchupsContainer className="margins-off">
+          <RandomPlayers
+            player1={player1}
+            setPlayer1={setPlayer1}
+            player2={player2}
+            setPlayer2={setPlayer2}
+            invitation={
+              (invitationReady ? true : undefined) &&
+              invitationsContext.invitations &&
+              invitationsContext.invitations[0]
+            }
+          />
+        </MatchupsContainer>
+      )}
+      {viewState.bothPlayersSelected && (
         <SplashText
           onComplete={() => {
-            updateViewState({ shownTitle: true });
-            soundService.play(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+            soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
+            addInstantMatchup(
+              player1!.id,
+              player2!.id,
+              2,
+              'covid-19',
+              matchupId => {
+                invitationsContext.useInvitation(
+                  invitationsContext.invitations![0].id,
+                  matchupId,
+                  () => {
+                    navigate && navigate(`/matchup/${matchupId}`);
+                  }
+                );
+              }
+            );
           }}
         >
-          Today's Players...
+          Let's go!
         </SplashText>
-
-        {viewState.shownTitle && (
-          <MatchupsContainer className="margins-off">
-            <RandomPlayers
-              player1={player1}
-              setPlayer1={setPlayer1}
-              player2={player2}
-              setPlayer2={setPlayer2}
-              invitation={
-                (invitationReady ? true : undefined) &&
-                invitationsContext.invitations &&
-                invitationsContext.invitations[0]
-              }
-            />
-          </MatchupsContainer>
-        )}
-        {viewState.bothPlayersSelected && (
-          <SplashText
-            onComplete={() => {
-              soundService.stop(SOUND_KEYS.PLAYER_SELECT_MUSIC);
-              invitationsContext.useInvitation(
-                invitationsContext.invitations![0].id,
-                () => {
-                  addInstantMatchup(
-                    player1!.id,
-                    player2!.id,
-                    2,
-                    'jungle-snakes-and-ladders',
-                    matchupId => {
-                      navigate && navigate(`/matchup/${matchupId}`);
-                    }
-                  );
-                }
-              );
-            }}
-          >
-            Let's go!
-          </SplashText>
-        )}
-      </FullPageScreenLayout>
-    </PlayersProvider>
+      )}
+    </FullPageScreenLayout>
   );
 };

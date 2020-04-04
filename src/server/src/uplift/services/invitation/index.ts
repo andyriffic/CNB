@@ -17,6 +17,7 @@ export type PlayerInvitation = {
 
 export type Invitation = {
   id: string;
+  matchupId?: string;
   playerInvitations: [PlayerInvitation, PlayerInvitation];
 };
 
@@ -30,6 +31,13 @@ export const createInvitation = (
       { player: players[0], status: PlayerInvitationStatus.WAITING },
       { player: players[1], status: PlayerInvitationStatus.WAITING },
     ],
+  };
+};
+
+export const useInvitation = (invitation: Invitation, matchupId: string) => {
+  return {
+    ...invitation,
+    matchupId,
   };
 };
 

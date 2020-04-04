@@ -5,6 +5,7 @@ import {
   createInvitation,
   acceptPlayerInvitation,
   replacePlayerInvitation,
+  useInvitation,
 } from '../services/invitation';
 import { Player } from '../services/player/types';
 import shortid from 'shortid';
@@ -82,9 +83,20 @@ const init = (socketServer: Server, path: string) => {
 
     socket.on(
       USE_INVITATION,
-      (invitationId: string, onComplete: () => void) => {
-        log('Removing invitation', invitationId);
-        invitations = invitations.filter(i => i.id !== invitationId);
+      (invitationId: string, matchupId: string, onComplete: () => void) => {
+        log('using invitation', invitationId, matchupId);
+        const invitation = invitations.find(i => i.id === invitationId);
+        if (!invitation) {
+          log('invitation does not exist', invitationId);
+          return;
+        }
+
+        const updatedInvitation = useInvitation(invitation, matchupId);
+
+        invitations = [
+          ...invitations.filter(i => i.id !== invitationId),
+          updatedInvitation,
+        ];
         namespace.emit(INVITATIONS_UPDATE, invitations);
         onComplete();
       }

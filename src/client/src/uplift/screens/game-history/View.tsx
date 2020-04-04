@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { MainHeading } from '../../components/Heading';
@@ -35,40 +34,38 @@ export default ({ navigate }: RouteComponentProps) => {
   const [gameHistory] = useGameHistory();
 
   return (
-    <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
-        <GameSettingsDrawer />
-        <Container>
-          <MainHeading>Game History</MainHeading>
-          <div>
-            {gameHistory &&
-              gameHistory.map(gameHistoryGroup => (
-                <ResultContainer key={gameHistoryGroup.matchupId}>
-                  <div>{moment(gameHistoryGroup.date).calendar()}</div>
-                  <GameContainer className="margins-off">
-                    <GamePlayerContainer>
-                      <PlayerResult playerName={gameHistoryGroup.player1} />
-                    </GamePlayerContainer>
-                    <GameHistoryContainer>
-                      {gameHistoryGroup.games.map(gameHistoryRecord => (
-                        <GameResult
-                          key={gameHistoryRecord.date.toString()}
-                          history={gameHistoryRecord}
-                        />
-                      ))}
-                    </GameHistoryContainer>
-                    <GamePlayerContainer>
-                      <PlayerResult
-                        playerName={gameHistoryGroup.player2}
-                        onRight={true}
+    <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
+      <GameSettingsDrawer />
+      <Container>
+        <MainHeading>Game History</MainHeading>
+        <div>
+          {gameHistory &&
+            gameHistory.map(gameHistoryGroup => (
+              <ResultContainer key={gameHistoryGroup.matchupId}>
+                <div>{moment(gameHistoryGroup.date).calendar()}</div>
+                <GameContainer className="margins-off">
+                  <GamePlayerContainer>
+                    <PlayerResult playerName={gameHistoryGroup.player1} />
+                  </GamePlayerContainer>
+                  <GameHistoryContainer>
+                    {gameHistoryGroup.games.map(gameHistoryRecord => (
+                      <GameResult
+                        key={gameHistoryRecord.date.toString()}
+                        history={gameHistoryRecord}
                       />
-                    </GamePlayerContainer>
-                  </GameContainer>
-                </ResultContainer>
-              ))}
-          </div>
-        </Container>
-      </FullPageScreenLayout>
-    </PlayersProvider>
+                    ))}
+                  </GameHistoryContainer>
+                  <GamePlayerContainer>
+                    <PlayerResult
+                      playerName={gameHistoryGroup.player2}
+                      onRight={true}
+                    />
+                  </GamePlayerContainer>
+                </GameContainer>
+              </ResultContainer>
+            ))}
+        </div>
+      </Container>
+    </FullPageScreenLayout>
   );
 };

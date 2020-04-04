@@ -58,6 +58,10 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
       setLoadingPlayers(false);
     });
     socket.emit(PLAYER_EVENTS.SUBSCRIBE_TO_ALL_PLAYERS);
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (

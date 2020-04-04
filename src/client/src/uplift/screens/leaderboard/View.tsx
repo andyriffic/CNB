@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
@@ -36,33 +35,31 @@ export default ({ maxPlacing }: Props) => {
   );
 
   return (
-    <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
-        <GameSettingsDrawer />
-        <Container className="margins-off">
-          <StatsContainer>
-            <StatsGroup
-              maxPlacing={maxPlacing}
-              title={`All Time ${maxPlacing ? `top ${maxPlacing}` : ''}`}
-              groupedStatsWithRanking={groupStatsAllTime}
-            />
-          </StatsContainer>
-          <StatsContainer>
-            <StatsGroup
-              maxPlacing={maxPlacing}
-              title={`2020 ${maxPlacing ? `top ${maxPlacing}` : ''}`}
-              groupedStatsWithRanking={groupStats2020}
-            />
-          </StatsContainer>
-          <StatsContainer>
-            <StatsGroup
-              maxPlacing={maxPlacing}
-              title={`🐍 & ䷝ ${maxPlacing ? `top ${maxPlacing}` : ''}`}
-              groupedStatsWithRanking={groupStatsSnakesAndLadders}
-            />
-          </StatsContainer>
-        </Container>
-      </FullPageScreenLayout>
-    </PlayersProvider>
+    <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
+      <GameSettingsDrawer />
+      <Container className="margins-off">
+        <StatsContainer>
+          <StatsGroup
+            maxPlacing={maxPlacing}
+            title={`All Time ${maxPlacing ? `top ${maxPlacing}` : ''}`}
+            groupedStatsWithRanking={groupStatsAllTime}
+          />
+        </StatsContainer>
+        <StatsContainer>
+          <StatsGroup
+            maxPlacing={maxPlacing}
+            title={`2020 ${maxPlacing ? `top ${maxPlacing}` : ''}`}
+            groupedStatsWithRanking={groupStats2020}
+          />
+        </StatsContainer>
+        <StatsContainer>
+          <StatsGroup
+            maxPlacing={maxPlacing}
+            title={`🐍 & ䷝ ${maxPlacing ? `top ${maxPlacing}` : ''}`}
+            groupedStatsWithRanking={groupStatsSnakesAndLadders}
+          />
+        </StatsContainer>
+      </Container>
+    </FullPageScreenLayout>
   );
 };

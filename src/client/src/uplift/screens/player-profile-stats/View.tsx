@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
@@ -52,17 +51,15 @@ export default ({ playerName }: Props) => {
   }, [groupedStatsWithRanking, randomPlayerStats]);
 
   return (
-    <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={false}>
-        <MatchupsContainer>
-          {randomPlayerStats && (
-            <PlayerStatsProfile
-              playerStats={randomPlayerStats}
-              position={playerPosition}
-            />
-          )}
-        </MatchupsContainer>
-      </FullPageScreenLayout>
-    </PlayersProvider>
+    <FullPageScreenLayout title="" alignTop={false}>
+      <MatchupsContainer>
+        {randomPlayerStats && (
+          <PlayerStatsProfile
+            playerStats={randomPlayerStats}
+            position={playerPosition}
+          />
+        )}
+      </MatchupsContainer>
+    </FullPageScreenLayout>
   );
 };
