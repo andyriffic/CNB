@@ -5,6 +5,7 @@ import {
 } from '../../../contexts/InvitationsProvider';
 import { Player } from '../../../contexts/PlayersProvider';
 import { PrimaryButton } from '../../../components/PrimaryButton';
+import { RainbowText } from '../../../components/RainbowText';
 
 export const PlayerInvitationAcknowledgement = ({
   invitations,
@@ -28,8 +29,16 @@ export const PlayerInvitationAcknowledgement = ({
   }
   return (
     <div style={{ fontSize: '1.2rem', textAlign: 'center' }}>
-      {playerInvitation.status}
-      <PrimaryButton onClick={acceptInvitation}>JOIN</PrimaryButton>
+      {playerInvitation.status === 'ACCEPTED' ? (
+        <>
+          <RainbowText>
+            <p style={{ fontSize: '2rem' }}>Waiting for your opponent</p>
+          </RainbowText>
+          <p>matchupId: {invitations[0].matchupId}</p>
+        </>
+      ) : (
+        <PrimaryButton onClick={acceptInvitation}>JOIN</PrimaryButton>
+      )}
     </div>
   );
 };

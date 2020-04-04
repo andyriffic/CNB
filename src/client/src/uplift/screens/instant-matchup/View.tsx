@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider, Player } from '../../contexts/PlayersProvider';
+import { Player } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { MatchupContext } from '../../contexts/MatchupProvider';
 import { RandomPlayers } from './RandomPlayers';
@@ -35,38 +35,36 @@ export default ({ navigate }: RouteComponentProps) => {
   }, []);
 
   return (
-    <PlayersProvider>
-      <FullPageScreenLayout title="" alignTop={true}>
-        <GameSettingsDrawer />
-        <MainHeading>Select your players</MainHeading>
-        <MatchupsContainer className="margins-off">
-          <RandomPlayers
-            player1={player1}
-            setPlayer1={setPlayer1}
-            player2={player2}
-            setPlayer2={setPlayer2}
-          />
-        </MatchupsContainer>
-        {player1 && player2 && (
-          <div style={{ textAlign: 'center' }}>
-            <PrimaryButton
-              onClick={() => {
-                addInstantMatchup(
-                  player1.id,
-                  player2.id,
-                  2,
-                  'covid-19',
-                  matchupId => {
-                    navigate && navigate(`/matchup/${matchupId}`);
-                  }
-                );
-              }}
-            >
-              Play
-            </PrimaryButton>
-          </div>
-        )}
-      </FullPageScreenLayout>
-    </PlayersProvider>
+    <FullPageScreenLayout title="" alignTop={true}>
+      <GameSettingsDrawer />
+      <MainHeading>Select your players</MainHeading>
+      <MatchupsContainer className="margins-off">
+        <RandomPlayers
+          player1={player1}
+          setPlayer1={setPlayer1}
+          player2={player2}
+          setPlayer2={setPlayer2}
+        />
+      </MatchupsContainer>
+      {player1 && player2 && (
+        <div style={{ textAlign: 'center' }}>
+          <PrimaryButton
+            onClick={() => {
+              addInstantMatchup(
+                player1.id,
+                player2.id,
+                2,
+                'covid-19',
+                matchupId => {
+                  navigate && navigate(`/matchup/${matchupId}`);
+                }
+              );
+            }}
+          >
+            Play
+          </PrimaryButton>
+        </div>
+      )}
+    </FullPageScreenLayout>
   );
 };

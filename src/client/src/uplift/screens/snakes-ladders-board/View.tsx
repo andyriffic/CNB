@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { PlayersProvider } from '../../contexts/PlayersProvider';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { Board } from './components/Board';
@@ -58,23 +57,21 @@ export default ({  }: RouteComponentProps) => {
   }, []);
 
   return (
-    <PlayersProvider>
-      <GameBoardProvider board={board}>
-        <FullPageScreenLayout
-          title=""
-          alignTop={false}
-          scrollable={false}
-          bodyStyle={{ backgroundColor: '#fed357', backgroundImage: 'none' }}
-        >
-          <GameSettingsDrawer />
-          <Container>
-            <Board board={board} />
-            <SwingingMonkey src={swingingMonkeyGif} alt="" />
-            <Gorilla src={gorillaGif} alt="" />
-            <Snake src={snakeGif} alt="" />
-          </Container>
-        </FullPageScreenLayout>
-      </GameBoardProvider>
-    </PlayersProvider>
+    <GameBoardProvider board={board}>
+      <FullPageScreenLayout
+        title=""
+        alignTop={false}
+        scrollable={false}
+        bodyStyle={{ backgroundColor: '#fed357', backgroundImage: 'none' }}
+      >
+        <GameSettingsDrawer />
+        <Container>
+          <Board board={board} />
+          <SwingingMonkey src={swingingMonkeyGif} alt="" />
+          <Gorilla src={gorillaGif} alt="" />
+          <Snake src={snakeGif} alt="" />
+        </Container>
+      </FullPageScreenLayout>
+    </GameBoardProvider>
   );
 };

@@ -19,6 +19,7 @@ export type PlayerInvitation = {
 
 export type Invitation = {
   id: string;
+  matchupId?: string;
   playerInvitations: [PlayerInvitation, PlayerInvitation];
 };
 
@@ -35,7 +36,11 @@ export type InvitationsService = {
     onComplete: () => void
   ) => void;
   acceptInvitation: (invitationId: string, player: Player) => void;
-  useInvitation: (invitationId: string, onComplete: () => void) => void;
+  useInvitation: (
+    invitationId: string,
+    matchupId: string,
+    onComplete: () => void
+  ) => void;
 };
 
 export const InvitationsContext = React.createContext<
@@ -56,6 +61,10 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
       }
     );
     socket.emit(INVITATION_EVENTS.SUBSCRIBE_TO_INVITATIONS);
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (
@@ -86,10 +95,11 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
             player
           );
         },
-        useInvitation: (invitationId, onComplete) => {
+        useInvitation: (invitationId, matchupId, onComplete) => {
           socket.emit(
             INVITATION_EVENTS.USE_INVITATION,
             invitationId,
+            matchupId,
             onComplete
           );
         },
