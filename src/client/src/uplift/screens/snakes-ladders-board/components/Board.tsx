@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import boardImage from './board.jpg';
-import { GameBoard } from '../board';
+import { GameBoard, GameBoardCell } from '../board';
 import { BoardCell } from './BoardCell';
 import { BoardPlayer } from './BoardPlayer';
-import { GameBoardContext } from '../GameBoardContext';
+import { GameBoardContext, GameBoardPlayer } from '../GameBoardContext';
 
 const BoardContainer = styled.div`
   width: 800px;
@@ -14,14 +14,56 @@ const BoardContainer = styled.div`
   position: relative;
 `;
 
+type PlayersInTransit = {
+  [key: string]: GameBoardCell;
+};
+
 type Props = {
   board: GameBoard;
 };
 
 export const Board = ({ board }: Props) => {
   const { players, movePlayer, onArrivedInCell } = useContext(GameBoardContext);
+  const [playersInTransit, setPlayerInTransit] = useState<PlayersInTransit>({});
 
-  console.log('----GAME PLAYERS----', players);
+  const tempMoveToCell = (
+    playerId: string,
+    currentCellIndex: number,
+    destinationCellIndex: number,
+    onComplete: () => void
+  ) => {
+    if (currentCellIndex === destinationCellIndex) {
+      onComplete();
+      return;
+    }
+
+    const newIndex = currentCellIndex + 1;
+
+    setPlayerInTransit({
+      ...playersInTransit,
+      [playerId]: board.cells[newIndex],
+    });
+    setTimeout(() => {
+      tempMoveToCell(playerId, newIndex, destinationCellIndex, onComplete);
+    }, 1000);
+  };
+
+  const transitPlayer = (
+    boardPlayer: GameBoardPlayer,
+    onComplete: () => void
+  ) => {
+    const destinationCellIndex = Math.min(
+      boardPlayer.boardCellIndex + boardPlayer.movesRemaining,
+      board.cells.length - 1
+    );
+
+    tempMoveToCell(
+      boardPlayer.player.id,
+      boardPlayer.boardCellIndex,
+      destinationCellIndex,
+      onComplete
+    );
+  };
 
   return (
     <BoardContainer className="margins-off">
@@ -33,15 +75,33 @@ export const Board = ({ board }: Props) => {
         return (
           <BoardPlayer
             key={`${boardPlayer.player.name}`}
-            cell={cell}
+            cell={
+              playersInTransit[boardPlayer.player.id] === undefined
+                ? cell
+                : playersInTransit[boardPlayer.player.id]
+            }
             movesRemaining={boardPlayer.movesRemaining}
-            offset={boardPlayer.positionOffset}
+            offset={
+              playersInTransit[boardPlayer.player.id] === undefined
+                ? boardPlayer.positionOffset
+                : 0
+            }
             player={boardPlayer.player}
             onClick={() => {
-              movePlayer(boardPlayer);
+              transitPlayer(boardPlayer, () => {
+                movePlayer(boardPlayer);
+              });
             }}
             inLead={boardPlayer.inLead}
-            onArrived={() => onArrivedInCell(boardPlayer, board)}
+            onArrived={() => {
+              const playersInTransitCopy = {
+                ...playersInTransit,
+              };
+              delete playersInTransit[boardPlayer.player.id];
+              setPlayerInTransit(playersInTransitCopy);
+
+              onArrivedInCell(boardPlayer, board);
+            }}
             boardPlayer={boardPlayer}
           />
         );
