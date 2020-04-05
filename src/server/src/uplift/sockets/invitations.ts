@@ -38,6 +38,7 @@ const init = (socketServer: Server, path: string) => {
         confirmation: (invitation: Invitation) => void
       ) => {
         const newInvitation = createInvitation(shortid.generate(), players);
+        log('Created invitation', newInvitation);
         invitations = [newInvitation];
         namespace.emit(INVITATIONS_UPDATE, invitations);
         confirmation(newInvitation);
