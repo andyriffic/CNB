@@ -36,7 +36,7 @@ export const PlayerInvitationAcknowledgement = ({
           </RainbowText>
         </>
       ) : (
-        <PrimaryButton onClick={acceptInvitation}>JOIN</PrimaryButton>
+        <PrimaryButton onClick={acceptInvitation}>Play</PrimaryButton>
       )}
     </div>
   );

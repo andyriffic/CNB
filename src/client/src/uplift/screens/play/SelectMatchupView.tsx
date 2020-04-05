@@ -48,15 +48,10 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
 
   return (
     <FullPageScreenLayout
-      title="Select Matchup"
-      alignTop={true}
+      title={player ? player.name : ''}
+      alignTop={false}
       scrollable={true}
     >
-      {player && (
-        <>
-          <p>Player: {player.name}</p>
-        </>
-      )}
       {playerInvitations && player && (
         <>
           <PlayerInvitationAcknowledgement
