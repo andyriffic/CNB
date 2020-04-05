@@ -67,10 +67,10 @@ export const PlayerGameResult = ({
     const isWinner = winningTeam.id === teamId;
     if (isWinner) {
       displayText = 'Your team won!';
-      displayGif = <img style={{ width: '40vw' }} src={winningGif} />;
+      displayGif = <img style={{ maxHeight: '30vh' }} src={winningGif} />;
     } else {
       displayText = 'Your team lost';
-      displayGif = <img style={{ width: '40vw' }} src={losingGif} />;
+      displayGif = <img style={{ maxHeight: '30vh' }} src={losingGif} />;
     }
   }
 
