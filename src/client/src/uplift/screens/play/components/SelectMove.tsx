@@ -96,26 +96,24 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
               </Move>
             ))}
         </MoveContainer>
-        {!moveMade && (
-          <PrimaryButton
-            type="button"
-            disabled={!selectedMoveId}
-            className={!!selectedMoveId && !moveMade ? 'radioactive' : ''}
-            style={{ display: 'block', width: '100%' }}
-            onClick={() => {
-              !moveMade &&
-                selectedMoveId &&
-                makeMove(matchupId, teamId, {
-                  playerId: player.id,
-                  moveId: selectedMoveId,
-                  powerUpId: 'NONE',
-                });
-              setMoveMade(true);
-            }}
-          >
-            Select
-          </PrimaryButton>
-        )}
+        <PrimaryButton
+          type="button"
+          disabled={!selectedMoveId}
+          className={!!selectedMoveId && !moveMade ? 'radioactive' : ''}
+          style={{ display: 'block', width: '100%' }}
+          onClick={() => {
+            !moveMade &&
+              selectedMoveId &&
+              makeMove(matchupId, teamId, {
+                playerId: player.id,
+                moveId: selectedMoveId,
+                powerUpId: 'NONE',
+              });
+            setMoveMade(true);
+          }}
+        >
+          Select
+        </PrimaryButton>
       </div>
     </div>
   );

@@ -59,7 +59,6 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
       )}
       {playerInvitations && player && (
         <>
-          <p>Invitations</p>
           <PlayerInvitationAcknowledgement
             player={player}
             invitations={invitations}

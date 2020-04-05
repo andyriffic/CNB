@@ -8,10 +8,6 @@ export const usePlayer = (playerId: string) => {
   );
 
   useEffect(() => {
-    if (player) {
-      return;
-    }
-
     setPlayer(allPlayers.find(p => p.id === playerId));
   }, [allPlayers]);
 

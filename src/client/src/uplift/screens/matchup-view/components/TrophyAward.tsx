@@ -38,7 +38,7 @@ export const TrophyAward = ({  }: TrophyAwardProps) => {
       setConfettiOn(true);
       soundService.play(SOUND_KEYS.CROWD_CHEER);
 
-      setTimeout(() => setConfettiOn(false), 3000);
+      setTimeout(() => setConfettiOn(false), 2000);
     }, 5000);
 
     return () => {
