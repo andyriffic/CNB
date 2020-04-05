@@ -4,6 +4,9 @@ import { RouteComponentProps } from '@reach/router';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { usePlayer } from './usePlayer';
 import { usePlayerMatchups } from './usePlayerMatchups';
+import { MatchupContext } from '../../contexts/MatchupProvider';
+import { SelectMove } from './components/SelectMove';
+import { GameThemeContext } from '../../contexts/ThemeProvider';
 
 type Props = {
   playerId: string;
@@ -12,16 +15,27 @@ type Props = {
 
 export const PlayMatchupView = ({ playerId, matchupId }: Props) => {
   const player = usePlayer(playerId);
+  const { setTheme } = useContext(GameThemeContext);
   const playerMatchups = usePlayerMatchups(playerId);
+  const { subscribeToMatchup } = useContext(MatchupContext);
   const [matchup, setMatchup] = useState(
     playerMatchups && playerMatchups.find(m => m.id === matchupId)
   );
 
   useEffect(() => {
+    subscribeToMatchup(matchupId);
+  }, []);
+
+  useEffect(() => {
     if (matchup || !playerMatchups) {
       return;
     }
-    setMatchup(playerMatchups.find(m => m.id === matchupId));
+    const thisMatchup = playerMatchups.find(m => m.id === matchupId);
+    if (!thisMatchup) {
+      return;
+    }
+    setMatchup(thisMatchup);
+    setTheme(thisMatchup.themeId);
   }, [matchup, playerMatchups]);
 
   return (
@@ -30,10 +44,13 @@ export const PlayMatchupView = ({ playerId, matchupId }: Props) => {
       alignTop={true}
       scrollable={false}
     >
-      {player && (
+      {player && matchup && (
         <>
-          <p>Player: {player.name}</p>
-          <p>Matchup: {matchupId}</p>
+          <SelectMove
+            matchupId={matchupId}
+            player={player}
+            teamId={matchup.playerTeamId}
+          />
         </>
       )}
     </FullPageScreenLayout>

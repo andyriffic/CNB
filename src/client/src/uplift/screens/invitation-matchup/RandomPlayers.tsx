@@ -13,7 +13,7 @@ import {
 
 const PlayersContainer = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const PlayerSide = styled.div`
@@ -109,7 +109,7 @@ export const RandomPlayers = ({
         <InstructionText>cnb.finx-rocks.com/play</InstructionText>
       )}
 
-      <PlayersContainer>
+      <PlayersContainer className="margins-off">
         <PlayerSide>
           {invitation && player1 && (
             <RandomPlayerSelector

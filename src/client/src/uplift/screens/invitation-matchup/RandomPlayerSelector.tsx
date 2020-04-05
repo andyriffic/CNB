@@ -148,9 +148,10 @@ export const RandomPlayerSelector = ({
           </React.Fragment>
         )}
       </PlayerCharacter>
-      {selectedPlayer && (
-        <SecondaryButton onClick={onNewPlayer}>Someone else</SecondaryButton>
-      )}
+      {selectedPlayer &&
+        (!playerInvitation ? true : playerInvitation.status === 'WAITING') && (
+          <SecondaryButton onClick={onNewPlayer}>Someone else</SecondaryButton>
+        )}
     </Container>
   );
 };
