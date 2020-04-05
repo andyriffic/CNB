@@ -103,7 +103,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
           setTimeout(() => {
             setShowNewGame(true);
-          }, 7000); // Wait this long after showing trophy
+          }, 3000); // Wait this long after showing trophy
         }, 1000); // Wait this long after points updated
       } else {
         setTimeout(() => {

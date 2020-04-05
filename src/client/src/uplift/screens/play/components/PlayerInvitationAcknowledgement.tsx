@@ -34,7 +34,6 @@ export const PlayerInvitationAcknowledgement = ({
           <RainbowText>
             <p style={{ fontSize: '2rem' }}>Waiting for your opponent</p>
           </RainbowText>
-          <p>matchupId: {invitations[0].matchupId}</p>
         </>
       ) : (
         <PrimaryButton onClick={acceptInvitation}>JOIN</PrimaryButton>

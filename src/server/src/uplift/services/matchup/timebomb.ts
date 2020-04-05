@@ -43,7 +43,7 @@ export const getStartingGameAttributes = (
 const didExplode = (gameCount: number) => {
   const weightedList = [
     { item: true, weight: gameCount },
-    { item: false, weight: 3 },
+    { item: false, weight: 4 },
   ];
 
   return selectWeightedRandomOneOf<boolean>(weightedList);

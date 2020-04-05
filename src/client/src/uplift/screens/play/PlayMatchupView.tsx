@@ -18,26 +18,31 @@ export const PlayMatchupView = ({ playerId, matchupId, navigate }: Props) => {
   const player = usePlayer(playerId);
   const { setTheme } = useContext(GameThemeContext);
   const playerMatchups = usePlayerMatchups(playerId);
-  const { subscribeToMatchup } = useContext(MatchupContext);
-  const [matchup, setMatchup] = useState(
-    playerMatchups && playerMatchups.find(m => m.id === matchupId)
-  );
+  const { subscribeToMatchup, currentMatchup } = useContext(MatchupContext);
+  const [teamId, setTeamId] = useState('');
 
   useEffect(() => {
     subscribeToMatchup(matchupId);
   }, []);
 
   useEffect(() => {
-    if (matchup || !playerMatchups) {
+    if (!currentMatchup) {
       return;
     }
-    const thisMatchup = playerMatchups.find(m => m.id === matchupId);
-    if (!thisMatchup) {
+
+    setTheme(currentMatchup.themeId);
+  }, [currentMatchup]);
+
+  useEffect(() => {
+    if (!playerMatchups) {
       return;
     }
-    setMatchup(thisMatchup);
-    setTheme(thisMatchup.themeId);
-  }, [matchup, playerMatchups]);
+
+    const playerMatchup = playerMatchups.find(m => m.id === matchupId);
+    if (playerMatchup) {
+      setTeamId(playerMatchup.playerTeamId);
+    }
+  }, [playerMatchups]);
 
   return (
     <FullPageScreenLayout
@@ -46,22 +51,19 @@ export const PlayMatchupView = ({ playerId, matchupId, navigate }: Props) => {
       scrollable={false}
     >
       {player &&
-        matchup &&
-        matchup.gameInProgress &&
-        (matchup.gameInProgress.status === GAME_STATUS.Finished ? (
+        teamId &&
+        currentMatchup &&
+        currentMatchup.gameInProgress &&
+        (currentMatchup.gameInProgress.status === GAME_STATUS.Finished ? (
           <PlayerGameResult
-            matchup={matchup}
-            teamId={matchup.playerTeamId}
+            matchup={currentMatchup}
+            teamId={teamId}
             backToMatchups={() => {
               navigate && navigate('/play');
             }}
           />
         ) : (
-          <SelectMove
-            matchupId={matchupId}
-            player={player}
-            teamId={matchup.playerTeamId}
-          />
+          <SelectMove matchupId={matchupId} player={player} teamId={teamId} />
         ))}
     </FullPageScreenLayout>
   );
