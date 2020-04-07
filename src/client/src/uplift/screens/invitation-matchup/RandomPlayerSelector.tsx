@@ -113,7 +113,7 @@ export const RandomPlayerSelector = ({
   useDoOnce(
     !!(playerInvitation && playerInvitation.status === 'ACCEPTED'),
     () => {
-      soundService.play(SOUND_KEYS.PLAYER_JOINED_GAME, true);
+      soundService.play(SOUND_KEYS.PLAYER_SELECT_PLAYER_JOINED, true);
     }
   );
 
