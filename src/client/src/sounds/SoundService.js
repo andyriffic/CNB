@@ -29,6 +29,7 @@ import slurp from './slurp.mp3';
 import death from './death.mp3';
 import blip from './blip.mp3';
 import smashBrosMusic from './super_smash_bros_3.mp3';
+import coinJingle from './ssb4_result.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
@@ -80,6 +81,7 @@ export const SOUND_KEYS = {
   RATTLE: 'RATTLE',
   PLAYER_SELECT_MUSIC: 'PLAYER_SELECT_MUSIC',
   PLAYER_SELECT_INTRO: 'PLAYER_SELECT_INTRO',
+  PLAYER_SELECT_PLAYER_JOINED: 'PLAYER_SELECT_PLAYER_JOINED',
 };
 
 export const JUNGLE_SOUND_KEYS = {
@@ -201,6 +203,10 @@ export class SoundService {
 
       this._sounds[SOUND_KEYS.PLAYER_SELECT_INTRO] = {
         sound: new Howl({ src: [doraSuccess] }),
+      };
+
+      this._sounds[SOUND_KEYS.PLAYER_SELECT_PLAYER_JOINED] = {
+        sound: new Howl({ src: [coinJingle] }),
       };
 
       this._sounds[SOUND_KEYS.SLIDE_FALL_WHISTLE] = {

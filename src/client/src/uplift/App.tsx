@@ -17,7 +17,6 @@ import { Theme } from './contexts/ThemeProvider';
 import { PlayerListView } from './screens/player-list';
 import { TeamsListView } from './screens/teams-list';
 import { TournamentInfoView } from './screens/tournament-info';
-import { InstantMatchup } from './screens/instant-matchup';
 import { PlayerProfileStatsScreen } from './screens/player-profile-stats';
 import { PlayerAdminScreen } from './screens/admin/player-admin';
 import { LeaderboardScreen } from './screens/leaderboard';
@@ -40,8 +39,7 @@ export default () => {
               <PlayersProvider>
                 <InvitationsProvider>
                   <Router>
-                    <InstantMatchup path="/" />
-                    <InvitationMatchupScreen path="/invitation" />
+                    <InvitationMatchupScreen path="/" />
                     <MatchupLobby path="/lobby" />
                     <MatchupView path="/matchup/:matchupId" />
                     <SelectPlayerScreen path="/play" />
