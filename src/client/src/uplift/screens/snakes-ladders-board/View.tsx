@@ -13,6 +13,7 @@ import { JUNGLE_SOUND_KEYS } from '../../../sounds/SoundService';
 import swingingMonkeyGif from './assets/monkey-swing.gif';
 import gorillaGif from './assets/gorilla.gif';
 import snakeGif from './assets/snake.gif';
+import { PlayersContext } from '../../contexts/PlayersProvider';
 
 const Container = styled.div`
   width: 790px;
@@ -45,6 +46,11 @@ const board = generateBoard();
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
+  const { triggerUpdate } = useContext(PlayersContext);
+
+  useEffect(() => {
+    triggerUpdate();
+  }, []);
 
   useEffect(() => {
     soundService.load();

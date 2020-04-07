@@ -7,6 +7,7 @@ enum PLAYER_EVENTS {
   ON_PLAYERS_RECEIVED = 'ALL_PLAYERS_UPDATE',
   ADD_PLAYER = 'ADD_PLAYER',
   UPDATE_PLAYER = 'UPDATE_PLAYER',
+  TRIGGER_UPDATE = 'TRIGGER_UPDATE',
 }
 
 export type Player = {
@@ -23,6 +24,7 @@ export type PlayerService = {
   subscribeToPlayers: () => void;
   addPlayer: (id: string, name: string, avatarImageUrl: string) => void;
   updatePlayer: (id: string, tags: string[]) => void;
+  triggerUpdate: () => void;
 };
 
 const initialValue: PlayerService = {
@@ -36,6 +38,9 @@ const initialValue: PlayerService = {
   },
   updatePlayer: (id, tags) => {
     socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags);
+  },
+  triggerUpdate: () => {
+    socket.emit(PLAYER_EVENTS.TRIGGER_UPDATE);
   },
 };
 
@@ -72,6 +77,7 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
         subscribeToPlayers: initialValue.subscribeToPlayers,
         addPlayer: initialValue.addPlayer,
         updatePlayer: initialValue.updatePlayer,
+        triggerUpdate: initialValue.triggerUpdate,
       }}
     >
       {children}

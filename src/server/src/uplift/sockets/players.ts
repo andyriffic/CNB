@@ -9,6 +9,7 @@ const SUBSCRIBE_TO_ALL_PLAYERS = 'SUBSCRIBE_TO_ALL_PLAYERS';
 const ALL_PLAYERS_UPDATE = 'ALL_PLAYERS_UPDATE';
 const ADD_PLAYER = 'ADD_PLAYER';
 const UPDATE_PLAYER = 'UPDATE_PLAYER';
+const TRIGGER_UPDATE = 'TRIGGER_UPDATE';
 
 const log = createLogger('players', LOG_NAMESPACE.socket);
 
@@ -94,6 +95,14 @@ const init = (socketServer: Server, path: string) => {
         });
       }
     );
+
+    socket.on(TRIGGER_UPDATE, () => {
+      log('Received', TRIGGER_UPDATE);
+      getUpdatedPlayerList().then(playerList => {
+        log('EMIT', ALL_PLAYERS_UPDATE);
+        socket.emit(ALL_PLAYERS_UPDATE, playerList);
+      });
+    });
 
     socket.on(UPDATE_PLAYER, (id: string, tags: string[]) => {
       log('Received', UPDATE_PLAYER);
