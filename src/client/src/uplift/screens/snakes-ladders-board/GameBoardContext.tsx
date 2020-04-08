@@ -14,10 +14,12 @@ export type GameBoardPlayer = {
   positionOffset: number;
   inLead: boolean;
   isWinner: boolean;
+  moving: boolean;
 };
 
 type GameBoardService = {
   players: GameBoardPlayer[];
+  startMovePlayer: (gameBoardPlayer: GameBoardPlayer) => void;
   movePlayer: (gameBoardPlayer: GameBoardPlayer) => void;
   onArrivedInCell: (
     gameBoardPlayer: GameBoardPlayer,
@@ -27,6 +29,7 @@ type GameBoardService = {
 
 const initialValue: GameBoardService = {
   players: [],
+  startMovePlayer: () => {},
   movePlayer: () => {},
   onArrivedInCell: () => {},
 };
@@ -52,6 +55,7 @@ export const getBoardPlayers = (
       ),
       inLead: false,
       isWinner: player.tags.includes('sl_winner'),
+      moving: player.tags.includes('sl_moving'),
     };
   });
 
@@ -147,15 +151,26 @@ export const GameBoardProvider = ({
       value={{
         ...initialValue,
         players: boardPlayers,
+        startMovePlayer: gameBoardPlayer => {
+          const playerTags = gameBoardPlayer.player.tags.filter(
+            t => t !== 'sl_moving'
+          );
+
+          updatePlayer(gameBoardPlayer.player.id, [...playerTags, 'sl_moving']);
+        },
         movePlayer: gameBoardPlayer => {
           if (!gameBoardPlayer.movesRemaining) {
+            updatePlayer(
+              gameBoardPlayer.player.id,
+              gameBoardPlayer.player.tags.filter(t => t !== 'sl_moving')
+            );
             return;
           }
           soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
-          soundService.play(JUNGLE_SOUND_KEYS.MOVE);
+          soundService.play(JUNGLE_SOUND_KEYS.MOVE, true);
 
           const destinationCellIndex = Math.min(
-            gameBoardPlayer.boardCellIndex + gameBoardPlayer.movesRemaining,
+            gameBoardPlayer.boardCellIndex + 1,
             board.cells.length - 1
           );
           const playerTags = gameBoardPlayer.player.tags
@@ -164,7 +179,7 @@ export const GameBoardProvider = ({
 
           updatePlayer(gameBoardPlayer.player.id, [
             ...playerTags,
-            'sl_moves:0',
+            `sl_moves:${gameBoardPlayer.movesRemaining - 1}`,
             `sl_cell:${destinationCellIndex}`,
           ]);
         },

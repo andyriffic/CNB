@@ -13,6 +13,8 @@ import {
 import { GameBoardCell } from '../board';
 import { PlayerVictory } from './PlayerVictory';
 
+export const ANIMATION_TIMEOUT_MS = 500;
+
 const offsets = [[0, 0], [-25, 0], [25, 0], [-35, 40], [-10, 40], [15, 40]];
 
 const CellPlayer = styled.div<{
@@ -25,7 +27,7 @@ const CellPlayer = styled.div<{
 }>`
   box-sizing: border-box;
   position: absolute;
-  transition: all 1s ease-in-out;
+  transition: all ${ANIMATION_TIMEOUT_MS}ms ease-in-out;
   left: ${props => `${props.x - 15}px`};
   top: ${props => `${props.y - 60}px`};
   z-index: ${props => props.priority + props.offset};
@@ -33,7 +35,7 @@ const CellPlayer = styled.div<{
   ${props =>
     props.hasMoves &&
     css`
-      animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite;
+      animation: ${bounceInAnimation} 800ms ease-in-out 0s infinite;
     `}
 
   ${props =>
@@ -72,6 +74,7 @@ type Props = {
   onArrived: () => void;
   inLead: boolean;
   boardPlayer: GameBoardPlayer;
+  moving: boolean;
 };
 
 export const BoardPlayer = ({
@@ -83,10 +86,13 @@ export const BoardPlayer = ({
   onArrived,
   inLead,
   boardPlayer,
+  moving,
 }: Props) => {
   useEffect(() => {
-    setTimeout(onArrived, 1000);
-  }, [cell]);
+    if (!moving) {
+      setTimeout(onArrived, ANIMATION_TIMEOUT_MS + 400);
+    }
+  }, [cell, moving]);
 
   const appliedOffset = offsets[offset] || [0, 0];
 
@@ -94,7 +100,7 @@ export const BoardPlayer = ({
     <PlayerVictory show={boardPlayer.isWinner}>
       <CellPlayer
         onClick={onClick}
-        hasMoves={movesRemaining > 0}
+        hasMoves={moving}
         priority={movesRemaining}
         offset={offset}
         x={cell.coordinates[0] + appliedOffset[0]}
