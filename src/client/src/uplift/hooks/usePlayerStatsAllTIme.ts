@@ -7,12 +7,12 @@ export type PlayerStatsJsonResult = {
   result: PlayerStatsRecord[];
 };
 
-export const usePlayerStats = (): [
+export const usePlayerStatsAllTime = (): [
   boolean,
   PlayerStatsJsonResult | undefined
 ] => {
   const [loading, rawPlayerStats] = useFetchJson<PlayerStatsJsonResult>(
-    `${STATS_API_BASE_URL}/players-by-points-ranking.json`
+    `${STATS_API_BASE_URL}/players-by-points-ranking-all-time.json`
   );
 
   const [parsedStats, setParsedStats] = useState<

@@ -5,7 +5,7 @@ import {
   rankPlayers,
   groupRankings,
 } from '../screens/player-profile-stats/ranking';
-import { usePlayerStats, PlayerStatsJsonResult } from './usePlayerStats';
+import { PlayerStatsJsonResult } from './usePlayerStats2020';
 
 export const useGroupedStatsWithRanking = (
   stats: () => [boolean, PlayerStatsJsonResult | undefined]

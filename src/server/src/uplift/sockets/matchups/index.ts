@@ -19,7 +19,7 @@ import { Counter } from '../../services/counter/types';
 import { playService } from '../../services/play';
 import { counterService } from '../../services/counter';
 import { StatsService } from '../../services/stats';
-import { publishStats } from '../../../stats/publishStats';
+import { publishAllStats } from '../../../stats/publishStats';
 import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 import { playerService } from '../../services/player';
 import {
@@ -318,7 +318,7 @@ const init = (socketServer: Server, path: string) => {
                   log('Saving stats entry...');
                   StatsService.saveGameStatsEntry(statsEntry);
                   log('Publishing stats...');
-                  publishStats();
+                  publishAllStats();
                 }
               }
 

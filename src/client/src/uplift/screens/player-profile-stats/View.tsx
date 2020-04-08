@@ -7,7 +7,7 @@ import { selectRandomOneOf } from '../../utils/random';
 import { PlayerStatsProfile } from './PlayerStatsProfile';
 import { useGroupedStatsWithRanking } from '../../hooks/useGroupedStatsWithRanking';
 import { PlayerStatsRecordWithRanking } from '../../types';
-import { usePlayerStats } from '../../hooks/usePlayerStats';
+import { usePlayerStatsAllTime } from '../../hooks/usePlayerStatsAllTIme';
 
 const MatchupsContainer = styled.div`
   /* width: 790px; */
@@ -21,7 +21,9 @@ type Props = {
 } & RouteComponentProps;
 
 export default ({ playerName }: Props) => {
-  const [groupedStatsWithRanking] = useGroupedStatsWithRanking(usePlayerStats);
+  const [groupedStatsWithRanking] = useGroupedStatsWithRanking(
+    usePlayerStatsAllTime
+  );
   const [randomPlayerStats, setRandomPlayerStats] = useState<
     PlayerStatsRecordWithRanking | undefined
   >();

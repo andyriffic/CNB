@@ -1,4 +1,4 @@
-export const playerLeaderboardQueryV2 = `SELECT
+export const playerLeaderboardQuery2020 = `SELECT
     player_name,
     count(*) as times_played,
     sum(winner) as times_won,

@@ -1,14 +1,18 @@
 import { useFetchJson } from './useFetchJson';
 import { STATS_API_BASE_URL } from '../../environment';
+import { PlayerStatsRecord } from '../types';
 import { useEffect, useState } from 'react';
-import { PlayerStatsJsonResult } from './usePlayerStats2020';
 
-export const usePlayerSnakesAndLaddersStats = (): [
+export type PlayerStatsJsonResult = {
+  result: PlayerStatsRecord[];
+};
+
+export const usePlayerStats2020 = (): [
   boolean,
   PlayerStatsJsonResult | undefined
 ] => {
   const [loading, rawPlayerStats] = useFetchJson<PlayerStatsJsonResult>(
-    `${STATS_API_BASE_URL}/snakes-and-ladders-leaderboard.json`
+    `${STATS_API_BASE_URL}/players-by-points-ranking-2020.json`
   );
 
   const [parsedStats, setParsedStats] = useState<

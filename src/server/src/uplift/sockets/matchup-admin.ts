@@ -6,7 +6,7 @@ import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
 import { TeamMatchup } from '../services/matchup/types';
 import { Counter } from '../services/counter/types';
-import { publishStats } from '../../stats/publishStats';
+import { publishAllStats } from '../../stats/publishStats';
 import { createLogger, LOG_NAMESPACE } from '../../utils/debug';
 import { playerService } from '../services/player';
 
@@ -132,7 +132,9 @@ const init = (socketServer: Server, path: string) => {
 
     socket.on(TRIGGER_STATS_PUBLISH, () => {
       log('Re-publish stats');
-      publishStats();
+      publishAllStats().then(() => {
+        log('Stats published');
+      });
     });
   });
 };

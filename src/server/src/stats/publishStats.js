@@ -8,9 +8,10 @@ import {
   STATS_AWS_RESULT_BUCKET_NAME,
 } from '../environment';
 import { statsS3Bucket } from './s3';
-import { playerLeaderboardQueryV2 } from './player-leaderboard-query-v2';
+import { playerLeaderboardQueryAllTime } from './player-leaderboard-query-all-time';
+import { playerLeaderboardQuery2020 } from './player-leaderboard-query-2020';
 import { gameHistoryQuery } from './game-history-query';
-import { playerSnakesAndLaddersLeaderboardQuery } from './player-leaderboard-snakes-and-ladders-query';
+import { playerLeaderboardQuerySnakesAndLadders } from './player-leaderboard-query-snakes-and-ladders';
 
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
@@ -34,13 +35,26 @@ let q = Queue((id, cb) => {
 }, 5);
 
 /* Make a SQL query and display results */
-const runTestQuery = () => {
-  const leaderboardQuery = makeQuery(playerLeaderboardQueryV2)
+export const publishAllStats = () => {
+  const leaderboardQueryAllTime = makeQuery(playerLeaderboardQueryAllTime)
     .then(data => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
-        'players-by-points-ranking.json',
+        'players-by-points-ranking-all-time.json',
+        { result: data, title: 'Ranking by number of games won' }
+      );
+    })
+    .catch(e => {
+      console.log('ERROR: ', e);
+    });
+
+  const leaderboardQuery2020 = makeQuery(playerLeaderboardQuery2020)
+    .then(data => {
+      // console.log('DATA: ', data);
+      statsS3Bucket.saveStats(
+        STATS_AWS_RESULT_BUCKET_NAME,
+        'players-by-points-ranking-2020.json',
         { result: data, title: 'Ranking by number of games won' }
       );
     })
@@ -61,7 +75,9 @@ const runTestQuery = () => {
       console.log('ERROR: ', e);
     });
 
-  const slLeaderboardQuery = makeQuery(playerSnakesAndLaddersLeaderboardQuery)
+  const leaderboardQuerySnakeAndLadders = makeQuery(
+    playerLeaderboardQuerySnakesAndLadders
+  )
     .then(data => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
@@ -74,11 +90,12 @@ const runTestQuery = () => {
       console.log('ERROR: ', e);
     });
 
-  return [leaderboardQuery, historyQuery, slLeaderboardQuery];
-};
-
-export const publishStats = () => {
-  return runTestQuery();
+  return Promise.all([
+    leaderboardQueryAllTime,
+    leaderboardQuery2020,
+    historyQuery,
+    leaderboardQuerySnakeAndLadders,
+  ]);
 };
 
 function makeQuery(sql) {
