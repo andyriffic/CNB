@@ -13,6 +13,7 @@ import {
   PlayMatchupScreen,
 } from './screens/play';
 import { ComponentTestView } from './screens/_component-test';
+import { LayoutTestView } from './screens/_layout-test';
 import { Theme } from './contexts/ThemeProvider';
 import { PlayerListView } from './screens/player-list';
 import { TeamsListView } from './screens/teams-list';
