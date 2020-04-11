@@ -21,14 +21,14 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: Poppins, sans-serif;
   }
-
+/* 
   * + * {
 	  margin-top: 1.2em;
   }
 
   .margins-off > * {
 	  margin-top: 0;
-  }
+  } */
 `;
 
 export default GlobalStyle;
