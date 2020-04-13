@@ -68,12 +68,9 @@ export const SideBySide = ({ children }: { children: ReactNodeArray }) => {
 };
 
 const VerticalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   > * + * {
-    margin-top: 1.2em;
+    display: block;
+    margin: 1.2em auto 0 auto;
   }
 `;
 
