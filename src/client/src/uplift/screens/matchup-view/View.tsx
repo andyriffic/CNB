@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { LoadingSpinner } from '../../components/loading-spinner';
 import { RouteComponentProps, Link } from '@reach/router';
-import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
+import {
+  MatchupContext,
+  GAME_STATUS,
+  Team,
+} from '../../contexts/MatchupProvider';
 import { SoundService, SOUND_KEYS } from '../../../sounds/SoundService';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { TeamDetailsSection } from './components/TeamDetailSection';
@@ -17,6 +21,7 @@ import {
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import JungleBackgroundMatchupImg from '../../../images/jungle-cgi.jpg';
+import { PlayersContext } from '../../contexts/PlayersProvider';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -56,11 +61,14 @@ export default ({ matchupId }: MatchupViewProps) => {
   } = useContext(MatchupContext);
 
   const { setTheme, theme } = useContext(GameThemeContext);
+  const { triggerUpdate } = useContext(PlayersContext);
 
   const [showScoreUpdate, setShowScoreUpdate] = useState(false);
   const [showTrophyAward, setShowTrophyAward] = useState(false);
   const [showNewGame, setShowNewGame] = useState(false);
-  const [delayedTeamDetails, setDelayedTeamDetails] = useState();
+  const [delayedTeamDetails, setDelayedTeamDetails] = useState<
+    [Team, Team] | undefined
+  >();
   const soundService = useContext<SoundService>(GameSoundContext);
 
   useEffect(() => {
@@ -110,7 +118,7 @@ export default ({ matchupId }: MatchupViewProps) => {
           setShowNewGame(true);
         }, 1000); // Wait this long after points updated
       }
-    }, 2000); // Wait this long after game finished to show points update
+    }, 500); // Wait this long after game finished to show points update
   };
 
   useEffect(() => {
@@ -120,6 +128,7 @@ export default ({ matchupId }: MatchupViewProps) => {
 
     if (!delayedTeamDetails || showScoreUpdate) {
       setDelayedTeamDetails(currentMatchup.teams);
+      triggerUpdate();
     }
   }, [currentMatchup, showScoreUpdate]);
 

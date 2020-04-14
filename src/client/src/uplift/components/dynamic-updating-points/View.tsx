@@ -16,7 +16,7 @@ const Container = styled.span`
 const BadgeContainer = styled.div`
   position: absolute;
   top: 0;
-  right: -180%;
+  right: -60px;
   font-size: 1.1rem;
   background: #228b22;
   border-radius: 50%;

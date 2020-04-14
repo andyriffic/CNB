@@ -19,6 +19,7 @@ import { SoundService } from '../../../contexts/types';
 import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
 import { selectRandomOneOf } from '../../../utils/random';
+import { PlayerSnakesAndLaddersMoves } from './PlayerSnakesAndLaddersMoves';
 
 type PlayerWithRevealProps = {
   playerId: string | null;
@@ -108,6 +109,14 @@ const PlayerMoveContainer = styled.div<{
   ${props => props.position === 'RIGHT' && 'transform: scaleX(-1);'}
 `;
 
+const SnakesANdLaddersMoveContainer = styled.div<{
+  position: 'LEFT' | 'RIGHT';
+}>`
+  position: absolute;
+  bottom: 0;
+  ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -40px;
+`;
+
 const PlayerMove = styled.img<{
   position: 'LEFT' | 'RIGHT';
   reveal: boolean;
@@ -175,33 +184,38 @@ export const PlayerWithMoveRevealTimebomb = ({
   });
 
   return (
-    <Container
-      className="margins-off"
-      position={position}
-      playLoserAnimation={playLoserAnimation && !winner}
-    >
-      <PlayerCharacter
-        position={position}
-        reveal={revealPlayer}
-        winner={revealResult && winner && showWinnerMoveHighlight}
-        src={`${SOCKETS_ENDPOINT}${playerAvatarUrl}`}
-      />
-      <PlayerMoveContainer
-        position={position}
-        reveal={revealMove}
+    <div>
+      <Container
         className="margins-off"
+        position={position}
+        playLoserAnimation={playLoserAnimation && !winner}
       >
-        {revealResult && showWinnerMoveHighlight && (
-          <WinnerIndicator position={position} reveal={revealMove} />
-        )}
-        <PlayerMove
+        <PlayerCharacter
           position={position}
-          reveal={revealMove && !(playLoserAnimation && !winner)}
-          src={`${SOCKETS_ENDPOINT}${move.imageUrl}`}
-          playWinnerAnimation={!draw && playWinnerAnimation && winner}
-          playLoserAnimation={!draw && playWinnerAnimation && !winner}
+          reveal={revealPlayer}
+          winner={revealResult && winner && showWinnerMoveHighlight}
+          src={`${SOCKETS_ENDPOINT}${playerAvatarUrl}`}
         />
-      </PlayerMoveContainer>
-    </Container>
+        <PlayerMoveContainer
+          position={position}
+          reveal={revealMove}
+          className="margins-off"
+        >
+          {revealResult && showWinnerMoveHighlight && (
+            <WinnerIndicator position={position} reveal={revealMove} />
+          )}
+          <PlayerMove
+            position={position}
+            reveal={revealMove && !(playLoserAnimation && !winner)}
+            src={`${SOCKETS_ENDPOINT}${move.imageUrl}`}
+            playWinnerAnimation={!draw && playWinnerAnimation && winner}
+            playLoserAnimation={!draw && playWinnerAnimation && !winner}
+          />
+        </PlayerMoveContainer>
+      </Container>
+      <SnakesANdLaddersMoveContainer position={position}>
+        <PlayerSnakesAndLaddersMoves playerId={playerId} />
+      </SnakesANdLaddersMoveContainer>
+    </div>
   );
 };

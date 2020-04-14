@@ -10,3 +10,7 @@ export function getPlayerAttributeValue(
   const value = tag.split(':')[1];
   return value;
 }
+
+export const getPlayerSnakesAndLaddersMoves = (tags: string[]) => {
+  return parseInt(getPlayerAttributeValue(tags, 'sl_moves', '0'));
+};
