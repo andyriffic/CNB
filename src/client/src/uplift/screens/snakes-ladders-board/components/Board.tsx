@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import boardImage from './board.jpg';
 import { GameBoard } from '../board';
 import { BoardCell } from './BoardCell';
-import { BoardPlayer } from './BoardPlayer';
+import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
 import { GameBoardContext } from '../GameBoardContext';
+import { getPlayerAttributeValue } from '../../../utils/player';
 
 const BoardContainer = styled.div`
   width: 800px;
@@ -19,9 +20,17 @@ type Props = {
 };
 
 export const Board = ({ board }: Props) => {
-  const { players, movePlayer, onArrivedInCell } = useContext(GameBoardContext);
+  const { players, startMovePlayer, movePlayer, onArrivedInCell } = useContext(
+    GameBoardContext
+  );
 
   console.log('----GAME PLAYERS----', players);
+  useEffect(() => {
+    const movingPlayers = players.filter(p => p.moving);
+    movingPlayers.forEach((p, i) => {
+      setTimeout(() => movePlayer(p), ANIMATION_TIMEOUT_MS);
+    });
+  }, [players]);
 
   return (
     <BoardContainer className="margins-off">
@@ -38,11 +47,13 @@ export const Board = ({ board }: Props) => {
             offset={boardPlayer.positionOffset}
             player={boardPlayer.player}
             onClick={() => {
-              movePlayer(boardPlayer);
+              startMovePlayer(boardPlayer);
+              // movePlayer(boardPlayer);
             }}
             inLead={boardPlayer.inLead}
             onArrived={() => onArrivedInCell(boardPlayer, board)}
             boardPlayer={boardPlayer}
+            moving={boardPlayer.moving}
           />
         );
       })}

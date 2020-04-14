@@ -27,6 +27,7 @@ import intenseMusicLoop from './intense-music-loop.mp3';
 import cough from './cough.mp3';
 import slurp from './slurp.mp3';
 import death from './death.mp3';
+import blip from './blip.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
@@ -151,7 +152,7 @@ export class SoundService {
     };
 
     this._sounds[JUNGLE_SOUND_KEYS.MOVE] = {
-      sound: new Howl({ src: [jungleZoom] }),
+      sound: new Howl({ src: [blip] }),
     };
 
     this._sounds[JUNGLE_SOUND_KEYS.VICTORY] = {
