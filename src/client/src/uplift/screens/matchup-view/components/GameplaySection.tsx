@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
+import { PlayerSnakesAndLaddersMovesContainer } from './PlayerSnakesAndLaddersMovesContainer';
 import { GameResult } from './GameResult';
 import { TimebombStrip } from './TimebombStrip';
 import { PrimaryButton } from '../../../components/PrimaryButton';

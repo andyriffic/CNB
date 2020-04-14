@@ -49,12 +49,12 @@ export const TeamDetailItem = ({
       )}
       <Container>
         <TeamName>{team.name}</TeamName>
-        <TeamPoints>
+        {/* <TeamPoints>
           <DynamicUpdatingPoints
             value={team.points}
             showPointDiff={showPointDiff}
           />
-        </TeamPoints>
+        </TeamPoints> */}
       </Container>
     </div>
   );
