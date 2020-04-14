@@ -34,7 +34,7 @@ import coinJingle from './ssb4_result.mp3';
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
 import jungleSnakeDown from './jungle-sad-trombone.mp3';
-import jungleZoom from './jungle-zoom-away.mp3';
+// import jungleZoom from './jungle-zoom-away.mp3';
 import jungleAmbience from './jungle-ambiance.mp3';
 import jungleRattle from './jungle-rattle.mp3';
 import jungleVictory from './jungle-victory.mp3';
