@@ -140,6 +140,22 @@ export default ({ matchupId }: MatchupViewProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (
+      showNewGame &&
+      matchupId &&
+      !currentMatchup!.gameInProgress!.trophyWon
+    ) {
+      const samePlayMode =
+        currentMatchup &&
+        currentMatchup.gameInProgress &&
+        currentMatchup.gameInProgress.playMode;
+      startGameForMatchup(matchupId, samePlayMode);
+      setShowNewGame(false);
+      setShowTrophyAward(false);
+    }
+  }, [showNewGame]);
+
   return (
     <FullPageScreenLayout title="" alignTop>
       <ConfettiProvider>
@@ -183,23 +199,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                 )}
               {showNewGame && (
                 <div style={{ textAlign: 'center' }}>
-                  {!currentMatchup!.gameInProgress!.trophyWon ? (
-                    <NewGameButton
-                      onClick={() => {
-                        if (matchupId) {
-                          const samePlayMode =
-                            currentMatchup &&
-                            currentMatchup.gameInProgress &&
-                            currentMatchup.gameInProgress.playMode;
-                          startGameForMatchup(matchupId, samePlayMode);
-                          setShowNewGame(false);
-                          setShowTrophyAward(false);
-                        }
-                      }}
-                    >
-                      New Game
-                    </NewGameButton>
-                  ) : (
+                  {currentMatchup!.gameInProgress!.trophyWon && (
                     <LinkButton>
                       <Link
                         to="/snakes-and-ladders"
