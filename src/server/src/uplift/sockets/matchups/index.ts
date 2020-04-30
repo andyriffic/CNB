@@ -100,7 +100,7 @@ const init = (socketServer: Server, path: string) => {
       START_GAME_FOR_MATCHUP,
       (
         matchupId: string,
-        playMode?: PLAY_MODE = PLAY_MODE.Standard,
+        playMode: PLAY_MODE = PLAY_MODE.Standard,
         startingAttributes?: { [key: string]: any }
       ) => {
         log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
@@ -221,12 +221,13 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.getCounter(matchup.pointCounterIds[1]),
           counterDatastore.getCounter(matchup.trophyCounterIds[0]),
           counterDatastore.getCounter(matchup.trophyCounterIds[1]),
-        ]).then((counters: [Counter, Counter, Counter, Counter]) => {
+          counterDatastore.getCounter(matchup.bonusCounterId),
+        ]).then((counters: [Counter, Counter, Counter, Counter, Counter]) => {
           const result = playService.playGame(
             gameInProgress,
             [counters[0], counters[1]],
             [counters[2], counters[3]],
-            undefined,
+            counters[4],
             matchup.trophyGoal
           );
 
@@ -237,6 +238,7 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.updateCounter(result.points[1]),
             counterDatastore.updateCounter(result.trophies[0]),
             counterDatastore.updateCounter(result.trophies[1]),
+            counterDatastore.updateCounter(result.bonusPoints),
           ]).then(() => {
             log('Saved all counters');
 
@@ -377,6 +379,10 @@ const init = (socketServer: Server, path: string) => {
           counterService.createCounter(`instant-${shortid.generate()}`),
         ];
 
+        const bonusCounter = counterService.createCounter(
+          `instant-${shortid.generate()}`
+        );
+
         const instantTeamIds: [string, string] = [
           `instant-team-${playerIds[0]}-${shortid.generate()}`,
           `instant-team-${playerIds[1]}-${shortid.generate()}`,
@@ -404,6 +410,7 @@ const init = (socketServer: Server, path: string) => {
           instantTeamIds,
           [playerPointCounters[0].id, playerPointCounters[1].id],
           [trophyCounters[0].id, trophyCounters[1].id],
+          bonusCounter.id,
           trophyGoal,
           themeId
         );
@@ -414,6 +421,7 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.saveNewCounter(playerPointCounters[1]),
           counterDatastore.saveNewCounter(trophyCounters[0]),
           counterDatastore.saveNewCounter(trophyCounters[1]),
+          counterDatastore.saveNewCounter(bonusCounter),
         ]).then(() => {
           matchupDatastore.saveNewMatchup(matchup).then(() => {
             confirmation(matchup.id);

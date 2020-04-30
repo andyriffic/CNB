@@ -12,6 +12,7 @@ const createTeamMatchup = (
   teamIds: [string, string],
   pointCounterIds: [string, string],
   trophyCounterIds: [string, string],
+  bonusCounterId: string,
   trophyGoal: number,
   themeId: string
 ): TeamMatchup => {
@@ -20,6 +21,7 @@ const createTeamMatchup = (
     teamIds: [teamIds[0], teamIds[1]],
     pointCounterIds: [pointCounterIds[0], pointCounterIds[1]],
     trophyCounterIds: [trophyCounterIds[0], trophyCounterIds[1]],
+    bonusCounterId,
     trophyGoal,
     themeId,
   };
@@ -70,7 +72,7 @@ const updateTeamMove = (
   teamId: string,
   gameMoveUpdate: GameMoveUpdate
 ): Game => {
-  const teamMoveIndex = game.moves.findIndex(m => m && m.teamId === teamId);
+  const teamMoveIndex = game.moves.findIndex((m) => m && m.teamId === teamId);
   if (teamMoveIndex < 0) {
     throw new Error('Team move not found :(');
   }

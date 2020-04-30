@@ -22,11 +22,11 @@ let cachedMatchups: TeamMatchup[] | null = null;
 const resyncMatchups = (socket: Socket) => {
   matchupDatastore
     .getAllMatchups()
-    .then(matchups => {
+    .then((matchups) => {
       cachedMatchups = matchups;
       socket.emit(MATCHUPS_UPDATE, cachedMatchups);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('Matchups error', error);
       return error;
     });
@@ -35,7 +35,7 @@ const resyncMatchups = (socket: Socket) => {
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
-  namespace.on('connection', function(socket: Socket) {
+  namespace.on('connection', function (socket: Socket) {
     log('someone connected to OLD MATCHUPS', socket.id);
 
     socket.on(
@@ -50,6 +50,10 @@ const init = (socketServer: Server, path: string) => {
           counterService.createCounter(`instant-${shortid.generate()}`),
           counterService.createCounter(`instant-${shortid.generate()}`),
         ];
+
+        const bonusCounter = counterService.createCounter(
+          `instant-${shortid.generate()}`
+        );
 
         const instantTeamIds: [string, string] = [
           `instant-team-${playerIds[0]}-${shortid.generate()}`,
@@ -76,16 +80,18 @@ const init = (socketServer: Server, path: string) => {
           instantTeamIds,
           [playerPointCounters[0].id, playerPointCounters[1].id],
           [trophyCounters[0].id, trophyCounters[1].id],
+          bonusCounter.id,
           trophyGoal,
           themeId
         );
 
-        log('CREATING MATCHUP', matchup);
+        log('CREATING INSTANT MATCHUP', matchup);
         Promise.all([
           counterDatastore.saveNewCounter(playerPointCounters[0]),
           counterDatastore.saveNewCounter(playerPointCounters[1]),
           counterDatastore.saveNewCounter(trophyCounters[0]),
           counterDatastore.saveNewCounter(trophyCounters[1]),
+          counterDatastore.saveNewCounter(bonusCounter),
         ]).then(() => {
           matchupDatastore.saveNewMatchup(matchup).then(() => {
             resyncMatchups(socket);
@@ -107,11 +113,16 @@ const init = (socketServer: Server, path: string) => {
           counterService.createCounter(shortid.generate()),
         ];
 
+        const bonusPointCounter = counterService.createCounter(
+          shortid.generate()
+        );
+
         const matchup = matchupService.createTeamMatchup(
           shortid.generate(),
           teamIds,
           [playerPointCounters[0].id, playerPointCounters[1].id],
           [trophyCounters[0].id, trophyCounters[1].id],
+          bonusPointCounter.id,
           trophyGoal,
           themeId
         );
@@ -122,6 +133,7 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.saveNewCounter(playerPointCounters[1]),
           counterDatastore.saveNewCounter(trophyCounters[0]),
           counterDatastore.saveNewCounter(trophyCounters[1]),
+          counterDatastore.saveNewCounter(bonusPointCounter),
         ]).then(() => {
           matchupDatastore.saveNewMatchup(matchup).then(() => {
             resyncMatchups(socket);

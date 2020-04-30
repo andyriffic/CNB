@@ -8,7 +8,7 @@ const playGame = (
   game: Game,
   points: [Counter, Counter],
   trophies: [Counter, Counter],
-  bonusPoints: Counter = counterService.createCounter('unused'),
+  bonusPoints: Counter,
   trophyGoal: number
 ): PlayResult => {
   const result = gameResultService.getWinner([
