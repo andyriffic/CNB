@@ -5,6 +5,7 @@ import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import { DynamicUpdatingPoints } from '../../../components/dynamic-updating-points';
 import { TrophyProgressIndicator } from '../../components/trophy-progress-indicator';
 import { TeamDetailItem } from './TeamDetailItem';
+import { BonusPoints } from './BonusPoints';
 
 const Container = styled.div`
   display: flex;
@@ -31,14 +32,20 @@ const Vs = styled.div`
   padding: 0 20px;
 `;
 
+const BonusPointsContainer = styled.div`
+  margin: 0 10px;
+`;
+
 export const TeamDetailsSection = ({
   teams,
   matchup,
   playMode,
+  showPointsUpdate,
 }: {
   teams: [Team, Team];
   matchup: Matchup;
   playMode: string;
+  showPointsUpdate: boolean;
 }) => {
   return (
     <Container className="margins-off">
@@ -61,7 +68,12 @@ export const TeamDetailsSection = ({
             <ReadableNumberFont>{matchup.trophyGoal}</ReadableNumberFont>
           </TrophyGoal>
         )}
-        <Vs>vs</Vs>
+        <BonusPointsContainer>
+          <BonusPoints
+            points={matchup.bonusPoints}
+            showUpdate={showPointsUpdate}
+          />
+        </BonusPointsContainer>
       </MiddleSection>
       <TeamContainer>
         <TeamDetailItem

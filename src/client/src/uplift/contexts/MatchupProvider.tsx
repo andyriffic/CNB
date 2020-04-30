@@ -68,6 +68,7 @@ export type Matchup = {
   teams: [Team, Team];
   gameInProgress?: Game;
   trophyGoal: number;
+  bonusPoints: number;
   themeId: string;
 };
 

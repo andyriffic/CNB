@@ -4,6 +4,9 @@ import {
 } from '../../utils/random';
 import { Game } from './types';
 import { GameResult } from '../game-result/types';
+import { PlayResult } from '../play/types';
+import { counterService } from '../counter';
+import { Counter } from '../counter/types';
 
 export enum TimebombAttributes {
   GameCount = 'gameCount',
@@ -51,7 +54,7 @@ const didExplode = (gameCount: number) => {
   return selectWeightedRandomOneOf<boolean>(weightedList);
 };
 
-export const getMoveGameAttributes = (
+export const getTimebombMoveGameAttributes = (
   game: Game,
   result: GameResult
 ): { [name: string]: any } => {
@@ -63,5 +66,46 @@ export const getMoveGameAttributes = (
     [TimebombAttributes.Exploded]: didExplode(
       game.gameAttributes[TimebombAttributes.GameCount]
     ),
+  };
+};
+
+export const adjustPlayResultForTimebomb = (
+  timebombExploded: boolean,
+  playerHoldingBombIndex: number,
+  playResult: PlayResult
+): PlayResult => {
+  if (!timebombExploded) {
+    return playResult;
+  }
+
+  const playerNotHoldingBombIndex = [1, 0][playerHoldingBombIndex];
+
+  //Give trophy to the person not holding bomb
+  const updatedTrophies: [Counter, Counter] = [
+    { ...playResult.trophies[0] },
+    { ...playResult.trophies[1] },
+  ];
+  updatedTrophies[playerNotHoldingBombIndex] = counterService.incrementCounter(
+    updatedTrophies[playerNotHoldingBombIndex],
+    1
+  );
+
+  //Assign bonus points to person not holding bomb
+  const updatedPoints: [Counter, Counter] = [
+    { ...playResult.points[0] },
+    { ...playResult.points[1] },
+  ];
+
+  updatedPoints[playerNotHoldingBombIndex] = counterService.incrementCounter(
+    updatedPoints[playerNotHoldingBombIndex],
+    playResult.bonusPoints.value
+  );
+
+  return {
+    ...playResult,
+    points: updatedPoints,
+    trophies: updatedTrophies,
+    bonusPoints: counterService.resetCounter(playResult.bonusPoints),
+    trophyWon: true,
   };
 };

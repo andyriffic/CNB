@@ -42,9 +42,12 @@ export default ({ value, showPointDiff }: DynamicUpdatingPointsProps) => {
   return (
     <Container className="margins-off">
       <ReadableNumberFont>{displayValue}</ReadableNumberFont>
-      {pointsDifference > 0 && (
+      {pointsDifference !== 0 && (
         <BadgeContainer>
-          <ReadableNumberFont>+{pointsDifference}</ReadableNumberFont>
+          <ReadableNumberFont>
+            {pointsDifference > 0 && '+'}
+            {pointsDifference}
+          </ReadableNumberFont>
         </BadgeContainer>
       )}
     </Container>

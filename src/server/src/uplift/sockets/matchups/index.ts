@@ -24,8 +24,9 @@ import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 import { playerService } from '../../services/player';
 import {
   getStartingGameAttributes,
-  getMoveGameAttributes,
+  getTimebombMoveGameAttributes,
   TimebombAttributes,
+  adjustPlayResultForTimebomb,
 } from '../../services/matchup/timebomb';
 import { incrementIntegerTag } from '../../utils/tags';
 
@@ -223,7 +224,7 @@ const init = (socketServer: Server, path: string) => {
           counterDatastore.getCounter(matchup.trophyCounterIds[1]),
           counterDatastore.getCounter(matchup.bonusCounterId),
         ]).then((counters: [Counter, Counter, Counter, Counter, Counter]) => {
-          const result = playService.playGame(
+          let result = playService.playGame(
             gameInProgress,
             [counters[0], counters[1]],
             [counters[2], counters[3]],
@@ -232,6 +233,43 @@ const init = (socketServer: Server, path: string) => {
           );
 
           log('RESULT------------->', result);
+
+          gamesInProgress[matchupId] = matchupService.resolveGame(
+            gamesInProgress[matchupId],
+            result.gameResult,
+            result.trophyWon
+          );
+
+          //Adjust game result for Timebomb
+          if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
+            const gameAttributes = getTimebombMoveGameAttributes(
+              gamesInProgress[matchupId],
+              gamesInProgress[matchupId].result!
+            );
+
+            log('TIMEBOMB ATTRIBUTES------------->', gameAttributes);
+
+            const adjustedResult = adjustPlayResultForTimebomb(
+              gameAttributes.exploded,
+              gameAttributes.playerIndexHoldingTimebomb,
+              result
+            );
+
+            log(
+              'ADJUSTED GAME RESULT (TIMEBOMB)------------->',
+              adjustedResult
+            );
+
+            gamesInProgress[matchupId] = matchupService.resolveGame(
+              gamesInProgress[matchupId],
+              adjustedResult.gameResult,
+              adjustedResult.trophyWon,
+              gameAttributes
+            );
+
+            log('ADJUSTED GAME ------------->', gamesInProgress[matchupId]);
+            result = adjustedResult;
+          }
 
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),
@@ -242,63 +280,51 @@ const init = (socketServer: Server, path: string) => {
           ]).then(() => {
             log('Saved all counters');
 
-            gamesInProgress[matchupId] = matchupService.resolveGame(
-              gamesInProgress[matchupId],
-              result.gameResult,
-              result.trophyWon
-            );
-
+            // ADD SNAKES AND LADDERS MOVE IF WON GAME
             const snakesAndLaddersMovesGained: { [key: string]: number } = {};
 
-            // ADD SNAKES AND LADDERS MOVE IF WON GAME
-            if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
-              const winningPlayerId = gamesInProgress[matchupId].moves[
-                gamesInProgress[matchupId].result!.winnerIndex!
-              ].playerId!;
+            snakesAndLaddersMovesGained[
+              gamesInProgress[matchupId].moves[0].playerId!
+            ] = result.points[0].value;
 
-              log('PLAYER GETS POINT FOR WIN', winningPlayerId);
-              snakesAndLaddersMovesGained[winningPlayerId] = 1;
-              //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
-            }
+            snakesAndLaddersMovesGained[
+              gamesInProgress[matchupId].moves[1].playerId!
+            ] = result.points[1].value;
 
-            //TODO: tidy up or move! 😬
-            if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
-              const gameAttributes = getMoveGameAttributes(
-                gamesInProgress[matchupId],
-                gamesInProgress[matchupId].result!
-              );
+            // if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
+            //   const winningPlayerId = gamesInProgress[matchupId].moves[
+            //     gamesInProgress[matchupId].result!.winnerIndex!
+            //   ].playerId!;
 
-              log('TIMEBOMB ATTRIBUTES------------->', gameAttributes);
+            //   log('PLAYER GETS POINT FOR WIN', winningPlayerId);
+            //   snakesAndLaddersMovesGained[winningPlayerId] =
+            //     result.points[
+            //       gamesInProgress[matchupId].result!.winnerIndex!
+            //     ].value;
+            //   //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+            // }
 
-              gamesInProgress[matchupId] = {
-                ...gamesInProgress[matchupId],
-                gameAttributes: {
-                  ...gameAttributes,
-                },
-                trophyWon: !!gameAttributes[TimebombAttributes.Exploded],
-              };
+            // // //TODO: tidy up or move! 😬
+            // if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
+            //   // ADD SNAKES AND LADDERS MOVE IF TIMEBOMB EXPLODED
+            //   if (gamesInProgress[matchupId].gameAttributes.exploded) {
+            //     const winningPlayerIndex = [1, 0][
+            //       gamesInProgress[matchupId].gameAttributes
+            //         .playerIndexHoldingTimebomb
+            //     ];
+            //     const winningPlayerId = gamesInProgress[matchupId].moves[
+            //       winningPlayerIndex
+            //     ].playerId!;
 
-              log('GAME ATTRIBUTES ------------->', gamesInProgress[matchupId]);
-
-              // ADD SNAKES AND LADDERS MOVE IF TIMEBOMB EXPLODED
-              if (gamesInProgress[matchupId].gameAttributes.exploded) {
-                const winningPlayerIndex = [1, 0][
-                  gamesInProgress[matchupId].gameAttributes
-                    .playerIndexHoldingTimebomb
-                ];
-                const winningPlayerId = gamesInProgress[matchupId].moves[
-                  winningPlayerIndex
-                ].playerId!;
-
-                log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
-                if (snakesAndLaddersMovesGained[winningPlayerId]) {
-                  snakesAndLaddersMovesGained[winningPlayerId]++;
-                } else {
-                  snakesAndLaddersMovesGained[winningPlayerId] = 1;
-                }
-                //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
-              }
-            }
+            //     log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
+            //     if (snakesAndLaddersMovesGained[winningPlayerId]) {
+            //       snakesAndLaddersMovesGained[winningPlayerId]++;
+            //     } else {
+            //       snakesAndLaddersMovesGained[winningPlayerId] = 1;
+            //     }
+            //     //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
+            //   }
+            // }
 
             //UPDATE SNAKES AND LADDERS MOVES GAINED
             log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);

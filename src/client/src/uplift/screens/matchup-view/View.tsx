@@ -174,6 +174,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                 }
                 teams={delayedTeamDetails}
                 matchup={currentMatchup}
+                showPointsUpdate={showScoreUpdate}
               />
               <GamePlaySection
                 matchup={currentMatchup}

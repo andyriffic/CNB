@@ -51,12 +51,17 @@ const createGame = (
 const resolveGame = (
   game: Game,
   result: GameResult,
-  trophyWon: boolean
+  trophyWon: boolean,
+  gameAttributes: { [key: string]: any } = {}
 ): Game => {
   return {
     ...game,
     result,
     trophyWon,
+    gameAttributes: {
+      ...game.gameAttributes,
+      ...gameAttributes,
+    },
   };
 };
 
