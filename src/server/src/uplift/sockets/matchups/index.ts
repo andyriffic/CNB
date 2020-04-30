@@ -50,8 +50,8 @@ const incrementPlayerSnakesAndLaddersMoveCount = (
   playerId: string,
   by: number
 ) => {
-  playerService.getPlayersAsync().then(allPlayers => {
-    const player = allPlayers.find(p => p.id === playerId);
+  playerService.getPlayersAsync().then((allPlayers) => {
+    const player = allPlayers.find((p) => p.id === playerId);
     if (!player) {
       return;
     }
@@ -65,25 +65,27 @@ const incrementPlayerSnakesAndLaddersMoveCount = (
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
-  namespace.on('connection', function(socket: Socket) {
+  namespace.on('connection', function (socket: Socket) {
     log('someone connected to MATCHUPS', socket.id);
 
     socket.on(SUBSCRIBE_TO_ALL_MATCHUPS, () => {
       matchupDatastore
         .getAllMatchups()
-        .then(matchups =>
-          matchups.filter(matchup => !matchup.id.startsWith('instant'))
+        .then((matchups) =>
+          matchups.filter((matchup) => !matchup.id.startsWith('instant'))
         )
         .then((matchups: TeamMatchup[]) => {
           Promise.all(
-            matchups.map(matchup => getMatchupView(matchup.id, gamesInProgress))
+            matchups.map((matchup) =>
+              getMatchupView(matchup.id, gamesInProgress)
+            )
           ).then((matchupViews: MatchupSpectatorView[]) => {
             socket.emit(ALL_MATCHUPS_UPDATE, matchupViews);
           });
         });
     });
 
-    socket.on(SUBSCRIBE_TO_MATCHUP, matchupId => {
+    socket.on(SUBSCRIBE_TO_MATCHUP, (matchupId) => {
       log('RECEIVED', SUBSCRIBE_TO_MATCHUP, matchupId);
       getMatchupView(matchupId, gamesInProgress).then(
         (matchupView: MatchupSpectatorView) => {
@@ -102,7 +104,7 @@ const init = (socketServer: Server, path: string) => {
         startingAttributes?: { [key: string]: any }
       ) => {
         log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
-        matchupDatastore.getMatchup(matchupId).then(matchup => {
+        matchupDatastore.getMatchup(matchupId).then((matchup) => {
           log('GOT MATCHUP', matchup);
 
           Promise.all([
@@ -125,6 +127,7 @@ const init = (socketServer: Server, path: string) => {
                     );
 
               log('PLAY MODE IS', playMode);
+              log('Existing game is', gamesInProgress[matchupId]);
 
               //TODO: playmode specific code can move somewhere else (just adding to the mess for now 😝)
               const game = matchupService.createGame(
@@ -157,14 +160,14 @@ const init = (socketServer: Server, path: string) => {
             })
             .finally(() => {
               log('------- BROADCAST UPDATE --------');
-              getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+              getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
                 const matchupChannel = `matchup-${matchupId}`;
                 namespace
                   .to(matchupChannel)
                   .emit(ON_MATCHUP_UPDATED, matchupView);
               });
 
-              watchupPlayerIds.forEach(playerId => {
+              watchupPlayerIds.forEach((playerId) => {
                 broadcastPlayerMatchups(playerId, gamesInProgress, namespace);
               });
             });
@@ -182,7 +185,7 @@ const init = (socketServer: Server, path: string) => {
           moveUpdate
         );
         gamesInProgress[matchupId] = updatedGame;
-        getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+        getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
           const matchupChannel = `matchup-${matchupId}`;
           namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
         });
@@ -211,7 +214,7 @@ const init = (socketServer: Server, path: string) => {
         return; // TODO: could throw error
       }
 
-      matchupDatastore.getMatchup(matchupId).then(matchup => {
+      matchupDatastore.getMatchup(matchupId).then((matchup) => {
         log('PLAYING GAME FOR MATCHUP', matchup);
         Promise.all([
           counterDatastore.getCounter(matchup.pointCounterIds[0]),
@@ -298,16 +301,16 @@ const init = (socketServer: Server, path: string) => {
             //UPDATE SNAKES AND LADDERS MOVES GAINED
             log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
 
-            Object.keys(snakesAndLaddersMovesGained).forEach(playerId => {
+            Object.keys(snakesAndLaddersMovesGained).forEach((playerId) => {
               incrementPlayerSnakesAndLaddersMoveCount(
                 playerId,
                 snakesAndLaddersMovesGained[playerId]
               );
             });
 
-            getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+            getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
               if (
-                matchupView.teams.some(team =>
+                matchupView.teams.some((team) =>
                   team.name.toLowerCase().startsWith('test')
                 )
               ) {
@@ -350,7 +353,7 @@ const init = (socketServer: Server, path: string) => {
         gameInProgress
       );
 
-      getMatchupView(matchupId, gamesInProgress).then(matchupView => {
+      getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
         const matchupChannel = `matchup-${matchupId}`;
         namespace.to(matchupChannel).emit(ON_MATCHUP_UPDATED, matchupView);
       });
@@ -379,11 +382,11 @@ const init = (socketServer: Server, path: string) => {
           `instant-team-${playerIds[1]}-${shortid.generate()}`,
         ];
 
-        playerService.getPlayersAsync().then(allPlayers => {
+        playerService.getPlayersAsync().then((allPlayers) => {
           playerIds.forEach((playerId, index) => {
             playerService.addInstantTeam({
               id: instantTeamIds[index],
-              name: allPlayers.find(p => p.id === playerId)!.name,
+              name: allPlayers.find((p) => p.id === playerId)!.name,
               tags: ['instant'],
             });
             playerService.addPlayersToInstantTeam(

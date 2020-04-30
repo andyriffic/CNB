@@ -46,6 +46,8 @@ const didExplode = (gameCount: number) => {
     { item: false, weight: 4 },
   ];
 
+  console.log('Timebomb weightings', weightedList);
+
   return selectWeightedRandomOneOf<boolean>(weightedList);
 };
 

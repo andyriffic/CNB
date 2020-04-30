@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Matchup, GAME_STATUS } from '../../../contexts/MatchupProvider';
 import { GameWaitingOnPlayers } from './GameWaitingOnPlayers';
@@ -7,6 +7,11 @@ import { GameResult } from './GameResult';
 import { TimebombStrip } from './TimebombStrip';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { useDoOnce } from '../../../hooks/useDoOnce';
+import {
+  useGameplaySectionState,
+  GameplaySectionState,
+} from './useGameplaySectionState';
+import { GameModeSelector } from './GameModeSelector';
 
 const Container = styled.div`
   text-align: center;
@@ -37,17 +42,9 @@ export const GamePlaySection = ({
       matchup.gameInProgress.attributes.playerIndexHoldingTimebomb
   );
   const [runTimebomb, setRunTimebomb] = useState(false);
-  const showNewGameButton = !matchup.gameInProgress;
-  const showWaitingOnPlayers =
-    matchup.gameInProgress &&
-    matchup.gameInProgress.status !== GAME_STATUS.Finished;
-  const gameReadyToPlay =
-    matchup.gameInProgress &&
-    matchup.gameInProgress.status === GAME_STATUS.ReadyToPlay;
+  const autoStartedGame = useRef(false);
 
-  const gameFinished =
-    matchup.gameInProgress &&
-    matchup.gameInProgress.status === GAME_STATUS.Finished;
+  const currentGameplaySectionState = useGameplaySectionState(matchup);
 
   useEffect(() => {
     //Make sure timebomb is showing under the correct player at start of the game
@@ -105,31 +102,23 @@ export const GamePlaySection = ({
     onGameFinished();
   };
 
-  if (showNewGameButton) {
-    setTimeout(() => {
-      startGame('Timebomb');
-    });
-  }
-
   return (
     <Container>
-      {showNewGameButton && (
+      {currentGameplaySectionState === GameplaySectionState.CREATE_GAME && (
         <div>
-          {/* <PrimaryButton onClick={() => startGame()}>Classic 😴</PrimaryButton>{' '} */}
-          <PrimaryButton onClick={() => startGame('Timebomb')}>
-            Timebomb 💣
-          </PrimaryButton>
+          <GameModeSelector startGame={startGame} />
         </div>
       )}
-      {showWaitingOnPlayers && (
+      {currentGameplaySectionState ===
+        GameplaySectionState.WAITING_ON_PAYERS && (
         <GameWaitingOnPlayers moves={matchup.gameInProgress!.moves} />
       )}
-      {gameReadyToPlay && (
+      {currentGameplaySectionState === GameplaySectionState.GAME_READY && (
         <ModeButton className="radioactive" onClick={playGame}>
           PLAY!
         </ModeButton>
       )}
-      {gameFinished && (
+      {currentGameplaySectionState === GameplaySectionState.GAME_FINISHED && (
         <GameResult
           game={matchup.gameInProgress!}
           showTrophy={showTrophy}
