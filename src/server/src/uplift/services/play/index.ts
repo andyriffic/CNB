@@ -24,8 +24,6 @@ const playGame = (
   ];
   let updatedBonusPoints = { ...bonusPoints };
 
-  console.log('UPDATED POINTS (1)', updatedPoints);
-
   if (result.winnerIndex !== undefined) {
     pointDiffs[result.winnerIndex] = bonusPoints.value + 1;
     updatedPoints[result.winnerIndex] = counterService.incrementCounter(
@@ -34,8 +32,6 @@ const playGame = (
     );
     updatedBonusPoints = counterService.resetCounter(updatedBonusPoints);
   }
-
-  console.log('UPDATED POINTS (2)', updatedPoints);
 
   if (result.draw) {
     updatedBonusPoints = counterService.incrementCounter(updatedBonusPoints);
@@ -57,8 +53,6 @@ const playGame = (
       1
     );
   }
-
-  console.log('UPDATED POINTS (3)', updatedPoints);
 
   return {
     gameResult: result,

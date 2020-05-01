@@ -63,8 +63,9 @@ export const getTimebombMoveGameAttributes = (
     [TimebombAttributes.PlayerIndexHoldingTimebomb]: result.draw
       ? game.gameAttributes[TimebombAttributes.PlayerIndexHoldingTimebomb]
       : [1, 0][result.winnerIndex!],
-    [TimebombAttributes.Exploded]:
-      parseInt(game.gameAttributes[TimebombAttributes.GameCount]) > 3,
+    [TimebombAttributes.Exploded]: didExplode(
+      game.gameAttributes[TimebombAttributes.GameCount]
+    ),
   };
 };
 
