@@ -100,11 +100,12 @@ export const adjustPlayResultForTimebomb = (
     { ...playResult.points[1] },
   ];
 
+  updatedPointDiffs[playerNotHoldingBombIndex] +=
+    playResult.bonusPoints.value + 1;
   updatedPoints[playerNotHoldingBombIndex] = counterService.incrementCounter(
     updatedPoints[playerNotHoldingBombIndex],
-    playResult.bonusPoints.value
+    updatedPointDiffs[playerNotHoldingBombIndex]
   );
-  updatedPointDiffs[playerNotHoldingBombIndex] += playResult.bonusPoints.value;
 
   return {
     ...playResult,
