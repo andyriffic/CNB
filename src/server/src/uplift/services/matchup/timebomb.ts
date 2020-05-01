@@ -63,9 +63,8 @@ export const getTimebombMoveGameAttributes = (
     [TimebombAttributes.PlayerIndexHoldingTimebomb]: result.draw
       ? game.gameAttributes[TimebombAttributes.PlayerIndexHoldingTimebomb]
       : [1, 0][result.winnerIndex!],
-    [TimebombAttributes.Exploded]: didExplode(
-      game.gameAttributes[TimebombAttributes.GameCount]
-    ),
+    [TimebombAttributes.Exploded]:
+      parseInt(game.gameAttributes[TimebombAttributes.GameCount]) > 3,
   };
 };
 
@@ -77,6 +76,11 @@ export const adjustPlayResultForTimebomb = (
   if (!timebombExploded) {
     return playResult;
   }
+
+  const updatedPointDiffs: [number, number] = [
+    playResult.pointDiffs[0],
+    playResult.pointDiffs[1],
+  ];
 
   const playerNotHoldingBombIndex = [1, 0][playerHoldingBombIndex];
 
@@ -100,12 +104,14 @@ export const adjustPlayResultForTimebomb = (
     updatedPoints[playerNotHoldingBombIndex],
     playResult.bonusPoints.value
   );
+  updatedPointDiffs[playerNotHoldingBombIndex] += playResult.bonusPoints.value;
 
   return {
     ...playResult,
     points: updatedPoints,
     trophies: updatedTrophies,
     bonusPoints: counterService.resetCounter(playResult.bonusPoints),
+    pointDiffs: updatedPointDiffs,
     trophyWon: true,
   };
 };

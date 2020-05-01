@@ -11,6 +11,8 @@ const playGame = (
   bonusPoints: Counter,
   trophyGoal: number
 ): PlayResult => {
+  const pointDiffs: [number, number] = [0, 0];
+
   const result = gameResultService.getWinner([
     game.moves[0].moveId!,
     game.moves[1].moveId!,
@@ -22,13 +24,18 @@ const playGame = (
   ];
   let updatedBonusPoints = { ...bonusPoints };
 
+  console.log('UPDATED POINTS (1)', updatedPoints);
+
   if (result.winnerIndex !== undefined) {
+    pointDiffs[result.winnerIndex] = bonusPoints.value + 1;
     updatedPoints[result.winnerIndex] = counterService.incrementCounter(
       points[result.winnerIndex],
-      bonusPoints.value + 1
+      pointDiffs[result.winnerIndex]
     );
     updatedBonusPoints = counterService.resetCounter(updatedBonusPoints);
   }
+
+  console.log('UPDATED POINTS (2)', updatedPoints);
 
   if (result.draw) {
     updatedBonusPoints = counterService.incrementCounter(updatedBonusPoints);
@@ -43,6 +50,7 @@ const playGame = (
     { ...trophies[0] },
     { ...trophies[1] },
   ];
+
   if (trophyWon && result.winnerIndex !== undefined) {
     updatedTrophies[result.winnerIndex] = counterService.incrementCounter(
       trophies[result.winnerIndex],
@@ -50,10 +58,13 @@ const playGame = (
     );
   }
 
+  console.log('UPDATED POINTS (3)', updatedPoints);
+
   return {
     gameResult: result,
     points: updatedPoints,
     bonusPoints: updatedBonusPoints,
+    pointDiffs,
     trophies: updatedTrophies,
     trophyWon,
   };

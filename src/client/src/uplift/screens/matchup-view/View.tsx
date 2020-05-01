@@ -140,21 +140,21 @@ export default ({ matchupId }: MatchupViewProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (
-      showNewGame &&
-      matchupId &&
-      !currentMatchup!.gameInProgress!.trophyWon
-    ) {
-      const samePlayMode =
-        currentMatchup &&
-        currentMatchup.gameInProgress &&
-        currentMatchup.gameInProgress.playMode;
-      startGameForMatchup(matchupId, samePlayMode);
-      setShowNewGame(false);
-      setShowTrophyAward(false);
-    }
-  }, [showNewGame]);
+  // useEffect(() => {
+  //   if (
+  //     showNewGame &&
+  //     matchupId &&
+  //     !currentMatchup!.gameInProgress!.trophyWon
+  //   ) {
+  //     const samePlayMode =
+  //       currentMatchup &&
+  //       currentMatchup.gameInProgress &&
+  //       currentMatchup.gameInProgress.playMode;
+  //     startGameForMatchup(matchupId, samePlayMode);
+  //     setShowNewGame(false);
+  //     setShowTrophyAward(false);
+  //   }
+  // }, [showNewGame]);
 
   return (
     <FullPageScreenLayout title="" alignTop>
@@ -198,6 +198,23 @@ export default ({ matchupId }: MatchupViewProps) => {
                   GAME_STATUS.WaitingPlayerMoves && (
                   <ThemeInfoView theme={theme} />
                 )}
+              {showNewGame && matchupId && (
+                <div style={{ textAlign: 'center' }}>
+                  <PrimaryButton
+                    onClick={() => {
+                      const samePlayMode =
+                        currentMatchup &&
+                        currentMatchup.gameInProgress &&
+                        currentMatchup.gameInProgress.playMode;
+                      startGameForMatchup(matchupId, samePlayMode);
+                      setShowNewGame(false);
+                      setShowTrophyAward(false);
+                    }}
+                  >
+                    New Game
+                  </PrimaryButton>
+                </div>
+              )}
               {showNewGame && (
                 <div style={{ textAlign: 'center' }}>
                   {currentMatchup!.gameInProgress!.trophyWon && (

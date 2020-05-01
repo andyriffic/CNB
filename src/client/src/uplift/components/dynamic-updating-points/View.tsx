@@ -13,12 +13,12 @@ const Container = styled.span`
   display: inline-block;
 `;
 
-const BadgeContainer = styled.div`
+const BadgeContainer = styled.div<{ positive: boolean }>`
   position: absolute;
   top: 0;
   right: -60px;
   font-size: 1.1rem;
-  background: #228b22;
+  background: ${props => (props.positive ? '#228b22' : '#f00')};
   border-radius: 50%;
   color: #fff;
   padding: 10% 20%;
@@ -43,7 +43,7 @@ export default ({ value, showPointDiff }: DynamicUpdatingPointsProps) => {
     <Container className="margins-off">
       <ReadableNumberFont>{displayValue}</ReadableNumberFont>
       {pointsDifference !== 0 && (
-        <BadgeContainer>
+        <BadgeContainer positive={pointsDifference > 0}>
           <ReadableNumberFont>
             {pointsDifference > 0 && '+'}
             {pointsDifference}

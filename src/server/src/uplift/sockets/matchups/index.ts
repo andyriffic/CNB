@@ -285,46 +285,11 @@ const init = (socketServer: Server, path: string) => {
 
             snakesAndLaddersMovesGained[
               gamesInProgress[matchupId].moves[0].playerId!
-            ] = result.points[0].value;
+            ] = result.pointDiffs[0];
 
             snakesAndLaddersMovesGained[
               gamesInProgress[matchupId].moves[1].playerId!
-            ] = result.points[1].value;
-
-            // if (gamesInProgress[matchupId].result!.winnerIndex !== undefined) {
-            //   const winningPlayerId = gamesInProgress[matchupId].moves[
-            //     gamesInProgress[matchupId].result!.winnerIndex!
-            //   ].playerId!;
-
-            //   log('PLAYER GETS POINT FOR WIN', winningPlayerId);
-            //   snakesAndLaddersMovesGained[winningPlayerId] =
-            //     result.points[
-            //       gamesInProgress[matchupId].result!.winnerIndex!
-            //     ].value;
-            //   //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
-            // }
-
-            // // //TODO: tidy up or move! 😬
-            // if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
-            //   // ADD SNAKES AND LADDERS MOVE IF TIMEBOMB EXPLODED
-            //   if (gamesInProgress[matchupId].gameAttributes.exploded) {
-            //     const winningPlayerIndex = [1, 0][
-            //       gamesInProgress[matchupId].gameAttributes
-            //         .playerIndexHoldingTimebomb
-            //     ];
-            //     const winningPlayerId = gamesInProgress[matchupId].moves[
-            //       winningPlayerIndex
-            //     ].playerId!;
-
-            //     log('PLAYER GETS POINT FOR TIMEBOMB', winningPlayerId);
-            //     if (snakesAndLaddersMovesGained[winningPlayerId]) {
-            //       snakesAndLaddersMovesGained[winningPlayerId]++;
-            //     } else {
-            //       snakesAndLaddersMovesGained[winningPlayerId] = 1;
-            //     }
-            //     //incrementPlayerSnakesAndLaddersMoveCount(winningPlayerId, 1);
-            //   }
-            // }
+            ] = result.pointDiffs[1];
 
             //UPDATE SNAKES AND LADDERS MOVES GAINED
             log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
