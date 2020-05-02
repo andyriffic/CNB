@@ -20,6 +20,7 @@ import { SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
 import { selectRandomOneOf } from '../../../utils/random';
 import { PlayerSnakesAndLaddersMoves } from './PlayerSnakesAndLaddersMoves';
+import { PowerupBadge } from '../../../components/PowerupBadge';
 
 type PlayerWithRevealProps = {
   playerId: string | null;
@@ -115,6 +116,14 @@ const SnakesANdLaddersMoveContainer = styled.div<{
   position: absolute;
   bottom: 0;
   ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -40px;
+`;
+
+const PowerupBadgeContainer = styled.div<{
+  position: 'LEFT' | 'RIGHT';
+}>`
+  position: absolute;
+  top: -100px;
+  ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -160px;
 `;
 
 const PlayerMove = styled.img<{
@@ -216,6 +225,9 @@ export const PlayerWithMoveRevealTimebomb = ({
       <SnakesANdLaddersMoveContainer position={position}>
         <PlayerSnakesAndLaddersMoves playerId={playerId} />
       </SnakesANdLaddersMoveContainer>
+      <PowerupBadgeContainer position={position}>
+        <PowerupBadge powerupName="DOUBLE_POINTS" />
+      </PowerupBadgeContainer>
     </div>
   );
 };

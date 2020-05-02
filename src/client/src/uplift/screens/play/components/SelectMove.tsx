@@ -107,7 +107,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
               makeMove(matchupId, teamId, {
                 playerId: player.id,
                 moveId: selectedMoveId,
-                powerUpId: 'NONE',
+                powerUpId: 'DOUBLE_POINTS',
               });
             setMoveMade(true);
           }}

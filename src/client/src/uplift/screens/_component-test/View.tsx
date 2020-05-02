@@ -12,6 +12,7 @@ import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SoundService } from '../../../sounds/SoundService';
 import { AnimateFadeIn } from '../../components/animation/AnimateFadeIn';
 import { AnimateSpin } from '../../components/animation/AnimateSpin';
+import { PowerupBadge } from '../../components/PowerupBadge';
 
 const ComponentContainer = styled.div``;
 
@@ -46,6 +47,9 @@ export default ({  }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="Test components" alignTop={true}>
+        <ComponentContainer>
+          <PowerupBadge powerupName="DOUBLE_POINTS" />
+        </ComponentContainer>
         <ComponentContainer>
           <h3>Animations</h3>
           <input

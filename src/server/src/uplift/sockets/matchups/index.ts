@@ -29,6 +29,7 @@ import {
   adjustPlayResultForTimebomb,
 } from '../../services/matchup/timebomb';
 import { incrementIntegerTag } from '../../utils/tags';
+import { adjustPlayResultForPowerups } from '../../services/matchup/powerups';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -270,6 +271,11 @@ const init = (socketServer: Server, path: string) => {
             log('ADJUSTED GAME ------------->', gamesInProgress[matchupId]);
             result = adjustedResult;
           }
+
+          result = adjustPlayResultForPowerups(
+            gamesInProgress[matchupId],
+            result
+          );
 
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),

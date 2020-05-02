@@ -53,7 +53,9 @@ export const GameWaitingOnPlayers = ({
             style={{ margin: '0 auto' }}
           >
             {move.moved ? (
-              <PlayerName>{move.playerName}</PlayerName>
+              <PlayerName>
+                {move.playerName} {move.usedPowerup && '⚡️'}
+              </PlayerName>
             ) : (
               'Waiting for move...'
             )}

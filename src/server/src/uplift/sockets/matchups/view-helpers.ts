@@ -18,7 +18,7 @@ const getSpectatorMove = (
   move: GameMove,
   allPlayers: Player[]
 ): MoveSpectatorView => {
-  const player = allPlayers.find(p => p.id === move.playerId);
+  const player = allPlayers.find((p) => p.id === move.playerId);
 
   return {
     moved: !!move.moveId,
@@ -85,8 +85,8 @@ export const getMatchupView = (
   matchupId: string,
   gamesInProgress: { [matchupId: string]: Game }
 ): Promise<MatchupSpectatorView> => {
-  return new Promise<MatchupSpectatorView>(resolve => {
-    playerService.getPlayersAsync().then(allPlayers => {
+  return new Promise<MatchupSpectatorView>((resolve) => {
+    playerService.getPlayersAsync().then((allPlayers) => {
       resolve(
         viewsDatastore.getMatchupSpectatorView(
           matchupId,
@@ -102,8 +102,8 @@ export const getPlayerMatchupView = (
   playerId: string,
   gamesInProgress: { [matchupId: string]: Game }
 ): Promise<MatchupPlayerView> => {
-  return new Promise<MatchupPlayerView>(resolve => {
-    playerService.getPlayersAsync().then(allPlayers => {
+  return new Promise<MatchupPlayerView>((resolve) => {
+    playerService.getPlayersAsync().then((allPlayers) => {
       resolve(
         viewsDatastore.getPlayerMatchupView(
           matchupId,
