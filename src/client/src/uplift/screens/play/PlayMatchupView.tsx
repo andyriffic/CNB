@@ -8,6 +8,7 @@ import { MatchupContext, GAME_STATUS } from '../../contexts/MatchupProvider';
 import { SelectMove } from './components/SelectMove';
 import { GameThemeContext } from '../../contexts/ThemeProvider';
 import { PlayerGameResult } from './components/PlayerGameResult';
+import { AwardedPowerup } from './components/AwardedPowerup';
 
 type Props = {
   playerId: string;
@@ -50,6 +51,7 @@ export const PlayMatchupView = ({ playerId, matchupId, navigate }: Props) => {
       alignTop={true}
       scrollable={false}
     >
+      {player && <AwardedPowerup player={player} />}
       {player &&
         teamId &&
         currentMatchup &&
