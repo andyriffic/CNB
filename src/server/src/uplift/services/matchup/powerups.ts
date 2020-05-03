@@ -1,5 +1,6 @@
 import { PlayResult } from '../play/types';
 import { Game } from './types';
+import { selectWeightedRandomOneOf } from '../../utils/random';
 
 export const adjustPlayResultForPowerups = (
   game: Game,
@@ -17,4 +18,15 @@ export const adjustPlayResultForPowerups = (
   }
 
   return playResult;
+};
+
+export const getRandomPowerup = () => {
+  const weightedPowerups = [
+    {
+      item: 'DOUBLE_POINTS',
+      weight: 1,
+    },
+  ];
+
+  return selectWeightedRandomOneOf(weightedPowerups);
 };

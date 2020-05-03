@@ -22,6 +22,7 @@ import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import JungleBackgroundMatchupImg from '../../../images/jungle-cgi.jpg';
 import { PlayersContext } from '../../contexts/PlayersProvider';
+import { useDoOnce } from '../../hooks/useDoOnce';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -213,7 +214,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                         setShowTrophyAward(false);
                       }}
                     >
-                      New Game
+                      Next Game
                     </PrimaryButton>
                   </div>
                 )}

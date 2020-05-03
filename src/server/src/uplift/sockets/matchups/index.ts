@@ -29,7 +29,10 @@ import {
   adjustPlayResultForTimebomb,
 } from '../../services/matchup/timebomb';
 import { incrementIntegerTag } from '../../utils/tags';
-import { adjustPlayResultForPowerups } from '../../services/matchup/powerups';
+import {
+  adjustPlayResultForPowerups,
+  getRandomPowerup,
+} from '../../services/matchup/powerups';
 import { Player } from '../../services/player/types';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
@@ -52,7 +55,8 @@ const log = createLogger('matchups', LOG_NAMESPACE.socket);
 const updatePlayerAttributes = (
   playerId: string,
   snakesAndLaddersMoves: number,
-  powerUpUsed: string
+  powerUpUsed: string,
+  awardedPowerUp: string
 ): Promise<any> => {
   return new Promise((res) => {
     playerService.getPlayersAsync().then((allPlayers) => {
@@ -79,10 +83,21 @@ const updatePlayerAttributes = (
               -1,
               tagsWithUpdatedSnakesAndLaddersMoves
             );
+
       log('tagsWithUpdatedPowerUpCount TAGS:', tagsWithUpdatedPowerUpCount);
 
+      const tagsWithAwardedPowerUpCount = awardedPowerUp
+        ? incrementIntegerTag(
+            `powerup_${awardedPowerUp}:`,
+            1,
+            tagsWithUpdatedPowerUpCount
+          )
+        : tagsWithUpdatedPowerUpCount;
+
+      log('tagsWithAwardedPowerUpCount TAGS:', tagsWithAwardedPowerUpCount);
+
       playerService
-        .updatePlayerTags(player, tagsWithUpdatedPowerUpCount)
+        .updatePlayerTags(player, tagsWithAwardedPowerUpCount)
         .then(() => res());
     });
   });
@@ -311,39 +326,21 @@ const init = (socketServer: Server, path: string) => {
             log('Saved all counters');
 
             // ADD SNAKES AND LADDERS MOVE IF WON GAME, AND REMOVE POWERUP IF USED
-            const snakesAndLaddersMovesGained: { [key: string]: number } = {};
-            const powerUpsUsed: { [key: string]: string } = {};
+            const playerTagUpdates = [
+              updatePlayerAttributes(
+                gamesInProgress[matchupId].moves[0].playerId!,
+                result.pointDiffs[0],
+                gamesInProgress[matchupId].moves[0].powerUpId!,
+                result.trophies[0].value > 0 ? getRandomPowerup() : ''
+              ),
 
-            snakesAndLaddersMovesGained[
-              gamesInProgress[matchupId].moves[0].playerId!
-            ] = result.pointDiffs[0];
-
-            powerUpsUsed[
-              gamesInProgress[matchupId].moves[0].playerId!
-            ] = gamesInProgress[matchupId].moves[0].powerUpId!;
-
-            snakesAndLaddersMovesGained[
-              gamesInProgress[matchupId].moves[1].playerId!
-            ] = result.pointDiffs[1];
-
-            powerUpsUsed[
-              gamesInProgress[matchupId].moves[1].playerId!
-            ] = gamesInProgress[matchupId].moves[1].powerUpId!;
-
-            //UPDATE SNAKES AND LADDERS MOVES GAINED
-            log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
-
-            const playerTagUpdates: Promise<any>[] = [];
-
-            Object.keys(snakesAndLaddersMovesGained).forEach((playerId) => {
-              playerTagUpdates.push(
-                updatePlayerAttributes(
-                  playerId,
-                  snakesAndLaddersMovesGained[playerId],
-                  powerUpsUsed[playerId]
-                )
-              );
-            });
+              updatePlayerAttributes(
+                gamesInProgress[matchupId].moves[1].playerId!,
+                result.pointDiffs[1],
+                gamesInProgress[matchupId].moves[1].powerUpId!,
+                result.trophies[1].value > 0 ? getRandomPowerup() : ''
+              ),
+            ];
 
             Promise.all(playerTagUpdates).then(() => {
               getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
