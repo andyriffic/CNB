@@ -29,6 +29,8 @@ export const PowerupSelector = ({
   selectedPowerupName,
   onPowerupSelected,
 }: Props) => {
+  console.log('PLAYER POWERUPS', availablePowerups);
+
   return (
     <PowerupList>
       <PowerupSelectionItem

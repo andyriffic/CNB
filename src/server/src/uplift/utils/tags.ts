@@ -36,6 +36,6 @@ export const getPlayerPowerups = (
   tags: string[]
 ): { [key: string]: number } => {
   return {
-    DOUBLE_POINTS: getIntegerAttributeValue(tags, 'powerup_double'),
+    DOUBLE_POINTS: getIntegerAttributeValue(tags, 'powerup_DOUBLE_POINTS'),
   };
 };

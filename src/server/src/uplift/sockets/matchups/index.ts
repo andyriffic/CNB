@@ -30,6 +30,7 @@ import {
 } from '../../services/matchup/timebomb';
 import { incrementIntegerTag } from '../../utils/tags';
 import { adjustPlayResultForPowerups } from '../../services/matchup/powerups';
+import { Player } from '../../services/player/types';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -48,19 +49,42 @@ let watchupPlayerIds: string[] = [];
 
 const log = createLogger('matchups', LOG_NAMESPACE.socket);
 
-const incrementPlayerSnakesAndLaddersMoveCount = (
+const updatePlayerAttributes = (
   playerId: string,
-  by: number
-) => {
-  playerService.getPlayersAsync().then((allPlayers) => {
-    const player = allPlayers.find((p) => p.id === playerId);
-    if (!player) {
-      return;
-    }
+  snakesAndLaddersMoves: number,
+  powerUpUsed: string
+): Promise<any> => {
+  return new Promise((res) => {
+    playerService.getPlayersAsync().then((allPlayers) => {
+      const player = allPlayers.find((p) => p.id === playerId);
+      if (!player) {
+        return Promise.resolve(player);
+      }
 
-    const tags = incrementIntegerTag('sl_moves:', by, player.tags);
-    log('incrementPlayerSnakesAndLaddersMoveCount TAGS:', tags);
-    playerService.updatePlayerTags(player, tags);
+      const tagsWithUpdatedSnakesAndLaddersMoves = incrementIntegerTag(
+        'sl_moves:',
+        snakesAndLaddersMoves,
+        player.tags
+      );
+      log(
+        'incrementPlayerSnakesAndLaddersMoveCount TAGS:',
+        tagsWithUpdatedSnakesAndLaddersMoves
+      );
+
+      const tagsWithUpdatedPowerUpCount =
+        powerUpUsed === 'NONE'
+          ? tagsWithUpdatedSnakesAndLaddersMoves
+          : incrementIntegerTag(
+              `powerup_${powerUpUsed}:`,
+              -1,
+              tagsWithUpdatedSnakesAndLaddersMoves
+            );
+      log('tagsWithUpdatedPowerUpCount TAGS:', tagsWithUpdatedPowerUpCount);
+
+      playerService
+        .updatePlayerTags(player, tagsWithUpdatedPowerUpCount)
+        .then(() => res());
+    });
   });
 };
 
@@ -286,48 +310,66 @@ const init = (socketServer: Server, path: string) => {
           ]).then(() => {
             log('Saved all counters');
 
-            // ADD SNAKES AND LADDERS MOVE IF WON GAME
+            // ADD SNAKES AND LADDERS MOVE IF WON GAME, AND REMOVE POWERUP IF USED
             const snakesAndLaddersMovesGained: { [key: string]: number } = {};
+            const powerUpsUsed: { [key: string]: string } = {};
 
             snakesAndLaddersMovesGained[
               gamesInProgress[matchupId].moves[0].playerId!
             ] = result.pointDiffs[0];
 
+            powerUpsUsed[
+              gamesInProgress[matchupId].moves[0].playerId!
+            ] = gamesInProgress[matchupId].moves[0].powerUpId!;
+
             snakesAndLaddersMovesGained[
               gamesInProgress[matchupId].moves[1].playerId!
             ] = result.pointDiffs[1];
 
+            powerUpsUsed[
+              gamesInProgress[matchupId].moves[1].playerId!
+            ] = gamesInProgress[matchupId].moves[1].powerUpId!;
+
             //UPDATE SNAKES AND LADDERS MOVES GAINED
             log('SNAKES AND LADDERS MOVES GAINED', snakesAndLaddersMovesGained);
 
+            const playerTagUpdates: Promise<any>[] = [];
+
             Object.keys(snakesAndLaddersMovesGained).forEach((playerId) => {
-              incrementPlayerSnakesAndLaddersMoveCount(
-                playerId,
-                snakesAndLaddersMovesGained[playerId]
+              playerTagUpdates.push(
+                updatePlayerAttributes(
+                  playerId,
+                  snakesAndLaddersMovesGained[playerId],
+                  powerUpsUsed[playerId]
+                )
               );
             });
 
-            getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
-              if (
-                matchupView.teams.some((team) =>
-                  team.name.toLowerCase().startsWith('test')
-                )
-              ) {
-                log('Test team, not saving stats');
-              } else {
-                const statsEntry = mapMatchupViewToGameStatsEntry(matchupView);
-                if (statsEntry) {
-                  log('Saving stats entry...');
-                  StatsService.saveGameStatsEntry(statsEntry);
-                  log('Publishing stats...');
-                  publishAllStats();
+            Promise.all(playerTagUpdates).then(() => {
+              getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
+                if (
+                  matchupView.teams.some((team) =>
+                    team.name.toLowerCase().startsWith('test')
+                  )
+                ) {
+                  log('Test team, not saving stats');
+                } else {
+                  const statsEntry = mapMatchupViewToGameStatsEntry(
+                    matchupView
+                  );
+                  if (statsEntry) {
+                    log('Saving stats entry...');
+                    StatsService.saveGameStatsEntry(statsEntry);
+                    log('Publishing stats...');
+                    publishAllStats();
+                  }
                 }
-              }
 
-              const matchupChannel = `matchup-${matchupId}`;
-              namespace
-                .to(matchupChannel)
-                .emit(ON_MATCHUP_UPDATED, matchupView);
+                const matchupChannel = `matchup-${matchupId}`;
+                namespace
+                  .to(matchupChannel)
+                  .emit(ON_MATCHUP_UPDATED, matchupView);
+              });
             });
           });
         });
