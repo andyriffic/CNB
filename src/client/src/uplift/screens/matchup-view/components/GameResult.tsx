@@ -127,6 +127,7 @@ export const GameResult = ({
                     revealResult={gameTiming.shownResult}
                     playWinnerAnimation={gameTiming.shownWinnerMoveAnimation}
                     playLoserAnimation={gameTiming.shownLoserMoveAnimation}
+                    powerupName={game.result!.moves[index].powerUpId}
                   />
                 )}
 

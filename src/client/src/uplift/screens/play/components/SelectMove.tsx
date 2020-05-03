@@ -9,6 +9,10 @@ import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { Player } from '../../../contexts/PlayersProvider';
 import { shuffle } from '../../../../utils/suffleArray';
 import { PrimaryButton } from '../../../components/PrimaryButton';
+import { getPlayerPowerups } from '../../../utils/player';
+import { PowerupBadge } from '../../../components/PowerupBadge';
+import { Heading } from '../../../../components/form/radio-select/styles';
+import { PowerupSelector } from './PowerupSelector';
 
 const MoveContainer = styled.div`
   display: flex;
@@ -52,6 +56,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   } = useContext(GameThemeContext);
   const { makeMove, currentMatchup } = useContext(MatchupContext);
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
+  const [selectedPowerupName, setSelectedPowerupName] = useState('NONE');
   const [moveMade, setMoveMade] = useState(false);
   const [randomMoveOrder, setRandomMoveOrder] = useState<string[]>();
 
@@ -80,7 +85,17 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   return (
     <div>
       <div>
-        <h2>Make your move</h2>
+        <Heading>Select your powerup</Heading>
+        <div className="margins-off">
+          <PowerupSelector
+            availablePowerups={getPlayerPowerups(player.tags)}
+            selectedPowerupName={selectedPowerupName}
+            onPowerupSelected={powerupName =>
+              setSelectedPowerupName(powerupName)
+            }
+          />
+        </div>
+        <Heading>Make your move</Heading>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
           {randomMoveOrder &&
             randomMoveOrder.map(moveId => (
@@ -107,7 +122,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
               makeMove(matchupId, teamId, {
                 playerId: player.id,
                 moveId: selectedMoveId,
-                powerUpId: 'DOUBLE_POINTS',
+                powerUpId: selectedPowerupName,
               });
             setMoveMade(true);
           }}

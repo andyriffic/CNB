@@ -43,6 +43,7 @@ export type SpectatorMove = {
 
 export type GameMoveResult = {
   moveId: string;
+  powerUpId: string;
 };
 
 export type GameResult = {

@@ -117,9 +117,10 @@ const Temp = styled.div`
 
 type Props = {
   powerupName: string;
+  total?: number;
 };
 
-export const PowerupBadge = ({ powerupName }: Props) => {
+export const PowerupBadge = ({ powerupName, total = 0 }: Props) => {
   const styleDef = powerupStyles[powerupName];
   if (!styleDef) {
     return null;
@@ -131,7 +132,10 @@ export const PowerupBadge = ({ powerupName }: Props) => {
           <Icon>⚡️</Icon>
           {/* <Text>⚡️</Text> */}
         </Circle>
-        <Ribbon>{styleDef.name}</Ribbon>
+        <Ribbon>
+          {styleDef.name}
+          {total > 1 && ` ${total}`}
+        </Ribbon>
       </Badge>
     </Container>
   );

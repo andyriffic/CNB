@@ -35,6 +35,7 @@ type PlayerWithRevealProps = {
   revealResult: boolean;
   playWinnerAnimation: boolean;
   playLoserAnimation: boolean;
+  powerupName: string;
 };
 
 const blowAwayCssUp = css`
@@ -163,6 +164,7 @@ export const PlayerWithMoveRevealTimebomb = ({
   revealResult,
   playWinnerAnimation,
   playLoserAnimation,
+  powerupName,
 }: PlayerWithRevealProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
 
@@ -225,9 +227,11 @@ export const PlayerWithMoveRevealTimebomb = ({
       <SnakesANdLaddersMoveContainer position={position}>
         <PlayerSnakesAndLaddersMoves playerId={playerId} />
       </SnakesANdLaddersMoveContainer>
-      <PowerupBadgeContainer position={position}>
-        <PowerupBadge powerupName="DOUBLE_POINTS" />
-      </PowerupBadgeContainer>
+      {powerupName !== 'NONE' && (
+        <PowerupBadgeContainer position={position}>
+          <PowerupBadge powerupName={powerupName} />
+        </PowerupBadgeContainer>
+      )}
     </div>
   );
 };
