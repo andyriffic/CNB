@@ -11,6 +11,8 @@ import { SoundService, SOUND_KEYS } from '../../../../sounds/SoundService';
 import { useDoOnce } from '../../../hooks/useDoOnce';
 import { TrophyAward } from './TrophyAward';
 import { PlayerWithMoveRevealTimebomb } from './PlayerWithMoveRevealTimebomb';
+import { RainbowText } from '../../../components/RainbowText';
+import { isFeatureEnabled } from '../../../../featureToggle';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -29,11 +31,18 @@ const TrophyContainer = styled.div<{ position: 'LEFT' | 'RIGHT' }>`
   ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -50px;
 `;
 
+const PowerupAwardedContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+`;
+
 type GameResultProps = {
   game: Game;
   showTrophy: boolean;
   gameViewFinished: () => void;
 };
+
+const powerupsFeatureEnabled = isFeatureEnabled('powerups');
 
 export const GameResult = ({
   game,
@@ -135,6 +144,11 @@ export const GameResult = ({
                   <TrophyContainer position={index === 0 ? 'LEFT' : 'RIGHT'}>
                     <TrophyAward />
                   </TrophyContainer>
+                )}
+                {powerupsFeatureEnabled && showTrophy && winner && (
+                  <PowerupAwardedContainer>
+                    <RainbowText>You earned a Powerup!</RainbowText>
+                  </PowerupAwardedContainer>
                 )}
               </PlayerSide>
               <div
