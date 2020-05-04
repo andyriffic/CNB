@@ -68,7 +68,7 @@ export default ({  }: RouteComponentProps) => {
         title=""
         alignTop={false}
         scrollable={false}
-        bodyStyle={{ backgroundColor: '#fed357', backgroundImage: 'none' }}
+        bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
       >
         <GameSettingsDrawer />
         <Container>

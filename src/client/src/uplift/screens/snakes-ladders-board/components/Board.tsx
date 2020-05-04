@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import boardImage from './board.jpg';
+import boardImage from './board-green.jpg';
 import { GameBoard } from '../board';
 import { BoardCell } from './BoardCell';
 import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
