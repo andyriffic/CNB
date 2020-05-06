@@ -13,9 +13,6 @@ import { getPlayerPowerups } from '../../../utils/player';
 import { PowerupBadge } from '../../../components/PowerupBadge';
 import { Heading } from '../../../../components/form/radio-select/styles';
 import { PowerupSelector } from './PowerupSelector';
-import { isFeatureEnabled } from '../../../../featureToggle';
-
-const powerupsFeatureEnabled = isFeatureEnabled('powerups');
 
 const MoveContainer = styled.div`
   display: flex;
@@ -87,20 +84,14 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
 
   return (
     <div>
-      {powerupsFeatureEnabled && (
-        <>
-          <Heading>Select your powerup</Heading>
-          <div className="margins-off">
-            <PowerupSelector
-              availablePowerups={getPlayerPowerups(player.tags)}
-              selectedPowerupName={selectedPowerupName}
-              onPowerupSelected={powerupName =>
-                setSelectedPowerupName(powerupName)
-              }
-            />
-          </div>
-        </>
-      )}
+      <Heading>Select your powerup</Heading>
+      <div className="margins-off">
+        <PowerupSelector
+          availablePowerups={getPlayerPowerups(player.tags)}
+          selectedPowerupName={selectedPowerupName}
+          onPowerupSelected={powerupName => setSelectedPowerupName(powerupName)}
+        />
+      </div>
       <div>
         <Heading>Make your move</Heading>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>

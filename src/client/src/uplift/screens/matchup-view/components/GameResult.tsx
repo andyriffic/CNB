@@ -12,7 +12,6 @@ import { useDoOnce } from '../../../hooks/useDoOnce';
 import { TrophyAward } from './TrophyAward';
 import { PlayerWithMoveRevealTimebomb } from './PlayerWithMoveRevealTimebomb';
 import { RainbowText } from '../../../components/RainbowText';
-import { isFeatureEnabled } from '../../../../featureToggle';
 
 const MovesContainer = styled.div`
   display: flex;
@@ -41,8 +40,6 @@ type GameResultProps = {
   showTrophy: boolean;
   gameViewFinished: () => void;
 };
-
-const powerupsFeatureEnabled = isFeatureEnabled('powerups');
 
 export const GameResult = ({
   game,
@@ -145,7 +142,7 @@ export const GameResult = ({
                     <TrophyAward />
                   </TrophyContainer>
                 )}
-                {powerupsFeatureEnabled && showTrophy && winner && (
+                {showTrophy && winner && (
                   <PowerupAwardedContainer>
                     <RainbowText>You earned a Powerup!</RainbowText>
                   </PowerupAwardedContainer>
