@@ -32,7 +32,7 @@ const Container = styled.div`
 
 const Badge = styled.div<{ styleDef: PowerupStyleDef }>`
   position: relative;
-  margin: 1.5em 3em;
+  margin: 0.5em 1em;
   width: 65px;
   height: 100.75px;
   border-radius: 10px;

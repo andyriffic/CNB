@@ -23,14 +23,10 @@ const MoveContainer = styled.div`
 const Move = styled.button<{ selected?: boolean }>`
   flex-basis: 25vw;
   margin: 0 5px 5px;
-  border: 2px solid
-    ${props =>
-      props.selected
-        ? props.theme.featureBackgroundColor
-        : props.theme.primaryTextColor};
+  border: 5px solid ${props => (props.selected ? 'red' : 'transparent')};
+  border-radius: 5px;
   color: white;
-  background-color: ${props =>
-    props.selected ? props.theme.featureBackgroundColor : 'transparent'};
+  /* background-color: transparent; */
   padding: 10px;
   font-size: 1.8rem;
   cursor: pointer;
@@ -125,7 +121,7 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
             setMoveMade(true);
           }}
         >
-          Select
+          Play!
         </PrimaryButton>
       </div>
     </div>

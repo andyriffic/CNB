@@ -1,21 +1,25 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { Player, PlayersContext } from '../../../contexts/PlayersProvider';
-import { LoadingSpinner } from '../../../components/loading-spinner';
-import { SecondaryButton } from '../../../components/SecondaryButton';
 import { PowerupBadge } from '../../../components/PowerupBadge';
 
 const PowerupList = styled.div`
   margin: 0;
   padding: 0 0 20px;
   display: flex;
+  /* transform: scale(0.7); */
+  align-items: center;
 `;
 
-const PowerupSelectionItem = styled.div<{ selected: boolean }>`
-  border: 5px solid ${props => (props.selected ? 'red' : 'grey')};
+const PowerupSelectionItem = styled.button<{ selected: boolean }>`
+  border: 5px solid ${props => (props.selected ? 'red' : 'transparent')};
   border-radius: 5px;
   overflow: hidden;
-  padding: 5px;
+  padding: 10px;
+  margin-right: 5px;
+`;
+
+const PowerupScale = styled.div`
+  /* transform: scale(0.6); */
 `;
 
 type Props = {
@@ -32,7 +36,7 @@ export const PowerupSelector = ({
   console.log('PLAYER POWERUPS', availablePowerups);
 
   return (
-    <PowerupList>
+    <PowerupList className="margins-off">
       <PowerupSelectionItem
         selected={selectedPowerupName === 'NONE'}
         onClick={() => onPowerupSelected('NONE')}

@@ -47,8 +47,9 @@ export default ({  }: RouteComponentProps) => {
   return (
     <PlayersProvider>
       <FullPageLayout pageTitle="Test components" alignTop={true}>
-        <ComponentContainer>
+        <ComponentContainer className="margins-off" style={{ display: 'flex' }}>
           <PowerupBadge powerupName="DOUBLE_POINTS" />
+          <PowerupBadge powerupName="POINT_STEALER" />
         </ComponentContainer>
         <ComponentContainer>
           <h3>Animations</h3>
