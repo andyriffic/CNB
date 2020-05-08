@@ -15,11 +15,18 @@ const PowerupSelectionItem = styled.button<{ selected: boolean }>`
   border-radius: 5px;
   overflow: hidden;
   padding: 10px;
-  margin-right: 5px;
+  margin-right: 10px;
+  position: relative;
 `;
 
-const PowerupScale = styled.div`
-  /* transform: scale(0.6); */
+const PowerupTotal = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 47%;
+  padding: 4px;
+  background-color: grey;
+  border-radius: 5px;
+  color: white;
 `;
 
 type Props = {
@@ -46,14 +53,15 @@ export const PowerupSelector = ({
       {Object.keys(availablePowerups).map(powerupName =>
         availablePowerups[powerupName] > 0 ? (
           <PowerupSelectionItem
+            className="margins-off"
             selected={powerupName === selectedPowerupName}
             key={powerupName}
             onClick={() => onPowerupSelected(powerupName)}
           >
-            <PowerupBadge
-              powerupName={powerupName}
-              total={availablePowerups[powerupName]}
-            />
+            <PowerupBadge powerupName={powerupName} />
+            {availablePowerups[powerupName] > 1 && (
+              <PowerupTotal>{availablePowerups[powerupName]}</PowerupTotal>
+            )}
           </PowerupSelectionItem>
         ) : null
       )}
