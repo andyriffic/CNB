@@ -38,5 +38,9 @@ export const getPlayerPowerups = (
       tags,
       'powerup_DOUBLE_POINTS'
     ),
+    POINT_STEALER: getPlayerIntegerAttributeValue(
+      tags,
+      'powerup_POINT_STEALER'
+    ),
   };
 };

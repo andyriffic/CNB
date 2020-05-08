@@ -17,6 +17,13 @@ const powerupStyles: { [key: string]: PowerupStyleDef } = {
     bgColor2: '#283593',
     color: '#1c68c5',
   },
+  POINT_STEALER: {
+    icon: '😈',
+    name: 'Point Stealer',
+    bgColor1: '#F48FB1',
+    bgColor2: '#d81b60',
+    color: '#dc306f',
+  },
 };
 
 const Container = styled.div`
@@ -78,6 +85,7 @@ const Circle = styled.div`
 const Icon = styled.i`
   font-size: 1.8em;
   display: block;
+  font-style: normal;
 `;
 
 const Text = styled.div`
@@ -129,7 +137,7 @@ export const PowerupBadge = ({ powerupName, total = 0 }: Props) => {
     <Container>
       <Badge styleDef={styleDef}>
         <Circle>
-          <Icon>⚡️</Icon>
+          <Icon>{styleDef.icon}</Icon>
           {/* <Text>⚡️</Text> */}
         </Circle>
         <Ribbon>

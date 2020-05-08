@@ -316,6 +316,8 @@ const init = (socketServer: Server, path: string) => {
             result
           );
 
+          log('ADJUSTED RESULT AFTER POWERUP ------------->', result);
+
           Promise.all([
             counterDatastore.updateCounter(result.points[0]),
             counterDatastore.updateCounter(result.points[1]),
@@ -406,8 +408,8 @@ const init = (socketServer: Server, path: string) => {
         confirmation: (matchupId: string) => void
       ) => {
         const playerPointCounters: [Counter, Counter] = [
-          counterService.createCounter(`instant-${shortid.generate()}`),
-          counterService.createCounter(`instant-${shortid.generate()}`),
+          counterService.createCounter(`instant-${shortid.generate()}`, 1),
+          counterService.createCounter(`instant-${shortid.generate()}`, 1),
         ];
 
         const trophyCounters: [Counter, Counter] = [

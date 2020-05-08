@@ -11,10 +11,21 @@ export const adjustPlayResultForPowerups = (
   }
 
   const winnerIndex = game.result!.winnerIndex!;
+  const loserIndex = [1, 0][winnerIndex];
   if (game.moves[winnerIndex].powerUpId === 'DOUBLE_POINTS') {
     //Being terribly lazy and just mutate object 😬
     playResult.points[winnerIndex].value *= 2;
     playResult.pointDiffs[winnerIndex] *= 2;
+  }
+
+  if (game.moves[winnerIndex].powerUpId === 'POINT_STEALER') {
+    //Being terribly lazy and just mutate object 😬
+    if (playResult.points[loserIndex].value > 0) {
+      playResult.points[winnerIndex].value += 1;
+      playResult.pointDiffs[winnerIndex] += 1;
+      playResult.points[loserIndex].value -= 1;
+      playResult.pointDiffs[loserIndex] = -1;
+    }
   }
 
   return playResult;
@@ -24,6 +35,10 @@ export const getRandomPowerup = () => {
   const weightedPowerups = [
     {
       item: 'DOUBLE_POINTS',
+      weight: 2,
+    },
+    {
+      item: 'POINT_STEALER',
       weight: 1,
     },
   ];
