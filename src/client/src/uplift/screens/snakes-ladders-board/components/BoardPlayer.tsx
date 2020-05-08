@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled, { css } from 'styled-components';
 import { GameBoardPlayer } from '../GameBoardContext';
-import { Player } from '../../../contexts/PlayersProvider';
+import { Player, PlayersContext } from '../../../contexts/PlayersProvider';
 import { PlayerAvatar } from '../../../components/PlayerAvatar';
 import Rainbow from '../../../../components/rainbow-text';
 import {
@@ -12,6 +12,7 @@ import {
 } from '../../../components/animations';
 import { GameBoardCell } from '../board';
 import { PlayerVictory } from './PlayerVictory';
+import { ConfettiContext } from '../../../contexts/ConfettiProvider';
 
 export const ANIMATION_TIMEOUT_MS = 500;
 
@@ -88,11 +89,23 @@ export const BoardPlayer = ({
   boardPlayer,
   moving,
 }: Props) => {
+  const { updatePlayer } = useContext(PlayersContext);
+  const { setConfettiOn } = useContext(ConfettiContext);
   useEffect(() => {
     if (!moving) {
       setTimeout(onArrived, ANIMATION_TIMEOUT_MS + 400);
     }
   }, [cell, moving]);
+
+  useEffect(() => {
+    if (boardPlayer.isWinner) {
+      setConfettiOn(true);
+      updatePlayer(player.id, [
+        ...player.tags.filter(t => t !== 'badge:snakes_and_ladders_winner'),
+        'badge:snakes_and_ladders_winner',
+      ]);
+    }
+  }, [boardPlayer.isWinner]);
 
   const appliedOffset = offsets[offset] || [0, 0];
 

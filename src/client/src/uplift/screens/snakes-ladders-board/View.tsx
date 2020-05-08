@@ -14,6 +14,7 @@ import swingingMonkeyGif from './assets/monkey-swing.gif';
 import gorillaGif from './assets/gorilla.gif';
 import snakeGif from './assets/snake.gif';
 import { PlayersContext } from '../../contexts/PlayersProvider';
+import { ConfettiProvider } from '../../contexts/ConfettiProvider';
 
 const Container = styled.div`
   width: 790px;
@@ -63,21 +64,23 @@ export default ({  }: RouteComponentProps) => {
   }, []);
 
   return (
-    <GameBoardProvider board={board}>
-      <FullPageScreenLayout
-        title=""
-        alignTop={false}
-        scrollable={false}
-        bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
-      >
-        <GameSettingsDrawer />
-        <Container>
-          <Board board={board} />
-          <SwingingMonkey src={swingingMonkeyGif} alt="" />
-          <Gorilla src={gorillaGif} alt="" />
-          <Snake src={snakeGif} alt="" />
-        </Container>
-      </FullPageScreenLayout>
-    </GameBoardProvider>
+    <ConfettiProvider>
+      <GameBoardProvider board={board}>
+        <FullPageScreenLayout
+          title=""
+          alignTop={false}
+          scrollable={false}
+          bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
+        >
+          <GameSettingsDrawer />
+          <Container>
+            <Board board={board} />
+            <SwingingMonkey src={swingingMonkeyGif} alt="" />
+            <Gorilla src={gorillaGif} alt="" />
+            <Snake src={snakeGif} alt="" />
+          </Container>
+        </FullPageScreenLayout>
+      </GameBoardProvider>
+    </ConfettiProvider>
   );
 };
