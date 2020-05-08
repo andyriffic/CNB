@@ -124,7 +124,7 @@ const PowerupBadgeContainer = styled.div<{
 }>`
   position: absolute;
   top: -100px;
-  ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -160px;
+  ${props => (props.position === 'LEFT' ? 'left' : 'right')}: -110px;
 `;
 
 const PlayerMove = styled.img<{
