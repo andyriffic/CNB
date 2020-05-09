@@ -41,6 +41,9 @@ export const AwardedPowerup = ({ player }: Props) => {
     ) {
       setAwardedPowerUp('POINT_STEALER');
     }
+    if (newPowerUps['SHORT_FUSE'] > existingPowerUps.current['SHORT_FUSE']) {
+      setAwardedPowerUp('SHORT_FUSE');
+    }
     existingPowerUps.current = newPowerUps;
   }, [player]);
 

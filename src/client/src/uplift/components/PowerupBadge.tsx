@@ -13,16 +13,23 @@ const powerupStyles: { [key: string]: PowerupStyleDef } = {
   DOUBLE_POINTS: {
     icon: '⚡️',
     name: 'Double Points',
-    bgColor1: '#1976d2',
-    bgColor2: '#283593',
-    color: '#1c68c5',
+    bgColor1: '#ffeb3b',
+    bgColor2: '#fbc02d',
+    color: '#ffb300',
   },
   POINT_STEALER: {
     icon: '😈',
     name: 'Point Stealer',
-    bgColor1: '#F48FB1',
-    bgColor2: '#d81b60',
-    color: '#dc306f',
+    bgColor1: '#ab47bc',
+    bgColor2: '#4527a0',
+    color: '#7127a8',
+  },
+  SHORT_FUSE: {
+    icon: '💥',
+    name: 'Short Fuse',
+    bgColor1: '#f4511e',
+    bgColor2: '#b71c1c',
+    color: '#c62828',
   },
 };
 
@@ -83,7 +90,7 @@ const Circle = styled.div`
 `;
 
 const Icon = styled.i`
-  font-size: 1.8em;
+  font-size: 46px;
   display: block;
   font-style: normal;
 `;

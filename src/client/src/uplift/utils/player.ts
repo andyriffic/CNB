@@ -42,5 +42,6 @@ export const getPlayerPowerups = (
       tags,
       'powerup_POINT_STEALER'
     ),
+    SHORT_FUSE: getPlayerIntegerAttributeValue(tags, 'powerup_SHORT_FUSE'),
   };
 };

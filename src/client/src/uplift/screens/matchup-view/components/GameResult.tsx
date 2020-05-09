@@ -144,7 +144,7 @@ export const GameResult = ({
                 )}
                 {showTrophy && winner && (
                   <PowerupAwardedContainer>
-                    <RainbowText>You earned a Powerup!</RainbowText>
+                    <RainbowText>You got a Powerup!</RainbowText>
                   </PowerupAwardedContainer>
                 )}
               </PlayerSide>

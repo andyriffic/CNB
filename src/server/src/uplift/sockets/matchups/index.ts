@@ -282,9 +282,16 @@ const init = (socketServer: Server, path: string) => {
 
           //Adjust game result for Timebomb
           if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
+            const forceExplode =
+              !gamesInProgress[matchupId].result!.draw &&
+              gamesInProgress[matchupId].moves[
+                gamesInProgress[matchupId].result!.winnerIndex!
+              ].powerUpId === 'SHORT_FUSE';
+
             const gameAttributes = getTimebombMoveGameAttributes(
               gamesInProgress[matchupId],
-              gamesInProgress[matchupId].result!
+              gamesInProgress[matchupId].result!,
+              forceExplode
             );
 
             log('TIMEBOMB ATTRIBUTES------------->', gameAttributes);

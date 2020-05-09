@@ -34,11 +34,15 @@ export const adjustPlayResultForPowerups = (
 export const getRandomPowerup = () => {
   const weightedPowerups = [
     {
-      item: 'DOUBLE_POINTS',
-      weight: 2,
+      item: 'POINT_STEALER',
+      weight: 5,
     },
     {
-      item: 'POINT_STEALER',
+      item: 'DOUBLE_POINTS',
+      weight: 3,
+    },
+    {
+      item: 'SHORT_FUSE',
       weight: 1,
     },
   ];

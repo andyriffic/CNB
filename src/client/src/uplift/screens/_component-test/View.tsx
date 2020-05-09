@@ -50,6 +50,7 @@ export default ({  }: RouteComponentProps) => {
         <ComponentContainer className="margins-off" style={{ display: 'flex' }}>
           <PowerupBadge powerupName="DOUBLE_POINTS" />
           <PowerupBadge powerupName="POINT_STEALER" />
+          <PowerupBadge powerupName="SHORT_FUSE" />
         </ComponentContainer>
         <ComponentContainer>
           <h3>Animations</h3>

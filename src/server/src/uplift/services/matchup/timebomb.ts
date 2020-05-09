@@ -56,16 +56,17 @@ const didExplode = (gameCount: number) => {
 
 export const getTimebombMoveGameAttributes = (
   game: Game,
-  result: GameResult
+  result: GameResult,
+  forceExplode: boolean = false
 ): { [name: string]: any } => {
   return {
     ...game.gameAttributes,
     [TimebombAttributes.PlayerIndexHoldingTimebomb]: result.draw
       ? game.gameAttributes[TimebombAttributes.PlayerIndexHoldingTimebomb]
       : [1, 0][result.winnerIndex!],
-    [TimebombAttributes.Exploded]: didExplode(
-      game.gameAttributes[TimebombAttributes.GameCount]
-    ),
+    [TimebombAttributes.Exploded]:
+      forceExplode ||
+      didExplode(game.gameAttributes[TimebombAttributes.GameCount]),
   };
 };
 
