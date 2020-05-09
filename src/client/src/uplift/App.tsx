@@ -27,6 +27,7 @@ import { FinxFeatureDisplayScreen } from './screens/finx-feature-display';
 import { InvitationMatchupScreen } from './screens/invitation-matchup';
 import { PlayersProvider } from './contexts/PlayersProvider';
 import { InvitationsProvider } from './contexts/InvitationsProvider';
+import { PowerupRulesScreen } from './screens/powerup-rules';
 
 export default () => {
   return (
@@ -58,6 +59,7 @@ export default () => {
                     <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                     <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
                     <FinxFeatureDisplayScreen path="/finx-display" />
+                    <PowerupRulesScreen path="/powerups" />
                   </Router>
                 </InvitationsProvider>
               </PlayersProvider>

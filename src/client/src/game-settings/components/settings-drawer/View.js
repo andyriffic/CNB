@@ -54,6 +54,9 @@ const View = () => {
       <SoundToggle />
       <div style={{ paddingBottom: '30px' }}>
         <Link href="/leaderboard">Leaderboard</Link>
+        <Link href="/powerups" target="_blank">
+          Powerup rules 💥
+        </Link>
         <Link href="/snakes-and-ladders-rules">Snakes and Ladders rules</Link>
         <Link href="/snakes-and-ladders">Snakes and Ladders board</Link>
       </div>
