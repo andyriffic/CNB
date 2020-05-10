@@ -9,11 +9,14 @@ import { Counter } from '../services/counter/types';
 import { publishAllStats } from '../../stats/publishStats';
 import { createLogger, LOG_NAMESPACE } from '../../utils/debug';
 import { playerService } from '../services/player';
+import { getRandomPowerup } from '../services/matchup/powerups';
+import { incrementIntegerTag } from '../utils/tags';
 
 const MATCHUPS_UPDATE = 'MATCHUPS_UPDATE';
 const ADD_MATCHUP = 'ADD_MATCHUP';
 const ADD_INSTANT_MATCHUP = 'ADD_INSTANT_MATCHUP';
 const TRIGGER_STATS_PUBLISH = 'TRIGGER_STATS_PUBLISH';
+const ASSIGN_RANDOM_POWERUPS = 'ASSIGN_RANDOM_POWERUPS';
 
 const log = createLogger('matchup-admin', LOG_NAMESPACE.socket);
 
@@ -146,6 +149,24 @@ const init = (socketServer: Server, path: string) => {
       log('Re-publish stats');
       publishAllStats().then(() => {
         log('Stats published');
+      });
+    });
+
+    socket.on(ASSIGN_RANDOM_POWERUPS, () => {
+      log('Assigning random powerups to active players...');
+
+      playerService.getPlayersAsync().then((players) => {
+        players.forEach((player) => {
+          const awardedPowerUp = getRandomPowerup();
+          log('Assigning', player.name, awardedPowerUp);
+
+          const updatedTags = incrementIntegerTag(
+            `powerup_${awardedPowerUp}:`,
+            1,
+            player.tags
+          );
+          playerService.updatePlayerTags(player, updatedTags);
+        });
       });
     });
   });

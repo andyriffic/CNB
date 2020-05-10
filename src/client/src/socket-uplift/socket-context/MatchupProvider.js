@@ -80,6 +80,11 @@ const republishStats = () => {
   socket.emit('TRIGGER_STATS_PUBLISH');
 };
 
+const assignRansomPowerups = () => {
+  console.log('assignRansomPowerups');
+  socket.emit('ASSIGN_RANDOM_POWERUPS');
+};
+
 export const MatchupProvider = ({ children }) => {
   const [matchups, setMatchups] = useState([]);
   const [currentMatchup, setCurrentMatchup] = useState();
@@ -109,6 +114,7 @@ export const MatchupProvider = ({ children }) => {
         playGame,
         republishStats,
         addInstantMatchup,
+        assignRansomPowerups,
       }}
     >
       {children}

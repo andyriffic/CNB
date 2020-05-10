@@ -43,7 +43,7 @@ export const getRandomPowerup = () => {
     },
     {
       item: 'SHORT_FUSE',
-      weight: 1,
+      weight: 2,
     },
   ];
 
