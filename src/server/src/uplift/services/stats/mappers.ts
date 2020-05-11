@@ -67,7 +67,7 @@ const mapMatchupPlayerViewToPlayerStatsEntry = (
   return {
     team: team.name,
     move: game.result!.moves[playerIndex].moveId,
-    powerUp: 'NONE',
+    powerUp: game.result!.moves[playerIndex].powerUpId,
     player: game.moves[playerIndex].playerName!,
     trophy: game.trophyWon,
     winner:
@@ -105,5 +105,6 @@ export const mapMatchupViewToGameStatsEntry = (
           ? getWinner(matchupView.gameInProgress!.result!.winnerIndex)
           : undefined,
     },
+    attributes: matchupView.gameInProgress.attributes,
   };
 };

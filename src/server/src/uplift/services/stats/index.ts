@@ -6,6 +6,7 @@ import {
 } from '../../../environment';
 import { statsS3Bucket } from '../../../stats/s3';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
+import moment from 'moment';
 
 const log = createLogger('statsService', LOG_NAMESPACE.stats);
 
@@ -15,9 +16,9 @@ const saveGameStatsEntry = (gameStatsEntry: GameStatsEntry) => {
     return;
   }
 
-  const today = new Date();
-  const filename = `${today.getFullYear()}-${today.getMonth() +
-    1}-${today.getDate()}-${shortid.generate()}.json`;
+  const filename = `${moment().format(
+    'YYYY-MM-DD'
+  )}-${shortid.generate()}.json`;
 
   log('--- Saving stats record ---');
   // log('filename', filename);

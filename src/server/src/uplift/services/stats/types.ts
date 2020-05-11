@@ -20,4 +20,5 @@ export type GameStatsEntry = {
     draw: boolean;
     winner?: 'player1' | 'player2';
   };
+  attributes?: { [key: string]: any };
 };
