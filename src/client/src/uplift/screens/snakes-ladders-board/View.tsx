@@ -4,7 +4,10 @@ import { RouteComponentProps } from '@reach/router';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 import { GameSettingsDrawer } from '../../../game-settings';
 import { Board } from './components/Board';
-import { generateBoard } from './board';
+import { generateBoard as generateJungleBoard } from './boards/jungle';
+import { generateBoard as generateCandylandBoard } from './boards/candyland';
+import jungleBoardImage from './boards/jungle/board-green.jpg';
+import candylandBoardImage from './boards/candyland/board.jpg';
 import { GameBoardProvider } from './GameBoardContext';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SoundService } from '../../contexts/types';
@@ -15,11 +18,11 @@ import gorillaGif from './assets/gorilla.gif';
 import snakeGif from './assets/snake.gif';
 import { PlayersContext } from '../../contexts/PlayersProvider';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
+import { isFeatureEnabled } from '../../../featureToggle';
 
 const Container = styled.div`
-  width: 790px;
   margin: 0 auto;
-  position: relative;
+  /* position: relative; */
 `;
 
 const SwingingMonkey = styled.img`
@@ -43,7 +46,16 @@ const Snake = styled.img`
   width: 100px;
 `;
 
-const board = generateBoard();
+const board = isFeatureEnabled('candyland')
+  ? generateCandylandBoard()
+  : generateJungleBoard();
+
+const boardImage = isFeatureEnabled('candyland')
+  ? candylandBoardImage
+  : jungleBoardImage;
+
+const boardWidth = isFeatureEnabled('candyland') ? 1120 : 800;
+const boardHeight = isFeatureEnabled('candyland') ? 800 : 580;
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -68,16 +80,21 @@ export default ({  }: RouteComponentProps) => {
       <GameBoardProvider board={board}>
         <FullPageScreenLayout
           title=""
-          alignTop={false}
-          scrollable={false}
+          alignTop={true}
+          scrollable={true}
           bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
         >
-          <GameSettingsDrawer />
+          {/* <GameSettingsDrawer /> */}
           <Container>
-            <Board board={board} />
-            <SwingingMonkey src={swingingMonkeyGif} alt="" />
+            <Board
+              board={board}
+              boardImage={boardImage}
+              width={boardWidth}
+              height={boardHeight}
+            />
+            {/* <SwingingMonkey src={swingingMonkeyGif} alt="" />
             <Gorilla src={gorillaGif} alt="" />
-            <Snake src={snakeGif} alt="" />
+            <Snake src={snakeGif} alt="" /> */}
           </Container>
         </FullPageScreenLayout>
       </GameBoardProvider>

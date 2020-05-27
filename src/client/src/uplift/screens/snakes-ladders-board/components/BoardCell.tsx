@@ -1,6 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { GameBoardCell, gameBoardDebug, BOARD_CELL_TYPE } from '../board';
+import { GameBoardCell, BOARD_CELL_TYPE } from '../types';
+import { isFeatureEnabled } from '../../../../featureToggle';
+
+export const gameBoardDebug = isFeatureEnabled('debug');
 
 const Toadstool = styled.div`
   font-size: 1.2rem;

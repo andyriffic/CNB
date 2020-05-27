@@ -28,13 +28,15 @@ export const ConfettiProvider = ({ children }: { children: ReactNode }) => {
         setConfettiOn: setConfettiRun,
       }}
     >
-      <Confetti
-        style={{}}
-        canvasRef={canvasRef}
-        run={true}
-        numberOfPieces={confettiRun ? 500 : 0}
-      ></Confetti>
-      {children}
+      <div className="margins-off">
+        <Confetti
+          style={{}}
+          canvasRef={canvasRef}
+          run={true}
+          numberOfPieces={confettiRun ? 500 : 0}
+        ></Confetti>
+        {children}
+      </div>
     </ConfettiContext.Provider>
   );
 };

@@ -1,25 +1,31 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import boardImage from './board-green.jpg';
-import { GameBoard } from '../board';
+import { GameBoard } from '../types';
 import { BoardCell } from './BoardCell';
 import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
 import { GameBoardContext } from '../GameBoardContext';
-import { getPlayerAttributeValue } from '../../../utils/player';
 
-const BoardContainer = styled.div`
-  width: 800px;
-  height: 580px;
-  background: transparent url(${boardImage}) no-repeat top left;
+const BoardContainer = styled.div<{
+  boardImage: any;
+  width: number;
+  height: number;
+}>`
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  background: transparent url(${props => props.boardImage}) no-repeat top left;
   background-size: contain;
   position: relative;
+  margin: 0 auto;
 `;
 
 type Props = {
   board: GameBoard;
+  boardImage: any;
+  width: number;
+  height: number;
 };
 
-export const Board = ({ board }: Props) => {
+export const Board = ({ board, boardImage, width, height }: Props) => {
   const { players, startMovePlayer, movePlayer, onArrivedInCell } = useContext(
     GameBoardContext
   );
@@ -32,7 +38,12 @@ export const Board = ({ board }: Props) => {
   }, [players]);
 
   return (
-    <BoardContainer className="margins-off">
+    <BoardContainer
+      className="margins-off"
+      boardImage={boardImage}
+      width={width}
+      height={height}
+    >
       {board.cells.map(cell => (
         <BoardCell key={cell.number} cell={cell} />
       ))}
