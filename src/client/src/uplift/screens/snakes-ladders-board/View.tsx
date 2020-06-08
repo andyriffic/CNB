@@ -78,12 +78,7 @@ export default ({  }: RouteComponentProps) => {
   return (
     <ConfettiProvider>
       <GameBoardProvider board={board}>
-        <FullPageScreenLayout
-          title=""
-          alignTop={true}
-          scrollable={true}
-          bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
-        >
+        <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
           {/* <GameSettingsDrawer /> */}
           <Container>
             <Board

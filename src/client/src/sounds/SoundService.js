@@ -17,7 +17,7 @@ import puff from './puff.mp3';
 // import radiantMusicLoop from './radiant.mp4';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
-// import explosion from './explosion.mp3';
+import explosion from './explosion.mp3';
 import ticking from './ticking.wav';
 // import fuse from './gasp.wav';
 import slideFallWhistle from './jungle-bird.mp3';
@@ -26,7 +26,7 @@ import moveLose from './punch.mp3';
 import intenseMusicLoop from './intense-music-loop.mp3';
 import cough from './cough.mp3';
 import slurp from './slurp.mp3';
-import death from './death.mp3';
+// import death from './death.mp3';
 import blip from './blip.mp3';
 import smashBrosMusic from './super_smash_bros_3.mp3';
 import coinJingle from './ssb4_result.mp3';
@@ -277,7 +277,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.EXPLOSION] = {
-        sound: new Howl({ src: [death] }),
+        sound: new Howl({ src: [explosion] }),
       };
 
       this._sounds[SOUND_KEYS.TICKING] = {

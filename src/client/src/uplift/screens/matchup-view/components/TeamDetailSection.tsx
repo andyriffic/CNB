@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  color: #b67b65;
+  color: #a96fba;
 `;
 
 const TeamContainer = styled.div`

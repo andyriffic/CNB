@@ -11,7 +11,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 1,
         coordinates: [150, 600],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 6,
       },
       {
         number: 2,
@@ -31,7 +32,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 5,
         coordinates: [125, 440],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 11,
       },
       {
         number: 6,
@@ -91,7 +93,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 17,
         coordinates: [355, 240],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 8,
       },
       {
         number: 18,
@@ -116,12 +119,14 @@ export const generateBoard = (): GameBoard => {
       {
         number: 22,
         coordinates: [540, 260],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 26,
       },
       {
         number: 23,
         coordinates: [580, 210],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 15,
       },
       {
         number: 24,
@@ -141,7 +146,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 27,
         coordinates: [810, 210],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 35,
       },
       {
         number: 28,
@@ -191,7 +197,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 37,
         coordinates: [830, 450],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 21,
       },
       {
         number: 38,
@@ -216,7 +223,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 42,
         coordinates: [575, 600],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 34,
       },
       {
         number: 43,

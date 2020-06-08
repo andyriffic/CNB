@@ -1,14 +1,17 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import backgroundImage from './candy-background-01.jpg';
 import { IS_PRODUCTION } from '../../../environment';
 
-export const featureFontFamily = "'Alfa Slab One', cursive";
+export const featureFontFamily = "'Bubblegum Sans', cursive";
 
 const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #ed1b24;
+  color: #ff7682;
+  background: transparent url(${backgroundImage}) no-repeat center center;
+  background-size: cover;
 `;
 
 const Header = styled.header`
@@ -16,8 +19,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1d1145;
-  background-color: red;
+  color: #ff7682;
+  background-color: ${props => props.theme.headerBackgroundColor};
   transition: background-color 800ms ease-out;
 `;
 
@@ -31,7 +34,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  background-image: radial-gradient(#ccc, #ccc);
+  /* background-image: radial-gradient(#caa8e6, #a86fba); */
   flex: 1;
   display: flex;
   flex-direction: column;
