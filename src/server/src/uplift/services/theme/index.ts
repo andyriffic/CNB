@@ -229,4 +229,24 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       },
     },
   },
+  candyland: {
+    name: { english: 'Candyland 🍭', chinese: '' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Tim Tams', chinese: '' },
+        winsBy: { english: 'more valuable than', chinese: '' },
+        imageUrl: '/theme/candyland/tim-tams.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Chuppa Chupps', chinese: '' },
+        winsBy: { english: 'kills', chinese: '' },
+        imageUrl: '/theme/candyland/chuppa.gif',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Cake', chinese: '' },
+        winsBy: { english: 'depletes stocks of', chinese: '' },
+        imageUrl: '/theme/candyland/cake.gif',
+      },
+    },
+  },
 };
