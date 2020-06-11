@@ -46,16 +46,12 @@ const Snake = styled.img`
   width: 100px;
 `;
 
-const board = isFeatureEnabled('candyland')
-  ? generateCandylandBoard()
-  : generateJungleBoard();
+const board = generateCandylandBoard();
 
-const boardImage = isFeatureEnabled('candyland')
-  ? candylandBoardImage
-  : jungleBoardImage;
+const boardImage = candylandBoardImage;
 
-const boardWidth = isFeatureEnabled('candyland') ? 1120 : 800;
-const boardHeight = isFeatureEnabled('candyland') ? 800 : 580;
+const boardWidth = 1120;
+const boardHeight = 800;
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);

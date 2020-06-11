@@ -18,28 +18,35 @@ import puff from './puff.mp3';
 import yay from './yay.wav';
 import crowdCheer from './crowd-cheer.mp3';
 import explosion from './explosion.mp3';
-import ticking from './ticking.wav';
+// import ticking from './ticking.wav';
 // import fuse from './gasp.wav';
 import slideFallWhistle from './jungle-bird.mp3';
 import moveAttachWhoosh from './move-attach-whoosh.flac';
 import moveLose from './punch.mp3';
-import intenseMusicLoop from './intense-music-loop.mp3';
-import cough from './cough.mp3';
-import slurp from './slurp.mp3';
+//import intenseMusicLoop from './intense-music-loop.mp3';
+// import cough from './cough.mp3';
+// import slurp from './slurp.mp3';
 // import death from './death.mp3';
 import blip from './blip.mp3';
-import smashBrosMusic from './super_smash_bros_3.mp3';
+// import smashBrosMusic from './super_smash_bros_3.mp3';
 import coinJingle from './ssb4_result.mp3';
 import magic from './magic.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
-import jungleBackgroundMusic from './jungle-background-music.mp3';
+// import jungleBackgroundMusic from './jungle-background-music.mp3';
 import jungleSnakeDown from './jungle-sad-trombone.mp3';
 // import jungleZoom from './jungle-zoom-away.mp3';
-import jungleAmbience from './jungle-ambiance.mp3';
-import jungleRattle from './jungle-rattle.mp3';
+// import jungleRattle from './jungle-rattle.mp3';
 import jungleVictory from './jungle-victory.mp3';
-import doraSuccess from './dora_success_tone.mp3';
+// import doraSuccess from './dora_success_tone.mp3';
+import candyWaitingLoop from './candy_crush_time.mp3';
+import sweet from './sweet.mp3';
+import candyWaiting from './candy-waiting-lobby.mp3';
+import introTone from './intro_tone.mp3';
+import nomNomNom from './nom_nom_nom.mp3';
+import sodaCrush from './soda_crush.mp3';
+import tasty from './tasty.mp3';
+import delicious from './delicious.mp3';
 
 export const SOUND_KEYS = {
   WAITING_MUSIC: 'WAITING_MUSIC',
@@ -74,6 +81,7 @@ export const SOUND_KEYS = {
   EXPLOSION: 'EXPLOSION',
   TICKING: 'TICKING',
   FUSE: 'FUSE',
+  SURVIVE_BOMB: 'SURVIVE_BOMB',
   SLIDE_FALL_WHISTLE: 'SLIDE_FALL_WHISTLE',
   ZAP: 'ZAP',
   PUFF: 'PUFF',
@@ -90,7 +98,6 @@ export const JUNGLE_SOUND_KEYS = {
   LADDER_UP: 'LADDER_UP',
   MOVE: 'MOVE',
   BACKGROUND_MUSIC: 'BACKGROUND_MUSIC',
-  AMBIENCE: 'AMBIENCE',
   VICTORY: 'VICTORY',
   FAIRY_APPEARS: 'FAIRY_APPEARS',
 };
@@ -138,15 +145,7 @@ export class SoundService {
     this._sounds[JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC] = {
       resumeable: true,
       sound: new Howl({
-        src: [jungleBackgroundMusic],
-        loop: true,
-      }),
-    };
-
-    this._sounds[JUNGLE_SOUND_KEYS.AMBIENCE] = {
-      resumeable: true,
-      sound: new Howl({
-        src: [jungleAmbience],
+        src: [sodaCrush],
         loop: true,
       }),
     };
@@ -180,7 +179,7 @@ export class SoundService {
       this._sounds[SOUND_KEYS.INTENSE_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [intenseMusicLoop],
+          src: [candyWaitingLoop],
           loop: true,
         }),
       };
@@ -188,7 +187,7 @@ export class SoundService {
       this._sounds[SOUND_KEYS.PLAYER_SELECT_MUSIC] = {
         resumeable: true,
         sound: new Howl({
-          src: [smashBrosMusic],
+          src: [candyWaiting],
           loop: true,
           volume: 0.5,
         }),
@@ -204,11 +203,11 @@ export class SoundService {
       // };
 
       this._sounds[SOUND_KEYS.RATTLE] = {
-        sound: new Howl({ src: [jungleRattle] }),
+        sound: new Howl({ src: [tasty] }),
       };
 
       this._sounds[SOUND_KEYS.PLAYER_SELECT_INTRO] = {
-        sound: new Howl({ src: [doraSuccess] }),
+        sound: new Howl({ src: [introTone] }),
       };
 
       this._sounds[SOUND_KEYS.PLAYER_SELECT_PLAYER_JOINED] = {
@@ -257,7 +256,7 @@ export class SoundService {
       };
 
       this._sounds[SOUND_KEYS.PLAYER_JOINED_GAME] = {
-        sound: new Howl({ src: [cough] }),
+        sound: new Howl({ src: [sweet] }),
       };
 
       this._sounds[SOUND_KEYS.DRUMROLL] = {
@@ -280,12 +279,16 @@ export class SoundService {
         sound: new Howl({ src: [explosion] }),
       };
 
-      this._sounds[SOUND_KEYS.TICKING] = {
-        sound: new Howl({ src: [ticking], loop: true, volume: 0.6 }),
-      };
+      // this._sounds[SOUND_KEYS.TICKING] = {
+      //   sound: new Howl({ src: [ticking], loop: true, volume: 0.6 }),
+      // };
 
       this._sounds[SOUND_KEYS.FUSE] = {
-        sound: new Howl({ src: [slurp] }),
+        sound: new Howl({ src: [nomNomNom] }),
+      };
+
+      this._sounds[SOUND_KEYS.SURVIVE_BOMB] = {
+        sound: new Howl({ src: [delicious] }),
       };
 
       this._sounds[SOUND_KEYS.ZAP] = {

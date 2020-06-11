@@ -41,12 +41,12 @@ export const TimebombStrip = ({
 }: TimebombStripProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
 
-  useEffect(() => {
-    soundService.play(SOUND_KEYS.TICKING);
-    return () => {
-      soundService.stop(SOUND_KEYS.TICKING);
-    };
-  }, []);
+  // useEffect(() => {
+  //   soundService.play(SOUND_KEYS.TICKING);
+  //   return () => {
+  //     soundService.stop(SOUND_KEYS.TICKING);
+  //   };
+  // }, []);
 
   return (
     <Container className="margins-off">
