@@ -60,9 +60,7 @@ export const getRandomPlayer = (
       );
 
       const newWeight =
-        currentBoardPosition === 0
-          ? 100
-          : Math.max(weightedPlayer.weight - currentBoardPosition, 1);
+        currentBoardPosition === 0 ? 100 : weightedPlayer.weight;
 
       return {
         item: weightedPlayer.item,
