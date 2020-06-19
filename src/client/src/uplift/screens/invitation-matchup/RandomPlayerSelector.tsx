@@ -19,6 +19,7 @@ import { PlayerInvitation } from '../../contexts/InvitationsProvider';
 import { useDoOnce } from '../../hooks/useDoOnce';
 import { StatusIndicator, STATUS_TYPE } from './StatusIndicator';
 import { RainbowText } from '../../components/RainbowText';
+import { selectRandomOneOf } from '../../utils/random';
 
 type AnimationState = 'enter' | 'exit';
 const ENTER_ANIMATION_TIMEOUT_MS = 800;
@@ -102,7 +103,15 @@ export const RandomPlayerSelector = ({
   const [state, setState] = useState<AnimationState>('enter');
 
   const onNewPlayer = () => {
-    soundService.play(SOUND_KEYS.SLIDE_FALL_WHISTLE, true);
+    soundService.play(
+      selectRandomOneOf([
+        SOUND_KEYS.SCREAM_01,
+        SOUND_KEYS.SCREAM_02,
+        SOUND_KEYS.SCREAM_03,
+        SOUND_KEYS.SCREAM_04,
+      ]),
+      true
+    );
     setState('exit');
     setTimeout(() => {
       reroll();
