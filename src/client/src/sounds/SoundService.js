@@ -23,7 +23,7 @@ import explosion from './explosion.mp3';
 import slideFallWhistle from './jungle-bird.mp3';
 import moveAttachWhoosh from './move-attach-whoosh.flac';
 import moveLose from './punch.mp3';
-//import intenseMusicLoop from './intense-music-loop.mp3';
+// import intenseMusicLoop from './intense-music-loop.mp3';
 // import cough from './cough.mp3';
 // import slurp from './slurp.mp3';
 // import death from './death.mp3';
