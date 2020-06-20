@@ -1,0 +1,5 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+aws ecs update-service --cluster cnb-fargate-1 --service cnb-fargate-service-3 --force-new-deployment --profile cnb --region ap-southeast-2

@@ -17,7 +17,7 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   color: #1d1145;
-  background-color: ${props => props.theme.headerBackgroundColor};
+  background-color: red;
   transition: background-color 800ms ease-out;
 `;
 
