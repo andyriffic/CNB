@@ -20,6 +20,8 @@ const Container = styled.div`
 const Text = styled.div`
   font-family: ${featureFontFamily};
   font-size: 5rem;
+  -webkit-text-stroke-width: 4px;
+  -webkit-text-stroke-color: black;
   animation: ${inOutAnimation} ${ANIMATION_DURATION_MILLISECONDS}ms ease-in-out
     both;
 `;

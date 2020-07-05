@@ -23,7 +23,7 @@ export type PlayerService = {
   loadingPlayers: boolean;
   subscribeToPlayers: () => void;
   addPlayer: (id: string, name: string, avatarImageUrl: string) => void;
-  updatePlayer: (id: string, tags: string[]) => void;
+  updatePlayer: (id: string, tags: string[], onUpdated?: () => void) => void;
   triggerUpdate: () => void;
 };
 
@@ -36,8 +36,8 @@ const initialValue: PlayerService = {
   addPlayer: (id, name, avatarImageUrl) => {
     socket.emit(PLAYER_EVENTS.ADD_PLAYER, id, name, avatarImageUrl);
   },
-  updatePlayer: (id, tags) => {
-    socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags);
+  updatePlayer: (id, tags, onUpdated) => {
+    socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags, onUpdated);
   },
   triggerUpdate: () => {
     socket.emit(PLAYER_EVENTS.TRIGGER_UPDATE);

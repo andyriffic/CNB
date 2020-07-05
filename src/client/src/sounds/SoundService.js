@@ -30,6 +30,7 @@ import death from './death.mp3';
 import blip from './blip.mp3';
 import smashBrosMusic from './super_smash_bros_3.mp3';
 import coinJingle from './ssb4_result.mp3';
+import magic from './magic.mp3';
 
 import jungleLadderUp from './jungle-ladder-up.mp3';
 import jungleBackgroundMusic from './jungle-background-music.mp3';
@@ -91,6 +92,7 @@ export const JUNGLE_SOUND_KEYS = {
   BACKGROUND_MUSIC: 'BACKGROUND_MUSIC',
   AMBIENCE: 'AMBIENCE',
   VICTORY: 'VICTORY',
+  FAIRY_APPEARS: 'FAIRY_APPEARS',
 };
 
 export class SoundService {
@@ -163,6 +165,10 @@ export class SoundService {
 
     this._sounds[JUNGLE_SOUND_KEYS.VICTORY] = {
       sound: new Howl({ src: [jungleVictory] }),
+    };
+
+    this._sounds[JUNGLE_SOUND_KEYS.FAIRY_APPEARS] = {
+      sound: new Howl({ src: [magic] }),
     };
   }
 

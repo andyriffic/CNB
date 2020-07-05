@@ -166,7 +166,7 @@ export const GameBoardProvider = ({
             );
             return;
           }
-          soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+          //soundService.stop(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
           soundService.play(JUNGLE_SOUND_KEYS.MOVE, true);
 
           const destinationCellIndex = Math.min(
@@ -195,7 +195,7 @@ export const GameBoardProvider = ({
           }
 
           if (!cell.linkedCellIndex) {
-            soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+            // soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
             return;
           }
 
@@ -214,9 +214,9 @@ export const GameBoardProvider = ({
 
           updatePlayer(gameBoardPlayer.player.id, [...playerTags, ...newTags]);
 
-          setTimeout(() => {
-            soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
-          }, 2000);
+          // setTimeout(() => {
+          //   soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+          // }, 2000);
         },
       }}
     >

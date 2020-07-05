@@ -2,6 +2,13 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { GameBoardCell, gameBoardDebug, BOARD_CELL_TYPE } from '../board';
 
+const Toadstool = styled.div`
+  font-size: 1.2rem;
+  position: relative;
+  top: -10px;
+  left: -20px;
+`;
+
 const Cell = styled.div<{ x: number; y: number }>`
   ${gameBoardDebug &&
     css`
@@ -36,6 +43,7 @@ export const BoardCell = ({ cell }: Props) => {
       {gameBoardDebug && cell.type === BOARD_CELL_TYPE.SNAKE && (
         <DebugText>⬇({cell.linkedCellIndex})</DebugText>
       )}
+      {cell.fairy && <Toadstool>🍄</Toadstool>}
     </Cell>
   );
 };

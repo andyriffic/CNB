@@ -104,18 +104,22 @@ const init = (socketServer: Server, path: string) => {
       });
     });
 
-    socket.on(UPDATE_PLAYER, (id: string, tags: string[]) => {
-      log('Received', UPDATE_PLAYER);
-      log('Updating Player: ', id, tags);
-      playerService.getPlayer(id).then((player) => {
-        playerService.updatePlayerTags(player, tags).then(() => {
-          getUpdatedPlayerList().then((playerList) => {
-            log('EMIT', ALL_PLAYERS_UPDATE);
-            namespace.emit(ALL_PLAYERS_UPDATE, playerList);
+    socket.on(
+      UPDATE_PLAYER,
+      (id: string, tags: string[], onUpdated?: () => void) => {
+        log('Received', UPDATE_PLAYER);
+        log('Updating Player: ', id, tags);
+        playerService.getPlayer(id).then((player) => {
+          playerService.updatePlayerTags(player, tags).then(() => {
+            getUpdatedPlayerList().then((playerList) => {
+              log('EMIT', ALL_PLAYERS_UPDATE);
+              namespace.emit(ALL_PLAYERS_UPDATE, playerList);
+              onUpdated && onUpdated();
+            });
           });
         });
-      });
-    });
+      }
+    );
   });
 };
 

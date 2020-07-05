@@ -24,7 +24,6 @@ export const Board = ({ board }: Props) => {
     GameBoardContext
   );
 
-  console.log('----GAME PLAYERS----', players);
   useEffect(() => {
     const movingPlayers = players.filter(p => p.moving);
     movingPlayers.forEach((p, i) => {

@@ -56,7 +56,7 @@ export default ({  }: RouteComponentProps) => {
   useEffect(() => {
     soundService.load();
     soundService.loadJungle();
-    soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
+    // soundService.play(JUNGLE_SOUND_KEYS.BACKGROUND_MUSIC);
 
     return () => {
       soundService.stopAll();

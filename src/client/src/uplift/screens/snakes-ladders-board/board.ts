@@ -16,6 +16,7 @@ export type GameBoardCell = {
   coordinates: BoardCoordinates;
   type: BOARD_CELL_TYPE;
   linkedCellIndex?: number;
+  fairy?: boolean;
 };
 
 export type GameBoard = {
@@ -123,6 +124,7 @@ export const generateBoard = (): GameBoard => {
         coordinates: [220, 290],
         type: BOARD_CELL_TYPE.SNAKE,
         linkedCellIndex: 5,
+        fairy: true,
       },
       {
         number: 19,
@@ -172,6 +174,7 @@ export const generateBoard = (): GameBoard => {
         coordinates: [615, 95],
         type: BOARD_CELL_TYPE.SNAKE,
         linkedCellIndex: 14,
+        fairy: true,
       },
       {
         number: 28,
