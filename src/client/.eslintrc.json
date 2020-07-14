@@ -10,16 +10,13 @@
     "standard-react",
     "prettier"
   ],
-  "plugins": [
-    "flowtype",
-    "prettier"
-  ],
+  "plugins": ["flowtype", "prettier"],
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
     }
   },
-  "globals": {    
+  "globals": {
     "it": true,
     "describe": true,
     "before": true,
@@ -33,19 +30,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "comma-dangle": ["error", "always-multiline"],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "comma-dangle": ["warn", "always-multiline"],
     "no-console": ["off"],
     "react/prop-types": 0,
     "prettier/prettier": "error"
