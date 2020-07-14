@@ -2,24 +2,27 @@ import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
-import { GameSettingsDrawer } from '../../../game-settings';
+// import { GameSettingsDrawer } from '../../../game-settings';
 import { Board } from './components/Board';
-import { generateBoard } from './board';
+// import { generateBoard as generateJungleBoard } from './boards/jungle';
+import { generateBoard as generateCandylandBoard } from './boards/candyland';
+// import jungleBoardImage from './boards/jungle/board-green.jpg';
+import candylandBoardImage from './boards/candyland/board.png';
 import { GameBoardProvider } from './GameBoardContext';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SoundService } from '../../contexts/types';
 import { JUNGLE_SOUND_KEYS } from '../../../sounds/SoundService';
 
-import swingingMonkeyGif from './assets/monkey-swing.gif';
-import gorillaGif from './assets/gorilla.gif';
-import snakeGif from './assets/snake.gif';
+// import swingingMonkeyGif from './assets/monkey-swing.gif';
+// import gorillaGif from './assets/gorilla.gif';
+// import snakeGif from './assets/snake.gif';
 import { PlayersContext } from '../../contexts/PlayersProvider';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
+// import { isFeatureEnabled } from '../../../featureToggle';
 
 const Container = styled.div`
-  width: 790px;
   margin: 0 auto;
-  position: relative;
+  /* position: relative; */
 `;
 
 const SwingingMonkey = styled.img`
@@ -43,7 +46,12 @@ const Snake = styled.img`
   width: 100px;
 `;
 
-const board = generateBoard();
+const board = generateCandylandBoard();
+
+const boardImage = candylandBoardImage;
+
+const boardWidth = 1120;
+const boardHeight = 800;
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -66,18 +74,18 @@ export default ({  }: RouteComponentProps) => {
   return (
     <ConfettiProvider>
       <GameBoardProvider board={board}>
-        <FullPageScreenLayout
-          title=""
-          alignTop={false}
-          scrollable={false}
-          bodyStyle={{ backgroundColor: '#7CB242', backgroundImage: 'none' }}
-        >
-          <GameSettingsDrawer />
+        <FullPageScreenLayout title="" alignTop={true} scrollable={true}>
+          {/* <GameSettingsDrawer /> */}
           <Container>
-            <Board board={board} />
-            <SwingingMonkey src={swingingMonkeyGif} alt="" />
+            <Board
+              board={board}
+              boardImage={boardImage}
+              width={boardWidth}
+              height={boardHeight}
+            />
+            {/* <SwingingMonkey src={swingingMonkeyGif} alt="" />
             <Gorilla src={gorillaGif} alt="" />
-            <Snake src={snakeGif} alt="" />
+            <Snake src={snakeGif} alt="" /> */}
           </Container>
         </FullPageScreenLayout>
       </GameBoardProvider>

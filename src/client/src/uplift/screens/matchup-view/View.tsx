@@ -228,7 +228,7 @@ export default ({ matchupId }: MatchupViewProps) => {
                           soundService.play(SOUND_KEYS.RATTLE);
                         }}
                       >
-                        TO THE JUNGLE!
+                        TO CANDYLAND 🍭
                       </Link>
                     </LinkButton>
                   )}

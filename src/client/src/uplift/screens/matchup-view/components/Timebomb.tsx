@@ -8,7 +8,7 @@ import {
   shakeAnimationLeft,
   bounceInAnimation,
 } from '../../../components/animations';
-import butterflyImage from './butterfly.gif';
+import tooth from './tooth.gif';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const shakeCss = css`
   animation: ${shakeAnimationLeft} 300ms ease-in-out infinite;
 `;
 
-const Butterfly = styled.img`
+const Tooth = styled.img`
   width: 100px;
   height: 100px;
 `;
@@ -80,7 +80,7 @@ export const Timebomb = ({
     soundService.play(SOUND_KEYS.FUSE);
     setTimeout(() => {
       soundService.stop(SOUND_KEYS.ANOTHER_ONE_BITES_THE_DUST);
-      soundService.stop(SOUND_KEYS.TICKING);
+      // soundService.stop(SOUND_KEYS.TICKING);
       soundService.play(SOUND_KEYS.EXPLOSION);
       setBoomCountdown(false);
       setBoom(true);
@@ -89,9 +89,15 @@ export const Timebomb = ({
   }, [exploded]);
 
   useEffect(() => {
-    ticking && soundService.play(SOUND_KEYS.FUSE);
+    if (!ticking) {
+      return;
+    }
+
+    soundService.play(SOUND_KEYS.FUSE);
+
     return () => {
       soundService.stop(SOUND_KEYS.FUSE);
+      soundService.play(SOUND_KEYS.SURVIVE_BOMB);
     };
   }, [ticking]);
 
@@ -116,9 +122,9 @@ export const Timebomb = ({
         ticking={ticking || boomCountdown}
       >
         {/* {(ticking || exploded) && !boom && '😬'} */}
-        {boom && <Emoji>🦠</Emoji>} {/* replace boom emoji*/}
+        {boom && <Emoji>💥</Emoji>} {/* replace boom emoji*/}
         {/* {!ticking && !exploded && <BombImage src={bombImage} intensity={intensity} />} */}
-        {!boom && <Emoji>🍜</Emoji>} {/* replace timebomb*/}
+        {!boom && <Tooth src={tooth} alt="" />} {/* replace timebomb*/}
       </Bomb>
     </Container>
   );

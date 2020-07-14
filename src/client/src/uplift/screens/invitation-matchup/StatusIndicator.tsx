@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import { featureFontFamily } from '../../components/layouts/FullPageScreenLayout';
 
 export enum STATUS_TYPE {
   WAITING = 'waiting',
@@ -23,6 +24,7 @@ const waitingBackgroundAnimation = keyframes`
 `;
 
 const Container = styled.div<{ status: STATUS_TYPE }>`
+  font-family: ${featureFontFamily};
   border-radius: 8px;
   font-size: 1rem;
   ${props =>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode, useContext } from 'react';
 import { Player, PlayersContext } from '../../contexts/PlayersProvider';
 import { getPlayerAttributeValue } from '../../utils/player';
-import { GameBoard, BOARD_CELL_TYPE } from './board';
+import { GameBoard, BOARD_CELL_TYPE } from './types';
 import { SoundService } from '../../contexts/types';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { JUNGLE_SOUND_KEYS, SOUND_KEYS } from '../../../sounds/SoundService';

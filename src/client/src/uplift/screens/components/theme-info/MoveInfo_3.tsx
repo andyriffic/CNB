@@ -16,6 +16,7 @@ const Container = styled.div`
 const MoveContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
 `;
 
 const MoveImage = styled.img`
@@ -28,6 +29,7 @@ const MoveName = styled.p`
   font-size: 0.4rem;
   text-align: center;
   font-size: 0.7rem;
+  font-weight: bold;
 `;
 
 const WinsByText = styled.p`
@@ -47,20 +49,13 @@ export const MoveInfo = ({ moves }: MoveInfoProps) => {
         <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
         <MoveName>{moves[0].name.english}</MoveName>
       </MoveContainer>
-      <WinsByText>{moves[0].winsBy.english}</WinsByText>
       <MoveContainer>
         <MoveImage src={`${SOCKETS_ENDPOINT}${moves[1].imageUrl}`} />
         <MoveName>{moves[1].name.english}</MoveName>
       </MoveContainer>
-      <WinsByText>{moves[1].winsBy.english}</WinsByText>
       <MoveContainer>
         <MoveImage src={`${SOCKETS_ENDPOINT}${moves[2].imageUrl}`} />
         <MoveName>{moves[2].name.english}</MoveName>
-      </MoveContainer>
-      <WinsByText>{moves[2].winsBy.english}</WinsByText>
-      <MoveContainer>
-        <MoveImage src={`${SOCKETS_ENDPOINT}${moves[0].imageUrl}`} />
-        <MoveName>{moves[0].name.english}</MoveName>
       </MoveContainer>
     </Container>
   );

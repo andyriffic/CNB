@@ -152,7 +152,7 @@ export default ({ navigate }: RouteComponentProps) => {
               player1!.id,
               player2!.id,
               2,
-              'covid-19',
+              'candyland',
               matchupId => {
                 invitationsContext.useInvitation(
                   invitationsContext.invitations![0].id,

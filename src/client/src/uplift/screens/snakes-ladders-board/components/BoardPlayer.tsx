@@ -10,7 +10,7 @@ import {
   shakeAnimationRight,
   shakeAnimationLeft,
 } from '../../../components/animations';
-import { GameBoardCell, BOARD_CELL_TYPE } from '../board';
+import { GameBoardCell } from '../types';
 import { PlayerVictory } from './PlayerVictory';
 import { ConfettiContext } from '../../../contexts/ConfettiProvider';
 import { SplashText } from '../../../components/SplashText';

@@ -13,6 +13,7 @@ export enum PlayerInvitationStatus {
 export type PlayerInvitation = {
   player: Player;
   status: PlayerInvitationStatus;
+  joinedOrder: number;
 };
 
 export type Invitation = {
@@ -28,8 +29,16 @@ export const createInvitation = (
   return {
     id,
     playerInvitations: [
-      { player: players[0], status: PlayerInvitationStatus.WAITING },
-      { player: players[1], status: PlayerInvitationStatus.WAITING },
+      {
+        player: players[0],
+        status: PlayerInvitationStatus.WAITING,
+        joinedOrder: 0,
+      },
+      {
+        player: players[1],
+        status: PlayerInvitationStatus.WAITING,
+        joinedOrder: 0,
+      },
     ],
   };
 };
@@ -50,9 +59,13 @@ export const replacePlayerInvitation = (
     ...invitation,
     playerInvitations: [
       invitation.playerInvitations.find(
-        i => i.player.id !== existingPlayer.id
+        (i) => i.player.id !== existingPlayer.id
       )!,
-      { player: newPlayer, status: PlayerInvitationStatus.WAITING },
+      {
+        player: newPlayer,
+        status: PlayerInvitationStatus.WAITING,
+        joinedOrder: 0,
+      },
     ],
   };
 };
@@ -61,7 +74,7 @@ export const getInvitationStatus = (
   invitation: Invitation
 ): InvitationStatus => {
   return invitation.playerInvitations.some(
-    pi => pi.status === PlayerInvitationStatus.WAITING
+    (pi) => pi.status === PlayerInvitationStatus.WAITING
   )
     ? InvitationStatus.WAITING
     : InvitationStatus.READY;
@@ -71,11 +84,21 @@ export const acceptPlayerInvitation = (
   invitation: Invitation,
   player: Player
 ): Invitation => {
+  const otherInvitationsAlreadyAccepted = invitation.playerInvitations
+    .filter((pi) => pi.player.id !== player.id)
+    .filter((pi) => pi.status === PlayerInvitationStatus.ACCEPTED);
+
+  const joinedOrder = otherInvitationsAlreadyAccepted.length + 1;
+
   return {
     ...invitation,
     playerInvitations: [
-      invitation.playerInvitations.find(i => i.player.id !== player.id)!,
-      { player, status: PlayerInvitationStatus.ACCEPTED },
+      invitation.playerInvitations.find((i) => i.player.id !== player.id)!,
+      {
+        player,
+        status: PlayerInvitationStatus.ACCEPTED,
+        joinedOrder,
+      },
     ],
   };
 };

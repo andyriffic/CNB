@@ -39,8 +39,7 @@ type PlayerWithRevealProps = {
 };
 
 const blowAwayCssUp = css`
-  transform-origin: 20% 80%;
-  animation: ${fallOverAnimation} 500ms ease-in-out 1 forwards;
+  animation: ${spinAwayAnimationUp} 800ms ease-in-out 1 forwards;
 `;
 
 const Container = styled.div<{

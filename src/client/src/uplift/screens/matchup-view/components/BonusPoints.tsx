@@ -4,10 +4,10 @@ import { DynamicUpdatingPoints } from '../../../components/dynamic-updating-poin
 
 const Container = styled.div`
   font-size: 1.3rem;
-  background-color: #ffbf00;
+  background-color: #a96fba;
   border-radius: 8px;
   padding: 8px;
-  color: #674d00;
+  color: #8be6b4;
   text-transform: uppercase;
   text-align: center;
 `;

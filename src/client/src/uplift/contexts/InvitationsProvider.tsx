@@ -15,6 +15,7 @@ enum INVITATION_EVENTS {
 export type PlayerInvitation = {
   player: Player;
   status: 'WAITING' | 'ACCEPTED';
+  joinedOrder: number;
 };
 
 export type Invitation = {
