@@ -20,11 +20,8 @@ import {
 } from '../../../../sounds/SoundService';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { selectWeightedRandomOneOf } from '../../../utils/random';
-import { isFeatureEnabled } from '../../../../featureToggle';
 
 export const ANIMATION_TIMEOUT_MS = 500;
-
-const isFreeze = isFeatureEnabled('freeze');
 
 enum FairyStates {
   HIDDEN = 'HIDDEN',
@@ -159,7 +156,7 @@ export const BoardPlayer = ({
       ) {
         console.log('Arrived', fairyState);
         holdMoving.current = false;
-        !isFreeze && setTimeout(onArrived, ANIMATION_TIMEOUT_MS + 400);
+        setTimeout(onArrived, ANIMATION_TIMEOUT_MS + 400);
       }
     }
   }, [cell, moving, fairyState]);
@@ -178,7 +175,7 @@ export const BoardPlayer = ({
         setFairyState(FairyStates.DECISION_BAD);
         holdMoving.current = false;
         soundService.play(JUNGLE_SOUND_KEYS.SNAKE_DOWN);
-        !isFreeze && onArrived();
+        onArrived();
         setTimeout(() => setFairyState(FairyStates.HIDDEN), 2000);
       }
       if (decision === FairyStates.DECISION_GOOD) {
@@ -200,7 +197,7 @@ export const BoardPlayer = ({
   }, [fairyState]);
 
   useEffect(() => {
-    if (boardPlayer.isWinner && !isFreeze) {
+    if (boardPlayer.isWinner) {
       setConfettiOn(true);
       updatePlayer(player.id, [
         ...player.tags.filter(t => t !== 'badge:snakes_and_ladders_winner'),
@@ -216,7 +213,7 @@ export const BoardPlayer = ({
       {fairyState === FairyStates.SHOWING && (
         <SplashText>Snake fairy appears</SplashText>
       )}
-      <PlayerVictory show={boardPlayer.isWinner && !isFreeze}>
+      <PlayerVictory show={boardPlayer.isWinner}>
         <CellPlayer
           onClick={() => {
             setFairyState(FairyStates.HIDDEN);
