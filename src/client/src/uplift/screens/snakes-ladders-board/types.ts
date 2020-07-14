@@ -14,6 +14,7 @@ export type GameBoardCell = {
   coordinates: BoardCoordinates;
   type: BOARD_CELL_TYPE;
   linkedCellIndex?: number;
+  fairy?: boolean;
 };
 
 export type GameBoard = {
