@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button } from '../../../../screens/styled';
 import { MatchupContext } from '../../../contexts/MatchupProvider';
 import { MoveSummary } from './MoveSummary';
@@ -13,6 +13,23 @@ import { getPlayerPowerups } from '../../../utils/player';
 import { PowerupBadge } from '../../../components/PowerupBadge';
 import { Heading } from '../../../../components/form/radio-select/styles';
 import { PowerupSelector } from './PowerupSelector';
+import { shakeAnimationLeft } from '../../../components/animations';
+import bombBackground from './bomb-1.gif';
+
+const JigglyBombIndicator = styled.div<{
+  holdingBomb: boolean;
+  intensity: number;
+}>`
+  background-color: transparent;
+  transition: background-color 2s ease-in-out;
+  ${props =>
+    props.holdingBomb &&
+    css`
+      background: transparent url(${bombBackground}) no-repeat center center;
+      animation: ${shakeAnimationLeft} ${5 / props.intensity}s ease-in-out
+        infinite;
+    `}
+`;
 
 const MoveContainer = styled.div`
   display: flex;
@@ -66,20 +83,35 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
     return <LoadingSpinner text="Checking current game..." />;
   }
 
+  const teamIndex = currentMatchup.teams.findIndex(t => t.id === teamId);
+  const holdingBomb =
+    !!currentMatchup.gameInProgress &&
+    currentMatchup.gameInProgress.attributes.playerIndexHoldingTimebomb ===
+      teamIndex;
+
+  const bombIntensity =
+    (currentMatchup.gameInProgress &&
+      parseInt(currentMatchup.gameInProgress.attributes.gameCount)) ||
+    1;
+
   if (currentMatchup && currentMatchup.gameInProgress) {
-    const teamIndex = currentMatchup.teams.findIndex(t => t.id === teamId);
     if (
       teamIndex > -1 &&
       currentMatchup.gameInProgress.moves[teamIndex].moved
     ) {
       return (
-        <MoveSummary move={currentMatchup.gameInProgress.moves[teamIndex]} />
+        <JigglyBombIndicator
+          holdingBomb={holdingBomb}
+          intensity={bombIntensity}
+        >
+          <MoveSummary move={currentMatchup.gameInProgress.moves[teamIndex]} />
+        </JigglyBombIndicator>
       );
     }
   }
 
   return (
-    <div>
+    <JigglyBombIndicator holdingBomb={holdingBomb} intensity={bombIntensity}>
       <Heading>Select your powerup</Heading>
       <div className="margins-off">
         <PowerupSelector
@@ -124,6 +156,6 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
           Play!
         </PrimaryButton>
       </div>
-    </div>
+    </JigglyBombIndicator>
   );
 };
