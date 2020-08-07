@@ -61,6 +61,7 @@ export default () => {
                     <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
                     <FinxFeatureDisplayScreen path="/finx-display" />
                     <PowerupRulesScreen path="/powerups" />
+                    <LayoutTestView path="/layout" />
                   </Router>
                 </InvitationsProvider>
               </PlayersProvider>

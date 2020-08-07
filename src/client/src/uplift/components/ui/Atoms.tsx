@@ -71,6 +71,7 @@ const VerticalContainer = styled.div`
   > * + * {
     display: block;
     margin: 1.2em auto 0 auto;
+    text-align: center;
   }
 `;
 

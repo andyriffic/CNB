@@ -36,10 +36,10 @@ export default ({  }: RouteComponentProps) => {
                 <PlayerSelect player={allPlayers[0]} />
                 <PlayerSelect player={allPlayers[1]} />
               </SideBySide>
-              {/* <HelpText>
+              <HelpText>
                 Go to <FeatureLinkText>cnb.finx-rocks.com/play</FeatureLinkText>{' '}
                 and select your player
-              </HelpText> */}
+              </HelpText>
             </Stacked>
           )}
         </>
