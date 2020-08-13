@@ -38,7 +38,7 @@ export type SpectatorMove = {
   usedPowerup: boolean;
   playerName: string | null;
   playerId: string | null;
-  playerAvatarUrl: string | null;
+  playerAvatarUrl: string;
 };
 
 export type GameMoveResult = {

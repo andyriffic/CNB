@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Player } from '../contexts/PlayersProvider';
-import { Panel, SubHeading, Stacked } from './ui/Atoms';
+import { Panel, SubHeading, Stacked } from '../../v2/components/ui/Atoms';
 import { PlayerAvatar } from './PlayerAvatar';
 import { SecondaryButton } from './SecondaryButton';
-import { Button } from './ui/buttons';
+import { Button } from '../../v2/components/ui/buttons';
 
 type Props = {
   player: Player;

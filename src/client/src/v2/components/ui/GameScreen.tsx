@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
-import { primaryBackgroundColorHex } from './styleguide';
+import { ThemedUi } from './Theme';
 
 export const featureFontFamily = "'Alfa Slab One', cursive";
 
@@ -10,7 +10,7 @@ const FullPage = styled.div`
   flex-direction: column;
   height: 100vh;
   color: white;
-  background-color: ${primaryBackgroundColorHex};
+  background-color: ${({ theme }) => theme.color.primaryBackground};
 `;
 
 const Body = styled.div<{
@@ -36,10 +36,12 @@ export const GameScreen = ({
   scrollable = true,
 }: FullPageScreenLayoutProps) => {
   return (
-    <FullPage className="margins-off">
-      <Body scrollable={scrollable} className="margins-off">
-        <BodyContent>{children}</BodyContent>
-      </Body>
-    </FullPage>
+    <ThemedUi>
+      <FullPage className="margins-off">
+        <Body scrollable={scrollable} className="margins-off">
+          <BodyContent>{children}</BodyContent>
+        </Body>
+      </FullPage>
+    </ThemedUi>
   );
 };

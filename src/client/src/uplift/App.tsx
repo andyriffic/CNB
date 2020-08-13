@@ -29,6 +29,7 @@ import { InvitationMatchupScreen } from './screens/invitation-matchup';
 import { PlayersProvider } from './contexts/PlayersProvider';
 import { InvitationsProvider } from './contexts/InvitationsProvider';
 import { PowerupRulesScreen } from './screens/powerup-rules';
+import SpectatorScreenV2 from '../v2/screens/spectator';
 
 export default () => {
   return (
@@ -62,6 +63,10 @@ export default () => {
                     <FinxFeatureDisplayScreen path="/finx-display" />
                     <PowerupRulesScreen path="/powerups" />
                     <LayoutTestView path="/layout" />
+                    <SpectatorScreenV2
+                      path="/spectator/:matchupId"
+                      matchupId=""
+                    />
                   </Router>
                 </InvitationsProvider>
               </PlayersProvider>

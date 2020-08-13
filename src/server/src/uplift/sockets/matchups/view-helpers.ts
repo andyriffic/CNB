@@ -18,7 +18,13 @@ const getSpectatorMove = (
   move: GameMove,
   allPlayers: Player[]
 ): MoveSpectatorView => {
-  const player = allPlayers.find((p) => p.id === move.playerId);
+  const playerId =
+    move.playerId ||
+    (move.teamId.startsWith('instant-team-')
+      ? move.teamId.split('-')[2]
+      : undefined);
+
+  const player = allPlayers.find((p) => p.id === playerId);
 
   return {
     moved: !!move.moveId,

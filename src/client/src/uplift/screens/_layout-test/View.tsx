@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from '@reach/router';
-import { GameScreen } from '../../components/ui/GameScreen';
-import { TransitionView } from '../../components/ui/TransitionView';
+import { GameScreen } from '../../../v2/components/ui/GameScreen';
+import { TransitionView } from '../../../v2/components/ui/TransitionView';
 import {
   FeatureText,
   CenterContent,
@@ -11,7 +11,7 @@ import {
   HelpText,
   FeatureLinkText,
   Stacked,
-} from '../../components/ui/Atoms';
+} from '../../../v2/components/ui/Atoms';
 import { PlayersContext } from '../../contexts/PlayersProvider';
 import { PlayerSelect } from '../../components/PlayerSelect';
 
