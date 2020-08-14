@@ -232,3 +232,25 @@ export const jackInTheBoxAnimation = keyframes`
     transform: scale(1);
   }
 `;
+
+export const superSaiyanAnimation = keyframes`
+  from {
+    filter: saturate(0) hue-rotate(0);
+    /* transform: translate3d(0, 2px, 0); */
+  }
+
+  30% {
+    filter: saturate(4) hue-rotate(-0.25turn);
+    /* transform: translate3d(0, -1px, 0); */
+  }
+
+  60% {
+    filter: saturate(4) hue-rotate(0.25turn);
+    /* transform: translate3d(0, 1px, 0); */
+  }
+
+  to {
+    filter: saturate(0) hue-rotate(0);
+    /* transform: translate3d(0, -2px, 0); */
+  }
+`;
