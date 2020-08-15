@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FullPageScreenLayout } from '../../../uplift/components/layouts/FullPageScreenLayout';
 import { MainHeading } from '../../../uplift/components/Heading';
@@ -10,6 +10,7 @@ import { Game } from '../../../uplift/contexts/MatchupProvider';
 import { GamePlayer } from './GamePlayer';
 import { PlayerMove } from './PlayerMove';
 import { PlayerPowerup } from './PlayerPowerup';
+import { useSpring, animated, config } from 'react-spring';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -37,10 +38,7 @@ const PositionedPlayerMove = styled.div`
   position: absolute;
 `;
 
-const PositionedPlayer1Move = styled(PositionedPlayerMove)`
-  bottom: 10%;
-  left: 0;
-`;
+const PositionedPlayer1Move = styled(PositionedPlayerMove)``;
 
 const PositionedPlayer2Move = styled(PositionedPlayerMove)`
   bottom: 10%;
@@ -65,14 +63,47 @@ type Props = {
   game: Game;
 };
 
+const AnimatedPosition = ({
+  top = 0,
+  children,
+}: {
+  top?: number;
+  children: React.ReactNode;
+}) => {
+  const initialPlacement = useRef({ top });
+
+  const props = useSpring({
+    top: initialPlacement.current.top,
+    to: {
+      top,
+    },
+    config: config.wobbly,
+  });
+
+  return (
+    <animated.div
+      style={{
+        position: 'absolute',
+        top: props.top.interpolate(y => `${y * 10}px`),
+      }}
+    >
+      {children}
+    </animated.div>
+  );
+};
+
 const View = ({ game }: Props) => {
-  console.log(game);
+  const [moveReady, setMoveReady] = useState(false);
+
+  // useEffect(() => {
+  //   setMoveReady(!!game.result);
+  // }, [game.result]);
 
   return (
     <GameScreen scrollable={false}>
       <GameplayArea>
         {/* Players */}
-        <PositionedPlayer1>
+        <PositionedPlayer1 onClick={() => setMoveReady(!moveReady)}>
           <GamePlayer
             imageUrl={game.moves[0].playerAvatarUrl}
             poweredUp={game.moves[0].usedPowerup}
@@ -86,11 +117,11 @@ const View = ({ game }: Props) => {
         </PositionedPlayer2>
 
         {/* Moves */}
-        <PositionedPlayer1Move>
-          <PlayerMove />
-        </PositionedPlayer1Move>
+        <AnimatedPosition top={moveReady ? 40 : 10}>
+          <PlayerMove moveId={game.result && game.result.moves[0].moveId} />
+        </AnimatedPosition>
         <PositionedPlayer2Move>
-          <PlayerMove />
+          <PlayerMove moveId={game.result && game.result.moves[1].moveId} />
         </PositionedPlayer2Move>
 
         {/* Powerups */}

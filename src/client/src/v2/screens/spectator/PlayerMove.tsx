@@ -9,8 +9,9 @@ const Container = styled.div`
 
 type Props = {
   moveId?: string;
+  revealed?: boolean;
 };
 
-export const PlayerMove = ({ moveId }: Props) => {
-  return <Container></Container>;
+export const PlayerMove = ({ moveId, revealed = false }: Props) => {
+  return <Container>{moveId}</Container>;
 };
