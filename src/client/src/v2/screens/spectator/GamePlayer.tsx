@@ -33,27 +33,27 @@ type Props = {
 };
 
 export const GamePlayer = ({ imageUrl, poweredUp = false }: Props) => {
-  const props = useSpring({
-    hue: 0,
-    opacity: 1,
-    from: { opacity: 1, hue: 0 },
-    to: async (next: (arg0: object) => void) => {
-      while (1) {
-        await next({ opacity: 0, hue: poweredUp ? -0.75 : 0 });
-        await next({ opacity: 1, hue: 0 });
-      }
-    },
-    config: config.wobbly,
-    delay: 500,
-  });
+  // const props = useSpring({
+  //   hue: 0,
+  //   opacity: 1,
+  //   from: { opacity: 1, hue: 0 },
+  //   to: async (next: (arg0: object) => void) => {
+  //     while (1) {
+  //       await next({ opacity: 0, hue: poweredUp ? -0.75 : 0 });
+  //       await next({ opacity: 1, hue: 0 });
+  //     }
+  //   },
+  //   config: config.wobbly,
+  //   delay: 500,
+  // });
 
   return (
-    <animated.div
-      style={{
-        filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
-      }}
-    >
+    // <animated.div
+    //   style={{
+    //     filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
+    //   }}
+    // >
       <PlayerImage src={`${SOCKETS_ENDPOINT}/${imageUrl}`} />
-    </animated.div>
+    // </animated.div>
   );
 };

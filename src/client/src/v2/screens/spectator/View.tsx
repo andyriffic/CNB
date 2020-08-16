@@ -10,6 +10,7 @@ import { Game } from '../../../uplift/contexts/MatchupProvider';
 import { GamePlayer } from './GamePlayer';
 import { PlayerMove } from './PlayerMove';
 import { PlayerPowerup } from './PlayerPowerup';
+import { Points } from './Points';
 import { useSpring, animated, config } from 'react-spring';
 
 const GameplayArea = styled.div`
@@ -38,11 +39,14 @@ const PositionedPlayerMove = styled.div`
   position: absolute;
 `;
 
-const PositionedPlayer1Move = styled(PositionedPlayerMove)``;
+const PositionedPlayer1Move = styled(PositionedPlayerMove)`
+  bottom: 10%;
+  left: 15%;
+`;
 
 const PositionedPlayer2Move = styled(PositionedPlayerMove)`
   bottom: 10%;
-  right: 0;
+  right: 15%;
 `;
 
 const PositionedPlayerPowerup = styled.div`
@@ -59,37 +63,14 @@ const PositionedPlayer2Powerup = styled(PositionedPlayerPowerup)`
   right: 8%;
 `;
 
+const PositionedBonusPoints = styled.div`
+  position: absolute;
+  top: 5%;
+  left: 48%;
+`;
+
 type Props = {
   game: Game;
-};
-
-const AnimatedPosition = ({
-  top = 0,
-  children,
-}: {
-  top?: number;
-  children: React.ReactNode;
-}) => {
-  const initialPlacement = useRef({ top });
-
-  const props = useSpring({
-    top: initialPlacement.current.top,
-    to: {
-      top,
-    },
-    config: config.wobbly,
-  });
-
-  return (
-    <animated.div
-      style={{
-        position: 'absolute',
-        top: props.top.interpolate(y => `${y * 10}px`),
-      }}
-    >
-      {children}
-    </animated.div>
-  );
 };
 
 const View = ({ game }: Props) => {
@@ -117,9 +98,9 @@ const View = ({ game }: Props) => {
         </PositionedPlayer2>
 
         {/* Moves */}
-        <AnimatedPosition top={moveReady ? 40 : 10}>
+        <PositionedPlayer1Move>
           <PlayerMove moveId={game.result && game.result.moves[0].moveId} />
-        </AnimatedPosition>
+        </PositionedPlayer1Move>
         <PositionedPlayer2Move>
           <PlayerMove moveId={game.result && game.result.moves[1].moveId} />
         </PositionedPlayer2Move>
@@ -131,6 +112,11 @@ const View = ({ game }: Props) => {
         <PositionedPlayer2Powerup>
           <PlayerPowerup powerupUsed={game.moves[1].usedPowerup} />
         </PositionedPlayer2Powerup>
+
+        {/* Points */}
+        <PositionedBonusPoints>
+          <Points title="Bonus" value={20} />
+        </PositionedBonusPoints>
       </GameplayArea>
     </GameScreen>
   );
