@@ -18,8 +18,10 @@ const Container = styled.div`
 const StatsContainer = styled.div`
   width: 50%;
   padding: 20px 20px 50px;
+  background-color: #f78bd1;
+
   &:nth-child(even) {
-    background-color: #3d4a3e;
+    background-color: #d2082d;
   }
 `;
 
@@ -55,7 +57,7 @@ export default ({ maxPlacing }: Props) => {
         <StatsContainer>
           <StatsGroup
             maxPlacing={maxPlacing}
-            title={`🐍 & ䷝ ${maxPlacing ? `top ${maxPlacing}` : ''}`}
+            title={`🍭 Candyland ${maxPlacing ? `top ${maxPlacing}` : ''}`}
             groupedStatsWithRanking={groupStatsSnakesAndLadders}
           />
         </StatsContainer>

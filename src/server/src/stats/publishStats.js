@@ -11,7 +11,7 @@ import { statsS3Bucket } from './s3';
 import { playerLeaderboardQueryAllTime } from './player-leaderboard-query-all-time';
 import { playerLeaderboardQuery2020 } from './player-leaderboard-query-2020';
 import { gameHistoryQuery } from './game-history-query';
-import { playerLeaderboardQuerySnakesAndLadders } from './player-leaderboard-query-snakes-and-ladders';
+import { playerLeaderboardQueryCandyland } from './player-leaderboard-query-candyland';
 
 const RESULT_SIZE = 1000;
 const POLL_INTERVAL = 1000;
@@ -25,10 +25,10 @@ const client = new AWS.Athena({
 /* Create an async queue to handle polling for query results */
 let q = Queue((id, cb) => {
   startPolling(id)
-    .then(data => {
+    .then((data) => {
       return cb(null, data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Failed to poll query: ', err);
       return cb(err);
     });
@@ -37,7 +37,7 @@ let q = Queue((id, cb) => {
 /* Make a SQL query and display results */
 export const publishAllStats = () => {
   const leaderboardQueryAllTime = makeQuery(playerLeaderboardQueryAllTime)
-    .then(data => {
+    .then((data) => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
@@ -45,12 +45,12 @@ export const publishAllStats = () => {
         { result: data, title: 'Ranking by number of games won' }
       );
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('ERROR: ', e);
     });
 
   const leaderboardQuery2020 = makeQuery(playerLeaderboardQuery2020)
-    .then(data => {
+    .then((data) => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
@@ -58,12 +58,12 @@ export const publishAllStats = () => {
         { result: data, title: 'Ranking by number of games won' }
       );
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('ERROR: ', e);
     });
 
   const historyQuery = makeQuery(gameHistoryQuery)
-    .then(data => {
+    .then((data) => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
@@ -71,14 +71,14 @@ export const publishAllStats = () => {
         { result: data, title: 'Game result history' }
       );
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('ERROR: ', e);
     });
 
   const leaderboardQuerySnakeAndLadders = makeQuery(
-    playerLeaderboardQuerySnakesAndLadders
+    playerLeaderboardQueryCandyland
   )
-    .then(data => {
+    .then((data) => {
       // console.log('DATA: ', data);
       statsS3Bucket.saveStats(
         STATS_AWS_RESULT_BUCKET_NAME,
@@ -86,7 +86,7 @@ export const publishAllStats = () => {
         { result: data, title: 'Snakes and ladders leaderboard' }
       );
     })
-    .catch(e => {
+    .catch((e) => {
       console.log('ERROR: ', e);
     });
 
@@ -116,10 +116,10 @@ function makeQuery(sql) {
         if (err) return reject(err);
         /* Once query completed executing, get and process results */
         return buildResults(qid)
-          .then(data => {
+          .then((data) => {
             return resolve(data);
           })
-          .catch(err => {
+          .catch((err) => {
             return reject(err);
           });
       });
@@ -143,14 +143,14 @@ function buildResults(query_id, max, page) {
     /* Get results and iterate through all pages */
     function go(param) {
       getResults(param)
-        .then(res => {
+        .then((res) => {
           dataBlob = _.concat(dataBlob, res.list);
           if (res.next) {
             param.NextToken = res.next;
             return go(param);
           } else return resolve(dataBlob);
         })
-        .catch(err => {
+        .catch((err) => {
           return reject(err);
         });
     }
@@ -162,18 +162,18 @@ function buildResults(query_id, max, page) {
           if (err) return reject(err);
           var list = [];
           let header = buildHeader(data.ResultSet.ResultSetMetadata.ColumnInfo);
-          let top_row = _.map(_.head(data.ResultSet.Rows).Data, n => {
+          let top_row = _.map(_.head(data.ResultSet.Rows).Data, (n) => {
             return n.VarCharValue;
           });
           let resultSet =
             _.difference(header, top_row).length > 0
               ? data.ResultSet.Rows
               : _.drop(data.ResultSet.Rows);
-          resultSet.forEach(item => {
+          resultSet.forEach((item) => {
             list.push(
               _.zipObject(
                 header,
-                _.map(item.Data, n => {
+                _.map(item.Data, (n) => {
                   return n.VarCharValue;
                 })
               )
@@ -210,7 +210,7 @@ function startPolling(id) {
 }
 
 function buildHeader(columns) {
-  return _.map(columns, i => {
+  return _.map(columns, (i) => {
     return i.Name;
   });
 }

@@ -1,4 +1,4 @@
-export const playerLeaderboardQuerySnakesAndLadders = `SELECT
+export const playerLeaderboardQueryCandyland = `SELECT
     player_name,
     count(*) as times_played,
     sum(winner) as times_won,
@@ -8,8 +8,6 @@ export const playerLeaderboardQuerySnakesAndLadders = `SELECT
 FROM
     v_player_move_results
 WHERE 
-    theme = 'jungle-snakes-and-ladders' OR
-    theme = 'goodbye-mb' OR
-    theme = 'covid-19'
+    theme = 'candyland'
 GROUP BY
     player_name`;
