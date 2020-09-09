@@ -6,9 +6,9 @@ import { isFeatureEnabled } from '../../../../featureToggle';
 export const gameBoardDebug = isFeatureEnabled('debug');
 
 const Toadstool = styled.div`
-  font-size: 1.2rem;
+  font-size: 2.2rem;
   position: relative;
-  top: -10px;
+  top: -34px;
   left: -20px;
 `;
 

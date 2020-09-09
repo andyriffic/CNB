@@ -89,7 +89,7 @@ const Fairy = styled.div<{ visible: boolean }>`
   left: -35px;
   transition: opacity 4s ease-in;
   opacity: ${props => (props.visible ? '1' : '0')};
-  font-size: 3rem;
+  font-size: 3.5rem;
 `;
 
 const FairySpeak = styled.div`
@@ -211,7 +211,7 @@ export const BoardPlayer = ({
   return (
     <>
       {fairyState === FairyStates.SHOWING && (
-        <SplashText>Snake fairy appears</SplashText>
+        <SplashText>A fairy appears</SplashText>
       )}
       <PlayerVictory show={boardPlayer.isWinner}>
         <CellPlayer

@@ -173,13 +173,18 @@ export const GameBoardProvider = ({
             gameBoardPlayer.boardCellIndex + 1,
             board.cells.length - 1
           );
+
           const playerTags = gameBoardPlayer.player.tags
             .filter(t => !t.startsWith('sl_moves:'))
             .filter(t => !t.startsWith('sl_cell:'));
 
           updatePlayer(gameBoardPlayer.player.id, [
             ...playerTags,
-            `sl_moves:${gameBoardPlayer.movesRemaining - 1}`,
+            `sl_moves:${
+              board.cells[destinationCellIndex].mustStop
+                ? 0
+                : gameBoardPlayer.movesRemaining - 1
+            }`,
             `sl_cell:${destinationCellIndex}`,
           ]);
         },

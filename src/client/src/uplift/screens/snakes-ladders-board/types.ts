@@ -15,6 +15,7 @@ export type GameBoardCell = {
   type: BOARD_CELL_TYPE;
   linkedCellIndex?: number;
   fairy?: boolean;
+  mustStop?: boolean;
 };
 
 export type GameBoard = {

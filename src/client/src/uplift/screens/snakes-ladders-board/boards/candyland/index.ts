@@ -168,6 +168,9 @@ export const generateBoard = (): GameBoard => {
         number: 31,
         coordinates: [1010, 200],
         type: BOARD_CELL_TYPE.NORMAL,
+        // linkedCellIndex: 30,
+        // fairy: true,
+        // mustStop: true,
       },
       {
         number: 32,
