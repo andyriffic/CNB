@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
 import {
@@ -24,14 +24,24 @@ const mockGame: Game = {
       playerAvatarUrl: '/players/dunny.png',
       playerId: 'dunny',
       playerName: 'Dunny',
-      usedPowerup: true,
+      usedPowerup: false,
     },
   ],
   playMode: 'Timebomb',
   trophyReset: false,
   trophyWon: false,
   viewed: false,
-  attributes: {},
+  attributes: { playerHoldingBombIndex: 0 },
+  // result: {
+  //   moves: [
+  //     { moveId: 'A', powerUpId: 'NONE' },
+  //     { moveId: 'B', powerUpId: 'NONE' },
+  //   ],
+  // },
+};
+
+const mockGameWithResult: Game = {
+  ...mockGame,
   result: {
     moves: [
       { moveId: 'A', powerUpId: 'NONE' },
@@ -55,7 +65,24 @@ const Screen = ({ matchupId }: Props) => {
   //     return <LoadingSpinner />;
   //   }
 
-  return <View game={mockGame} />;
+  const [mockGameState, setMockGameState] = useState(mockGame);
+
+  return (
+    <>
+      <div style={{ position: 'absolute', border: '1px solid black' }}>
+        <button type="button" onClick={() => setMockGameState(mockGame)}>
+          start
+        </button>
+        <button
+          type="button"
+          onClick={() => setMockGameState(mockGameWithResult)}
+        >
+          result
+        </button>
+      </div>
+      <View game={mockGameState} />
+    </>
+  );
 };
 
 export default Screen;

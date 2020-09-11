@@ -9,8 +9,8 @@ const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: white;
-  background-color: ${({ theme }) => theme.color.primaryBackground};
+  color: ${({ theme }) => theme.color.text01};
+  background-color: ${({ theme }) => theme.color.background02};
 `;
 
 const Body = styled.div<{
@@ -23,7 +23,7 @@ const Body = styled.div<{
 `;
 
 const BodyContent = styled.section`
-  width: 1024px;
+  width: 75%;
 `;
 
 type FullPageScreenLayoutProps = {

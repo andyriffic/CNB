@@ -8,6 +8,8 @@ const theme = {
   },
   color: {
     primaryBackground: primaryBackgroundColorHex,
+    background02: '#f9f9f9',
+    text01: 'black',
   },
   fontSize: {
     small: '0.8rem',

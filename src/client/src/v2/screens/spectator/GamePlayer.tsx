@@ -6,8 +6,8 @@ import { SOCKETS_ENDPOINT } from '../../../environment';
 import { superSaiyanAnimation } from '../../../uplift/components/animations';
 
 const PlayerImage = styled.img`
-  width: 12vw;
-  height: 18vw;
+  width: 20vw;
+  height: 35vh;
 `;
 
 const AnimatedFilter = styled(animated.div)<{ hue: number }>`
@@ -53,7 +53,7 @@ export const GamePlayer = ({ imageUrl, poweredUp = false }: Props) => {
     //     filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
     //   }}
     // >
-      <PlayerImage src={`${SOCKETS_ENDPOINT}/${imageUrl}`} />
+    <PlayerImage src={`${SOCKETS_ENDPOINT}/${imageUrl}`} />
     // </animated.div>
   );
 };
