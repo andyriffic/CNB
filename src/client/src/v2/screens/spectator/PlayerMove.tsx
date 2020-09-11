@@ -33,12 +33,18 @@ const dummyThemeMoves: { [key: string]: ReactNode } = {
 };
 
 type Props = {
+  moved: boolean;
   moveId?: string;
   revealed?: boolean;
   onComplete?: () => void;
 };
 
-export const PlayerMove = ({ moveId, revealed = false, onComplete }: Props) => {
+export const PlayerMove = ({
+  moved,
+  moveId,
+  revealed = false,
+  onComplete,
+}: Props) => {
   const revealTimeout = useRef<NodeJS.Timeout | undefined>();
   const [revealing, setRevealing] = useState(false);
   const [showMove, setShowMove] = useState(false);
@@ -49,7 +55,7 @@ export const PlayerMove = ({ moveId, revealed = false, onComplete }: Props) => {
       revealTimeout.current = setTimeout(() => {
         setRevealing(false);
         setShowMove(true);
-      }, 1500);
+      }, 1600);
     } else {
       setShowMove(false);
     }
@@ -66,11 +72,15 @@ export const PlayerMove = ({ moveId, revealed = false, onComplete }: Props) => {
 
   return (
     <Container>
-      <MoveIcon moving={revealing}>
-        {(showMove && (moveId && dummyThemeMoves[moveId])) || (
-          <MoveImage src={mysteryImage} />
-        )}
-      </MoveIcon>
+      {moved ? (
+        <MoveIcon moving={revealing}>
+          {(showMove && (moveId && dummyThemeMoves[moveId])) || (
+            <MoveImage src={mysteryImage} />
+          )}
+        </MoveIcon>
+      ) : (
+        ''
+      )}
     </Container>
   );
 };

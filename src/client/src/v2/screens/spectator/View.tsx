@@ -197,6 +197,7 @@ const View = ({ game }: Props) => {
         {/* Moves */}
         <PositionedPlayer1Move>
           <PlayerMove
+            moved={game.moves[0].moved}
             moveId={game.result && game.result.moves[0].moveId}
             revealed={[
               GamePhase.showResult,
@@ -207,6 +208,7 @@ const View = ({ game }: Props) => {
         </PositionedPlayer1Move>
         <PositionedPlayer2Move>
           <PlayerMove
+            moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
             revealed={[
               GamePhase.showResult,

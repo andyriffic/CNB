@@ -40,8 +40,22 @@ const mockGame: Game = {
   // },
 };
 
-const mockGameWithResult: Game = {
+const mockGameWithPlayer1Moved: Game = {
   ...mockGame,
+  moves: [{ ...mockGame.moves[0], moved: true }, mockGame.moves[1]],
+};
+
+const mockGameWithPlayer2Moved: Game = {
+  ...mockGameWithPlayer1Moved,
+  moves: [
+    mockGameWithPlayer1Moved.moves[0],
+    { ...mockGame.moves[1], moved: true },
+  ],
+};
+
+const mockGameWithResult: Game = {
+  ...mockGameWithPlayer1Moved,
+  ...mockGameWithPlayer2Moved,
   result: {
     moves: [
       { moveId: 'A', powerUpId: 'NONE' },
@@ -69,9 +83,21 @@ const Screen = ({ matchupId }: Props) => {
 
   return (
     <>
-      <div style={{ position: 'absolute', border: '1px solid black' }}>
+      <div style={{ border: '1px solid black' }}>
         <button type="button" onClick={() => setMockGameState(mockGame)}>
           start
+        </button>
+        <button
+          type="button"
+          onClick={() => setMockGameState(mockGameWithPlayer1Moved)}
+        >
+          player 1 moved
+        </button>
+        <button
+          type="button"
+          onClick={() => setMockGameState(mockGameWithPlayer2Moved)}
+        >
+          player 2 moved
         </button>
         <button
           type="button"
