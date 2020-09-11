@@ -31,37 +31,13 @@ const mockGame: Game = {
   trophyReset: false,
   trophyWon: false,
   viewed: false,
-  attributes: { playerHoldingBombIndex: 0 },
+  attributes: { playerHoldingBombIndex: 1 },
   // result: {
   //   moves: [
   //     { moveId: 'A', powerUpId: 'NONE' },
   //     { moveId: 'B', powerUpId: 'NONE' },
   //   ],
   // },
-};
-
-const mockGameWithPlayer1Moved: Game = {
-  ...mockGame,
-  moves: [{ ...mockGame.moves[0], moved: true }, mockGame.moves[1]],
-};
-
-const mockGameWithPlayer2Moved: Game = {
-  ...mockGameWithPlayer1Moved,
-  moves: [
-    mockGameWithPlayer1Moved.moves[0],
-    { ...mockGame.moves[1], moved: true },
-  ],
-};
-
-const mockGameWithResult: Game = {
-  ...mockGameWithPlayer1Moved,
-  ...mockGameWithPlayer2Moved,
-  result: {
-    moves: [
-      { moveId: 'A', powerUpId: 'NONE' },
-      { moveId: 'B', powerUpId: 'NONE' },
-    ],
-  },
 };
 
 type Props = {
@@ -89,22 +65,64 @@ const Screen = ({ matchupId }: Props) => {
         </button>
         <button
           type="button"
-          onClick={() => setMockGameState(mockGameWithPlayer1Moved)}
+          onClick={() =>
+            setMockGameState({
+              ...mockGameState,
+              moves: [
+                { ...mockGameState.moves[0], moved: true },
+                mockGameState.moves[1],
+              ],
+            })
+          }
         >
           player 1 moved
         </button>
         <button
           type="button"
-          onClick={() => setMockGameState(mockGameWithPlayer2Moved)}
+          onClick={() =>
+            setMockGameState({
+              ...mockGameState,
+              moves: [
+                mockGameState.moves[0],
+                { ...mockGameState.moves[1], moved: true },
+              ],
+            })
+          }
         >
           player 2 moved
         </button>
         <button
           type="button"
-          onClick={() => setMockGameState(mockGameWithResult)}
+          onClick={() =>
+            setMockGameState({
+              ...mockGameState,
+              result: {
+                winnerIndex: 0,
+                moves: [
+                  { moveId: 'A', powerUpId: 'NONE' },
+                  { moveId: 'B', powerUpId: 'NONE' },
+                ],
+              },
+            })
+          }
         >
           result
         </button>
+        <input
+          type="number"
+          max={1}
+          min={0}
+          value={mockGameState.attributes.playerHoldingBombIndex}
+          onChange={e =>
+            setMockGameState({
+              ...mockGameState,
+              attributes: {
+                ...mockGameState.attributes,
+                playerHoldingBombIndex: e.target.value,
+              },
+            })
+          }
+        />
       </div>
       <View game={mockGameState} />
     </>

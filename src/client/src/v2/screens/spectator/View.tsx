@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { FullPageScreenLayout } from '../../../uplift/components/layouts/FullPageScreenLayout';
-import { MainHeading } from '../../../uplift/components/Heading';
-import { RouteComponentProps } from '@reach/router';
-import { PlayerAvatar } from '../../../uplift/components/PlayerAvatar';
-import { Player } from '../../../uplift/contexts/PlayersProvider';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Game } from '../../../uplift/contexts/MatchupProvider';
 import { GamePlayer } from './GamePlayer';
@@ -14,6 +9,7 @@ import { Points } from './Points';
 import { useSpring, animated, config } from 'react-spring';
 import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
+import { Winner } from './Winner';
 
 /*
   introduce players
@@ -23,14 +19,16 @@ import { SplashText } from '../../../uplift/components/SplashText';
   ready to play               |
   show result                 |
   highlight winner            |
-  show points                 |
+  show game points            |
   apply bonus points          |
-  apply powerups              |
+  apply powerup points        |
   update points to player     |
+  apply powerups              |
   timebomb                    |
   no explosion ----------------
 
   explode
+  final points
   game summary
 
  */
@@ -40,7 +38,17 @@ enum GamePhase {
   readyToPlay = 'readyToPlay',
   showResult = 'showResult',
   highlightWinner = 'highlightWinner',
+  showPoints = 'showPoints',
+  applyBonusPoints = 'applyBonusPoints',
+  givePointsToPlayer = 'givePointsToPlayer',
 }
+
+type RelativePosition = {
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
+};
 
 const useGameTiming = (
   gamePhase: GamePhase,
@@ -62,16 +70,6 @@ const useGameTiming = (
 
 const useGamePhase = (game: Game) => {
   const [gamePhase, setGamePhase] = useState(GamePhase.waitingMoves);
-
-  // useEffect(() => {
-  //   if (gamePhase !== GamePhase.waitingMoves) {
-  //     return;
-  //   }
-
-  //   if (!!game.result) {
-  //     setGamePhase(GamePhase.readyToPlay);
-  //   }
-  // }, [game, gamePhase]);
 
   useEffect(() => {
     console.log('useGamePhase', game);
@@ -99,72 +97,57 @@ const GameplayArea = styled.div`
   margin: 0 auto;
 `;
 
-const PositionedPlayer1 = styled.div`
+const PositionedArea = styled.div<RelativePosition>`
   position: absolute;
-  bottom: 0;
-  left: 0;
-`;
-
-const PositionedPlayer2 = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
-const PositionedPlayer1Move = styled.div`
-  position: absolute;
-  bottom: 15%;
-  left: 30%;
-`;
-
-const PositionedPlayer2Move = styled.div`
-  position: absolute;
-  bottom: 15%;
-  right: 30%;
-`;
-
-const PositionedPlayer1Powerup = styled.div`
-  position: absolute;
-  bottom: 45%;
-  left: 8%;
-`;
-
-const PositionedPlayer2Powerup = styled.div`
-  position: absolute;
-  bottom: 45%;
-  right: 8%;
-`;
-
-const PositionedPlayer1Points = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-`;
-
-const PositionedPlayer2Points = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
-const PositionedBonusPoints = styled.div`
-  position: absolute;
-  top: 5%;
-  left: 48%;
-`;
-
-const PositionedTimebomb = styled.div`
-  position: absolute;
-  top: 30%;
-  left: 48%;
+  will-change: top, left, bottom, right;
+  ${({ top }) => top !== undefined && `top: ${top}%;`}
+  ${({ left }) => left !== undefined && `left: ${left}%;`}
+  ${({ bottom }) => bottom !== undefined && `bottom: ${bottom}%;`}
+  ${({ right }) => right !== undefined && `right: ${right}%;`}
+  transition: all 500ms linear;
 `;
 
 type Props = {
   game: Game;
 };
 
+const timebombPositions: [RelativePosition, RelativePosition] = [
+  { bottom: 0, left: 10 },
+  { bottom: 0, left: 85 },
+];
+
+const winnerPositions: [RelativePosition, RelativePosition] = [
+  { top: 10, left: 10 },
+  { top: 10, left: 85 },
+];
+
+const pointsPositions: {
+  game: RelativePosition;
+  bonus: RelativePosition;
+  player: [RelativePosition, RelativePosition];
+} = {
+  game: { top: 30, left: 48 },
+  bonus: { top: 5, left: 48 },
+  player: [{ top: 70, left: 0 }, { top: 70, left: 93 }],
+};
+
 const View = ({ game }: Props) => {
   const { gamePhase, setGamePhase } = useGamePhase(game);
+  const [gamePointsPosition, setGamePointsPosition] = useState(
+    pointsPositions.game
+  );
+
+  useEffect(() => {
+    if (!game.result) {
+      return;
+    }
+
+    if (gamePhase === GamePhase.givePointsToPlayer) {
+      if (game.result.winnerIndex !== undefined) {
+        setGamePointsPosition(pointsPositions.player[game.result.winnerIndex]);
+      }
+    }
+  }, [game, gamePhase]);
 
   // useEffect(() => {
   //   setMoveReady(!!game.result);
@@ -172,7 +155,7 @@ const View = ({ game }: Props) => {
 
   return (
     <GameScreen scrollable={false}>
-      {/* <p>{gamePhase}</p> */}
+      <p>{gamePhase}</p>
       <GameplayArea>
         {gamePhase === GamePhase.readyToPlay && (
           <SplashText onComplete={() => setGamePhase(GamePhase.showResult)}>
@@ -181,66 +164,97 @@ const View = ({ game }: Props) => {
         )}
 
         {/* Players */}
-        <PositionedPlayer1>
+        <PositionedArea bottom={15} left={0}>
           <GamePlayer
             imageUrl={game.moves[0].playerAvatarUrl}
             poweredUp={game.moves[0].usedPowerup}
           />
-        </PositionedPlayer1>
-        <PositionedPlayer2>
+        </PositionedArea>
+        <PositionedArea bottom={15} right={0}>
           <GamePlayer
             imageUrl={game.moves[1].playerAvatarUrl}
             poweredUp={game.moves[1].usedPowerup}
           />
-        </PositionedPlayer2>
+        </PositionedArea>
 
         {/* Moves */}
-        <PositionedPlayer1Move>
+        <PositionedArea bottom={15} left={30}>
           <PlayerMove
             moved={game.moves[0].moved}
             moveId={game.result && game.result.moves[0].moveId}
             revealed={[
               GamePhase.showResult,
               GamePhase.highlightWinner,
+              GamePhase.showPoints,
             ].includes(gamePhase)}
             onComplete={() => setGamePhase(GamePhase.highlightWinner)}
           />
-        </PositionedPlayer1Move>
-        <PositionedPlayer2Move>
+        </PositionedArea>
+        <PositionedArea bottom={15} right={30}>
           <PlayerMove
             moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
             revealed={[
               GamePhase.showResult,
               GamePhase.highlightWinner,
+              GamePhase.showPoints,
             ].includes(gamePhase)}
           />
-        </PositionedPlayer2Move>
+        </PositionedArea>
 
         {/* Powerups */}
-        <PositionedPlayer1Powerup>
+        <PositionedArea bottom={45} left={8}>
           <PlayerPowerup powerupUsed={game.moves[0].usedPowerup} />
-        </PositionedPlayer1Powerup>
-        <PositionedPlayer2Powerup>
+        </PositionedArea>
+        <PositionedArea bottom={45} right={8}>
           <PlayerPowerup powerupUsed={game.moves[1].usedPowerup} />
-        </PositionedPlayer2Powerup>
+        </PositionedArea>
 
         {/* Points */}
-        <PositionedBonusPoints>
+        {[GamePhase.showPoints, GamePhase.givePointsToPlayer].includes(
+          gamePhase
+        ) && (
+          <PositionedArea {...gamePointsPosition}>
+            <Points
+              title=""
+              value={1}
+              onComplete={() => setGamePhase(GamePhase.givePointsToPlayer)}
+            />
+          </PositionedArea>
+        )}
+        <PositionedArea {...pointsPositions.bonus}>
           <Points title="Bonus" value={20} />
-        </PositionedBonusPoints>
-        <PositionedPlayer1Points>
+        </PositionedArea>
+        <PositionedArea {...pointsPositions.player[0]}>
           <Points title="Points" value={1} />
-        </PositionedPlayer1Points>
-        <PositionedPlayer2Points>
+        </PositionedArea>
+        <PositionedArea {...pointsPositions.player[1]}>
           <Points title="Points" value={1} />
-        </PositionedPlayer2Points>
-      </GameplayArea>
+        </PositionedArea>
 
-      {/* Timebomb */}
-      <PositionedTimebomb>
-        <Timebomb />
-      </PositionedTimebomb>
+        {/* Winner */}
+        {[GamePhase.highlightWinner, GamePhase.showPoints].includes(
+          gamePhase
+        ) && (
+          <PositionedArea
+            {...winnerPositions[
+              (game.result &&
+                game.result.winnerIndex !== undefined &&
+                game.result.winnerIndex) ||
+                0
+            ]}
+          >
+            <Winner onComplete={() => setGamePhase(GamePhase.showPoints)} />
+          </PositionedArea>
+        )}
+
+        {/* Timebomb */}
+        <PositionedArea
+          {...timebombPositions[game.attributes.playerHoldingBombIndex]}
+        >
+          <Timebomb />
+        </PositionedArea>
+      </GameplayArea>
     </GameScreen>
   );
 };

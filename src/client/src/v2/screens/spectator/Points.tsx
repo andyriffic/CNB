@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { pulseAnimation } from '../../../uplift/components/animations';
 import { ReadableNumberFont } from '../../../components/ReadableNumberFont';
@@ -30,10 +30,20 @@ const Title = styled.div`
 type Props = {
   title?: string;
   value: number;
+  onComplete?: () => void;
 };
 
-export const Points = ({ title, value }: Props) => {
-  return <Container>
-    {title && <Title>{title}</Title>}
-    <ReadableNumberFont>{value}</ReadableNumberFont> </Container>;
+export const Points = ({ title, value, onComplete }: Props) => {
+  useEffect(() => {
+    setTimeout(() => {
+      onComplete && onComplete();
+    }, 2000);
+  }, []);
+
+  return (
+    <Container>
+      {title && <Title>{title}</Title>}
+      <ReadableNumberFont>{value}</ReadableNumberFont>{' '}
+    </Container>
+  );
 };
