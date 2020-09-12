@@ -10,6 +10,7 @@ import { useSpring, animated, config } from 'react-spring';
 import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './Winner';
+import { RelativePosition, PositionedArea } from './PositionedArea';
 
 /*
   introduce players
@@ -42,13 +43,6 @@ enum GamePhase {
   applyBonusPoints = 'applyBonusPoints',
   givePointsToPlayer = 'givePointsToPlayer',
 }
-
-type RelativePosition = {
-  top?: number;
-  left?: number;
-  bottom?: number;
-  right?: number;
-};
 
 const useGameTiming = (
   gamePhase: GamePhase,
@@ -97,16 +91,6 @@ const GameplayArea = styled.div`
   margin: 0 auto;
 `;
 
-const PositionedArea = styled.div<RelativePosition>`
-  position: absolute;
-  will-change: top, left, bottom, right;
-  ${({ top }) => top !== undefined && `top: ${top}%;`}
-  ${({ left }) => left !== undefined && `left: ${left}%;`}
-  ${({ bottom }) => bottom !== undefined && `bottom: ${bottom}%;`}
-  ${({ right }) => right !== undefined && `right: ${right}%;`}
-  transition: all 500ms linear;
-`;
-
 type Props = {
   game: Game;
 };
@@ -139,6 +123,7 @@ const View = ({ game }: Props) => {
 
   useEffect(() => {
     if (!game.result) {
+      setGamePointsPosition(pointsPositions.game);
       return;
     }
 
@@ -164,13 +149,13 @@ const View = ({ game }: Props) => {
         )}
 
         {/* Players */}
-        <PositionedArea bottom={15} left={0}>
+        <PositionedArea position={{ bottom: 15, left: 0 }}>
           <GamePlayer
             imageUrl={game.moves[0].playerAvatarUrl}
             poweredUp={game.moves[0].usedPowerup}
           />
         </PositionedArea>
-        <PositionedArea bottom={15} right={0}>
+        <PositionedArea position={{ bottom: 15, right: 0 }}>
           <GamePlayer
             imageUrl={game.moves[1].playerAvatarUrl}
             poweredUp={game.moves[1].usedPowerup}
@@ -178,7 +163,7 @@ const View = ({ game }: Props) => {
         </PositionedArea>
 
         {/* Moves */}
-        <PositionedArea bottom={15} left={30}>
+        <PositionedArea position={{ bottom: 15, left: 30 }}>
           <PlayerMove
             moved={game.moves[0].moved}
             moveId={game.result && game.result.moves[0].moveId}
@@ -190,7 +175,7 @@ const View = ({ game }: Props) => {
             onComplete={() => setGamePhase(GamePhase.highlightWinner)}
           />
         </PositionedArea>
-        <PositionedArea bottom={15} right={30}>
+        <PositionedArea position={{ bottom: 15, right: 30 }}>
           <PlayerMove
             moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
@@ -203,10 +188,10 @@ const View = ({ game }: Props) => {
         </PositionedArea>
 
         {/* Powerups */}
-        <PositionedArea bottom={45} left={8}>
+        <PositionedArea position={{ bottom: 45, left: 8 }}>
           <PlayerPowerup powerupUsed={game.moves[0].usedPowerup} />
         </PositionedArea>
-        <PositionedArea bottom={45} right={8}>
+        <PositionedArea position={{ bottom: 45, right: 8 }}>
           <PlayerPowerup powerupUsed={game.moves[1].usedPowerup} />
         </PositionedArea>
 
@@ -214,7 +199,7 @@ const View = ({ game }: Props) => {
         {[GamePhase.showPoints, GamePhase.givePointsToPlayer].includes(
           gamePhase
         ) && (
-          <PositionedArea {...gamePointsPosition}>
+          <PositionedArea position={gamePointsPosition}>
             <Points
               title=""
               value={1}
@@ -222,13 +207,13 @@ const View = ({ game }: Props) => {
             />
           </PositionedArea>
         )}
-        <PositionedArea {...pointsPositions.bonus}>
+        <PositionedArea position={pointsPositions.bonus}>
           <Points title="Bonus" value={20} />
         </PositionedArea>
-        <PositionedArea {...pointsPositions.player[0]}>
+        <PositionedArea position={pointsPositions.player[0]}>
           <Points title="Points" value={1} />
         </PositionedArea>
-        <PositionedArea {...pointsPositions.player[1]}>
+        <PositionedArea position={pointsPositions.player[1]}>
           <Points title="Points" value={1} />
         </PositionedArea>
 
@@ -237,12 +222,14 @@ const View = ({ game }: Props) => {
           gamePhase
         ) && (
           <PositionedArea
-            {...winnerPositions[
-              (game.result &&
-                game.result.winnerIndex !== undefined &&
-                game.result.winnerIndex) ||
-                0
-            ]}
+            position={
+              winnerPositions[
+                (game.result &&
+                  game.result.winnerIndex !== undefined &&
+                  game.result.winnerIndex) ||
+                  0
+              ]
+            }
           >
             <Winner onComplete={() => setGamePhase(GamePhase.showPoints)} />
           </PositionedArea>
@@ -250,7 +237,7 @@ const View = ({ game }: Props) => {
 
         {/* Timebomb */}
         <PositionedArea
-          {...timebombPositions[game.attributes.playerHoldingBombIndex]}
+          position={timebombPositions[game.attributes.playerHoldingBombIndex]}
         >
           <Timebomb />
         </PositionedArea>
