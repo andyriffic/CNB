@@ -44,6 +44,7 @@ enum GamePhase {
   givePointsToPlayer = 'givePointsToPlayer',
   showPlayerPoints = 'showPlayerPoints',
   timebombFuse = 'timebombFuse',
+  timebombResolution = 'timebombResolution',
 }
 
 const useGameTiming = (
@@ -167,7 +168,7 @@ const View = ({ game }: Props) => {
         </PositionedArea>
 
         {/* Moves */}
-        <PositionedArea position={{ bottom: 15, left: 30 }}>
+        <PositionedArea position={{ bottom: 25, left: 30 }}>
           <PlayerMove
             moved={game.moves[0].moved}
             moveId={game.result && game.result.moves[0].moveId}
@@ -178,11 +179,12 @@ const View = ({ game }: Props) => {
               GamePhase.givePointsToPlayer,
               GamePhase.showPlayerPoints,
               GamePhase.timebombFuse,
+              GamePhase.timebombResolution,
             ].includes(gamePhase)}
             onComplete={() => setGamePhase(GamePhase.highlightWinner)}
           />
         </PositionedArea>
-        <PositionedArea position={{ bottom: 15, right: 30 }}>
+        <PositionedArea position={{ bottom: 25, right: 30 }}>
           <PlayerMove
             moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
@@ -193,6 +195,7 @@ const View = ({ game }: Props) => {
               GamePhase.givePointsToPlayer,
               GamePhase.showPlayerPoints,
               GamePhase.timebombFuse,
+              GamePhase.timebombResolution,
             ].includes(gamePhase)}
           />
         </PositionedArea>
@@ -252,6 +255,7 @@ const View = ({ game }: Props) => {
           GamePhase.givePointsToPlayer,
           GamePhase.showPlayerPoints,
           GamePhase.timebombFuse,
+          GamePhase.timebombResolution,
         ].includes(gamePhase) && (
           <PositionedArea
             position={
@@ -271,7 +275,10 @@ const View = ({ game }: Props) => {
         <PositionedArea
           position={timebombPositions[game.attributes.playerHoldingBombIndex]}
         >
-          <Timebomb />
+          <Timebomb
+            triggerFuse={gamePhase === GamePhase.timebombFuse}
+            onComplete={() => setGamePhase(GamePhase.timebombResolution)}
+          />
         </PositionedArea>
       </GameplayArea>
     </GameScreen>

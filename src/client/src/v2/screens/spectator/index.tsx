@@ -32,12 +32,6 @@ const mockGame: Game = {
   trophyWon: false,
   viewed: false,
   attributes: { playerHoldingBombIndex: 1 },
-  // result: {
-  //   moves: [
-  //     { moveId: 'A', powerUpId: 'NONE' },
-  //     { moveId: 'B', powerUpId: 'NONE' },
-  //   ],
-  // },
 };
 
 type Props = {

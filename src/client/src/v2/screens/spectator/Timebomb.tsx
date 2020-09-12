@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -7,6 +7,19 @@ const Container = styled.div`
   font-size: 3rem;
 `;
 
-export const Timebomb = () => {
-  return <Container>💣</Container>;
+type TimebombProps = {
+  triggerFuse: boolean;
+  onComplete: () => void;
+};
+
+export const Timebomb = ({ triggerFuse, onComplete }: TimebombProps) => {
+  useEffect(() => {
+    if (triggerFuse) {
+      setTimeout(() => {
+        onComplete();
+      }, 3000);
+    }
+  }, [triggerFuse]);
+
+  return <Container>💣 {triggerFuse && '⏰'}</Container>;
 };
