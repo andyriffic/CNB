@@ -8,7 +8,7 @@ const Container = styled.div`
   width: 5vw;
   height: 5vw;
   background-color: transparent;
-  animation: ${shakeAnimationLeft} 500ms infinite;
+  /* animation: ${shakeAnimationLeft} 500ms infinite; */
 `;
 
 type Props = {

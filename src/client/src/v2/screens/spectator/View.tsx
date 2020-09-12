@@ -11,6 +11,7 @@ import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './Winner';
 import { RelativePosition, PositionedArea } from './PositionedArea';
+import { DynamicUpdatingPoints } from '../../../uplift/components/dynamic-updating-points';
 
 /*
   introduce players
@@ -25,7 +26,7 @@ import { RelativePosition, PositionedArea } from './PositionedArea';
   apply powerup points        |
   update points to player     |
   apply powerups              |
-  timebomb                    |
+  timebomb fuse               |
   no explosion ----------------
 
   explode
@@ -40,8 +41,9 @@ enum GamePhase {
   showResult = 'showResult',
   highlightWinner = 'highlightWinner',
   showPoints = 'showPoints',
-  applyBonusPoints = 'applyBonusPoints',
   givePointsToPlayer = 'givePointsToPlayer',
+  showPlayerPoints = 'showPlayerPoints',
+  timebombFuse = 'timebombFuse',
 }
 
 const useGameTiming = (
@@ -121,6 +123,8 @@ const View = ({ game }: Props) => {
     pointsPositions.game
   );
 
+  const [playerPoints, setPlayerPoints] = useState<[number, number]>([1, 1]);
+
   useEffect(() => {
     if (!game.result) {
       setGamePointsPosition(pointsPositions.game);
@@ -171,6 +175,9 @@ const View = ({ game }: Props) => {
               GamePhase.showResult,
               GamePhase.highlightWinner,
               GamePhase.showPoints,
+              GamePhase.givePointsToPlayer,
+              GamePhase.showPlayerPoints,
+              GamePhase.timebombFuse,
             ].includes(gamePhase)}
             onComplete={() => setGamePhase(GamePhase.highlightWinner)}
           />
@@ -183,6 +190,9 @@ const View = ({ game }: Props) => {
               GamePhase.showResult,
               GamePhase.highlightWinner,
               GamePhase.showPoints,
+              GamePhase.givePointsToPlayer,
+              GamePhase.showPlayerPoints,
+              GamePhase.timebombFuse,
             ].includes(gamePhase)}
           />
         </PositionedArea>
@@ -199,11 +209,17 @@ const View = ({ game }: Props) => {
         {[GamePhase.showPoints, GamePhase.givePointsToPlayer].includes(
           gamePhase
         ) && (
-          <PositionedArea position={gamePointsPosition}>
+          <PositionedArea
+            position={gamePointsPosition}
+            onMoveComplete={() => {
+              setGamePhase(GamePhase.showPlayerPoints);
+              setPlayerPoints([2, 1]);
+            }}
+          >
             <Points
               title=""
               value={1}
-              onComplete={() => setGamePhase(GamePhase.givePointsToPlayer)}
+              onVisible={() => setGamePhase(GamePhase.givePointsToPlayer)}
             />
           </PositionedArea>
         )}
@@ -211,16 +227,32 @@ const View = ({ game }: Props) => {
           <Points title="Bonus" value={20} />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[0]}>
-          <Points title="Points" value={1} />
+          <Points
+            title="Points"
+            value={playerPoints[0]}
+            onUpdated={() => {
+              setGamePhase(GamePhase.timebombFuse);
+            }}
+          />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[1]}>
-          <Points title="Points" value={1} />
+          <Points
+            title="Points"
+            value={playerPoints[1]}
+            onUpdated={() => {
+              setGamePhase(GamePhase.timebombFuse);
+            }}
+          />
         </PositionedArea>
 
         {/* Winner */}
-        {[GamePhase.highlightWinner, GamePhase.showPoints].includes(
-          gamePhase
-        ) && (
+        {[
+          GamePhase.highlightWinner,
+          GamePhase.showPoints,
+          GamePhase.givePointsToPlayer,
+          GamePhase.showPlayerPoints,
+          GamePhase.timebombFuse,
+        ].includes(gamePhase) && (
           <PositionedArea
             position={
               winnerPositions[
