@@ -23,6 +23,8 @@ const GameplayArea = styled.div`
 type Props = {
   game: Game;
   bonusPoints: number;
+  gamePhase: GamePhase;
+  playerPoints: [number, number];
 };
 
 const timebombPositions: [RelativePosition, RelativePosition] = [
@@ -45,13 +47,10 @@ const pointsPositions: {
   player: [{ top: 70, left: 0 }, { top: 70, left: 93 }],
 };
 
-const View = ({ game, bonusPoints }: Props) => {
-  const gamePhase = useGamePhaseTiming(game);
+const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
   const [gamePointsPosition, setGamePointsPosition] = useState(
     pointsPositions.game
   );
-
-  const [playerPoints, setPlayerPoints] = useState<[number, number]>([1, 1]);
 
   useEffect(() => {
     if (!game.result) {
@@ -148,12 +147,7 @@ const View = ({ game, bonusPoints }: Props) => {
           GamePhase.givePointsToPlayer,
           GamePhase.givePointsToBonus,
         ].includes(gamePhase) && (
-          <PositionedArea
-            position={gamePointsPosition}
-            onMoveComplete={() => {
-              setPlayerPoints([2, 1]);
-            }}
-          >
+          <PositionedArea position={gamePointsPosition}>
             <Points title="" value={1} />
           </PositionedArea>
         )}

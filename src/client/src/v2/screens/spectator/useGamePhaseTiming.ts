@@ -74,7 +74,7 @@ export const useGamePhaseTiming = (game?: Game) => {
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.showResult,
     to:
-      game.result && game.result.draw
+      game && game.result && game.result.draw
         ? GamePhase.highlightDraw
         : GamePhase.highlightWinner,
     timeoutMilliseconds: 2000,
@@ -95,7 +95,7 @@ export const useGamePhaseTiming = (game?: Game) => {
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.showPoints,
     to:
-      game.result && game.result.draw
+      game && game.result && game.result.draw
         ? GamePhase.givePointsToBonus
         : GamePhase.givePointsToPlayer,
     timeoutMilliseconds: 2000,
