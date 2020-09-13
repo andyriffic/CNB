@@ -11,81 +11,7 @@ import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './Winner';
 import { RelativePosition, PositionedArea } from './PositionedArea';
-import { DynamicUpdatingPoints } from '../../../uplift/components/dynamic-updating-points';
-
-/*
-  introduce players
-  assign bomb
-
-  waiting player moves   <-----
-  ready to play               |
-  show result                 |
-  highlight winner            |
-  show game points            |
-  apply bonus points          |
-  apply powerup points        |
-  update points to player     |
-  apply powerups              |
-  timebomb fuse               |
-  no explosion ----------------
-
-  explode
-  final points
-  game summary
-
- */
-
-enum GamePhase {
-  waitingMoves = 'waitingMoves',
-  readyToPlay = 'readyToPlay',
-  showResult = 'showResult',
-  highlightWinner = 'highlightWinner',
-  showPoints = 'showPoints',
-  givePointsToPlayer = 'givePointsToPlayer',
-  showPlayerPoints = 'showPlayerPoints',
-  timebombFuse = 'timebombFuse',
-  timebombResolution = 'timebombResolution',
-}
-
-const useGameTiming = (
-  gamePhase: GamePhase,
-  setGamePhase: (gamePhase: GamePhase) => void,
-  {
-    from,
-    to,
-    timeoutMilliseconds,
-  }: { from: GamePhase; to: GamePhase; timeoutMilliseconds: number }
-) => {
-  useEffect(() => {
-    if (gamePhase === from) {
-      setTimeout(() => {
-        setGamePhase(to);
-      }, timeoutMilliseconds);
-    }
-  }, [gamePhase]);
-};
-
-const useGamePhase = (game: Game) => {
-  const [gamePhase, setGamePhase] = useState(GamePhase.waitingMoves);
-
-  useEffect(() => {
-    console.log('useGamePhase', game);
-
-    if (!game.result) {
-      setGamePhase(GamePhase.waitingMoves);
-    } else {
-      setGamePhase(GamePhase.readyToPlay);
-    }
-  }, [game]);
-
-  // useGameTiming(gamePhase, setGamePhase, {
-  //   from: GamePhase.readyToPlay,
-  //   to: GamePhase.showResult,
-  //   timeoutMilliseconds: 2000,
-  // });
-
-  return { gamePhase, setGamePhase };
-};
+import { GamePhase, useGamePhaseTiming } from './useGamePhaseTiming';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -96,6 +22,7 @@ const GameplayArea = styled.div`
 
 type Props = {
   game: Game;
+  bonusPoints: number;
 };
 
 const timebombPositions: [RelativePosition, RelativePosition] = [
@@ -118,8 +45,8 @@ const pointsPositions: {
   player: [{ top: 70, left: 0 }, { top: 70, left: 93 }],
 };
 
-const View = ({ game }: Props) => {
-  const { gamePhase, setGamePhase } = useGamePhase(game);
+const View = ({ game, bonusPoints }: Props) => {
+  const gamePhase = useGamePhaseTiming(game);
   const [gamePointsPosition, setGamePointsPosition] = useState(
     pointsPositions.game
   );
@@ -136,6 +63,8 @@ const View = ({ game }: Props) => {
       if (game.result.winnerIndex !== undefined) {
         setGamePointsPosition(pointsPositions.player[game.result.winnerIndex]);
       }
+    } else if (gamePhase === GamePhase.givePointsToBonus) {
+      setGamePointsPosition(pointsPositions.bonus);
     }
   }, [game, gamePhase]);
 
@@ -148,7 +77,11 @@ const View = ({ game }: Props) => {
       <p>{gamePhase}</p>
       <GameplayArea>
         {gamePhase === GamePhase.readyToPlay && (
-          <SplashText onComplete={() => setGamePhase(GamePhase.showResult)}>
+          <SplashText
+            onComplete={() => {
+              /*setGamePhase(GamePhase.showResult)*/
+            }}
+          >
             Ready
           </SplashText>
         )}
@@ -175,13 +108,13 @@ const View = ({ game }: Props) => {
             revealed={[
               GamePhase.showResult,
               GamePhase.highlightWinner,
+              GamePhase.highlightDraw,
               GamePhase.showPoints,
               GamePhase.givePointsToPlayer,
-              GamePhase.showPlayerPoints,
+              GamePhase.givePointsToBonus,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
             ].includes(gamePhase)}
-            onComplete={() => setGamePhase(GamePhase.highlightWinner)}
           />
         </PositionedArea>
         <PositionedArea position={{ bottom: 25, right: 30 }}>
@@ -191,9 +124,10 @@ const View = ({ game }: Props) => {
             revealed={[
               GamePhase.showResult,
               GamePhase.highlightWinner,
+              GamePhase.highlightDraw,
               GamePhase.showPoints,
               GamePhase.givePointsToPlayer,
-              GamePhase.showPlayerPoints,
+              GamePhase.givePointsToBonus,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
             ].includes(gamePhase)}
@@ -209,66 +143,60 @@ const View = ({ game }: Props) => {
         </PositionedArea>
 
         {/* Points */}
-        {[GamePhase.showPoints, GamePhase.givePointsToPlayer].includes(
-          gamePhase
-        ) && (
+        {[
+          GamePhase.showPoints,
+          GamePhase.givePointsToPlayer,
+          GamePhase.givePointsToBonus,
+        ].includes(gamePhase) && (
           <PositionedArea
             position={gamePointsPosition}
             onMoveComplete={() => {
-              setGamePhase(GamePhase.showPlayerPoints);
               setPlayerPoints([2, 1]);
             }}
           >
-            <Points
-              title=""
-              value={1}
-              onVisible={() => setGamePhase(GamePhase.givePointsToPlayer)}
-            />
+            <Points title="" value={1} />
           </PositionedArea>
         )}
         <PositionedArea position={pointsPositions.bonus}>
-          <Points title="Bonus" value={20} />
+          <Points title="Bonus" value={bonusPoints} />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[0]}>
-          <Points
-            title="Points"
-            value={playerPoints[0]}
-            onUpdated={() => {
-              setGamePhase(GamePhase.timebombFuse);
-            }}
-          />
+          <Points title="Points" value={playerPoints[0]} />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[1]}>
-          <Points
-            title="Points"
-            value={playerPoints[1]}
-            onUpdated={() => {
-              setGamePhase(GamePhase.timebombFuse);
-            }}
-          />
+          <Points title="Points" value={playerPoints[1]} />
         </PositionedArea>
 
         {/* Winner */}
         {[
           GamePhase.highlightWinner,
+          GamePhase.highlightDraw,
           GamePhase.showPoints,
           GamePhase.givePointsToPlayer,
-          GamePhase.showPlayerPoints,
+          GamePhase.givePointsToBonus,
           GamePhase.timebombFuse,
           GamePhase.timebombResolution,
         ].includes(gamePhase) && (
-          <PositionedArea
-            position={
-              winnerPositions[
-                (game.result &&
-                  game.result.winnerIndex !== undefined &&
-                  game.result.winnerIndex) ||
-                  0
-              ]
-            }
-          >
-            <Winner onComplete={() => setGamePhase(GamePhase.showPoints)} />
-          </PositionedArea>
+          <>
+            {game.result && !game.result.draw ? (
+              <PositionedArea
+                position={
+                  winnerPositions[
+                    (game.result &&
+                      game.result.winnerIndex !== undefined &&
+                      game.result.winnerIndex) ||
+                      0
+                  ]
+                }
+              >
+                <Winner />
+              </PositionedArea>
+            ) : (
+              <PositionedArea position={{ top: 45, left: 46 }}>
+                draw
+              </PositionedArea>
+            )}
+          </>
         )}
 
         {/* Timebomb */}
@@ -277,7 +205,10 @@ const View = ({ game }: Props) => {
         >
           <Timebomb
             triggerFuse={gamePhase === GamePhase.timebombFuse}
-            onComplete={() => setGamePhase(GamePhase.timebombResolution)}
+            triggerExplosion={
+              gamePhase === GamePhase.timebombResolution &&
+              !!game.attributes.exploded
+            }
           />
         </PositionedArea>
       </GameplayArea>

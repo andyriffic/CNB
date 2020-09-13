@@ -30,26 +30,9 @@ const Title = styled.div`
 type Props = {
   title?: string;
   value: number;
-  onVisible?: () => void;
-  onUpdated?: () => void;
 };
 
-export const Points = ({ title, value, onVisible, onUpdated }: Props) => {
-  const currentValue = useRef(value);
-
-  useEffect(() => {
-    setTimeout(() => {
-      onVisible && onVisible();
-    }, 2000);
-  }, []);
-
-  useEffect(() => {
-    if (value !== currentValue.current) {
-      currentValue.current = value;
-      onUpdated && onUpdated();
-    }
-  }, [value]);
-
+export const Points = ({ title, value }: Props) => {
   return (
     <Container>
       {title && <Title>{title}</Title>}

@@ -11,17 +11,7 @@ const Container = styled.div`
   /* animation: ${shakeAnimationLeft} 500ms infinite; */
 `;
 
-type Props = {
-  onComplete: () => void;
-};
-
-export const Winner = ({ onComplete }: Props) => {
-  useEffect(() => {
-    setTimeout(() => {
-      onComplete();
-    }, 2000);
-  }, []);
-
+export const Winner = () => {
   return (
     <Container>
       <RainbowText>WINNER!</RainbowText>

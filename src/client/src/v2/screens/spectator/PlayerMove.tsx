@@ -36,15 +36,9 @@ type Props = {
   moved: boolean;
   moveId?: string;
   revealed?: boolean;
-  onComplete?: () => void;
 };
 
-export const PlayerMove = ({
-  moved,
-  moveId,
-  revealed = false,
-  onComplete,
-}: Props) => {
+export const PlayerMove = ({ moved, moveId, revealed = false }: Props) => {
   const revealTimeout = useRef<NodeJS.Timeout | undefined>();
   const [revealing, setRevealing] = useState(false);
   const [showMove, setShowMove] = useState(false);
@@ -60,15 +54,6 @@ export const PlayerMove = ({
       setShowMove(false);
     }
   }, [revealed]);
-
-  useEffect(() => {
-    if (showMove) {
-      setTimeout(() => {
-        onComplete && onComplete();
-        revealTimeout.current = undefined;
-      }, 2000);
-    }
-  }, [showMove]);
 
   return (
     <Container>

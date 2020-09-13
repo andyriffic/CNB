@@ -4,9 +4,10 @@ import View from './View';
 import {
   MatchupContext,
   Game,
-  GAME_STATUS,
+  GAME_STATUS,, Matchup
 } from '../../../uplift/contexts/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
+import { useTimedGameState } from './useTimedGameState';
 
 const mockGame: Game = {
   id: 'test-game',
@@ -31,8 +32,33 @@ const mockGame: Game = {
   trophyReset: false,
   trophyWon: false,
   viewed: false,
-  attributes: { playerHoldingBombIndex: 1 },
+  attributes: { playerHoldingBombIndex: 1, exploded: true },
 };
+
+
+const mockMatchup: Matchup = {
+  id: 'blah',
+  teams: [{
+    id: '1',
+    name: 'team 1',
+    points: 0,
+    trophies: 0,
+    tags:[],
+    playerNames: []
+  }, {
+    id: '2',
+    name: 'team 2',
+    points: 0,
+    trophies: 0,
+    tags:[],
+    playerNames: []
+  }],
+  gameInProgress: mockGame,
+trophyGoal: 0,
+bonusPoints: 1,
+themeId: 'rps'
+}
+
 
 type Props = {
   matchupId: string;
@@ -50,6 +76,7 @@ const Screen = ({ matchupId }: Props) => {
   //   }
 
   const [mockGameState, setMockGameState] = useState(mockGame);
+  const {game, bonusPoints, gamePhase} = useTimedGameState(mockMatchup);
 
   return (
     <>
@@ -87,18 +114,20 @@ const Screen = ({ matchupId }: Props) => {
         </button>
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
             setMockGameState({
               ...mockGameState,
               result: {
-                winnerIndex: 0,
+                winnerIndex: undefined,
+                draw: true,
                 moves: [
-                  { moveId: 'A', powerUpId: 'NONE' },
-                  { moveId: 'B', powerUpId: 'NONE' },
+                  { moveId: 'C', powerUpId: 'NONE' },
+                  { moveId: 'C', powerUpId: 'NONE' },
                 ],
               },
-            })
-          }
+            });
+            setBonusPoints(2);
+          }}
         >
           result
         </button>
@@ -118,7 +147,7 @@ const Screen = ({ matchupId }: Props) => {
           }
         />
       </div>
-      <View game={mockGameState} />
+      {game && <View game={game} bonusPoints={bonusPoints} />}
     </>
   );
 };

@@ -9,17 +9,14 @@ const Container = styled.div`
 
 type TimebombProps = {
   triggerFuse: boolean;
-  onComplete: () => void;
+  triggerExplosion: boolean;
 };
 
-export const Timebomb = ({ triggerFuse, onComplete }: TimebombProps) => {
-  useEffect(() => {
-    if (triggerFuse) {
-      setTimeout(() => {
-        onComplete();
-      }, 3000);
-    }
-  }, [triggerFuse]);
-
-  return <Container>💣 {triggerFuse && '⏰'}</Container>;
+export const Timebomb = ({ triggerFuse, triggerExplosion }: TimebombProps) => {
+  return (
+    <Container>
+      💣 {triggerFuse && '⏰'}
+      {triggerExplosion && '💥'}
+    </Container>
+  );
 };
