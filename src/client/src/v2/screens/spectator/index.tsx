@@ -86,10 +86,7 @@ const Screen = ({ matchupId }: Props) => {
   return (
     <>
       <div style={{ border: '1px solid black' }}>
-        <button
-          type="button"
-          onClick={() => setMockMatchupState(mockMatchupState)}
-        >
+        <button type="button" onClick={() => setMockMatchupState(mockMatchup)}>
           start
         </button>
         <button
@@ -186,7 +183,7 @@ const Screen = ({ matchupId }: Props) => {
                 },
               },
             });
-            setPlayerPointsState([2, 1]);
+            setPlayerPointsState([3, 1]);
           }}
         >
           Player 1 wins Result (bomb)

@@ -55,6 +55,12 @@ export const PlayerMove = ({ moved, moveId, revealed = false }: Props) => {
     }
   }, [revealed]);
 
+  useEffect(() => {
+    if (!moved) {
+      revealTimeout.current = undefined;
+    }
+  }, [moved]);
+
   return (
     <Container>
       {moved ? (
