@@ -218,7 +218,7 @@ const Screen = ({ matchupId }: Props) => {
                 },
               },
             });
-            setPlayerPointsState([1, 2]);
+            setPlayerPointsState([1, 3]);
           }}
         >
           Player 2 wins Result (no bomb)

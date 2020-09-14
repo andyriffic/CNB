@@ -29,7 +29,9 @@ export enum GamePhase {
   showResult = 'showResult',
   highlightWinner = 'highlightWinner',
   highlightDraw = 'highlightDraw',
-  showPoints = 'showPoints',
+  showBasePoints = 'showBasePoints',
+  applyBonusPoints = 'applyBonusPoints',
+  bonusPointsApplied = 'bonusPointsApplied',
   givePointsToBonus = 'givePointsToBonus',
   givePointsToPlayer = 'givePointsToPlayer',
   applyPointsUpdate = 'applyPointsUpdate',
@@ -83,23 +85,35 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightWinner,
-    to: GamePhase.showPoints,
+    to: GamePhase.showBasePoints,
     timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightDraw,
-    to: GamePhase.showPoints,
+    to: GamePhase.showBasePoints,
     timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.showPoints,
+    from: GamePhase.showBasePoints,
     to:
       game && game.result && game.result.draw
         ? GamePhase.givePointsToBonus
-        : GamePhase.givePointsToPlayer,
+        : GamePhase.applyBonusPoints,
     timeoutMilliseconds: 2000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.applyBonusPoints,
+    to: GamePhase.bonusPointsApplied,
+    timeoutMilliseconds: 1000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.bonusPointsApplied,
+    to: GamePhase.givePointsToPlayer,
+    timeoutMilliseconds: 1000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {

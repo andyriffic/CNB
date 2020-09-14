@@ -13,6 +13,7 @@ export type UseTimedGameStateResult = {
   bonusPoints: number;
   playerPoints: [number, number];
   timebomb: TimebombTimedState;
+  pointsThisGame: number;
 };
 
 export const useTimedGameState = (
@@ -28,12 +29,25 @@ export const useTimedGameState = (
       ? currentGame.attributes.playerIndexHoldingTimebomb
       : 0,
   });
+  const [pointsThisGame, setPointsThisGame] = useState(0);
   const gamePhase = useGamePhaseTiming(currentGame);
 
   useEffect(() => {
-    if (gamePhase === GamePhase.givePointsToBonus) {
+    setCurrentGame(matchup.gameInProgress);
+  }, [matchup]);
+
+  useEffect(() => {
+    if (gamePhase === GamePhase.showBasePoints) {
+      setPointsThisGame(1);
     }
-  }, [gamePhase, matchup]);
+  }, [gamePhase]);
+
+  useEffect(() => {
+    if (gamePhase === GamePhase.bonusPointsApplied) {
+      setBonusPoints(0);
+      setPointsThisGame(pointsThisGame + bonusPoints);
+    }
+  }, [gamePhase, bonusPoints, pointsThisGame]);
 
   useEffect(() => {
     if (gamePhase === GamePhase.applyPointsUpdate) {
@@ -41,10 +55,6 @@ export const useTimedGameState = (
       setBonusPoints(matchup.bonusPoints);
     }
   }, [gamePhase, playerPointsState, matchup]);
-
-  useEffect(() => {
-    setCurrentGame(matchup.gameInProgress);
-  }, [matchup]);
 
   useEffect(() => {
     if (!currentGame) {
@@ -65,5 +75,6 @@ export const useTimedGameState = (
     gamePhase,
     playerPoints,
     timebomb,
+    pointsThisGame,
   };
 };

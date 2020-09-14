@@ -27,6 +27,7 @@ type Props = {
   gamePhase: GamePhase;
   playerPoints: [number, number];
   timebomb: TimebombTimedState;
+  pointsThisGame: number;
 };
 
 const timebombPositions: [RelativePosition, RelativePosition] = [
@@ -55,6 +56,7 @@ const View = ({
   gamePhase,
   playerPoints,
   timebomb,
+  pointsThisGame,
 }: Props) => {
   const [gamePointsPosition, setGamePointsPosition] = useState(
     pointsPositions.game
@@ -79,9 +81,11 @@ const View = ({
     }
   }, [game, gamePhase]);
 
-  // useEffect(() => {
-  //   setMoveReady(!!game.result);
-  // }, [game.result]);
+  useEffect(() => {
+    if (gamePhase === GamePhase.applyBonusPoints) {
+      setBonusPointsPosition(pointsPositions.game);
+    }
+  }, [gamePhase]);
 
   return (
     <GameScreen scrollable={false}>
@@ -120,9 +124,10 @@ const View = ({
               GamePhase.showResult,
               GamePhase.highlightWinner,
               GamePhase.highlightDraw,
-              GamePhase.showPoints,
+              GamePhase.showBasePoints,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
+              GamePhase.applyBonusPoints,
               GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
@@ -137,9 +142,10 @@ const View = ({
               GamePhase.showResult,
               GamePhase.highlightWinner,
               GamePhase.highlightDraw,
-              GamePhase.showPoints,
+              GamePhase.showBasePoints,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
+              GamePhase.applyBonusPoints,
               GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
@@ -156,19 +162,17 @@ const View = ({
         </PositionedArea>
 
         {/* Points */}
-        {[
-          GamePhase.showPoints,
-          GamePhase.givePointsToPlayer,
-          GamePhase.givePointsToBonus,
-          GamePhase.applyPointsUpdate,
-        ].includes(gamePhase) && (
+        {pointsThisGame > 0 && (
           <PositionedArea position={gamePointsPosition}>
-            <Points title="" value={1} />
+            <Points title="" value={pointsThisGame} />
           </PositionedArea>
         )}
-        <PositionedArea position={bonusPointsPosition}>
-          <Points title="Bonus" value={bonusPoints} />
-        </PositionedArea>
+        {(bonusPoints > 0 ||
+          [GamePhase.givePointsToBonus].includes(gamePhase)) && (
+          <PositionedArea position={bonusPointsPosition}>
+            <Points title="Bonus" value={bonusPoints} />
+          </PositionedArea>
+        )}
         <PositionedArea position={pointsPositions.player[0]}>
           <Points title="Points" value={playerPoints[0]} />
         </PositionedArea>
@@ -180,9 +184,10 @@ const View = ({
         {[
           GamePhase.highlightWinner,
           GamePhase.highlightDraw,
-          GamePhase.showPoints,
+          GamePhase.showBasePoints,
           GamePhase.givePointsToPlayer,
           GamePhase.givePointsToBonus,
+          GamePhase.applyBonusPoints,
           GamePhase.applyPointsUpdate,
           GamePhase.timebombFuse,
           GamePhase.timebombResolution,
