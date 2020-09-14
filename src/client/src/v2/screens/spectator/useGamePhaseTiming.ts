@@ -32,6 +32,7 @@ export enum GamePhase {
   showPoints = 'showPoints',
   givePointsToBonus = 'givePointsToBonus',
   givePointsToPlayer = 'givePointsToPlayer',
+  applyPointsUpdate = 'applyPointsUpdate',
   timebombFuse = 'timebombFuse',
   timebombResolution = 'timebombResolution',
 }
@@ -77,7 +78,7 @@ export const useGamePhaseTiming = (game?: Game) => {
       game && game.result && game.result.draw
         ? GamePhase.highlightDraw
         : GamePhase.highlightWinner,
-    timeoutMilliseconds: 2000,
+    timeoutMilliseconds: 3000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
@@ -103,12 +104,18 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.givePointsToPlayer,
-    to: GamePhase.timebombFuse,
-    timeoutMilliseconds: 2000,
+    to: GamePhase.applyPointsUpdate,
+    timeoutMilliseconds: 500,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.givePointsToBonus,
+    to: GamePhase.applyPointsUpdate,
+    timeoutMilliseconds: 500,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.applyPointsUpdate,
     to: GamePhase.timebombFuse,
     timeoutMilliseconds: 2000,
   });

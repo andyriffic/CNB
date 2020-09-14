@@ -33,7 +33,7 @@ const mockGame: Game = {
   trophyReset: false,
   trophyWon: false,
   viewed: false,
-  attributes: { playerHoldingBombIndex: 1, exploded: true },
+  attributes: { playerIndexHoldingTimebomb: 1, exploded: false },
 };
 
 const mockMatchup: Matchup = {
@@ -81,10 +81,7 @@ const Screen = ({ matchupId }: Props) => {
     1,
   ]);
   const [mockMatchupState, setMockMatchupState] = useState(mockMatchup);
-  const { game, bonusPoints, gamePhase, playerPoints } = useTimedGameState(
-    mockMatchupState,
-    playerPointsState
-  );
+  const timedGameState = useTimedGameState(mockMatchupState, playerPointsState);
 
   return (
     <>
@@ -174,6 +171,11 @@ const Screen = ({ matchupId }: Props) => {
               bonusPoints: 0,
               gameInProgress: {
                 ...mockMatchupState.gameInProgress,
+                attributes: {
+                  ...mockMatchupState.gameInProgress.attributes,
+                  playerIndexHoldingTimebomb: 1,
+                  exploded: true,
+                },
                 result: {
                   winnerIndex: 0,
                   draw: undefined,
@@ -187,7 +189,7 @@ const Screen = ({ matchupId }: Props) => {
             setPlayerPointsState([2, 1]);
           }}
         >
-          Player 1 wins Result
+          Player 1 wins Result (bomb)
         </button>
         <button
           type="button"
@@ -201,6 +203,11 @@ const Screen = ({ matchupId }: Props) => {
               bonusPoints: 0,
               gameInProgress: {
                 ...mockMatchupState.gameInProgress,
+                attributes: {
+                  ...mockMatchupState.gameInProgress.attributes,
+                  playerIndexHoldingTimebomb: 0,
+                  exploded: false,
+                },
                 result: {
                   winnerIndex: 1,
                   draw: undefined,
@@ -214,31 +221,11 @@ const Screen = ({ matchupId }: Props) => {
             setPlayerPointsState([1, 2]);
           }}
         >
-          Player 2 wins Result
+          Player 2 wins Result (no bomb)
         </button>
-        {/* <input
-          type="number"
-          max={1}
-          min={0}
-          value={mockGameState.attributes.playerHoldingBombIndex}
-          onChange={e =>
-            setMockGameState({
-              ...mockGameState,
-              attributes: {
-                ...mockGameState.attributes,
-                playerHoldingBombIndex: e.target.value,
-              },
-            })
-          }
-        /> */}
       </div>
-      {game && (
-        <View
-          game={game}
-          bonusPoints={bonusPoints}
-          gamePhase={gamePhase}
-          playerPoints={playerPoints}
-        />
+      {timedGameState.game && (
+        <View {...timedGameState} game={timedGameState.game} />
       )}
     </>
   );

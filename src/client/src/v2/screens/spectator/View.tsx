@@ -11,7 +11,8 @@ import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './Winner';
 import { RelativePosition, PositionedArea } from './PositionedArea';
-import { GamePhase, useGamePhaseTiming } from './useGamePhaseTiming';
+import { GamePhase } from './useGamePhaseTiming';
+import { TimebombTimedState } from './useTimedGameState';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -25,6 +26,7 @@ type Props = {
   bonusPoints: number;
   gamePhase: GamePhase;
   playerPoints: [number, number];
+  timebomb: TimebombTimedState;
 };
 
 const timebombPositions: [RelativePosition, RelativePosition] = [
@@ -47,9 +49,19 @@ const pointsPositions: {
   player: [{ top: 70, left: 0 }, { top: 70, left: 93 }],
 };
 
-const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
+const View = ({
+  game,
+  bonusPoints,
+  gamePhase,
+  playerPoints,
+  timebomb,
+}: Props) => {
   const [gamePointsPosition, setGamePointsPosition] = useState(
     pointsPositions.game
+  );
+
+  const [bonusPointsPosition, setBonusPointsPosition] = useState(
+    pointsPositions.bonus
   );
 
   useEffect(() => {
@@ -111,6 +123,7 @@ const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
               GamePhase.showPoints,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
+              GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
             ].includes(gamePhase)}
@@ -127,6 +140,7 @@ const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
               GamePhase.showPoints,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
+              GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
             ].includes(gamePhase)}
@@ -146,12 +160,13 @@ const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
           GamePhase.showPoints,
           GamePhase.givePointsToPlayer,
           GamePhase.givePointsToBonus,
+          GamePhase.applyPointsUpdate,
         ].includes(gamePhase) && (
           <PositionedArea position={gamePointsPosition}>
             <Points title="" value={1} />
           </PositionedArea>
         )}
-        <PositionedArea position={pointsPositions.bonus}>
+        <PositionedArea position={bonusPointsPosition}>
           <Points title="Bonus" value={bonusPoints} />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[0]}>
@@ -168,6 +183,7 @@ const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
           GamePhase.showPoints,
           GamePhase.givePointsToPlayer,
           GamePhase.givePointsToBonus,
+          GamePhase.applyPointsUpdate,
           GamePhase.timebombFuse,
           GamePhase.timebombResolution,
         ].includes(gamePhase) && (
@@ -195,14 +211,11 @@ const View = ({ game, bonusPoints, gamePhase, playerPoints }: Props) => {
 
         {/* Timebomb */}
         <PositionedArea
-          position={timebombPositions[game.attributes.playerHoldingBombIndex]}
+          position={timebombPositions[timebomb.playerIndexHoldingTimebomb]}
         >
           <Timebomb
             triggerFuse={gamePhase === GamePhase.timebombFuse}
-            triggerExplosion={
-              gamePhase === GamePhase.timebombResolution &&
-              !!game.attributes.exploded
-            }
+            triggerExplosion={timebomb.exploded}
           />
         </PositionedArea>
       </GameplayArea>

@@ -14,9 +14,6 @@ type TimebombProps = {
 
 export const Timebomb = ({ triggerFuse, triggerExplosion }: TimebombProps) => {
   return (
-    <Container>
-      💣 {triggerFuse && '⏰'}
-      {triggerExplosion && '💥'}
-    </Container>
+    <Container>{triggerFuse ? '⏰' : triggerExplosion ? '💥' : '💣'}</Container>
   );
 };
