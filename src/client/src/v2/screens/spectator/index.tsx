@@ -102,7 +102,11 @@ type Props = {
 } & RouteComponentProps;
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
-  const { subscribeToMatchup, currentMatchup } = useContext(MatchupContext);
+  const {
+    subscribeToMatchup,
+    currentMatchup,
+    startGameForMatchup,
+  } = useContext(MatchupContext);
 
   useEffect(() => {
     subscribeToMatchup(matchupId);
@@ -112,15 +116,26 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     return <LoadingSpinner />;
   }
 
-  return <Screen matchup={currentMatchup} />;
+  return (
+    <Screen
+      matchup={currentMatchup}
+      startNewGame={() => startGameForMatchup(currentMatchup.id, 'Timebomb')}
+    />
+  );
 };
 
-const Screen = ({ matchup }: { matchup: Matchup }) => {
+const Screen = ({
+  matchup,
+  startNewGame,
+}: {
+  matchup: Matchup;
+  startNewGame: () => void;
+}) => {
   const { allPlayers } = useContext(PlayersContext);
   const [playerPoints, setPlayerPoints] = useState<[number, number]>(
     getPlayerPoints(allPlayers, matchup.teams)
   );
-  const timedGameState = useTimedGameState(matchup, playerPoints);
+  const timedGameState = useTimedGameState(matchup, playerPoints, startNewGame);
 
   useEffect(() => {
     setPlayerPoints(getPlayerPoints(allPlayers, matchup.teams));
@@ -139,7 +154,13 @@ export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
     1,
   ]);
   const [mockMatchupState, setMockMatchupState] = useState(mockMatchup);
-  const timedGameState = useTimedGameState(mockMatchupState, playerPointsState);
+  const timedGameState = useTimedGameState(
+    mockMatchupState,
+    playerPointsState,
+    () => {
+      setMockMatchupState(mockMatchup);
+    }
+  );
 
   return (
     <>

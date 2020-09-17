@@ -13,6 +13,7 @@ import { Winner } from './Winner';
 import { RelativePosition, PositionedArea } from './PositionedArea';
 import { GamePhase } from './useGamePhaseTiming';
 import { TimebombTimedState } from './useTimedGameState';
+import { PrimaryButton } from '../../../uplift/components/PrimaryButton';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -132,6 +133,7 @@ const View = ({
               GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
+              GamePhase.readyForNextGame,
             ].includes(gamePhase)}
           />
         </PositionedArea>
@@ -151,6 +153,7 @@ const View = ({
               GamePhase.applyPointsUpdate,
               GamePhase.timebombFuse,
               GamePhase.timebombResolution,
+              GamePhase.readyForNextGame,
             ].includes(gamePhase)}
           />
         </PositionedArea>
@@ -194,6 +197,7 @@ const View = ({
           GamePhase.applyPointsUpdate,
           GamePhase.timebombFuse,
           GamePhase.timebombResolution,
+          GamePhase.readyForNextGame,
         ].includes(gamePhase) && (
           <>
             {game.result && !game.result.draw ? (

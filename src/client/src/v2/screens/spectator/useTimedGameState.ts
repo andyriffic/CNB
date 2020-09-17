@@ -18,7 +18,8 @@ export type UseTimedGameStateResult = {
 
 export const useTimedGameState = (
   matchup: Matchup,
-  playerPointsState: [number, number]
+  playerPointsState: [number, number],
+  startNewGame: () => void
 ): UseTimedGameStateResult => {
   const [currentGame, setCurrentGame] = useState(matchup.gameInProgress);
   const [bonusPoints, setBonusPoints] = useState(matchup.bonusPoints);
@@ -29,12 +30,25 @@ export const useTimedGameState = (
       ? currentGame.attributes.playerIndexHoldingTimebomb
       : 0,
   });
+
   const [pointsThisGame, setPointsThisGame] = useState(0);
   const gamePhase = useGamePhaseTiming(currentGame);
 
   useEffect(() => {
     setCurrentGame(matchup.gameInProgress);
   }, [matchup]);
+
+  useEffect(() => {
+    if (
+      gamePhase === GamePhase.readyForNextGame &&
+      currentGame &&
+      !currentGame.attributes.exploded
+    ) {
+      //RESET
+      setPointsThisGame(0);
+      startNewGame();
+    }
+  }, [gamePhase, currentGame]);
 
   useEffect(() => {
     if (gamePhase === GamePhase.showBasePoints) {
