@@ -60,8 +60,14 @@ const useGameTiming = (
   }, [gamePhase]);
 };
 
+const allPlayersMoved = (game?: Game): boolean => {
+  return !!game && game.moves.every(m => m.moved);
+};
+
 export const useGamePhaseTiming = (game?: Game) => {
-  const [gamePhase, setGamePhase] = useState(GamePhase.waitingMoves);
+  const [gamePhase, setGamePhase] = useState(
+    allPlayersMoved(game) ? GamePhase.readyToPlay : GamePhase.waitingMoves
+  );
 
   useEffect(() => {
     if (!(game && game.result)) {

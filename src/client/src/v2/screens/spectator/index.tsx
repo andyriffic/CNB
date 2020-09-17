@@ -106,6 +106,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     subscribeToMatchup,
     currentMatchup,
     startGameForMatchup,
+    playGameForMatchup,
   } = useContext(MatchupContext);
 
   useEffect(() => {
@@ -120,6 +121,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     <Screen
       matchup={currentMatchup}
       startNewGame={() => startGameForMatchup(currentMatchup.id, 'Timebomb')}
+      resolveGame={() => playGameForMatchup(currentMatchup.id)}
     />
   );
 };
@@ -127,15 +129,22 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
 const Screen = ({
   matchup,
   startNewGame,
+  resolveGame,
 }: {
   matchup: Matchup;
   startNewGame: () => void;
+  resolveGame: () => void;
 }) => {
   const { allPlayers } = useContext(PlayersContext);
   const [playerPoints, setPlayerPoints] = useState<[number, number]>(
     getPlayerPoints(allPlayers, matchup.teams)
   );
-  const timedGameState = useTimedGameState(matchup, playerPoints, startNewGame);
+  const timedGameState = useTimedGameState(
+    matchup,
+    playerPoints,
+    startNewGame,
+    resolveGame
+  );
 
   useEffect(() => {
     setPlayerPoints(getPlayerPoints(allPlayers, matchup.teams));
@@ -159,7 +168,8 @@ export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
     playerPointsState,
     () => {
       setMockMatchupState(mockMatchup);
-    }
+    },
+    () => {}
   );
 
   return (
