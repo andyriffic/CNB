@@ -135,7 +135,7 @@ const Screen = ({
   startNewGame: () => void;
   resolveGame: () => void;
 }) => {
-  const { allPlayers } = useContext(PlayersContext);
+  const { allPlayers, triggerUpdate } = useContext(PlayersContext);
   const [playerPoints, setPlayerPoints] = useState<[number, number]>(
     getPlayerPoints(allPlayers, matchup.teams)
   );
@@ -143,11 +143,13 @@ const Screen = ({
     matchup,
     playerPoints,
     startNewGame,
-    resolveGame
+    resolveGame,
+    triggerUpdate
   );
 
   useEffect(() => {
-    setPlayerPoints(getPlayerPoints(allPlayers, matchup.teams));
+    const updatedPoints = getPlayerPoints(allPlayers, matchup.teams);
+    setPlayerPoints(updatedPoints);
   }, [allPlayers, matchup]);
 
   if (timedGameState.game) {
@@ -169,6 +171,7 @@ export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
     () => {
       setMockMatchupState(mockMatchup);
     },
+    () => {},
     () => {}
   );
 

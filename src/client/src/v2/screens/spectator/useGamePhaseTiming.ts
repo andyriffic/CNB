@@ -35,6 +35,7 @@ export enum GamePhase {
   givePointsToBonus = 'givePointsToBonus',
   givePointsToPlayer = 'givePointsToPlayer',
   applyPointsUpdate = 'applyPointsUpdate',
+  giveTimebombToPlayer = 'giveTimebombToPlayer',
   timebombFuse = 'timebombFuse',
   timebombResolution = 'timebombResolution',
   readyForNextGame = 'readyForNextGame',
@@ -72,10 +73,14 @@ export const useGamePhaseTiming = (game?: Game) => {
   useEffect(() => {
     if (!(game && game.result)) {
       setGamePhase(GamePhase.waitingMoves);
-    } else if (gamePhase === GamePhase.waitingMoves) {
+    }
+  }, [game]);
+
+  useEffect(() => {
+    if (allPlayersMoved(game) && gamePhase === GamePhase.waitingMoves) {
       setGamePhase(GamePhase.readyToPlay);
     }
-  }, [game, gamePhase]);
+  }, [game]);
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.readyToPlay,
@@ -139,8 +144,14 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
-    to: GamePhase.timebombFuse,
+    to: GamePhase.giveTimebombToPlayer,
     timeoutMilliseconds: 2000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.giveTimebombToPlayer,
+    to: GamePhase.timebombFuse,
+    timeoutMilliseconds: 1000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {

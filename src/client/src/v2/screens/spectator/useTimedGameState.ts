@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Game, Matchup } from '../../../uplift/contexts/MatchupProvider';
 import { GamePhase, useGamePhaseTiming } from './useGamePhaseTiming';
 
@@ -20,8 +20,10 @@ export const useTimedGameState = (
   matchup: Matchup,
   playerPointsState: [number, number],
   startNewGame: () => void,
-  resolveGame: () => void
+  resolveGame: () => void,
+  triggerPlayerPointsUpdate: () => void
 ): UseTimedGameStateResult => {
+  const currentGameResolved = useRef(false);
   const [currentGame, setCurrentGame] = useState(matchup.gameInProgress);
   const [bonusPoints, setBonusPoints] = useState(matchup.bonusPoints);
   const [playerPoints, setPlayerPoints] = useState(playerPointsState);
@@ -40,16 +42,34 @@ export const useTimedGameState = (
   }, [matchup]);
 
   useEffect(() => {
+    if (gamePhase === GamePhase.readyToPlay) {
+      currentGameResolved.current = true;
+      resolveGame();
+    }
+  }, [gamePhase]);
+
+  useEffect(() => {
     if (
       gamePhase === GamePhase.readyForNextGame &&
       currentGame &&
-      !currentGame.attributes.exploded
+      !currentGame.attributes.exploded &&
+      currentGameResolved.current
     ) {
       //RESET
+      console.log('STARTING NEW GAME!', currentGame.attributes.gameCount);
+      currentGameResolved.current = false;
+
       setPointsThisGame(0);
       startNewGame();
     }
   }, [gamePhase, currentGame]);
+
+  useEffect(() => {
+    if (gamePhase === GamePhase.showResult) {
+      // Hack to make sure player points are updated for later when they're shown
+      triggerPlayerPointsUpdate();
+    }
+  }, [gamePhase]);
 
   useEffect(() => {
     if (gamePhase === GamePhase.showBasePoints) {
@@ -72,10 +92,17 @@ export const useTimedGameState = (
   }, [gamePhase, playerPointsState, matchup]);
 
   useEffect(() => {
-    if (gamePhase === GamePhase.readyToPlay) {
-      resolveGame();
+    if (!currentGame) {
+      return;
     }
-  }, [gamePhase]);
+    if (gamePhase === GamePhase.giveTimebombToPlayer) {
+      setTimebomb({
+        exploded: false,
+        playerIndexHoldingTimebomb:
+          currentGame.attributes.playerIndexHoldingTimebomb,
+      });
+    }
+  }, [gamePhase, currentGame]);
 
   useEffect(() => {
     if (!currentGame) {
