@@ -68,7 +68,7 @@ const mockGame: Game = {
   trophyReset: false,
   trophyWon: false,
   viewed: false,
-  attributes: { playerIndexHoldingTimebomb: 1, exploded: false },
+  attributes: { playerIndexHoldingTimebomb: 1, exploded: false, gameCount: 1 },
 };
 
 const mockMatchup: Matchup = {
@@ -101,7 +101,7 @@ type Props = {
   matchupId: string;
 } & RouteComponentProps;
 
-const ScreenWithMatchup = ({ matchupId }: Props) => {
+export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const { subscribeToMatchup, currentMatchup } = useContext(MatchupContext);
 
   useEffect(() => {
@@ -133,7 +133,7 @@ const Screen = ({ matchup }: { matchup: Matchup }) => {
   return null;
 };
 
-const MockScreen = () => {
+export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
   const [playerPointsState, setPlayerPointsState] = useState<[number, number]>([
     1,
     1,
@@ -143,141 +143,156 @@ const MockScreen = () => {
 
   return (
     <>
-      <div style={{ border: '1px solid black' }}>
-        <button type="button" onClick={() => setMockMatchupState(mockMatchup)}>
-          start
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (!mockMatchupState.gameInProgress) {
-              return;
-            }
+      <div style={{ border: '1px solid black', display: 'flex' }}>
+        <div style={{ padding: '5px', backgroundColor: 'red' }}>
+          <button
+            type="button"
+            onClick={() => setMockMatchupState(mockMatchup)}
+          >
+            reset
+          </button>
+        </div>
+        <div style={{ padding: '5px', backgroundColor: 'goldenrod' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
 
-            setMockMatchupState({
-              ...mockMatchup,
-              gameInProgress: {
-                ...mockMatchupState.gameInProgress,
-                moves: [
-                  { ...mockMatchupState.gameInProgress.moves[0], moved: true },
-                  mockMatchupState.gameInProgress.moves[1],
-                ],
-              },
-            });
-          }}
-        >
-          player 1 moved
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (!mockMatchupState.gameInProgress) {
-              return;
-            }
-            setMockMatchupState({
-              ...mockMatchup,
-              gameInProgress: {
-                ...mockMatchupState.gameInProgress,
-                moves: [
-                  mockMatchupState.gameInProgress.moves[0],
-                  { ...mockMatchupState.gameInProgress.moves[1], moved: true },
-                ],
-              },
-            });
-          }}
-        >
-          player 2 moved
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (!mockMatchupState.gameInProgress) {
-              return;
-            }
-
-            setMockMatchupState({
-              ...mockMatchupState,
-              bonusPoints: 2,
-              gameInProgress: {
-                ...mockMatchupState.gameInProgress,
-                result: {
-                  winnerIndex: undefined,
-                  draw: true,
+              setMockMatchupState({
+                ...mockMatchup,
+                gameInProgress: {
+                  ...mockMatchupState.gameInProgress,
                   moves: [
-                    { moveId: 'C', powerUpId: 'NONE' },
-                    { moveId: 'C', powerUpId: 'NONE' },
+                    {
+                      ...mockMatchupState.gameInProgress.moves[0],
+                      moved: true,
+                    },
+                    mockMatchupState.gameInProgress.moves[1],
                   ],
                 },
-              },
-            });
-          }}
-        >
-          Drawn Result
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (!mockMatchupState.gameInProgress) {
-              return;
-            }
-
-            setMockMatchupState({
-              ...mockMatchupState,
-              bonusPoints: 0,
-              gameInProgress: {
-                ...mockMatchupState.gameInProgress,
-                attributes: {
-                  ...mockMatchupState.gameInProgress.attributes,
-                  playerIndexHoldingTimebomb: 1,
-                  exploded: true,
-                },
-                result: {
-                  winnerIndex: 0,
-                  draw: undefined,
+              });
+            }}
+          >
+            player 1 moved
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
+              setMockMatchupState({
+                ...mockMatchup,
+                gameInProgress: {
+                  ...mockMatchupState.gameInProgress,
                   moves: [
-                    { moveId: 'A', powerUpId: 'NONE' },
-                    { moveId: 'B', powerUpId: 'NONE' },
+                    mockMatchupState.gameInProgress.moves[0],
+                    {
+                      ...mockMatchupState.gameInProgress.moves[1],
+                      moved: true,
+                    },
                   ],
                 },
-              },
-            });
-            setPlayerPointsState([3, 1]);
-          }}
-        >
-          Player 1 wins Result (bomb)
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (!mockMatchupState.gameInProgress) {
-              return;
-            }
+              });
+            }}
+          >
+            player 2 moved
+          </button>
+        </div>
+        <div style={{ padding: '5px', backgroundColor: 'darkgreen' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
 
-            setMockMatchupState({
-              ...mockMatchupState,
-              bonusPoints: 0,
-              gameInProgress: {
-                ...mockMatchupState.gameInProgress,
-                attributes: {
-                  ...mockMatchupState.gameInProgress.attributes,
-                  playerIndexHoldingTimebomb: 0,
-                  exploded: false,
+              setMockMatchupState({
+                ...mockMatchupState,
+                bonusPoints: 2,
+                gameInProgress: {
+                  ...mockMatchupState.gameInProgress,
+                  result: {
+                    winnerIndex: undefined,
+                    draw: true,
+                    moves: [
+                      { moveId: 'C', powerUpId: 'NONE' },
+                      { moveId: 'C', powerUpId: 'NONE' },
+                    ],
+                  },
                 },
-                result: {
-                  winnerIndex: 1,
-                  draw: undefined,
-                  moves: [
-                    { moveId: 'A', powerUpId: 'NONE' },
-                    { moveId: 'C', powerUpId: 'NONE' },
-                  ],
+              });
+            }}
+          >
+            Drawn Result
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
+
+              setMockMatchupState({
+                ...mockMatchupState,
+                bonusPoints: 0,
+                gameInProgress: {
+                  ...mockMatchupState.gameInProgress,
+                  attributes: {
+                    ...mockMatchupState.gameInProgress.attributes,
+                    playerIndexHoldingTimebomb: 1,
+                    exploded: true,
+                  },
+                  result: {
+                    winnerIndex: 0,
+                    draw: undefined,
+                    moves: [
+                      { moveId: 'A', powerUpId: 'NONE' },
+                      { moveId: 'B', powerUpId: 'NONE' },
+                    ],
+                  },
                 },
-              },
-            });
-            setPlayerPointsState([1, 3]);
-          }}
-        >
-          Player 2 wins Result (no bomb)
-        </button>
+              });
+              setPlayerPointsState([3, 1]);
+            }}
+          >
+            Player 1 wins Result (bomb)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
+
+              setMockMatchupState({
+                ...mockMatchupState,
+                bonusPoints: 0,
+                gameInProgress: {
+                  ...mockMatchupState.gameInProgress,
+                  attributes: {
+                    ...mockMatchupState.gameInProgress.attributes,
+                    playerIndexHoldingTimebomb: 0,
+                    exploded: false,
+                  },
+                  result: {
+                    winnerIndex: 1,
+                    draw: undefined,
+                    moves: [
+                      { moveId: 'A', powerUpId: 'NONE' },
+                      { moveId: 'C', powerUpId: 'NONE' },
+                    ],
+                  },
+                },
+              });
+              setPlayerPointsState([1, 3]);
+            }}
+          >
+            Player 2 wins Result (no bomb)
+          </button>
+        </div>
       </div>
       {timedGameState.game && (
         <View {...timedGameState} game={timedGameState.game} />
@@ -285,5 +300,3 @@ const MockScreen = () => {
     </>
   );
 };
-
-export default ScreenWithMatchup;

@@ -97,7 +97,7 @@ const View = ({
               /*setGamePhase(GamePhase.showResult)*/
             }}
           >
-            Ready
+            Round {game.attributes.gameCount}
           </SplashText>
         )}
 
