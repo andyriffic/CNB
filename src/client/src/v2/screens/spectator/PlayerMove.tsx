@@ -27,9 +27,9 @@ const MoveImage = styled.img`
 `;
 
 const dummyThemeMoves: { [key: string]: ReactNode } = {
-  A: <MoveImage src={paperImage} />,
-  B: <MoveImage src={rockImage} />,
-  C: <MoveImage src={scissorsImage} />,
+  A: <MoveImage src={rockImage} />,
+  B: <MoveImage src={scissorsImage} />,
+  C: <MoveImage src={paperImage} />,
 };
 
 type Props = {
