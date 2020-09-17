@@ -18,6 +18,7 @@ import {
 import { SOUND_KEYS } from '../../../sounds/SoundService';
 import { SplashText } from '../../components/SplashText';
 import { getPlayerAttributeValue } from '../../utils/player';
+import { isFeatureEnabled } from '../../../featureToggle';
 
 const MatchupsContainer = styled.div`
   width: 1200px;
@@ -34,6 +35,8 @@ type ViewState = {
   shownTitle: boolean;
   bothPlayersSelected: boolean;
 };
+
+const spectatorBaseUrl = isFeatureEnabled('v2') ? '/spectator' : '/matchup';
 
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
@@ -158,7 +161,7 @@ export default ({ navigate }: RouteComponentProps) => {
                   invitationsContext.invitations![0].id,
                   matchupId,
                   () => {
-                    navigate && navigate(`/matchup/${matchupId}`);
+                    navigate && navigate(`${spectatorBaseUrl}/${matchupId}`);
                   }
                 );
               }

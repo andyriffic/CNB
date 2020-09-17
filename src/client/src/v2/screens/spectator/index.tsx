@@ -113,6 +113,15 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     subscribeToMatchup(matchupId);
   }, []);
 
+  useEffect(() => {
+    if (!currentMatchup) {
+      return;
+    }
+    if (!currentMatchup.gameInProgress) {
+      startGameForMatchup(matchupId, 'Timebomb');
+    }
+  }, [currentMatchup]);
+
   if (!currentMatchup || !currentMatchup.gameInProgress) {
     return <LoadingSpinner />;
   }
