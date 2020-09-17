@@ -93,6 +93,26 @@ export const THEMES: { [themeId: string]: GameTheme } = {
       },
     },
   },
+  'rock-paper-scissors-classic': {
+    name: { english: 'Rock, Paper, Scissors', chinese: '岩石,紙,剪刀' },
+    moves: {
+      [GAME_MOVE.A]: {
+        name: { english: 'Rock', chinese: '' },
+        winsBy: { english: 'blunts', chinese: '' },
+        imageUrl: '/theme/rock-paper-scissors-classic/rock.png',
+      },
+      [GAME_MOVE.B]: {
+        name: { english: 'Scissors', chinese: '' },
+        winsBy: { english: 'cuts', chinese: '' },
+        imageUrl: '/theme/rock-paper-scissors-classic/scissors.png',
+      },
+      [GAME_MOVE.C]: {
+        name: { english: 'Paper', chinese: '' },
+        winsBy: { english: 'wraps', chinese: '' },
+        imageUrl: '/theme/rock-paper-scissors-classic/paper.png',
+      },
+    },
+  },
   'summer-winter': {
     name: {
       english: 'Summer/Winter Tournament (beta*)',

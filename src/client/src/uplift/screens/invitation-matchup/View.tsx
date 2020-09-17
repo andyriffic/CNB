@@ -37,6 +37,9 @@ type ViewState = {
 };
 
 const spectatorBaseUrl = isFeatureEnabled('v2') ? '/spectator' : '/matchup';
+const gameTheme = isFeatureEnabled('v2')
+  ? 'rock-paper-scissors-classic'
+  : 'candyland';
 
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
@@ -155,7 +158,7 @@ export default ({ navigate }: RouteComponentProps) => {
               player1!.id,
               player2!.id,
               2,
-              'candyland',
+              gameTheme,
               matchupId => {
                 invitationsContext.useInvitation(
                   invitationsContext.invitations![0].id,
