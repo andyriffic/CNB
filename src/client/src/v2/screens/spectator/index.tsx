@@ -6,9 +6,44 @@ import {
   Game,
   GAME_STATUS,
   Matchup,
+  Team,
 } from '../../../uplift/contexts/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { useTimedGameState } from './useTimedGameState';
+import {
+  Player,
+  PlayersContext,
+} from '../../../uplift/contexts/PlayersProvider';
+import { getPlayerSnakesAndLaddersMoves } from '../../../uplift/utils/player';
+
+const getPlayerPoints = (
+  allPlayers: Player[],
+  teams: [Team, Team]
+): [number, number] => {
+  const player1Id = teams[0].id.startsWith('instant-team-')
+    ? teams[0].id.split('-')[2]
+    : undefined;
+
+  const player1 = player1Id
+    ? allPlayers.find(p => p.id === player1Id)
+    : undefined;
+  const player1Points = player1
+    ? getPlayerSnakesAndLaddersMoves(player1.tags)
+    : 0;
+
+  const player2Id = teams[1].id.startsWith('instant-team-')
+    ? teams[1].id.split('-')[2]
+    : undefined;
+
+  const player2 = player2Id
+    ? allPlayers.find(p => p.id === player2Id)
+    : undefined;
+  const player2Points = player2
+    ? getPlayerSnakesAndLaddersMoves(player2.tags)
+    : 0;
+
+  return [player1Points, player2Points];
+};
 
 const mockGame: Game = {
   id: 'test-game',
@@ -66,16 +101,39 @@ type Props = {
   matchupId: string;
 } & RouteComponentProps;
 
-const Screen = ({ matchupId }: Props) => {
-  //   const { subscribeToMatchup, currentMatchup } = useContext(MatchupContext);
+const ScreenWithMatchup = ({ matchupId }: Props) => {
+  const { subscribeToMatchup, currentMatchup } = useContext(MatchupContext);
 
-  //   useEffect(() => {
-  //     subscribeToMatchup(matchupId);
-  //   }, []);
+  useEffect(() => {
+    subscribeToMatchup(matchupId);
+  }, []);
 
-  //   if (!currentMatchup || !currentMatchup.gameInProgress) {
-  //     return <LoadingSpinner />;
-  //   }
+  if (!currentMatchup || !currentMatchup.gameInProgress) {
+    return <LoadingSpinner />;
+  }
+
+  return <Screen matchup={currentMatchup} />;
+};
+
+const Screen = ({ matchup }: { matchup: Matchup }) => {
+  const { allPlayers } = useContext(PlayersContext);
+  const [playerPoints, setPlayerPoints] = useState<[number, number]>(
+    getPlayerPoints(allPlayers, matchup.teams)
+  );
+  const timedGameState = useTimedGameState(matchup, playerPoints);
+
+  useEffect(() => {
+    setPlayerPoints(getPlayerPoints(allPlayers, matchup.teams));
+  }, [allPlayers, matchup]);
+
+  if (timedGameState.game) {
+    return <View {...timedGameState} game={timedGameState.game} />;
+  }
+
+  return null;
+};
+
+const MockScreen = () => {
   const [playerPointsState, setPlayerPointsState] = useState<[number, number]>([
     1,
     1,
@@ -228,4 +286,4 @@ const Screen = ({ matchupId }: Props) => {
   );
 };
 
-export default Screen;
+export default ScreenWithMatchup;
