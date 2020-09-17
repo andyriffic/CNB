@@ -85,6 +85,8 @@ const View = ({
   useEffect(() => {
     if (gamePhase === GamePhase.applyBonusPoints) {
       setBonusPointsPosition(pointsPositions.game);
+    } else if (gamePhase === GamePhase.readyToPlay) {
+      setBonusPointsPosition(pointsPositions.bonus);
     }
   }, [gamePhase]);
 
