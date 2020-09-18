@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Game } from '../../../uplift/contexts/MatchupProvider';
 
 /*
@@ -66,11 +66,17 @@ const allPlayersMoved = (game?: Game): boolean => {
 };
 
 export const useGamePhaseTiming = (game?: Game) => {
+  const currentGame = useRef(game);
   const [gamePhase, setGamePhase] = useState(
     allPlayersMoved(game) ? GamePhase.readyToPlay : GamePhase.waitingMoves
   );
 
   useEffect(() => {
+    console.log('GAMEPHASE', gamePhase);
+  }, [gamePhase]);
+
+  useEffect(() => {
+    currentGame.current = game;
     if (!(game && game.result)) {
       setGamePhase(GamePhase.waitingMoves);
     }
@@ -105,7 +111,10 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightDraw,
-    to: GamePhase.giveTimebombToPlayer,
+    to:
+      game && game.result && game.result.draw
+        ? GamePhase.timebombFuse
+        : GamePhase.giveTimebombToPlayer,
     timeoutMilliseconds: 2000,
   });
 
