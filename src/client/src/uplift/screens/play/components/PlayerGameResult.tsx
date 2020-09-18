@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Matchup } from '../../../contexts/MatchupProvider';
-import { Button } from '../../../../screens/styled';
 import winSpongebob from './gifs/win-spongebob.gif';
 import winParty from './gifs/win-party.gif';
 import winHammer from './gifs/win-hammer.gif';

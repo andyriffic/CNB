@@ -103,17 +103,12 @@ export const JUNGLE_SOUND_KEYS = {
 };
 
 export class SoundService {
-  _theme = null;
   _sounds = {};
   _resumableSoundKeys = []; // Sounds that can be played when music is toggled back on
   _musicEnabled = false;
   _loadedJungle = false;
 
-  constructor(theme, musicEnabled = false) {
-    if (!theme) {
-      throw new Error('Sound Service requires a theme');
-    }
-    this._theme = theme;
+  constructor(musicEnabled = false) {
     this._loaded = false;
     this._loadedJungle = false;
     this._musicEnabled = musicEnabled;
@@ -306,16 +301,6 @@ export class SoundService {
       this._sounds[SOUND_KEYS.MOVE_LOSE] = {
         sound: new Howl({ src: [moveLose] }),
       };
-
-      // Pre-load winning sounds
-      Object.keys(this._theme.characters.winningSoundMapping).forEach(key => {
-        this._sounds[key] = {
-          sound: new Howl({
-            src: [this._theme.characters.winningSoundMapping[key]],
-          }),
-          resumeable: true,
-        };
-      });
     }
   }
 

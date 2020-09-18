@@ -2,7 +2,6 @@ import React from 'react';
 import { Router } from '@reach/router';
 import Sound from '../sounds/Provider';
 import GameSettings from '../game-settings';
-import GameTheme from '../themes';
 import GlobalStyle from './GlobalStyle';
 import { MatchupLobby } from './screens/matchup-lobby';
 import { MatchupProvider } from './contexts/MatchupProvider';
@@ -37,47 +36,45 @@ import {
 export default () => {
   return (
     <Theme>
-      <GameTheme>
-        <Sound>
-          <GameSettings>
-            <GlobalStyle />
-            <MatchupProvider>
-              <PlayersProvider>
-                <InvitationsProvider>
-                  <Router>
-                    <InvitationMatchupScreen path="/" />
-                    <MatchupLobby path="/lobby" />
-                    <MatchupView path="/matchup/:matchupId" />
-                    <SelectPlayerScreen path="/play" />
-                    <SelectMatchupScreen path="/play/:playerId" />
-                    <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
-                    <PlayerProfileStatsScreen path="/player/profile" />
-                    <PlayerProfileStatsScreen path="/player/profile/:playerName" />
-                    <PlayerListView path="/tournament-players" />
-                    <TeamsListView path="/teams" />
-                    <TournamentInfoView path="tournament-info" />
-                    <ComponentTestView path="/component-test" />
-                    <PlayerAdminScreen path="/player-admin" />
-                    <LeaderboardScreen path="/leaderboard" />
-                    <LeaderboardScreen path="/leaderboard/top/:maxPlacing" />
-                    <GameHistoryScreen path="/game-history" />
-                    <SnakesAndLaddersScreen path="/snakes-and-ladders" />
-                    <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
-                    <FinxFeatureDisplayScreen path="/finx-display" />
-                    <PowerupRulesScreen path="/powerups" />
-                    <LayoutTestView path="/layout" />
-                    <MockScreenWithMatchup path="/spectator/mock" />
-                    <ScreenWithMatchup
-                      path="/spectator/:matchupId"
-                      matchupId=""
-                    />
-                  </Router>
-                </InvitationsProvider>
-              </PlayersProvider>
-            </MatchupProvider>
-          </GameSettings>
-        </Sound>
-      </GameTheme>
+      <Sound>
+        <GameSettings>
+          <GlobalStyle />
+          <MatchupProvider>
+            <PlayersProvider>
+              <InvitationsProvider>
+                <Router>
+                  <InvitationMatchupScreen path="/" />
+                  <MatchupLobby path="/lobby" />
+                  <MatchupView path="/matchup/:matchupId" />
+                  <SelectPlayerScreen path="/play" />
+                  <SelectMatchupScreen path="/play/:playerId" />
+                  <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                  <PlayerProfileStatsScreen path="/player/profile" />
+                  <PlayerProfileStatsScreen path="/player/profile/:playerName" />
+                  <PlayerListView path="/tournament-players" />
+                  <TeamsListView path="/teams" />
+                  <TournamentInfoView path="tournament-info" />
+                  <ComponentTestView path="/component-test" />
+                  <PlayerAdminScreen path="/player-admin" />
+                  <LeaderboardScreen path="/leaderboard" />
+                  <LeaderboardScreen path="/leaderboard/top/:maxPlacing" />
+                  <GameHistoryScreen path="/game-history" />
+                  <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                  <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
+                  <FinxFeatureDisplayScreen path="/finx-display" />
+                  <PowerupRulesScreen path="/powerups" />
+                  <LayoutTestView path="/layout" />
+                  <MockScreenWithMatchup path="/spectator/mock" />
+                  <ScreenWithMatchup
+                    path="/spectator/:matchupId"
+                    matchupId=""
+                  />
+                </Router>
+              </InvitationsProvider>
+            </PlayersProvider>
+          </MatchupProvider>
+        </GameSettings>
+      </Sound>
     </Theme>
   );
 };

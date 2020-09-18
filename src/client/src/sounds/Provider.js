@@ -4,8 +4,7 @@ import { SoundService } from './SoundService';
 import GameThemeContext from '../contexts/GameThemeContext';
 
 const View = ({ children }) => {
-  const theme = useContext(GameThemeContext);
-  const soundService = new SoundService(theme);
+  const soundService = new SoundService();
 
   return (
     <GameSoundContext.Provider value={soundService}>

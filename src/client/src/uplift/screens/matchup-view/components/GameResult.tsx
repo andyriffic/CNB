@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Game } from '../../../contexts/MatchupProvider';
-import { Button } from '../../../../screens/styled';
 import { useGameViewTimingEffect } from '../hooks/useGameViewTimingEffect';
 import { GameThemeContext } from '../../../contexts/ThemeProvider';
 import { PlayerWithMoveReveal } from './PlayerWithMoveReveal';

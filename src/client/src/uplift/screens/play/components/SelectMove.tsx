@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { Button } from '../../../../screens/styled';
 import { MatchupContext } from '../../../contexts/MatchupProvider';
 import { MoveSummary } from './MoveSummary';
 import { LoadingSpinner } from '../../../components/loading-spinner';
