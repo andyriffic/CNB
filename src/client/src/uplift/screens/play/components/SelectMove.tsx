@@ -71,13 +71,6 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [selectedPowerupName, setSelectedPowerupName] = useState('NONE');
   const [moveMade, setMoveMade] = useState(false);
-  const [randomMoveOrder, setRandomMoveOrder] = useState<string[]>();
-
-  useEffect(() => {
-    if (themedMoves && !randomMoveOrder) {
-      setRandomMoveOrder(shuffle(Object.keys(themedMoves)));
-    }
-  }, [themedMoves]);
 
   if (!currentMatchup) {
     return <LoadingSpinner text="Checking current game..." />;
@@ -123,8 +116,8 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
       <div>
         <Heading>Make your move</Heading>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
-          {randomMoveOrder &&
-            randomMoveOrder.map(moveId => (
+          {themedMoves &&
+            Object.keys(themedMoves).map(moveId => (
               <Move
                 key={moveId}
                 selected={selectedMoveId === moveId}
