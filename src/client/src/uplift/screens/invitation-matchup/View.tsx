@@ -36,11 +36,6 @@ type ViewState = {
   bothPlayersSelected: boolean;
 };
 
-const spectatorBaseUrl = isFeatureEnabled('v2') ? '/spectator' : '/matchup';
-const gameTheme = isFeatureEnabled('v2')
-  ? 'rock-paper-scissors-classic'
-  : 'candyland';
-
 export default ({ navigate }: RouteComponentProps) => {
   const { addInstantMatchup } = useContext(MatchupContext);
   const soundService = useContext<SoundService>(GameSoundContext);
@@ -57,6 +52,12 @@ export default ({ navigate }: RouteComponentProps) => {
   const updateViewState = (updatedViewState: Partial<ViewState>) => {
     setViewState({ ...viewState, ...updatedViewState });
   };
+
+  const v2FeatureEnabled = isFeatureEnabled('v2');
+  const spectatorBaseUrl = v2FeatureEnabled ? '/spectator' : '/matchup';
+  const gameTheme = v2FeatureEnabled
+    ? 'rock-paper-scissors-classic'
+    : 'candyland';
 
   useEffect(() => {
     soundService.load();
