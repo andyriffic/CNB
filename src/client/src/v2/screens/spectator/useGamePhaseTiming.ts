@@ -99,12 +99,30 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightWinner,
-    to: GamePhase.showBasePoints,
+    to: GamePhase.giveTimebombToPlayer,
     timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightDraw,
+    to: GamePhase.giveTimebombToPlayer,
+    timeoutMilliseconds: 2000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.giveTimebombToPlayer,
+    to: GamePhase.timebombFuse,
+    timeoutMilliseconds: 1000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.timebombFuse,
+    to: GamePhase.timebombResolution,
+    timeoutMilliseconds: 2000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.timebombResolution,
     to: GamePhase.showBasePoints,
     timeoutMilliseconds: 2000,
   });
@@ -144,24 +162,6 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
-    to: GamePhase.giveTimebombToPlayer,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.giveTimebombToPlayer,
-    to: GamePhase.timebombFuse,
-    timeoutMilliseconds: 1000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombFuse,
-    to: GamePhase.timebombResolution,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombResolution,
     to: GamePhase.readyForNextGame,
     timeoutMilliseconds: 2000,
   });
