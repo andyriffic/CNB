@@ -130,20 +130,20 @@ const View = ({
         {/* Points */}
         {pointsThisGame > 0 && (
           <PositionedArea position={gamePointsPosition}>
-            <Points title="" value={pointsThisGame} />
+            <Points title="" value={pointsThisGame} variant="game" />
           </PositionedArea>
         )}
         {(bonusPoints > 0 ||
           [GamePhase.givePointsToBonus].includes(gamePhase)) && (
           <PositionedArea position={bonusPointsPosition}>
-            <Points title="Bonus" value={bonusPoints} />
+            <Points title="Bonus" value={bonusPoints} variant="bonus" />
           </PositionedArea>
         )}
         <PositionedArea position={pointsPositions.player[0]}>
-          <Points title="Points" value={playerPoints[0]} />
+          <Points title="Points" value={playerPoints[0]} variant="player" />
         </PositionedArea>
         <PositionedArea position={pointsPositions.player[1]}>
-          <Points title="Points" value={playerPoints[1]} />
+          <Points title="Points" value={playerPoints[1]} variant="player" />
         </PositionedArea>
 
         {/* Winner */}
