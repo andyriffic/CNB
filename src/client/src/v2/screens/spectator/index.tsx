@@ -9,7 +9,7 @@ import {
   Team,
 } from '../../../uplift/contexts/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
-import { useTimedGameState } from './useTimedGameState';
+import { useTimedGameState } from './hooks/useTimedGameState';
 import {
   Player,
   PlayersContext,

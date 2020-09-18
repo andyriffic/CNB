@@ -11,9 +11,14 @@ import { Timebomb } from './Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './Winner';
 import { RelativePosition, PositionedArea } from './PositionedArea';
-import { GamePhase } from './useGamePhaseTiming';
-import { TimebombTimedState } from './useTimedGameState';
+import { GamePhase } from './hooks/useGamePhaseTiming';
+import { TimebombTimedState } from './hooks/useTimedGameState';
 import { PrimaryButton } from '../../../uplift/components/PrimaryButton';
+import {
+  pointsPositions,
+  usePositionedBonusPoints,
+  usePositionedGamePoints,
+} from './hooks/usePositionedPoints';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -41,16 +46,6 @@ const winnerPositions: [RelativePosition, RelativePosition] = [
   { top: 10, left: 85 },
 ];
 
-const pointsPositions: {
-  game: RelativePosition;
-  bonus: RelativePosition;
-  player: [RelativePosition, RelativePosition];
-} = {
-  game: { top: 30, left: 48 },
-  bonus: { top: 5, left: 48 },
-  player: [{ top: 70, left: 0 }, { top: 70, left: 93 }],
-};
-
 const View = ({
   game,
   bonusPoints,
@@ -59,41 +54,8 @@ const View = ({
   timebomb,
   pointsThisGame,
 }: Props) => {
-  const [gamePointsPosition, setGamePointsPosition] = useState(
-    pointsPositions.game
-  );
-
-  const [bonusPointsPosition, setBonusPointsPosition] = useState(
-    pointsPositions.bonus
-  );
-
-  useEffect(() => {
-    if (!game.result) {
-      setGamePointsPosition(pointsPositions.game);
-      return;
-    }
-
-    if (gamePhase === GamePhase.givePointsToPlayer) {
-      if (game.attributes.exploded) {
-        setGamePointsPosition(
-          pointsPositions.player[game.attributes.playerIndexNotHoldingTimebomb]
-        );
-      }
-      if (game.result.winnerIndex !== undefined) {
-        setGamePointsPosition(pointsPositions.player[game.result.winnerIndex]);
-      }
-    } else if (gamePhase === GamePhase.givePointsToBonus) {
-      setGamePointsPosition(pointsPositions.bonus);
-    }
-  }, [game, gamePhase]);
-
-  useEffect(() => {
-    if (gamePhase === GamePhase.applyBonusPoints) {
-      setBonusPointsPosition(pointsPositions.game);
-    } else if (gamePhase === GamePhase.readyToPlay) {
-      setBonusPointsPosition(pointsPositions.bonus);
-    }
-  }, [gamePhase]);
+  const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
+  const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
 
   return (
     <GameScreen scrollable={false}>
