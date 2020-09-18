@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
 import {
@@ -102,6 +102,7 @@ type Props = {
 } & RouteComponentProps;
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
+  const createdGame = useRef(false);
   const {
     subscribeToMatchup,
     currentMatchup,
@@ -114,10 +115,11 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!currentMatchup) {
+    if (!currentMatchup || createdGame.current) {
       return;
     }
     if (!currentMatchup.gameInProgress) {
+      createdGame.current = true;
       startGameForMatchup(matchupId, 'Timebomb');
     }
   }, [currentMatchup]);
