@@ -74,6 +74,11 @@ const View = ({
     }
 
     if (gamePhase === GamePhase.givePointsToPlayer) {
+      if (game.attributes.exploded) {
+        setGamePointsPosition(
+          pointsPositions.player[game.attributes.playerIndexNotHoldingTimebomb]
+        );
+      }
       if (game.result.winnerIndex !== undefined) {
         setGamePointsPosition(pointsPositions.player[game.result.winnerIndex]);
       }

@@ -139,7 +139,9 @@ export const useGamePhaseTiming = (game?: Game) => {
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.showBasePoints,
     to:
-      game && game.result && game.result.draw
+      game && game.attributes.exploded
+        ? GamePhase.applyBonusPoints
+        : game && game.result && game.result.draw
         ? GamePhase.givePointsToBonus
         : GamePhase.applyBonusPoints,
     timeoutMilliseconds: 2000,
