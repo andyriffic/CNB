@@ -99,16 +99,6 @@ const View = ({
     <GameScreen scrollable={false}>
       <p>{gamePhase}</p>
       <GameplayArea>
-        {gamePhase === GamePhase.readyToPlay && (
-          <SplashText
-            onComplete={() => {
-              /*setGamePhase(GamePhase.showResult)*/
-            }}
-          >
-            Round {game.attributes.gameCount}
-          </SplashText>
-        )}
-
         {/* Players */}
         <PositionedArea position={{ bottom: 15, left: 0 }}>
           <GamePlayer
@@ -240,6 +230,10 @@ const View = ({
             triggerExplosion={timebomb.exploded}
           />
         </PositionedArea>
+
+        {gamePhase === GamePhase.readyToPlay && (
+          <SplashText>Round {game.attributes.gameCount}</SplashText>
+        )}
       </GameplayArea>
     </GameScreen>
   );
