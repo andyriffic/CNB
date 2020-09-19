@@ -13,7 +13,7 @@ import { StampText } from '../../../components/stamp-text';
 
 const MoveAndGrowAnimation = keyframes`
   0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(4) translate(-100px, 0); }
+  100% { transform: scale(3) translate(-500px, -500px); }
 `;
 
 const Container = styled.div`
@@ -64,11 +64,7 @@ export const PlayerVictory = ({ show, children }: Props) => {
       <div style={{ position: 'relative' }}>
         <ChildrenContainer>{children}</ChildrenContainer>
         <WinnerText>
-          <StampText
-            show={showText}
-            text="Ruler of the jungle!"
-            style="jungle"
-          />
+          <StampText show={showText} text="Ruler of Candyland" style="jungle" />
         </WinnerText>
       </div>
     </Container>

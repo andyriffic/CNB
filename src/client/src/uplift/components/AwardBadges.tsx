@@ -9,13 +9,19 @@ type BadgeStyleDef = {
 
 type BadgeStyleDefinitions = {
   SNAKES_AND_LADDERS_WINNER: BadgeStyleDef;
+  CANDYLAND_WINNER: BadgeStyleDef;
 };
 
 const badgeStyles: BadgeStyleDefinitions = {
   SNAKES_AND_LADDERS_WINNER: {
     icon: '🐍',
-    bgColor: 'lightgrey',
+    bgColor: 'mediumseagreen',
     title: 'Won Snakes and Ladders',
+  },
+  CANDYLAND_WINNER: {
+    icon: '🍭',
+    bgColor: 'pink',
+    title: 'Won Candyland Snakes and Ladders',
   },
 };
 

@@ -65,9 +65,14 @@ export const PlayerAvatar = ({
         src={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
         overrideStyle={overrideStyle}
       ></StyledPlayer>
-      {player.tags.find(t => t === 'badge:snakes_and_ladders_winner') && (
+      {player.tags.some(t => t.startsWith('badge:')) && (
         <BadgeContainer>
-          <AwardBadge badgeType="SNAKES_AND_LADDERS_WINNER" />
+          {player.tags.find(t => t === 'badge:snakes_and_ladders_winner') && (
+            <AwardBadge badgeType="SNAKES_AND_LADDERS_WINNER" />
+          )}
+          {player.tags.find(t => t === 'badge:candyland_winner') && (
+            <AwardBadge badgeType="CANDYLAND_WINNER" />
+          )}
         </BadgeContainer>
       )}
     </Container>

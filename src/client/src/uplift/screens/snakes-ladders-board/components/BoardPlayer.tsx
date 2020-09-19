@@ -200,8 +200,8 @@ export const BoardPlayer = ({
     if (boardPlayer.isWinner) {
       setConfettiOn(true);
       updatePlayer(player.id, [
-        ...player.tags.filter(t => t !== 'badge:snakes_and_ladders_winner'),
-        'badge:snakes_and_ladders_winner',
+        ...player.tags.filter(t => t !== 'badge:candyland_winner'),
+        'badge:candyland_winner',
       ]);
     }
   }, [boardPlayer.isWinner]);
