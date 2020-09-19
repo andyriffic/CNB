@@ -16,6 +16,15 @@ export type UseTimedGameStateResult = {
   pointsThisGame: number;
 };
 
+const doublePowerupActive = (game?: Game) => {
+  return (
+    !!game &&
+    !!game.result &&
+    game.result.winnerIndex !== undefined &&
+    game.result.moves[game.result.winnerIndex].powerUpId === 'DOUBLE_POINTS'
+  );
+};
+
 export const useTimedGameState = (
   matchup: Matchup,
   playerPointsState: [number, number],
@@ -73,7 +82,11 @@ export const useTimedGameState = (
 
   useEffect(() => {
     if (gamePhase === GamePhase.showBasePoints) {
-      const basePoints = currentGame && currentGame.trophyWon ? 2 : 1;
+      let basePoints = currentGame && currentGame.trophyWon ? 2 : 1;
+      if (doublePowerupActive(currentGame)) {
+        basePoints *= 2;
+        setBonusPoints(bonusPoints * 2);
+      }
       setPointsThisGame(basePoints);
     }
   }, [gamePhase, currentGame]);
