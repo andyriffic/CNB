@@ -7,6 +7,7 @@ import {
   GAME_STATUS,
   Matchup,
   Team,
+  GameResult,
 } from '../../../uplift/contexts/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { useTimedGameState } from './hooks/useTimedGameState';
@@ -16,6 +17,12 @@ import {
 } from '../../../uplift/contexts/PlayersProvider';
 import { getPlayerSnakesAndLaddersMoves } from '../../../uplift/utils/player';
 import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
+import {
+  mockMatchup,
+  withBonusPoints,
+  withDrawnResult,
+  withPlayerMoved,
+} from './mocks/mockScenarios';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -44,58 +51,6 @@ const getPlayerPoints = (
     : 0;
 
   return [player1Points, player2Points];
-};
-
-const mockGame: Game = {
-  id: 'test-game',
-  status: GAME_STATUS.WaitingPlayerMoves,
-  moves: [
-    {
-      moved: false,
-      playerAvatarUrl: '/players/andy.png',
-      playerId: 'andy',
-      playerName: 'Andy',
-      usedPowerup: false,
-    },
-    {
-      moved: false,
-      playerAvatarUrl: '/players/dunny.png',
-      playerId: 'dunny',
-      playerName: 'Dunny',
-      usedPowerup: false,
-    },
-  ],
-  playMode: 'Timebomb',
-  trophyReset: false,
-  trophyWon: false,
-  viewed: false,
-  attributes: { playerIndexHoldingTimebomb: 1, exploded: false, gameCount: 1 },
-};
-
-const mockMatchup: Matchup = {
-  id: 'blah',
-  teams: [
-    {
-      id: '1',
-      name: 'team 1',
-      points: 0,
-      trophies: 0,
-      tags: [],
-      playerNames: [],
-    },
-    {
-      id: '2',
-      name: 'team 2',
-      points: 0,
-      trophies: 0,
-      tags: [],
-      playerNames: [],
-    },
-  ],
-  gameInProgress: mockGame,
-  trophyGoal: 0,
-  bonusPoints: 1,
-  themeId: 'rps',
 };
 
 type Props = {
@@ -174,6 +129,7 @@ const Screen = ({
 };
 
 export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
+  const { setTheme } = useMoveThemeProvider();
   const [playerPointsState, setPlayerPointsState] = useState<[number, number]>([
     1,
     1,
@@ -182,12 +138,14 @@ export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
   const timedGameState = useTimedGameState(
     mockMatchupState,
     playerPointsState,
-    () => {
-      setMockMatchupState(mockMatchup);
-    },
+    () => {},
     () => {},
     () => {}
   );
+
+  useEffect(() => {
+    setTheme('rock-paper-scissors-classic');
+  }, [mockMatchupState]);
 
   return (
     <>
@@ -201,6 +159,41 @@ export const MockScreenWithMatchup = ({  }: RouteComponentProps) => {
           </button>
         </div>
         <div style={{ padding: '5px', backgroundColor: 'goldenrod' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
+
+              setMockMatchupState(
+                withDrawnResult(
+                  withPlayerMoved(1)(withPlayerMoved(0)(mockMatchupState))
+                )
+              );
+            }}
+          >
+            Draw without bonus points no explode
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!mockMatchupState.gameInProgress) {
+                return;
+              }
+
+              setMockMatchupState(
+                withBonusPoints(2)(
+                  withDrawnResult(
+                    withPlayerMoved(1)(withPlayerMoved(0)(mockMatchupState))
+                  )
+                )
+              );
+            }}
+          >
+            Draw with bonus points no explode
+          </button>
+
           <button
             type="button"
             onClick={() => {
