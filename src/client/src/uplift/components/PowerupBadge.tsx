@@ -10,6 +10,13 @@ type PowerupStyleDef = {
 };
 
 const powerupStyles: { [key: string]: PowerupStyleDef } = {
+  MYSTERY: {
+    icon: '🙈',
+    name: 'Powerup',
+    bgColor1: '#e0e0e0',
+    bgColor2: '#bdbdbd',
+    color: '#9e9e9e',
+  },
   DOUBLE_POINTS: {
     icon: '⚡️',
     name: 'Double Points',
@@ -46,7 +53,7 @@ const Badge = styled.div<{ styleDef: PowerupStyleDef }>`
   display: inline-block;
   text-align: center;
   top: 0;
-  transition: all 0.2s ease;
+  transition: all 800ms linear;
   &:before,
   &:after {
     position: absolute;

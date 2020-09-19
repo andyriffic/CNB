@@ -3,27 +3,29 @@ import styled from 'styled-components';
 import powerStar from './power-star.gif';
 import { RainbowText } from '../../../uplift/components/RainbowText';
 import { shakeAnimationLeft } from '../../../uplift/components/animations';
+import { PowerupBadge } from '../../../uplift/components/PowerupBadge';
 
 const Container = styled.div`
-  width: 5vw;
-  height: 5vw;
+  width: 3vw;
+  height: 3vw;
   background-color: transparent;
+  transform: scale(0.6);
   /* animation: ${shakeAnimationLeft} 500ms infinite; */
 `;
 
 type Props = {
   powerupUsed: boolean;
   powerupId?: string;
+  reveal: boolean;
 };
 
-export const PlayerPowerup = ({ powerupUsed, powerupId }: Props) => {
+export const PlayerPowerup = ({ powerupUsed, powerupId, reveal }: Props) => {
   if (!powerupUsed) {
     return null;
   }
   return (
     <Container>
-      {/* <RainbowText>POWERUP! ({powerupId})</RainbowText> */}
-      <img src={powerStar} style={{ width: '100%', height: '100%' }} />
+      <PowerupBadge powerupName={reveal ? powerupId || '' : 'MYSTERY'} />
     </Container>
   );
 };

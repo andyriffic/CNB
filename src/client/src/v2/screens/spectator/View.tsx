@@ -124,16 +124,48 @@ const View = ({
         </PositionedArea>
 
         {/* Powerups */}
-        <PositionedArea position={{ bottom: 55, left: 0 }}>
+        <PositionedArea position={{ bottom: 60, left: 0 }}>
           <PlayerPowerup
             powerupUsed={game.moves[0].usedPowerup}
             powerupId={game.result && game.result.moves[0].powerUpId}
+            reveal={[
+              GamePhase.highlightWinner,
+              GamePhase.highlightDraw,
+              GamePhase.showBasePoints,
+              GamePhase.applyPowerupPoints_start,
+              GamePhase.applyPowerupPoints_end,
+              GamePhase.givePointsToPlayer,
+              GamePhase.givePointsToBonus,
+              GamePhase.applyBonusPoints,
+              GamePhase.bonusPointsApplied,
+              GamePhase.applyPointsUpdate,
+              GamePhase.giveTimebombToPlayer,
+              GamePhase.timebombFuse,
+              GamePhase.timebombResolution,
+              GamePhase.readyForNextGame,
+            ].includes(gamePhase)}
           />
         </PositionedArea>
-        <PositionedArea position={{ bottom: 55, right: 0 }}>
+        <PositionedArea position={{ bottom: 60, right: 0 }}>
           <PlayerPowerup
             powerupUsed={game.moves[1].usedPowerup}
             powerupId={game.result && game.result.moves[1].powerUpId}
+            reveal={[
+              GamePhase.highlightWinner,
+              GamePhase.highlightDraw,
+              GamePhase.showBasePoints,
+              GamePhase.applyPowerupPoints_start,
+              GamePhase.applyPowerupPoints_end,
+              GamePhase.givePointsToPlayer,
+              GamePhase.givePointsToBonus,
+              GamePhase.applyBonusPoints,
+              GamePhase.bonusPointsApplied,
+              GamePhase.applyPointsUpdate,
+              GamePhase.giveTimebombToPlayer,
+              GamePhase.timebombFuse,
+              GamePhase.timebombResolution,
+              GamePhase.readyForNextGame,
+            ].includes(gamePhase)}
           />
         </PositionedArea>
 
