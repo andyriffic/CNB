@@ -85,6 +85,8 @@ const View = ({
               GamePhase.highlightWinner,
               GamePhase.highlightDraw,
               GamePhase.showBasePoints,
+              GamePhase.applyPowerupPoints_start,
+              GamePhase.applyPowerupPoints_end,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
               GamePhase.applyBonusPoints,
@@ -106,6 +108,8 @@ const View = ({
               GamePhase.highlightWinner,
               GamePhase.highlightDraw,
               GamePhase.showBasePoints,
+              GamePhase.applyPowerupPoints_start,
+              GamePhase.applyPowerupPoints_end,
               GamePhase.givePointsToPlayer,
               GamePhase.givePointsToBonus,
               GamePhase.applyBonusPoints,
@@ -120,11 +124,17 @@ const View = ({
         </PositionedArea>
 
         {/* Powerups */}
-        <PositionedArea position={{ bottom: 45, left: 8 }}>
-          <PlayerPowerup powerupUsed={game.moves[0].usedPowerup} />
+        <PositionedArea position={{ bottom: 55, left: 0 }}>
+          <PlayerPowerup
+            powerupUsed={game.moves[0].usedPowerup}
+            powerupId={game.result && game.result.moves[0].powerUpId}
+          />
         </PositionedArea>
-        <PositionedArea position={{ bottom: 45, right: 8 }}>
-          <PlayerPowerup powerupUsed={game.moves[1].usedPowerup} />
+        <PositionedArea position={{ bottom: 55, right: 0 }}>
+          <PlayerPowerup
+            powerupUsed={game.moves[1].usedPowerup}
+            powerupId={game.result && game.result.moves[1].powerUpId}
+          />
         </PositionedArea>
 
         {/* Points */}
@@ -151,6 +161,8 @@ const View = ({
           GamePhase.highlightWinner,
           GamePhase.highlightDraw,
           GamePhase.showBasePoints,
+          GamePhase.applyPowerupPoints_start,
+          GamePhase.applyPowerupPoints_end,
           GamePhase.givePointsToPlayer,
           GamePhase.givePointsToBonus,
           GamePhase.applyBonusPoints,

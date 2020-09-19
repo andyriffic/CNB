@@ -60,7 +60,7 @@ export const useTimedGameState = (
       currentGameResolved.current = false;
 
       setPointsThisGame(0);
-      startNewGame();
+      // startNewGame();
     }
   }, [gamePhase, currentGame]);
 

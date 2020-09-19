@@ -8,7 +8,7 @@ const Container = styled.div`
   width: 5vw;
   height: 5vw;
   background-color: transparent;
-  animation: ${shakeAnimationLeft} 500ms infinite;
+  /* animation: ${shakeAnimationLeft} 500ms infinite; */
 `;
 
 type Props = {
@@ -16,14 +16,14 @@ type Props = {
   powerupId?: string;
 };
 
-export const PlayerPowerup = ({ powerupUsed }: Props) => {
+export const PlayerPowerup = ({ powerupUsed, powerupId }: Props) => {
   if (!powerupUsed) {
     return null;
   }
   return (
     <Container>
-      <RainbowText>POWERUP!</RainbowText>
-      {/* <img src={powerStar} style={{ width: '100%', height: '100%' }} /> */}
+      {/* <RainbowText>POWERUP! ({powerupId})</RainbowText> */}
+      <img src={powerStar} style={{ width: '100%', height: '100%' }} />
     </Container>
   );
 };

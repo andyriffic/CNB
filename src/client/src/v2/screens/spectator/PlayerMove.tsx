@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
-import rockImage from './move_rock.png';
-import paperImage from './move_paper.png';
-import scissorsImage from './move_scissors.png';
 import mysteryImage from './move_mystery.png';
 import { bounceAnimation } from '../../../uplift/components/animations';
+import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
+import { SOCKETS_ENDPOINT } from '../../../environment';
 
 const Container = styled.div`
   width: 10vw;
@@ -26,12 +25,6 @@ const MoveImage = styled.img`
   height: 100%;
 `;
 
-const dummyThemeMoves: { [key: string]: ReactNode } = {
-  A: <MoveImage src={rockImage} />,
-  B: <MoveImage src={scissorsImage} />,
-  C: <MoveImage src={paperImage} />,
-};
-
 type Props = {
   moved: boolean;
   moveId?: string;
@@ -39,6 +32,7 @@ type Props = {
 };
 
 export const PlayerMove = ({ moved, moveId, revealed = false }: Props) => {
+  const { currentTheme } = useMoveThemeProvider();
   const revealTimeout = useRef<NodeJS.Timeout | undefined>();
   const [revealing, setRevealing] = useState(false);
   const [showMove, setShowMove] = useState(false);
@@ -65,7 +59,11 @@ export const PlayerMove = ({ moved, moveId, revealed = false }: Props) => {
     <Container>
       {moved ? (
         <MoveIcon moving={revealing}>
-          {(showMove && (moveId && dummyThemeMoves[moveId])) || (
+          {showMove && moveId && currentTheme ? (
+            <MoveImage
+              src={`${SOCKETS_ENDPOINT}${currentTheme.moves[moveId].imageUrl}`}
+            />
+          ) : (
             <MoveImage src={mysteryImage} />
           )}
         </MoveIcon>

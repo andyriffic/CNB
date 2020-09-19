@@ -32,49 +32,52 @@ import {
   ScreenWithMatchup,
   MockScreenWithMatchup,
 } from '../v2/screens/spectator';
+import { MoveThemeProvider } from '../v2/providers/MoveThemeProvider';
 
 export default () => {
   return (
     <Theme>
-      <Sound>
-        <GameSettings>
-          <GlobalStyle />
-          <MatchupProvider>
-            <PlayersProvider>
-              <InvitationsProvider>
-                <Router>
-                  <InvitationMatchupScreen path="/" />
-                  <MatchupLobby path="/lobby" />
-                  <MatchupView path="/matchup/:matchupId" />
-                  <SelectPlayerScreen path="/play" />
-                  <SelectMatchupScreen path="/play/:playerId" />
-                  <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
-                  <PlayerProfileStatsScreen path="/player/profile" />
-                  <PlayerProfileStatsScreen path="/player/profile/:playerName" />
-                  <PlayerListView path="/tournament-players" />
-                  <TeamsListView path="/teams" />
-                  <TournamentInfoView path="tournament-info" />
-                  <ComponentTestView path="/component-test" />
-                  <PlayerAdminScreen path="/player-admin" />
-                  <LeaderboardScreen path="/leaderboard" />
-                  <LeaderboardScreen path="/leaderboard/top/:maxPlacing" />
-                  <GameHistoryScreen path="/game-history" />
-                  <SnakesAndLaddersScreen path="/snakes-and-ladders" />
-                  <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
-                  <FinxFeatureDisplayScreen path="/finx-display" />
-                  <PowerupRulesScreen path="/powerups" />
-                  <LayoutTestView path="/layout" />
-                  <MockScreenWithMatchup path="/spectator/mock" />
-                  <ScreenWithMatchup
-                    path="/spectator/:matchupId"
-                    matchupId=""
-                  />
-                </Router>
-              </InvitationsProvider>
-            </PlayersProvider>
-          </MatchupProvider>
-        </GameSettings>
-      </Sound>
+      <MoveThemeProvider>
+        <Sound>
+          <GameSettings>
+            <GlobalStyle />
+            <MatchupProvider>
+              <PlayersProvider>
+                <InvitationsProvider>
+                  <Router>
+                    <InvitationMatchupScreen path="/" />
+                    <MatchupLobby path="/lobby" />
+                    <MatchupView path="/matchup/:matchupId" />
+                    <SelectPlayerScreen path="/play" />
+                    <SelectMatchupScreen path="/play/:playerId" />
+                    <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                    <PlayerProfileStatsScreen path="/player/profile" />
+                    <PlayerProfileStatsScreen path="/player/profile/:playerName" />
+                    <PlayerListView path="/tournament-players" />
+                    <TeamsListView path="/teams" />
+                    <TournamentInfoView path="tournament-info" />
+                    <ComponentTestView path="/component-test" />
+                    <PlayerAdminScreen path="/player-admin" />
+                    <LeaderboardScreen path="/leaderboard" />
+                    <LeaderboardScreen path="/leaderboard/top/:maxPlacing" />
+                    <GameHistoryScreen path="/game-history" />
+                    <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                    <SnakesAndLaddersRulesScreen path="/snakes-and-ladders-rules" />
+                    <FinxFeatureDisplayScreen path="/finx-display" />
+                    <PowerupRulesScreen path="/powerups" />
+                    <LayoutTestView path="/layout" />
+                    <MockScreenWithMatchup path="/spectator/mock" />
+                    <ScreenWithMatchup
+                      path="/spectator/:matchupId"
+                      matchupId=""
+                    />
+                  </Router>
+                </InvitationsProvider>
+              </PlayersProvider>
+            </MatchupProvider>
+          </GameSettings>
+        </Sound>
+      </MoveThemeProvider>
     </Theme>
   );
 };

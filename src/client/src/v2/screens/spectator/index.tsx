@@ -15,6 +15,7 @@ import {
   PlayersContext,
 } from '../../../uplift/contexts/PlayersProvider';
 import { getPlayerSnakesAndLaddersMoves } from '../../../uplift/utils/player';
+import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -109,6 +110,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     startGameForMatchup,
     playGameForMatchup,
   } = useContext(MatchupContext);
+  const { setTheme } = useMoveThemeProvider();
 
   useEffect(() => {
     subscribeToMatchup(matchupId);
@@ -118,6 +120,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     if (!currentMatchup || createdGame.current) {
       return;
     }
+    setTheme(currentMatchup.themeId);
     if (!currentMatchup.gameInProgress) {
       createdGame.current = true;
       startGameForMatchup(matchupId, 'Timebomb');
