@@ -23,6 +23,7 @@ import {
   withDrawnResult,
   withPlayerMoved,
 } from './mocks/mockScenarios';
+import { useSoundGameState } from './hooks/useSoundGameState';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -115,6 +116,7 @@ const Screen = ({
     resolveGame,
     triggerUpdate
   );
+  useSoundGameState(timedGameState.gamePhase, timedGameState.game);
 
   useEffect(() => {
     const updatedPoints = getPlayerPoints(allPlayers, matchup.teams);
@@ -122,7 +124,12 @@ const Screen = ({
   }, [allPlayers, matchup]);
 
   if (timedGameState.game) {
-    return <View {...timedGameState} game={timedGameState.game} />;
+    return (
+      <>
+        <button onClick={startNewGame}>new game</button>
+        <View {...timedGameState} game={timedGameState.game} />
+      </>
+    );
   }
 
   return null;

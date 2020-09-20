@@ -69,7 +69,7 @@ export const useTimedGameState = (
       currentGameResolved.current = false;
 
       setPointsThisGame(0);
-      // startNewGame();
+      //startNewGame(); //TODO: UNCOMMENT THIS LINE TO AUTO-MOVE TO NEXT GAME
     }
   }, [gamePhase, currentGame]);
 
