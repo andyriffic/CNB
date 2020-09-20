@@ -19,6 +19,7 @@ import {
   usePositionedBonusPoints,
   usePositionedGamePoints,
 } from './hooks/usePositionedPoints';
+import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -36,11 +37,6 @@ type Props = {
   pointsThisGame: number;
 };
 
-const timebombPositions: [RelativePosition, RelativePosition] = [
-  { bottom: 0, left: 10 },
-  { bottom: 0, left: 85 },
-];
-
 const winnerPositions: [RelativePosition, RelativePosition] = [
   { top: 10, left: 10 },
   { top: 10, left: 85 },
@@ -56,6 +52,7 @@ const View = ({
 }: Props) => {
   const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
   const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
+  const timebombPosition = usePositionedTimebomb(timebomb);
 
   return (
     <GameScreen scrollable={false}>
@@ -151,9 +148,7 @@ const View = ({
         )}
 
         {/* Timebomb */}
-        <PositionedArea
-          position={timebombPositions[timebomb.playerIndexHoldingTimebomb]}
-        >
+        <PositionedArea position={timebombPosition}>
           <Timebomb
             triggerFuse={gamePhase === GamePhase.timebombFuse}
             triggerExplosion={timebomb.exploded}
