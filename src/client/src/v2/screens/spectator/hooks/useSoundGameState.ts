@@ -51,4 +51,9 @@ export const useSoundGameState = (gamePhase: GamePhase, game?: Game) => {
 
   usePlayOncePerGame(game, game => game.moves[0].moved, 'PlayerMoved');
   usePlayOncePerGame(game, game => game.moves[1].moved, 'PlayerMoved');
+
+  useSoundForGamePhase(gamePhase, {
+    when: GamePhase.highlightWinner,
+    playSound: 'Winner',
+  });
 };
