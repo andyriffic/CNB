@@ -59,7 +59,7 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
-      <p>{gamePhase}</p>
+      <p>{GamePhase[gamePhase]}</p>
       <GameplayArea>
         {/* Players */}
         <PositionedArea position={{ bottom: 15, left: 0 }}>
@@ -80,46 +80,14 @@ const View = ({
           <PlayerMove
             moved={game.moves[0].moved}
             moveId={game.result && game.result.moves[0].moveId}
-            revealed={[
-              GamePhase.showResult,
-              GamePhase.highlightWinner,
-              GamePhase.highlightDraw,
-              GamePhase.showBasePoints,
-              GamePhase.applyPowerupPoints_start,
-              GamePhase.applyPowerupPoints_end,
-              GamePhase.givePointsToPlayer,
-              GamePhase.givePointsToBonus,
-              GamePhase.applyBonusPoints,
-              GamePhase.bonusPointsApplied,
-              GamePhase.applyPointsUpdate,
-              GamePhase.giveTimebombToPlayer,
-              GamePhase.timebombFuse,
-              GamePhase.timebombResolution,
-              GamePhase.readyForNextGame,
-            ].includes(gamePhase)}
+            revealed={gamePhase >= GamePhase.showResult}
           />
         </PositionedArea>
         <PositionedArea position={{ bottom: 25, right: 30 }}>
           <PlayerMove
             moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
-            revealed={[
-              GamePhase.showResult,
-              GamePhase.highlightWinner,
-              GamePhase.highlightDraw,
-              GamePhase.showBasePoints,
-              GamePhase.applyPowerupPoints_start,
-              GamePhase.applyPowerupPoints_end,
-              GamePhase.givePointsToPlayer,
-              GamePhase.givePointsToBonus,
-              GamePhase.applyBonusPoints,
-              GamePhase.bonusPointsApplied,
-              GamePhase.applyPointsUpdate,
-              GamePhase.giveTimebombToPlayer,
-              GamePhase.timebombFuse,
-              GamePhase.timebombResolution,
-              GamePhase.readyForNextGame,
-            ].includes(gamePhase)}
+            revealed={gamePhase >= GamePhase.showResult}
           />
         </PositionedArea>
 
@@ -128,44 +96,14 @@ const View = ({
           <PlayerPowerup
             powerupUsed={game.moves[0].usedPowerup}
             powerupId={game.result && game.result.moves[0].powerUpId}
-            reveal={[
-              GamePhase.highlightWinner,
-              GamePhase.highlightDraw,
-              GamePhase.showBasePoints,
-              GamePhase.applyPowerupPoints_start,
-              GamePhase.applyPowerupPoints_end,
-              GamePhase.givePointsToPlayer,
-              GamePhase.givePointsToBonus,
-              GamePhase.applyBonusPoints,
-              GamePhase.bonusPointsApplied,
-              GamePhase.applyPointsUpdate,
-              GamePhase.giveTimebombToPlayer,
-              GamePhase.timebombFuse,
-              GamePhase.timebombResolution,
-              GamePhase.readyForNextGame,
-            ].includes(gamePhase)}
+            reveal={gamePhase >= GamePhase.highlightWinner}
           />
         </PositionedArea>
         <PositionedArea position={{ bottom: 60, right: 0 }}>
           <PlayerPowerup
             powerupUsed={game.moves[1].usedPowerup}
             powerupId={game.result && game.result.moves[1].powerUpId}
-            reveal={[
-              GamePhase.highlightWinner,
-              GamePhase.highlightDraw,
-              GamePhase.showBasePoints,
-              GamePhase.applyPowerupPoints_start,
-              GamePhase.applyPowerupPoints_end,
-              GamePhase.givePointsToPlayer,
-              GamePhase.givePointsToBonus,
-              GamePhase.applyBonusPoints,
-              GamePhase.bonusPointsApplied,
-              GamePhase.applyPointsUpdate,
-              GamePhase.giveTimebombToPlayer,
-              GamePhase.timebombFuse,
-              GamePhase.timebombResolution,
-              GamePhase.readyForNextGame,
-            ].includes(gamePhase)}
+            reveal={gamePhase >= GamePhase.highlightWinner}
           />
         </PositionedArea>
 
@@ -189,22 +127,7 @@ const View = ({
         </PositionedArea>
 
         {/* Winner */}
-        {[
-          GamePhase.highlightWinner,
-          GamePhase.highlightDraw,
-          GamePhase.showBasePoints,
-          GamePhase.applyPowerupPoints_start,
-          GamePhase.applyPowerupPoints_end,
-          GamePhase.givePointsToPlayer,
-          GamePhase.givePointsToBonus,
-          GamePhase.applyBonusPoints,
-          GamePhase.bonusPointsApplied,
-          GamePhase.applyPointsUpdate,
-          GamePhase.giveTimebombToPlayer,
-          GamePhase.timebombFuse,
-          GamePhase.timebombResolution,
-          GamePhase.readyForNextGame,
-        ].includes(gamePhase) && (
+        {gamePhase >= GamePhase.highlightWinner && (
           <>
             {game.result && !game.result.draw ? (
               <PositionedArea
