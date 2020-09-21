@@ -10,13 +10,14 @@ export type RelativePosition = {
   right?: number;
 };
 
-const Container = styled.div<RelativePosition>`
+const Container = styled.div<RelativePosition & { flipX: boolean }>`
   position: absolute;
   will-change: top, left, bottom, right;
   ${({ top }) => top !== undefined && `top: ${top}%;`}
   ${({ left }) => left !== undefined && `left: ${left}%;`}
   ${({ bottom }) => bottom !== undefined && `bottom: ${bottom}%;`}
   ${({ right }) => right !== undefined && `right: ${right}%;`}
+  ${({ flipX }) => flipX && 'transform: scaleX(-1);'}
 transition: all ${ANIMATION_DURATION_MILLISECONDS}ms linear;
 `;
 
@@ -24,12 +25,14 @@ type Props = {
   children: React.ReactNode;
   position: RelativePosition;
   onMoveComplete?: () => void;
+  flipX?: boolean;
 };
 
 export const PositionedArea = ({
   children,
   position,
   onMoveComplete,
+  flipX = false,
 }: Props) => {
   const originalPosition = useRef(position);
 
@@ -48,5 +51,9 @@ export const PositionedArea = ({
     }
   }, [position]);
 
-  return <Container {...position}>{children}</Container>;
+  return (
+    <Container {...position} flipX={flipX}>
+      {children}
+    </Container>
+  );
 };

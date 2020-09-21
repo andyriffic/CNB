@@ -65,7 +65,7 @@ const View = ({
             poweredUp={game.moves[0].usedPowerup}
           />
         </PositionedArea>
-        <PositionedArea position={{ bottom: 15, right: 0 }}>
+        <PositionedArea position={{ bottom: 15, right: 0 }} flipX={true}>
           <GamePlayer
             imageUrl={game.moves[1].playerAvatarUrl}
             poweredUp={game.moves[1].usedPowerup}
@@ -80,7 +80,7 @@ const View = ({
             revealed={gamePhase >= GamePhase.showResult}
           />
         </PositionedArea>
-        <PositionedArea position={{ bottom: 25, right: 30 }}>
+        <PositionedArea position={{ bottom: 25, right: 30 }} flipX={true}>
           <PlayerMove
             moved={game.moves[1].moved}
             moveId={game.result && game.result.moves[1].moveId}
