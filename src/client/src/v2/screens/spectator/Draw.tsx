@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import winCat from './assets/win-cat.gif';
+import drawCat from './assets/draw-cat.gif';
 import { RainbowText } from '../../../uplift/components/RainbowText';
 import { shakeAnimationLeft } from '../../../uplift/components/animations';
 
 const Container = styled.div`
-  width: 7vw;
-  height: 7vw;
+  width: 8vw;
+  height: 8vw;
   background-color: transparent;
   /* animation: ${shakeAnimationLeft} 500ms infinite; */
 `;
@@ -16,11 +16,11 @@ const WinImage = styled.img`
   height: 100%;
 `;
 
-export const Winner = () => {
+export const Draw = () => {
   return (
     <Container>
-      <RainbowText>WINNER!</RainbowText>
-      {/* <WinImage src={winCat} /> */}
+      <RainbowText>Draw!</RainbowText>
+      {/* <WinImage src={drawCat} /> */}
     </Container>
   );
 };

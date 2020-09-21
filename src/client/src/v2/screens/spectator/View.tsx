@@ -20,6 +20,7 @@ import {
   usePositionedGamePoints,
 } from './hooks/usePositionedPoints';
 import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
+import { Draw } from './Draw';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -141,7 +142,7 @@ const View = ({
               </PositionedArea>
             ) : (
               <PositionedArea position={{ top: 45, left: 46 }}>
-                draw
+                <Draw />
               </PositionedArea>
             )}
           </>
