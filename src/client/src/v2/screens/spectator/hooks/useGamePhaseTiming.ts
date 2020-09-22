@@ -166,13 +166,13 @@ export const useGamePhaseTiming = (game?: Game) => {
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPowerupPoints_start,
     to: GamePhase.applyPowerupPoints_end,
-    timeoutMilliseconds: 1000,
+    timeoutMilliseconds: 0,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPowerupPoints_end,
     to: GamePhase.applyBonusPoints,
-    timeoutMilliseconds: 500,
+    timeoutMilliseconds: 0,
   });
 
   useGameTiming(gamePhase, setGamePhase, {

@@ -116,6 +116,11 @@ export const useSoundGameState = (
   });
 
   useSoundForGamePhase(gamePhase, {
+    when: GamePhase.givePointsToPlayer,
+    playSound: 'FinalPointsAllocated',
+  });
+
+  useSoundForGamePhase(gamePhase, {
     when: GamePhase.timebombFuse,
     playSound: 'TimebombTicking',
     sprite: 'fuse',

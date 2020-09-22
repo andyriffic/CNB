@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import { pulseAnimation } from '../../../uplift/components/animations';
 import { ReadableNumberFont } from '../../../components/ReadableNumberFont';
 
+const ANIMATION_DURATION_MILLISECONDS = 500;
+
 const Container = styled.div<{ animate: boolean; backgroundVariant: string }>`
   width: 5vw;
   height: 5vw;
@@ -22,7 +24,7 @@ const Container = styled.div<{ animate: boolean; backgroundVariant: string }>`
   ${({ animate }) =>
     animate &&
     css`
-      animation: ${pulseAnimation} 500ms;
+      animation: ${pulseAnimation} ${ANIMATION_DURATION_MILLISECONDS}ms;
     `}
 `;
 
@@ -53,6 +55,9 @@ export const Points = ({ title, value, variant = 'player' }: Props) => {
     if (value !== previousPoints.current) {
       previousPoints.current = value;
       setPlayAnimation(true);
+      setTimeout(() => {
+        setPlayAnimation(false);
+      }, ANIMATION_DURATION_MILLISECONDS);
     }
   }, [value]);
 
