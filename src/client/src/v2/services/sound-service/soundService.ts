@@ -1,17 +1,16 @@
 import { Howler, Howl, HowlOptions } from 'howler';
 import { SoundMap, soundMap } from './soundMap';
 
-const preloadSounds = () => {};
-
 export const play = (
   soundKey: keyof SoundMap,
-  options: HowlOptions = {}
+  options: HowlOptions = {},
+  sprite?: string
 ): Howl => {
   const sound = new Howl({
     src: [soundMap[soundKey]],
     ...options,
   });
 
-  sound.play();
+  sound.play(sprite);
   return sound;
 };

@@ -151,6 +151,7 @@ const View = ({
         {/* Timebomb */}
         <PositionedArea position={timebombPosition}>
           <Timebomb
+            intensity={game.attributes.gameCount}
             triggerFuse={gamePhase === GamePhase.timebombFuse}
             triggerExplosion={timebomb.exploded}
           />

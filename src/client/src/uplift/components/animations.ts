@@ -84,6 +84,20 @@ export const stampAnimation = keyframes`
   }
 `;
 
+export const shakeAndGrowAnimation = keyframes`
+  0% { transform: translate(1px, 1px) rotate(0deg) scale(1); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg) scale(1.1); }
+  20% { transform: translate(-3px, 0px) rotate(1deg) scale(1.2); }
+  30% { transform: translate(3px, 2px) rotate(0deg) scale(1.1); }
+  40% { transform: translate(1px, -1px) rotate(1deg) scale(1.2); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg) scale(1); }
+  60% { transform: translate(-3px, 1px) rotate(0deg) scale(1); }
+  70% { transform: translate(3px, 1px) rotate(-1deg) scale(1); }
+  80% { transform: translate(-1px, -1px) rotate(1deg) scale(1); }
+  90% { transform: translate(1px, 2px) rotate(0deg) scale(1); }
+  100% { transform: translate(1px, -2px) rotate(-1deg) scale(1); }
+`;
+
 export const shakeAnimationLeft = keyframes`
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -2px) rotate(-1deg); }
