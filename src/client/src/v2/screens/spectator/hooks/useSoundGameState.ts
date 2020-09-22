@@ -35,23 +35,36 @@ const useSoundForGamePhase = (
 
 const usePlayOncePerGame = (
   game: Game | undefined,
-  playWhen: (game: Game) => boolean,
+  timebomb: TimebombTimedState,
+  playWhen: (game: Game, timebomb: TimebombTimedState) => boolean,
   soundKey: keyof SoundMap
 ) => {
-  const played = useRef(game ? game.id : '');
+  const played = useRef('');
 
   useEffect(() => {
     if (!game) {
       return;
     }
-    if (played.current !== game.id && playWhen(game)) {
+    if (soundKey === 'TimebombExploded') {
+      console.log(
+        'TIMEBOMB SOUND',
+        played.current,
+        game.id,
+        playWhen(game, timebomb)
+      );
+    }
+    if (played.current !== game.id && playWhen(game, timebomb)) {
       played.current = game.id;
       play(soundKey);
     }
-  }, [game]);
+  }, [game, timebomb]);
 };
 
-export const useSoundGameState = (gamePhase: GamePhase, game?: Game) => {
+export const useSoundGameState = (
+  gamePhase: GamePhase,
+  game: Game | undefined,
+  timebomb: TimebombTimedState
+) => {
   useSoundForGamePhase(gamePhase, {
     when: GamePhase.waitingMoves,
     playSound: 'WaitForMoves',
@@ -59,8 +72,25 @@ export const useSoundGameState = (gamePhase: GamePhase, game?: Game) => {
     options: { loop: true },
   });
 
-  usePlayOncePerGame(game, game => game.moves[0].moved, 'PlayerMoved');
-  usePlayOncePerGame(game, game => game.moves[1].moved, 'PlayerMoved');
+  usePlayOncePerGame(
+    game,
+    timebomb,
+    game => game.moves[0].moved,
+    'PlayerMoved'
+  );
+  usePlayOncePerGame(
+    game,
+    timebomb,
+    game => game.moves[1].moved,
+    'PlayerMoved'
+  );
+
+  usePlayOncePerGame(
+    game,
+    timebomb,
+    (game, timebomb) => timebomb.exploded,
+    'TimebombExploded'
+  );
 
   useSoundForGamePhase(gamePhase, {
     when: GamePhase.readyToPlay,

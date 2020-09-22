@@ -116,7 +116,11 @@ const Screen = ({
     resolveGame,
     triggerUpdate
   );
-  useSoundGameState(timedGameState.gamePhase, timedGameState.game);
+  useSoundGameState(
+    timedGameState.gamePhase,
+    timedGameState.game,
+    timedGameState.timebomb
+  );
 
   useEffect(() => {
     const updatedPoints = getPlayerPoints(allPlayers, matchup.teams);
