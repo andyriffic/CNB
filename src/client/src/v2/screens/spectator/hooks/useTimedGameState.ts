@@ -44,7 +44,7 @@ export const useTimedGameState = (
   });
 
   const [pointsThisGame, setPointsThisGame] = useState(0);
-  const gamePhase = useGamePhaseTiming(currentGame);
+  const gamePhase = useGamePhaseTiming(currentGame, bonusPoints);
 
   useEffect(() => {
     setCurrentGame(matchup.gameInProgress);

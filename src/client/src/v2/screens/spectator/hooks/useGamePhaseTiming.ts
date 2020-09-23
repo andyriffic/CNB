@@ -34,13 +34,11 @@ export enum GamePhase {
   timebombResolution = 7,
   showBasePoints = 8,
   applyBonusPoints = 9,
-  applyPowerupPoints_start = 10,
-  applyPowerupPoints_end = 11,
-  bonusPointsApplied = 12,
-  givePointsToBonus = 13,
-  givePointsToPlayer = 14,
-  applyPointsUpdate = 15,
-  readyForNextGame = 16,
+  bonusPointsApplied = 10,
+  givePointsToBonus = 11,
+  givePointsToPlayer = 12,
+  applyPointsUpdate = 13,
+  readyForNextGame = 14,
 }
 
 const useGameTiming = (
@@ -84,14 +82,17 @@ const winnerUsedPowerup = (game?: Game): boolean => {
   );
 };
 
-export const useGamePhaseTiming = (game?: Game) => {
+export const useGamePhaseTiming = (
+  game: Game | undefined,
+  bonusPoints: number
+) => {
   const currentGame = useRef(game);
   const [gamePhase, setGamePhase] = useState(
     allPlayersMoved(game) ? GamePhase.readyToPlay : GamePhase.waitingMoves
   );
 
   useEffect(() => {
-    console.log('GAMEPHASE', gamePhase);
+    console.log('GAMEPHASE', GamePhase[gamePhase]);
   }, [gamePhase]);
 
   useEffect(() => {
@@ -153,26 +154,12 @@ export const useGamePhaseTiming = (game?: Game) => {
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.showBasePoints,
-    to: winnerUsedPowerup(game)
-      ? GamePhase.applyPowerupPoints_start
-      : gameIsFinished(game)
-      ? GamePhase.applyBonusPoints
-      : gameIsDraw(game)
+    to: gameIsDraw(game)
       ? GamePhase.givePointsToBonus
-      : GamePhase.applyBonusPoints,
+      : bonusPoints
+      ? GamePhase.applyBonusPoints
+      : GamePhase.givePointsToPlayer,
     timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.applyPowerupPoints_start,
-    to: GamePhase.applyPowerupPoints_end,
-    timeoutMilliseconds: 0,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.applyPowerupPoints_end,
-    to: GamePhase.applyBonusPoints,
-    timeoutMilliseconds: 0,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
