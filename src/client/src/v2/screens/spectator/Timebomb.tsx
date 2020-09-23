@@ -15,13 +15,16 @@ const Container = styled.div<{
   font-size: 3rem;
 `;
 
-const Icon = styled.div<{ fuse: boolean; exploded: boolean }>`
+const Icon = styled.div<{
+  fuse: boolean;
+  exploded: boolean;
+  intensity: number;
+}>`
   transition: transform 200ms ease-in-out;
   ${({ fuse }) => fuse && fuseAnimation}
-  ${({ exploded }) =>
-    exploded &&
+  ${({ exploded, intensity }) =>
     css`
-      transform: scale(3);
+      transform: scale(${exploded ? '3' : intensity / 10 + 1});
     `}
 `;
 
@@ -47,7 +50,11 @@ export const Timebomb = ({
   return (
     <Container intensity={intensity}>
       {triggerExplosion && <Flames src={fireImage} />}
-      <Icon fuse={triggerFuse} exploded={triggerExplosion}>
+      <Icon
+        fuse={triggerFuse}
+        exploded={triggerExplosion}
+        intensity={intensity}
+      >
         {triggerExplosion ? '💥' : '💣'}
       </Icon>
     </Container>

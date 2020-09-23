@@ -190,7 +190,7 @@ export const useGamePhaseTiming = (
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
     to: GamePhase.readyForNextGame,
-    timeoutMilliseconds: 2000,
+    timeoutMilliseconds: 1000,
   });
 
   return gamePhase;
