@@ -7,16 +7,22 @@ const fuseAnimation = css`
   animation: ${shakeAndGrowAnimation} 300ms ease-in-out infinite;
 `;
 
-const Container = styled.div<{ intensity: number; fuse: boolean }>`
+const Container = styled.div<{
+  intensity: number;
+}>`
   width: 5vw;
   height: 5vw;
   font-size: 3rem;
+`;
+
+const Icon = styled.div<{ fuse: boolean; exploded: boolean }>`
+  transition: transform 200ms ease-in-out;
   ${({ fuse }) => fuse && fuseAnimation}
-  
-  /* ${({ intensity }) =>
+  ${({ exploded }) =>
+    exploded &&
     css`
-      transform: scale(${1 + intensity / 10});
-    `}; */
+      transform: scale(3);
+    `}
 `;
 
 const Flames = styled.img`
@@ -39,9 +45,11 @@ export const Timebomb = ({
   intensity,
 }: TimebombProps) => {
   return (
-    <Container intensity={intensity} fuse={triggerFuse}>
-      {triggerExplosion ? '💥' : '💣'}
+    <Container intensity={intensity}>
       {triggerExplosion && <Flames src={fireImage} />}
+      <Icon fuse={triggerFuse} exploded={triggerExplosion}>
+        {triggerExplosion ? '💥' : '💣'}
+      </Icon>
     </Container>
   );
 };

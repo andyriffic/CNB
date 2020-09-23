@@ -111,6 +111,11 @@ export const useSoundGameState = (
   });
 
   useSoundForGamePhase(gamePhase, {
+    when: GamePhase.highlightDraw,
+    playSound: 'Draw',
+  });
+
+  useSoundForGamePhase(gamePhase, {
     when: GamePhase.showBasePoints,
     playSound: 'ShowBasePoints',
   });
