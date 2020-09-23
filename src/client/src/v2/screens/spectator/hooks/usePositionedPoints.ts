@@ -29,8 +29,7 @@ export const usePositionedGamePoints = (gamePhase: GamePhase, game: Game) => {
         setGamePointsPosition(
           pointsPositions.player[game.attributes.playerIndexNotHoldingTimebomb]
         );
-      }
-      if (game.result.winnerIndex !== undefined) {
+      } else if (game.result.winnerIndex !== undefined) {
         setGamePointsPosition(pointsPositions.player[game.result.winnerIndex]);
       }
     } else if (gamePhase === GamePhase.givePointsToBonus) {

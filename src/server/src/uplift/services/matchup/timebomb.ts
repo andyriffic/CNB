@@ -11,6 +11,7 @@ import { Counter } from '../counter/types';
 export enum TimebombAttributes {
   GameCount = 'gameCount',
   PlayerIndexHoldingTimebomb = 'playerIndexHoldingTimebomb',
+  PlayerIndexNotHoldingTimebomb = 'playerIndexNotHoldingTimebomb',
   Exploded = 'exploded',
 }
 

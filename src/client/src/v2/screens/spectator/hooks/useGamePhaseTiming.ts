@@ -149,16 +149,17 @@ export const useGamePhaseTiming = (
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.timebombResolution,
     to: GamePhase.showBasePoints,
-    timeoutMilliseconds: 2000,
+    timeoutMilliseconds: 500,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.showBasePoints,
-    to: gameIsDraw(game)
-      ? GamePhase.givePointsToBonus
-      : bonusPoints
-      ? GamePhase.applyBonusPoints
-      : GamePhase.givePointsToPlayer,
+    to:
+      gameIsDraw(game) && !gameIsFinished(game)
+        ? GamePhase.givePointsToBonus
+        : gameIsDraw(game) && bonusPoints
+        ? GamePhase.applyBonusPoints
+        : GamePhase.givePointsToPlayer,
     timeoutMilliseconds: 2000,
   });
 
