@@ -9,7 +9,7 @@ const theme = {
   color: {
     primaryBackground: primaryBackgroundColorHex,
     background02: '#f9f9f9',
-    text01: 'black',
+    text01: 'coral',
     points: {
       backgroundVariant01: 'steelblue',
       backgroundVariant02: 'darkkhaki',
