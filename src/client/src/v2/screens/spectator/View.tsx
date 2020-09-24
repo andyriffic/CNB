@@ -25,12 +25,12 @@ import gameAreaBackgroundImage from './assets/game-area-background.jpg';
 
 const GameplayArea = styled.div`
   position: relative;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
   height: 70%;
   margin: 0 auto;
-  background: transparent url(${gameAreaBackgroundImage}) no-repeat 0px -100px;
+  /* background: transparent url(${gameAreaBackgroundImage}) no-repeat 0px -100px;
   background-size: cover;
-  box-shadow: 5px 10px #888888;
+  box-shadow: 5px 10px #888888; */
 `;
 
 type Props = {
@@ -61,7 +61,7 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
-      <p>{GamePhase[gamePhase]}</p>
+      {/* <p>{GamePhase[gamePhase]}</p> */}
       <GameplayArea>
         {/* Players */}
         <PositionedArea position={{ bottom: 15, left: 0 }}>
