@@ -160,6 +160,8 @@ const View = ({
         {gamePhase === GamePhase.readyToPlay && (
           <SplashText>Round {game.attributes.gameCount}</SplashText>
         )}
+
+        {gamePhase === GamePhase.gameOver && <SplashText>Game over</SplashText>}
       </GameplayArea>
     </GameScreen>
   );

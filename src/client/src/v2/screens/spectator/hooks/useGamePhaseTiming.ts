@@ -39,6 +39,7 @@ export enum GamePhase {
   givePointsToPlayer = 12,
   applyPointsUpdate = 13,
   readyForNextGame = 14,
+  gameOver = 15,
 }
 
 const useGameTiming = (
@@ -157,7 +158,7 @@ export const useGamePhaseTiming = (
     to:
       gameIsDraw(game) && !gameIsFinished(game)
         ? GamePhase.givePointsToBonus
-        : gameIsDraw(game) && bonusPoints
+        : gameIsDraw(game) && gameIsFinished(game) && bonusPoints
         ? GamePhase.applyBonusPoints
         : GamePhase.givePointsToPlayer,
     timeoutMilliseconds: 2000,
@@ -189,7 +190,8 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
-    to: GamePhase.readyForNextGame,
+    to:
+      game && game.trophyWon ? GamePhase.gameOver : GamePhase.readyForNextGame,
     timeoutMilliseconds: 1000,
   });
 

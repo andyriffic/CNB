@@ -135,4 +135,9 @@ export const useSoundGameState = (
       },
     },
   });
+
+  useSoundForGamePhase(gamePhase, {
+    when: GamePhase.gameOver,
+    playSound: 'GameOver',
+  });
 };

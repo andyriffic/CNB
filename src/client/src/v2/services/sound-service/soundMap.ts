@@ -5,9 +5,11 @@ import grabMissionSuccess from './sounds/grab_mission_success.mp3';
 import timebombTicking from './sounds/time_bomb_sms.mp3';
 import explosion from './sounds/explosion.mp3';
 import trackAndField from './sounds/track_and_field.mp3';
+import pokemonSnapSoSo from './sounds/pokemon_snap_so_so.mp3';
 import boingBoing from './sounds/boing_boing.mp3';
 import characterSelect from './sounds/character_select.mp3';
 import missionFalied from './sounds/mission_failed.mp3';
+import gameOverTune from './sounds/game_over_tune.mp3';
 
 export type SoundMap = {
   WaitForMoves: any;
@@ -20,6 +22,7 @@ export type SoundMap = {
   Draw: any;
   TimebombTicking: any;
   TimebombExploded: any;
+  GameOver: any;
 };
 
 export const soundMap: SoundMap = {
@@ -28,9 +31,10 @@ export const soundMap: SoundMap = {
   RoundStart: trackAndField,
   ShowMoves: boingBoing,
   ShowBasePoints: grabMissionSuccess,
-  FinalPointsAllocated: characterSelect,
+  FinalPointsAllocated: grabMissionSuccess,
   Winner: winner,
   Draw: missionFalied,
   TimebombTicking: timebombTicking,
   TimebombExploded: explosion,
+  GameOver: gameOverTune,
 };
