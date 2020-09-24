@@ -130,7 +130,7 @@ const Screen = ({
   if (timedGameState.game) {
     return (
       <>
-        <button onClick={startNewGame}>new game</button>
+        {/* <button onClick={startNewGame}>new game</button> */}
         <View {...timedGameState} game={timedGameState.game} />
       </>
     );

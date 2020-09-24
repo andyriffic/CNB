@@ -158,7 +158,7 @@ export const useGamePhaseTiming = (
     to:
       gameIsDraw(game) && !gameIsFinished(game)
         ? GamePhase.givePointsToBonus
-        : gameIsDraw(game) && gameIsFinished(game) && bonusPoints
+        : !gameIsDraw(game) && bonusPoints
         ? GamePhase.applyBonusPoints
         : GamePhase.givePointsToPlayer,
     timeoutMilliseconds: 2000,
