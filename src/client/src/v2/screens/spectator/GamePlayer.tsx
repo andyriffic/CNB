@@ -53,7 +53,7 @@ export const GamePlayer = ({ imageUrl, poweredUp = false }: Props) => {
     //     filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
     //   }}
     // >
-    <PlayerImage src={`${SOCKETS_ENDPOINT}/${imageUrl}`} />
+    <PlayerImage src={`${SOCKETS_ENDPOINT}${imageUrl}`} />
     // </animated.div>
   );
 };
