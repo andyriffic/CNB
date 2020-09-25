@@ -9,5 +9,6 @@ export default (routeProps: RouteComponentProps) => {
     <LeaderboardScreen {...routeProps} maxPlacing={3} />,
     <PlayerProfileStatsScreen {...routeProps} />,
   ];
-  return selectRandomOneOf(randomScreens);
+  // return selectRandomOneOf(randomScreens);
+  return <PlayerProfileStatsScreen {...routeProps} />;
 };

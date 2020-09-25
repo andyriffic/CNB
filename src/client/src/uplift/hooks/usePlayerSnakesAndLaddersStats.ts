@@ -1,12 +1,14 @@
 import { useFetchJson } from './useFetchJson';
 import { STATS_API_BASE_URL } from '../../environment';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PlayerStatsJsonResult } from './usePlayerStats2020';
+import { PlayersContext } from '../contexts/PlayersProvider';
 
 export const usePlayerSnakesAndLaddersStats = (): [
   boolean,
   PlayerStatsJsonResult | undefined
 ] => {
+  const { allPlayers } = useContext(PlayersContext);
   const [loading, rawPlayerStats] = useFetchJson<PlayerStatsJsonResult>(
     `${STATS_API_BASE_URL}/snakes-and-ladders-leaderboard.json`
   );
@@ -16,7 +18,7 @@ export const usePlayerSnakesAndLaddersStats = (): [
   >();
 
   useEffect(() => {
-    if (!parsedStats && rawPlayerStats) {
+    if (allPlayers.length > 0 && !parsedStats && rawPlayerStats) {
       const parsedResult: PlayerStatsJsonResult = {
         result: rawPlayerStats.result.map(raw => ({
           ...raw,
@@ -25,9 +27,20 @@ export const usePlayerSnakesAndLaddersStats = (): [
           times_lost: parseInt(raw.times_lost.toString()),
         })),
       };
-      setParsedStats(parsedResult);
+
+      const activePlayerNames = allPlayers
+        .filter(p => !p.tags.includes('retired'))
+        .map(p => p.name);
+
+      const activePlayersStatsOnly: PlayerStatsJsonResult = {
+        result: parsedResult.result.filter(r =>
+          activePlayerNames.includes(r.player_name)
+        ),
+      };
+
+      setParsedStats(activePlayersStatsOnly);
     }
-  }, [rawPlayerStats, parsedStats]);
+  }, [rawPlayerStats, parsedStats, allPlayers]);
 
   return [loading, parsedStats];
 };

@@ -13,6 +13,7 @@ const RankItem = styled.div<{ index: number }>`
   display: flex;
   align-items: center;
   padding: 10px;
+  margin-bottom: 3px;
   background-color: #fbf6d9;
   border-radius: 8px;
   ${props =>
