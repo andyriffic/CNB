@@ -13,7 +13,6 @@ import { Winner } from './components/Winner';
 import { RelativePosition, PositionedArea } from './components/PositionedArea';
 import { GamePhase } from './hooks/useGamePhaseTiming';
 import { TimebombTimedState } from './hooks/useTimedGameState';
-import { PrimaryButton } from '../../../uplift/components/PrimaryButton';
 import {
   pointsPositions,
   usePositionedBonusPoints,
@@ -21,7 +20,6 @@ import {
 } from './hooks/usePositionedPoints';
 import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
 import { Draw } from './components/Draw';
-import gameAreaBackgroundImage from './assets/game-area-background.jpg';
 import { FancyLink } from '../../../components/FancyLink';
 
 const GameplayArea = styled.div`
@@ -29,9 +27,6 @@ const GameplayArea = styled.div`
   /* border: 1px solid #000; */
   height: 70%;
   margin: 0 auto;
-  /* background: transparent url(${gameAreaBackgroundImage}) no-repeat 0px -100px;
-  background-size: cover;
-  box-shadow: 5px 10px #888888; */
 `;
 
 type Props = {
