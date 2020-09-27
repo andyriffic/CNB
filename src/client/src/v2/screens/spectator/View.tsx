@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Game } from '../../../uplift/contexts/MatchupProvider';
-import { GamePlayer } from './GamePlayer';
-import { PlayerMove } from './PlayerMove';
-import { PlayerPowerup } from './PlayerPowerup';
-import { Points } from './Points';
+import { GamePlayer } from './components/GamePlayer';
+import { PlayerMove } from './components/PlayerMove';
+import { PlayerPowerup } from './components/PlayerPowerup';
+import { Points } from './components/Points';
 import { useSpring, animated, config } from 'react-spring';
-import { Timebomb } from './Timebomb';
+import { Timebomb } from './components/Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
-import { Winner } from './Winner';
-import { RelativePosition, PositionedArea } from './PositionedArea';
+import { Winner } from './components/Winner';
+import { RelativePosition, PositionedArea } from './components/PositionedArea';
 import { GamePhase } from './hooks/useGamePhaseTiming';
 import { TimebombTimedState } from './hooks/useTimedGameState';
 import { PrimaryButton } from '../../../uplift/components/PrimaryButton';
@@ -20,7 +20,7 @@ import {
   usePositionedGamePoints,
 } from './hooks/usePositionedPoints';
 import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
-import { Draw } from './Draw';
+import { Draw } from './components/Draw';
 import gameAreaBackgroundImage from './assets/game-area-background.jpg';
 
 const GameplayArea = styled.div`

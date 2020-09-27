@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import drawCat from './assets/draw-cat.gif';
-import { RainbowText } from '../../../uplift/components/RainbowText';
-import { shakeAnimationLeft } from '../../../uplift/components/animations';
+import { RainbowText } from '../../../../uplift/components/RainbowText';
+import { shakeAnimationLeft } from '../../../../uplift/components/animations';
 
 const Container = styled.div`
   width: 8vw;

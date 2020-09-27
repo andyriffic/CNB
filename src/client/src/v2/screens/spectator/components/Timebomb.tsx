@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { shakeAndGrowAnimation } from '../../../uplift/components/animations';
-import fireImage from './assets/fire.gif';
+import { shakeAndGrowAnimation } from '../../../../uplift/components/animations';
+import fireImage from '../assets/fire.gif';
 
 const fuseAnimation = css`
   animation: ${shakeAndGrowAnimation} 300ms ease-in-out infinite;

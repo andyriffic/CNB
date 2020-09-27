@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { pulseAnimation } from '../../../uplift/components/animations';
-import { ReadableNumberFont } from '../../../components/ReadableNumberFont';
+import { pulseAnimation } from '../../../../uplift/components/animations';
+import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 
 const ANIMATION_DURATION_MILLISECONDS = 500;
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RelativePosition } from '../PositionedArea';
+import { RelativePosition } from '../components/PositionedArea';
 import { TimebombTimedState } from './useTimedGameState';
 
 const timebombPositions: [RelativePosition, RelativePosition] = [

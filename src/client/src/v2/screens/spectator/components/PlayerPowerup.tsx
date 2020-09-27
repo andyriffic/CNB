@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import powerStar from './power-star.gif';
-import { RainbowText } from '../../../uplift/components/RainbowText';
-import { shakeAnimationLeft } from '../../../uplift/components/animations';
-import { PowerupBadge } from '../../../uplift/components/PowerupBadge';
+import { RainbowText } from '../../../../uplift/components/RainbowText';
+import { shakeAnimationLeft } from '../../../../uplift/components/animations';
+import { PowerupBadge } from '../../../../uplift/components/PowerupBadge';
 
 const Container = styled.div`
   width: 3vw;

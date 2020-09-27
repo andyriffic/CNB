@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
-import mysteryImage from './assets/move_mystery.png';
-import waitingImage from './assets/thinking-cat.gif';
-import { bounceAnimation } from '../../../uplift/components/animations';
-import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
-import { SOCKETS_ENDPOINT } from '../../../environment';
+import mysteryImage from '../assets/move_mystery.png';
+import waitingImage from '../assets/thinking-cat.gif';
+import { bounceAnimation } from '../../../../uplift/components/animations';
+import { useMoveThemeProvider } from '../../../providers/MoveThemeProvider';
+import { SOCKETS_ENDPOINT } from '../../../../environment';
 
 const Container = styled.div`
   width: 10vw;

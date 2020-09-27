@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { useSpring, animated, config } from 'react-spring';
 import { Keyframes } from 'react-spring/renderprops';
-import { SOCKETS_ENDPOINT } from '../../../environment';
-import { superSaiyanAnimation } from '../../../uplift/components/animations';
+import { SOCKETS_ENDPOINT } from '../../../../environment';
+import { superSaiyanAnimation } from '../../../../uplift/components/animations';
 
 const PlayerImage = styled.img`
   width: 20vw;
