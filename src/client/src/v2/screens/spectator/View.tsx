@@ -22,6 +22,7 @@ import {
 import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
 import { Draw } from './components/Draw';
 import gameAreaBackgroundImage from './assets/game-area-background.jpg';
+import { FancyLink } from '../../../components/FancyLink';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -58,6 +59,7 @@ const View = ({
   const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
   const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
   const timebombPosition = usePositionedTimebomb(timebomb);
+  const [showGameOverAction, setShowGameOverAction] = useState(false);
 
   return (
     <GameScreen scrollable={false}>
@@ -165,7 +167,16 @@ const View = ({
           <SplashText>Round {game.attributes.gameCount}</SplashText>
         )}
 
-        {gamePhase === GamePhase.gameOver && <SplashText>Game over</SplashText>}
+        {gamePhase === GamePhase.gameOver && (
+          <SplashText onComplete={() => setShowGameOverAction(true)}>
+            Game over
+          </SplashText>
+        )}
+        {showGameOverAction && (
+          <PositionedArea position={{ left: 40, bottom: 0 }}>
+            <FancyLink href="/snakes-and-ladders">🍭 To Candyland</FancyLink>
+          </PositionedArea>
+        )}
       </GameplayArea>
     </GameScreen>
   );
