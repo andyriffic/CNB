@@ -32,6 +32,8 @@ import {
   ScreenWithMatchup,
   MockScreenWithMatchup,
 } from '../v2/screens/spectator';
+import { ChoosePlayerScreen } from '../v2/screens/choose-players';
+
 import { MoveThemeProvider } from '../v2/providers/MoveThemeProvider';
 
 export default () => {
@@ -66,6 +68,7 @@ export default () => {
                     <FinxFeatureDisplayScreen path="/finx-display" />
                     <PowerupRulesScreen path="/powerups" />
                     <LayoutTestView path="/layout" />
+                    <ChoosePlayerScreen path="/v2" />
                     <MockScreenWithMatchup path="/spectator/mock" />
                     <ScreenWithMatchup
                       path="/spectator/:matchupId"
