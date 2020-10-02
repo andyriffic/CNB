@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Game } from '../../../../uplift/contexts/MatchupProvider';
-import { RelativePosition } from '../components/PositionedArea';
+import { RelativePosition } from '../../../components/PositionedArea';
 import { GamePhase } from './useGamePhaseTiming';
 
 export const pointsPositions: {

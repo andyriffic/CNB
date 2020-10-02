@@ -10,7 +10,10 @@ import { useSpring, animated, config } from 'react-spring';
 import { Timebomb } from './components/Timebomb';
 import { SplashText } from '../../../uplift/components/SplashText';
 import { Winner } from './components/Winner';
-import { RelativePosition, PositionedArea } from './components/PositionedArea';
+import {
+  RelativePosition,
+  PositionedArea,
+} from '../../components/PositionedArea';
 import { GamePhase } from './hooks/useGamePhaseTiming';
 import { TimebombTimedState } from './hooks/useTimedGameState';
 import {
