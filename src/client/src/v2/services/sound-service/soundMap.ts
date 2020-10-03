@@ -1,4 +1,5 @@
 import ssb4_result from './sounds/ssb4_result.mp3';
+import super_smash_bros_2 from './sounds/super_smash_bros_2.mp3';
 import super_smash_bros_4 from './sounds/super_smash_bros_4.mp3';
 import winner from './sounds/winner.mp3';
 import grabMissionSuccess from './sounds/grab_mission_success.mp3';
@@ -23,6 +24,8 @@ export type SoundMap = {
   TimebombTicking: any;
   TimebombExploded: any;
   GameOver: any;
+  WaitForPlayersToJoin: any;
+  PlayerJoinedGame: any;
 };
 
 export const soundMap: SoundMap = {
@@ -37,4 +40,6 @@ export const soundMap: SoundMap = {
   TimebombTicking: timebombTicking,
   TimebombExploded: explosion,
   GameOver: gameOverTune,
+  WaitForPlayersToJoin: super_smash_bros_2,
+  PlayerJoinedGame: ssb4_result,
 };

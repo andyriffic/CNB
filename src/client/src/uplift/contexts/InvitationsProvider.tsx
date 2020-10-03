@@ -37,7 +37,7 @@ export type InvitationsService = {
     onComplete: () => void
   ) => void;
   acceptInvitation: (invitationId: string, player: Player) => void;
-  useInvitation: (
+  confirmInvitation: (
     invitationId: string,
     matchupId: string,
     onComplete: () => void
@@ -96,7 +96,7 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
             player
           );
         },
-        useInvitation: (invitationId, matchupId, onComplete) => {
+        confirmInvitation: (invitationId, matchupId, onComplete) => {
           socket.emit(
             INVITATION_EVENTS.USE_INVITATION,
             invitationId,

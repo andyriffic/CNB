@@ -4,7 +4,7 @@ import {
   PlayersContext,
 } from '../../../../uplift/contexts/PlayersProvider';
 
-type UsePlayerSelector = {
+export type UsePlayerSelector = {
   hasLoaded: boolean;
   getNextPlayer: () => Player | undefined;
 };
@@ -17,7 +17,9 @@ export const usePlayerSelector = () => {
   useEffect(() => {
     if (allPlayers.length && !hasLoaded.current) {
       hasLoaded.current = true;
-      orderedPlayers.current = [...allPlayers];
+      orderedPlayers.current = allPlayers.filter(
+        p => !p.tags.includes('retired')
+      );
     }
   }, [allPlayers, hasLoaded]);
 

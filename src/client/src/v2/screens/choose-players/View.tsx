@@ -1,45 +1,83 @@
+import { NavigateFn } from '@reach/router';
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useInvitationsProvider } from '../../../uplift/contexts/InvitationsProvider';
+import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
+import { SplashText } from '../../../uplift/components/SplashText';
+import { PositionedArea } from '../../components/PositionedArea';
+import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
+import { PlayerAvatar } from './components/PlayerAvatar';
+import { useCreateGame } from './hooks/useCreateGame';
 import { usePlayerSelector } from './hooks/usePlayerSelector';
+import { usePlayerStateWithInvitation } from './hooks/usePlayerStateWithInvitation';
+import { useSelectedPlayerState } from './hooks/useSelectedPlayerState';
+import { useSound } from './hooks/useSound';
 
-const View = () => {
-  // const { createInvitation } = useInvitationsProvider();
+const Container = styled.div`
+  position: relative;
+  height: 100%;
+`;
+
+const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   const playerSelector = usePlayerSelector();
-  const [player1, setPlayer1] = useState(() => playerSelector.getNextPlayer());
-  const [player2, setPlayer2] = useState(() => playerSelector.getNextPlayer());
+  const playerState = useSelectedPlayerState(playerSelector);
+  const {
+    invitation,
+    switchPlayer,
+    playerConfirmed,
+    bothPlayersReady,
+  } = usePlayerStateWithInvitation(playerState);
+  const { startGame } = useCreateGame(invitation);
 
-  useEffect(() => {
-    console.log('UseEffect', playerSelector.hasLoaded, player1);
+  useSound(invitation, playerConfirmed);
 
-    if (!playerSelector.hasLoaded) {
-      return;
-    }
-    if (!player1) {
-      console.log('Choose Players, get next player');
-
-      setPlayer1(playerSelector.getNextPlayer());
-    }
-    if (!player2) {
-      setPlayer2(playerSelector.getNextPlayer());
-    }
-  }, [playerSelector.hasLoaded, player1]);
+  if (!invitation) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <GameScreen scrollable={false}>
-      <p>
-        Player1: {player1 && player1.name}{' '}
-        <button onClick={() => setPlayer1(playerSelector.getNextPlayer())}>
-          next
-        </button>
-      </p>
-      <p>
-        Player2: {player2 && player2.name}
-        <button onClick={() => setPlayer2(playerSelector.getNextPlayer())}>
-          next
-        </button>
-      </p>
+      <Container>
+        {/* Players */}
+        <PositionedArea position={{ left: 0, top: 10 }}>
+          {playerState.players[0] && (
+            <PlayerAvatar
+              confirmed={playerConfirmed[0]}
+              player={playerState.players[0]}
+            />
+          )}
+        </PositionedArea>
+        <PositionedArea position={{ right: 0, top: 10 }} flipX={true}>
+          {playerState.players[1] && (
+            <PlayerAvatar
+              confirmed={playerConfirmed[1]}
+              player={playerState.players[1]}
+            />
+          )}
+        </PositionedArea>
+        {/* Actions */}
+        {!playerConfirmed[0] && (
+          <PositionedArea position={{ left: 0, bottom: 10 }}>
+            <Button onClick={() => switchPlayer[0]()}>Next player</Button>
+          </PositionedArea>
+        )}
+        {!playerConfirmed[1] && (
+          <PositionedArea position={{ right: 0, bottom: 10 }}>
+            <Button onClick={() => switchPlayer[1]()}>Next player</Button>
+          </PositionedArea>
+        )}
+        {bothPlayersReady && (
+          <SplashText
+            onComplete={() => {
+              startGame('rock-paper-scissors-classic', matchupId => {
+                navigate && navigate(`/spectator/${matchupId}`);
+              });
+            }}
+          >
+            Let's go!
+          </SplashText>
+        )}
+      </Container>
     </GameScreen>
   );
 };

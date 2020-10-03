@@ -161,7 +161,7 @@ export default ({ navigate }: RouteComponentProps) => {
               2,
               gameTheme,
               matchupId => {
-                invitationsContext.useInvitation(
+                invitationsContext.confirmInvitation(
                   invitationsContext.invitations![0].id,
                   matchupId,
                   () => {
