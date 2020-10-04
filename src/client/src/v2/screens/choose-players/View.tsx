@@ -12,6 +12,7 @@ import { usePlayerSelector } from './hooks/usePlayerSelector';
 import { usePlayerStateWithInvitation } from './hooks/usePlayerStateWithInvitation';
 import { useSelectedPlayerState } from './hooks/useSelectedPlayerState';
 import { useSound } from './hooks/useSound';
+import { SlideyPlayerSwitcher } from './components/SlideyPlayerSwitcher';
 
 const Container = styled.div`
   position: relative;
@@ -39,22 +40,8 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     <GameScreen scrollable={false}>
       <Container>
         {/* Players */}
-        <PositionedArea position={{ left: 0, top: 10 }}>
-          {playerState.players[0] && (
-            <PlayerAvatar
-              confirmed={playerConfirmed[0]}
-              player={playerState.players[0]}
-            />
-          )}
-        </PositionedArea>
-        <PositionedArea position={{ right: 0, top: 10 }} flipX={true}>
-          {playerState.players[1] && (
-            <PlayerAvatar
-              confirmed={playerConfirmed[1]}
-              player={playerState.players[1]}
-            />
-          )}
-        </PositionedArea>
+        <SlideyPlayerSwitcher pos="left" player={playerState.players[0]} />
+        <SlideyPlayerSwitcher pos="right" player={playerState.players[1]} />
 
         <SplashText>Today's players</SplashText>
 
