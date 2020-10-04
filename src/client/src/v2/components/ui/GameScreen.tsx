@@ -11,6 +11,8 @@ const FullPage = styled.div`
   height: 100vh;
   color: ${({ theme }) => theme.color.text01};
   background-color: ${({ theme }) => theme.color.background02};
+  background-image: ${({ theme }) =>
+    `linear-gradient(${theme.color.background01}, ${theme.color.background02})`};
 `;
 
 const Body = styled.div<{

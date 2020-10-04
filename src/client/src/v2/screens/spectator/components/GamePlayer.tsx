@@ -7,7 +7,7 @@ import { superSaiyanAnimation } from '../../../../uplift/components/animations';
 
 const PlayerImage = styled.img`
   width: 20vw;
-  height: 35vh;
+  height: 25vw;
 `;
 
 const AnimatedFilter = styled(animated.div)<{ hue: number }>`

@@ -8,7 +8,8 @@ const theme = {
   },
   color: {
     primaryBackground: primaryBackgroundColorHex,
-    background02: '#f9f9f9',
+    background01: '#2193b0',
+    background02: '#6dd5ed',
     text01: 'coral',
     points: {
       backgroundVariant01: 'steelblue',
