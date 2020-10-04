@@ -55,6 +55,9 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
             />
           )}
         </PositionedArea>
+
+        <SplashText>Today's players</SplashText>
+
         {/* Actions */}
         {!playerConfirmed[0] && (
           <PositionedArea position={{ left: 0, bottom: 10 }}>
@@ -66,7 +69,6 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
             <Button onClick={() => switchPlayer[1]()}>Next player</Button>
           </PositionedArea>
         )}
-        <SplashText>Today's players</SplashText>
 
         {bothPlayersReady && (
           <SplashText

@@ -63,19 +63,25 @@ export const usePlayerStateWithInvitation = ({
     switchPlayer: [
       () => {
         const player = nextPlayer[0]();
+        if (!player) {
+          return;
+        }
         replacePlayerOnInvitation(
           currentInvitation!.id,
           players[0]!,
-          player!,
+          player,
           () => console.log('replaced player 1')
         );
       },
       () => {
         const player = nextPlayer[1]();
+        if (!player) {
+          return;
+        }
         replacePlayerOnInvitation(
           currentInvitation!.id,
           players[1]!,
-          player!,
+          player,
           () => console.log('replaced player 2')
         );
       },

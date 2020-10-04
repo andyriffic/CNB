@@ -30,11 +30,17 @@ export const useSelectedPlayerState = (
     nextPlayer: [
       () => {
         const player = playerSelector.getNextPlayer();
+        if (!player) {
+          return;
+        }
         setPlayer1(player);
         return player;
       },
       () => {
         const player = playerSelector.getNextPlayer();
+        if (!player) {
+          return;
+        }
         setPlayer2(player);
         return player;
       },

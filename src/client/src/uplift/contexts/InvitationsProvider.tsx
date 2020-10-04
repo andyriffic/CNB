@@ -57,7 +57,7 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
     socket.on(
       INVITATION_EVENTS.INVITATIONS_UPDATE,
       (invitations: Invitation[]) => {
-        console.log('Invitations', invitations);
+        // console.log('Invitations', invitations);
         setInvitations(invitations);
       }
     );

@@ -1,8 +1,15 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { STATS_API_BASE_URL } from '../../../../environment';
 import {
   Player,
   PlayersContext,
 } from '../../../../uplift/contexts/PlayersProvider';
+import { useFetchJson } from '../../../../uplift/hooks/useFetchJson';
+import { GameHistory } from '../../../../uplift/types';
+import {
+  selectWeightedRandomOneOf,
+  WeightedItem,
+} from '../../../../uplift/utils/random';
 
 export type UsePlayerSelector = {
   hasLoaded: boolean;
@@ -11,29 +18,61 @@ export type UsePlayerSelector = {
 
 export const usePlayerSelector = () => {
   const { allPlayers } = useContext(PlayersContext);
+
+  const [loadingGameHistory, gameHistory] = useFetchJson<GameHistory>(
+    `${STATS_API_BASE_URL}/game-result-history.json`
+  );
+
   const hasLoaded = useRef(false);
   const orderedPlayers = useRef<Player[]>([]);
+  const weightedPlayers = useRef<WeightedItem<Player>[]>([]);
 
   useEffect(() => {
-    if (allPlayers.length && !hasLoaded.current) {
+    if (allPlayers.length && gameHistory && !hasLoaded.current) {
       hasLoaded.current = true;
-      orderedPlayers.current = allPlayers.filter(
+
+      const allRecentPlayerNames = gameHistory.result.reduce(
+        (accumulator: string[], record) => {
+          return [...accumulator, record.player1, record.player2];
+        },
+        []
+      );
+      const uniqueRecentPlayers = Array.from(new Set(allRecentPlayerNames));
+
+      const eligiblePlayers = allPlayers.filter(
         p => !p.tags.includes('retired')
       );
+
+      weightedPlayers.current = eligiblePlayers.map(player => {
+        let lastPlayedIndex = uniqueRecentPlayers.findIndex(
+          name => name === player.name
+        );
+        if (lastPlayedIndex === -1) {
+          lastPlayedIndex = 30;
+        }
+
+        return {
+          item: player,
+          weight: lastPlayedIndex + 1,
+        } as WeightedItem<Player>;
+      });
     }
-  }, [allPlayers, hasLoaded]);
+  }, [allPlayers, hasLoaded, loadingGameHistory]);
 
   const result: UsePlayerSelector = {
     hasLoaded: hasLoaded.current,
     getNextPlayer: () => {
-      if (!hasLoaded.current) {
+      if (!hasLoaded.current || !weightedPlayers.current.length) {
         return;
       }
-      const player = orderedPlayers.current[0];
-      orderedPlayers.current = orderedPlayers.current.filter(
-        p => p.id !== player.id
+      const nextRandomPlayer = selectWeightedRandomOneOf(
+        weightedPlayers.current
       );
-      return player;
+      weightedPlayers.current = weightedPlayers.current.filter(
+        i => i.item.id !== nextRandomPlayer.id
+      );
+
+      return nextRandomPlayer;
     },
   };
 
