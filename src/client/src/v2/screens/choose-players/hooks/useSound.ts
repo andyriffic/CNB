@@ -35,11 +35,38 @@ const useBackgroundMusic = (soundKey: keyof SoundMap) => {
   }, []);
 };
 
+const useWhenSwitchingPlayers = (
+  invitation: Invitation | undefined,
+  soundKey: keyof SoundMap
+) => {
+  const playerIds = useRef<string[]>([]);
+  useEffect(() => {
+    if (!invitation) {
+      return;
+    }
+    if (!playerIds.current.length) {
+      playerIds.current = invitation.playerInvitations.map(i => i.player.id);
+      return;
+    }
+
+    if (
+      !invitation.playerInvitations.every(pi =>
+        playerIds.current.includes(pi.player.id)
+      )
+    ) {
+      playerIds.current = invitation.playerInvitations.map(i => i.player.id);
+      play(soundKey);
+    }
+  }, [invitation]);
+};
+
 export const useSound = (
   invitation: Invitation | undefined,
   playerConfirmed: [boolean, boolean]
 ) => {
-  useBackgroundMusic('WaitForPlayersToJoin');
+  // useBackgroundMusic('WaitForPlayersToJoin');
+
+  useWhenSwitchingPlayers(invitation, 'SwitchPlayer');
 
   usePlayOnce(
     invitation,

@@ -11,6 +11,7 @@ import boingBoing from './sounds/boing_boing.mp3';
 import characterSelect from './sounds/character_select.mp3';
 import missionFalied from './sounds/mission_failed.mp3';
 import gameOverTune from './sounds/game_over_tune.mp3';
+import slideWhistleSms from './sounds/slide_whistle_sms.mp3';
 
 export type SoundMap = {
   WaitForMoves: any;
@@ -26,6 +27,7 @@ export type SoundMap = {
   GameOver: any;
   WaitForPlayersToJoin: any;
   PlayerJoinedGame: any;
+  SwitchPlayer: any;
 };
 
 export const soundMap: SoundMap = {
@@ -42,4 +44,5 @@ export const soundMap: SoundMap = {
   GameOver: gameOverTune,
   WaitForPlayersToJoin: super_smash_bros_2,
   PlayerJoinedGame: ssb4_result,
+  SwitchPlayer: slideWhistleSms,
 };
