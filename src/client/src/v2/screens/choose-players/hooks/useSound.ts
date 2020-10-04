@@ -64,7 +64,7 @@ export const useSound = (
   invitation: Invitation | undefined,
   playerConfirmed: [boolean, boolean]
 ) => {
-  // useBackgroundMusic('WaitForPlayersToJoin');
+  useBackgroundMusic('WaitForPlayersToJoin');
 
   useWhenSwitchingPlayers(invitation, 'SwitchPlayer');
 
