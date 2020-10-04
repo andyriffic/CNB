@@ -66,6 +66,8 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
             <Button onClick={() => switchPlayer[1]()}>Next player</Button>
           </PositionedArea>
         )}
+        <SplashText>Today's players</SplashText>
+
         {bothPlayersReady && (
           <SplashText
             onComplete={() => {
