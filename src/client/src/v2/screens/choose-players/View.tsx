@@ -40,8 +40,16 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     <GameScreen scrollable={false}>
       <Container>
         {/* Players */}
-        <SlideyPlayerSwitcher pos="left" player={playerState.players[0]} />
-        <SlideyPlayerSwitcher pos="right" player={playerState.players[1]} />
+        <SlideyPlayerSwitcher
+          pos="left"
+          player={playerState.players[0]}
+          confirmed={playerConfirmed[0]}
+        />
+        <SlideyPlayerSwitcher
+          pos="right"
+          player={playerState.players[1]}
+          confirmed={playerConfirmed[1]}
+        />
 
         <SplashText>Today's players</SplashText>
 

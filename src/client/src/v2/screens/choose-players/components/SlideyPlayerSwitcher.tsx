@@ -15,9 +15,14 @@ type SlideState = 'in' | 'out';
 type SlideyPlayerSwitcher = {
   player: Player | undefined;
   pos: 'left' | 'right';
+  confirmed: boolean;
 };
 
-export const SlideyPlayerSwitcher = ({ player, pos }: SlideyPlayerSwitcher) => {
+export const SlideyPlayerSwitcher = ({
+  player,
+  pos,
+  confirmed,
+}: SlideyPlayerSwitcher) => {
   const currentPlayer = useRef(player);
   const [slideState, setSlideState] = useState<SlideState>('in');
   const [displayPlayer, setDisplayPlayer] = useState(player);
@@ -43,7 +48,7 @@ export const SlideyPlayerSwitcher = ({ player, pos }: SlideyPlayerSwitcher) => {
   return (
     <Container style={springProps} flip={pos === 'right'}>
       {displayPlayer && (
-        <PlayerAvatar player={displayPlayer} confirmed={false} />
+        <PlayerAvatar player={displayPlayer} confirmed={confirmed} />
       )}
     </Container>
   );
