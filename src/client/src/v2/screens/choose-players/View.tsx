@@ -13,6 +13,7 @@ import { usePlayerStateWithInvitation } from './hooks/usePlayerStateWithInvitati
 import { useSelectedPlayerState } from './hooks/useSelectedPlayerState';
 import { useSound } from './hooks/useSound';
 import { SlideyPlayerSwitcher } from './components/SlideyPlayerSwitcher';
+import { PlayQrCode } from './components/PlayQrCode';
 
 const Container = styled.div`
   position: relative;
@@ -39,6 +40,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   return (
     <GameScreen scrollable={false}>
       <Container>
+        <PlayQrCode />
         {/* Players */}
         <SlideyPlayerSwitcher
           pos="left"
