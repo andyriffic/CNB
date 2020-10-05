@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import { Player } from '../../../../uplift/contexts/PlayersProvider';
 import { PlayerAvatar } from './PlayerAvatar';
 
-const Container = styled(animated.div)<{ flip: boolean }>`
+const Container = styled(animated.div)`
   position: absolute;
   top: 10%;
-  ${({ flip }) => flip && 'transform: scaleX(-1);'}
+`;
+
+const FacingDirection = styled.div<{ faceLeft: boolean }>`
+  ${({ faceLeft }) => faceLeft && 'transform: scaleX(-1);'}
 `;
 
 type SlideState = 'in' | 'out';
@@ -46,10 +49,12 @@ export const SlideyPlayerSwitcher = ({
   }, [player]);
 
   return (
-    <Container style={springProps} flip={pos === 'right'}>
-      {displayPlayer && (
-        <PlayerAvatar player={displayPlayer} confirmed={confirmed} />
-      )}
+    <Container style={springProps}>
+      <FacingDirection faceLeft={pos === 'right'}>
+        {displayPlayer && (
+          <PlayerAvatar player={displayPlayer} confirmed={confirmed} />
+        )}
+      </FacingDirection>
     </Container>
   );
 };
