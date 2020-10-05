@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Game } from '../../../../uplift/contexts/MatchupProvider';
+import { Game } from '../../../providers/MatchupProvider';
 
 /*
   introduce players

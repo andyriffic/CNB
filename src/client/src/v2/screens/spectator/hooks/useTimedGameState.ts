@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Game, Matchup } from '../../../../uplift/contexts/MatchupProvider';
+import { Game, Matchup } from '../../../providers/MatchupProvider';
 import { GamePhase, useGamePhaseTiming } from './useGamePhaseTiming';
 
 export type TimebombTimedState = {

@@ -1,13 +1,10 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
 import {
   Invitation,
   useInvitationsProvider,
-} from '../../../../uplift/contexts/InvitationsProvider';
-import { MatchupContext } from '../../../../uplift/contexts/MatchupProvider';
-import {
-  Player,
-  PlayersContext,
-} from '../../../../uplift/contexts/PlayersProvider';
+} from '../../../providers/InvitationsProvider';
+import { useMatchupProvider } from '../../../providers/MatchupProvider';
+import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 
 type UseCreateGame = {
@@ -20,8 +17,8 @@ type UseCreateGame = {
 export const useCreateGame = (
   invitation: Invitation | undefined
 ): UseCreateGame => {
-  const { updatePlayer } = useContext(PlayersContext);
-  const { addInstantMatchup } = useContext(MatchupContext);
+  const { updatePlayer } = usePlayersProvider();
+  const { addInstantMatchup } = useMatchupProvider();
   const { confirmInvitation } = useInvitationsProvider();
 
   const givePlayerAMove = (player: Player) => {

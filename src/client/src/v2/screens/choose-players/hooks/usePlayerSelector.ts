@@ -1,9 +1,6 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { STATS_API_BASE_URL } from '../../../../environment';
-import {
-  Player,
-  PlayersContext,
-} from '../../../../uplift/contexts/PlayersProvider';
+import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { useFetchJson } from '../../../../uplift/hooks/useFetchJson';
 import { GameHistory } from '../../../../uplift/types';
 import {
@@ -17,7 +14,7 @@ export type UsePlayerSelector = {
 };
 
 export const usePlayerSelector = () => {
-  const { allPlayers } = useContext(PlayersContext);
+  const { allPlayers } = usePlayersProvider();
 
   const [loadingGameHistory, gameHistory] = useFetchJson<GameHistory>(
     `${STATS_API_BASE_URL}/game-result-history.json`

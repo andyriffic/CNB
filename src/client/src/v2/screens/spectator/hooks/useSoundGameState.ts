@@ -3,7 +3,7 @@ import { Howl, HowlOptions } from 'howler';
 import { SoundMap } from '../../../services/sound-service/soundMap';
 import { play } from '../../../services/sound-service/soundService';
 import { GamePhase } from './useGamePhaseTiming';
-import { Game } from '../../../../uplift/contexts/MatchupProvider';
+import { Game } from '../../../providers/MatchupProvider';
 import { TimebombTimedState } from './useTimedGameState';
 
 const useSoundForGamePhase = (

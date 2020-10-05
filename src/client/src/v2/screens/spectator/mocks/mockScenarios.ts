@@ -3,7 +3,7 @@ import {
   GAME_STATUS,
   Matchup,
   SpectatorMove,
-} from '../../../../uplift/contexts/MatchupProvider';
+} from '../../../providers/MatchupProvider';
 
 const mockGame: Game = {
   id: 'test-game',

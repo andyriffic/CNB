@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { GameScreen } from '../../components/ui/GameScreen';
-import { Game } from '../../../uplift/contexts/MatchupProvider';
+import { Game } from '../../providers/MatchupProvider';
 import { GamePlayer } from './components/GamePlayer';
 import { PlayerMove } from './components/PlayerMove';
 import { PlayerPowerup } from './components/PlayerPowerup';

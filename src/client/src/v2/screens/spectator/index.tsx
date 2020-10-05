@@ -2,13 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
 import {
-  MatchupContext,
-  Game,
-  GAME_STATUS,
+  useMatchupProvider,
   Matchup,
   Team,
-  GameResult,
-} from '../../../uplift/contexts/MatchupProvider';
+} from '../../providers/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { useTimedGameState } from './hooks/useTimedGameState';
 import {
@@ -65,7 +62,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     currentMatchup,
     startGameForMatchup,
     playGameForMatchup,
-  } = useContext(MatchupContext);
+  } = useMatchupProvider();
   const { setTheme } = useMoveThemeProvider();
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   Invitation,
   useInvitationsProvider,
-} from '../../../../uplift/contexts/InvitationsProvider';
+} from '../../../providers/InvitationsProvider';
 import { UseSelectedPlayerState } from './useSelectedPlayerState';
 
 export type UsePlayerStateWithInvitation = {
