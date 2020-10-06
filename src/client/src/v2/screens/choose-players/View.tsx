@@ -6,7 +6,6 @@ import { SplashText } from '../../../uplift/components/SplashText';
 import { PositionedArea } from '../../components/PositionedArea';
 import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
-import { PlayerAvatar } from './components/PlayerAvatar';
 import { useCreateGame } from './hooks/useCreateGame';
 import { usePlayerSelector } from './hooks/usePlayerSelector';
 import { usePlayerStateWithInvitation } from './hooks/usePlayerStateWithInvitation';

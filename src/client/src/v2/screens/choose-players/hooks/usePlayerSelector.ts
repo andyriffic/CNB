@@ -20,13 +20,13 @@ export const usePlayerSelector = () => {
     `${STATS_API_BASE_URL}/game-result-history.json`
   );
 
-  const hasLoaded = useRef(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const orderedPlayers = useRef<Player[]>([]);
   const weightedPlayers = useRef<WeightedItem<Player>[]>([]);
 
   useEffect(() => {
-    if (allPlayers.length && gameHistory && !hasLoaded.current) {
-      hasLoaded.current = true;
+    if (allPlayers.length && gameHistory && !hasLoaded) {
+      setHasLoaded(true);
 
       const allRecentPlayerNames = gameHistory.result.reduce(
         (accumulator: string[], record) => {
@@ -57,9 +57,9 @@ export const usePlayerSelector = () => {
   }, [allPlayers, hasLoaded, loadingGameHistory]);
 
   const result: UsePlayerSelector = {
-    hasLoaded: hasLoaded.current,
+    hasLoaded: hasLoaded,
     getNextPlayer: () => {
-      if (!hasLoaded.current || !weightedPlayers.current.length) {
+      if (!hasLoaded || !weightedPlayers.current.length) {
         return;
       }
       const nextRandomPlayer = selectWeightedRandomOneOf(
