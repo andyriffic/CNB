@@ -7,11 +7,11 @@ import { GameBoardContext } from '../GameBoardContext';
 
 const BoardContainer = styled.div<{
   boardImage: any;
-  width: number;
-  height: number;
+  width: string;
+  height: string;
 }>`
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  width: ${props => props.width};
+  height: ${props => props.height};
   background: transparent url(${props => props.boardImage}) no-repeat top left;
   background-size: contain;
   position: relative;
@@ -21,8 +21,8 @@ const BoardContainer = styled.div<{
 type Props = {
   board: GameBoard;
   boardImage: any;
-  width: number;
-  height: number;
+  width: string;
+  height: string;
 };
 
 export const Board = ({ board, boardImage, width, height }: Props) => {

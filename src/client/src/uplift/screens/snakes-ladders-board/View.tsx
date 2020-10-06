@@ -4,54 +4,30 @@ import { RouteComponentProps } from '@reach/router';
 import { FullPageScreenLayout } from '../../components/layouts/FullPageScreenLayout';
 // import { GameSettingsDrawer } from '../../../game-settings';
 import { Board } from './components/Board';
-// import { generateBoard as generateJungleBoard } from './boards/jungle';
 import { generateBoard as generateCandylandBoard } from './boards/candyland';
-// import jungleBoardImage from './boards/jungle/board-green.jpg';
 import candylandBoardImage from './boards/candyland/board.png';
+import { generateBoard as generateSnakeBoard } from './boards/snake';
+import snakeBoardImage from './boards/snake/board.jpg';
 import { GameBoardProvider } from './GameBoardContext';
 import GameSoundContext from '../../../contexts/GameSoundContext';
 import { SoundService } from '../../contexts/types';
 import { JUNGLE_SOUND_KEYS } from '../../../sounds/SoundService';
-
-// import swingingMonkeyGif from './assets/monkey-swing.gif';
-// import gorillaGif from './assets/gorilla.gif';
-// import snakeGif from './assets/snake.gif';
 import { PlayersContext } from '../../contexts/PlayersProvider';
 import { ConfettiProvider } from '../../contexts/ConfettiProvider';
-// import { isFeatureEnabled } from '../../../featureToggle';
+import { isFeatureEnabled } from '../../../featureToggle';
 
 const Container = styled.div`
   margin: 0 auto;
   /* position: relative; */
 `;
 
-const SwingingMonkey = styled.img`
-  position: absolute;
-  top: -70px;
-  left: -130px;
-  width: 200px;
-`;
+const newBoardEnabled = isFeatureEnabled('v2');
 
-const Gorilla = styled.img`
-  position: absolute;
-  bottom: 40px;
-  left: -40px;
-  width: 100px;
-`;
+const board = newBoardEnabled ? generateSnakeBoard() : generateCandylandBoard();
+const boardImage = newBoardEnabled ? snakeBoardImage : candylandBoardImage;
 
-const Snake = styled.img`
-  position: absolute;
-  top: 30px;
-  right: -40px;
-  width: 100px;
-`;
-
-const board = generateCandylandBoard();
-
-const boardImage = candylandBoardImage;
-
-const boardWidth = 1120;
-const boardHeight = 800;
+const boardWidth = newBoardEnabled ? '1120px' : '1120px';
+const boardHeight = newBoardEnabled ? '800px' : '800px';
 
 export default ({  }: RouteComponentProps) => {
   const soundService = useContext<SoundService>(GameSoundContext);

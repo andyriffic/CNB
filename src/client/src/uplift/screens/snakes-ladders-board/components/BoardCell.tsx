@@ -15,10 +15,11 @@ const Toadstool = styled.div`
 const Cell = styled.div<{ x: number; y: number }>`
   ${gameBoardDebug &&
     css`
-      width: 8px;
-      height: 8px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background-color: greenyellow;
+      background-color: red;
+      border: 2px solid black;
     `}
 
   position: absolute;
@@ -28,8 +29,11 @@ const Cell = styled.div<{ x: number; y: number }>`
 
 const DebugText = styled.span`
   background-color: white;
-  color: blue;
+  color: black;
   font-size: 0.8rem;
+  position: relative;
+  top: 10px;
+  left: --5px;
 `;
 
 type Props = {
