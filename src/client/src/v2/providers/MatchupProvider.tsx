@@ -182,6 +182,10 @@ export const MatchupProvider = ({ children }: { children: ReactNode }) => {
     });
 
     socket.emit(MATCHUP_EVENTS.SUBSCRIBE_TO_ALL_MATCHUPS); // TODO: don't always emit this
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   useEffect(() => {

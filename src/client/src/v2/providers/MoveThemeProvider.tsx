@@ -47,6 +47,10 @@ export const MoveThemeProvider = ({ children }: { children: ReactNode }) => {
       setAllThemes(themes);
     });
     socket.emit('REQUEST_THEMES');
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (
