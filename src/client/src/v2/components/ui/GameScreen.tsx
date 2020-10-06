@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { IS_PRODUCTION } from '../../../environment';
 import { ThemedUi } from './Theme';

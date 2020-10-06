@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
 import {
@@ -8,10 +8,7 @@ import {
 } from '../../providers/MatchupProvider';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { useTimedGameState } from './hooks/useTimedGameState';
-import {
-  Player,
-  PlayersContext,
-} from '../../../uplift/contexts/PlayersProvider';
+import { Player } from '../../../uplift/contexts/PlayersProvider';
 import { getPlayerSnakesAndLaddersMoves } from '../../../uplift/utils/player';
 import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
 import {
@@ -21,11 +18,14 @@ import {
   withPlayerMoved,
 } from './mocks/mockScenarios';
 import { useSoundGameState } from './hooks/useSoundGameState';
+import { usePlayersProvider } from '../../providers/PlayersProvider';
 
 const getPlayerPoints = (
   allPlayers: Player[],
   teams: [Team, Team]
 ): [number, number] => {
+  console.log('GEt player poitns', teams, allPlayers);
+
   const player1Id = teams[0].id.startsWith('instant-team-')
     ? teams[0].id.split('-')[2]
     : undefined;
@@ -57,6 +57,7 @@ type Props = {
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const createdGame = useRef(false);
+  const { allPlayers } = usePlayersProvider();
   const {
     subscribeToMatchup,
     currentMatchup,
@@ -80,7 +81,9 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     }
   }, [currentMatchup]);
 
-  if (!currentMatchup || !currentMatchup.gameInProgress) {
+  console.log('LOAD SPECTATOR', currentMatchup);
+
+  if (!currentMatchup || !currentMatchup.gameInProgress || !allPlayers.length) {
     return <LoadingSpinner />;
   }
 
@@ -102,7 +105,7 @@ const Screen = ({
   startNewGame: () => void;
   resolveGame: () => void;
 }) => {
-  const { allPlayers, triggerUpdate } = useContext(PlayersContext);
+  const { allPlayers, triggerUpdate } = usePlayersProvider();
   const [playerPoints, setPlayerPoints] = useState<[number, number]>(
     getPlayerPoints(allPlayers, matchup.teams)
   );

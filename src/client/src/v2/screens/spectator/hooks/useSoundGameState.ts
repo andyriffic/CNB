@@ -45,14 +45,6 @@ const usePlayOncePerGame = (
     if (!game) {
       return;
     }
-    if (soundKey === 'TimebombExploded') {
-      console.log(
-        'TIMEBOMB SOUND',
-        played.current,
-        game.id,
-        playWhen(game, timebomb)
-      );
-    }
     if (played.current !== game.id && playWhen(game, timebomb)) {
       played.current = game.id;
       play(soundKey);

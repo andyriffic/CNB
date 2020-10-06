@@ -39,6 +39,7 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     socket.on(PLAYER_EVENTS.ON_PLAYERS_RECEIVED, (players: Player[]) => {
+      console.log('Players', players);
       setAllPlayers(players);
       setLoadingPlayers(false);
     });
