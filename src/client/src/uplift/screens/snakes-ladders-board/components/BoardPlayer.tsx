@@ -20,6 +20,7 @@ import {
 } from '../../../../sounds/SoundService';
 import GameSoundContext from '../../../../contexts/GameSoundContext';
 import { selectWeightedRandomOneOf } from '../../../utils/random';
+import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 
 export const ANIMATION_TIMEOUT_MS = 500;
 
@@ -69,10 +70,17 @@ const CellPlayer = styled.div<{
 `;
 
 const MovesRemaining = styled.div`
-  font-family: 'Rammetto One';
   position: absolute;
-  top: -60px;
+  bottom: 0;
   left: 15px;
+  background: black;
+  border-radius: 50%;
+  border: 2px solid black;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /* animation: ${bounceInAnimation} 1000ms ease-in-out 0s infinite; */
 `;
 
@@ -233,7 +241,9 @@ export const BoardPlayer = ({
             />
             {!!movesRemaining && (
               <MovesRemaining>
-                <Rainbow>{movesRemaining}</Rainbow>
+                <ReadableNumberFont>
+                  <Rainbow>{movesRemaining}</Rainbow>
+                </ReadableNumberFont>
               </MovesRemaining>
             )}
             <Fairy visible={fairyState !== FairyStates.HIDDEN}>🧚‍♂️</Fairy>
