@@ -56,7 +56,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 10,
         coordinates: [560, 540],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 24,
       },
       {
         number: 11,
@@ -101,7 +102,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 19,
         coordinates: [970, 360],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 39,
       },
       {
         number: 20,
@@ -111,7 +113,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 21,
         coordinates: [810, 335],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 13,
       },
       {
         number: 22,
@@ -151,7 +154,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 29,
         coordinates: [235, 265],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 5,
       },
       {
         number: 30,
@@ -161,7 +165,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 31,
         coordinates: [380, 205],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 49,
         // linkedCellIndex: 30,
         // fairy: true,
         // mustStop: true,
@@ -184,7 +189,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 35,
         coordinates: [670, 220],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.LADDER,
+        linkedCellIndex: 45,
       },
       {
         number: 36,
@@ -214,7 +220,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 41,
         coordinates: [975, 105],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 11,
       },
       {
         number: 42,
@@ -223,32 +230,33 @@ export const generateBoard = (): GameBoard => {
       },
       {
         number: 43,
-        coordinates: [860, 40],
+        coordinates: [840, 60],
         type: BOARD_CELL_TYPE.NORMAL,
       },
       {
         number: 44,
-        coordinates: [780, 40],
+        coordinates: [760, 60],
         type: BOARD_CELL_TYPE.NORMAL,
       },
       {
         number: 45,
-        coordinates: [680, 40],
+        coordinates: [680, 60],
         type: BOARD_CELL_TYPE.NORMAL,
       },
       {
         number: 46,
-        coordinates: [590, 55],
+        coordinates: [580, 70],
         type: BOARD_CELL_TYPE.NORMAL,
       },
       {
         number: 47,
-        coordinates: [490, 55],
-        type: BOARD_CELL_TYPE.NORMAL,
+        coordinates: [490, 70],
+        type: BOARD_CELL_TYPE.SNAKE,
+        linkedCellIndex: 34,
       },
       {
         number: 48,
-        coordinates: [410, 55],
+        coordinates: [410, 70],
         type: BOARD_CELL_TYPE.NORMAL,
       },
       {
