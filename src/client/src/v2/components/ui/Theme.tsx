@@ -11,6 +11,7 @@ const theme = {
     background01: '#2193b0',
     background02: '#6dd5ed',
     text01: 'coral',
+    text02: 'black',
     points: {
       backgroundVariant01: 'steelblue',
       backgroundVariant02: 'darkkhaki',
