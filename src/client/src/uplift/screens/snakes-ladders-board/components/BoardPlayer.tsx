@@ -9,6 +9,7 @@ import {
   bounceInAnimation,
   shakeAnimationRight,
   shakeAnimationLeft,
+  superSaiyanAnimation,
 } from '../../../components/animations';
 import { GameBoardCell } from '../types';
 import { PlayerVictory } from './PlayerVictory';
@@ -60,7 +61,7 @@ const CellPlayer = styled.div<{
   ${props =>
     props.inLead &&
     css`
-      animation: ${shakeAnimationLeft} 2s ease-in-out infinite;
+      animation: ${superSaiyanAnimation} 2s ease-in-out infinite;
     `}
 
   &:hover {
@@ -256,7 +257,7 @@ export const BoardPlayer = ({
             {fairyState === FairyStates.DECISION_BAD && (
               <FairySpeak>😈BAD😈</FairySpeak>
             )}
-            {inLead && <WinningMedal>🥇</WinningMedal>}
+            {/* {inLead && <WinningMedal>🥇</WinningMedal>} */}
           </div>
         </CellPlayer>
       </PlayerVictory>
