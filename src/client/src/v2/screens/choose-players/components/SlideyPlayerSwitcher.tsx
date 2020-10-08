@@ -31,7 +31,7 @@ export const SlideyPlayerSwitcher = ({
   const [displayPlayer, setDisplayPlayer] = useState(player);
 
   const springProps = useSpring({
-    [pos]: slideState === 'in' ? 0 : -1000,
+    [pos]: slideState === 'in' ? '0%' : '-100%',
     config: config.stiff,
     onRest: () => {
       if (slideState === 'out') {
