@@ -9,8 +9,8 @@ const Container = styled(animated.div)`
 `;
 
 const QrCodeImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 `;
 
 export const PlayQrCode = () => {
