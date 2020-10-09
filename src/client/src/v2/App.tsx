@@ -8,6 +8,11 @@ import { MatchupProvider } from './providers/MatchupProvider';
 import { ScreenWithMatchup } from './screens/spectator';
 import { ChoosePlayerScreen } from './screens/choose-players';
 import { SnakesAndLaddersScreen } from './screens/snakes-and-ladders';
+import {
+  SelectPlayerScreen,
+  SelectMatchupScreen,
+  PlayMatchupScreen,
+} from './screens/play';
 
 export default () => {
   return (
@@ -20,6 +25,9 @@ export default () => {
               <ChoosePlayerScreen path="/v2" />
               <ScreenWithMatchup path="/v2/spectator/:matchupId" matchupId="" />
               <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
+              <SelectPlayerScreen path="/v2/play" />
+              <SelectMatchupScreen path="/v2/play/:playerId" />
+              <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
             </Router>
           </InvitationsProvider>
         </PlayersProvider>
