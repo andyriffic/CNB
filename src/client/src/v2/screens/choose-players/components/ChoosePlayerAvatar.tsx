@@ -1,13 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { useSpring, animated, config } from 'react-spring';
-import { Keyframes } from 'react-spring/renderprops';
-import { SOCKETS_ENDPOINT } from '../../../../environment';
 import {
   shakeAnimationLeft,
   superSaiyanAnimation,
 } from '../../../../uplift/components/animations';
 import { Player } from '../../../../uplift/contexts/PlayersProvider';
+import { PlayerAvatar } from '../../../components/player-avatar';
 
 /*
   opacity: ${props => (props.waiting ? 0.7 : 1)};
@@ -22,9 +20,7 @@ import { Player } from '../../../../uplift/contexts/PlayersProvider';
 
 */
 
-const PlayerImage = styled.img<{ playerJoined: boolean }>`
-  width: 30vw;
-  height: 40vw;
+const Container = styled.div<{ playerJoined: boolean }>`
   display: block;
   transition: opacity 1000ms ease-ease-in-out;
   opacity: ${({ playerJoined }) => (playerJoined ? '1' : '0.7')};
@@ -44,11 +40,10 @@ type Props = {
   confirmed: boolean;
 };
 
-export const PlayerAvatar = ({ player, confirmed }: Props) => {
+export const ChoosePlayerAvatar = ({ player, confirmed }: Props) => {
   return (
-    <PlayerImage
-      playerJoined={confirmed}
-      src={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
-    />
+    <Container playerJoined={confirmed}>
+      <PlayerAvatar player={player} size="large" />
+    </Container>
   );
 };

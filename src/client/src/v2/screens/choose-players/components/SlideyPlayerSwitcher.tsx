@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTrail, animated, useSpring, config } from 'react-spring';
 import styled from 'styled-components';
 import { Player } from '../../../../uplift/contexts/PlayersProvider';
-import { PlayerAvatar } from './PlayerAvatar';
+import { ChoosePlayerAvatar } from './ChoosePlayerAvatar';
 
 const Container = styled(animated.div)`
   position: absolute;
@@ -52,7 +52,7 @@ export const SlideyPlayerSwitcher = ({
     <Container style={springProps}>
       <FacingDirection faceLeft={pos === 'right'}>
         {displayPlayer && (
-          <PlayerAvatar player={displayPlayer} confirmed={confirmed} />
+          <ChoosePlayerAvatar player={displayPlayer} confirmed={confirmed} />
         )}
       </FacingDirection>
     </Container>
