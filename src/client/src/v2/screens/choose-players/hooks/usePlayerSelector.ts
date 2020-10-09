@@ -62,9 +62,15 @@ export const usePlayerSelector = () => {
       if (!hasLoaded || !weightedPlayers.current.length) {
         return;
       }
-      const nextRandomPlayer = selectWeightedRandomOneOf(
-        weightedPlayers.current
+
+      const priorityPlayer = weightedPlayers.current.find(wp =>
+        wp.item.tags.includes('priority_player')
       );
+
+      const nextRandomPlayer =
+        (priorityPlayer && priorityPlayer.item) ||
+        selectWeightedRandomOneOf(weightedPlayers.current);
+
       weightedPlayers.current = weightedPlayers.current.filter(
         i => i.item.id !== nextRandomPlayer.id
       );
