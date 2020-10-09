@@ -12,6 +12,9 @@ import characterSelect from './sounds/character_select.mp3';
 import missionFalied from './sounds/mission_failed.mp3';
 import gameOverTune from './sounds/game_over_tune.mp3';
 import fastGesture from './sounds/fast_gesture.mp3';
+import marioJump from './sounds/mario_jump.mp3';
+import cry from './sounds/cry.mp3';
+import fanfareSms from './sounds/fanfare_sms.mp3';
 
 export type SoundMap = {
   WaitForMoves: any;
@@ -28,6 +31,9 @@ export type SoundMap = {
   WaitForPlayersToJoin: any;
   PlayerJoinedGame: any;
   SwitchPlayer: any;
+  SnakesAndLaddersMove: any;
+  SnakesAndLaddersSnake: any;
+  SnakesAndLaddersLadder: any;
 };
 
 export const soundMap: SoundMap = {
@@ -45,4 +51,7 @@ export const soundMap: SoundMap = {
   WaitForPlayersToJoin: super_smash_bros_2,
   PlayerJoinedGame: ssb4_result,
   SwitchPlayer: fastGesture,
+  SnakesAndLaddersMove: marioJump,
+  SnakesAndLaddersSnake: cry,
+  SnakesAndLaddersLadder: fanfareSms,
 };

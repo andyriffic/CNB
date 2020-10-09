@@ -27,9 +27,9 @@ export const PlayerAvatar = ({ player, size }: Props) => {
         size={size}
         imageUrl={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
       />
-      <PositionedBadges>
+      {/* <PositionedBadges>
         <PlayerBadges tags={player.tags} />
-      </PositionedBadges>
+      </PositionedBadges> */}
     </Container>
   );
 };
