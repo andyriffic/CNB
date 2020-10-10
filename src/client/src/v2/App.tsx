@@ -25,8 +25,8 @@ export default () => {
             <Router>
               <ChoosePlayerScreen path="/v2" />
               <ScreenWithMatchup path="/v2/spectator/:matchupId" matchupId="" />
-              <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
-              <SnakesAndLaddersScreenV2 path="/v2/snakes-and-ladders-v2" />
+              <SnakesAndLaddersScreenV2 path="/v2/snakes-and-ladders" />
+              <SnakesAndLaddersScreen path="/v2/snakes-and-ladders-old" />
               <SelectPlayerScreen path="/v2/play" />
               <SelectMatchupScreen path="/v2/play/:playerId" />
               <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
