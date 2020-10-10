@@ -15,6 +15,8 @@ import fastGesture from './sounds/fast_gesture.mp3';
 import marioJump from './sounds/mario_jump.mp3';
 import cry from './sounds/cry.mp3';
 import fanfareSms from './sounds/fanfare_sms.mp3';
+import spinningHeart from './sounds/spinning_heart.mp3';
+import spinningHeartReverse from './sounds/spinning_heart_reverse.mp3';
 
 export type SoundMap = {
   WaitForMoves: any;
@@ -34,6 +36,8 @@ export type SoundMap = {
   SnakesAndLaddersMove: any;
   SnakesAndLaddersSnake: any;
   SnakesAndLaddersLadder: any;
+  SnakesAndLaddersWormholeIn: any;
+  SnakesAndLaddersWormholeOut: any;
 };
 
 export const soundMap: SoundMap = {
@@ -54,4 +58,6 @@ export const soundMap: SoundMap = {
   SnakesAndLaddersMove: marioJump,
   SnakesAndLaddersSnake: cry,
   SnakesAndLaddersLadder: fanfareSms,
+  SnakesAndLaddersWormholeIn: spinningHeart,
+  SnakesAndLaddersWormholeOut: spinningHeartReverse,
 };

@@ -1,10 +1,12 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import Rainbow from '../../../../components/rainbow-text';
-import { GameBoardCellWithPlayers } from '../types';
+import { BOARD_CELL_TYPE, GameBoardCellWithPlayers } from '../types';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import {
   bounceAnimation,
+  intoWormholeAnimation,
+  outOfWormholeAnimation,
   superSaiyanAnimation,
 } from '../../../../uplift/components/animations';
 import { selectWeightedRandomOneOf } from '../../../../uplift/utils/random';
@@ -16,8 +18,6 @@ import {
 import { play } from '../../../services/sound-service/soundService';
 
 export const ANIMATION_TIMEOUT_MS = 500;
-
-const offsets = [[0, 0], [-25, 0], [25, 0], [-35, 40], [-10, 40], [15, 40]];
 
 const CellPlayer = styled.div<{
   priority: number;
@@ -48,6 +48,20 @@ const CellPlayer = styled.div<{
   }
 `;
 
+type WormholeState = 'in' | 'out';
+const WormholeAnimation = styled.div<{ wormhole?: WormholeState }>`
+  ${({ wormhole }) =>
+    wormhole === 'in' &&
+    css`
+      animation: ${intoWormholeAnimation} 1000ms ease-in-out both;
+    `}
+  ${({ wormhole }) =>
+    wormhole === 'out' &&
+    css`
+      animation: ${outOfWormholeAnimation} 1000ms ease-in-out both;
+    `}
+`;
+
 const MovesRemaining = styled.div`
   position: absolute;
   bottom: 0;
@@ -68,6 +82,9 @@ type Props = {
 };
 
 export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
+  const [wormhole, setWormhole] = useState<WormholeState | undefined>(
+    undefined
+  );
   const [isMoving, setIsMoving] = useState(false);
   const { movePlayer, landedInCell } = useGameBoardProvider();
 
@@ -75,9 +92,25 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
     if (isMoving) {
       if (gameBoardPlayer.movesRemaining === 0) {
         setIsMoving(false);
+
         setTimeout(() => {
-          landedInCell(gameBoardPlayer, cell);
+          if (cell.type === BOARD_CELL_TYPE.WORMHOLE) {
+            setWormhole('in');
+            play('SnakesAndLaddersWormholeIn');
+            setTimeout(() => {
+              setTimeout(() => {
+                landedInCell(gameBoardPlayer, cell);
+                setTimeout(() => {
+                  play('SnakesAndLaddersWormholeOut');
+                  setWormhole('out');
+                }, 100);
+              }, 500);
+            }, 1000);
+          } else {
+            landedInCell(gameBoardPlayer, cell);
+          }
         }, 1000);
+
         return;
       }
 
@@ -86,7 +119,7 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
         play('SnakesAndLaddersMove');
       }, 500);
     }
-  }, [isMoving, gameBoardPlayer]);
+  }, [isMoving, gameBoardPlayer, wormhole]);
 
   return (
     <>
@@ -100,14 +133,16 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
         inLead={gameBoardPlayer.inLead}
       >
         <div style={{ position: 'relative' }}>
-          <PlayerAvatar player={gameBoardPlayer.player} size="small" />
-          {!!gameBoardPlayer.movesRemaining && (
-            <MovesRemaining>
-              <ReadableNumberFont>
-                <Rainbow>{gameBoardPlayer.movesRemaining}</Rainbow>
-              </ReadableNumberFont>
-            </MovesRemaining>
-          )}
+          <WormholeAnimation wormhole={wormhole}>
+            <PlayerAvatar player={gameBoardPlayer.player} size="small" />
+            {!!gameBoardPlayer.movesRemaining && (
+              <MovesRemaining>
+                <ReadableNumberFont>
+                  <Rainbow>{gameBoardPlayer.movesRemaining}</Rainbow>
+                </ReadableNumberFont>
+              </MovesRemaining>
+            )}
+          </WormholeAnimation>
         </div>
       </CellPlayer>
     </>

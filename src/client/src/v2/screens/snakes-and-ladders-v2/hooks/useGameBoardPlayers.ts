@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
+import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { play } from '../../../services/sound-service/soundService';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
@@ -76,6 +77,18 @@ const landedInCell = (
     return {
       ...gameBoardPlayer,
       boardCellIndex: cell.linkedCellIndex,
+    };
+  }
+
+  if (
+    cell.type === BOARD_CELL_TYPE.WORMHOLE &&
+    typeof cell.linkedCellIndex === 'object'
+  ) {
+    const wormholeDestination = selectRandomOneOf(cell.linkedCellIndex);
+
+    return {
+      ...gameBoardPlayer,
+      boardCellIndex: wormholeDestination,
     };
   }
 

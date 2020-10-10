@@ -298,3 +298,13 @@ export const bounceAnimation = keyframes`
     transform: translate3d(0, -4px, 0) scaleY(1.02);
   }
 `;
+
+export const intoWormholeAnimation = keyframes`
+  0% { transform: rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: rotate(-1080deg) scale(0.2); opacity: 0; }
+`;
+
+export const outOfWormholeAnimation = keyframes`
+  0% { transform: rotate(-1080deg) scale(0.2); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+`;
