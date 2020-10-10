@@ -8,7 +8,6 @@ import { MatchupProvider } from './providers/MatchupProvider';
 import { ScreenWithMatchup } from './screens/spectator';
 import { ChoosePlayerScreen } from './screens/choose-players';
 import { SnakesAndLaddersScreen } from './screens/snakes-and-ladders';
-import { SnakesAndLaddersScreen as SnakesAndLaddersScreenV2 } from './screens/snakes-and-ladders-v2';
 import {
   SelectPlayerScreen,
   SelectMatchupScreen,
@@ -25,8 +24,7 @@ export default () => {
             <Router>
               <ChoosePlayerScreen path="/v2" />
               <ScreenWithMatchup path="/v2/spectator/:matchupId" matchupId="" />
-              <SnakesAndLaddersScreenV2 path="/v2/snakes-and-ladders" />
-              <SnakesAndLaddersScreen path="/v2/snakes-and-ladders-old" />
+              <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
               <SelectPlayerScreen path="/v2/play" />
               <SelectMatchupScreen path="/v2/play/:playerId" />
               <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />

@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { GameBoard } from '../types';
 import { BoardCell } from './BoardCell';
 import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
-import { GameBoardContext } from '../GameBoardContext';
+import { useGameBoardProvider } from '../providers/GameBoardProvider';
+import { PositionedPlayer } from './PositionedPlayer';
+import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 
 const BoardContainer = styled.div<{
   boardImage: any;
@@ -19,52 +21,35 @@ const BoardContainer = styled.div<{
 `;
 
 type Props = {
-  board: GameBoard;
   boardImage: any;
   width: string;
   height: string;
 };
 
-export const Board = ({ board, boardImage, width, height }: Props) => {
-  const { players, startMovePlayer, movePlayer, onArrivedInCell } = useContext(
-    GameBoardContext
-  );
+export const Board = ({ boardImage, width, height }: Props) => {
+  const { gameBoardPlayers, cellsWithPlayers } = useGameBoardProvider();
 
-  useEffect(() => {
-    const movingPlayers = players.filter(p => p.moving);
-    movingPlayers.forEach((p, i) => {
-      setTimeout(() => movePlayer(p), ANIMATION_TIMEOUT_MS);
-    });
-  }, [players]);
+  if (!(gameBoardPlayers.length && cellsWithPlayers.length)) {
+    return <LoadingSpinner />;
+  }
 
   return (
-    <BoardContainer
-      className="margins-off"
-      boardImage={boardImage}
-      width={width}
-      height={height}
-    >
-      {board.cells.map(cell => (
+    <BoardContainer boardImage={boardImage} width={width} height={height}>
+      {cellsWithPlayers.map(cell => (
         <BoardCell key={cell.number} cell={cell} />
       ))}
-      {players.map(boardPlayer => {
-        const cell = board.cells[boardPlayer.boardCellIndex];
+      {gameBoardPlayers.map(boardPlayer => {
         return (
-          <BoardPlayer
-            key={`${boardPlayer.player.name}`}
-            cell={cell}
-            movesRemaining={boardPlayer.movesRemaining}
-            offset={boardPlayer.positionOffset}
-            player={boardPlayer.player}
-            onClick={() => {
-              startMovePlayer(boardPlayer);
-              // movePlayer(boardPlayer);
-            }}
-            inLead={boardPlayer.inLead}
-            onArrived={() => onArrivedInCell(boardPlayer, board)}
-            boardPlayer={boardPlayer}
-            moving={boardPlayer.moving}
-          />
+          <PositionedPlayer
+            key={`${boardPlayer.player.id}`}
+            cell={cellsWithPlayers[boardPlayer.boardCellIndex]}
+            playerId={boardPlayer.player.id}
+          >
+            <BoardPlayer
+              gameBoardPlayer={boardPlayer}
+              cell={cellsWithPlayers[boardPlayer.boardCellIndex]}
+            />
+          </PositionedPlayer>
         );
       })}
     </BoardContainer>

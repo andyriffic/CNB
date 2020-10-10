@@ -2,8 +2,19 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { GameBoardCell, BOARD_CELL_TYPE } from '../types';
 import { isFeatureEnabled } from '../../../../featureToggle';
+import vortexImage from '../assets/vortex.png';
+import { rotateAnimation } from '../../../../uplift/components/animations';
 
 export const gameBoardDebug = isFeatureEnabled('debug');
+
+const Wormhole = styled.img`
+  width: 70px;
+  display: block;
+  position: relative;
+  top: -50px;
+  left: -30px;
+  animation: ${rotateAnimation} 10s linear infinite;
+`;
 
 const Toadstool = styled.div`
   font-size: 2.2rem;
@@ -33,7 +44,7 @@ const DebugText = styled.span`
   font-size: 0.8rem;
   position: relative;
   top: 10px;
-  left: --5px;
+  left: -5px;
 `;
 
 type Props = {
@@ -50,7 +61,18 @@ export const BoardCell = ({ cell }: Props) => {
       {gameBoardDebug && cell.type === BOARD_CELL_TYPE.SNAKE && (
         <DebugText>⬇({cell.linkedCellIndex})</DebugText>
       )}
+      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.WORMHOLE && (
+        <DebugText
+          style={{ backgroundColor: 'steelblue', top: '40px', left: '-30px' }}
+        >
+          ⭐️(
+          {typeof cell.linkedCellIndex === 'object' &&
+            cell.linkedCellIndex.join(',')}
+          )
+        </DebugText>
+      )}
       {cell.fairy && <Toadstool>🍄</Toadstool>}
+      {cell.type === BOARD_CELL_TYPE.WORMHOLE && <Wormhole src={vortexImage} />}
     </Cell>
   );
 };

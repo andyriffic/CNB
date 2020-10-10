@@ -5,7 +5,7 @@ import { Board } from './components/Board';
 import { generateBoard } from './boards/snake';
 import boardSnakeImage from './boards/snake/board.jpg';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
-import { GameBoardProvider } from './GameBoardContext';
+import { GameBoardProvider } from './providers/GameBoardProvider';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -29,7 +29,6 @@ const View = () => {
       <Container>
         <GameBoardProvider board={board}>
           <Board
-            board={board}
             boardImage={boardImage}
             width={boardWidth}
             height={boardHeight}
