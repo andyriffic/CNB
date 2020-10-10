@@ -85,6 +85,11 @@ const assignRansomPowerups = () => {
   socket.emit('ASSIGN_RANDOM_POWERUPS');
 };
 
+const assignRandomSnakesAndLaddersMoves = () => {
+  console.log('assignRandomSnakesAndLaddersMoves');
+  socket.emit('ASSIGN_RANDOM_SNAKES_LADDERS_MOVES');
+};
+
 export const MatchupProvider = ({ children }) => {
   const [matchups, setMatchups] = useState([]);
   const [currentMatchup, setCurrentMatchup] = useState();
@@ -115,6 +120,7 @@ export const MatchupProvider = ({ children }) => {
         republishStats,
         addInstantMatchup,
         assignRansomPowerups,
+        assignRandomSnakesAndLaddersMoves
       }}
     >
       {children}

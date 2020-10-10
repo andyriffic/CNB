@@ -17,6 +17,7 @@ const ADD_MATCHUP = 'ADD_MATCHUP';
 const ADD_INSTANT_MATCHUP = 'ADD_INSTANT_MATCHUP';
 const TRIGGER_STATS_PUBLISH = 'TRIGGER_STATS_PUBLISH';
 const ASSIGN_RANDOM_POWERUPS = 'ASSIGN_RANDOM_POWERUPS';
+const ASSIGN_RANDOM_SNAKES_LADDERS_MOVES = 'ASSIGN_RANDOM_SNAKES_LADDERS_MOVES';
 
 const log = createLogger('matchup-admin', LOG_NAMESPACE.socket);
 
@@ -165,6 +166,26 @@ const init = (socketServer: Server, path: string) => {
             1,
             player.tags
           );
+          playerService.updatePlayerTags(player, updatedTags);
+        });
+      });
+    });
+
+    socket.on(ASSIGN_RANDOM_SNAKES_LADDERS_MOVES, () => {
+      log('Assigning random moves to active players...');
+
+      playerService.getPlayersAsync().then((players) => {
+        players.forEach((player) => {
+          if (player.tags.includes('retired')) {
+            return;
+          }
+          const numberOfMoves = Math.floor(Math.random() * 10) + 1;
+          log('Assigning moves', player.name, numberOfMoves);
+
+          const updatedTags = [
+            ...player.tags.filter((t) => !t.startsWith('sl_moves')),
+            `sl_moves:${numberOfMoves}`,
+          ];
           playerService.updatePlayerTags(player, updatedTags);
         });
       });

@@ -9,6 +9,7 @@ export const MatchupAdminView = () => {
     republishStats,
     addInstantMatchup,
     assignRansomPowerups,
+    assignRandomSnakesAndLaddersMoves
   } = useContext(MatchupContext);
   const [addMatchupTeam1, setAddMatchupTeam1] = useState('');
   const [addMatchupTeam2, setAddMatchupTeam2] = useState('');
@@ -152,6 +153,15 @@ export const MatchupAdminView = () => {
           </button>
         </fieldset>
       </form>
+      <form>
+        <fieldset>
+          <legend>Snakes and Ladders</legend>
+          <button type="button" onClick={assignRandomSnakesAndLaddersMoves}>
+            Assign random moves
+          </button>
+        </fieldset>
+      </form>
+
       <div>
         <h3>Matchups</h3>
         {/* <DebugView title="Matchups" value={matchups} /> */}
