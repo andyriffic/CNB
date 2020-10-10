@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const PositionedBadges = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   left: 0;
 `;
 

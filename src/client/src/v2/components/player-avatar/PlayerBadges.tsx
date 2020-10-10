@@ -2,9 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  border: 1px solid red;
-  width: 20px;
-  height: 20px;
+  /* width: 20px;
+  height: 20px; */
+`;
+
+const BadgeEmoji = styled.div`
+  background-color: white;
+  padding: 0.2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  font-size: ${({ theme }) => theme.fontSize.large};
 `;
 
 type Props = {
@@ -12,5 +22,11 @@ type Props = {
 };
 
 export const PlayerBadges = ({ tags }: Props) => {
-  return <Container />;
+  return (
+    <Container>
+      {tags.includes('badge:snakes_and_ladders_winner') && (
+        <BadgeEmoji>🐍</BadgeEmoji>
+      )}
+    </Container>
+  );
 };
