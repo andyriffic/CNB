@@ -171,11 +171,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 31,
         coordinates: [380, 205],
-        type: BOARD_CELL_TYPE.LADDER,
-        linkedCellIndex: 49,
-        // linkedCellIndex: 30,
-        // fairy: true,
-        // mustStop: true,
+        type: BOARD_CELL_TYPE.WORMHOLE,
+        linkedCellIndex: [4, 8, 12, 15, 22, 27, 37],
       },
       {
         number: 32,
@@ -206,7 +203,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 37,
         coordinates: [820, 240],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.WORMHOLE,
+        linkedCellIndex: [4, 8, 12, 15, 22, 27, 31],
       },
       {
         number: 38,
