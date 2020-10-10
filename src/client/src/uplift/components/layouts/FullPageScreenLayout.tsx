@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import backgroundImage from './candy-background-01.jpg';
 import { IS_PRODUCTION } from '../../../environment';
 
 export const featureFontFamily = "'Bubblegum Sans', cursive";
@@ -10,7 +9,6 @@ const FullPage = styled.div`
   flex-direction: column;
   height: 100vh;
   color: #ff7682;
-  background: transparent url(${backgroundImage}) no-repeat center center;
   background-size: cover;
 `;
 
@@ -34,7 +32,7 @@ const Body = styled.div<{
   scrollable: boolean;
 }>`
   transition: background-color 800ms ease-out;
-  /* background-image: radial-gradient(#caa8e6, #a86fba); */
+  background-image: linear-gradient(#2193b0, #6dd5ed);
   flex: 1;
   display: flex;
   flex-direction: column;
