@@ -8,7 +8,7 @@ const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: #ff7682;
+  color: #000;
   background-size: cover;
 `;
 
@@ -17,7 +17,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff7682;
+  color: #000;
   background-color: ${props => props.theme.headerBackgroundColor};
   transition: background-color 800ms ease-out;
 `;
