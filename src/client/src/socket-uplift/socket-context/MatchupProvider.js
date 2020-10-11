@@ -120,7 +120,7 @@ export const MatchupProvider = ({ children }) => {
         republishStats,
         addInstantMatchup,
         assignRansomPowerups,
-        assignRandomSnakesAndLaddersMoves
+        assignRandomSnakesAndLaddersMoves,
       }}
     >
       {children}

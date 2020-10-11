@@ -9,7 +9,7 @@ export const MatchupAdminView = () => {
     republishStats,
     addInstantMatchup,
     assignRansomPowerups,
-    assignRandomSnakesAndLaddersMoves
+    assignRandomSnakesAndLaddersMoves,
   } = useContext(MatchupContext);
   const [addMatchupTeam1, setAddMatchupTeam1] = useState('');
   const [addMatchupTeam2, setAddMatchupTeam2] = useState('');
