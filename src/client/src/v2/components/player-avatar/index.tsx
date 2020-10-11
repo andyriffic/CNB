@@ -15,6 +15,12 @@ const PositionedBadges = styled.div`
   left: 0;
 `;
 
+const badgeScale: { [key in keyof AvatarSizeStyles]: number } = {
+  small: 0.5,
+  medium: 0.8,
+  large: 1,
+};
+
 type Props = {
   player: Player;
   size: keyof AvatarSizeStyles;
@@ -27,9 +33,9 @@ export const PlayerAvatar = ({ player, size }: Props) => {
         size={size}
         imageUrl={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
       />
-      {/* <PositionedBadges>
+      <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
         <PlayerBadges tags={player.tags} />
-      </PositionedBadges> */}
+      </PositionedBadges>
     </Container>
   );
 };
