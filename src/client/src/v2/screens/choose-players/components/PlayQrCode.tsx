@@ -5,7 +5,7 @@ import playUrlQrCodeImage from '../assets/play-url-qr-code.png';
 
 const Container = styled(animated.div)`
   position: absolute;
-  left: 45%;
+  left: 40%;
   background-color: #ffffff;
   padding: 5px;
   border-radius: 0 0 10px 10px;
@@ -17,7 +17,7 @@ const Label = styled.div`
   padding: 5px;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.extraSmall};
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 `;
 
 const QrCodeImage = styled.img`
@@ -36,7 +36,7 @@ export const PlayQrCode = () => {
 
   return (
     <Container style={springProps}>
-      <Label>Players join here</Label>
+      <Label>cnb.finx-rocks.com/play</Label>
       <QrCodeImage src={playUrlQrCodeImage} />
     </Container>
   );
