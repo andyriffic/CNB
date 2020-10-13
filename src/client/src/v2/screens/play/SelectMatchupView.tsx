@@ -49,7 +49,7 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
   }, [playerInvitations]);
 
   return (
-    <GameScreen scrollable={true}>
+    <GameScreen scrollable={true} showGameSettings={false}>
       {playerInvitations && player && (
         <>
           <h3 style={{ textAlign: 'center' }}>{player.name}</h3>

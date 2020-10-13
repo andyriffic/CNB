@@ -48,7 +48,7 @@ export const PlayMatchupView = ({ playerId, matchupId, navigate }: Props) => {
   }, [playerMatchups]);
 
   return (
-    <GameScreen scrollable={false}>
+    <GameScreen scrollable={false} showGameSettings={false}>
       {player && <AwardedPowerup player={player} />}
       {player &&
         teamId &&

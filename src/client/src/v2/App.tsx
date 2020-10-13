@@ -13,6 +13,7 @@ import {
   SelectMatchupScreen,
   PlayMatchupScreen,
 } from './screens/play';
+import { GameSettingsProvider } from './providers/GameSettingsProvider';
 
 export default () => {
   return (
@@ -21,14 +22,19 @@ export default () => {
       <MatchupProvider>
         <PlayersProvider>
           <InvitationsProvider>
-            <Router>
-              <ChoosePlayerScreen path="/v2" />
-              <ScreenWithMatchup path="/v2/spectator/:matchupId" matchupId="" />
-              <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
-              <SelectPlayerScreen path="/v2/play" />
-              <SelectMatchupScreen path="/v2/play/:playerId" />
-              <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
-            </Router>
+            <GameSettingsProvider>
+              <Router>
+                <ChoosePlayerScreen path="/v2" />
+                <ScreenWithMatchup
+                  path="/v2/spectator/:matchupId"
+                  matchupId=""
+                />
+                <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
+                <SelectPlayerScreen path="/v2/play" />
+                <SelectMatchupScreen path="/v2/play/:playerId" />
+                <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
+              </Router>
+            </GameSettingsProvider>
           </InvitationsProvider>
         </PlayersProvider>
       </MatchupProvider>

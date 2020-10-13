@@ -36,7 +36,7 @@ export const SelectPlayerView = () => {
   const { allPlayers } = usePlayersProvider();
 
   return (
-    <GameScreen scrollable={true}>
+    <GameScreen scrollable={true} showGameSettings={false}>
       <PlayerList>
         {allPlayers
           .filter(p => !p.tags.includes('retired'))
