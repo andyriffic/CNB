@@ -1,29 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { GameScreen } from '../../components/ui/GameScreen';
-import { Game } from '../../providers/MatchupProvider';
-import { GamePlayer } from './components/GamePlayer';
-import { PlayerMove } from './components/PlayerMove';
-import { PlayerPowerup } from './components/PlayerPowerup';
-import { Points } from './components/Points';
-import { useSpring, animated, config } from 'react-spring';
-import { Timebomb } from './components/Timebomb';
-import { SplashText } from '../../../uplift/components/SplashText';
-import { Winner } from './components/Winner';
+import { GameScreen } from '../../../../components/ui/GameScreen';
+import { Game } from '../../../../providers/MatchupProvider';
+import { GamePlayer } from '../../components/GamePlayer';
+import { PlayerMove } from '../../components/PlayerMove';
+import { PlayerPowerup } from '../../components/PlayerPowerup';
+import { Points } from '../../components/Points';
+import { Timebomb } from '../../components/Timebomb';
+import { SplashText } from '../../../../../uplift/components/SplashText';
+import { Winner } from '../../components/Winner';
 import {
   RelativePosition,
   PositionedArea,
-} from '../../components/PositionedArea';
-import { GamePhase } from './hooks/useGamePhaseTiming';
-import { TimebombTimedState } from './hooks/useTimedGameState';
+} from '../../../../components/PositionedArea';
+import { GamePhase } from '../../hooks/useGamePhaseTiming';
+import { TimebombTimedState } from '../../hooks/useTimedGameState';
 import {
   pointsPositions,
   usePositionedBonusPoints,
   usePositionedGamePoints,
-} from './hooks/usePositionedPoints';
-import { usePositionedTimebomb } from './hooks/usePositionedTimebomb';
-import { Draw } from './components/Draw';
-import { FancyLink } from '../../../components/FancyLink';
+} from '../../hooks/usePositionedPoints';
+import { usePositionedTimebomb } from '../../hooks/usePositionedTimebomb';
+import { Draw } from '../../components/Draw';
+import { FancyLink } from '../../../../../components/FancyLink';
 
 const GameplayArea = styled.div`
   position: relative;
