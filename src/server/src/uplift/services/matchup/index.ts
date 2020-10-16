@@ -6,6 +6,22 @@ import {
   PLAY_MODE,
 } from './types';
 import { GameResult } from '../game-result/types';
+import { getTimebombStartingGameAttributes } from './timebomb';
+import { getTugoWarStartingGameAttributes } from './tug-o-war';
+
+const getStartingGameAttributes = (
+  playMode: PLAY_MODE,
+  previousGame: Game | undefined
+) => {
+  switch (playMode) {
+    case PLAY_MODE.Timebomb:
+      return getTimebombStartingGameAttributes(previousGame);
+    case PLAY_MODE.TugoWar:
+      return getTugoWarStartingGameAttributes(previousGame);
+    default:
+      return {};
+  }
+};
 
 const createTeamMatchup = (
   id: string,
@@ -33,7 +49,7 @@ const createGame = (
   teamIds: [string, string],
   trophyReset: boolean,
   playMode: PLAY_MODE = PLAY_MODE.Standard,
-  gameAttributes: { [key: string]: any } = {}
+  previousGame: Game | undefined
 ): Game => {
   const game: Game = {
     id,
@@ -42,7 +58,7 @@ const createGame = (
     trophyReset,
     viewed: false,
     playMode,
-    gameAttributes,
+    gameAttributes: getStartingGameAttributes(playMode, previousGame),
   };
 
   return game;

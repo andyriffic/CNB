@@ -23,7 +23,7 @@ import { publishAllStats } from '../../../stats/publishStats';
 import { mapMatchupViewToGameStatsEntry } from '../../services/stats/mappers';
 import { playerService } from '../../services/player';
 import {
-  getStartingGameAttributes,
+  getTimebombStartingGameAttributes,
   getTimebombMoveGameAttributes,
   TimebombAttributes,
   adjustPlayResultForTimebomb,
@@ -34,6 +34,11 @@ import {
   getRandomPowerup,
 } from '../../services/matchup/powerups';
 import { Player } from '../../services/player/types';
+import {
+  adjustPlayResultForTugoWar,
+  getTugoWarMoveGameAttributes,
+  TugoWarAttributes,
+} from '../../services/matchup/tug-o-war';
 
 const ALL_MATCHUPS_UPDATE = 'ALL_MATCHUPS_UPDATE';
 const SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS';
@@ -170,15 +175,12 @@ const init = (socketServer: Server, path: string) => {
               log('PLAY MODE IS', playMode);
               log('Existing game is', gamesInProgress[matchupId]);
 
-              //TODO: playmode specific code can move somewhere else (just adding to the mess for now 😝)
               const game = matchupService.createGame(
                 shortid.generate(),
                 matchup.teamIds,
                 trophyWon,
                 playMode,
-                playMode === PLAY_MODE.Timebomb
-                  ? getStartingGameAttributes(gamesInProgress[matchupId])
-                  : undefined
+                gamesInProgress[matchupId]
               );
 
               gamesInProgress[matchupId] = game;
@@ -280,6 +282,39 @@ const init = (socketServer: Server, path: string) => {
             result.trophyWon
           );
 
+          //Adjust game result for Tug-o-war
+          if (gamesInProgress[matchupId].playMode === PLAY_MODE.TugoWar) {
+            const gameAttributes = getTugoWarMoveGameAttributes(
+              gamesInProgress[matchupId],
+              gamesInProgress[matchupId].result!
+            );
+
+            log('TUG-O-WAR ATTRIBUTES------------->', gameAttributes);
+
+            const adjustedResult = adjustPlayResultForTugoWar(
+              gameAttributes[TugoWarAttributes.PlayerPositions],
+              result
+            );
+
+            log(
+              'ADJUSTED GAME RESULT (TUG-O-WAR)------------->',
+              adjustedResult
+            );
+
+            gamesInProgress[matchupId] = matchupService.resolveGame(
+              gamesInProgress[matchupId],
+              adjustedResult.gameResult,
+              adjustedResult.trophyWon,
+              gameAttributes
+            );
+
+            log(
+              'ADJUSTED GAME (TUG-O-WAR)------------->',
+              gamesInProgress[matchupId]
+            );
+            result = adjustedResult;
+          }
+
           //Adjust game result for Timebomb
           if (gamesInProgress[matchupId].playMode === PLAY_MODE.Timebomb) {
             const forceExplode =
@@ -314,7 +349,10 @@ const init = (socketServer: Server, path: string) => {
               gameAttributes
             );
 
-            log('ADJUSTED GAME ------------->', gamesInProgress[matchupId]);
+            log(
+              'ADJUSTED GAME (TIMEBOMB)------------->',
+              gamesInProgress[matchupId]
+            );
             result = adjustedResult;
           }
 

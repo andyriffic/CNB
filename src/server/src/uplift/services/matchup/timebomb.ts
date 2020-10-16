@@ -15,7 +15,7 @@ export enum TimebombAttributes {
   Exploded = 'exploded',
 }
 
-export const getStartingGameAttributes = (
+export const getTimebombStartingGameAttributes = (
   previousGame?: Game
 ): { [key: TimebombAttributes]: any } => {
   if (!previousGame) {

@@ -70,7 +70,8 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
           <SplashText
             onComplete={() => {
               startGame('rock-paper-scissors-classic', matchupId => {
-                navigate && navigate(`/v2/spectator/${matchupId}`);
+                navigate &&
+                  navigate(`/v2/spectator/${matchupId}?feature=tug-o-war`);
               });
             }}
           >

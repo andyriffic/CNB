@@ -9,6 +9,7 @@ export enum GAME_STATUS {
 export enum PLAY_MODE {
   Standard = 'Standard',
   Timebomb = 'Timebomb',
+  TugoWar = 'Tug-o-war',
 }
 
 export type TeamMatchup = {

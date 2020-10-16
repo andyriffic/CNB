@@ -1,47 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Game } from '../../../providers/MatchupProvider';
-
-/*
-  introduce players
-  assign bomb
-
-  waiting player moves   <-----
-  ready to play               |
-  show result                 |
-  highlight winner            |
-  show game points            |
-  apply bonus points          |
-  apply powerup points        |
-  update points to player     |
-  apply powerups              |
-  timebomb fuse               |
-  no explosion ----------------
-
-  explode
-  final points
-  game summary
-
- */
-
-export enum GamePhase {
-  waitingMoves = 0,
-  readyToPlay = 1,
-  showResult = 2,
-  highlightWinner = 3,
-  highlightDraw = 4,
-  giveTimebombToPlayer = 5,
-  timebombFuse = 6,
-  timebombResolution = 7,
-  tugoWarYankPlayer = 8,
-  showBasePoints = 9,
-  applyBonusPoints = 10,
-  bonusPointsApplied = 11,
-  givePointsToBonus = 12,
-  givePointsToPlayer = 13,
-  applyPointsUpdate = 43,
-  readyForNextGame = 15,
-  gameOver = 16,
-}
+import { Game } from '../../../../../providers/MatchupProvider';
+import { GamePhase } from '../../../hooks/useGamePhaseTiming';
 
 const useGameTiming = (
   gamePhase: GamePhase,
@@ -72,7 +31,7 @@ const gameIsDraw = (game?: Game): boolean => {
 };
 
 const gameIsFinished = (game?: Game): boolean => {
-  return !!game && !!game.attributes.exploded;
+  return !!game && !!game.trophyWon;
 };
 
 const winnerUsedPowerup = (game?: Game): boolean => {
@@ -124,34 +83,20 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightWinner,
-    to: GamePhase.giveTimebombToPlayer,
+    to: GamePhase.tugoWarYankPlayer,
     timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightDraw,
-    to: gameIsDraw(game)
-      ? GamePhase.timebombFuse
-      : GamePhase.giveTimebombToPlayer,
+    to: GamePhase.tugoWarYankPlayer,
     timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.giveTimebombToPlayer,
-    to: GamePhase.timebombFuse,
-    timeoutMilliseconds: 1000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombFuse,
-    to: GamePhase.timebombResolution,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombResolution,
+    from: GamePhase.tugoWarYankPlayer,
     to: GamePhase.showBasePoints,
-    timeoutMilliseconds: 500,
+    timeoutMilliseconds: 3000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
@@ -168,7 +113,7 @@ export const useGamePhaseTiming = (
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyBonusPoints,
     to: GamePhase.bonusPointsApplied,
-    timeoutMilliseconds: 500,
+    timeoutMilliseconds: 1000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
