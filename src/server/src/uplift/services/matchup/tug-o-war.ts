@@ -33,7 +33,6 @@ export const getTugoWarMoveGameAttributes = (
   if (result.draw) {
     return {
       ...game.gameAttributes,
-      [TugoWarAttributes.PlayerPositions]: [2, 2],
     };
   }
 
