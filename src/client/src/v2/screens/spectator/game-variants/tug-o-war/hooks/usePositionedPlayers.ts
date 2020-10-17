@@ -7,12 +7,8 @@ export const positions: [
   [RelativePosition, RelativePosition, RelativePosition],
   [RelativePosition, RelativePosition, RelativePosition]
 ] = [
-  [{ bottom: 0, left: 30 }, { bottom: 0, left: 5 }, { bottom: 0, left: -10 }],
-  [
-    { bottom: 0, right: 30 },
-    { bottom: 0, right: 5 },
-    { bottom: 0, right: -10 },
-  ],
+  [{ bottom: 0, left: 30 }, { bottom: 0, left: 5 }, { bottom: 0, left: -5 }],
+  [{ bottom: 0, right: 30 }, { bottom: 0, right: 5 }, { bottom: 0, right: -5 }],
 ];
 
 export const usePositionedPlayers = (gamePhase: GamePhase, game: Game) => {
