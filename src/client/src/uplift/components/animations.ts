@@ -308,3 +308,25 @@ export const outOfWormholeAnimation = keyframes`
   0% { transform: rotate(-1080deg) scale(0.2); opacity: 0; }
   100% { transform: rotate(0deg) scale(1); opacity: 1; }
 `;
+
+export const hingeAnimation = keyframes`
+  0% {
+    animation-timing-function: ease-in-out;
+  }
+
+  20%,
+  60% {
+    transform: rotate3d(0, 0, 1, 80deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  40%,
+  80% {
+    transform: rotate3d(0, 0, 1, 60deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  to {
+    transform: translate3d(0, 150px, 0) rotate3d(0, 0, 1, 60deg);
+  }
+  `;

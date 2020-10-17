@@ -17,6 +17,8 @@ import cry from './sounds/cry.mp3';
 import fanfareSms from './sounds/fanfare_sms.mp3';
 import spinningHeart from './sounds/spinning_heart.mp3';
 import spinningHeartReverse from './sounds/spinning_heart_reverse.mp3';
+import longGrunt from './sounds/long_grunt.wav';
+import fall from './sounds/fall.mp3';
 
 export type SoundMap = {
   WaitForMoves: any;
@@ -33,6 +35,8 @@ export type SoundMap = {
   WaitForPlayersToJoin: any;
   PlayerJoinedGame: any;
   SwitchPlayer: any;
+  PullRope: any;
+  Fall: any;
   SnakesAndLaddersMove: any;
   SnakesAndLaddersSnake: any;
   SnakesAndLaddersLadder: any;
@@ -55,6 +59,8 @@ export const soundMap: SoundMap = {
   WaitForPlayersToJoin: super_smash_bros_2,
   PlayerJoinedGame: ssb4_result,
   SwitchPlayer: fastGesture,
+  PullRope: longGrunt,
+  Fall: fall,
   SnakesAndLaddersMove: marioJump,
   SnakesAndLaddersSnake: cry,
   SnakesAndLaddersLadder: fanfareSms,

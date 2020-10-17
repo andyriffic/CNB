@@ -5,9 +5,10 @@ import { Keyframes } from 'react-spring/renderprops';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { superSaiyanAnimation } from '../../../../uplift/components/animations';
 
-const PlayerImage = styled.img`
+const PlayerImage = styled.img<{ flipX: boolean }>`
   width: 20vw;
   height: 25vw;
+  ${({ flipX }) => flipX && 'transform: scaleX(-1);'}
 `;
 
 const AnimatedFilter = styled(animated.div)<{ hue: number }>`
@@ -29,10 +30,15 @@ const Thing = Keyframes.Spring(async (next: any) => {
 
 type Props = {
   imageUrl: string;
+  flipX?: boolean;
   poweredUp?: boolean;
 };
 
-export const GamePlayer = ({ imageUrl, poweredUp = false }: Props) => {
+export const GamePlayer = ({
+  imageUrl,
+  flipX = false,
+  poweredUp = false,
+}: Props) => {
   // const props = useSpring({
   //   hue: 0,
   //   opacity: 1,
@@ -53,7 +59,7 @@ export const GamePlayer = ({ imageUrl, poweredUp = false }: Props) => {
     //     filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
     //   }}
     // >
-    <PlayerImage src={`${SOCKETS_ENDPOINT}${imageUrl}`} />
+    <PlayerImage flipX={flipX} src={`${SOCKETS_ENDPOINT}${imageUrl}`} />
     // </animated.div>
   );
 };

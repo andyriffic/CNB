@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { GameScreen } from '../../../../components/ui/GameScreen';
-import { Game } from '../../../../providers/MatchupProvider';
+import { Game, GameResult } from '../../../../providers/MatchupProvider';
 import { GamePlayer } from '../../components/GamePlayer';
 import { PlayerMove } from '../../components/PlayerMove';
 import { PlayerPowerup } from '../../components/PlayerPowerup';
@@ -21,6 +21,8 @@ import {
 import { Draw } from '../../components/Draw';
 import { FancyLink } from '../../../../../components/FancyLink';
 import { usePositionedPlayers } from './hooks/usePositionedPlayers';
+import { TugAnimation } from './components/TugAnimation';
+import { Rope } from './components/Rope';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -42,6 +44,21 @@ const winnerPositions: [RelativePosition, RelativePosition] = [
   { top: 10, left: 85 },
 ];
 
+const getTugDirection = (
+  playerIndex: number,
+  gameResult: GameResult | undefined
+): 'left' | 'right' => {
+  if (!gameResult) {
+    return 'left';
+  }
+
+  if (gameResult.draw) {
+    return playerIndex === 0 ? 'left' : 'right';
+  }
+
+  return gameResult.winnerIndex === 0 ? 'left' : 'right';
+};
+
 const View = ({
   game,
   bonusPoints,
@@ -59,21 +76,43 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
-      <p>{JSON.stringify(game.attributes)}</p>
-      <p>{GamePhase[gamePhase]}</p>
+      {/* <p>{JSON.stringify(game.attributes)}</p>
+      <p>{GamePhase[gamePhase]}</p> */}
       <GameplayArea>
+        <PositionedArea position={{ bottom: 25, left: 20 }}>
+          <Rope />
+        </PositionedArea>
         {/* Players */}
         <PositionedArea position={player1Position}>
-          <GamePlayer
-            imageUrl={game.moves[0].playerAvatarUrl}
-            poweredUp={game.moves[0].usedPowerup}
-          />
+          <TugAnimation
+            fall={
+              gamePhase >= GamePhase.tugoWarPlayerFalls &&
+              game.attributes.playerPositions[0] === 0
+            }
+            tugging={gamePhase === GamePhase.tugoWarYankPlayer}
+            direction={getTugDirection(0, game.result)}
+          >
+            <GamePlayer
+              imageUrl={game.moves[0].playerAvatarUrl}
+              poweredUp={game.moves[0].usedPowerup}
+            />
+          </TugAnimation>
         </PositionedArea>
-        <PositionedArea position={player2Position} flipX={true}>
-          <GamePlayer
-            imageUrl={game.moves[1].playerAvatarUrl}
-            poweredUp={game.moves[1].usedPowerup}
-          />
+        <PositionedArea position={player2Position}>
+          <TugAnimation
+            fall={
+              gamePhase >= GamePhase.tugoWarPlayerFalls &&
+              game.attributes.playerPositions[1] === 0
+            }
+            tugging={gamePhase === GamePhase.tugoWarYankPlayer}
+            direction={getTugDirection(1, game.result)}
+          >
+            <GamePlayer
+              imageUrl={game.moves[1].playerAvatarUrl}
+              poweredUp={game.moves[1].usedPowerup}
+              flipX={true}
+            />
+          </TugAnimation>
         </PositionedArea>
 
         {/* Moves */}

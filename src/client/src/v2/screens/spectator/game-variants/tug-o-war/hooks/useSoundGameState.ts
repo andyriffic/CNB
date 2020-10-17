@@ -79,6 +79,16 @@ export const useSoundGameState = (
   });
 
   useSoundForGamePhase(gamePhase, {
+    when: GamePhase.tugoWarYankPlayer,
+    playSound: 'PullRope',
+  });
+
+  useSoundForGamePhase(gamePhase, {
+    when: GamePhase.tugoWarPlayerFalls,
+    playSound: 'Fall',
+  });
+
+  useSoundForGamePhase(gamePhase, {
     when: GamePhase.highlightWinner,
     playSound: 'Winner',
   });

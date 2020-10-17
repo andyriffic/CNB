@@ -33,14 +33,15 @@ export enum GamePhase {
   timebombFuse = 6,
   timebombResolution = 7,
   tugoWarYankPlayer = 8,
-  showBasePoints = 9,
-  applyBonusPoints = 10,
-  bonusPointsApplied = 11,
-  givePointsToBonus = 12,
-  givePointsToPlayer = 13,
-  applyPointsUpdate = 43,
-  readyForNextGame = 15,
-  gameOver = 16,
+  tugoWarPlayerFalls = 9,
+  showBasePoints = 10,
+  applyBonusPoints = 11,
+  bonusPointsApplied = 12,
+  givePointsToBonus = 13,
+  givePointsToPlayer = 14,
+  applyPointsUpdate = 15,
+  readyForNextGame = 16,
+  gameOver = 17,
 }
 
 const useGameTiming = (

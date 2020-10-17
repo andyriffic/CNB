@@ -34,13 +34,13 @@ const gameIsFinished = (game?: Game): boolean => {
   return !!game && !!game.trophyWon;
 };
 
-const winnerUsedPowerup = (game?: Game): boolean => {
-  return (
-    !!game &&
-    !!game.result &&
-    game.result.winnerIndex !== undefined &&
-    game.result.moves[game.result.winnerIndex].powerUpId !== 'NONE'
-  );
+const someoneFell = (game?: Game): boolean => {
+  if (!game) {
+    return false;
+  }
+
+  const playerPositions: [number, number] = game.attributes.playerPositions;
+  return playerPositions.some(p => p === 0);
 };
 
 export const useGamePhaseTiming = (
@@ -95,8 +95,16 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.tugoWarYankPlayer,
+    to: someoneFell(game)
+      ? GamePhase.tugoWarPlayerFalls
+      : GamePhase.showBasePoints,
+    timeoutMilliseconds: 2000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.tugoWarPlayerFalls,
     to: GamePhase.showBasePoints,
-    timeoutMilliseconds: 3000,
+    timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
@@ -107,13 +115,13 @@ export const useGamePhaseTiming = (
         : !gameIsDraw(game) && bonusPoints
         ? GamePhase.applyBonusPoints
         : GamePhase.givePointsToPlayer,
-    timeoutMilliseconds: 2000,
+    timeoutMilliseconds: 1000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyBonusPoints,
     to: GamePhase.bonusPointsApplied,
-    timeoutMilliseconds: 1000,
+    timeoutMilliseconds: 500,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
