@@ -327,6 +327,6 @@ export const hingeAnimation = keyframes`
   }
 
   to {
-    transform: translate3d(0, 150px, 0) rotate3d(0, 0, 1, 60deg);
+    transform: translate3d(0, 100%, 0) rotate3d(0, 0, 1, 60deg);
   }
   `;

@@ -23,6 +23,7 @@ import { FancyLink } from '../../../../../components/FancyLink';
 import { usePositionedPlayers } from './hooks/usePositionedPlayers';
 import { TugAnimation } from './components/TugAnimation';
 import { Rope } from './components/Rope';
+import { CliffEdge } from './components/CliffEdge';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -79,9 +80,19 @@ const View = ({
       {/* <p>{JSON.stringify(game.attributes)}</p>
       <p>{GamePhase[gamePhase]}</p> */}
       <GameplayArea>
-        <PositionedArea position={{ bottom: 25, left: 20 }}>
+        {/* Cliffs */}
+        <PositionedArea position={{ bottom: -65, left: 0 }} flipX={true}>
+          <CliffEdge />
+        </PositionedArea>
+        <PositionedArea position={{ bottom: -65, right: 0 }}>
+          <CliffEdge />
+        </PositionedArea>
+
+        {/* Rope */}
+        <PositionedArea position={{ bottom: 25, left: 10 }}>
           <Rope />
         </PositionedArea>
+
         {/* Players */}
         <PositionedArea position={player1Position}>
           <TugAnimation

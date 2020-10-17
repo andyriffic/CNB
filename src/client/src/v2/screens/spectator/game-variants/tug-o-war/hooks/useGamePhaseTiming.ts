@@ -98,7 +98,7 @@ export const useGamePhaseTiming = (
     to: someoneFell(game)
       ? GamePhase.tugoWarPlayerFalls
       : GamePhase.showBasePoints,
-    timeoutMilliseconds: 2000,
+    timeoutMilliseconds: someoneFell(game) ? 1000 : 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {

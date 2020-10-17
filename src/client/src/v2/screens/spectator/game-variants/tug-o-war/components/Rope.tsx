@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ropeImage from '../assets/rope.png';
 
 const RopeBackground = styled.div`
-  width: 50vw;
+  width: 60vw;
   height: 2vw;
   background: transparent url(${ropeImage}) repeat-x center center;
   background-size: contain;
