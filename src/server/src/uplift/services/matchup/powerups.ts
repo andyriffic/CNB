@@ -32,20 +32,21 @@ export const adjustPlayResultForPowerups = (
 };
 
 export const getRandomPowerup = () => {
-  const weightedPowerups = [
-    {
-      item: 'POINT_STEALER',
-      weight: 5,
-    },
-    {
-      item: 'DOUBLE_POINTS',
-      weight: 3,
-    },
-    {
-      item: 'SHORT_FUSE',
-      weight: 2,
-    },
-  ];
+  return 'DOUBLE_POINTS';
+  // const weightedPowerups = [
+  //   {
+  //     item: 'POINT_STEALER',
+  //     weight: 5,
+  //   },
+  //   {
+  //     item: 'DOUBLE_POINTS',
+  //     weight: 3,
+  //   },
+  //   {
+  //     item: 'SHORT_FUSE',
+  //     weight: 2,
+  //   },
+  // ];
 
-  return selectWeightedRandomOneOf(weightedPowerups);
+  // return selectWeightedRandomOneOf(weightedPowerups);
 };
