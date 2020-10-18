@@ -81,12 +81,25 @@ const View = ({
       <p>{GamePhase[gamePhase]}</p> */}
       <GameplayArea>
         {/* Cliffs */}
-        <PositionedArea position={{ bottom: -65, left: 0 }} flipX={true}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-330px',
+            left: 0,
+            transform: 'scaleX(-1)',
+          }}
+        >
           <CliffEdge />
-        </PositionedArea>
-        <PositionedArea position={{ bottom: -65, right: 0 }}>
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-330px',
+            right: 0,
+          }}
+        >
           <CliffEdge />
-        </PositionedArea>
+        </div>
 
         {/* Rope */}
         <PositionedArea position={{ bottom: 25, left: 10 }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const ANIMATION_DURATION_MILLISECONDS = 500;
@@ -26,6 +26,7 @@ type Props = {
   position: RelativePosition;
   onMoveComplete?: () => void;
   flipX?: boolean;
+  style?: CSSProperties;
 };
 
 export const PositionedArea = ({
@@ -33,6 +34,7 @@ export const PositionedArea = ({
   position,
   onMoveComplete,
   flipX = false,
+  style = {},
 }: Props) => {
   const originalPosition = useRef(position);
 
@@ -52,7 +54,7 @@ export const PositionedArea = ({
   }, [position]);
 
   return (
-    <Container {...position} flipX={flipX}>
+    <Container {...position} style={style} flipX={flipX}>
       {children}
     </Container>
   );

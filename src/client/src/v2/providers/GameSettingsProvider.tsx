@@ -15,7 +15,7 @@ const GameSettingsContext = React.createContext<
 >(undefined);
 
 export const GameSettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [state, setState] = useState<GameSettings>({ soundVolume: 5 });
+  const [state, setState] = useState<GameSettings>({ soundVolume: 0 });
 
   useEffect(() => {
     Howler.volume(state.soundVolume / 10);
