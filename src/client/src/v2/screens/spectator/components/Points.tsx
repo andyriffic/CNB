@@ -5,12 +5,11 @@ import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 
 const ANIMATION_DURATION_MILLISECONDS = 500;
 
-const Container = styled.div<{ animate: boolean; backgroundVariant: string }>`
+const Container = styled.div<{ animate: boolean; backgroundColor: string }>`
   width: 5vw;
   height: 5vw;
   font-size: 1.1rem;
-  background-color: ${({ theme, backgroundVariant }) =>
-    theme.color.points[backgroundVariant]};
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 50%;
   color: #fff;
   padding: 10% 20%;
@@ -35,10 +34,10 @@ const Title = styled.div`
 
 type PointsVariant = 'player' | 'bonus' | 'game';
 
-const styleDefinition: { [key: string]: { backgroundStyle: string } } = {
-  player: { backgroundStyle: 'backgroundVariant01' },
-  bonus: { backgroundStyle: 'backgroundVariant02' },
-  game: { backgroundStyle: 'backgroundVariant03' },
+const styleDefinition: { [key: string]: { backgroundColor: string } } = {
+  player: { backgroundColor: 'steelblue' },
+  bonus: { backgroundColor: 'darkkhaki' },
+  game: { backgroundColor: 'goldenrod' },
 };
 
 type Props = {
@@ -64,7 +63,7 @@ export const Points = ({ title, value, variant = 'player' }: Props) => {
   return (
     <Container
       animate={playAnimation}
-      backgroundVariant={styleDefinition[variant].backgroundStyle}
+      backgroundColor={styleDefinition[variant].backgroundColor}
     >
       {title && <Title>{title}</Title>}
       <ReadableNumberFont>{value}</ReadableNumberFont>{' '}

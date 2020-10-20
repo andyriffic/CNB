@@ -8,7 +8,6 @@ const Container = styled.div<{ theme: GameTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid ${props => props.theme.primaryBorderColor};
   border-radius: 8px;
   background-color: #e5e4e9;
   padding: 10px 20px;
@@ -19,8 +18,8 @@ const TrophyContainer = styled.div`
   margin: 0;
 `;
 
-const Point = styled.span<{isLeading: boolean}>`
-  color: ${props => props.isLeading ? '#0db4b9' : '#7BD6D8'};
+const Point = styled.span<{ isLeading: boolean }>`
+  color: ${props => (props.isLeading ? '#0db4b9' : '#7BD6D8')};
 `;
 
 type MatchupStatsSummaryProps = {

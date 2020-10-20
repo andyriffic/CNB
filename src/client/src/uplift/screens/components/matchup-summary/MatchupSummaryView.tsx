@@ -9,7 +9,6 @@ const Container = styled.div<{ theme: GameTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid ${props => props.theme.primaryBorderColor};
   border-radius: 8px;
   background-color: #e5e4e9;
   padding: 20px;

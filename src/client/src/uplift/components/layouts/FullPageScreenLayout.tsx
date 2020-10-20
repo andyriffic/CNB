@@ -18,7 +18,6 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   color: #000;
-  background-color: ${props => props.theme.headerBackgroundColor};
   transition: background-color 800ms ease-out;
 `;
 

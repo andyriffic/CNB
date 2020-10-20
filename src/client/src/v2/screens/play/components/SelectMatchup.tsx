@@ -10,7 +10,7 @@ import { useMoveThemeProvider } from '../../../providers/MoveThemeProvider';
 import { Player } from '../../../providers/PlayersProvider';
 
 const MatchupContainer = styled.div`
-  border: 2px solid ${props => props.theme.primaryTextColor};
+  border: 2px solid ${props => props.theme.color.text02};
   background-color: #f8f9fa;
   padding: 10px;
   border-radius: 8px;
@@ -18,8 +18,6 @@ const MatchupContainer = styled.div`
 `;
 
 const TeamName = styled.span<{ highlighted?: boolean }>`
-  color: ${props =>
-    props.highlighted ? props.theme.primaryTextColor : 'inherit'};
   font-size: 1.8rem;
 `;
 
