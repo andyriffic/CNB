@@ -49,7 +49,8 @@ export const MoveThemeProvider = ({ children }: { children: ReactNode }) => {
     socket.emit('REQUEST_THEMES');
 
     return () => {
-      socket.close();
+      console.log('MoveTheme', 'DISCONNECT');
+      socket.disconnect();
     };
   }, []);
 

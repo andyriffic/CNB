@@ -64,7 +64,8 @@ export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
     socket.emit(INVITATION_EVENTS.SUBSCRIBE_TO_INVITATIONS);
 
     return () => {
-      socket.close();
+      console.log('Invitations', 'DISCONNECT');
+      socket.disconnect();
     };
   }, []);
 

@@ -46,7 +46,8 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
     socket.emit(PLAYER_EVENTS.SUBSCRIBE_TO_ALL_PLAYERS);
 
     return () => {
-      socket.close();
+      console.log('Players', 'DISCONNECT');
+      socket.disconnect();
     };
   }, []);
 
