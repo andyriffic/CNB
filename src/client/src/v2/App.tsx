@@ -14,6 +14,7 @@ import {
   PlayMatchupScreen,
 } from './screens/play';
 import { GameSettingsProvider } from './providers/GameSettingsProvider';
+import { ThemedUi } from './components/ui/Theme';
 
 export default () => {
   return (
@@ -23,17 +24,19 @@ export default () => {
         <PlayersProvider>
           <InvitationsProvider>
             <GameSettingsProvider>
-              <Router>
-                <ChoosePlayerScreen path="/v2" />
-                <ScreenWithMatchup
-                  path="/v2/spectator/:matchupId"
-                  matchupId=""
-                />
-                <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
-                <SelectPlayerScreen path="/v2/play" />
-                <SelectMatchupScreen path="/v2/play/:playerId" />
-                <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
-              </Router>
+              <ThemedUi>
+                <Router>
+                  <ChoosePlayerScreen path="/v2" />
+                  <ScreenWithMatchup
+                    path="/v2/spectator/:matchupId"
+                    matchupId=""
+                  />
+                  <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
+                  <SelectPlayerScreen path="/v2/play" />
+                  <SelectMatchupScreen path="/v2/play/:playerId" />
+                  <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
+                </Router>
+              </ThemedUi>
             </GameSettingsProvider>
           </InvitationsProvider>
         </PlayersProvider>
