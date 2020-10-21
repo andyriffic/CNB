@@ -6,7 +6,7 @@ import { GamePlayer } from '../../components/GamePlayer';
 import { PlayerMove } from '../../components/PlayerMove';
 import { PlayerPowerup } from '../../components/PlayerPowerup';
 import { Points } from '../../components/Points';
-import { SplashText } from '../../../../../uplift/components/SplashText';
+import { SplashText } from '../../../../components/SplashText';
 import { Winner } from '../../components/Winner';
 import {
   RelativePosition,

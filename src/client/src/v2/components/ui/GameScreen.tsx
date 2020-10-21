@@ -10,7 +10,7 @@ const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: ${({ theme }) => theme.color.text01};
+  color: ${({ theme }) => theme.color.text02};
   background-color: ${({ theme }) => theme.color.background02};
   background-image: ${({ theme }) =>
     `linear-gradient(${theme.color.background01}, ${theme.color.background02})`};

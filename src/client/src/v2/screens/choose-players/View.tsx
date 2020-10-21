@@ -2,7 +2,7 @@ import { NavigateFn } from '@reach/router';
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
-import { SplashText } from '../../../uplift/components/SplashText';
+import { SplashText } from '../../components/SplashText';
 import { PositionedArea } from '../../components/PositionedArea';
 import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
