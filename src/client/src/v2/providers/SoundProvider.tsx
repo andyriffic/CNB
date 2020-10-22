@@ -62,7 +62,7 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
   }, [themeName]);
 
   if (!soundMap) {
-    return <LoadingSpinner text="Loading sounds" />;
+    return <LoadingSpinner />;
   }
 
   return (
