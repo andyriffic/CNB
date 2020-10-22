@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
-import { getPlayerAttributeValue } from '../../../uplift/utils/player';
-import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
-import { usePlayersProvider } from '../../providers/PlayersProvider';
+import { ThemeName, useThemeName } from '../../providers/hooks/useThemeName';
 import defaultTheme from './themes/default';
 import halloweenTheme from './themes/halloween';
 
@@ -36,7 +34,7 @@ export interface ThemeStyles {
 }
 
 type ThemeMap = {
-  [key: string]: ThemeStyles;
+  [key in ThemeName]?: ThemeStyles;
 };
 
 const themeMap: ThemeMap = {
@@ -44,26 +42,16 @@ const themeMap: ThemeMap = {
 };
 
 export const ThemedUi = ({ children }: { children: any }) => {
-  const { allPlayers } = usePlayersProvider();
   const [uiTheme, setUiTheme] = useState<ThemeStyles | undefined>(undefined);
+  const themeName = useThemeName();
 
   useEffect(() => {
-    if (!allPlayers.length) {
+    if (!themeName) {
       return;
     }
 
-    const settingsPlayer = allPlayers.find(p => p.id === 'mc_settings_face');
-    if (!settingsPlayer) {
-      setUiTheme(defaultTheme);
-    } else {
-      const configuredThemeName = getPlayerAttributeValue(
-        settingsPlayer.tags,
-        'theme',
-        'default'
-      );
-      setUiTheme(themeMap[configuredThemeName] || defaultTheme);
-    }
-  }, [allPlayers]);
+    setUiTheme(themeMap[themeName] || defaultTheme);
+  }, [themeName]);
 
   if (!uiTheme) {
     return <LoadingSpinner text="Loading theme" />;
