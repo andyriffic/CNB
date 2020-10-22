@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
-import { play } from '../../../services/sound-service/soundService';
+import { PlaySound, useSoundProvider } from '../../../providers/SoundProvider';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
 import { BOARD_CELL_TYPE, GameBoardCell } from '../types';
 
@@ -46,7 +46,8 @@ const movePlayerOneSquare = (
 
 const landedInCell = (
   gameBoardPlayer: GameBoardPlayer,
-  cell: GameBoardCell
+  cell: GameBoardCell,
+  play: PlaySound
 ): GameBoardPlayer => {
   if (gameBoardPlayer.movesRemaining > 0) {
     return gameBoardPlayer;
@@ -107,6 +108,7 @@ export const useGameBoardPlayers = (): {
   const [gameBoardPlayers, setGameBoardPlayers] = useState<GameBoardPlayer[]>(
     []
   );
+  const { play } = useSoundProvider();
 
   useEffect(() => {
     setGameBoardPlayers(getBoardPlayers(allPlayers));
@@ -125,7 +127,7 @@ export const useGameBoardPlayers = (): {
       setGameBoardPlayers(updatedGameBoardPlayers);
     },
     landedInCell: (gameBoardPlayer, cell) => {
-      const updatedGameBoardPlayer = landedInCell(gameBoardPlayer, cell);
+      const updatedGameBoardPlayer = landedInCell(gameBoardPlayer, cell, play);
       const updatedGameBoardPlayers = gameBoardPlayers.map(gp => {
         if (gp.player.id === gameBoardPlayer.player.id) {
           return updatedGameBoardPlayer;

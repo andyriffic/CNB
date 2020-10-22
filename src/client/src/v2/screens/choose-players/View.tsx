@@ -13,6 +13,7 @@ import { useSelectedPlayerState } from './hooks/useSelectedPlayerState';
 import { useSound } from './hooks/useSound';
 import { SlideyPlayerSwitcher } from './components/SlideyPlayerSwitcher';
 import { PlayQrCode } from './components/PlayQrCode';
+import { useSoundProvider } from '../../providers/SoundProvider';
 
 const Container = styled.div`
   position: relative;
@@ -29,8 +30,9 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     bothPlayersReady,
   } = usePlayerStateWithInvitation(playerState);
   const { startGame } = useCreateGame(invitation);
+  const { play } = useSoundProvider();
 
-  useSound(invitation, playerConfirmed);
+  useSound(invitation, playerConfirmed, play);
 
   if (!invitation) {
     return <LoadingSpinner />;

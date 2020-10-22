@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { Howl, HowlOptions } from 'howler';
-import { SoundMap } from '../../../services/sound-service/soundMap';
-import { play } from '../../../services/sound-service/soundService';
-import { Invitation } from '../../../../uplift/contexts/InvitationsProvider';
+import { Howl } from 'howler';
+import { PlaySound, SoundMap } from '../../../providers/SoundProvider';
+import { Invitation } from '../../../providers/InvitationsProvider';
 
 const usePlayOnce = (
   invitation: Invitation | undefined,
   playerConfirmed: [boolean, boolean],
   playWhen: () => boolean,
-  soundKey: keyof SoundMap
+  soundKey: keyof SoundMap,
+  play: PlaySound
 ) => {
   const played = useRef(false);
 
@@ -20,7 +20,7 @@ const usePlayOnce = (
   }, [invitation, playerConfirmed]);
 };
 
-const useBackgroundMusic = (soundKey: keyof SoundMap) => {
+const useBackgroundMusic = (soundKey: keyof SoundMap, play: PlaySound) => {
   const playingSound = useRef<Howl | undefined>(undefined);
   useEffect(() => {
     if (!playingSound.current) {
@@ -37,7 +37,8 @@ const useBackgroundMusic = (soundKey: keyof SoundMap) => {
 
 const useWhenSwitchingPlayers = (
   invitation: Invitation | undefined,
-  soundKey: keyof SoundMap
+  soundKey: keyof SoundMap,
+  play: PlaySound
 ) => {
   const playerIds = useRef<string[]>([]);
   useEffect(() => {
@@ -62,23 +63,26 @@ const useWhenSwitchingPlayers = (
 
 export const useSound = (
   invitation: Invitation | undefined,
-  playerConfirmed: [boolean, boolean]
+  playerConfirmed: [boolean, boolean],
+  play: PlaySound
 ) => {
-  useBackgroundMusic('WaitForPlayersToJoin');
+  useBackgroundMusic('WaitForPlayersToJoin', play);
 
-  useWhenSwitchingPlayers(invitation, 'SwitchPlayer');
+  useWhenSwitchingPlayers(invitation, 'SwitchPlayer', play);
 
   usePlayOnce(
     invitation,
     playerConfirmed,
     () => playerConfirmed[0],
-    'PlayerJoinedGame'
+    'PlayerJoinedGame',
+    play
   );
 
   usePlayOnce(
     invitation,
     playerConfirmed,
     () => playerConfirmed[1],
-    'PlayerJoinedGame'
+    'PlayerJoinedGame',
+    play
   );
 };

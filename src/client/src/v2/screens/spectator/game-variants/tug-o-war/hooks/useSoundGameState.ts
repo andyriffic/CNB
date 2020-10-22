@@ -1,10 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Howl, HowlOptions } from 'howler';
-import { SoundMap } from '../../../../../services/sound-service/soundMap';
-import { play } from '../../../../../services/sound-service/soundService';
 import { GamePhase } from '../../../hooks/useGamePhaseTiming';
 import { Game } from '../../../../../providers/MatchupProvider';
-import { TimebombTimedState } from './useTimedGameState';
+import { PlaySound, SoundMap } from '../../../../../providers/SoundProvider';
 
 const useSoundForGamePhase = (
   gamePhase: GamePhase,
@@ -20,7 +18,8 @@ const useSoundForGamePhase = (
     sprite?: string;
     stopWhenPhaseEnds?: boolean;
     options?: HowlOptions;
-  }
+  },
+  play: PlaySound
 ) => {
   const playingSound = useRef<Howl | undefined>();
 
@@ -36,7 +35,8 @@ const useSoundForGamePhase = (
 const usePlayOncePerGame = (
   game: Game | undefined,
   playWhen: (game: Game) => boolean,
-  soundKey: keyof SoundMap
+  soundKey: keyof SoundMap,
+  play: PlaySound
 ) => {
   const played = useRef('');
 
@@ -53,74 +53,119 @@ const usePlayOncePerGame = (
 
 export const useSoundGameState = (
   gamePhase: GamePhase,
-  game: Game | undefined
+  game: Game | undefined,
+  play: PlaySound
 ) => {
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.waitingMoves,
-    playSound: 'WaitForMoves',
-    stopWhenPhaseEnds: true,
-    options: { loop: true },
-  });
-
-  usePlayOncePerGame(game, game => game.moves[0].moved, 'PlayerMoved');
-  usePlayOncePerGame(game, game => game.moves[1].moved, 'PlayerMoved');
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.readyToPlay,
-    playSound: 'RoundStart',
-  });
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.showResult,
-    playSound: 'ShowMoves',
-    options: {
-      rate: 1.5,
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.waitingMoves,
+      playSound: 'WaitForMoves',
+      stopWhenPhaseEnds: true,
+      options: { loop: true },
     },
-  });
+    play
+  );
 
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.tugoWarYankPlayer,
-    playSound: 'PullRope',
-  });
+  usePlayOncePerGame(game, game => game.moves[0].moved, 'PlayerMoved', play);
+  usePlayOncePerGame(game, game => game.moves[1].moved, 'PlayerMoved', play);
 
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.tugoWarPlayerFalls,
-    playSound: 'Fall',
-  });
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.readyToPlay,
+      playSound: 'RoundStart',
+    },
+    play
+  );
 
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.highlightWinner,
-    playSound: 'Winner',
-  });
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.highlightDraw,
-    playSound: 'Draw',
-  });
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.showBasePoints,
-    playSound: 'ShowBasePoints',
-  });
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.givePointsToPlayer,
-    playSound: 'FinalPointsAllocated',
-  });
-
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.timebombFuse,
-    playSound: 'TimebombTicking',
-    sprite: 'fuse',
-    options: {
-      sprite: {
-        fuse: [0, 2500],
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.showResult,
+      playSound: 'ShowMoves',
+      options: {
+        rate: 1.5,
       },
     },
-  });
+    play
+  );
 
-  useSoundForGamePhase(gamePhase, {
-    when: GamePhase.gameOver,
-    playSound: 'GameOver',
-  });
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.tugoWarYankPlayer,
+      playSound: 'PullRope',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.tugoWarPlayerFalls,
+      playSound: 'Fall',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.highlightWinner,
+      playSound: 'Winner',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.highlightDraw,
+      playSound: 'Draw',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.showBasePoints,
+      playSound: 'ShowBasePoints',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.givePointsToPlayer,
+      playSound: 'FinalPointsAllocated',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.timebombFuse,
+      playSound: 'TimebombTicking',
+      sprite: 'fuse',
+      options: {
+        sprite: {
+          fuse: [0, 2500],
+        },
+      },
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
+      when: GamePhase.gameOver,
+      playSound: 'GameOver',
+    },
+    play
+  );
 };

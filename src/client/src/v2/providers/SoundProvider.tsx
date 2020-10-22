@@ -1,0 +1,70 @@
+import React, { ReactNode, useState } from 'react';
+import { Howl, HowlOptions } from 'howler';
+import defaultSounds from '../sounds/default';
+import halloweenSounds from '../sounds/halloween';
+
+export type SoundMap = {
+  WaitForMoves: any;
+  PlayerMoved: any;
+  RoundStart: any;
+  ShowMoves: any;
+  ShowBasePoints: any;
+  FinalPointsAllocated: any;
+  Winner: any;
+  Draw: any;
+  TimebombTicking: any;
+  TimebombExploded: any;
+  GameOver: any;
+  WaitForPlayersToJoin: any;
+  PlayerJoinedGame: any;
+  SwitchPlayer: any;
+  PullRope: any;
+  Fall: any;
+  SnakesAndLaddersMove: any;
+  SnakesAndLaddersSnake: any;
+  SnakesAndLaddersLadder: any;
+  SnakesAndLaddersWormholeIn: any;
+  SnakesAndLaddersWormholeOut: any;
+};
+
+export type PlaySound = (
+  soundKey: keyof SoundMap,
+  options?: HowlOptions,
+  sprite?: string
+) => Howl;
+
+type SoundService = {
+  play: PlaySound;
+};
+
+const SoundContext = React.createContext<SoundService | undefined>(undefined);
+
+export const SoundProvider = ({ children }: { children: ReactNode }) => {
+  const [soundMap, setSoundMap] = useState<SoundMap>(halloweenSounds);
+
+  return (
+    <SoundContext.Provider
+      value={{
+        play: (soundKey, options = {}, sprite) => {
+          const sound = new Howl({
+            src: [soundMap[soundKey]],
+            ...options,
+          });
+
+          sound.play(sprite);
+          return sound;
+        },
+      }}
+    >
+      {children}
+    </SoundContext.Provider>
+  );
+};
+
+export function useSoundProvider() {
+  const context = React.useContext(SoundContext);
+  if (context === undefined) {
+    throw new Error('useSoundProvider must be used within a SoundProvider');
+  }
+  return context;
+}

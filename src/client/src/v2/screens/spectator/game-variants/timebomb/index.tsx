@@ -10,6 +10,7 @@ import { Player } from '../../../../../uplift/contexts/PlayersProvider';
 import { getPlayerSnakesAndLaddersMoves } from '../../../../../uplift/utils/player';
 import { useSoundGameState } from '../../hooks/useSoundGameState';
 import { usePlayersProvider } from '../../../../providers/PlayersProvider';
+import { useSoundProvider } from '../../../../providers/SoundProvider';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -60,10 +61,12 @@ export const TimebombGameScreen = ({
     resolveGame,
     triggerUpdate
   );
+  const { play } = useSoundProvider();
   useSoundGameState(
     timedGameState.gamePhase,
     timedGameState.game,
-    timedGameState.timebomb
+    timedGameState.timebomb,
+    play
   );
 
   useEffect(() => {

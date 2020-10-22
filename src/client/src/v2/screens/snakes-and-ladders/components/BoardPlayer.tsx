@@ -15,7 +15,7 @@ import {
   GameBoardPlayer,
   useGameBoardProvider,
 } from '../providers/GameBoardProvider';
-import { play } from '../../../services/sound-service/soundService';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 export const ANIMATION_TIMEOUT_MS = 500;
 
@@ -87,6 +87,7 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
   );
   const [isMoving, setIsMoving] = useState(false);
   const { movePlayer, landedInCell } = useGameBoardProvider();
+  const { play } = useSoundProvider();
 
   useEffect(() => {
     if (isMoving) {
