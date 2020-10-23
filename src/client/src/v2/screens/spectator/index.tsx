@@ -6,8 +6,6 @@ import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { TimebombGameScreen } from './game-variants/timebomb';
 import { TugoWarGameScreen } from './game-variants/tug-o-war';
-import { GameModeSelector } from './components/GameModeSelector';
-import { GameScreen } from '../../components/ui/GameScreen';
 import { selectRandomOneOf } from '../../../uplift/utils/random';
 
 type Props = {
@@ -15,7 +13,7 @@ type Props = {
 } & RouteComponentProps;
 
 export type GameModeType = 'Tug-o-war' | 'Timebomb';
-const availableGameModes: GameModeType[] = ['Timebomb'];
+const availableGameModes: GameModeType[] = ['Tug-o-war', 'Timebomb'];
 
 const renderGameView = (
   gameMode: GameModeType,
@@ -72,16 +70,6 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
   if (!(currentMatchup && currentMatchup.gameInProgress && allPlayers.length)) {
     return <LoadingSpinner />;
   }
-
-  // if (!currentMatchup.gameInProgress) {
-  //   return (
-  //     <GameScreen scrollable={false}>
-  //       <GameModeSelector onGameModeSelected={setGameMode} />
-  //     </GameScreen>
-  //   );
-  // }
-
-  console.log('game-mode', currentMatchup.gameInProgress!.playMode);
 
   return renderGameView(
     currentMatchup.gameInProgress!.playMode as GameModeType,
