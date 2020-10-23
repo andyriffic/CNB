@@ -14,6 +14,11 @@ import { useSound } from './hooks/useSound';
 import { SlideyPlayerSwitcher } from './components/SlideyPlayerSwitcher';
 import { PlayQrCode } from './components/PlayQrCode';
 import { useSoundProvider } from '../../providers/SoundProvider';
+import {
+  isFeatureEnabled,
+  isPersistantFeatureEnabled,
+} from '../../../featureToggle';
+import { DebugJoinPlayers } from './components/DebugPlayer';
 
 const Container = styled.div`
   position: relative;
@@ -78,6 +83,12 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
           >
             Let's go!
           </SplashText>
+        )}
+
+        {isPersistantFeatureEnabled('cnb-debug') && (
+          <PositionedArea position={{ top: 0, left: 0 }}>
+            <DebugJoinPlayers invitation={invitation} />
+          </PositionedArea>
         )}
       </Container>
     </GameScreen>

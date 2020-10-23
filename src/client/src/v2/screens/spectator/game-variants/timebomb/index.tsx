@@ -11,6 +11,12 @@ import { getPlayerSnakesAndLaddersMoves } from '../../../../../uplift/utils/play
 import { useSoundGameState } from '../../hooks/useSoundGameState';
 import { usePlayersProvider } from '../../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
+import {
+  isFeatureEnabled,
+  isPersistantFeatureEnabled,
+} from '../../../../../featureToggle';
+import { DebugPlayerMove } from '../../components/DebugPlayerMove';
+import { PositionedArea } from '../../../../components/PositionedArea';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -78,6 +84,11 @@ export const TimebombGameScreen = ({
     return (
       <>
         {/* <button onClick={startNewGame}>new game</button> */}
+        {isPersistantFeatureEnabled('cnb-debug') && (
+          <PositionedArea position={{ top: 0, left: 0 }}>
+            <DebugPlayerMove matchup={matchup} />
+          </PositionedArea>
+        )}
         <View {...timedGameState} game={timedGameState.game} />
       </>
     );

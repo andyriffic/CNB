@@ -150,6 +150,9 @@ const init = (socketServer: Server, path: string) => {
         startingAttributes?: { [key: string]: any }
       ) => {
         log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
+        const carryOverGameMode =
+          (gamesInProgress[matchupId] && gamesInProgress[matchupId].playMode) ||
+          playMode;
         matchupDatastore.getMatchup(matchupId).then((matchup) => {
           log('GOT MATCHUP', matchup);
 
@@ -162,7 +165,7 @@ const init = (socketServer: Server, path: string) => {
               | Promise<[Counter, Counter]> => {
               //TODO: more tidy
               const trophyWon =
-                playMode === PLAY_MODE.Timebomb
+                carryOverGameMode === PLAY_MODE.Timebomb
                   ? gamesInProgress[matchupId] &&
                     gamesInProgress[matchupId].gameAttributes[
                       TimebombAttributes.Exploded
@@ -172,14 +175,14 @@ const init = (socketServer: Server, path: string) => {
                       false
                     );
 
-              log('PLAY MODE IS', playMode);
+              log('PLAY MODE IS', carryOverGameMode);
               log('Existing game is', gamesInProgress[matchupId]);
 
               const game = matchupService.createGame(
                 shortid.generate(),
                 matchup.teamIds,
                 trophyWon,
-                playMode,
+                carryOverGameMode,
                 gamesInProgress[matchupId]
               );
 

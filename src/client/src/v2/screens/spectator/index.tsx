@@ -8,12 +8,14 @@ import { TimebombGameScreen } from './game-variants/timebomb';
 import { TugoWarGameScreen } from './game-variants/tug-o-war';
 import { GameModeSelector } from './components/GameModeSelector';
 import { GameScreen } from '../../components/ui/GameScreen';
+import { selectRandomOneOf } from '../../../uplift/utils/random';
 
 type Props = {
   matchupId: string;
 } & RouteComponentProps;
 
 export type GameModeType = 'Tug-o-war' | 'Timebomb';
+const availableGameModes: GameModeType[] = ['Timebomb'];
 
 const renderGameView = (
   gameMode: GameModeType,
@@ -43,7 +45,6 @@ const renderGameView = (
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const createdGame = useRef(false);
-  const [gameMode, setGameMode] = useState<GameModeType | undefined>();
   const { allPlayers } = usePlayersProvider();
   const {
     subscribeToMatchup,
@@ -58,32 +59,34 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!currentMatchup || createdGame.current || !gameMode) {
+    if (!currentMatchup || createdGame.current) {
       return;
     }
     setTheme(currentMatchup.themeId);
     if (!currentMatchup.gameInProgress) {
       createdGame.current = true;
-      startGameForMatchup(matchupId, gameMode);
+      startGameForMatchup(matchupId, selectRandomOneOf(availableGameModes));
     }
-  }, [currentMatchup, gameMode]);
+  }, [currentMatchup]);
 
-  if (!(currentMatchup && allPlayers.length)) {
+  if (!(currentMatchup && currentMatchup.gameInProgress && allPlayers.length)) {
     return <LoadingSpinner />;
   }
 
-  if (!currentMatchup.gameInProgress) {
-    return (
-      <GameScreen scrollable={false}>
-        <GameModeSelector onGameModeSelected={setGameMode} />
-      </GameScreen>
-    );
-  }
+  // if (!currentMatchup.gameInProgress) {
+  //   return (
+  //     <GameScreen scrollable={false}>
+  //       <GameModeSelector onGameModeSelected={setGameMode} />
+  //     </GameScreen>
+  //   );
+  // }
+
+  console.log('game-mode', currentMatchup.gameInProgress!.playMode);
 
   return renderGameView(
-    gameMode || (currentMatchup.gameInProgress.playMode as GameModeType),
+    currentMatchup.gameInProgress!.playMode as GameModeType,
     currentMatchup,
-    () => startGameForMatchup(currentMatchup.id, gameMode),
+    () => startGameForMatchup(currentMatchup.id),
     () => playGameForMatchup(currentMatchup.id)
   );
 };

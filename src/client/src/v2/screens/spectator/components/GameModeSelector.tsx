@@ -3,7 +3,7 @@ import { GameModeType } from '..';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { SplashText } from '../../../components/SplashText';
 
-const availableGameModes: GameModeType[] = ['Tug-o-war', 'Timebomb'];
+const availableGameModes: GameModeType[] = ['Tug-o-war'];
 
 type Props = {
   onGameModeSelected: (gameMode: GameModeType) => void;

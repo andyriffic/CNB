@@ -11,6 +11,9 @@ import { getPlayerSnakesAndLaddersMoves } from '../../../../../uplift/utils/play
 import { useSoundGameState } from './hooks/useSoundGameState';
 import { usePlayersProvider } from '../../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
+import { isPersistantFeatureEnabled } from '../../../../../featureToggle';
+import { PositionedArea } from '../../../../components/PositionedArea';
+import { DebugPlayerMove } from '../../components/DebugPlayerMove';
 
 const getPlayerPoints = (
   allPlayers: Player[],
@@ -72,6 +75,11 @@ export const TugoWarGameScreen = ({
   if (timedGameState.game) {
     return (
       <>
+        {isPersistantFeatureEnabled('cnb-debug') && (
+          <PositionedArea position={{ top: 0, left: 0 }}>
+            <DebugPlayerMove matchup={matchup} />
+          </PositionedArea>
+        )}
         {/* <button onClick={startNewGame}>new game</button> */}
         <View {...timedGameState} game={timedGameState.game} />
       </>
