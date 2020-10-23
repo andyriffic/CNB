@@ -6,13 +6,14 @@ import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { TimebombGameScreen } from './game-variants/timebomb';
 import { TugoWarGameScreen } from './game-variants/tug-o-war';
-import { isFeatureEnabled } from '../../../featureToggle';
+import { GameModeSelector } from './components/GameModeSelector';
+import { GameScreen } from '../../components/ui/GameScreen';
 
 type Props = {
   matchupId: string;
 } & RouteComponentProps;
 
-type GameModeType = 'Tug-o-war' | 'Timebomb';
+export type GameModeType = 'Tug-o-war' | 'Timebomb';
 
 const renderGameView = (
   gameMode: GameModeType,
@@ -42,9 +43,7 @@ const renderGameView = (
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const createdGame = useRef(false);
-  const gameMode = useRef<GameModeType>(
-    isFeatureEnabled('tug-o-war') ? 'Tug-o-war' : 'Timebomb'
-  );
+  const [gameMode, setGameMode] = useState<GameModeType | undefined>();
   const { allPlayers } = usePlayersProvider();
   const {
     subscribeToMatchup,
@@ -59,24 +58,32 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!currentMatchup || createdGame.current) {
+    if (!currentMatchup || createdGame.current || !gameMode) {
       return;
     }
     setTheme(currentMatchup.themeId);
     if (!currentMatchup.gameInProgress) {
       createdGame.current = true;
-      startGameForMatchup(matchupId, gameMode.current);
+      startGameForMatchup(matchupId, gameMode);
     }
-  }, [currentMatchup]);
+  }, [currentMatchup, gameMode]);
 
-  if (!currentMatchup || !currentMatchup.gameInProgress || !allPlayers.length) {
+  if (!(currentMatchup && allPlayers.length)) {
     return <LoadingSpinner />;
   }
 
+  if (!currentMatchup.gameInProgress) {
+    return (
+      <GameScreen scrollable={false}>
+        <GameModeSelector onGameModeSelected={setGameMode} />
+      </GameScreen>
+    );
+  }
+
   return renderGameView(
-    gameMode.current,
+    gameMode || (currentMatchup.gameInProgress.playMode as GameModeType),
     currentMatchup,
-    () => startGameForMatchup(currentMatchup.id, gameMode.current),
+    () => startGameForMatchup(currentMatchup.id, gameMode),
     () => playGameForMatchup(currentMatchup.id)
   );
 };
