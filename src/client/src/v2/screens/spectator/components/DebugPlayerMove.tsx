@@ -15,7 +15,10 @@ export const DebugPlayerMove = ({ matchup }: { matchup: Matchup }) => {
   return (
     <div style={{ display: 'flex' }}>
       {matchup.gameInProgress.moves.map(move => (
-        <div key={move.playerId!}>
+        <div
+          key={move.playerId!}
+          style={{ border: '1px solid black', padding: '3px' }}
+        >
           <div>{move.playerId}</div>
           <div style={{ display: 'flex' }}>
             {moveIds.map(m => (
