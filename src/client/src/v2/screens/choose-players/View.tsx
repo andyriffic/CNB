@@ -14,16 +14,20 @@ import { useSound } from './hooks/useSound';
 import { SlideyPlayerSwitcher } from './components/SlideyPlayerSwitcher';
 import { PlayQrCode } from './components/PlayQrCode';
 import { useSoundProvider } from '../../providers/SoundProvider';
-import {
-  isFeatureEnabled,
-  isPersistantFeatureEnabled,
-} from '../../../featureToggle';
+import { isPersistantFeatureEnabled } from '../../../featureToggle';
 import { DebugJoinPlayers } from './components/DebugPlayer';
+import { ThemeName, useThemeName } from '../../providers/hooks/useThemeName';
 
 const Container = styled.div`
   position: relative;
   height: 100%;
 `;
+
+const DEFAULT_MOVE_THEME = 'rock-paper-scissors-classic';
+
+const moveThemeMap: { [key in ThemeName]?: string } = {
+  halloween: 'rock-paper-scissors-halloween',
+};
 
 const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   const playerSelector = usePlayerSelector();
@@ -36,6 +40,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   } = usePlayerStateWithInvitation(playerState);
   const { startGame } = useCreateGame(invitation);
   const { play } = useSoundProvider();
+  const themeName = useThemeName();
 
   useSound(invitation, playerConfirmed, play);
 
@@ -76,9 +81,12 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
         {bothPlayersReady && (
           <SplashText
             onComplete={() => {
-              startGame('rock-paper-scissors-classic', matchupId => {
-                navigate && navigate(`/v2/spectator/${matchupId}`);
-              });
+              startGame(
+                moveThemeMap[themeName] || DEFAULT_MOVE_THEME,
+                matchupId => {
+                  navigate && navigate(`/v2/spectator/${matchupId}`);
+                }
+              );
             }}
           >
             Let's go!
