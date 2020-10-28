@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { getPlayerAttributeValue } from '../../../uplift/utils/player';
 import { usePlayersProvider } from '../PlayersProvider';
 
-export type ThemeName = 'default' | 'halloween';
+export type ThemeName = '' | 'default' | 'halloween';
 
 export const useThemeName = (): ThemeName => {
   const { allPlayers } = usePlayersProvider();
-  const [themeName, setThemeName] = useState<ThemeName>('default');
+  const [themeName, setThemeName] = useState<ThemeName>('');
 
   useEffect(() => {
     if (!allPlayers.length) {
