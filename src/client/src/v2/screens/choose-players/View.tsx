@@ -17,6 +17,12 @@ import { useSoundProvider } from '../../providers/SoundProvider';
 import { isPersistantFeatureEnabled } from '../../../featureToggle';
 import { DebugJoinPlayers } from './components/DebugPlayer';
 import { ThemeName, useThemeName } from '../../providers/hooks/useThemeName';
+import { ShowThemedVariant } from '../../components/ShowThemedVariant';
+import {
+  SpookyGhost,
+  SpookyPumpkin,
+  SpookySpider,
+} from '../../themes/halloween/HalloweenDecorations';
 
 const Container = styled.div`
   position: relative;
@@ -51,6 +57,17 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   return (
     <GameScreen scrollable={false}>
       <Container>
+        <ShowThemedVariant
+          forTheme={{
+            halloween: (
+              <>
+                <SpookyGhost />
+                <SpookyPumpkin />
+                <SpookySpider />
+              </>
+            ),
+          }}
+        />
         <PlayQrCode />
         {/* Players */}
         <SlideyPlayerSwitcher

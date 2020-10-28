@@ -13,8 +13,10 @@ export const isFeatureEnabled = feature => {
 };
 
 export const isPersistantFeatureEnabled = feature => {
-  return document.cookie.split(';').find(keyValuePair => keyValuePair.split('=')[0].includes(feature));
-}
+  return document.cookie
+    .split(';')
+    .find(keyValuePair => keyValuePair.split('=')[0].includes(feature));
+};
 
 export const FeatureToggle = ({ children, feature }) => {
   return <React.Fragment>{children(isFeatureEnabled(feature))}</React.Fragment>;
