@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
-import { ThemeName, useThemeName } from '../../providers/hooks/useThemeName';
-import defaultTheme from './themes/default';
-import halloweenTheme from './themes/halloween';
+import { useThemeComponents } from '../../providers/hooks/useThemeComponents';
 
 export interface ThemeStyles {
   fontFamily: {
@@ -33,25 +31,17 @@ export interface ThemeStyles {
   };
 }
 
-type ThemeMap = {
-  [key in ThemeName]?: ThemeStyles;
-};
-
-const themeMap: ThemeMap = {
-  halloween: halloweenTheme,
-};
-
 export const ThemedUi = ({ children }: { children: any }) => {
   const [uiTheme, setUiTheme] = useState<ThemeStyles | undefined>(undefined);
-  const themeName = useThemeName();
+  const themeComponents = useThemeComponents();
 
   useEffect(() => {
-    if (!themeName) {
+    if (!themeComponents) {
       return;
     }
 
-    setUiTheme(themeMap[themeName] || defaultTheme);
-  }, [themeName]);
+    setUiTheme(themeComponents.style);
+  }, [themeComponents]);
 
   if (!uiTheme) {
     return <LoadingSpinner />;

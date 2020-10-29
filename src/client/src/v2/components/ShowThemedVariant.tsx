@@ -1,11 +1,16 @@
-import { ThemeName, useThemeName } from '../providers/hooks/useThemeName';
+import { useThemeComponents } from '../providers/hooks/useThemeComponents';
+import { DecorationPlacements } from '../themes';
 
 type Props = {
-  forTheme: { [key in ThemeName]?: JSX.Element };
+  placement: DecorationPlacements;
 };
 
-export const ShowThemedVariant = ({ forTheme }: Props) => {
-  const themeName = useThemeName();
-  const component = forTheme[themeName] || null;
+export const ShowThemedVariant = ({ placement }: Props) => {
+  const themeComponents = useThemeComponents();
+  if (!themeComponents) {
+    return null;
+  }
+
+  const component = themeComponents.decorations[placement] || null;
   return component;
 };

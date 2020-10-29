@@ -1,13 +1,13 @@
-import { ThemeStyles } from '../Theme';
-import defaultTheme from './default';
+import { ThemeStyles } from '../../components/ui/Theme';
+import defaultStyle from '../default/style';
 
 const theme: ThemeStyles = {
-  ...defaultTheme,
+  ...defaultStyle,
   fontFamily: {
     feature: "'Creepster', cursive",
   },
   color: {
-    ...defaultTheme.color,
+    ...defaultStyle.color,
     text01: '#5E32BA',
     text03: '#BFDA7A',
     border01: '#E9804D',

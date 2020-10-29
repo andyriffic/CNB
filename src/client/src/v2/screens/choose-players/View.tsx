@@ -1,5 +1,5 @@
 import { NavigateFn } from '@reach/router';
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { SplashText } from '../../components/SplashText';
@@ -16,7 +16,7 @@ import { PlayQrCode } from './components/PlayQrCode';
 import { useSoundProvider } from '../../providers/SoundProvider';
 import { isPersistantFeatureEnabled } from '../../../featureToggle';
 import { DebugJoinPlayers } from './components/DebugPlayer';
-import { ThemeName, useThemeName } from '../../providers/hooks/useThemeName';
+import { useThemeComponents } from '../../providers/hooks/useThemeComponents';
 import { ShowThemedVariant } from '../../components/ShowThemedVariant';
 import {
   SpookyGhost,
@@ -28,13 +28,6 @@ const Container = styled.div`
   position: relative;
   height: 100%;
 `;
-
-const DEFAULT_MOVE_THEME = 'rock-paper-scissors-classic';
-
-const moveThemeMap: { [key in ThemeName]?: string } = {
-  halloween: 'rock-paper-scissors-halloween',
-};
-
 const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   const playerSelector = usePlayerSelector();
   const playerState = useSelectedPlayerState(playerSelector);
@@ -46,28 +39,18 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   } = usePlayerStateWithInvitation(playerState);
   const { startGame } = useCreateGame(invitation);
   const { play } = useSoundProvider();
-  const themeName = useThemeName();
+  const themeComponents = useThemeComponents();
 
   useSound(invitation, playerConfirmed, play);
 
-  if (!invitation) {
+  if (!(invitation && themeComponents)) {
     return <LoadingSpinner />;
   }
 
   return (
     <GameScreen scrollable={false}>
       <Container>
-        <ShowThemedVariant
-          forTheme={{
-            halloween: (
-              <>
-                <SpookyGhost />
-                <SpookyPumpkin />
-                <SpookySpider />
-              </>
-            ),
-          }}
-        />
+        <ShowThemedVariant placement="spectatorScreen" />
         <PlayQrCode />
         {/* Players */}
         <SlideyPlayerSwitcher
@@ -98,12 +81,9 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
         {bothPlayersReady && (
           <SplashText
             onComplete={() => {
-              startGame(
-                moveThemeMap[themeName] || DEFAULT_MOVE_THEME,
-                matchupId => {
-                  navigate && navigate(`/v2/spectator/${matchupId}`);
-                }
-              );
+              startGame(themeComponents.moveThemeName, matchupId => {
+                navigate && navigate(`/v2/spectator/${matchupId}`);
+              });
             }}
           >
             Let's go!

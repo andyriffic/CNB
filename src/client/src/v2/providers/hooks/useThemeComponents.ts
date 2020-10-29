@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getPlayerAttributeValue } from '../../../uplift/utils/player';
+import { themeComponentMap, ThemeComponents, ThemeName } from '../../themes';
 import { usePlayersProvider } from '../PlayersProvider';
+import defaultThemeComponents from '../../themes/default';
 
-export type ThemeName = '' | 'default' | 'halloween';
-
-export const useThemeName = (): ThemeName => {
+export const useThemeComponents = (): ThemeComponents | undefined => {
   const { allPlayers } = usePlayersProvider();
-  const [themeName, setThemeName] = useState<ThemeName>('');
+  const [themeComponents, setThemeComponents] = useState<
+    ThemeComponents | undefined
+  >();
 
   useEffect(() => {
     if (!allPlayers.length) {
@@ -15,16 +17,18 @@ export const useThemeName = (): ThemeName => {
 
     const settingsPlayer = allPlayers.find(p => p.id === 'mc_settings_face');
     if (!settingsPlayer) {
-      setThemeName('default');
+      setThemeComponents(defaultThemeComponents);
     } else {
       const configuredThemeName = getPlayerAttributeValue(
         settingsPlayer.tags,
         'theme',
         'default'
       ) as ThemeName;
-      setThemeName(configuredThemeName);
+      setThemeComponents(
+        themeComponentMap[configuredThemeName] || defaultThemeComponents
+      );
     }
   }, [allPlayers]);
 
-  return themeName;
+  return themeComponents;
 };

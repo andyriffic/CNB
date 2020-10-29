@@ -1,4 +1,4 @@
-import { ThemeStyles } from '../Theme';
+import { ThemeStyles } from '../../components/ui/Theme';
 
 const theme: ThemeStyles = {
   fontFamily: {

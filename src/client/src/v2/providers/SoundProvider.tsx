@@ -1,8 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Howl, HowlOptions } from 'howler';
-import defaultSounds from '../sounds/default';
-import halloweenSounds from '../sounds/halloween';
-import { ThemeName, useThemeName } from './hooks/useThemeName';
+import { useThemeComponents } from './hooks/useThemeComponents';
 import { LoadingSpinner } from '../../uplift/components/loading-spinner';
 
 export type SoundMap = {
@@ -39,27 +37,18 @@ type SoundService = {
   play: PlaySound;
 };
 
-type SoundThemeMap = {
-  [key in ThemeName]?: SoundMap;
-};
-
-const soundThemeMap: SoundThemeMap = {
-  default: defaultSounds,
-  halloween: halloweenSounds,
-};
-
 const SoundContext = React.createContext<SoundService | undefined>(undefined);
 
 export const SoundProvider = ({ children }: { children: ReactNode }) => {
   const [soundMap, setSoundMap] = useState<SoundMap | undefined>(undefined);
-  const themeName = useThemeName();
+  const themeComponents = useThemeComponents();
 
   useEffect(() => {
-    if (!themeName) {
+    if (!themeComponents) {
       return;
     }
-    setSoundMap(soundThemeMap[themeName] || defaultSounds);
-  }, [themeName]);
+    setSoundMap(themeComponents.sounds);
+  }, [themeComponents]);
 
   if (!soundMap) {
     return <LoadingSpinner />;
