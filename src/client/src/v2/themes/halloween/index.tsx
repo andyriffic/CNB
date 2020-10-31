@@ -4,6 +4,7 @@ import {
   SpookyGhost,
   SpookyPumpkin,
   SpookySpider,
+  ThinkingCat,
 } from './HalloweenDecorations';
 import sounds from './sounds';
 import style from './style';
@@ -20,6 +21,7 @@ const themeComponents: ThemeComponents = {
         <SpookySpider />
       </>
     ),
+    moveWaiting: <ThinkingCat />,
   },
 };
 

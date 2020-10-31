@@ -9,7 +9,7 @@ export type MoveThemeNames =
   | 'rock-paper-scissors-classic'
   | 'rock-paper-scissors-halloween';
 
-export type DecorationPlacements = 'spectatorScreen';
+export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
 
 export type ThemeComponents = {
   moveThemeName: MoveThemeNames;

@@ -2,6 +2,11 @@ import React from 'react';
 import halloweenGhost from './halloween-ghost.gif';
 import halloweenPumpkin from './halloween-jackolantern.gif';
 import halloweenSpider from './halloween-spider.gif';
+import thinkingCat from './thinking-cat.gif';
+
+export const ThinkingCat = () => {
+  return <img src={thinkingCat} style={{ width: '100%', height: '100%' }} />;
+};
 
 export const SpookyGhost = () => {
   return (
