@@ -11,10 +11,13 @@ export type MoveThemeNames =
 
 export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
 
+export type MoveKeys = 'A' | 'B' | 'C';
+
 export type ThemeComponents = {
   moveThemeName: MoveThemeNames;
   sounds: SoundMap;
   style: ThemeStyles;
+  moves: { [key in MoveKeys]: JSX.Element };
   decorations: {
     [key in DecorationPlacements]?: JSX.Element;
   };
