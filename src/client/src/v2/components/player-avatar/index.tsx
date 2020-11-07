@@ -6,7 +6,7 @@ import { AvatarImage, AvatarSizeStyles } from './AvatarImage';
 import { PlayerBadges } from './PlayerBadges';
 
 const Container = styled.div`
-  display: relative;
+  position: relative;
 `;
 
 const PositionedBadges = styled.div`

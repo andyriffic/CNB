@@ -16,6 +16,7 @@ import {
   SelectMatchupScreen,
   PlayMatchupScreen,
 } from './screens/play';
+import { PlayerAdminScreen } from './screens/player-admin';
 
 export default () => {
   return (
@@ -37,6 +38,7 @@ export default () => {
                     <SelectPlayerScreen path="/play" />
                     <SelectMatchupScreen path="/play/:playerId" />
                     <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                    <PlayerAdminScreen path="/player-admin" />
                   </Router>
                 </ThemedUi>
               </SoundProvider>
