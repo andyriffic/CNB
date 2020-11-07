@@ -12,6 +12,8 @@ import { PowerupSelector } from './PowerupSelector';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { getPlayerPowerups } from '../../../../uplift/utils/player';
 import { Button } from '../../../components/ui/buttons';
+import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
+import { MoveKeys } from '../../../themes';
 
 const JigglyBombIndicator = styled.div<{
   holdingBomb: boolean;
@@ -35,7 +37,7 @@ const MoveContainer = styled.div`
 `;
 
 const Move = styled.button<{ selected?: boolean }>`
-  flex-basis: 25vw;
+  flex-basis: 20vw;
   margin: 0 5px 5px;
   border: 5px solid ${props => (props.selected ? 'red' : 'transparent')};
   border-radius: 5px;
@@ -61,7 +63,7 @@ type MakeMoveProps = {
 };
 
 export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
-  const { currentTheme } = useMoveThemeProvider();
+  const themeComponents = useThemeComponents();
   const { makeMove, currentMatchup } = useMatchupProvider();
   const [selectedMoveId, setSelectedMoveId] = useState<string>();
   const [selectedPowerupName, setSelectedPowerupName] = useState('NONE');
@@ -111,17 +113,14 @@ export const SelectMove = ({ matchupId, teamId, player }: MakeMoveProps) => {
       <div>
         <Heading>Make your move</Heading>
         <MoveContainer className="margins-off" style={{ marginBottom: '20px' }}>
-          {currentTheme &&
-            Object.keys(currentTheme.moves).map(moveId => (
+          {themeComponents &&
+            Object.keys(themeComponents.moves).map(moveId => (
               <Move
                 key={moveId}
                 selected={selectedMoveId === moveId}
                 onClick={() => !moveMade && setSelectedMoveId(moveId)}
               >
-                <img
-                  src={`${SOCKETS_ENDPOINT}${currentTheme.moves[moveId].imageUrl}`}
-                  style={{ width: '100%', height: '100%' }}
-                />
+                {themeComponents.moves[moveId as MoveKeys]}
               </Move>
             ))}
         </MoveContainer>
