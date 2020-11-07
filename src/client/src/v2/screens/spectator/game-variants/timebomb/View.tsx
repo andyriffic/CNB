@@ -171,7 +171,7 @@ const View = ({
         )}
         {showGameOverAction && (
           <PositionedArea position={{ left: 40, bottom: 0 }}>
-            <FancyLink href="/v2/snakes-and-ladders">
+            <FancyLink href="/snakes-and-ladders">
               🐍 To Snakes and Ladders
             </FancyLink>
           </PositionedArea>

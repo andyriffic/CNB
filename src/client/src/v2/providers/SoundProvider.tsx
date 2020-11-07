@@ -44,6 +44,8 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
   const themeComponents = useThemeComponents();
 
   useEffect(() => {
+    console.log('SOUNDS', themeComponents);
+
     if (!themeComponents) {
       return;
     }
@@ -51,7 +53,7 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
   }, [themeComponents]);
 
   if (!soundMap) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="Loading sound" />;
   }
 
   return (

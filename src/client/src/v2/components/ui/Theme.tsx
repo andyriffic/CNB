@@ -44,7 +44,7 @@ export const ThemedUi = ({ children }: { children: any }) => {
   }, [themeComponents]);
 
   if (!uiTheme) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="Loading theme" />;
   }
   return <ThemeProvider theme={uiTheme}>{children}</ThemeProvider>;
 };

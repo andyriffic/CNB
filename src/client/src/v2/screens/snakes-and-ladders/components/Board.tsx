@@ -30,7 +30,7 @@ export const Board = ({ boardImage, width, height }: Props) => {
   const { gameBoardPlayers, cellsWithPlayers } = useGameBoardProvider();
 
   if (!(gameBoardPlayers.length && cellsWithPlayers.length)) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="Loading players" />;
   }
 
   return (

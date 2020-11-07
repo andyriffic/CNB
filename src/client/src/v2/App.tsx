@@ -28,15 +28,15 @@ export default () => {
               <SoundProvider>
                 <ThemedUi>
                   <Router>
-                    <ChoosePlayerScreen path="/v2" />
+                    <ChoosePlayerScreen path="/" />
                     <ScreenWithMatchup
-                      path="/v2/spectator/:matchupId"
+                      path="/spectator/:matchupId"
                       matchupId=""
                     />
-                    <SnakesAndLaddersScreen path="/v2/snakes-and-ladders" />
-                    <SelectPlayerScreen path="/v2/play" />
-                    <SelectMatchupScreen path="/v2/play/:playerId" />
-                    <PlayMatchupScreen path="/v2/play/:playerId/matchup/:matchupId" />
+                    <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                    <SelectPlayerScreen path="/play" />
+                    <SelectMatchupScreen path="/play/:playerId" />
+                    <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
                   </Router>
                 </ThemedUi>
               </SoundProvider>

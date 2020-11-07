@@ -2,6 +2,7 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
 import { isFeatureEnabled } from '../../featureToggle';
+import { createSocket } from '../services/sockets';
 
 enum MATCHUP_EVENTS {
   SUBSCRIBE_TO_ALL_MATCHUPS = 'SUBSCRIBE_TO_ALL_MATCHUPS',
@@ -162,7 +163,7 @@ const MatchupContext = React.createContext<MatchupService | undefined>(
   undefined
 );
 
-const socket = socketIOClient(`${SOCKETS_ENDPOINT}/matchups-realz`);
+const socket = createSocket('matchups-realz');
 
 export const MatchupProvider = ({ children }: { children: ReactNode }) => {
   const [loadingAllMatchups, setLoadingAllMatchups] = useState(true);

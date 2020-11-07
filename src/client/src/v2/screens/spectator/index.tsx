@@ -68,7 +68,7 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
   }, [currentMatchup]);
 
   if (!(currentMatchup && currentMatchup.gameInProgress && allPlayers.length)) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="Loading game" />;
   }
 
   return renderGameView(

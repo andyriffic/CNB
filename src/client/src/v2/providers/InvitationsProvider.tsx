@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
+import { createSocket } from '../services/sockets';
 import { Player } from './PlayersProvider';
 
 enum INVITATION_EVENTS {
@@ -48,7 +49,7 @@ export const InvitationsContext = React.createContext<
   InvitationsService | undefined
 >(undefined);
 
-const socket = socketIOClient(`${SOCKETS_ENDPOINT}/invitations`);
+const socket = createSocket('invitations');
 
 export const InvitationsProvider = ({ children }: { children: ReactNode }) => {
   const [_invitations, setInvitations] = useState<Invitation[] | undefined>();

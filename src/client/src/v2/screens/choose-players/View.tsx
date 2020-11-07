@@ -18,11 +18,6 @@ import { isPersistantFeatureEnabled } from '../../../featureToggle';
 import { DebugJoinPlayers } from './components/DebugPlayer';
 import { useThemeComponents } from '../../providers/hooks/useThemeComponents';
 import { ShowThemedVariant } from '../../components/ShowThemedVariant';
-import {
-  SpookyGhost,
-  SpookyPumpkin,
-  SpookySpider,
-} from '../../themes/halloween/HalloweenDecorations';
 
 const Container = styled.div`
   position: relative;
@@ -44,7 +39,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
   useSound(invitation, playerConfirmed, play);
 
   if (!(invitation && themeComponents)) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="loading theme and invitation" />;
   }
 
   return (
@@ -82,7 +77,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
           <SplashText
             onComplete={() => {
               startGame(themeComponents.moveThemeName, matchupId => {
-                navigate && navigate(`/v2/spectator/${matchupId}`);
+                navigate && navigate(`/spectator/${matchupId}`);
               });
             }}
           >
