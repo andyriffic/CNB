@@ -11,6 +11,9 @@ import {
   GAME_STATUS,
   useMatchupProvider,
 } from '../../providers/MatchupProvider';
+import { SelectBonusChoice } from './components/SelectBonusChoice';
+import { DebugBonusChoice } from './components/DebugBonusChoice';
+import { isPersistantFeatureEnabled } from '../../../featureToggle';
 
 type Props = {
   playerId: string;
@@ -49,6 +52,10 @@ export const PlayMatchupView = ({ playerId, matchupId, navigate }: Props) => {
 
   return (
     <GameScreen scrollable={false} showGameSettings={false}>
+      {player && <SelectBonusChoice playerId={player.id} />}
+      {player && isPersistantFeatureEnabled('cnb-debug') && (
+        <DebugBonusChoice playerId={player.id} />
+      )}
       {player && <AwardedPowerup player={player} />}
       {player &&
         teamId &&
