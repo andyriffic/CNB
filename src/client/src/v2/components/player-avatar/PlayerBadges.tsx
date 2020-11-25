@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { rotateAnimation } from '../../../uplift/components/animations';
+import vortexImage from '../../screens/snakes-and-ladders/assets/vortex.png';
 
 const Container = styled.div`
   /* width: 20px;
@@ -19,6 +21,12 @@ const BadgeEmoji = styled.div`
   font-size: ${({ theme }) => theme.fontSize.large};
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+`;
+
+const RotatingVortex = styled.img`
+  width: 95%;
+  height: 95%;
+  animation: ${rotateAnimation} 5s linear infinite;
 `;
 
 type Props = {
@@ -42,6 +50,14 @@ export const PlayerBadges = ({ tags }: Props) => {
           style={{ backgroundColor: 'pink' }}
         >
           🍭
+        </BadgeEmoji>
+      )}
+      {tags.includes('badge:portal_winner') && (
+        <BadgeEmoji
+          title="Won Portal Snakes and Ladders"
+          style={{ backgroundColor: 'lightblue' }}
+        >
+          <RotatingVortex src={vortexImage} alt="Vortex" />
         </BadgeEmoji>
       )}
     </Container>
