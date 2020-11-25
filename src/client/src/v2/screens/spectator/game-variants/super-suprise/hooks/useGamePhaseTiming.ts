@@ -46,7 +46,7 @@ const winnerUsedPowerup = (game?: Game): boolean => {
 export const useGamePhaseTiming = (
   game: Game | undefined,
   bonusPoints: number
-) => {
+): [GamePhase, React.Dispatch<React.SetStateAction<GamePhase>>] => {
   const currentGame = useRef(game);
   const [gamePhase, setGamePhase] = useState(
     allPlayersMoved(game) ? GamePhase.readyToPlay : GamePhase.waitingMoves
@@ -83,34 +83,8 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightWinner,
-    to: GamePhase.giveTimebombToPlayer,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.highlightDraw,
-    to: gameIsDraw(game)
-      ? GamePhase.timebombFuse
-      : GamePhase.giveTimebombToPlayer,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.giveTimebombToPlayer,
-    to: GamePhase.timebombFuse,
-    timeoutMilliseconds: 1000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombFuse,
-    to: GamePhase.timebombResolution,
-    timeoutMilliseconds: 2000,
-  });
-
-  useGameTiming(gamePhase, setGamePhase, {
-    from: GamePhase.timebombResolution,
     to: GamePhase.showBasePoints,
-    timeoutMilliseconds: 500,
+    timeoutMilliseconds: 2000,
   });
 
   useGameTiming(gamePhase, setGamePhase, {
@@ -150,10 +124,9 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
-    to:
-      game && game.trophyWon ? GamePhase.gameOver : GamePhase.readyForNextGame,
-    timeoutMilliseconds: 1000,
+    to: GamePhase.selectSuprise,
+    timeoutMilliseconds: 1500,
   });
 
-  return gamePhase;
+  return [gamePhase, setGamePhase];
 };

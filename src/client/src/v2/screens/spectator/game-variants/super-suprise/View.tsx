@@ -6,7 +6,6 @@ import { GamePlayer } from '../../components/GamePlayer';
 import { PlayerMove } from '../../components/PlayerMove';
 import { PlayerPowerup } from '../../components/PlayerPowerup';
 import { Points } from '../../components/Points';
-import { Timebomb } from '../../components/Timebomb';
 import { SplashText } from '../../../../components/SplashText';
 import { Winner } from '../../components/Winner';
 import {
@@ -14,15 +13,14 @@ import {
   PositionedArea,
 } from '../../../../components/PositionedArea';
 import { GamePhase } from '../../hooks/useGamePhaseTiming';
-import { TimebombTimedState } from '../../hooks/useTimedGameState';
 import {
   pointsPositions,
   usePositionedBonusPoints,
   usePositionedGamePoints,
 } from '../../hooks/usePositionedPoints';
-import { usePositionedTimebomb } from '../../hooks/usePositionedTimebomb';
 import { Draw } from '../../components/Draw';
 import { FancyLink } from '../../../../../components/FancyLink';
+import { SelectSuprise } from './components/SelectSuprise';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -36,8 +34,8 @@ type Props = {
   bonusPoints: number;
   gamePhase: GamePhase;
   playerPoints: [number, number];
-  timebomb: TimebombTimedState;
   pointsThisGame: number;
+  setGamePhase: React.Dispatch<React.SetStateAction<GamePhase>>;
 };
 
 const winnerPositions: [RelativePosition, RelativePosition] = [
@@ -50,8 +48,8 @@ const View = ({
   bonusPoints,
   gamePhase,
   playerPoints,
-  timebomb,
   pointsThisGame,
+  setGamePhase,
 }: Props) => {
   const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
   const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
@@ -59,7 +57,20 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
-      {/* <p>{GamePhase[gamePhase]}</p> */}
+      <p>{GamePhase[gamePhase]}</p>
+      {gamePhase === GamePhase.selectSuprise &&
+        game.result &&
+        game.result.winnerIndex !== undefined && (
+          <SelectSuprise
+            playerId={game.moves[game.result.winnerIndex].playerId!}
+            gameCount={game.attributes.gameCount}
+            onComplete={gameOver =>
+              setGamePhase(
+                gameOver ? GamePhase.gameOver : GamePhase.readyForNextGame
+              )
+            }
+          />
+        )}
       <GameplayArea>
         {/* Players */}
         <PositionedArea position={{ bottom: 15, left: 0 }}>

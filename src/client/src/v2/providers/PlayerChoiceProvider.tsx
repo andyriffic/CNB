@@ -10,7 +10,7 @@ enum PLAYER_CHOICE_EVENTS {
   PLAYER_CHOICE_UPDATE = 'PLAYER_CHOICE_UPDATE',
 }
 
-type Choice = {
+export type Choice = {
   id: string;
   label: string;
 };
@@ -20,14 +20,17 @@ type InitiatePlayerChoice = {
   choices: Choice[];
 };
 
-type CreatedPlayerChoice = {
+export type CreatedPlayerChoice = {
   id: string;
   selectedChoiceId: string | undefined;
 } & InitiatePlayerChoice;
 
 export type PlayerChoiceService = {
   allPlayerChoices: CreatedPlayerChoice[] | undefined;
-  createChoice: (initiateChoice: InitiatePlayerChoice) => void;
+  createChoice: (
+    initiateChoice: InitiatePlayerChoice,
+    onCreated?: (choiceId: string) => void
+  ) => void;
   selectChoice: (choiceId: string, selectionId: string) => void;
 };
 
@@ -62,8 +65,12 @@ export const PlayerChoiceProvider = ({ children }: { children: ReactNode }) => {
     <PlayerChoiceContext.Provider
       value={{
         allPlayerChoices: allChoices,
-        createChoice: (initiateChoice: InitiatePlayerChoice) => {
-          socket.emit(PLAYER_CHOICE_EVENTS.INITIATE_CHOICE, initiateChoice);
+        createChoice: (initiateChoice: InitiatePlayerChoice, onCreated) => {
+          socket.emit(
+            PLAYER_CHOICE_EVENTS.INITIATE_CHOICE,
+            initiateChoice,
+            onCreated
+          );
         },
         selectChoice: (choiceId: string, selectionId: string) => {
           socket.emit(

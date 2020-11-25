@@ -36,18 +36,28 @@ const init = (socketServer: Server, path: string) => {
       socket.emit(PLAYER_CHOICE_UPDATE, _allChoices);
     });
 
-    socket.on(INITIATE_CHOICE, (initiateChoice: InitiatePlayerChoice) => {
-      const newChoice: CreatedPlayerChoice = {
-        ...initiateChoice,
-        id: shortid.generate(),
-        selectedChoiceId: undefined,
-      };
+    socket.on(
+      INITIATE_CHOICE,
+      (
+        initiateChoice: InitiatePlayerChoice,
+        onCreated?: (choiceId: string) => void
+      ) => {
+        const newChoice: CreatedPlayerChoice = {
+          ...initiateChoice,
+          id: shortid.generate(),
+          selectedChoiceId: undefined,
+        };
 
-      log('Choice created', newChoice);
+        log('Choice created', newChoice);
 
-      _allChoices = [..._allChoices, newChoice];
-      socket.emit(PLAYER_CHOICE_UPDATE, _allChoices);
-    });
+        _allChoices = [
+          ..._allChoices.filter((c) => c.playerId !== initiateChoice.playerId),
+          newChoice,
+        ];
+        onCreated && onCreated(newChoice.id);
+        namespace.emit(PLAYER_CHOICE_UPDATE, _allChoices);
+      }
+    );
 
     socket.on(SELECT_CHOICE, (choiceId: string, selectedId: string) => {
       const choice = _allChoices.find((c) => c.id === choiceId);
@@ -69,7 +79,7 @@ const init = (socketServer: Server, path: string) => {
 
       log('Player choice', updatedChoice);
 
-      socket.emit(PLAYER_CHOICE_UPDATE, _allChoices);
+      namespace.emit(PLAYER_CHOICE_UPDATE, _allChoices);
     });
   });
 };

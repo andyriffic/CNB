@@ -1,20 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import View from './View';
-import {
-  useMatchupProvider,
-  Matchup,
-  Team,
-} from '../../../../providers/MatchupProvider';
-import { useTimedGameState } from '../../hooks/useTimedGameState';
+import { Matchup, Team } from '../../../../providers/MatchupProvider';
+import { useTimedGameState } from './hooks/useTimedGameState';
+import { useSoundGameState } from './hooks/useSoundGameState';
 import { Player } from '../../../../../uplift/contexts/PlayersProvider';
 import { getPlayerSnakesAndLaddersMoves } from '../../../../../uplift/utils/player';
-import { useSoundGameState } from '../../hooks/useSoundGameState';
 import { usePlayersProvider } from '../../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
-import {
-  isFeatureEnabled,
-  isPersistantFeatureEnabled,
-} from '../../../../../featureToggle';
+import { isPersistantFeatureEnabled } from '../../../../../featureToggle';
 import { DebugPlayerMove } from '../../components/DebugPlayerMove';
 import { PositionedArea } from '../../../../components/PositionedArea';
 
@@ -47,7 +40,7 @@ const getPlayerPoints = (
   return [player1Points, player2Points];
 };
 
-export const TimebombGameScreen = ({
+export const SuperSupriseGameScreen = ({
   matchup,
   startNewGame,
   resolveGame,
@@ -68,12 +61,7 @@ export const TimebombGameScreen = ({
     triggerUpdate
   );
   const { play } = useSoundProvider();
-  useSoundGameState(
-    timedGameState.gamePhase,
-    timedGameState.game,
-    timedGameState.timebomb,
-    play
-  );
+  useSoundGameState(timedGameState.gamePhase, timedGameState.game, play);
 
   useEffect(() => {
     const updatedPoints = getPlayerPoints(allPlayers, matchup.teams);

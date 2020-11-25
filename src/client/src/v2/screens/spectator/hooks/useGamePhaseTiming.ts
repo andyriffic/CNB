@@ -40,8 +40,10 @@ export enum GamePhase {
   givePointsToBonus = 13,
   givePointsToPlayer = 14,
   applyPointsUpdate = 15,
-  readyForNextGame = 16,
-  gameOver = 17,
+  selectSuprise = 16,
+  supriseDone = 17,
+  readyForNextGame = 18,
+  gameOver = 19,
 }
 
 const useGameTiming = (

@@ -34,8 +34,7 @@ const useSoundForGamePhase = (
 
 const usePlayOncePerGame = (
   game: Game | undefined,
-  timebomb: TimebombTimedState,
-  playWhen: (game: Game, timebomb: TimebombTimedState) => boolean,
+  playWhen: (game: Game) => boolean,
   soundKey: keyof SoundMap,
   play: PlaySound
 ) => {
@@ -45,17 +44,16 @@ const usePlayOncePerGame = (
     if (!game) {
       return;
     }
-    if (played.current !== game.id && playWhen(game, timebomb)) {
+    if (played.current !== game.id && playWhen(game)) {
       played.current = game.id;
       play(soundKey);
     }
-  }, [game, timebomb]);
+  }, [game]);
 };
 
 export const useSoundGameState = (
   gamePhase: GamePhase,
   game: Game | undefined,
-  timebomb: TimebombTimedState,
   play: PlaySound
 ) => {
   useSoundForGamePhase(
@@ -69,28 +67,8 @@ export const useSoundGameState = (
     play
   );
 
-  usePlayOncePerGame(
-    game,
-    timebomb,
-    game => game.moves[0].moved,
-    'PlayerMoved',
-    play
-  );
-  usePlayOncePerGame(
-    game,
-    timebomb,
-    game => game.moves[1].moved,
-    'PlayerMoved',
-    play
-  );
-
-  usePlayOncePerGame(
-    game,
-    timebomb,
-    (game, timebomb) => timebomb.exploded,
-    'TimebombExploded',
-    play
-  );
+  usePlayOncePerGame(game, game => game.moves[0].moved, 'PlayerMoved', play);
+  usePlayOncePerGame(game, game => game.moves[1].moved, 'PlayerMoved', play);
 
   useSoundForGamePhase(
     gamePhase,
@@ -145,21 +123,6 @@ export const useSoundGameState = (
     {
       when: GamePhase.givePointsToPlayer,
       playSound: 'FinalPointsAllocated',
-    },
-    play
-  );
-
-  useSoundForGamePhase(
-    gamePhase,
-    {
-      when: GamePhase.timebombFuse,
-      playSound: 'TimebombTicking',
-      sprite: 'fuse',
-      options: {
-        sprite: {
-          fuse: [0, 2500],
-        },
-      },
     },
     play
   );

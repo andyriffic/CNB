@@ -1,19 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Game, Matchup } from '../../../providers/MatchupProvider';
-import { GamePhase, useGamePhaseTiming } from './useGamePhaseTiming';
-
-export type TimebombTimedState = {
-  exploded: boolean;
-  playerIndexHoldingTimebomb: 0 | 1;
-};
+import { Game, Matchup } from '../../../../../providers/MatchupProvider';
+import { GamePhase } from '../../../hooks/useGamePhaseTiming';
+import { useGamePhaseTiming } from './useGamePhaseTiming';
 
 export type UseTimedGameStateResult = {
   game?: Game;
   gamePhase: GamePhase;
   bonusPoints: number;
   playerPoints: [number, number];
-  timebomb: TimebombTimedState;
   pointsThisGame: number;
+  setGamePhase: React.Dispatch<React.SetStateAction<GamePhase>>;
 };
 
 const doublePowerupActive = (game?: Game) => {
@@ -36,15 +32,12 @@ export const useTimedGameState = (
   const [currentGame, setCurrentGame] = useState(matchup.gameInProgress);
   const [bonusPoints, setBonusPoints] = useState(matchup.bonusPoints);
   const [playerPoints, setPlayerPoints] = useState(playerPointsState);
-  const [timebomb, setTimebomb] = useState<TimebombTimedState>({
-    exploded: false,
-    playerIndexHoldingTimebomb: currentGame
-      ? currentGame.attributes.playerIndexHoldingTimebomb
-      : 0,
-  });
 
   const [pointsThisGame, setPointsThisGame] = useState(0);
-  const gamePhase = useGamePhaseTiming(currentGame, bonusPoints);
+  const [gamePhase, setGamePhase] = useGamePhaseTiming(
+    currentGame,
+    bonusPoints
+  );
 
   useEffect(() => {
     setCurrentGame(matchup.gameInProgress);
@@ -61,7 +54,6 @@ export const useTimedGameState = (
     if (
       gamePhase === GamePhase.readyForNextGame &&
       currentGame &&
-      !currentGame.attributes.exploded &&
       currentGameResolved.current
     ) {
       //RESET
@@ -105,38 +97,12 @@ export const useTimedGameState = (
     }
   }, [gamePhase, playerPointsState, matchup]);
 
-  useEffect(() => {
-    if (!currentGame) {
-      return;
-    }
-    if (gamePhase === GamePhase.giveTimebombToPlayer) {
-      setTimebomb({
-        exploded: false,
-        playerIndexHoldingTimebomb:
-          currentGame.attributes.playerIndexHoldingTimebomb,
-      });
-    }
-  }, [gamePhase, currentGame]);
-
-  useEffect(() => {
-    if (!currentGame) {
-      return;
-    }
-    if (gamePhase === GamePhase.timebombResolution) {
-      setTimebomb({
-        exploded: !!currentGame.attributes.exploded,
-        playerIndexHoldingTimebomb:
-          currentGame.attributes.playerIndexHoldingTimebomb,
-      });
-    }
-  }, [gamePhase, currentGame]);
-
   return {
     game: currentGame,
     bonusPoints,
     gamePhase,
     playerPoints,
-    timebomb,
     pointsThisGame,
+    setGamePhase,
   };
 };
