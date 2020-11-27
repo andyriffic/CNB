@@ -15,6 +15,7 @@ import {
   Player,
   usePlayersProvider,
 } from '../../../../../providers/PlayersProvider';
+import { useSoundProvider } from '../../../../../providers/SoundProvider';
 
 const Container = styled.div`
   position: absolute;
@@ -83,13 +84,14 @@ type ChoiceStates = 'waitingSelection' | 'madeChoice' | 'revealAll';
 type ChoiceOutcome = 'Empty' | '+1' | '+2' | 'Game Over';
 
 const ChoiceOutcomeIcons: { [key in ChoiceOutcome]: string } = {
-  Empty: '😭',
+  Empty: '😔',
   '+1': '🙂',
   '+2': '😄',
   'Game Over': '💩',
 };
 
 export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
+  const { play } = useSoundProvider();
   const { giveSnakesAndLaddersMoves } = usePlayersProvider();
   const choicesRef = useRef(generateChoices(gameCount));
   const [choiceId, setChoiceId] = useState('');
@@ -129,17 +131,24 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
         const choiceOptionOutcome = selectedChoice.label as ChoiceOutcome;
 
         switch (choiceOptionOutcome) {
+          case 'Empty':
+            play('SelectPrizeEmpty');
+            setChoiceState('madeChoice');
+            break;
           case '+1':
+            play('SelectPrizePoints');
             giveSnakesAndLaddersMoves(playerId, 1, () =>
               setChoiceState('madeChoice')
             );
             break;
           case '+2':
+            play('SelectPrizePoints');
             giveSnakesAndLaddersMoves(playerId, 2, () =>
               setChoiceState('madeChoice')
             );
             break;
-          default:
+          case 'Game Over':
+            play('SelectPrizeGameOver');
             setChoiceState('madeChoice');
             break;
         }

@@ -46,7 +46,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     <GameScreen scrollable={false}>
       <Container>
         <ShowThemedVariant placement="spectatorScreen" />
-        <PlayQrCode />
+        {/* <PlayQrCode /> */}
         {/* Players */}
         <SlideyPlayerSwitcher
           pos="left"

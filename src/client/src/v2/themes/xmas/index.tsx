@@ -6,6 +6,7 @@ import xmasThinkingCat from './xmas-thinking-cat.gif';
 import rockImage from './xmas-rock.png';
 import scissorsImage from './xmas-scissors.png';
 import paperImage from './xmas-paper.png';
+import decoration from './xmas-decoration.png';
 
 const themeComponents: ThemeComponents = {
   ...defaultTheme,
@@ -17,7 +18,12 @@ const themeComponents: ThemeComponents = {
     C: <img src={paperImage} style={{ width: '100%', height: '100%' }} />,
   },
   decorations: {
-    ...defaultTheme.decorations,
+    spectatorScreen: (
+      <img
+        src={decoration}
+        style={{ position: 'absolute', top: '0', width: '100%' }}
+      />
+    ),
     moveWaiting: (
       <img src={xmasThinkingCat} style={{ width: '100%', height: '100%' }} />
     ),

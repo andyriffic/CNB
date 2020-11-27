@@ -20,6 +20,10 @@ export type SoundMap = {
   SwitchPlayer: any;
   PullRope: any;
   Fall: any;
+  ShowPrizeSelection: any;
+  SelectPrizePoints: any;
+  SelectPrizeEmpty: any;
+  SelectPrizeGameOver: any;
   SnakesAndLaddersMove: any;
   SnakesAndLaddersSnake: any;
   SnakesAndLaddersLadder: any;

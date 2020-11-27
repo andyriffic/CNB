@@ -130,6 +130,15 @@ export const useSoundGameState = (
   useSoundForGamePhase(
     gamePhase,
     {
+      when: GamePhase.selectSuprise,
+      playSound: 'ShowPrizeSelection',
+    },
+    play
+  );
+
+  useSoundForGamePhase(
+    gamePhase,
+    {
       when: GamePhase.gameOver,
       playSound: 'GameOver',
     },
