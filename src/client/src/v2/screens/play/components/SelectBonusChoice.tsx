@@ -12,6 +12,7 @@ import {
   usePlayerChoiceForPlayer,
   usePlayerChoiceProvider,
 } from '../../../providers/PlayerChoiceProvider';
+import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 
 const Container = styled.div`
   position: absolute;
@@ -20,6 +21,20 @@ const Container = styled.div`
   right: 0;
   bottom: 0;
   background-color: ${({ theme }) => theme.color.background02};
+  z-index: 20;
+`;
+
+const ChoiceList = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const ChoiceItem = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.large};
+
+  button {
+    font-size: inherit;
+  }
 `;
 
 type Props = {
@@ -39,16 +54,20 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
   return (
     <Container>
       <h2>YOU HAVE A CHOICE!</h2>
-      <div>
+      {isPersistantFeatureEnabled('cnb-debug') &&
+        JSON.stringify(playersChoice.choices)}
+      <ChoiceList>
         {playersChoice.choices.map(choice => (
-          <Button
-            onClick={() => selectChoice(playersChoice.id, choice.id)}
-            key={choice.id}
-          >
-            {choice.label}
-          </Button>
+          <ChoiceItem>
+            <Button
+              onClick={() => selectChoice(playersChoice.id, choice.id)}
+              key={choice.id}
+            >
+              🎁
+            </Button>
+          </ChoiceItem>
         ))}
-      </div>
+      </ChoiceList>
     </Container>
   );
 };

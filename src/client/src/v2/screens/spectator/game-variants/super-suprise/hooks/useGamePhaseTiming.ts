@@ -82,6 +82,12 @@ export const useGamePhaseTiming = (
   });
 
   useGameTiming(gamePhase, setGamePhase, {
+    from: GamePhase.highlightDraw,
+    to: GamePhase.showBasePoints,
+    timeoutMilliseconds: 1000,
+  });
+
+  useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.highlightWinner,
     to: GamePhase.showBasePoints,
     timeoutMilliseconds: 2000,
@@ -124,7 +130,7 @@ export const useGamePhaseTiming = (
 
   useGameTiming(gamePhase, setGamePhase, {
     from: GamePhase.applyPointsUpdate,
-    to: GamePhase.selectSuprise,
+    to: gameIsDraw(game) ? GamePhase.readyForNextGame : GamePhase.selectSuprise,
     timeoutMilliseconds: 1500,
   });
 

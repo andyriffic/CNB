@@ -36,6 +36,7 @@ type Props = {
   playerPoints: [number, number];
   pointsThisGame: number;
   setGamePhase: React.Dispatch<React.SetStateAction<GamePhase>>;
+  triggerUpdate: () => void;
 };
 
 const winnerPositions: [RelativePosition, RelativePosition] = [
@@ -50,6 +51,7 @@ const View = ({
   playerPoints,
   pointsThisGame,
   setGamePhase,
+  triggerUpdate,
 }: Props) => {
   const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
   const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
@@ -57,18 +59,19 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
-      <p>{GamePhase[gamePhase]}</p>
+      {/* <p>{GamePhase[gamePhase]}</p> */}
       {gamePhase === GamePhase.selectSuprise &&
         game.result &&
         game.result.winnerIndex !== undefined && (
           <SelectSuprise
             playerId={game.moves[game.result.winnerIndex].playerId!}
             gameCount={game.attributes.gameCount}
-            onComplete={gameOver =>
+            onComplete={gameOver => {
+              triggerUpdate();
               setGamePhase(
                 gameOver ? GamePhase.gameOver : GamePhase.readyForNextGame
-              )
-            }
+              );
+            }}
           />
         )}
       <GameplayArea>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
+import { getPlayerAttributeValue } from '../../uplift/utils/player';
 import { createSocket } from '../services/sockets';
 
 enum PLAYER_EVENTS {
@@ -26,6 +27,11 @@ export type PlayerService = {
   addPlayer: (id: string, name: string, avatarImageUrl: string) => void;
   updatePlayer: (id: string, tags: string[], onUpdated?: () => void) => void;
   triggerUpdate: () => void;
+  giveSnakesAndLaddersMoves: (
+    playerId: string,
+    numMoves: number,
+    onUpdated?: () => void
+  ) => void;
 };
 
 const PlayersContext = React.createContext<PlayerService | undefined>(
@@ -73,6 +79,21 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
         },
         triggerUpdate: () => {
           socket.emit(PLAYER_EVENTS.TRIGGER_UPDATE);
+        },
+        giveSnakesAndLaddersMoves: (id, numMoves, onUpdated) => {
+          const player = allPlayers.find(p => p.id === id);
+          if (!player) {
+            return;
+          }
+
+          const updatedTags = [
+            ...player.tags.filter(t => !t.startsWith('sl_moves')),
+            `sl_moves:${parseInt(
+              getPlayerAttributeValue(player.tags, 'sl_moves', '0')
+            ) + numMoves}`,
+          ];
+
+          socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, updatedTags, onUpdated);
         },
       }}
     >

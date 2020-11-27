@@ -74,7 +74,7 @@ export const useTimedGameState = (
 
   useEffect(() => {
     if (gamePhase === GamePhase.showBasePoints) {
-      let basePoints = currentGame && currentGame.trophyWon ? 2 : 1;
+      let basePoints = 1;
       if (doublePowerupActive(currentGame)) {
         basePoints *= 2;
         setBonusPoints(bonusPoints * 2);
@@ -91,7 +91,10 @@ export const useTimedGameState = (
   }, [gamePhase, bonusPoints, pointsThisGame]);
 
   useEffect(() => {
-    if (gamePhase === GamePhase.applyPointsUpdate) {
+    if (
+      gamePhase === GamePhase.applyPointsUpdate ||
+      gamePhase === GamePhase.readyForNextGame
+    ) {
       setPlayerPoints(playerPointsState);
       setBonusPoints(matchup.bonusPoints);
     }

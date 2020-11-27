@@ -65,6 +65,8 @@ export const SuperSupriseGameScreen = ({
 
   useEffect(() => {
     const updatedPoints = getPlayerPoints(allPlayers, matchup.teams);
+    console.log('POINTS UPDATED', updatedPoints);
+
     setPlayerPoints(updatedPoints);
   }, [allPlayers, matchup]);
 
@@ -77,7 +79,11 @@ export const SuperSupriseGameScreen = ({
             <DebugPlayerMove matchup={matchup} />
           </PositionedArea>
         )}
-        <View {...timedGameState} game={timedGameState.game} />
+        <View
+          {...timedGameState}
+          game={timedGameState.game}
+          triggerUpdate={triggerUpdate}
+        />
       </>
     );
   }

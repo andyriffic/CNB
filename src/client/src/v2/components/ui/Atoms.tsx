@@ -23,8 +23,8 @@ export const SubHeading = styled.h3`
   padding: 0;
   font-size: 1.4rem;
   text-align: center;
-  color: ${primaryTextColor_variant_2_Hex};
-  font-family: 'Alfa Slab One', cursive;
+  color: ${({ theme }) => theme.color.text03};
+  font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
 export const Panel = styled.section`
