@@ -2,12 +2,14 @@ import { ThemeStyles } from '../components/ui/Theme';
 import { SoundMap } from '../providers/SoundProvider';
 import defaultTheme from './default';
 import halloweenTheme from './halloween';
+import xmasTheme from './xmas';
 
-export type ThemeName = 'default' | 'halloween';
+export type ThemeName = 'default' | 'halloween' | 'xmas';
 
 export type MoveThemeNames =
   | 'rock-paper-scissors-classic'
-  | 'rock-paper-scissors-halloween';
+  | 'rock-paper-scissors-halloween'
+  | 'rock-paper-scissors-xmas';
 
 export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
 
@@ -24,10 +26,11 @@ export type ThemeComponents = {
 };
 
 export type ThemeComponentsMap = {
-  [key in ThemeName]?: ThemeComponents;
+  [key in ThemeName]: ThemeComponents;
 };
 
 export const themeComponentMap = {
   default: defaultTheme,
   halloween: halloweenTheme,
+  xmas: xmasTheme,
 };
