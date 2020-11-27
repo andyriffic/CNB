@@ -15,6 +15,7 @@ import initPlayersSocket from './uplift/sockets/players';
 import initThemes from './uplift/sockets/theme';
 import initTeams from './uplift/sockets/teams';
 import initInvitations from './uplift/sockets/invitations';
+import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
 
 const store = createStore(reducer);
 
@@ -46,5 +47,6 @@ initPlayersSocket(io, '/players-realz');
 initThemes(io, '/theme-realz');
 initTeams(io, '/teams-realz');
 initInvitations(io, '/invitations');
+initPlayerChoice(io, 'player-choice');
 
 console.log(`App running on http://localhost:${port}`);

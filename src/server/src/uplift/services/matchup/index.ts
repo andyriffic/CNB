@@ -8,6 +8,7 @@ import {
 import { GameResult } from '../game-result/types';
 import { getTimebombStartingGameAttributes } from './timebomb';
 import { getTugoWarStartingGameAttributes } from './tug-o-war';
+import { getSuperSupriseStartingGameAttributes } from './super-suprise';
 
 const getStartingGameAttributes = (
   playMode: PLAY_MODE,
@@ -18,6 +19,8 @@ const getStartingGameAttributes = (
       return getTimebombStartingGameAttributes(previousGame);
     case PLAY_MODE.TugoWar:
       return getTugoWarStartingGameAttributes(previousGame);
+    case PLAY_MODE.SuperSuprise:
+      return getSuperSupriseStartingGameAttributes(previousGame);
     default:
       return {};
   }

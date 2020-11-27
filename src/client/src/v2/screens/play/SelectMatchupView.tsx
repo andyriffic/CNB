@@ -6,6 +6,9 @@ import { PlayerInvitationAcknowledgement } from './components/PlayerInvitationAc
 import { GameScreen } from '../../components/ui/GameScreen';
 import { MainHeading } from '../../../uplift/components/Heading';
 import { useInvitationsProvider } from '../../providers/InvitationsProvider';
+import { SelectBonusChoice } from './components/SelectBonusChoice';
+import { DebugBonusChoice } from './components/DebugBonusChoice';
+import { isPersistantFeatureEnabled } from '../../../featureToggle';
 
 type Props = {
   playerId: string;
@@ -53,6 +56,10 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
       {playerInvitations && player && (
         <>
           <h3 style={{ textAlign: 'center' }}>{player.name}</h3>
+          {player && <SelectBonusChoice playerId={playerId} />}
+          {player && isPersistantFeatureEnabled('cnb-debug') && (
+            <DebugBonusChoice playerId={playerId} />
+          )}
           <div>
             <PlayerInvitationAcknowledgement
               player={player}

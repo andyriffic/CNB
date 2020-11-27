@@ -6,14 +6,15 @@ import { useMoveThemeProvider } from '../../providers/MoveThemeProvider';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { TimebombGameScreen } from './game-variants/timebomb';
 import { TugoWarGameScreen } from './game-variants/tug-o-war';
+import { SuperSupriseGameScreen } from './game-variants/super-suprise';
 import { selectRandomOneOf } from '../../../uplift/utils/random';
 
 type Props = {
   matchupId: string;
 } & RouteComponentProps;
 
-export type GameModeType = 'Tug-o-war' | 'Timebomb';
-const availableGameModes: GameModeType[] = ['Tug-o-war', 'Timebomb'];
+export type GameModeType = 'Tug-o-war' | 'Timebomb' | 'Super-suprise';
+const availableGameModes: GameModeType[] = ['Super-suprise'];
 
 const renderGameView = (
   gameMode: GameModeType,
@@ -25,6 +26,14 @@ const renderGameView = (
     case 'Tug-o-war':
       return (
         <TugoWarGameScreen
+          matchup={matchup}
+          startNewGame={startNewGame}
+          resolveGame={resolveGame}
+        />
+      );
+    case 'Super-suprise':
+      return (
+        <SuperSupriseGameScreen
           matchup={matchup}
           startNewGame={startNewGame}
           resolveGame={resolveGame}

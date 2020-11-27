@@ -3,17 +3,13 @@ import { Game, Matchup } from '../../../../../providers/MatchupProvider';
 import { GamePhase } from '../../../hooks/useGamePhaseTiming';
 import { useGamePhaseTiming } from './useGamePhaseTiming';
 
-export type TimebombTimedState = {
-  exploded: boolean;
-  playerIndexHoldingTimebomb: 0 | 1;
-};
-
 export type UseTimedGameStateResult = {
   game?: Game;
   gamePhase: GamePhase;
   bonusPoints: number;
   playerPoints: [number, number];
   pointsThisGame: number;
+  setGamePhase: React.Dispatch<React.SetStateAction<GamePhase>>;
 };
 
 const doublePowerupActive = (game?: Game) => {
@@ -38,7 +34,10 @@ export const useTimedGameState = (
   const [playerPoints, setPlayerPoints] = useState(playerPointsState);
 
   const [pointsThisGame, setPointsThisGame] = useState(0);
-  const gamePhase = useGamePhaseTiming(currentGame, bonusPoints);
+  const [gamePhase, setGamePhase] = useGamePhaseTiming(
+    currentGame,
+    bonusPoints
+  );
 
   useEffect(() => {
     setCurrentGame(matchup.gameInProgress);
@@ -55,7 +54,6 @@ export const useTimedGameState = (
     if (
       gamePhase === GamePhase.readyForNextGame &&
       currentGame &&
-      !currentGame.attributes.exploded &&
       currentGameResolved.current
     ) {
       //RESET
@@ -93,7 +91,10 @@ export const useTimedGameState = (
   }, [gamePhase, bonusPoints, pointsThisGame]);
 
   useEffect(() => {
-    if (gamePhase === GamePhase.applyPointsUpdate) {
+    if (
+      gamePhase === GamePhase.applyPointsUpdate ||
+      gamePhase === GamePhase.readyForNextGame
+    ) {
       setPlayerPoints(playerPointsState);
       setBonusPoints(matchup.bonusPoints);
     }
@@ -105,5 +106,6 @@ export const useTimedGameState = (
     gamePhase,
     playerPoints,
     pointsThisGame,
+    setGamePhase,
   };
 };
