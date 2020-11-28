@@ -53,6 +53,7 @@ export const usePlayerSelector = () => {
           weight: lastPlayedIndex + 1,
         } as WeightedItem<Player>;
       });
+      console.log('WEIGHTED PLAYERS', weightedPlayers.current);
     }
   }, [allPlayers, hasLoaded, loadingGameHistory]);
 
