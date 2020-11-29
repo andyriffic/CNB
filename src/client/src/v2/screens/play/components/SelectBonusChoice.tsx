@@ -13,6 +13,7 @@ import {
   usePlayerChoiceProvider,
 } from '../../../providers/PlayerChoiceProvider';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
+import { SubHeading } from '../../../components/ui/Atoms';
 
 const Container = styled.div`
   position: absolute;
@@ -53,7 +54,9 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
 
   return (
     <Container>
-      <h2>YOU HAVE A CHOICE!</h2>
+      <SubHeading style={{ marginBottom: '30px' }}>
+        Make your choice!
+      </SubHeading>
       {isPersistantFeatureEnabled('cnb-debug') &&
         JSON.stringify(playersChoice.choices)}
       <ChoiceList>
