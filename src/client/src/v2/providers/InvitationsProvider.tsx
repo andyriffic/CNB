@@ -21,6 +21,7 @@ export type PlayerInvitation = {
 
 export type Invitation = {
   id: string;
+  quickReferenceId: string;
   matchupId?: string;
   playerInvitations: [PlayerInvitation, PlayerInvitation];
 };

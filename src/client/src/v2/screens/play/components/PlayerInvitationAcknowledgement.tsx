@@ -11,30 +11,45 @@ export const PlayerInvitationAcknowledgement = ({
 }: {
   invitations?: Invitation[];
   player: Player;
-  acceptInvitation: () => void;
+  acceptInvitation: (invitation: Invitation) => void;
 }) => {
   if (!(invitations && invitations.length)) {
     return null;
   }
 
-  const playerInvitation = invitations[0].playerInvitations.find(
-    pi => pi.player.id === player.id
+  const playerInvitations = invitations.filter(i =>
+    i.playerInvitations.find(pi => pi.player.id === player.id)
   );
 
-  if (!playerInvitation) {
+  if (!playerInvitations.length) {
     return null;
   }
   return (
     <div style={{ fontSize: '1.2rem', textAlign: 'center' }}>
-      {playerInvitation.status === 'ACCEPTED' ? (
-        <>
-          <RainbowText>
-            <p style={{ fontSize: '2rem' }}>Waiting for your opponent</p>
-          </RainbowText>
-        </>
-      ) : (
-        <Button onClick={acceptInvitation}>Play</Button>
-      )}
+      {playerInvitations.map(invite => {
+        const playerInvitation = invite.playerInvitations.find(
+          pi => pi.player.id === player.id
+        );
+        if (!playerInvitation) {
+          return null;
+        }
+
+        return (
+          <div key={invite.id}>
+            {playerInvitation.status === 'ACCEPTED' ? (
+              <RainbowText>
+                <p style={{ fontSize: '2rem' }}>Waiting for your opponent</p>
+              </RainbowText>
+            ) : (
+              <div style={{ marginBottom: '20px' }}>
+                <Button onClick={() => acceptInvitation(invite)}>
+                  Play: <strong>{invite.quickReferenceId}</strong>
+                </Button>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

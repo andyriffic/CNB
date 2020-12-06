@@ -18,6 +18,7 @@ import { isPersistantFeatureEnabled } from '../../../featureToggle';
 import { DebugJoinPlayers } from './components/DebugPlayer';
 import { useThemeComponents } from '../../providers/hooks/useThemeComponents';
 import { ShowThemedVariant } from '../../components/ShowThemedVariant';
+import { QuickReferenceCode } from './components/QuickReferenceCode';
 
 const Container = styled.div`
   position: relative;
@@ -46,6 +47,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     <GameScreen scrollable={false}>
       <Container>
         <ShowThemedVariant placement="spectatorScreen" />
+        <QuickReferenceCode code={invitation.quickReferenceId} />
         {/* <PlayQrCode /> */}
         {/* Players */}
         <SlideyPlayerSwitcher

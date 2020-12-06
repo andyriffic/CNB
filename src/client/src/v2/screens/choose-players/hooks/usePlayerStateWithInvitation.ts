@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Invitation,
   useInvitationsProvider,
@@ -21,16 +21,18 @@ export const usePlayerStateWithInvitation = ({
     invitations,
     replacePlayerOnInvitation,
   } = useInvitationsProvider();
+  const creatingInvitation = useRef(false);
   const [currentInvitation, setCurrentInvitation] = useState<
     Invitation | undefined
   >(undefined);
 
   // Create invitation
   useEffect(() => {
-    if (currentInvitation) {
+    if (currentInvitation || creatingInvitation.current) {
       return;
     }
     if (players.every(p => !!p)) {
+      creatingInvitation.current = true;
       createInvitation([players[0]!, players[1]!], (invitation: Invitation) => {
         setCurrentInvitation(invitation);
       });

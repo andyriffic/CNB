@@ -64,8 +64,8 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
             <PlayerInvitationAcknowledgement
               player={player}
               invitations={invitations}
-              acceptInvitation={() => {
-                acceptInvitation(playerInvitations[0].id, player);
+              acceptInvitation={invitation => {
+                acceptInvitation(invitation.id, player);
               }}
             />
           </div>

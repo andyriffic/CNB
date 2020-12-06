@@ -18,16 +18,19 @@ export type PlayerInvitation = {
 
 export type Invitation = {
   id: string;
+  quickReferenceId: string;
   matchupId?: string;
   playerInvitations: [PlayerInvitation, PlayerInvitation];
 };
 
 export const createInvitation = (
   id: string,
+  quickReferenceId: string,
   players: [Player, Player]
 ): Invitation => {
   return {
     id,
+    quickReferenceId,
     playerInvitations: [
       {
         player: players[0],
