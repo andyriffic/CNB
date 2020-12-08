@@ -67,9 +67,9 @@ type Props = {
 
 const generateChoices = (gameCount: number): Choice[] => {
   const weightedChoices: WeightedItem<ChoiceOutcome>[] = [
-    { weight: 6, item: 'Empty' },
-    { weight: 3, item: '+1' },
-    { weight: 2, item: '+2' },
+    { weight: 4, item: 'Empty' },
+    { weight: 4, item: '+1' },
+    { weight: 3, item: '+2' },
     { weight: gameCount, item: 'Game Over' },
   ];
 
