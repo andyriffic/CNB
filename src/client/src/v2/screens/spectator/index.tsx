@@ -14,7 +14,11 @@ type Props = {
 } & RouteComponentProps;
 
 export type GameModeType = 'Tug-o-war' | 'Timebomb' | 'Super-suprise';
-const availableGameModes: GameModeType[] = ['Super-suprise'];
+const availableGameModes: GameModeType[] = [
+  'Timebomb',
+  'Tug-o-war',
+  'Super-suprise',
+];
 
 const renderGameView = (
   gameMode: GameModeType,
