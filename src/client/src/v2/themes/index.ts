@@ -3,13 +3,15 @@ import { SoundMap } from '../providers/SoundProvider';
 import defaultTheme from './default';
 import halloweenTheme from './halloween';
 import xmasTheme from './xmas';
+import chineseTheme from './chinese';
 
-export type ThemeName = 'default' | 'halloween' | 'xmas';
+export type ThemeName = 'default' | 'halloween' | 'xmas' | 'chinese';
 
 export type MoveThemeNames =
   | 'rock-paper-scissors-classic'
   | 'rock-paper-scissors-halloween'
-  | 'rock-paper-scissors-xmas';
+  | 'rock-paper-scissors-xmas'
+  | 'rock-paper-scissors-chinese';
 
 export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
 
@@ -33,4 +35,5 @@ export const themeComponentMap = {
   default: defaultTheme,
   halloween: halloweenTheme,
   xmas: xmasTheme,
+  chinese: chineseTheme,
 };
