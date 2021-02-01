@@ -67,12 +67,14 @@ const View = ({
           <GamePlayer
             imageUrl={game.moves[0].playerAvatarUrl}
             poweredUp={game.moves[0].usedPowerup}
+            tags={game.moves[0].tags}
           />
         </PositionedArea>
         <PositionedArea position={{ bottom: 15, right: 0 }} flipX={true}>
           <GamePlayer
             imageUrl={game.moves[1].playerAvatarUrl}
             poweredUp={game.moves[1].usedPowerup}
+            tags={game.moves[1].tags}
           />
         </PositionedArea>
 

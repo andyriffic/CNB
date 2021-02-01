@@ -32,7 +32,9 @@ export const PlayerEdit = ({ player }: { player: Player }) => {
   return (
     <Container className="margins-off">
       <h3>{player.name}</h3>
-      <PlayerAvatar player={player} size="small" />
+      <div style={{ width: '4vw', height: '8vw' }}>
+        <PlayerAvatar player={player} size="small" />
+      </div>
       {/* <p>{player.avatarImageUrl}</p> */}
       <ul style={{ margin: '0', padding: '0' }}>
         {player.tags.map(tag => (

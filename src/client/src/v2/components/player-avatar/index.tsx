@@ -4,6 +4,7 @@ import { SOCKETS_ENDPOINT } from '../../../environment';
 import { Player } from '../../providers/PlayersProvider';
 import { AvatarImage, AvatarSizeStyles } from './AvatarImage';
 import { PlayerBadges } from './PlayerBadges';
+import { ZodiacSign } from './ZodiacSign';
 
 const Container = styled.div`
   position: relative;
@@ -13,6 +14,12 @@ const PositionedBadges = styled.div`
   position: absolute;
   bottom: 20px;
   left: 0;
+`;
+
+const PositionedZodiacSign = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 20%;
 `;
 
 const badgeScale: { [key in keyof AvatarSizeStyles]: number } = {
@@ -36,6 +43,9 @@ export const PlayerAvatar = ({ player, size }: Props) => {
       <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
         <PlayerBadges tags={player.tags} />
       </PositionedBadges>
+      <PositionedZodiacSign>
+        <ZodiacSign tags={player.tags} />
+      </PositionedZodiacSign>
     </Container>
   );
 };

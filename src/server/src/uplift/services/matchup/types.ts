@@ -72,6 +72,7 @@ export type MoveSpectatorView = {
   playerName: string | null;
   playerId: string | null;
   playerAvatarUrl: string | null;
+  tags: string[] | null;
 };
 
 export type GameSpectatorView = {

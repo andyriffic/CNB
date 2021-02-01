@@ -4,6 +4,7 @@ import { useSpring, animated, config } from 'react-spring';
 import { Keyframes } from 'react-spring/renderprops';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { superSaiyanAnimation } from '../../../../uplift/components/animations';
+import { ZodiacSign } from '../../../components/player-avatar/ZodiacSign';
 
 const PlayerImage = styled.img<{ flipX: boolean }>`
   width: 20vw;
@@ -32,12 +33,14 @@ type Props = {
   imageUrl: string;
   flipX?: boolean;
   poweredUp?: boolean;
+  tags?: string[];
 };
 
 export const GamePlayer = ({
   imageUrl,
   flipX = false,
   poweredUp = false,
+  tags = [],
 }: Props) => {
   // const props = useSpring({
   //   hue: 0,
@@ -59,7 +62,19 @@ export const GamePlayer = ({
     //     filter: props.hue.interpolate(h => `hue-rotate(${h}turn)`),
     //   }}
     // >
-    <PlayerImage flipX={flipX} src={`${SOCKETS_ENDPOINT}${imageUrl}`} />
+    <div style={{ position: 'relative' }}>
+      <PlayerImage flipX={flipX} src={`${SOCKETS_ENDPOINT}${imageUrl}`} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '20%',
+          width: '10vw',
+          height: '10vw',
+        }}
+      >
+        <ZodiacSign tags={tags} />
+      </div>
+    </div>
     // </animated.div>
   );
 };

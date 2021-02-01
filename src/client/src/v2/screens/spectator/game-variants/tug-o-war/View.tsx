@@ -119,6 +119,7 @@ const View = ({
             <GamePlayer
               imageUrl={game.moves[0].playerAvatarUrl}
               poweredUp={game.moves[0].usedPowerup}
+              tags={game.moves[0].tags}
             />
           </TugAnimation>
         </PositionedArea>
@@ -134,6 +135,7 @@ const View = ({
             <GamePlayer
               imageUrl={game.moves[1].playerAvatarUrl}
               poweredUp={game.moves[1].usedPowerup}
+              tags={game.moves[1].tags}
               flipX={true}
             />
           </TugAnimation>

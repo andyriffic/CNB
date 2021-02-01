@@ -32,6 +32,7 @@ const getSpectatorMove = (
     playerName: player ? player.name : null,
     playerId: player ? player.id : null,
     playerAvatarUrl: player ? getPlayerImageUrl(player.id, player.tags) : null,
+    tags: player ? player.tags : null,
   };
 };
 

@@ -40,6 +40,7 @@ export type SpectatorMove = {
   playerName: string | null;
   playerId: string | null;
   playerAvatarUrl: string;
+  tags: string[];
 };
 
 export type GameMoveResult = {
