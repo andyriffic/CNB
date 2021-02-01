@@ -8,6 +8,9 @@ import { TimebombGameScreen } from './game-variants/timebomb';
 import { TugoWarGameScreen } from './game-variants/tug-o-war';
 import { SuperSupriseGameScreen } from './game-variants/super-suprise';
 import { selectRandomOneOf } from '../../../uplift/utils/random';
+import { SplashText } from '../../components/SplashText';
+import { GameScreen } from '../../components/ui/GameScreen';
+import { GameModeInstructions } from './components/GameModeInstructions';
 
 type Props = {
   matchupId: string;
@@ -56,6 +59,7 @@ const renderGameView = (
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const createdGame = useRef(false);
+  const [shownGameMode, setShowGameMode] = useState(false);
   const { allPlayers } = usePlayersProvider();
   const {
     subscribeToMatchup,
@@ -82,6 +86,17 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
 
   if (!(currentMatchup && currentMatchup.gameInProgress && allPlayers.length)) {
     return <LoadingSpinner text="Loading game" />;
+  }
+
+  if (!shownGameMode) {
+    return (
+      <GameScreen scrollable={false}>
+        <GameModeInstructions
+          gameModeType={currentMatchup.gameInProgress!.playMode as GameModeType}
+          onComplete={() => setShowGameMode(true)}
+        />
+      </GameScreen>
+    );
   }
 
   return renderGameView(
