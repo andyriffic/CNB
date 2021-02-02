@@ -4,7 +4,7 @@ type PortalGroup = Array<number>;
 
 const portalGroups: PortalGroup[] = [
   [2, 6, 11],
-  [21, 25, 30],
+  [18, 25, 30],
   [34, 37, 41, 44],
 ];
 
@@ -109,7 +109,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 18,
         coordinates: [170, 105],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.WORMHOLE,
+        linkedCellIndex: portalGroups[1],
       },
       {
         number: 19,
@@ -125,8 +126,7 @@ export const generateBoard = (): GameBoard => {
       {
         number: 21,
         coordinates: [355, 90],
-        type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[1],
+        type: BOARD_CELL_TYPE.NORMAL,
       },
       {
         number: 22,
