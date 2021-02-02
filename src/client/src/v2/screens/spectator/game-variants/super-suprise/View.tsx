@@ -21,6 +21,8 @@ import {
 import { Draw } from '../../components/Draw';
 import { FancyLink } from '../../../../../components/FancyLink';
 import { SelectSuprise } from './components/SelectSuprise';
+import { useLuckyZodiac } from '../../hooks/useLuckyZodiac';
+import { SOCKETS_ENDPOINT } from '../../../../../environment';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -56,6 +58,7 @@ const View = ({
   const gamePointsPosition = usePositionedGamePoints(gamePhase, game);
   const bonusPointsPosition = usePositionedBonusPoints(gamePhase);
   const [showGameOverAction, setShowGameOverAction] = useState(false);
+  const { luckySign, giveLuckyZodiacPoints } = useLuckyZodiac();
 
   return (
     <GameScreen scrollable={false}>
@@ -171,7 +174,12 @@ const View = ({
         )}
 
         {gamePhase === GamePhase.gameOver && (
-          <SplashText onComplete={() => setShowGameOverAction(true)}>
+          <SplashText
+            onComplete={() => {
+              giveLuckyZodiacPoints();
+              setShowGameOverAction(true);
+            }}
+          >
             Game over
           </SplashText>
         )}
@@ -183,6 +191,15 @@ const View = ({
           </PositionedArea>
         )}
       </GameplayArea>
+      <PositionedArea position={{ left: 40, top: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          LUCKY SIGN:{' '}
+          <img
+            style={{ width: '50px', height: '50px' }}
+            src={`${SOCKETS_ENDPOINT}/zodiac/disc/${luckySign}.png`}
+          />
+        </div>
+      </PositionedArea>
     </GameScreen>
   );
 };

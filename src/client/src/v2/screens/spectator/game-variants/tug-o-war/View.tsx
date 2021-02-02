@@ -24,6 +24,8 @@ import { usePositionedPlayers } from './hooks/usePositionedPlayers';
 import { TugAnimation } from './components/TugAnimation';
 import { Rope } from './components/Rope';
 import { CliffEdge } from './components/CliffEdge';
+import { useLuckyZodiac } from '../../hooks/useLuckyZodiac';
+import { SOCKETS_ENDPOINT } from '../../../../../environment';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -74,6 +76,7 @@ const View = ({
     gamePhase,
     game
   );
+  const { luckySign, giveLuckyZodiacPoints } = useLuckyZodiac();
 
   return (
     <GameScreen scrollable={false}>
@@ -100,12 +103,10 @@ const View = ({
         >
           <CliffEdge />
         </div>
-
         {/* Rope */}
         <PositionedArea position={{ bottom: 25, left: 10 }}>
           <Rope />
         </PositionedArea>
-
         {/* Players */}
         <PositionedArea position={player1Position}>
           <TugAnimation
@@ -140,7 +141,6 @@ const View = ({
             />
           </TugAnimation>
         </PositionedArea>
-
         {/* Moves */}
         <PositionedArea position={{ top: 10, left: 30 }}>
           <PlayerMove
@@ -156,7 +156,6 @@ const View = ({
             revealed={gamePhase >= GamePhase.showResult}
           />
         </PositionedArea>
-
         {/* Powerups */}
         <PositionedArea position={{ bottom: 60, left: 0 }}>
           <PlayerPowerup
@@ -172,7 +171,6 @@ const View = ({
             reveal={gamePhase >= GamePhase.highlightWinner}
           />
         </PositionedArea>
-
         {/* Points */}
         {pointsThisGame > 0 && (
           <PositionedArea position={gamePointsPosition}>
@@ -191,7 +189,6 @@ const View = ({
         <PositionedArea position={pointsPositions.player[1]}>
           <Points title="Points" value={playerPoints[1]} variant="player" />
         </PositionedArea>
-
         {/* Winner */}
         {gamePhase >= GamePhase.highlightWinner && (
           <>
@@ -215,13 +212,16 @@ const View = ({
             )}
           </>
         )}
-
         {gamePhase === GamePhase.readyToPlay && (
           <SplashText>Round {game.attributes.gameCount}</SplashText>
         )}
-
         {gamePhase === GamePhase.gameOver && (
-          <SplashText onComplete={() => setShowGameOverAction(true)}>
+          <SplashText
+            onComplete={() => {
+              giveLuckyZodiacPoints();
+              setShowGameOverAction(true);
+            }}
+          >
             Game over
           </SplashText>
         )}
@@ -233,6 +233,15 @@ const View = ({
           </PositionedArea>
         )}
       </GameplayArea>
+      <PositionedArea position={{ left: 40, top: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          LUCKY SIGN:{' '}
+          <img
+            style={{ width: '50px', height: '50px' }}
+            src={`${SOCKETS_ENDPOINT}/zodiac/disc/${luckySign}.png`}
+          />
+        </div>
+      </PositionedArea>
     </GameScreen>
   );
 };
