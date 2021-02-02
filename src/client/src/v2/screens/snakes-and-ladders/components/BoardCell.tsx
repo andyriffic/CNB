@@ -11,7 +11,7 @@ const Wormhole = styled.img`
   width: 70px;
   display: block;
   position: relative;
-  top: -50px;
+  top: -30px;
   left: -30px;
   animation: ${rotateAnimation} 10s linear infinite;
 `;
