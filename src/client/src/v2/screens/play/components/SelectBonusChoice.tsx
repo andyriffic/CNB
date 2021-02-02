@@ -66,7 +66,7 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
               onClick={() => selectChoice(playersChoice.id, choice.id)}
               key={choice.id}
             >
-              🎁
+              🏮
             </Button>
           </ChoiceItem>
         ))}
