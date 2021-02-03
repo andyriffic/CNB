@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { GameBoardCell, BOARD_CELL_TYPE } from '../types';
 import { isFeatureEnabled } from '../../../../featureToggle';
 import vortexImage from '../assets/vortex.png';
+import vortexImage2 from '../assets/vortex_2.png';
+import vortexImage3 from '../assets/vortex_3.png';
+import vortexImage4 from '../assets/vortex_4.png';
 import { rotateAnimation } from '../../../../uplift/components/animations';
+import { WormholeGroup, wormholeGroups } from '../boards/chinese';
 
 export const gameBoardDebug = isFeatureEnabled('debug');
 
@@ -51,7 +55,51 @@ type Props = {
   cell: GameBoardCell;
 };
 
+const wormholeVariants: JSX.Element[] = [
+  <Wormhole src={vortexImage} />,
+  <Wormhole src={vortexImage2} />,
+  <Wormhole src={vortexImage4} />,
+  <div
+    style={{
+      fontSize: '2.3rem',
+      position: 'relative',
+      top: '-40px',
+      left: '-20px',
+    }}
+  >
+    💩
+  </div>,
+];
+
+const getWormholeVariant = (
+  cell: GameBoardCell,
+  wormholeGroups: WormholeGroup[]
+): number => {
+  if (cell.type !== BOARD_CELL_TYPE.WORMHOLE) {
+    return 0;
+  }
+
+  const wormholeVariant = wormholeGroups.findIndex(
+    g => g === cell.linkedCellIndex
+  );
+  if (wormholeVariant === -1) {
+    return 0;
+  }
+
+  console.log('WORMHOLE GROUP', wormholeGroups[wormholeVariant], cell.number);
+
+  if (!wormholeGroups[wormholeVariant].includes(cell.number)) {
+    console.log('YUP!', cell.number);
+
+    return wormholeVariants.length - 1;
+  }
+
+  return wormholeVariant;
+};
+
 export const BoardCell = ({ cell }: Props) => {
+  const wormholeVariant = useRef(getWormholeVariant(cell, wormholeGroups));
+
   return (
     <Cell x={cell.coordinates[0]} y={cell.coordinates[1]}>
       {gameBoardDebug && <DebugText>{cell.number}</DebugText>}
@@ -72,7 +120,8 @@ export const BoardCell = ({ cell }: Props) => {
         </DebugText>
       )}
       {cell.fairy && <Toadstool>🍄</Toadstool>}
-      {cell.type === BOARD_CELL_TYPE.WORMHOLE && <Wormhole src={vortexImage} />}
+      {cell.type === BOARD_CELL_TYPE.WORMHOLE &&
+        wormholeVariants[wormholeVariant.current]}
     </Cell>
   );
 };

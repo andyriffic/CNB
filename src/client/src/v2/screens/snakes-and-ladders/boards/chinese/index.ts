@@ -1,8 +1,8 @@
 import { GameBoard, BOARD_CELL_TYPE } from '../../types';
 
-type PortalGroup = Array<number>;
+export type WormholeGroup = Array<number>;
 
-const portalGroups: PortalGroup[] = [
+export const wormholeGroups: WormholeGroup[] = [
   [2, 6, 11],
   [18, 25, 30],
   [34, 37, 41, 44],
@@ -25,7 +25,7 @@ export const generateBoard = (): GameBoard => {
         number: 2,
         coordinates: [400, 560],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[0],
+        linkedCellIndex: wormholeGroups[0],
       },
       {
         number: 3,
@@ -46,7 +46,7 @@ export const generateBoard = (): GameBoard => {
         number: 6,
         coordinates: [550, 400],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[0],
+        linkedCellIndex: wormholeGroups[0],
       },
       {
         number: 7,
@@ -73,7 +73,7 @@ export const generateBoard = (): GameBoard => {
         number: 11,
         coordinates: [305, 280],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[0],
+        linkedCellIndex: wormholeGroups[0],
       },
       {
         number: 12,
@@ -110,7 +110,7 @@ export const generateBoard = (): GameBoard => {
         number: 18,
         coordinates: [170, 105],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[1],
+        linkedCellIndex: wormholeGroups[1],
       },
       {
         number: 19,
@@ -148,7 +148,7 @@ export const generateBoard = (): GameBoard => {
         number: 25,
         coordinates: [580, 185],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[1],
+        linkedCellIndex: wormholeGroups[1],
       },
       {
         number: 26,
@@ -174,7 +174,7 @@ export const generateBoard = (): GameBoard => {
         number: 30,
         coordinates: [615, 490],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[1],
+        linkedCellIndex: wormholeGroups[1],
       },
       {
         number: 31,
@@ -196,7 +196,7 @@ export const generateBoard = (): GameBoard => {
         number: 34,
         coordinates: [800, 635],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 35,
@@ -213,7 +213,7 @@ export const generateBoard = (): GameBoard => {
         number: 37,
         coordinates: [980, 585],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 38,
@@ -235,7 +235,7 @@ export const generateBoard = (): GameBoard => {
         number: 41,
         coordinates: [1020, 360],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 42,
@@ -251,7 +251,7 @@ export const generateBoard = (): GameBoard => {
         number: 44,
         coordinates: [870, 355],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 45,
@@ -298,7 +298,7 @@ export const generateBoard = (): GameBoard => {
         number: 53,
         coordinates: [715, 170],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 54,
@@ -309,13 +309,13 @@ export const generateBoard = (): GameBoard => {
         number: 55,
         coordinates: [800, 85],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 56,
         coordinates: [860, 80],
         type: BOARD_CELL_TYPE.WORMHOLE,
-        linkedCellIndex: portalGroups[2],
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 57,
