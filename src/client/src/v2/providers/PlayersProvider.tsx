@@ -32,6 +32,10 @@ export type PlayerService = {
     numMoves: number,
     onUpdated?: () => void
   ) => void;
+  giveAllPlayersSnakesAndLaddersMoves: (
+    numMoves: number,
+    onUpdated?: () => void
+  ) => void;
 };
 
 const PlayersContext = React.createContext<PlayerService | undefined>(
@@ -94,6 +98,23 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
           ];
 
           socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, updatedTags, onUpdated);
+        },
+        giveAllPlayersSnakesAndLaddersMoves: (numMoves, onUpdated) => {
+          const eligiblePlayers = allPlayers.filter(p =>
+            p.tags.includes('sl_participant')
+          );
+
+          eligiblePlayers.forEach(p => {
+            const updatedTags = [
+              ...p.tags.filter(t => !t.startsWith('sl_moves')),
+              `sl_moves:${parseInt(
+                getPlayerAttributeValue(p.tags, 'sl_moves', '0')
+              ) + numMoves}`,
+            ];
+
+            socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, p.id, updatedTags);
+          });
+          onUpdated && onUpdated();
         },
       }}
     >

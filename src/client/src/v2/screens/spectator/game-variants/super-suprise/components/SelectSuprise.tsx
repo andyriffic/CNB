@@ -70,6 +70,7 @@ const generateChoices = (gameCount: number): Choice[] => {
     { weight: 4, item: 'Empty' },
     { weight: 3, item: '+1' },
     { weight: 2, item: '+2' },
+    { weight: 1, item: 'Everyone +1' },
     { weight: gameCount + 2, item: 'Game Over' },
   ];
 
@@ -81,18 +82,22 @@ const generateChoices = (gameCount: number): Choice[] => {
 };
 
 type ChoiceStates = 'waitingSelection' | 'madeChoice' | 'revealAll';
-type ChoiceOutcome = 'Empty' | '+1' | '+2' | 'Game Over';
+type ChoiceOutcome = 'Empty' | '+1' | 'Everyone +1' | '+2' | 'Game Over';
 
 const ChoiceOutcomeIcons: { [key in ChoiceOutcome]: string } = {
   Empty: '😔',
   '+1': '🙂',
+  'Everyone +1': '🎉',
   '+2': '😄',
   'Game Over': '💩',
 };
 
 export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
   const { play } = useSoundProvider();
-  const { giveSnakesAndLaddersMoves } = usePlayersProvider();
+  const {
+    giveSnakesAndLaddersMoves,
+    giveAllPlayersSnakesAndLaddersMoves,
+  } = usePlayersProvider();
   const choicesRef = useRef(generateChoices(gameCount));
   const [choiceId, setChoiceId] = useState('');
   const [playerChoice, setPlayerChoice] = useState<
@@ -138,6 +143,12 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
           case '+1':
             play('SelectPrizePoints');
             giveSnakesAndLaddersMoves(playerId, 1, () =>
+              setChoiceState('madeChoice')
+            );
+            break;
+          case 'Everyone +1':
+            play('SelectPrizePoints');
+            giveAllPlayersSnakesAndLaddersMoves(1, () =>
               setChoiceState('madeChoice')
             );
             break;
