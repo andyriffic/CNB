@@ -160,7 +160,7 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
     if (choiceState === 'madeChoice') {
       setTimeout(() => {
         setChoiceState('revealAll');
-      }, 3000);
+      }, 1800);
     }
   }, [choiceState]);
 
@@ -175,7 +175,7 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
           !!selectedOutcome &&
             (selectedOutcome.label as ChoiceOutcome) === 'Game Over'
         );
-      }, 2000);
+      }, 1500);
     }
   }, [choiceState, playerChoice]);
 
