@@ -3,9 +3,6 @@ import styled, { css } from 'styled-components';
 import { GameBoardCell, BOARD_CELL_TYPE } from '../types';
 import { isFeatureEnabled } from '../../../../featureToggle';
 import vortexImage from '../assets/vortex.png';
-import vortexImage2 from '../assets/vortex_2.png';
-import vortexImage3 from '../assets/vortex_3.png';
-import vortexImage4 from '../assets/vortex_4.png';
 import { rotateAnimation } from '../../../../uplift/components/animations';
 import { WormholeGroup, wormholeGroups } from '../boards/chinese';
 
@@ -55,10 +52,18 @@ type Props = {
   cell: GameBoardCell;
 };
 
+/*
+saturate(4) hue-rotate(-0.25turn)
+*/
+
 const wormholeVariants: JSX.Element[] = [
   <Wormhole src={vortexImage} />,
-  <Wormhole src={vortexImage2} />,
-  <Wormhole src={vortexImage4} />,
+  <span style={{ filter: 'saturate(4) hue-rotate(-0.25turn)' }}>
+    <Wormhole src={vortexImage} />
+  </span>,
+  <span style={{ filter: 'saturate(4) hue-rotate(0.25turn)' }}>
+    <Wormhole src={vortexImage} />
+  </span>,
   <div
     style={{
       fontSize: '2.3rem',

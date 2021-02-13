@@ -292,7 +292,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 52,
         coordinates: [700, 235],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.WORMHOLE,
+        linkedCellIndex: wormholeGroups[2],
       },
       {
         number: 53,
