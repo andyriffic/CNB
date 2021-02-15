@@ -58,12 +58,12 @@ saturate(4) hue-rotate(-0.25turn)
 
 const wormholeVariants: JSX.Element[] = [
   <Wormhole src={vortexImage} />,
-  <span style={{ filter: 'saturate(4) hue-rotate(-0.25turn)' }}>
+  <div style={{ filter: 'saturate(4) hue-rotate(-0.25turn)' }}>
     <Wormhole src={vortexImage} />
-  </span>,
-  <span style={{ filter: 'saturate(4) hue-rotate(0.25turn)' }}>
+  </div>,
+  <div style={{ filter: 'saturate(4) hue-rotate(0.25turn)' }}>
     <Wormhole src={vortexImage} />
-  </span>,
+  </div>,
   <div
     style={{
       fontSize: '2.3rem',
