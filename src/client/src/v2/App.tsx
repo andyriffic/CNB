@@ -17,6 +17,7 @@ import {
   PlayMatchupScreen,
 } from './screens/play';
 import { PlayerAdminScreen } from './screens/player-admin';
+import { PlayerProfileScreen } from './screens/player-profile';
 import { PlayerChoiceProvider } from './providers/PlayerChoiceProvider';
 
 export default () => {
@@ -40,6 +41,14 @@ export default () => {
                       <SelectPlayerScreen path="/play" />
                       <SelectMatchupScreen path="/play/:playerId" />
                       <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                      <PlayerProfileScreen
+                        path="/player-profile"
+                        playerName=""
+                      />
+                      <PlayerProfileScreen
+                        path="/player-profile/:playerName"
+                        playerName=""
+                      />
                       <PlayerAdminScreen path="/player-admin" />
                     </Router>
                   </ThemedUi>
