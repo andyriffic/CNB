@@ -18,9 +18,9 @@ type Props = {
 
 export type GameModeType = 'Tug-o-war' | 'Timebomb' | 'Super-suprise';
 const availableGameModes: GameModeType[] = [
-  'Timebomb',
+  // 'Timebomb',
   'Tug-o-war',
-  'Super-suprise',
+  // 'Super-suprise',
 ];
 
 const renderGameView = (

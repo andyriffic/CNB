@@ -20,6 +20,7 @@ export type SoundMap = {
   SwitchPlayer: any;
   PullRope: any;
   Fall: any;
+  PowerMode: any;
   ShowPrizeSelection: any;
   SelectPrizePoints: any;
   SelectPrizeEmpty: any;

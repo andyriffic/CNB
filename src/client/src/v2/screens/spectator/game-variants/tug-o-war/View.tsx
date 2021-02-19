@@ -26,6 +26,9 @@ import { Rope } from './components/Rope';
 import { CliffEdge } from './components/CliffEdge';
 import { useLuckyZodiac } from '../../hooks/useLuckyZodiac';
 import { SOCKETS_ENDPOINT } from '../../../../../environment';
+import { FeatureText } from '../../../../components/ui/Atoms';
+import { superSaiyanAnimation } from '../../../../../uplift/components/animations';
+import { PowerMode } from './components/PowerMode';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -80,6 +83,11 @@ const View = ({
 
   return (
     <GameScreen scrollable={false}>
+      {game.attributes.powerMode && (
+        <PositionedArea position={{ left: 40, top: 35 }}>
+          <PowerMode />
+        </PositionedArea>
+      )}
       {/* <p>{JSON.stringify(game.attributes)}</p>
       <p>{GamePhase[gamePhase]}</p> */}
       <GameplayArea>

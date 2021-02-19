@@ -10,7 +10,7 @@ import {
 } from './styleguide';
 
 export const FeatureText = styled.h1`
-  font-family: 'Alfa Slab One', cursive;
+  font-family: ${({ theme }) => theme.fontFamily.feature};
   margin: 0;
   padding: 0;
   font-size: 3rem;
