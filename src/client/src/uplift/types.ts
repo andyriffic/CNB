@@ -1,6 +1,7 @@
 export type GameHistoryRecord = {
   date: Date;
   theme: string;
+  gameMode: string;
   matchupId: string;
   player1: string;
   player1Move: string;

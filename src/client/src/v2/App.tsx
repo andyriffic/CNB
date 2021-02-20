@@ -18,6 +18,7 @@ import {
 } from './screens/play';
 import { PlayerAdminScreen } from './screens/player-admin';
 import { PlayerProfileScreen } from './screens/player-profile';
+import { GameHistoryScreen } from './screens/game-history';
 import { PlayerChoiceProvider } from './providers/PlayerChoiceProvider';
 
 export default () => {
@@ -49,6 +50,7 @@ export default () => {
                         path="/player-profile/:playerName"
                         playerName=""
                       />
+                      <GameHistoryScreen path="/game-history" />
                       <PlayerAdminScreen path="/player-admin" />
                     </Router>
                   </ThemedUi>

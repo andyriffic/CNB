@@ -9,6 +9,7 @@ type GameHistoryJsonResult = {
 
 type GroupedGameHistoryResult = {
   matchupId: string;
+  gameMode: string;
   date: Date;
   player1: string;
   player2: string;
@@ -26,6 +27,7 @@ const groupByMatchupId = (gameHistory: GameHistoryRecord[]) => {
       if (!lastResult || lastResult.matchupId !== gameHistoryRecord.matchupId) {
         const newGroup: GroupedGameHistoryResult = {
           matchupId: gameHistoryRecord.matchupId,
+          gameMode: gameHistoryRecord.gameMode,
           date: gameHistoryRecord.date,
           player1: gameHistoryRecord.player1,
           player2: gameHistoryRecord.player2,
@@ -43,7 +45,9 @@ const groupByMatchupId = (gameHistory: GameHistoryRecord[]) => {
   return groupedGameHistory;
 };
 
-export const useGameHistory = (): [GroupedGameHistoryResult[] | undefined] => {
+export const useGameHistory = (
+  gameLimit?: number
+): [GroupedGameHistoryResult[] | undefined] => {
   const [groupedGameHistory, setGroupedGameHistory] = useState<
     GroupedGameHistoryResult[] | undefined
   >();
@@ -56,7 +60,12 @@ export const useGameHistory = (): [GroupedGameHistoryResult[] | undefined] => {
       const filteredRecords = rawGameHistory.result.filter(
         onlyGamesWithMatchupIds
       );
-      setGroupedGameHistory(groupByMatchupId(filteredRecords));
+      setGroupedGameHistory(
+        groupByMatchupId(filteredRecords).slice(
+          0,
+          gameLimit || filteredRecords.length + 1
+        )
+      );
     }
   }, [rawGameHistory]);
 
