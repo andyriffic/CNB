@@ -17,6 +17,8 @@ import initTeams from './uplift/sockets/teams';
 import initInvitations from './uplift/sockets/invitations';
 import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
 
+import {graphql} from './graphql';
+
 const store = createStore(reducer);
 
 const express = require('express');
@@ -33,6 +35,8 @@ app.use(express.static(path.join(__dirname, './static')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
+
+app.use('/graphql', graphql);
 
 const userNamespace = initUserNamespace(io);
 initGameNamespace(io, store, userNamespace);
