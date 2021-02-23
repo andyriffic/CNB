@@ -1,5 +1,7 @@
-import axios from 'axios';
-import { gameHistoryQuery } from '../stats/game-history-query';
+import {
+  GameHistoryRecord,
+  getPlayerHistory,
+} from '../uplift/datastore/gameHistory';
 
 export const schema = `
     type GameHistoryRecord {
@@ -7,22 +9,6 @@ export const schema = `
     }
 `;
 
-type GameHistoryResponse = {
-  result: GameHistoryRecord[];
-};
-
-type GameHistoryRecord = {
-  matchupId: String;
-};
-
 export const resolver = (): Promise<GameHistoryRecord[]> => {
-  return axios
-    .get<GameHistoryResponse>(
-      'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-dev-results/game-result-history.json'
-    )
-    .then(({ data }) => {
-      return data.result
-        .filter((r) => !!r.matchupId)
-        .map((r) => r as GameHistoryRecord);
-    });
+  return getPlayerHistory();
 };
