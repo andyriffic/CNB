@@ -16,6 +16,7 @@ export const schema = `
       matchupId: String!
       moveId: String!
       draw: Boolean!
+      opponent: String!
     }
 
     type PlayerGameResult {
@@ -36,7 +37,7 @@ type PlayerMatchup = {
   // won: boolean;
   draw: boolean;
   // trophy?: boolean;
-  // opponentId: string;
+  opponent: string;
 };
 
 export const resolver = (args: {
@@ -60,6 +61,10 @@ export const resolver = (args: {
             (g.player2 === args.playerId && g.player2Move) ||
             '',
           draw: g.draw === 'true',
+          opponent:
+            (g.player1 === args.playerId && g.player2) ||
+            (g.player2 === args.playerId && g.player1) ||
+            '',
         })),
       });
     });
