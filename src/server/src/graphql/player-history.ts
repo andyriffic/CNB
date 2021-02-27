@@ -1,8 +1,14 @@
-import axios from 'axios';
-import { gameHistoryQuery } from '../stats/game-history-query';
-import { getPlayerHistory } from '../uplift/datastore/gameHistory';
+import {
+  GameHistoryRecord,
+  getPlayerHistory,
+} from '../uplift/datastore/gameHistory';
+import { playersDatastore } from '../uplift/datastore/players';
 
-export const query = 'playerHistory(playerId: String!): PlayerMatchupHistory';
+export const query = `playerHistory(
+    playerId: String!, 
+    opponentId: String,
+    matchupId: String
+    ): PlayerMatchupHistory`;
 
 export const schema = `
     type PlayerMatchupHistory {
@@ -16,7 +22,18 @@ export const schema = `
       matchupId: String!
       moveId: String!
       draw: Boolean!
-      opponent: String!
+      opponentId: String!
+      won: Boolean!
+    }
+
+    type PlayerMoveSummary {
+      totalMoves: Int!
+      totalMoveA: Int!
+      totalMoveB: Int!
+      totalMoveC: Int!
+      totalTimesWon: Int!
+      totalTimesLost: Int!
+      totalTimesDrawn: Int!
     }
 
     type PlayerGameResult {
@@ -24,48 +41,107 @@ export const schema = `
     }
 `;
 
+type PlayerMoveSummary = {
+  totalMoves: number;
+  totalMoveA: number;
+  totalMoveB: number;
+  totalMoveC: number;
+  totalTimesWon: number;
+  totalTimesLost: number;
+  totalTimesDrawn: number;
+};
+
 type PlayerMatchupHistory = {
   playerName: string;
   playerId: string;
   matchups: PlayerMatchup[];
+  moveSummary: PlayerMoveSummary;
 };
 
 type PlayerMatchup = {
   theme: string;
   matchupId: string;
   moveId: string;
-  // won: boolean;
+  won: boolean;
   draw: boolean;
   // trophy?: boolean;
-  opponent: string;
+  opponentId: string;
 };
 
 export const resolver = (args: {
   playerId: string;
+  opponentId?: string;
+  matchupId?: string;
 }): Promise<PlayerMatchupHistory> => {
-  console.log('player history: ', args);
-
   return new Promise<PlayerMatchupHistory>((res) => {
-    getPlayerHistory().then((gameHistory) => {
-      const playerGames = gameHistory.filter(
-        (h) => h.player1 === args.playerId || h.player2 === args.playerId
-      );
-      res({
-        playerId: args.playerId,
-        playerName: args.playerId,
-        matchups: playerGames.map((g) => ({
-          matchupId: g.matchupId,
-          theme: g.theme,
-          moveId:
-            (g.player1 === args.playerId && g.player1Move) ||
-            (g.player2 === args.playerId && g.player2Move) ||
-            '',
-          draw: g.draw === 'true',
-          opponent:
-            (g.player1 === args.playerId && g.player2) ||
-            (g.player2 === args.playerId && g.player1) ||
-            '',
-        })),
+    playersDatastore.getAllPlayers().then((allPlayers) => {
+      getPlayerHistory().then((gameHistory) => {
+        const player = allPlayers.find((p) => p.id === args.playerId)!;
+
+        const gameHistoryMatchupsFilter: (
+          playerMatchup: GameHistoryRecord
+        ) => boolean = args.matchupId
+          ? (pm) => pm.matchupId === args.matchupId
+          : () => true;
+
+        const playerGames = gameHistory
+          .filter((h) => h.player1 === player.name || h.player2 === player.name)
+          .filter(gameHistoryMatchupsFilter);
+
+        const moveSummary: PlayerMoveSummary = {
+          totalMoves: playerGames.length,
+          totalMoveA: 0,
+          totalMoveB: 0,
+          totalMoveC: 0,
+          totalTimesWon: 0,
+          totalTimesLost: 0,
+          totalTimesDrawn: 0,
+        };
+
+        const opponentFilter: (
+          playerMatchup: PlayerMatchup
+        ) => boolean = args.opponentId
+          ? (playerMatchup) => playerMatchup.opponentId === args.opponentId
+          : () => true;
+
+        const matchups = playerGames
+          .map((g) => {
+            const moveId =
+              (g.player1 === player.name && g.player1Move) ||
+              (g.player2 === player.name && g.player2Move) ||
+              '';
+
+            const player1 = allPlayers.find((p) => p.name === g.player1);
+            const player2 = allPlayers.find((p) => p.name === g.player2);
+
+            const opponentId =
+              (g.player1 === player.name && player2 && player2.id) ||
+              (g.player2 === player.name && player1 && player1.id) ||
+              '';
+
+            const won =
+              !g.draw &&
+              ((g.player1 === player.name && g.winner === 'player1') ||
+                (g.player2 === player.name && g.winner === 'player2'));
+
+            return {
+              matchupId: g.matchupId,
+              theme: g.theme,
+              moveId,
+              draw: g.draw === 'true',
+              opponentId,
+              won,
+            };
+          })
+          .filter(opponentFilter)
+          .splice(0, 10);
+
+        res({
+          playerId: player.id,
+          playerName: player.name,
+          matchups,
+          moveSummary,
+        });
       });
     });
   });

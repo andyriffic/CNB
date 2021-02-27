@@ -18,7 +18,7 @@ export type GameHistoryRecord = {
 export const getPlayerHistory = (): Promise<GameHistoryRecord[]> => {
   return axios
     .get<GameHistoryResponse>(
-      'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-dev-results/game-result-history.json'
+      'https://s3-ap-southeast-2.amazonaws.com/cnb-stats-prod-results/game-result-history.json'
     )
     .then(({ data }) => {
       return data.result
