@@ -14,6 +14,7 @@ export const schema = `
     type PlayerMatchupHistory {
       playerName: String!
       playerId: String!
+      summary: PlayerMoveSummary!
       matchups: [PlayerMatchup]
     }
 
@@ -28,12 +29,6 @@ export const schema = `
 
     type PlayerMoveSummary {
       totalMoves: Int!
-      totalMoveA: Int!
-      totalMoveB: Int!
-      totalMoveC: Int!
-      totalTimesWon: Int!
-      totalTimesLost: Int!
-      totalTimesDrawn: Int!
     }
 
     type PlayerGameResult {
@@ -55,7 +50,7 @@ type PlayerMatchupHistory = {
   playerName: string;
   playerId: string;
   matchups: PlayerMatchup[];
-  moveSummary: PlayerMoveSummary;
+  summary: PlayerMoveSummary;
 };
 
 type PlayerMatchup = {
@@ -79,16 +74,16 @@ export const resolver = (args: {
         const player = allPlayers.find((p) => p.id === args.playerId)!;
 
         const gameHistoryMatchupsFilter: (
-          playerMatchup: GameHistoryRecord
+          ghr: GameHistoryRecord
         ) => boolean = args.matchupId
           ? (pm) => pm.matchupId === args.matchupId
           : () => true;
 
-        const playerGames = gameHistory
-          .filter((h) => h.player1 === player.name || h.player2 === player.name)
-          .filter(gameHistoryMatchupsFilter);
+        const playerGames = gameHistory.filter(
+          (h) => h.player1 === player.name || h.player2 === player.name
+        );
 
-        const moveSummary: PlayerMoveSummary = {
+        const summary: PlayerMoveSummary = {
           totalMoves: playerGames.length,
           totalMoveA: 0,
           totalMoveB: 0,
@@ -105,6 +100,7 @@ export const resolver = (args: {
           : () => true;
 
         const matchups = playerGames
+          .filter(gameHistoryMatchupsFilter)
           .map((g) => {
             const moveId =
               (g.player1 === player.name && g.player1Move) ||
@@ -140,7 +136,7 @@ export const resolver = (args: {
           playerId: player.id,
           playerName: player.name,
           matchups,
-          moveSummary,
+          summary,
         });
       });
     });
