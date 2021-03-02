@@ -15,7 +15,7 @@ export const schema = `
       playerName: String!
       playerId: String!
       summary: PlayerMoveSummary!
-      matchups: [PlayerMatchup]
+      games: [PlayerMatchup]
     }
 
     type PlayerMatchup {
@@ -49,7 +49,7 @@ type PlayerMoveSummary = {
 type PlayerMatchupHistory = {
   playerName: string;
   playerId: string;
-  matchups: PlayerMatchup[];
+  games: PlayerMatchup[];
   summary: PlayerMoveSummary;
 };
 
@@ -99,7 +99,7 @@ export const resolver = (args: {
           ? (playerMatchup) => playerMatchup.opponentId === args.opponentId
           : () => true;
 
-        const matchups = playerGames
+        const games = playerGames
           .filter(gameHistoryMatchupsFilter)
           .map((g) => {
             const moveId =
@@ -135,7 +135,7 @@ export const resolver = (args: {
         res({
           playerId: player.id,
           playerName: player.name,
-          matchups,
+          games,
           summary,
         });
       });
