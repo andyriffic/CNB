@@ -21,10 +21,13 @@ export const getSavedGameSettings = (): GameSettings => {
   const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (!savedSettings) {
+    console.log('[Settings]: Returning default settings');
+
     return defaultSettings;
   }
 
   const parsedSettings = JSON.parse(savedSettings) as GameSettings;
+  console.log('[Settings]: parsed settings', parsedSettings);
 
   return {
     ...defaultSettings,
