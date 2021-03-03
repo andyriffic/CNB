@@ -37,6 +37,12 @@ export const fadeInAnimation = keyframes`
   100% {opacity: 1;}
 `;
 
+export const rainbowAnimation = keyframes`
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+`;
+
 export const inOutAnimation = keyframes`
   0% {opacity: 0; transform: scale(0)}
   20% {opacity: 1; transform: scale(1)}

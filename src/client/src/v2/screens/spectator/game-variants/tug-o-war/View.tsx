@@ -82,7 +82,7 @@ const View = ({
   const { luckySign, giveLuckyZodiacPoints } = useLuckyZodiac();
 
   return (
-    <GameScreen scrollable={false}>
+    <GameScreen scrollable={false} powerMode={game.attributes.powerMode}>
       {game.attributes.powerMode && (
         <PositionedArea position={{ left: 40, top: 35 }}>
           <PowerMode />
@@ -250,6 +250,7 @@ const View = ({
           />
         </div>
       </PositionedArea>
+      {game.attributes.powerMode && <SplashText>POWERMODE!!</SplashText>}
     </GameScreen>
   );
 };

@@ -21,7 +21,7 @@ import spinningHeartReverse from './sounds/spinning_heart_reverse.mp3';
 import manGrunt from './sounds/man_grunt.mp3';
 import fallWithImpact from './sounds/fall_with_impact.mp3';
 import aww from './sounds/aww.mp3';
-import powerMode from './sounds/power_mode.mp3';
+import powerMode from './sounds/loz_link_get_powerup.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,

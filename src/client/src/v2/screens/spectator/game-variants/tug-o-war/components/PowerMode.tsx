@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
 import { superSaiyanAnimation } from '../../../../../../uplift/components/animations';
 import { useSoundProvider } from '../../../../../providers/SoundProvider';
-import ropeImage from '../assets/rope.png';
 
 const Text = styled.div`
   animation: ${superSaiyanAnimation} 1.5s infinite;

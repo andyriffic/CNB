@@ -14,6 +14,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
   /* z-index: 100; */
 `;
 

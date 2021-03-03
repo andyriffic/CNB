@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Howl, HowlOptions } from 'howler';
+import { Howl, HowlOptions, Howler } from 'howler';
 import { useThemeComponents } from './hooks/useThemeComponents';
 import { LoadingSpinner } from '../../uplift/components/loading-spinner';
 
