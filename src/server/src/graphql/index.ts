@@ -9,6 +9,11 @@ import {
   schema as playerHistorySchema,
   resolver as playerHistoryResolver,
 } from './player-history';
+import {
+  query as weeklySummaryQuery,
+  schema as weeklySummarySchema,
+  resolver as weeklySummaryResolver,
+} from './weekly-summary';
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -16,9 +21,11 @@ const schema = buildSchema(`
     hello: String
     gameHistory: [GameHistoryRecord]
     ${playerHistoryQuery}
+    ${weeklySummaryQuery}
   }
 
   ${gameHistorySchema}
+  ${weeklySummarySchema}
   ${playerHistorySchema}
 `);
 
@@ -29,6 +36,7 @@ const root = {
   },
   gameHistory: gameHistoryResolver,
   playerHistory: playerHistoryResolver,
+  weeklySummary: weeklySummaryResolver,
 };
 
 export const graphql = graphqlHTTP({
