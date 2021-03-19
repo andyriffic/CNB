@@ -31,6 +31,7 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
     invitation,
     switchPlayer,
     playerConfirmed,
+    fastestFinger,
     bothPlayersReady,
   } = usePlayerStateWithInvitation(playerState);
   const { startGame } = useCreateGame(invitation);
@@ -54,11 +55,13 @@ const View = ({ navigate }: { navigate: NavigateFn | undefined }) => {
           pos="left"
           player={playerState.players[0]}
           confirmed={playerConfirmed[0]}
+          fastestFinger={fastestFinger[0]}
         />
         <SlideyPlayerSwitcher
           pos="right"
           player={playerState.players[1]}
           confirmed={playerConfirmed[1]}
+          fastestFinger={fastestFinger[1]}
         />
 
         <SplashText>Today's players</SplashText>

@@ -9,6 +9,7 @@ export type UsePlayerStateWithInvitation = {
   invitation: Invitation | undefined;
   switchPlayer: [() => void, () => void];
   playerConfirmed: [boolean, boolean];
+  fastestFinger: [boolean, boolean];
   bothPlayersReady: boolean;
 };
 
@@ -60,6 +61,15 @@ export const usePlayerStateWithInvitation = ({
     return !!playerInvitation && playerInvitation.status === 'ACCEPTED';
   };
 
+  const getFastestFinger = (index: 0 | 1): boolean => {
+    const playerInvitation =
+      currentInvitation &&
+      currentInvitation.playerInvitations.find(
+        p => p.player.id === players[index]!.id
+      );
+    return !!playerInvitation && playerInvitation.joinedOrder === 1;
+  };
+
   return {
     invitation: currentInvitation,
     switchPlayer: [
@@ -89,6 +99,7 @@ export const usePlayerStateWithInvitation = ({
       },
     ],
     playerConfirmed: [getPlayerConfirmed(0), getPlayerConfirmed(1)],
+    fastestFinger: [getFastestFinger(0), getFastestFinger(1)],
     bothPlayersReady:
       !!currentInvitation &&
       currentInvitation.playerInvitations.every(p => p.status === 'ACCEPTED'),

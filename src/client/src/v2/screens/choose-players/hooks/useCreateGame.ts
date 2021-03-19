@@ -1,5 +1,6 @@
 import {
   Invitation,
+  PlayerInvitation,
   useInvitationsProvider,
 } from '../../../providers/InvitationsProvider';
 import { useMatchupProvider } from '../../../providers/MatchupProvider';
@@ -13,6 +14,10 @@ type UseCreateGame = {
   ) => void;
 };
 
+const getStartingMoves = (playerInvitation: PlayerInvitation): number => {
+  return playerInvitation.joinedOrder === 1 ? 2 : 1;
+};
+
 export const useCreateGame = (
   invitation: Invitation | undefined
 ): UseCreateGame => {
@@ -20,12 +25,12 @@ export const useCreateGame = (
   const { addInstantMatchup } = useMatchupProvider();
   const { confirmInvitation } = useInvitationsProvider();
 
-  const givePlayerAMove = (player: Player) => {
+  const givePlayerAMove = (player: Player, moves: number) => {
     updatePlayer(player.id, [
       ...player.tags.filter(t => !t.startsWith('sl_moves')),
       `sl_moves:${parseInt(
         getPlayerAttributeValue(player.tags, 'sl_moves', '0')
-      ) + 1}`,
+      ) + moves}`,
     ]);
   };
 
@@ -34,8 +39,14 @@ export const useCreateGame = (
       if (!invitation) {
         return;
       }
-      givePlayerAMove(invitation.playerInvitations[0].player);
-      givePlayerAMove(invitation.playerInvitations[1].player);
+      givePlayerAMove(
+        invitation.playerInvitations[0].player,
+        getStartingMoves(invitation.playerInvitations[0])
+      );
+      givePlayerAMove(
+        invitation.playerInvitations[1].player,
+        getStartingMoves(invitation.playerInvitations[1])
+      );
 
       addInstantMatchup(
         invitation.playerInvitations[0].player.id,
