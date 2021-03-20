@@ -51,11 +51,12 @@ export const resolver = (): Promise<WeeklySummary> => {
   return new Promise<WeeklySummary>((res) => {
     playersDatastore.getAllPlayers().then((allPlayers) => {
       getPlayerHistory().then((gameHistory) => {
-        const weekStarting = moment().startOf('isoWeek');
+        const weekStarting = moment().startOf('isoWeek').hour(0).minute(1);
         const weekEnding = moment()
           .startOf('isoWeek')
-          .add(1, 'week')
-          .subtract(1, 'day');
+          .add(4, 'days')
+          .hour(23)
+          .minute(59);
 
         const filteredHistory = gameHistory.filter((gh) => {
           const gameDate = moment(gh.date);
