@@ -11,6 +11,7 @@ import { SoundProvider } from './providers/SoundProvider';
 import { ScreenWithMatchup } from './screens/spectator';
 import { ChoosePlayerScreen } from './screens/choose-players';
 import { SnakesAndLaddersScreen } from './screens/snakes-and-ladders';
+import { DonkeyKongScreen } from './screens/donkey-kong';
 import {
   SelectPlayerScreen,
   SelectMatchupScreen,
@@ -39,6 +40,7 @@ export default () => {
                         matchupId=""
                       />
                       <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                      <DonkeyKongScreen path="/donkey-kong" />
                       <SelectPlayerScreen path="/play" />
                       <SelectMatchupScreen path="/play/:playerId" />
                       <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
