@@ -101,14 +101,17 @@ const landedInCell = (
   return gameBoardPlayer;
 };
 
-export const useGameBoardPlayers = (): {
+type UseGameBoardPlayer = {
   gameBoardPlayers: GameBoardPlayer[];
+  putPlayerInSquare: (players: GameBoardPlayer[]) => void;
   movePlayerToNextSquare: (movePlayerGroup: MovePlayerGroup) => MovePlayerGroup;
   landedInCell: (
     gameBoardPlayer: GameBoardPlayer,
     cell: GameBoardCell
   ) => GameBoardPlayer;
-} => {
+};
+
+export const useGameBoardPlayers = (): UseGameBoardPlayer => {
   const { allPlayers } = usePlayersProvider();
   const [gameBoardPlayers, setGameBoardPlayers] = useState<GameBoardPlayer[]>(
     []
@@ -121,6 +124,14 @@ export const useGameBoardPlayers = (): {
 
   return {
     gameBoardPlayers,
+    putPlayerInSquare: (players: GameBoardPlayer[]) => {
+      setGameBoardPlayers(
+        gameBoardPlayers.map(p => {
+          const movedPlayer = players.find(mp => mp.player.id === p.player.id);
+          return movedPlayer || p;
+        })
+      );
+    },
     movePlayerToNextSquare: movePlayerGroup => {
       const updatedGameBoardPlayer = movePlayerOneSquare(
         movePlayerGroup.updatedPlayer

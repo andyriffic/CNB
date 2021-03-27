@@ -353,3 +353,8 @@ export const enterTopAnimation = keyframes`
     opacity: 1;
   }
 `;
+
+export const spinAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-1080deg); }
+`;

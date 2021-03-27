@@ -7,6 +7,7 @@ import gameBoardBackground from './boards/classic-donkey-kong-board.png';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { GameBoardProvider } from './providers/GameBoardProvider';
 import { MoveAll } from './components/MoveAll';
+import { BarrelProvider } from './providers/BarrelProvider';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -25,18 +26,18 @@ const View = () => {
     triggerUpdate();
   }, []);
 
-  const movePlayers = () => {};
-
   return (
     <GameScreen scrollable={false}>
       <Container>
         <GameBoardProvider board={board}>
-          <MoveAll />
-          <Board
-            boardImage={boardImage}
-            width={boardWidth}
-            height={boardHeight}
-          />
+          <BarrelProvider board={board}>
+            <MoveAll />
+            <Board
+              boardImage={boardImage}
+              width={boardWidth}
+              height={boardHeight}
+            />
+          </BarrelProvider>
         </GameBoardProvider>
       </Container>
     </GameScreen>

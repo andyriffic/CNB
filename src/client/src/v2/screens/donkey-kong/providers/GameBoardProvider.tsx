@@ -23,6 +23,7 @@ type GameBoardService = {
   cellsWithPlayers: GameBoardCellWithPlayers[];
   landedInCell: (gameBoardPlayer: GameBoardPlayer, cell: GameBoardCell) => void;
   moveAllPlayers: () => void;
+  putPlayerInSquare: (players: GameBoardPlayer[]) => void;
 };
 
 const GameBoardContext = React.createContext<GameBoardService | undefined>(
@@ -39,6 +40,7 @@ export const GameBoardProvider = ({
   const { updatePlayer } = usePlayersProvider();
   const {
     gameBoardPlayers,
+    putPlayerInSquare,
     movePlayerToNextSquare,
     landedInCell,
   } = useGameBoardPlayers();
@@ -91,6 +93,7 @@ export const GameBoardProvider = ({
       value={{
         gameBoard: board,
         gameBoardPlayers,
+        putPlayerInSquare,
         cellsWithPlayers,
         landedInCell: (gameBoardPlayer, cell) => {
           const playerFinalRestingPlace = landedInCell(gameBoardPlayer, cell);
