@@ -5,6 +5,12 @@ import { GameBoard } from '../types';
 import { useGameBoardProvider } from './GameBoardProvider';
 
 export const throwSpeed = 1500;
+const barrellStartingPositions: [number, number][] = [
+  [280, 150],
+  [330, 150],
+  [280, 100],
+  [330, 100],
+];
 
 export enum BarrelState {
   WAITING = 'waiting',
@@ -20,7 +26,8 @@ export type Barrel = {
 };
 
 type BarrelService = {
-  createBarrel: () => void;
+  addBarrel: (barrel: Barrel, barrels: Barrel[]) => Barrel[];
+  createBarrels: () => Barrel[];
   throwBarrel: (barrel: Barrel) => Barrel | undefined;
   explodeBarrel: (barrel: Barrel) => Barrel;
   removeBarrel: (barrel: Barrel) => void;
@@ -28,6 +35,19 @@ type BarrelService = {
 };
 
 const BarrelContext = React.createContext<BarrelService | undefined>(undefined);
+
+const createBarrel = (
+  id: number,
+  startingCoordinates: [number, number][]
+): Barrel => {
+  const newBarrel = {
+    id,
+    state: BarrelState.WAITING,
+    coordinates: startingCoordinates[id] || startingCoordinates[0],
+  };
+
+  return newBarrel;
+};
 
 export const BarrelProvider = ({
   children,
@@ -44,9 +64,11 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const targetPlayer: GameBoardPlayer = selectRandomOneOf(
-      boardPlayers.filter(p => p.boardCellIndex > 1)
-    );
+    const targetPlayers = boardPlayers.filter(p => p.boardCellIndex > 1);
+    if (!targetPlayers.length) return;
+
+    const targetPlayer: GameBoardPlayer = selectRandomOneOf(targetPlayers);
+
     const targetCell = board.cells.find(
       c => c.number === targetPlayer.boardCellIndex
     );
@@ -64,15 +86,39 @@ export const BarrelProvider = ({
   return (
     <BarrelContext.Provider
       value={{
-        createBarrel: () => {
-          setBarrels([
-            ...barrels,
-            {
-              id: barrels.length,
-              state: BarrelState.WAITING,
-              coordinates: [300, 150],
-            },
-          ]);
+        addBarrel: (barrel, _barrels) => {
+          const allBarrels = [..._barrels, barrel];
+          setBarrels(allBarrels);
+          return allBarrels;
+        },
+        createBarrels: () => {
+          const numberOfPlayersOnBoard = gameBoardPlayers.filter(
+            p => p.boardCellIndex > 0
+          ).length;
+          const maxPlayerIndex = gameBoardPlayers.reduce<number>(
+            (acc, p) => (p.boardCellIndex > acc ? p.boardCellIndex : acc),
+            0
+          );
+
+          const maxBarrels = 5;
+          const minBarrels = 1;
+
+          const totalBarrels = Math.min(
+            Math.max(
+              Math.floor(numberOfPlayersOnBoard / 5) +
+                Math.floor(maxPlayerIndex / 10),
+              minBarrels
+            ),
+            maxBarrels
+          );
+
+          console.log('total barrels', totalBarrels);
+
+          const barrels = [...Array(totalBarrels)].map<Barrel>((_, i) => {
+            return createBarrel(i, barrellStartingPositions);
+          });
+          console.log('created barrels', barrels);
+          return barrels;
         },
         throwBarrel: barrel => {
           const thrownBarrel = throwBarrelToCell(

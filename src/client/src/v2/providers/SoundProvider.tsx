@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Howl, HowlOptions, Howler } from 'howler';
+import { Howl, HowlOptions } from 'howler';
 import { useThemeComponents } from './hooks/useThemeComponents';
 import { LoadingSpinner } from '../../uplift/components/loading-spinner';
 
@@ -31,6 +31,9 @@ export type SoundMap = {
   SnakesAndLaddersLadder: any;
   SnakesAndLaddersWormholeIn: any;
   SnakesAndLaddersWormholeOut: any;
+  DonkeyKongThrowBarrel: any;
+  DonkeyKongCreateBarrel: any;
+  DonkeyKongExplodeBarrel: any;
 };
 
 export type PlaySound = (

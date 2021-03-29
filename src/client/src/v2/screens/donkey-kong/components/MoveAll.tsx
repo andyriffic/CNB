@@ -7,7 +7,7 @@ export const MoveAll = () => {
 
   return (
     <div style={{ position: 'absolute', top: '0', left: '0' }}>
-      <Button onClick={moveAllPlayers}>MOVE</Button>
+      <Button onClick={moveAllPlayers}>Move all players</Button>
     </div>
   );
 };

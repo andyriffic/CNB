@@ -80,6 +80,106 @@ export const generateBoard = (): GameBoard => {
         coordinates: [620, 480],
         type: BOARD_CELL_TYPE.NORMAL,
       },
+      {
+        number: 15,
+        coordinates: [535, 484],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 16,
+        coordinates: [450, 488],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 17,
+        coordinates: [365, 492],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 18,
+        coordinates: [280, 500],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 19,
+        coordinates: [280, 375],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 20,
+        coordinates: [380, 375],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 21,
+        coordinates: [480, 378],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 22,
+        coordinates: [580, 380],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 23,
+        coordinates: [680, 382],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 24,
+        coordinates: [780, 384],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 25,
+        coordinates: [780, 250],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 26,
+        coordinates: [680, 253],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 27,
+        coordinates: [580, 257],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 28,
+        coordinates: [480, 261],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 29,
+        coordinates: [380, 265],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 30,
+        coordinates: [380, 135],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 31,
+        coordinates: [480, 138],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 32,
+        coordinates: [580, 141],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 33,
+        coordinates: [680, 144],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 34,
+        coordinates: [680, 50],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
     ],
   };
 };

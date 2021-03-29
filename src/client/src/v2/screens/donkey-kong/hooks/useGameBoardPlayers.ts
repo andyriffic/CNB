@@ -4,7 +4,7 @@ import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { PlaySound, useSoundProvider } from '../../../providers/SoundProvider';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
-import { BOARD_CELL_TYPE, GameBoardCell } from '../types';
+import { BOARD_CELL_TYPE, GameBoard, GameBoardCell } from '../types';
 
 export type MovePlayerGroup = {
   updatedPlayer: GameBoardPlayer;
@@ -36,7 +36,8 @@ const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
 };
 
 const movePlayerOneSquare = (
-  gameBoardPlayer: GameBoardPlayer
+  gameBoardPlayer: GameBoardPlayer,
+  board: GameBoard
 ): GameBoardPlayer => {
   if (gameBoardPlayer.movesRemaining === 0) {
     return gameBoardPlayer;
@@ -45,7 +46,10 @@ const movePlayerOneSquare = (
   return {
     ...gameBoardPlayer,
     movesRemaining: gameBoardPlayer.movesRemaining - 1,
-    boardCellIndex: gameBoardPlayer.boardCellIndex + 1,
+    boardCellIndex: Math.min(
+      gameBoardPlayer.boardCellIndex + 1,
+      board.cells.length - 1
+    ),
   };
 };
 
@@ -111,7 +115,7 @@ type UseGameBoardPlayer = {
   ) => GameBoardPlayer;
 };
 
-export const useGameBoardPlayers = (): UseGameBoardPlayer => {
+export const useGameBoardPlayers = (board: GameBoard): UseGameBoardPlayer => {
   const { allPlayers } = usePlayersProvider();
   const [gameBoardPlayers, setGameBoardPlayers] = useState<GameBoardPlayer[]>(
     []
@@ -134,7 +138,8 @@ export const useGameBoardPlayers = (): UseGameBoardPlayer => {
     },
     movePlayerToNextSquare: movePlayerGroup => {
       const updatedGameBoardPlayer = movePlayerOneSquare(
-        movePlayerGroup.updatedPlayer
+        movePlayerGroup.updatedPlayer,
+        board
       );
       const updatedGameBoardPlayers = movePlayerGroup.allPlayers.map(gp => {
         if (gp.player.id === movePlayerGroup.updatedPlayer.player.id) {

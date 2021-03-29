@@ -22,6 +22,9 @@ import manGrunt from './sounds/man_grunt.mp3';
 import fallWithImpact from './sounds/fall_with_impact.mp3';
 import aww from './sounds/aww.mp3';
 import powerMode from './sounds/loz_link_get_powerup.mp3';
+import eightBitFall from './sounds/8bit_fall.wav';
+import flipPop from './sounds/flip-pop.wav';
+import barrelBlast from './sounds/barrel_blast.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -51,6 +54,9 @@ const soundMap: SoundMap = {
   SnakesAndLaddersLadder: fanfareSms,
   SnakesAndLaddersWormholeIn: spinningHeart,
   SnakesAndLaddersWormholeOut: spinningHeartReverse,
+  DonkeyKongThrowBarrel: eightBitFall,
+  DonkeyKongCreateBarrel: flipPop,
+  DonkeyKongExplodeBarrel: barrelBlast,
 };
 
 export default soundMap;

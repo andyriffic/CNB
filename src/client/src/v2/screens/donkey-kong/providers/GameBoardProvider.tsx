@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 import { useGameBoardCells } from '../hooks/useGameBoardCells';
 import {
   MovePlayerGroup,
@@ -43,8 +44,9 @@ export const GameBoardProvider = ({
     putPlayerInSquare,
     movePlayerToNextSquare,
     landedInCell,
-  } = useGameBoardPlayers();
+  } = useGameBoardPlayers(board);
   const cellsWithPlayers = useGameBoardCells(board, gameBoardPlayers);
+  const { play } = useSoundProvider();
 
   const autoMoveAllPlayers = () => {
     const playersToMove = gameBoardPlayers.filter(p => p.movesRemaining > 0);
@@ -55,6 +57,7 @@ export const GameBoardProvider = ({
       return new Promise<GameBoardPlayer[]>(res => {
         console.log('MOVING PLAYER', movePlayerGroup.updatedPlayer);
 
+        play('SnakesAndLaddersMove');
         const updatedPlayerResult = movePlayerToNextSquare(movePlayerGroup);
 
         if (updatedPlayerResult.updatedPlayer.movesRemaining === 0) {
@@ -62,14 +65,14 @@ export const GameBoardProvider = ({
             'FINISHED MOVING PLAYER',
             updatedPlayerResult.updatedPlayer
           );
-          setTimeout(() => res(updatedPlayerResult.allPlayers), 1000);
+          setTimeout(() => res(updatedPlayerResult.allPlayers), 2000);
         } else {
           setTimeout(() => {
             console.log('DELAYED MOVE PLAYER');
             movePlayerWithDelay(updatedPlayerResult).then(updatedPlayers =>
               res(updatedPlayers)
             );
-          }, 500);
+          }, 800);
         }
       });
     };

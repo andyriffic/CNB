@@ -31,12 +31,12 @@ const View = () => {
       <Container>
         <GameBoardProvider board={board}>
           <BarrelProvider board={board}>
-            <MoveAll />
             <Board
               boardImage={boardImage}
               width={boardWidth}
               height={boardHeight}
             />
+            <MoveAll />
           </BarrelProvider>
         </GameBoardProvider>
       </Container>
