@@ -29,6 +29,17 @@ type Props = {
 
 export const Board = ({ boardImage, width, height }: Props) => {
   const { gameBoardPlayers, cellsWithPlayers } = useGameBoardProvider();
+  const [createBarrels, setCreateBarrels] = useState(false);
+  const [throwBarrels, setThrowBarrels] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCreateBarrels(true);
+      setTimeout(() => {
+        setThrowBarrels(true);
+      }, 4000);
+    }, 2000);
+  }, []);
 
   if (!(gameBoardPlayers.length && cellsWithPlayers.length)) {
     return <LoadingSpinner text="Loading players" />;
@@ -53,7 +64,10 @@ export const Board = ({ boardImage, width, height }: Props) => {
           </PositionedPlayer>
         );
       })}
-      <Barrels />
+      <Barrels
+        autoCreateBarrels={createBarrels}
+        autoThrowBarrels={throwBarrels}
+      />
     </BoardContainer>
   );
 };

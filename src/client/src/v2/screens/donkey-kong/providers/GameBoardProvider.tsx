@@ -24,7 +24,10 @@ type GameBoardService = {
   cellsWithPlayers: GameBoardCellWithPlayers[];
   landedInCell: (gameBoardPlayer: GameBoardPlayer, cell: GameBoardCell) => void;
   moveAllPlayers: () => void;
-  putPlayerInSquare: (players: GameBoardPlayer[]) => void;
+  putPlayerInSquare: (
+    players: GameBoardPlayer[],
+    existingPlayers: GameBoardPlayer[]
+  ) => GameBoardPlayer[];
 };
 
 const GameBoardContext = React.createContext<GameBoardService | undefined>(

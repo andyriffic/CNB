@@ -6,10 +6,12 @@ import { useGameBoardProvider } from './GameBoardProvider';
 
 export const throwSpeed = 1500;
 const barrellStartingPositions: [number, number][] = [
+  [180, 150],
+  [230, 150],
   [280, 150],
-  [330, 150],
+  [180, 100],
+  [230, 100],
   [280, 100],
-  [330, 100],
 ];
 
 export enum BarrelState {
@@ -17,6 +19,12 @@ export enum BarrelState {
   THROWING = 'throwing',
   EXPLODED = 'exploded',
 }
+
+export type ThrowBarrelResult = {
+  barrel: Barrel;
+  allBarrels: Barrel[];
+  gameBoardPlayers: GameBoardPlayer[];
+};
 
 export type Barrel = {
   id: number;
@@ -28,9 +36,9 @@ export type Barrel = {
 type BarrelService = {
   addBarrel: (barrel: Barrel, barrels: Barrel[]) => Barrel[];
   createBarrels: () => Barrel[];
-  throwBarrel: (barrel: Barrel) => Barrel | undefined;
-  explodeBarrel: (barrel: Barrel) => Barrel;
-  removeBarrel: (barrel: Barrel) => void;
+  throwBarrel: (throwBarrelProps: ThrowBarrelResult) => ThrowBarrelResult;
+  explodeBarrel: (throwBarrelProps: ThrowBarrelResult) => ThrowBarrelResult;
+  removeBarrel: (barrel: Barrel, allBarrels: Barrel[]) => Barrel[];
   barrels: Barrel[];
 };
 
@@ -100,7 +108,7 @@ export const BarrelProvider = ({
             0
           );
 
-          const maxBarrels = 5;
+          const maxBarrels = 6;
           const minBarrels = 1;
 
           const totalBarrels = Math.min(
@@ -120,24 +128,34 @@ export const BarrelProvider = ({
           console.log('created barrels', barrels);
           return barrels;
         },
-        throwBarrel: barrel => {
+        throwBarrel: throwBarrelProps => {
           const thrownBarrel = throwBarrelToCell(
-            barrel,
+            throwBarrelProps.barrel,
             board,
-            gameBoardPlayers
+            throwBarrelProps.gameBoardPlayers
           );
-          if (!thrownBarrel) return;
-          setBarrels(barrels.map(b => (b.id === barrel.id ? thrownBarrel : b)));
-          return thrownBarrel;
+          if (!thrownBarrel) return throwBarrelProps;
+
+          const updatedBarrels = throwBarrelProps.allBarrels.map(b =>
+            b.id === throwBarrelProps.barrel.id ? thrownBarrel : b
+          );
+          setBarrels(updatedBarrels);
+          return {
+            barrel: thrownBarrel,
+            allBarrels: updatedBarrels,
+            gameBoardPlayers: throwBarrelProps.gameBoardPlayers,
+          };
         },
-        explodeBarrel: barrel => {
+        explodeBarrel: throwBarrelProps => {
           const explodedBarrel = {
-            ...barrel,
+            ...throwBarrelProps.barrel,
             state: BarrelState.EXPLODED,
           };
-          console.log('EXPLODING BARREL', barrel);
-          const explodedPlayers = gameBoardPlayers
-            .filter(p => p.boardCellIndex === barrel.targetCellIndex)
+          console.log('EXPLODING BARREL', explodedBarrel);
+          const explodedPlayers = throwBarrelProps.gameBoardPlayers
+            .filter(
+              p => p.boardCellIndex === throwBarrelProps.barrel.targetCellIndex
+            )
             .map<GameBoardPlayer>(p => ({
               ...p,
               boardCellIndex: Math.max(
@@ -146,14 +164,24 @@ export const BarrelProvider = ({
               ),
             }));
           console.log('EXPLODED PLAYERS', explodedPlayers);
-          putPlayerInSquare(explodedPlayers);
-          setBarrels(
-            barrels.map(b => (b.id === barrel.id ? explodedBarrel : b))
+          const updatedPlayers = putPlayerInSquare(
+            explodedPlayers,
+            throwBarrelProps.gameBoardPlayers
           );
-          return explodedBarrel;
+          const updatedBarrels = throwBarrelProps.allBarrels.map(b =>
+            b.id === throwBarrelProps.barrel.id ? explodedBarrel : b
+          );
+          setBarrels(updatedBarrels);
+          return {
+            barrel: explodedBarrel,
+            allBarrels: updatedBarrels,
+            gameBoardPlayers: updatedPlayers,
+          };
         },
-        removeBarrel: barrel => {
-          setBarrels(barrels.filter(b => b.id !== barrel.id));
+        removeBarrel: (barrel, allBarrels) => {
+          const updatedBarrels = allBarrels.filter(b => b.id !== barrel.id);
+          setBarrels(updatedBarrels);
+          return updatedBarrels;
         },
         barrels,
       }}

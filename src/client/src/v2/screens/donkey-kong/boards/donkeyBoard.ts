@@ -180,6 +180,16 @@ export const generateBoard = (): GameBoard => {
         coordinates: [680, 50],
         type: BOARD_CELL_TYPE.NORMAL,
       },
+      {
+        number: 35,
+        coordinates: [600, 50],
+        type: BOARD_CELL_TYPE.NORMAL,
+      },
+      {
+        number: 36,
+        coordinates: [520, 50],
+        type: BOARD_CELL_TYPE.END,
+      },
     ],
   };
 };

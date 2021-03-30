@@ -107,7 +107,10 @@ const landedInCell = (
 
 type UseGameBoardPlayer = {
   gameBoardPlayers: GameBoardPlayer[];
-  putPlayerInSquare: (players: GameBoardPlayer[]) => void;
+  putPlayerInSquare: (
+    players: GameBoardPlayer[],
+    existingPlayers: GameBoardPlayer[]
+  ) => GameBoardPlayer[];
   movePlayerToNextSquare: (movePlayerGroup: MovePlayerGroup) => MovePlayerGroup;
   landedInCell: (
     gameBoardPlayer: GameBoardPlayer,
@@ -128,13 +131,16 @@ export const useGameBoardPlayers = (board: GameBoard): UseGameBoardPlayer => {
 
   return {
     gameBoardPlayers,
-    putPlayerInSquare: (players: GameBoardPlayer[]) => {
-      setGameBoardPlayers(
-        gameBoardPlayers.map(p => {
-          const movedPlayer = players.find(mp => mp.player.id === p.player.id);
-          return movedPlayer || p;
-        })
-      );
+    putPlayerInSquare: (
+      players: GameBoardPlayer[],
+      existingPlayers: GameBoardPlayer[]
+    ) => {
+      const updatePlayers = existingPlayers.map(p => {
+        const movedPlayer = players.find(mp => mp.player.id === p.player.id);
+        return movedPlayer || p;
+      });
+      setGameBoardPlayers(updatePlayers);
+      return updatePlayers;
     },
     movePlayerToNextSquare: movePlayerGroup => {
       const updatedGameBoardPlayer = movePlayerOneSquare(
