@@ -38,7 +38,7 @@ export const GameBoardProvider = ({
     gameBoardPlayers,
     movePlayerToNextSquare,
     landedInCell,
-  } = useGameBoardPlayers();
+  } = useGameBoardPlayers(board);
   const cellsWithPlayers = useGameBoardCells(board, gameBoardPlayers);
 
   return (
