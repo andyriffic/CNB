@@ -6,7 +6,6 @@ import { generateBoard } from './boards/donkeyBoard';
 import gameBoardBackground from './boards/classic-donkey-kong-board.png';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { GameBoardProvider } from './providers/GameBoardProvider';
-import { MoveAll } from './components/MoveAll';
 import { BarrelProvider } from './providers/BarrelProvider';
 
 const Container = styled.div`
@@ -36,7 +35,6 @@ const View = () => {
               width={boardWidth}
               height={boardHeight}
             />
-            <MoveAll />
           </BarrelProvider>
         </GameBoardProvider>
       </Container>

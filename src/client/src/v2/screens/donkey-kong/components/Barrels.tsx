@@ -21,9 +21,16 @@ const barrelDimension = 50;
 type Props = {
   autoCreateBarrels: boolean;
   autoThrowBarrels: boolean;
+  onBarrelsCreated: () => void;
+  onBarrelsThrown: () => void;
 };
 
-export const Barrels = ({ autoCreateBarrels, autoThrowBarrels }: Props) => {
+export const Barrels = ({
+  autoCreateBarrels,
+  autoThrowBarrels,
+  onBarrelsCreated,
+  onBarrelsThrown,
+}: Props) => {
   const {
     barrels,
     addBarrel,
@@ -32,7 +39,7 @@ export const Barrels = ({ autoCreateBarrels, autoThrowBarrels }: Props) => {
     explodeBarrel,
     removeBarrel,
   } = useBarrelProvider();
-  const { gameBoardPlayers } = useGameBoardProvider();
+  const { gameBoardPlayers, savePlayer } = useGameBoardProvider();
 
   const { play } = useSoundProvider();
   const createdBarrels = useRef(false);
@@ -43,10 +50,12 @@ export const Barrels = ({ autoCreateBarrels, autoThrowBarrels }: Props) => {
     const delayedBarrels = newBarrels.map(b => (_barrels: Barrel[]) =>
       addBarrelWithTimeout(b, _barrels)
     );
-    delayedBarrels.reduce(
-      (p, delayedBarrel) => p.then(_barrels => delayedBarrel(_barrels)),
-      Promise.resolve(barrels)
-    );
+    delayedBarrels
+      .reduce(
+        (p, delayedBarrel) => p.then(_barrels => delayedBarrel(_barrels)),
+        Promise.resolve(barrels)
+      )
+      .then(() => setTimeout(() => onBarrelsCreated(), 1000));
   };
 
   const addBarrelWithTimeout = (
@@ -82,13 +91,22 @@ export const Barrels = ({ autoCreateBarrels, autoThrowBarrels }: Props) => {
           gameBoardPlayers: allPlayers,
         })
     );
-    throwingBarrels.reduce(
-      (p, throwing) =>
-        p.then(({ allBarrels, allPlayers }) =>
-          throwing({ allBarrels, allPlayers })
-        ),
-      Promise.resolve({ allBarrels: barrels, allPlayers: gameBoardPlayers })
-    );
+    throwingBarrels
+      .reduce(
+        (p, throwing) =>
+          p.then(({ allBarrels, allPlayers }) =>
+            throwing({ allBarrels, allPlayers })
+          ),
+        Promise.resolve({ allBarrels: barrels, allPlayers: gameBoardPlayers })
+      )
+      .then(({ allPlayers }) => {
+        setTimeout(() => {
+          allPlayers.forEach(p => {
+            savePlayer(p);
+          });
+        });
+        setTimeout(() => onBarrelsThrown(), 1000);
+      });
   };
 
   useEffect(() => {

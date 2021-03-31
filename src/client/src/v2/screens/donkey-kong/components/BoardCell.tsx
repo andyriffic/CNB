@@ -17,11 +17,11 @@ const Wormhole = styled.img`
   animation: ${rotateAnimation} 10s linear infinite;
 `;
 
-const Toadstool = styled.div`
-  font-size: 2.2rem;
+const Cherry = styled.div`
+  font-size: 2rem;
   position: relative;
-  top: -34px;
-  left: -20px;
+  top: -60px;
+  left: -30px;
 `;
 
 const Cell = styled.div<{ x: number; y: number }>`
@@ -96,7 +96,7 @@ export const BoardCell = ({ cell }: Props) => {
           )
         </DebugText>
       )}
-      {cell.fairy && <Toadstool>🍄</Toadstool>}
+      {cell.type === BOARD_CELL_TYPE.END && <Cherry>🍒</Cherry>}
     </Cell>
   );
 };

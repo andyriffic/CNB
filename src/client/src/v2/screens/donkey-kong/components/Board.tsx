@@ -7,6 +7,19 @@ import { useGameBoardProvider } from '../providers/GameBoardProvider';
 import { PositionedPlayer } from './PositionedPlayer';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { Barrels } from './Barrels';
+import { SplashText } from '../../../components/SplashText';
+import { Button } from '../../../components/ui/buttons';
+import { useSoundProvider } from '../../../providers/SoundProvider';
+
+enum PlayState {
+  WaitingToPlay = 'WaitingToPlay',
+  ShowingPlayersIntro = 'ShowingPlayersIntro',
+  MovingPlayers = 'MovingPlayers',
+  ShowingBarrelsIntro = 'ShowingBarrelsIntro',
+  CreatingBarrels = 'CreatingBarrels',
+  ThrowingBarrels = 'ThrowingBarrels',
+  GameOver = 'GameOver',
+}
 
 const BoardContainer = styled.div<{
   boardImage: any;
@@ -28,18 +41,27 @@ type Props = {
 };
 
 export const Board = ({ boardImage, width, height }: Props) => {
-  const { gameBoardPlayers, cellsWithPlayers } = useGameBoardProvider();
-  const [createBarrels, setCreateBarrels] = useState(false);
-  const [throwBarrels, setThrowBarrels] = useState(false);
+  const {
+    gameBoardPlayers,
+    cellsWithPlayers,
+    moveAllPlayers,
+  } = useGameBoardProvider();
+  const [playState, setPlayState] = useState(PlayState.WaitingToPlay);
+  const { play } = useSoundProvider();
 
   useEffect(() => {
-    setTimeout(() => {
-      setCreateBarrels(true);
-      setTimeout(() => {
-        setThrowBarrels(true);
-      }, 4000);
-    }, 2000);
-  }, []);
+    if (playState === PlayState.GameOver) {
+      play('DonkeyKongGameOver');
+    }
+  }, [playState]);
+
+  useEffect(() => {
+    if (playState === PlayState.MovingPlayers) {
+      moveAllPlayers().then(() => {
+        setPlayState(PlayState.ShowingBarrelsIntro);
+      });
+    }
+  }, [playState]);
 
   if (!(gameBoardPlayers.length && cellsWithPlayers.length)) {
     return <LoadingSpinner text="Loading players" />;
@@ -47,6 +69,29 @@ export const Board = ({ boardImage, width, height }: Props) => {
 
   return (
     <BoardContainer boardImage={boardImage} width={width} height={height}>
+      {playState === PlayState.WaitingToPlay && (
+        <div style={{ position: 'absolute', top: '46%', left: '42%' }}>
+          <Button onClick={() => setPlayState(PlayState.ShowingPlayersIntro)}>
+            Start
+          </Button>
+        </div>
+      )}
+
+      {playState === PlayState.ShowingPlayersIntro && (
+        <SplashText onComplete={() => setPlayState(PlayState.MovingPlayers)}>
+          Moving players
+        </SplashText>
+      )}
+
+      {playState === PlayState.ShowingBarrelsIntro && (
+        <SplashText onComplete={() => setPlayState(PlayState.CreatingBarrels)}>
+          Kong angry!
+        </SplashText>
+      )}
+
+      {playState === PlayState.GameOver && (
+        <SplashText onComplete={() => {}}>Game over</SplashText>
+      )}
       {cellsWithPlayers.map(cell => (
         <BoardCell key={cell.number} cell={cell} />
       ))}
@@ -65,8 +110,10 @@ export const Board = ({ boardImage, width, height }: Props) => {
         );
       })}
       <Barrels
-        autoCreateBarrels={createBarrels}
-        autoThrowBarrels={throwBarrels}
+        autoCreateBarrels={playState === PlayState.CreatingBarrels}
+        autoThrowBarrels={playState === PlayState.ThrowingBarrels}
+        onBarrelsCreated={() => setPlayState(PlayState.ThrowingBarrels)}
+        onBarrelsThrown={() => setPlayState(PlayState.GameOver)}
       />
     </BoardContainer>
   );

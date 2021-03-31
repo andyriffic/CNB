@@ -23,7 +23,8 @@ type GameBoardService = {
   gameBoardPlayers: GameBoardPlayer[];
   cellsWithPlayers: GameBoardCellWithPlayers[];
   landedInCell: (gameBoardPlayer: GameBoardPlayer, cell: GameBoardCell) => void;
-  moveAllPlayers: () => void;
+  savePlayer: (gameBoardPlayer: GameBoardPlayer) => void;
+  moveAllPlayers: () => Promise<void>;
   putPlayerInSquare: (
     players: GameBoardPlayer[],
     existingPlayers: GameBoardPlayer[]
@@ -51,45 +52,50 @@ export const GameBoardProvider = ({
   const cellsWithPlayers = useGameBoardCells(board, gameBoardPlayers);
   const { play } = useSoundProvider();
 
-  const autoMoveAllPlayers = () => {
-    const playersToMove = gameBoardPlayers.filter(p => p.movesRemaining > 0);
+  const autoMoveAllPlayers = (): Promise<void> => {
+    return new Promise(finishedMovingAllPlayers => {
+      const playersToMove = gameBoardPlayers.filter(p => p.movesRemaining > 0);
 
-    console.log('PLAYERS TO MOVE', playersToMove);
+      console.log('PLAYERS TO MOVE', playersToMove);
 
-    const movePlayerWithDelay = (movePlayerGroup: MovePlayerGroup) => {
-      return new Promise<GameBoardPlayer[]>(res => {
-        console.log('MOVING PLAYER', movePlayerGroup.updatedPlayer);
+      const movePlayerWithDelay = (movePlayerGroup: MovePlayerGroup) => {
+        return new Promise<GameBoardPlayer[]>(res => {
+          console.log('MOVING PLAYER', movePlayerGroup.updatedPlayer);
 
-        play('SnakesAndLaddersMove');
-        const updatedPlayerResult = movePlayerToNextSquare(movePlayerGroup);
+          play('SnakesAndLaddersMove');
+          const updatedPlayerResult = movePlayerToNextSquare(movePlayerGroup);
 
-        if (updatedPlayerResult.updatedPlayer.movesRemaining === 0) {
-          console.log(
-            'FINISHED MOVING PLAYER',
-            updatedPlayerResult.updatedPlayer
-          );
-          setTimeout(() => res(updatedPlayerResult.allPlayers), 2000);
-        } else {
-          setTimeout(() => {
-            console.log('DELAYED MOVE PLAYER');
-            movePlayerWithDelay(updatedPlayerResult).then(updatedPlayers =>
-              res(updatedPlayers)
+          if (updatedPlayerResult.updatedPlayer.movesRemaining === 0) {
+            console.log(
+              'FINISHED MOVING PLAYER',
+              updatedPlayerResult.updatedPlayer
             );
-          }, 800);
-        }
-      });
-    };
+            setTimeout(() => res(updatedPlayerResult.allPlayers), 1000);
+          } else {
+            setTimeout(() => {
+              console.log('DELAYED MOVE PLAYER');
+              movePlayerWithDelay(updatedPlayerResult).then(updatedPlayers =>
+                res(updatedPlayers)
+              );
+            }, 500);
+          }
+        });
+      };
 
-    const delayedMoves = playersToMove.map(
-      updatedPlayer => (allPlayers: GameBoardPlayer[]) =>
-        movePlayerWithDelay({ updatedPlayer, allPlayers })
-    );
+      const delayedMoves = playersToMove.map(
+        updatedPlayer => (allPlayers: GameBoardPlayer[]) =>
+          movePlayerWithDelay({ updatedPlayer, allPlayers })
+      );
 
-    console.log('DELAYED MOVES', delayedMoves);
-    delayedMoves.reduce(
-      (p, delayedMove) => p.then(updatedPlayers => delayedMove(updatedPlayers)),
-      Promise.resolve(gameBoardPlayers)
-    );
+      console.log('DELAYED MOVES', delayedMoves);
+      delayedMoves
+        .reduce(
+          (p, delayedMove) =>
+            p.then(updatedPlayers => delayedMove(updatedPlayers)),
+          Promise.resolve(gameBoardPlayers)
+        )
+        .then(() => finishedMovingAllPlayers());
+    });
 
     // Promise.all(playersToMove.map(p => movePlayerWithDelay(p)));
   };
@@ -101,6 +107,17 @@ export const GameBoardProvider = ({
         gameBoardPlayers,
         putPlayerInSquare,
         cellsWithPlayers,
+        savePlayer: gameBoardPlayer => {
+          const playerTags = gameBoardPlayer.player.tags
+            .filter(t => !t.startsWith('sl_moves:'))
+            .filter(t => !t.startsWith('sl_cell:'));
+
+          updatePlayer(gameBoardPlayer.player.id, [
+            ...playerTags,
+            'sl_moves:0',
+            `sl_cell:${gameBoardPlayer.boardCellIndex}`,
+          ]);
+        },
         landedInCell: (gameBoardPlayer, cell) => {
           const playerFinalRestingPlace = landedInCell(gameBoardPlayer, cell);
 
