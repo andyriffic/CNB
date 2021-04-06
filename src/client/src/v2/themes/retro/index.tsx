@@ -4,9 +4,9 @@ import defaultTheme from '../default';
 import defaultSounds from '../default/sounds';
 import style from './style';
 import thinkingCat from './thinking-cat.gif';
-import rockImage from './chinese-rock.png';
-import scissorsImage from './chinese-scissors.png';
-import paperImage from './chinese-paper.png';
+import rockImage from './8bit-rock.png';
+import scissorsImage from './8bit-scissors.png';
+import paperImage from './8bit-paper.png';
 import megamanTheme from './sounds/megaman_2_8bit.mp3';
 import tetrisTheme from './sounds/tetris_8bit_b_theme.mp3';
 import retroNotification from './sounds/retro_notification.mp3';
@@ -30,11 +30,11 @@ const themeComponents: ThemeComponents = {
     FinalPointsAllocated: eightBitNotification,
     Winner: winnerVoice,
   },
-  // moves: {
-  //   A: <img src={rockImage} style={{ width: '100%', height: '100%' }} />,
-  //   B: <img src={scissorsImage} style={{ width: '100%', height: '100%' }} />,
-  //   C: <img src={paperImage} style={{ width: '100%', height: '100%' }} />,
-  // },
+  moves: {
+    A: <img src={rockImage} style={{ width: '100%', height: '100%' }} />,
+    B: <img src={scissorsImage} style={{ width: '100%', height: '100%' }} />,
+    C: <img src={paperImage} style={{ width: '100%', height: '100%' }} />,
+  },
   decorations: {
     moveWaiting: (
       <img src={thinkingCat} style={{ width: '100%', height: '100%' }} />
