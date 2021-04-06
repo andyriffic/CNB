@@ -67,6 +67,7 @@ const themeComponents: ThemeComponents = {
     moveWaiting: (
       <img src={thinkingCat} style={{ width: '100%', height: '100%' }} />
     ),
+    prizeIcon: <span>🏮</span>,
   },
 };
 

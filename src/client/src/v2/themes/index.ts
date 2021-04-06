@@ -15,7 +15,10 @@ export type MoveThemeNames =
   | 'rock-paper-scissors-chinese'
   | 'rock-paper-scissors-retro';
 
-export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
+export type DecorationPlacements =
+  | 'spectatorScreen'
+  | 'moveWaiting'
+  | 'prizeIcon';
 
 export type MoveKeys = 'A' | 'B' | 'C';
 

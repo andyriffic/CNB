@@ -22,6 +22,7 @@ const themeComponents: ThemeComponents = {
   },
   decorations: {
     moveWaiting: <ThinkingCat />,
+    prizeIcon: <span>🎁</span>,
   },
 };
 

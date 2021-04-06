@@ -16,6 +16,7 @@ import {
   usePlayersProvider,
 } from '../../../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../../../providers/SoundProvider';
+import { ShowThemedVariant } from '../../../../../components/ShowThemedVariant';
 
 const Container = styled.div`
   position: absolute;
@@ -206,9 +207,11 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
                 selected={playerChoice.selectedChoiceId === c.id}
               >
                 <ChoiceItemIcon>
-                  {revealItem
-                    ? ChoiceOutcomeIcons[c.label as ChoiceOutcome]
-                    : '🍒'}
+                  {revealItem ? (
+                    ChoiceOutcomeIcons[c.label as ChoiceOutcome]
+                  ) : (
+                    <ShowThemedVariant placement="prizeIcon" />
+                  )}
                 </ChoiceItemIcon>
                 <ChoiceItemLabel>
                   {revealItem ? c.label : <span>&nbsp;</span>}

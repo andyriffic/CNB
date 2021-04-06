@@ -14,6 +14,7 @@ import {
 } from '../../../providers/PlayerChoiceProvider';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { SubHeading } from '../../../components/ui/Atoms';
+import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
 
 const Container = styled.div`
   position: absolute;
@@ -66,7 +67,7 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
               onClick={() => selectChoice(playersChoice.id, choice.id)}
               key={choice.id}
             >
-              🏮
+              <ShowThemedVariant placement="prizeIcon" />
             </Button>
           </ChoiceItem>
         ))}
