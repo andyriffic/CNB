@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { shakeAndGrowAnimation } from '../../../../uplift/components/animations';
+import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
 import fireImage from '../assets/fire.gif';
 
 const fuseAnimation = css`
@@ -55,7 +56,7 @@ export const Timebomb = ({
         exploded={triggerExplosion}
         intensity={intensity}
       >
-        {triggerExplosion ? '💥' : '💣'}
+        {triggerExplosion ? '💥' : <ShowThemedVariant placement="bombIcon" />}
       </Icon>
     </Container>
   );

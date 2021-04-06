@@ -33,6 +33,7 @@ const themeComponents: ThemeComponents = {
     C: <img src={paperImage} style={{ width: '100%', height: '100%' }} />,
   },
   decorations: {
+    ...defaultTheme.decorations,
     spectatorScreen: (
       <>
         <img

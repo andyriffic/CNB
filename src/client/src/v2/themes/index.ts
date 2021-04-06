@@ -18,7 +18,8 @@ export type MoveThemeNames =
 export type DecorationPlacements =
   | 'spectatorScreen'
   | 'moveWaiting'
-  | 'prizeIcon';
+  | 'prizeIcon'
+  | 'bombIcon';
 
 export type MoveKeys = 'A' | 'B' | 'C';
 
