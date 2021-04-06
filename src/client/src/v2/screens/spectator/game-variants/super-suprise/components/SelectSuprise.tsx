@@ -208,7 +208,7 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
                 <ChoiceItemIcon>
                   {revealItem
                     ? ChoiceOutcomeIcons[c.label as ChoiceOutcome]
-                    : '🏮'}
+                    : '🍒'}
                 </ChoiceItemIcon>
                 <ChoiceItemLabel>
                   {revealItem ? c.label : <span>&nbsp;</span>}

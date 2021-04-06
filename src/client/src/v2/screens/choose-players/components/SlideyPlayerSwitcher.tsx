@@ -87,9 +87,14 @@ export const SlideyPlayerSwitcher = ({
           <ChoosePlayerAvatar player={displayPlayer} confirmed={confirmed} />
         )}
       </FacingDirection>
-      {fastestFinger && (
+      {confirmed && fastestFinger && (
         <FastestFinger>
-          +1 pt <SubText>Joined first!</SubText>
+          +2 pts <SubText>Joined first!</SubText>
+        </FastestFinger>
+      )}
+      {confirmed && !fastestFinger && (
+        <FastestFinger>
+          +1 pt <SubText>Joined second!</SubText>
         </FastestFinger>
       )}
     </Container>

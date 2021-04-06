@@ -4,14 +4,16 @@ import defaultTheme from './default';
 import halloweenTheme from './halloween';
 import xmasTheme from './xmas';
 import chineseTheme from './chinese';
+import retroTheme from './retro';
 
-export type ThemeName = 'default' | 'halloween' | 'xmas' | 'chinese';
+export type ThemeName = 'default' | 'halloween' | 'xmas' | 'chinese' | 'retro';
 
 export type MoveThemeNames =
   | 'rock-paper-scissors-classic'
   | 'rock-paper-scissors-halloween'
   | 'rock-paper-scissors-xmas'
-  | 'rock-paper-scissors-chinese';
+  | 'rock-paper-scissors-chinese'
+  | 'rock-paper-scissors-retro';
 
 export type DecorationPlacements = 'spectatorScreen' | 'moveWaiting';
 
@@ -36,4 +38,5 @@ export const themeComponentMap = {
   halloween: halloweenTheme,
   xmas: xmasTheme,
   chinese: chineseTheme,
+  retro: retroTheme,
 };

@@ -69,14 +69,6 @@ export const Board = ({ boardImage, width, height }: Props) => {
 
   return (
     <BoardContainer boardImage={boardImage} width={width} height={height}>
-      {playState === PlayState.WaitingToPlay && (
-        <div style={{ position: 'absolute', top: '46%', left: '42%' }}>
-          <Button onClick={() => setPlayState(PlayState.ShowingPlayersIntro)}>
-            Start
-          </Button>
-        </div>
-      )}
-
       {playState === PlayState.ShowingPlayersIntro && (
         <SplashText onComplete={() => setPlayState(PlayState.MovingPlayers)}>
           Moving players
@@ -109,6 +101,16 @@ export const Board = ({ boardImage, width, height }: Props) => {
           </PositionedPlayer>
         );
       })}
+      {playState === PlayState.WaitingToPlay && (
+        <div
+          style={{ position: 'absolute', top: '46%', left: '42%', zIndex: 1 }}
+        >
+          <Button onClick={() => setPlayState(PlayState.ShowingPlayersIntro)}>
+            Start
+          </Button>
+        </div>
+      )}
+
       <Barrels
         autoCreateBarrels={playState === PlayState.CreatingBarrels}
         autoThrowBarrels={playState === PlayState.ThrowingBarrels}
