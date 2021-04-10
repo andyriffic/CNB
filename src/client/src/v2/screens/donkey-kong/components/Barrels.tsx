@@ -77,20 +77,22 @@ export const Barrels = ({
   };
 
   const throwBarrelWithDelay = () => {
-    const throwingBarrels = barrels.map(
-      barrel => ({
-        allBarrels,
-        allPlayers,
-      }: {
-        allBarrels: Barrel[];
-        allPlayers: GameBoardPlayer[];
-      }) =>
-        throwBarrelAndExplode({
-          barrel,
+    const throwingBarrels = barrels
+      .reverse()
+      .map(
+        barrel => ({
           allBarrels,
-          gameBoardPlayers: allPlayers,
-        })
-    );
+          allPlayers,
+        }: {
+          allBarrels: Barrel[];
+          allPlayers: GameBoardPlayer[];
+        }) =>
+          throwBarrelAndExplode({
+            barrel,
+            allBarrels,
+            gameBoardPlayers: allPlayers,
+          })
+      );
     throwingBarrels
       .reduce(
         (p, throwing) =>

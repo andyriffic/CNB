@@ -26,6 +26,7 @@ import eightBitFall from './sounds/8bit_fall.wav';
 import flipPop from './sounds/flip-pop.wav';
 import barrelBlast from './sounds/barrel_blast.mp3';
 import donkeyKongColeco from './sounds/donkey_kong_coleco.mp3';
+import roar from './sounds/roar.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -58,6 +59,7 @@ const soundMap: SoundMap = {
   DonkeyKongThrowBarrel: eightBitFall,
   DonkeyKongCreateBarrel: flipPop,
   DonkeyKongExplodeBarrel: barrelBlast,
+  DonkeyKongAngry: roar,
   DonkeyKongGameOver: donkeyKongColeco,
 };
 

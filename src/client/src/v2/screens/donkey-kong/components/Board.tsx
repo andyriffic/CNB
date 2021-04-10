@@ -56,6 +56,12 @@ export const Board = ({ boardImage, width, height }: Props) => {
   }, [playState]);
 
   useEffect(() => {
+    if (playState === PlayState.ShowingBarrelsIntro) {
+      play('DonkeyKongAngry');
+    }
+  }, [playState]);
+
+  useEffect(() => {
     if (playState === PlayState.MovingPlayers) {
       moveAllPlayers().then(() => {
         setPlayState(PlayState.ShowingBarrelsIntro);

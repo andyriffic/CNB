@@ -34,6 +34,7 @@ export type SoundMap = {
   DonkeyKongThrowBarrel: any;
   DonkeyKongCreateBarrel: any;
   DonkeyKongExplodeBarrel: any;
+  DonkeyKongAngry: any;
   DonkeyKongGameOver: any;
 };
 
