@@ -23,6 +23,7 @@ import { FancyLink } from '../../../../../components/FancyLink';
 import { SelectSuprise } from './components/SelectSuprise';
 import { useLuckyZodiac } from '../../hooks/useLuckyZodiac';
 import { SOCKETS_ENDPOINT } from '../../../../../environment';
+import { ShowThemedVariant } from '../../../../components/ShowThemedVariant';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -185,9 +186,7 @@ const View = ({
         )}
         {showGameOverAction && (
           <PositionedArea position={{ left: 40, bottom: 0 }}>
-            <FancyLink href="/snakes-and-ladders">
-              🐍 To Snakes and Ladders
-            </FancyLink>
+            <ShowThemedVariant placement="mainGameOverAction" />
           </PositionedArea>
         )}
       </GameplayArea>

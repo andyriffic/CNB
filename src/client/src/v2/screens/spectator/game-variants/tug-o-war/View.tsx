@@ -29,6 +29,7 @@ import { SOCKETS_ENDPOINT } from '../../../../../environment';
 import { FeatureText } from '../../../../components/ui/Atoms';
 import { superSaiyanAnimation } from '../../../../../uplift/components/animations';
 import { PowerMode } from './components/PowerMode';
+import { ShowThemedVariant } from '../../../../components/ShowThemedVariant';
 
 const GameplayArea = styled.div`
   position: relative;
@@ -235,9 +236,7 @@ const View = ({
         )}
         {showGameOverAction && (
           <PositionedArea position={{ left: 40, bottom: 0 }}>
-            <FancyLink href="/snakes-and-ladders">
-              🐍 To Snakes and Ladders
-            </FancyLink>
+            <ShowThemedVariant placement="mainGameOverAction" />
           </PositionedArea>
         )}
       </GameplayArea>

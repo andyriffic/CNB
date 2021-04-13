@@ -15,6 +15,7 @@ import winner from './sounds/winner.mp3';
 import msPackman from './sounds/ms_pacman_c64.mp3';
 import eightBitNotification from './sounds/8bit_notification.mp3';
 import winnerVoice from './sounds/winner_voice.mp3';
+import { FancyLink } from '../../../components/FancyLink';
 
 const themeComponents: ThemeComponents = {
   ...defaultTheme,
@@ -48,6 +49,9 @@ const themeComponents: ThemeComponents = {
         alt="bomb"
         style={{ width: '80px', height: '80px' }}
       />
+    ),
+    mainGameOverAction: (
+      <FancyLink href="/donkey-kong">🦍 To Donkey Kong</FancyLink>
     ),
   },
 };

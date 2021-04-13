@@ -6,6 +6,7 @@ import thinkingCat from './thinking-cat.gif';
 import rockImage from './moves/rock.png';
 import paperImage from './moves/paper.png';
 import scissorsImage from './moves/scissors.png';
+import { FancyLink } from '../../../components/FancyLink';
 
 export const ThinkingCat = () => {
   return <img src={thinkingCat} style={{ width: '100%', height: '100%' }} />;
@@ -24,6 +25,9 @@ const themeComponents: ThemeComponents = {
     moveWaiting: <ThinkingCat />,
     prizeIcon: <span>🎁</span>,
     bombIcon: <span>💣</span>,
+    mainGameOverAction: (
+      <FancyLink href="/snakes-and-ladders">🐍 To Snakes and Ladders</FancyLink>
+    ),
   },
 };
 
