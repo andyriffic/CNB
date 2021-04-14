@@ -11,7 +11,7 @@ import bombImage from './bomb.png';
 import megamanTheme from './sounds/megaman_2_8bit.mp3';
 import tetrisTheme from './sounds/tetris_8bit_b_theme.mp3';
 import retroNotification from './sounds/retro_notification.mp3';
-import winner from './sounds/winner.mp3';
+import arcadeCoin from './sounds/arcade_sf_coin.mp3';
 import msPackman from './sounds/ms_pacman_c64.mp3';
 import eightBitNotification from './sounds/8bit_notification.mp3';
 import winnerVoice from './sounds/winner_voice.mp3';
@@ -25,7 +25,7 @@ const themeComponents: ThemeComponents = {
     ...defaultSounds,
     WaitForPlayersToJoin: megamanTheme,
     PlayerMoved: retroNotification,
-    RoundStart: winner,
+    RoundStart: arcadeCoin,
     WaitForMoves: tetrisTheme,
     GameOver: msPackman,
     ShowBasePoints: eightBitNotification,
