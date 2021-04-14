@@ -72,7 +72,7 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const targetPlayers = boardPlayers.filter(p => p.boardCellIndex > 1);
+    const targetPlayers = boardPlayers.filter(p => p.boardCellIndex >= 1);
     if (!targetPlayers.length) return;
 
     const targetPlayer: GameBoardPlayer = selectRandomOneOf(targetPlayers);
