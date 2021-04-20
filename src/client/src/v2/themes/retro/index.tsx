@@ -16,6 +16,7 @@ import msPackman from './sounds/ms_pacman_c64.mp3';
 import eightBitNotification from './sounds/8bit_notification.mp3';
 import winnerVoice from './sounds/winner_voice.mp3';
 import { FancyLink } from '../../../components/FancyLink';
+import questionImage from './question.png';
 
 const themeComponents: ThemeComponents = {
   ...defaultTheme,
@@ -41,6 +42,9 @@ const themeComponents: ThemeComponents = {
     ...defaultTheme.decorations,
     moveWaiting: (
       <img src={thinkingCat} style={{ width: '100%', height: '100%' }} />
+    ),
+    moveMade: (
+      <img src={questionImage} style={{ width: '100%', height: '100%' }} />
     ),
     prizeIcon: <span>🍒</span>,
     bombIcon: (

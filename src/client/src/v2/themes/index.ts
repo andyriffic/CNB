@@ -18,6 +18,7 @@ export type MoveThemeNames =
 export type DecorationPlacements =
   | 'spectatorScreen'
   | 'moveWaiting'
+  | 'moveMade'
   | 'playerMovedIcon'
   | 'prizeIcon'
   | 'bombIcon'

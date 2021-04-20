@@ -6,6 +6,7 @@ import thinkingCat from './thinking-cat.gif';
 import rockImage from './moves/rock.png';
 import paperImage from './moves/paper.png';
 import scissorsImage from './moves/scissors.png';
+import mysteryImage from './move_mystery.png';
 import { FancyLink } from '../../../components/FancyLink';
 
 export const ThinkingCat = () => {
@@ -23,6 +24,9 @@ const themeComponents: ThemeComponents = {
   },
   decorations: {
     moveWaiting: <ThinkingCat />,
+    moveMade: (
+      <img src={mysteryImage} style={{ width: '100%', height: '100%' }} />
+    ),
     prizeIcon: <span>🎁</span>,
     bombIcon: <span>💣</span>,
     mainGameOverAction: (

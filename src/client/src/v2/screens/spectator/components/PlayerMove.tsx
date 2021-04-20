@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
-import mysteryImage from '../assets/move_mystery.png';
 import { bounceAnimation } from '../../../../uplift/components/animations';
 import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
@@ -19,11 +18,6 @@ const MoveIcon = styled.div<{ moving: boolean }>`
     css`
       animation: ${bounceAnimation} 500ms 0s 3;
     `}
-`;
-
-const MoveImage = styled.img`
-  width: 100%;
-  height: 100%;
 `;
 
 type Props = {
@@ -63,7 +57,7 @@ export const PlayerMove = ({ moved, moveId, revealed = false }: Props) => {
           {showMove && moveId && theme ? (
             theme.moves[moveId as MoveKeys]
           ) : (
-            <MoveImage src={mysteryImage} />
+            <ShowThemedVariant placement="moveMade" />
           )}
         </MoveIcon>
       ) : (
