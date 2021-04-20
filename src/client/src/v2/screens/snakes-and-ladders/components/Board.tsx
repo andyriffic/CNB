@@ -6,6 +6,7 @@ import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
 import { useGameBoardProvider } from '../providers/GameBoardProvider';
 import { PositionedPlayer } from './PositionedPlayer';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
+import { WinningPlayer } from './WinningPlayer';
 
 const BoardContainer = styled.div<{
   boardImage: any;
@@ -52,6 +53,7 @@ export const Board = ({ boardImage, width, height }: Props) => {
           </PositionedPlayer>
         );
       })}
+      <WinningPlayer />
     </BoardContainer>
   );
 };
