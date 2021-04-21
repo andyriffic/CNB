@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { enterTopAnimation } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 import { useGameBoardProvider } from '../providers/GameBoardProvider';
 import confettiGif from './confetti.gif';
 import winnerGif from './winner.gif';
@@ -29,10 +30,17 @@ const Confetti = styled.img`
 
 export const WinningPlayer = () => {
   const { gameBoardPlayers } = useGameBoardProvider();
+  const { play } = useSoundProvider();
+  const soundPlayed = useRef(false);
 
   const winningPlayer = gameBoardPlayers.find(p => p.isWinner);
 
   if (!winningPlayer) return null;
+
+  if (!soundPlayed.current) {
+    soundPlayed.current = true;
+    play('SnakesAndLaddersWinner');
+  }
 
   return (
     <Container>

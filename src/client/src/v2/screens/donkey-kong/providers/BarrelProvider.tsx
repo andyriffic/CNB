@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
-import { GameBoardPlayer } from '../../snakes-and-ladders/providers/GameBoardProvider';
+import { GameBoardPlayer } from '../providers/GameBoardProvider';
 import { GameBoard } from '../types';
 import { useGameBoardProvider } from './GameBoardProvider';
 

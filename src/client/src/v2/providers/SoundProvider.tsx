@@ -31,6 +31,7 @@ export type SoundMap = {
   SnakesAndLaddersLadder: any;
   SnakesAndLaddersWormholeIn: any;
   SnakesAndLaddersWormholeOut: any;
+  SnakesAndLaddersWinner: any;
   DonkeyKongThrowBarrel: any;
   DonkeyKongCreateBarrel: any;
   DonkeyKongExplodeBarrel: any;

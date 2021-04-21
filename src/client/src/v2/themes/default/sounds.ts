@@ -27,6 +27,7 @@ import flipPop from './sounds/flip-pop.wav';
 import barrelBlast from './sounds/barrel_blast.mp3';
 import donkeyKongColeco from './sounds/donkey_kong_coleco.mp3';
 import roar from './sounds/roar.mp3';
+import fanfare from './sounds/fanfare.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -56,6 +57,7 @@ const soundMap: SoundMap = {
   SnakesAndLaddersLadder: fanfareSms,
   SnakesAndLaddersWormholeIn: spinningHeart,
   SnakesAndLaddersWormholeOut: spinningHeartReverse,
+  SnakesAndLaddersWinner: fanfare,
   DonkeyKongThrowBarrel: eightBitFall,
   DonkeyKongCreateBarrel: flipPop,
   DonkeyKongExplodeBarrel: barrelBlast,

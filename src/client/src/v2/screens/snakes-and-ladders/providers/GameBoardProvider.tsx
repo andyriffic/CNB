@@ -11,7 +11,6 @@ export type GameBoardPlayer = {
   positionOffset: number;
   inLead: boolean;
   isWinner: boolean;
-  moving: boolean;
 };
 
 type GameBoardService = {

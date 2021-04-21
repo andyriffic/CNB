@@ -6,7 +6,10 @@ import { PlaySound, useSoundProvider } from '../../../providers/SoundProvider';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
 import { BOARD_CELL_TYPE, GameBoard, GameBoardCell } from '../types';
 
-const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
+const getBoardPlayers = (
+  allPlayers: Player[],
+  gameBoard: GameBoard
+): GameBoardPlayer[] => {
   const eligiblePlayers = allPlayers.filter(player =>
     player.tags.includes('sl_participant')
   );
@@ -23,8 +26,7 @@ const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
         getPlayerAttributeValue(player.tags, 'sl_moves', '0')
       ),
       inLead: false,
-      isWinner: player.tags.includes('sl_winner'),
-      moving: player.tags.includes('sl_moving'),
+      isWinner: gameBoard.cells[boardCellIndex].type === BOARD_CELL_TYPE.END,
     };
   });
   return boardPlayers;
@@ -117,7 +119,7 @@ export const useGameBoardPlayers = (
   const { play } = useSoundProvider();
 
   useEffect(() => {
-    setGameBoardPlayers(getBoardPlayers(allPlayers));
+    setGameBoardPlayers(getBoardPlayers(allPlayers, board));
   }, [allPlayers]);
 
   return {
