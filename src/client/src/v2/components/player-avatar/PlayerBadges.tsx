@@ -60,6 +60,14 @@ export const PlayerBadges = ({ tags }: Props) => {
           <RotatingVortex src={vortexImage} alt="Vortex" />
         </BadgeEmoji>
       )}
+      {tags.includes('badge:chinese_new_year_snakes_and_ladders_winner') && (
+        <BadgeEmoji
+          title="Won Chinese New Year Snakes and Ladders"
+          style={{ borderColor: '#E40010', backgroundColor: '#FFD84B' }}
+        >
+          🏮
+        </BadgeEmoji>
+      )}
     </Container>
   );
 };
