@@ -100,9 +100,19 @@ export const BarrelProvider = ({
           return allBarrels;
         },
         createBarrels: () => {
-          const numberOfPlayersOnBoard = gameBoardPlayers.filter(
-            p => p.boardCellIndex > 0
-          ).length;
+          const allSquareNumbersOccupied = gameBoardPlayers
+            .filter(p => p.boardCellIndex > 0)
+            .map(p => p.boardCellIndex);
+
+          const uniqueSquares = new Set(allSquareNumbersOccupied);
+
+          console.log(
+            'BARREL DEBUG',
+            allSquareNumbersOccupied,
+            uniqueSquares,
+            uniqueSquares.size
+          );
+
           const maxPlayerIndex = gameBoardPlayers.reduce<number>(
             (acc, p) => (p.boardCellIndex > acc ? p.boardCellIndex : acc),
             0
@@ -113,7 +123,7 @@ export const BarrelProvider = ({
 
           const totalBarrels = Math.min(
             Math.max(
-              Math.floor(numberOfPlayersOnBoard / 5) +
+              Math.floor(uniqueSquares.size / 5) +
                 Math.floor(maxPlayerIndex / 10),
               minBarrels
             ),
