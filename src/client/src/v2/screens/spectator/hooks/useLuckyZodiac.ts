@@ -36,6 +36,7 @@ export const useLuckyZodiac = (): UseLuckyZodiacResult => {
   }, [allPlayers]);
 
   const giveLuckyZodiacPoints = () => {
+    const BONUS_ZODIAC_POINTS = 1;
     if (!luckySign.current) {
       return;
     }
@@ -48,7 +49,7 @@ export const useLuckyZodiac = (): UseLuckyZodiacResult => {
           ...p.tags.filter(t => !t.startsWith('sl_moves')),
           `sl_moves:${parseInt(
             getPlayerAttributeValue(p.tags, 'sl_moves', '0')
-          ) + 1}`,
+          ) + BONUS_ZODIAC_POINTS}`,
         ]);
       });
   };
