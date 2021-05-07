@@ -72,7 +72,7 @@ const generateChoices = (gameCount: number): Choice[] => {
     { weight: 3, item: '+1' },
     { weight: 2, item: '+2' },
     { weight: 1, item: 'Everyone +1' },
-    { weight: gameCount + 2, item: 'Game Over' },
+    { weight: gameCount * 2, item: 'Game Over' },
   ];
 
   return [
