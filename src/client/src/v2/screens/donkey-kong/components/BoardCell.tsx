@@ -48,6 +48,19 @@ const DebugText = styled.span`
   left: -5px;
 `;
 
+const SafeText = styled.span`
+  display: inline-block;
+  border: 2px solid darkgreen;
+  background-color: green;
+  color: white;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  position: relative;
+  top: 10px;
+  left: -17px;
+  padding: 2px 6px;
+`;
+
 type Props = {
   cell: GameBoardCell;
 };
@@ -80,23 +93,8 @@ export const BoardCell = ({ cell }: Props) => {
   return (
     <Cell x={cell.coordinates[0]} y={cell.coordinates[1]}>
       {gameBoardDebug && <DebugText>{cell.number}</DebugText>}
-      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.LADDER && (
-        <DebugText>⬆({cell.linkedCellIndex})</DebugText>
-      )}
-      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.SNAKE && (
-        <DebugText>⬇({cell.linkedCellIndex})</DebugText>
-      )}
-      {gameBoardDebug && cell.type === BOARD_CELL_TYPE.WORMHOLE && (
-        <DebugText
-          style={{ backgroundColor: 'steelblue', top: '40px', left: '-30px' }}
-        >
-          ⭐️(
-          {typeof cell.linkedCellIndex === 'object' &&
-            cell.linkedCellIndex.join(',')}
-          )
-        </DebugText>
-      )}
       {cell.type === BOARD_CELL_TYPE.END && <Cherry>🍒</Cherry>}
+      {cell.type === BOARD_CELL_TYPE.SAFE && <SafeText>safe</SafeText>}
     </Cell>
   );
 };

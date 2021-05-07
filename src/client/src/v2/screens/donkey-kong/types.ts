@@ -5,10 +5,8 @@ export type BoardCoordinates = [number, number];
 
 export enum BOARD_CELL_TYPE {
   NORMAL = 0,
-  SNAKE = 1,
-  LADDER = 2,
-  WORMHOLE = 3,
-  END = 4,
+  SAFE = 1,
+  END = 2,
 }
 
 export type GameBoardCell = {

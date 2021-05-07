@@ -8,22 +8,22 @@ export const generateBoard = (): GameBoard => {
       {
         number: 0,
         coordinates: [20, 730],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SAFE,
       },
       {
         number: 1,
         coordinates: [120, 725],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SAFE,
       },
       {
         number: 2,
         coordinates: [220, 720],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SAFE,
       },
       {
         number: 3,
         coordinates: [320, 717],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.SAFE,
       },
       {
         number: 4,

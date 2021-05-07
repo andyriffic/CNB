@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
-import { GameBoard } from '../types';
+import { BOARD_CELL_TYPE, GameBoard } from '../types';
 import { useGameBoardProvider } from './GameBoardProvider';
 
 export const throwSpeed = 1500;
@@ -72,7 +72,9 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const targetPlayers = boardPlayers.filter(p => p.boardCellIndex >= 1);
+    const targetPlayers = boardPlayers.filter(
+      p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
+    );
     if (!targetPlayers.length) return;
 
     const targetPlayer: GameBoardPlayer = selectRandomOneOf(targetPlayers);
@@ -101,7 +103,9 @@ export const BarrelProvider = ({
         },
         createBarrels: () => {
           const allSquareNumbersOccupied = gameBoardPlayers
-            .filter(p => p.boardCellIndex > 0)
+            .filter(
+              p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
+            )
             .map(p => p.boardCellIndex);
 
           const uniqueSquares = new Set(allSquareNumbersOccupied);

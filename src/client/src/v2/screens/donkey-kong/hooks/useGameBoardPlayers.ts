@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
-import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { PlaySound, useSoundProvider } from '../../../providers/SoundProvider';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
@@ -64,42 +63,6 @@ const landedInCell = (
 
   if (cell.type === BOARD_CELL_TYPE.NORMAL) {
     return gameBoardPlayer;
-  }
-
-  if (
-    cell.type === BOARD_CELL_TYPE.LADDER &&
-    typeof cell.linkedCellIndex === 'number'
-  ) {
-    play('SnakesAndLaddersLadder');
-
-    return {
-      ...gameBoardPlayer,
-      boardCellIndex: cell.linkedCellIndex,
-    };
-  }
-
-  if (
-    cell.type === BOARD_CELL_TYPE.SNAKE &&
-    typeof cell.linkedCellIndex === 'number'
-  ) {
-    play('SnakesAndLaddersSnake');
-
-    return {
-      ...gameBoardPlayer,
-      boardCellIndex: cell.linkedCellIndex,
-    };
-  }
-
-  if (
-    cell.type === BOARD_CELL_TYPE.WORMHOLE &&
-    typeof cell.linkedCellIndex === 'object'
-  ) {
-    const wormholeDestination = selectRandomOneOf(cell.linkedCellIndex);
-
-    return {
-      ...gameBoardPlayer,
-      boardCellIndex: wormholeDestination,
-    };
   }
 
   return gameBoardPlayer;
