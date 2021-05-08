@@ -34,7 +34,6 @@ export const GameSettingsProvider = ({ children }: { children: ReactNode }) => {
           const settings = { ...state, ...updatedSettings };
           setState(settings);
           saveGameSettings({ sound: { volume: settings.soundVolume } });
-          Howler.volume(settings.soundVolume / 10); //Don't do this all the time. Move when other settings are added
         },
       }}
     >
