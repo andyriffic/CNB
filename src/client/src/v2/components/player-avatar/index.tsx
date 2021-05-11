@@ -24,6 +24,7 @@ const PositionedZodiacSign = styled.div`
 
 const badgeScale: { [key in keyof AvatarSizeStyles]: number } = {
   small: 0.5,
+  smallMedium: 0.6,
   medium: 0.8,
   large: 1,
 };

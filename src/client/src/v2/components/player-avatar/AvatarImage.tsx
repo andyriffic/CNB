@@ -3,12 +3,14 @@ import styled, { CSSObject } from 'styled-components';
 
 export type AvatarSizeStyles = {
   small: CSSObject;
+  smallMedium: CSSObject;
   medium: CSSObject;
   large: CSSObject;
 };
 
 const avatarSizeStyles: AvatarSizeStyles = {
   small: { width: '50px', height: '75px' },
+  smallMedium: { width: '10vw', height: '12.5vw' },
   medium: { width: '20vw', height: '25vw' },
   large: { width: '30vw', height: '40vw' },
 };

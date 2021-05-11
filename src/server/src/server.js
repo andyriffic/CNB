@@ -16,6 +16,7 @@ import initThemes from './uplift/sockets/theme';
 import initTeams from './uplift/sockets/teams';
 import initInvitations from './uplift/sockets/invitations';
 import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
+import initMobMode from './uplift/sockets/mob-mode/socket'
 
 import {graphql} from './graphql';
 
@@ -52,5 +53,6 @@ initThemes(io, '/theme-realz');
 initTeams(io, '/teams-realz');
 initInvitations(io, '/invitations');
 initPlayerChoice(io, 'player-choice');
+initMobMode(io, '/mob-mode')
 
 console.log(`App running on http://localhost:${port}`);
