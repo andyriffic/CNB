@@ -72,18 +72,21 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const targetPlayers = boardPlayers.filter(
-      p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
-    );
-    if (!targetPlayers.length) return;
+    const allSquareNumbersOccupied = gameBoardPlayers
+      .filter(
+        p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
+      )
+      .map(p => p.boardCellIndex);
 
-    const targetPlayer: GameBoardPlayer = selectRandomOneOf(targetPlayers);
+    if (!allSquareNumbersOccupied.length) {
+      return;
+    }
 
-    const targetCell = board.cells.find(
-      c => c.number === targetPlayer.boardCellIndex
-    );
+    const uniqueSquaresIndex = new Set(allSquareNumbersOccupied);
+    console.log('Throwing barrel: Unique Cells', uniqueSquaresIndex);
 
-    if (!targetCell) return;
+    const targetCellIndex = selectRandomOneOf(Array.from(uniqueSquaresIndex));
+    const targetCell = board.cells[targetCellIndex];
 
     return {
       ...barrel,
