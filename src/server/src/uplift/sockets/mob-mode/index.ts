@@ -1,9 +1,27 @@
 import { customAlphabet } from 'nanoid';
 
 import { Player } from '../../services/player/types';
-import { MobGame, MobPlayer, MugPlayer, MoveId } from './types';
+import {
+  MobGame,
+  MobPlayer,
+  MugPlayer,
+  MoveId,
+  MobGameSpectatorView,
+} from './types';
 
 const idGenerator = customAlphabet('BCDFGHJKLMNPQRSTVWXZ', 6);
+
+export function createMobGameSpectatorView(
+  mobGame: MobGame
+): MobGameSpectatorView {
+  return {
+    ...mobGame,
+    ready: isMobGameReady(mobGame),
+    gameOver:
+      mobGame.mugPlayer.lives === 0 ||
+      mobGame.mobPlayers.every((mp) => !mp.active),
+  };
+}
 
 export function createMobGame(
   mugPlayer: Player,
@@ -11,6 +29,7 @@ export function createMobGame(
 ): MobGame {
   return {
     id: idGenerator(),
+    resolved: false,
     mugPlayer: createMugPlayer(mugPlayer),
     mobPlayers: mobPlayers.map(createMobPlayer),
   };
@@ -58,15 +77,37 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
 
   return {
     ...mobGame,
+    resolved: true,
     mobPlayers: mobGame.mobPlayers.map((p) => ({
       ...p,
       active: winningMobPlayerIds.includes(p.player.id),
+    })),
+    mugPlayer: {
+      ...mobGame.mugPlayer,
+      lives: mobGame.mugPlayer.lives - (winningMobPlayerIds.length ? 1 : 0),
+    },
+  };
+}
+
+export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
+  if (
+    !isMobGameReady(mobGame) ||
+    mobGame.resolved ||
+    mobGame.mugPlayer.lives === 0
+  ) {
+    return mobGame;
+  }
+
+  return {
+    ...mobGame,
+    resolved: false,
+    mobPlayers: mobGame.mobPlayers.map((p) => ({
+      ...p,
       lastMoveId: undefined,
     })),
     mugPlayer: {
       ...mobGame.mugPlayer,
       lastMoveId: undefined,
-      lives: mobGame.mugPlayer.lives - (winningMobPlayerIds.length ? 1 : 0),
     },
   };
 }
@@ -86,8 +127,9 @@ function playerWins(playerMove?: MoveId, opponentMove?: MoveId): boolean {
 
 export function isMobGameReady(mobGame: MobGame): boolean {
   return (
-    mobGame.mobPlayers.every((mobPlayer) => !!mobPlayer.lastMoveId) &&
-    !!mobGame.mugPlayer.lastMoveId
+    mobGame.mobPlayers.every(
+      (mobPlayer) => !!mobPlayer.lastMoveId || !mobPlayer.active
+    ) && !!mobGame.mugPlayer.lastMoveId
   );
 }
 

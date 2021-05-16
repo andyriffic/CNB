@@ -1,8 +1,14 @@
-import { playerService } from '../../services/player';
 import { Socket, Server } from 'socket.io';
-import { MobGame } from './types';
+import { MobGame, MoveId } from './types';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
-import { createMobGame } from '.';
+import {
+  createMobGame,
+  createMobGameSpectatorView,
+  makeMobPlayerMove,
+  makeMugPlayerMove,
+  resetForNextRoundMobGame,
+  resolveMobGame,
+} from '.';
 import { Player } from '../../services/player/types';
 
 const REQUEST_MOB_GAMES = 'REQUEST_MOB_GAMES';
@@ -11,6 +17,7 @@ const CREATE_MOB_GAME = 'CREATE_MOB_GAME';
 const MAKE_MOB_MOVE = 'MAKE_MOB_MOVE';
 const MAKE_MUG_MOVE = 'MAKE_MUG_MOVE';
 const RESOLVE_MOB_GAME = 'RESOLVE_MOB_GAME';
+const NEXT_ROUND_MOB_GAME = 'NEXT_ROUND_MOB_GAME';
 
 let activeMobGames: MobGame[] = [];
 const log = createLogger('mobs', LOG_NAMESPACE.socket);
@@ -22,7 +29,10 @@ const init = (socketServer: Server, path: string) => {
     log('someone connected', socket.id);
 
     socket.on(REQUEST_MOB_GAMES, () => {
-      socket.emit(MOB_GAMES_UPDATE, activeMobGames);
+      socket.emit(
+        MOB_GAMES_UPDATE,
+        activeMobGames.map(createMobGameSpectatorView)
+      );
     });
 
     socket.on(
@@ -31,10 +41,92 @@ const init = (socketServer: Server, path: string) => {
         const mobGame = createMobGame(mug, mob);
         log('Created MobGame', mobGame);
         activeMobGames = [...activeMobGames, mobGame];
-        namespace.emit(MOB_GAMES_UPDATE, activeMobGames);
+        namespace.emit(
+          MOB_GAMES_UPDATE,
+          activeMobGames.map(createMobGameSpectatorView)
+        );
         onCreated(mobGame.id);
       }
     );
+
+    socket.on(
+      MAKE_MOB_MOVE,
+      (mobGameId: string, playerId: string, moveId: MoveId) => {
+        const mobGame = activeMobGames.find((mg) => mg.id === mobGameId);
+        if (!mobGame) {
+          log('MobGame does not exist', mobGameId);
+          return;
+        }
+        log('Making Mob Move', mobGameId, playerId, moveId);
+
+        const updatedMobGame = makeMobPlayerMove(mobGame, playerId, moveId);
+        activeMobGames = [
+          ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
+          updatedMobGame,
+        ];
+        namespace.emit(
+          MOB_GAMES_UPDATE,
+          activeMobGames.map(createMobGameSpectatorView)
+        );
+      }
+    );
+
+    socket.on(MAKE_MUG_MOVE, (mobGameId: string, moveId: MoveId) => {
+      const mobGame = activeMobGames.find((mg) => mg.id === mobGameId);
+      if (!mobGame) {
+        log('MobGame does not exist', mobGameId);
+        return;
+      }
+      log('Making Mug Move', mobGameId, moveId);
+
+      const updatedMobGame = makeMugPlayerMove(mobGame, moveId);
+      activeMobGames = [
+        ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
+        updatedMobGame,
+      ];
+      namespace.emit(
+        MOB_GAMES_UPDATE,
+        activeMobGames.map(createMobGameSpectatorView)
+      );
+    });
+
+    socket.on(RESOLVE_MOB_GAME, (mobGameId: string) => {
+      const mobGame = activeMobGames.find((mg) => mg.id === mobGameId);
+      if (!mobGame) {
+        log('MobGame does not exist', mobGameId);
+        return;
+      }
+      log('Resolving Mob Game', mobGameId);
+
+      const updatedMobGame = resolveMobGame(mobGame);
+      activeMobGames = [
+        ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
+        updatedMobGame,
+      ];
+      namespace.emit(
+        MOB_GAMES_UPDATE,
+        activeMobGames.map(createMobGameSpectatorView)
+      );
+    });
+
+    socket.on(NEXT_ROUND_MOB_GAME, (mobGameId: string) => {
+      const mobGame = activeMobGames.find((mg) => mg.id === mobGameId);
+      if (!mobGame) {
+        log('MobGame does not exist', mobGameId);
+        return;
+      }
+      log('Mob Game next round', mobGameId);
+
+      const updatedMobGame = resetForNextRoundMobGame(mobGame);
+      activeMobGames = [
+        ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
+        updatedMobGame,
+      ];
+      namespace.emit(
+        MOB_GAMES_UPDATE,
+        activeMobGames.map(createMobGameSpectatorView)
+      );
+    });
   });
 };
 

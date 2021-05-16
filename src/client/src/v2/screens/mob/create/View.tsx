@@ -57,7 +57,7 @@ export default ({ navigate }: Props) => {
           {!sentInvites && (
             <Button onClick={onSendInvitesClick}>Invite Mob</Button>
           )}
-          {sentInvites && joinedPlayers.length > 2 && (
+          {joinedPlayers.length > 2 && (
             <Button onClick={onCreateMobClick}>Start Mob</Button>
           )}
         </div>
