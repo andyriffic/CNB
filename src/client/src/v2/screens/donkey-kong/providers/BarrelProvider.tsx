@@ -122,16 +122,18 @@ export const BarrelProvider = ({
             0
           );
 
-          const maxBarrels = 6;
-          const minBarrels = 1;
+          const MAX_BARRELS = 6;
+          const MIN_BARRELS = 1;
+          const PLAYERS_ON_BOARD_PER_BARREL = 10;
+          const PLAYER_MAX_POSITION_PER_BARREL = 15;
 
           const totalBarrels = Math.min(
             Math.max(
-              Math.floor(uniqueSquares.size / 5) +
-                Math.floor(maxPlayerIndex / 10),
-              minBarrels
+              Math.floor(uniqueSquares.size / PLAYERS_ON_BOARD_PER_BARREL) +
+                Math.floor(maxPlayerIndex / PLAYER_MAX_POSITION_PER_BARREL),
+              MIN_BARRELS
             ),
-            maxBarrels
+            MAX_BARRELS
           );
 
           console.log('total barrels', totalBarrels);
