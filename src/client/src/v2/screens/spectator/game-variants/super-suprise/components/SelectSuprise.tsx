@@ -71,7 +71,7 @@ const generateChoices = (gameCount: number): Choice[] => {
     { weight: 4, item: 'Empty' },
     { weight: 3, item: '+1' },
     { weight: 2, item: '+2' },
-    { weight: 1, item: 'Everyone +1' },
+    { weight: 1, item: 'Everyone +2' },
     { weight: gameCount * 2, item: 'Game Over' },
   ];
 
@@ -83,12 +83,12 @@ const generateChoices = (gameCount: number): Choice[] => {
 };
 
 type ChoiceStates = 'waitingSelection' | 'madeChoice' | 'revealAll';
-type ChoiceOutcome = 'Empty' | '+1' | 'Everyone +1' | '+2' | 'Game Over';
+type ChoiceOutcome = 'Empty' | '+1' | 'Everyone +2' | '+2' | 'Game Over';
 
 const ChoiceOutcomeIcons: { [key in ChoiceOutcome]: string } = {
   Empty: '😔',
   '+1': '🙂',
-  'Everyone +1': '🎉',
+  'Everyone +2': '🎉',
   '+2': '😄',
   'Game Over': '💩',
 };
@@ -147,9 +147,9 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
               setChoiceState('madeChoice')
             );
             break;
-          case 'Everyone +1':
+          case 'Everyone +2':
             play('SelectPrizePoints');
-            giveAllPlayersSnakesAndLaddersMoves(1, () =>
+            giveAllPlayersSnakesAndLaddersMoves(2, () =>
               setChoiceState('madeChoice')
             );
             break;
