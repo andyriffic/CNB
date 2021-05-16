@@ -36,7 +36,7 @@ export const useLuckyZodiac = (): UseLuckyZodiacResult => {
   }, [allPlayers]);
 
   const giveLuckyZodiacPoints = () => {
-    const BONUS_ZODIAC_POINTS = 2;
+    const BONUS_ZODIAC_POINTS = 3;
     if (!luckySign.current) {
       return;
     }
