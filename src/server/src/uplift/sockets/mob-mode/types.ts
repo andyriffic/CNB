@@ -14,10 +14,12 @@ export type MugPlayer = MobBasePlayer & {
 
 export type MobPlayer = MobBasePlayer & {
   active: boolean;
+  lastRound: number;
 };
 
 export type MobGame = {
   id: string;
+  round: number;
   resolved: boolean;
   mobPlayers: MobPlayer[];
   mugPlayer: MugPlayer;

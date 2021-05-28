@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+  enterTopAnimation,
+  outOfWormholeAnimation,
+} from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MugPlayer } from '../../../providers/MobProvider';
@@ -9,6 +13,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+  position: relative;
+  width: 230px;
 `;
 
 const Avatar = styled.div<{ moved: boolean }>`
@@ -38,6 +45,10 @@ const Life = styled.img`
 const MoveContainer = styled.div`
   width: 60px;
   height: 60px;
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  animation: ${outOfWormholeAnimation} 500ms ease-in 0s forwards;
 `;
 
 type Props = {

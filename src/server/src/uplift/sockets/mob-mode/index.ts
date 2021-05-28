@@ -29,6 +29,7 @@ export function createMobGame(
 ): MobGame {
   return {
     id: idGenerator(),
+    round: 1,
     resolved: false,
     mugPlayer: createMugPlayer(mugPlayer),
     mobPlayers: mobPlayers.map(createMobPlayer),
@@ -78,13 +79,19 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
   return {
     ...mobGame,
     resolved: true,
-    mobPlayers: mobGame.mobPlayers.map((p) => ({
-      ...p,
-      active: winningMobPlayerIds.includes(p.player.id),
-    })),
+    mobPlayers: mobGame.mobPlayers.map((p) => {
+      const active = winningMobPlayerIds.includes(p.player.id);
+      return {
+        ...p,
+        active: winningMobPlayerIds.includes(p.player.id),
+      };
+    }),
     mugPlayer: {
       ...mobGame.mugPlayer,
-      lives: mobGame.mugPlayer.lives - (winningMobPlayerIds.length ? 1 : 0),
+      lives: Math.max(
+        mobGame.mugPlayer.lives - (winningMobPlayerIds.length ? 1 : 0),
+        0
+      ),
     },
   };
 }
@@ -92,7 +99,7 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
 export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
   if (
     !isMobGameReady(mobGame) ||
-    mobGame.resolved ||
+    !mobGame.resolved ||
     mobGame.mugPlayer.lives === 0
   ) {
     return mobGame;
@@ -101,9 +108,11 @@ export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
   return {
     ...mobGame,
     resolved: false,
+    round: mobGame.round + 1,
     mobPlayers: mobGame.mobPlayers.map((p) => ({
       ...p,
       lastMoveId: undefined,
+      lastRound: p.active ? mobGame.round + 1 : p.lastRound,
     })),
     mugPlayer: {
       ...mobGame.mugPlayer,
@@ -136,6 +145,7 @@ export function isMobGameReady(mobGame: MobGame): boolean {
 function createMobPlayer(player: Player): MobPlayer {
   return {
     player,
+    lastRound: 1,
     active: true,
   };
 }
