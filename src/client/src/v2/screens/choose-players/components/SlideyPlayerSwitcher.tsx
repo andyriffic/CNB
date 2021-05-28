@@ -11,10 +11,6 @@ const Container = styled(animated.div)`
   top: 10%;
 `;
 
-const FacingDirection = styled.div<{ faceLeft: boolean }>`
-  ${({ faceLeft }) => faceLeft && 'transform: scaleX(-1);'}
-`;
-
 const FastestFinger = styled.div`
   opacity: 0;
   position: absolute;
@@ -82,11 +78,13 @@ export const SlideyPlayerSwitcher = ({
 
   return (
     <Container style={springProps}>
-      <FacingDirection faceLeft={pos === 'right'}>
-        {displayPlayer && (
-          <ChoosePlayerAvatar player={displayPlayer} confirmed={confirmed} />
-        )}
-      </FacingDirection>
+      {displayPlayer && (
+        <ChoosePlayerAvatar
+          pos={pos}
+          player={displayPlayer}
+          confirmed={confirmed}
+        />
+      )}
       {confirmed && fastestFinger && (
         <FastestFinger>
           +2 pts <SubText>Joined first!</SubText>

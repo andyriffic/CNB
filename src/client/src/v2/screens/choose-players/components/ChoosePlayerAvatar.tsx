@@ -35,15 +35,39 @@ const Container = styled.div<{ playerJoined: boolean }>`
         `}
 `;
 
+const FacingDirection = styled.div<{ faceLeft: boolean }>`
+  ${({ faceLeft }) => faceLeft && 'transform: scaleX(-1);'}
+`;
+
+const PlayerName = styled.div`
+  text-align: center;
+  position: relative;
+  top: -80px;
+  font-family: ${({ theme }) => theme.fontFamily.feature};
+  font-size: ${({ theme }) => theme.fontSize.large};
+  color: ${({ theme }) => theme.color.background03};
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: ${({ theme }) => theme.color.text02};
+`;
+
 type Props = {
   player: Player;
   confirmed: boolean;
+  pos?: 'left' | 'right';
 };
 
-export const ChoosePlayerAvatar = ({ player, confirmed }: Props) => {
+export const ChoosePlayerAvatar = ({
+  player,
+  confirmed,
+  pos = 'left',
+}: Props) => {
   return (
     <Container playerJoined={confirmed}>
-      <PlayerAvatar player={player} size="large" />
+      <FacingDirection faceLeft={pos === 'right'}>
+        <PlayerAvatar player={player} size="large" />
+      </FacingDirection>
+
+      <PlayerName>{player.name}</PlayerName>
     </Container>
   );
 };
