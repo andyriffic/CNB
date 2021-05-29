@@ -14,7 +14,14 @@ type MobSpectatorViewUiState = {
   newRound: () => void;
 };
 
-type PlayState = 'start' | 'finished';
+type PlayState =
+  | 'waiting-moves'
+  | 'ready-to-reveal'
+  | 'reveal-moves'
+  | 'revealing-moves'
+  | 'all-moves-revealed'
+  | 'player-won'
+  | 'mob-won';
 
 type State = {
   revealedPlayerIndex: number;
@@ -70,9 +77,15 @@ const reducer = (
         ...state,
         uiMobPlayers: action.value,
       };
-    case 'UPDATE_UI_MOB_PLAYER': {
-      const newState = {
+    case 'SET_PLAY_STATE':
+      return {
         ...state,
+        playState: action.value,
+      };
+    case 'UPDATE_UI_MOB_PLAYER': {
+      const newState: State = {
+        ...state,
+        playState: 'revealing-moves',
         uiMobPlayers: state.uiMobPlayers.map(uimp => {
           if (uimp.playerId === action.value.playerId) {
             return {
@@ -83,8 +96,6 @@ const reducer = (
           return uimp;
         }),
       };
-      console.log('NEW UI STATE', newState);
-
       return newState;
     }
     default:
@@ -96,7 +107,7 @@ const reducer = (
 
 const initialState: State = {
   revealedPlayerIndex: -1,
-  playState: 'start',
+  playState: 'waiting-moves',
   uiMobPlayers: [],
 };
 
@@ -120,6 +131,7 @@ export const useMobSpectatorViewUiState = (
   ]);
 
   useEffect(() => {
+    //Initialising mob ui state
     if (!mobGame || initialised.current) {
       return;
     }
@@ -132,18 +144,38 @@ export const useMobSpectatorViewUiState = (
     dispatch({ type: 'SET_UI_MOB_PLAYERS', value: initialisedUiMobPlayers });
   }, [mobGame]);
 
+  // useEffect(() => {
+  //   // play state timing
+  //   if (!mobGame) {
+  //     return;
+  //   }
+
+  //   if (mobGame.ready) {
+  //     dispatch({ type: 'SET_PLAY_STATE', value: 'ready-to-reveal' });
+  //     return;
+  //   }
+
+  //   if (mobGame.resolved && uiState.playState === 'ready-to-reveal') {
+  //     dispatch({ type: 'SET_PLAY_STATE', value: 'revealing-moves' });
+  //     return;
+  //   }
+  // }, [mobGame, uiState]);
+
   useEffect(() => {
-    if (!mobGame || !(mobGame.ready && mobGame.resolved)) {
-      dispatch({ type: 'RESET_REVEALED_PLAYER', playState: 'start' });
+    // Revealing mob moves sequentially
+    if (!mobGame) {
       return;
     }
+    // if (!mobGame || !(mobGame.ready && mobGame.resolved)) {
+    //   dispatch({ type: 'RESET_REVEALED_PLAYER', playState: 'start' });
+    //   return;
+    // }
 
     if (mobGame.resolved) {
       let currentIndex = 0;
       const playerIdsToHighlight = mobGame.mobPlayers
         .filter(mp => mobGame.round === mp.lastRound)
         .map(mp => mp.player.id);
-      console.log('HIGHLIGHT PLAYERS', playerIdsToHighlight);
 
       const interval = setInterval(() => {
         dispatch({
@@ -156,6 +188,7 @@ export const useMobSpectatorViewUiState = (
         currentIndex++;
         if (currentIndex === playerIdsToHighlight.length) {
           clearInterval(interval);
+          dispatch({ type: 'SET_PLAY_STATE', value: 'all-moves-revealed' });
         }
       }, 2000);
       return () => {

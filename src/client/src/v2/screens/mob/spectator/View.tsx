@@ -68,7 +68,7 @@ export default ({ mobGameId }: Props) => {
         {isPersistantFeatureEnabled('cnb-debug') && (
           <MobPlayerDebug mobGame={mobGame} />
         )}
-        {/* <FeatureText>{mobGame.id}</FeatureText> */}
+        <div>{uiState.playState}</div>
         <PlayersContainer>
           <MugContainer>
             <MugPlayerAvatar
@@ -114,9 +114,7 @@ export default ({ mobGameId }: Props) => {
           </Button>
         )}
         {mobGame.ready && (
-          <SplashText onComplete={() => resolveMobGame(mobGame.id)}>
-            Ready
-          </SplashText>
+          <Button onClick={() => resolveMobGame(mobGame.id)}>Ready</Button>
         )}
       </Container>
     </GameScreen>
