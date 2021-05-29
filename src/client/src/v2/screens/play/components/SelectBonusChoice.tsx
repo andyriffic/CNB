@@ -67,7 +67,11 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
               onClick={() => selectChoice(playersChoice.id, choice.id)}
               key={choice.id}
             >
-              <ShowThemedVariant placement="prizeIcon" />
+              {playersChoice.maskLabels ? (
+                <ShowThemedVariant placement="prizeIcon" />
+              ) : (
+                choice.label
+              )}
             </Button>
           </ChoiceItem>
         ))}

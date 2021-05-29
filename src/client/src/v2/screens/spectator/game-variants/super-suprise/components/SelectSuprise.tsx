@@ -110,9 +110,12 @@ export const SelectSuprise = ({ playerId, onComplete, gameCount }: Props) => {
   );
 
   useEffect(() => {
-    createChoice({ choices: choicesRef.current, playerId }, choiceId => {
-      setChoiceId(choiceId);
-    });
+    createChoice(
+      { choices: choicesRef.current, playerId, maskLabels: true },
+      choiceId => {
+        setChoiceId(choiceId);
+      }
+    );
   }, []);
 
   useEffect(() => {

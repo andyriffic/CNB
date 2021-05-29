@@ -9,6 +9,7 @@ type Choice = {
 
 type InitiatePlayerChoice = {
   playerId: string;
+  maskLabels?: boolean;
   choices: Choice[];
 };
 
