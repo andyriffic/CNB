@@ -126,7 +126,7 @@ export const useMobSpectatorViewUiState = (
     initialised.current = true;
     const initialisedUiMobPlayers = mobGame.mobPlayers.map<UiMobPlayer>(mp => ({
       playerId: mp.player.id,
-      revealMove: false,
+      revealMove: !mp.active,
     }));
 
     dispatch({ type: 'SET_UI_MOB_PLAYERS', value: initialisedUiMobPlayers });

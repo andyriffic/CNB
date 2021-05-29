@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import {
-  enterTopAnimation,
   fadeInAnimation,
-  fadeInDownAnimation,
-  outOfWormholeAnimation,
+  outOfWormholeAnimationFacingLeft,
 } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
@@ -12,12 +10,11 @@ import { MobPlayer } from '../../../providers/MobProvider';
 import removedCross from './assets/removed-cross.png';
 import winCheck from './assets/win-check.png';
 
-const Container = styled.div<{ highlight: boolean }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  /* background-color: ${({ highlight }) => highlight && 'goldenrod'}; */
   padding-left: 60px;
 `;
 
@@ -28,15 +25,18 @@ const Avatar = styled.div<{ fade: boolean }>`
 `;
 
 const PlayerName = styled.div<{ fade: boolean }>`
-  border: 2px solid black;
-  background: #fff;
-  color: black;
-  padding: 4px 10px;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.extraSmall};
-  border-radius: 8px;
-  text-transform: uppercase;
   opacity: ${({ fade }) => (fade ? 0.5 : 1)};
+
+  text-align: center;
+  position: relative;
+  top: -20px;
+  /* font-family: ${({ theme }) => theme.fontFamily.feature}; */
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSize.small};
+  color: ${({ theme }) => theme.color.background03};
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #aaa;
 `;
 
 const MoveContainer = styled.div`
@@ -45,7 +45,7 @@ const MoveContainer = styled.div`
   position: absolute;
   top: 40%;
   left: 20px;
-  animation: ${outOfWormholeAnimation} 500ms ease-in 0s both;
+  animation: ${outOfWormholeAnimationFacingLeft} 500ms ease-in 0s both;
   transform: scaleX(-1);
 `;
 
@@ -69,35 +69,37 @@ const WinPlayer = styled.img`
 
 type Props = {
   mobPlayer: MobPlayer;
-  revealMove: boolean;
-  winner: boolean;
-  highlight: boolean;
+  moved: boolean;
+  reveal: boolean;
+  eliminated: boolean;
+  wonRound: boolean;
+  wonGame: boolean;
 };
 
 export const MobPlayerAvatar = ({
   mobPlayer,
-  revealMove,
-  winner,
-  highlight,
+  moved,
+  reveal,
+  eliminated,
+  wonRound,
+  wonGame,
 }: Props) => {
   const theme = useThemeComponents();
 
-  const moved = !!mobPlayer.lastMoveId;
-
   return (
-    <Container key={mobPlayer.player.id} highlight={highlight}>
-      {winner && <div>🎉</div>}
-      <Avatar fade={!(revealMove && moved && mobPlayer.active)}>
+    <Container key={mobPlayer.player.id}>
+      {wonGame && <div style={{ position: 'absolute' }}>🎉</div>}
+      <Avatar fade={!moved}>
         <PlayerAvatar player={mobPlayer.player} size="smallMedium" />
       </Avatar>
-      <PlayerName fade={revealMove && !mobPlayer.active}>
+      <PlayerName fade={reveal && eliminated}>
         {mobPlayer.player.name}
       </PlayerName>
-      {mobPlayer.lastMoveId && revealMove && theme && (
+      {mobPlayer.lastMoveId && reveal && theme && (
         <MoveContainer>{theme.moves[mobPlayer.lastMoveId]}</MoveContainer>
       )}
-      {!mobPlayer.active && revealMove && <RemovedPlayer src={removedCross} />}
-      {mobPlayer.active && revealMove && <WinPlayer src={winCheck} />}
+      {reveal && eliminated && <RemovedPlayer src={removedCross} />}
+      {/* {reveal && wonRound && <WinPlayer src={winCheck} />} */}
     </Container>
   );
 };

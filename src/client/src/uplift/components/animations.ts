@@ -315,6 +315,11 @@ export const outOfWormholeAnimation = keyframes`
   100% { transform: rotate(0deg) scale(1); opacity: 1; }
 `;
 
+export const outOfWormholeAnimationFacingLeft = keyframes`
+  0% { transform: rotate(-1080deg) scale(0.2) scaleX(-1); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1) scaleX(-1); opacity: 1; }
+`;
+
 export const hingeAnimation = keyframes`
   0% {
     animation-timing-function: ease-in-out;

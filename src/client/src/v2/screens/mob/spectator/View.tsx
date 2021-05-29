@@ -19,6 +19,14 @@ const Container = styled.div`
   margin: 50px auto 50px auto;
 `;
 
+const PlayersContainer = styled.div`
+  display: flex;
+`;
+const MugContainer = styled.div`
+  margin-right: 100px;
+`;
+const MobContainer = styled.div``;
+
 type Props = {
   mobGameId: string;
 };
@@ -35,17 +43,20 @@ export default ({ mobGameId }: Props) => {
   const { mobGame } = useMobGame(mobGameId);
   const { resolveMobGame, nextRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
+  const resolvedRound = useRef(mobGame ? mobGame.round : 1);
 
-  useEffect(() => {
-    if (
-      mobGame &&
-      mobGame.resolved &&
-      !(uiState.mobWinner || uiState.mugWinner)
-    ) {
-      nextRound(mobGame.id);
-      uiState.newRound();
-    }
-  }, [mobGame, uiState]);
+  // useEffect(() => {
+  //   if (
+  //     mobGame &&
+  //     mobGame.resolved &&
+  //     mobGame.round === resolvedRound.current &&
+  //     !(uiState.mobWinner || uiState.mugWinner)
+  //   ) {
+  //     resolvedRound.current = mobGame.round;
+  //     nextRound(mobGame.id);
+  //     uiState.newRound();
+  //   }
+  // }, [mobGame, uiState]);
 
   if (!mobGame) {
     return <LoadingSpinner />;
@@ -58,27 +69,41 @@ export default ({ mobGameId }: Props) => {
           <MobPlayerDebug mobGame={mobGame} />
         )}
         {/* <FeatureText>{mobGame.id}</FeatureText> */}
-        <MugPlayerAvatar
-          mugPlayer={mobGame.mugPlayer}
-          revealMove={mobGame.resolved}
-          winner={uiState.mugWinner}
-          loser={uiState.mobWinner}
-        />
-        <ul style={{ display: 'flex', justifyContent: 'center' }}>
-          {mobGame.mobPlayers.map((mp, i) => (
-            <MobPlayerAvatar
-              key={mp.player.id}
-              mobPlayer={mp}
-              revealMove={getPlayerRevealMove(
-                mp.player.id,
-                uiState.uiMobPlayers
-              )}
-              winner={false}
-              highlight={false}
+        <PlayersContainer>
+          <MugContainer>
+            <MugPlayerAvatar
+              mugPlayer={mobGame.mugPlayer}
+              revealMove={mobGame.resolved}
+              winner={uiState.mugWinner}
+              loser={uiState.mobWinner}
             />
-          ))}
-        </ul>
-        {/* {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
+          </MugContainer>
+          <MobContainer>
+            <ul
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                flexWrap: 'wrap',
+              }}
+            >
+              {mobGame.mobPlayers.map((mp, i) => (
+                <MobPlayerAvatar
+                  key={mp.player.id}
+                  mobPlayer={mp}
+                  moved={!!mp.lastMoveId}
+                  reveal={getPlayerRevealMove(
+                    mp.player.id,
+                    uiState.uiMobPlayers
+                  )}
+                  eliminated={!mp.active}
+                  wonRound={!!mp.lastMoveId && mp.active}
+                  wonGame={uiState.mobWinner && mp.active}
+                />
+              ))}
+            </ul>
+          </MobContainer>
+        </PlayersContainer>
+        {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
           <Button
             onClick={() => {
               nextRound(mobGame.id);
@@ -87,7 +112,7 @@ export default ({ mobGameId }: Props) => {
           >
             Next round
           </Button>
-        )} */}
+        )}
         {mobGame.ready && (
           <SplashText onComplete={() => resolveMobGame(mobGame.id)}>
             Ready

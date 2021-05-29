@@ -15,7 +15,7 @@ const Container = styled.div`
   align-items: center;
   overflow: hidden;
   position: relative;
-  width: 230px;
+  /* width: 230px; */
 `;
 
 const Avatar = styled.div<{ moved: boolean }>`
@@ -24,14 +24,16 @@ const Avatar = styled.div<{ moved: boolean }>`
 `;
 
 const PlayerName = styled.div`
-  border: 2px solid black;
-  background: #fff;
-  color: black;
-  padding: 4px 10px;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.extraSmall};
-  border-radius: 8px;
+  position: relative;
+  top: -20px;
+  /* font-family: ${({ theme }) => theme.fontFamily.feature}; */
   text-transform: uppercase;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSize.small};
+  color: ${({ theme }) => theme.color.background03};
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #aaa;
 `;
 
 const Lives = styled.div`
@@ -43,11 +45,11 @@ const Life = styled.img`
 `;
 
 const MoveContainer = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   position: absolute;
   top: 40%;
-  right: 20px;
+  right: -10%;
   animation: ${outOfWormholeAnimation} 500ms ease-in 0s forwards;
 `;
 
@@ -76,7 +78,7 @@ export const MugPlayerAvatar = ({
         ))}
       </Lives>
       <Avatar moved={!!mugPlayer.lastMoveId}>
-        <PlayerAvatar player={mugPlayer.player} size="smallMedium" />
+        <PlayerAvatar player={mugPlayer.player} size="medium" />
       </Avatar>
       <PlayerName>{mugPlayer.player.name}</PlayerName>
       {mugPlayer.lastMoveId && revealMove && theme && (
