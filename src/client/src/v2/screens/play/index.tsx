@@ -3,6 +3,7 @@ import { RouteComponentProps } from '@reach/router';
 import { SelectPlayerView } from './SelectPlayerView';
 import { SelectMatchupView } from './SelectMatchupView';
 import { PlayMatchupView } from './PlayMatchupView';
+import { PlayMobView } from './PlayMobView';
 
 export const SelectPlayerScreen = ({  }: RouteComponentProps) => {
   return <SelectPlayerView />;
@@ -14,4 +15,8 @@ export const SelectMatchupScreen = (props: RouteComponentProps) => {
 
 export const PlayMatchupScreen = (props: RouteComponentProps) => {
   return <PlayMatchupView playerId="" matchupId="" {...props} />;
+};
+
+export const PlayMobScreen = (props: RouteComponentProps) => {
+  return <PlayMobView playerId="" mobGameId="" {...props} />;
 };

@@ -8,7 +8,11 @@ import { MainHeading } from '../../../uplift/components/Heading';
 import { useInvitationsProvider } from '../../providers/InvitationsProvider';
 import { SelectBonusChoice } from './components/SelectBonusChoice';
 import { DebugBonusChoice } from './components/DebugBonusChoice';
-import { isPersistantFeatureEnabled } from '../../../featureToggle';
+import {
+  isFeatureEnabled,
+  isPersistantFeatureEnabled,
+} from '../../../featureToggle';
+import { MobSelectionList } from './components/MobSelectionList';
 
 type Props = {
   playerId: string;
@@ -70,6 +74,12 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
             />
           </div>
         </>
+      )}
+      {isFeatureEnabled('mob') && (
+        <MobSelectionList
+          playerId={playerId}
+          onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
+        />
       )}
       {/* {playerMatchups && (
         <>

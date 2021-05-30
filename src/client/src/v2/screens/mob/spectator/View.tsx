@@ -113,7 +113,7 @@ export default ({ mobGameId }: Props) => {
             Next round
           </Button>
         )}
-        {mobGame.ready && (
+        {mobGame.ready && !mobGame.resolved && (
           <Button onClick={() => resolveMobGame(mobGame.id)}>Ready</Button>
         )}
       </Container>

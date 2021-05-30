@@ -18,6 +18,7 @@ import {
   SelectPlayerScreen,
   SelectMatchupScreen,
   PlayMatchupScreen,
+  PlayMobScreen,
 } from './screens/play';
 import { PlayerAdminScreen } from './screens/player-admin';
 import { PlayerProfileScreen } from './screens/player-profile';
@@ -53,6 +54,7 @@ export default () => {
                         <SelectPlayerScreen path="/play" />
                         <SelectMatchupScreen path="/play/:playerId" />
                         <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                        <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
                         <PlayerProfileScreen
                           path="/player-profile"
                           playerName=""
