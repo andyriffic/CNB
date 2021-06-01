@@ -10,7 +10,7 @@ type UseMobSelection = {
   sendInvites: () => void;
 };
 
-const MOB_JOINED_CHOICE_ID = 'joined';
+export const MOB_JOINED_CHOICE_ID = 'join-mob';
 
 export const useMobSelection = (): UseMobSelection => {
   const { allPlayerChoices, createChoice } = usePlayerChoiceProvider();
@@ -37,12 +37,14 @@ export const useMobSelection = (): UseMobSelection => {
   }, [allPlayerChoices]);
 
   const sendInvites = () => {
-    allPlayers.forEach(player => {
-      createChoice({
-        playerId: player.id,
-        choices: [{ id: MOB_JOINED_CHOICE_ID, label: 'JOIN MOB' }],
+    allPlayers
+      .filter(p => !p.tags.includes('retired'))
+      .forEach(player => {
+        createChoice({
+          playerId: player.id,
+          choices: [{ id: MOB_JOINED_CHOICE_ID, label: 'JOIN MOB' }],
+        });
       });
-    });
   };
 
   return {
