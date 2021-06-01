@@ -144,23 +144,6 @@ export const useMobSpectatorViewUiState = (
     dispatch({ type: 'SET_UI_MOB_PLAYERS', value: initialisedUiMobPlayers });
   }, [mobGame]);
 
-  // useEffect(() => {
-  //   // play state timing
-  //   if (!mobGame) {
-  //     return;
-  //   }
-
-  //   if (mobGame.ready) {
-  //     dispatch({ type: 'SET_PLAY_STATE', value: 'ready-to-reveal' });
-  //     return;
-  //   }
-
-  //   if (mobGame.resolved && uiState.playState === 'ready-to-reveal') {
-  //     dispatch({ type: 'SET_PLAY_STATE', value: 'revealing-moves' });
-  //     return;
-  //   }
-  // }, [mobGame, uiState]);
-
   useEffect(() => {
     // Revealing mob moves sequentially
     if (!mobGame) {

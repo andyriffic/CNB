@@ -11,6 +11,7 @@ import {
   UiMobPlayer,
   useMobSpectatorViewUiState,
 } from './hooks/useMobSpectatorViewUiState';
+import { useTimedPlayState } from './hooks/useTimedPlayState';
 import { MobPlayerAvatar } from './MobPlayerAvatar';
 import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
@@ -43,6 +44,7 @@ export default ({ mobGameId }: Props) => {
   const { mobGame } = useMobGame(mobGameId);
   const { resolveMobGame, nextRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
+  const { playState } = useTimedPlayState(mobGame);
   const resolvedRound = useRef(mobGame ? mobGame.round : 1);
 
   // useEffect(() => {
@@ -68,7 +70,7 @@ export default ({ mobGameId }: Props) => {
         {isPersistantFeatureEnabled('cnb-debug') && (
           <MobPlayerDebug mobGame={mobGame} />
         )}
-        <div>{uiState.playState}</div>
+        <div>{playState}</div>
         <PlayersContainer>
           <MugContainer>
             <MugPlayerAvatar
