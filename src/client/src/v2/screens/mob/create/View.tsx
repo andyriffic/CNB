@@ -5,10 +5,12 @@ import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
+import { SplashText } from '../../../components/SplashText';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobProvider } from '../../../providers/MobProvider';
+import { Player } from '../../../providers/PlayersProvider';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
@@ -36,6 +38,7 @@ export default ({ navigate }: Props) => {
   const { joinedPlayers, sendInvites } = useMobSelection();
   const { createMobGame } = useMobProvider();
   useMobSelectionSound(joinedPlayers);
+  const [mug, setMug] = useState<Player | undefined>();
 
   const onSendInvitesClick = () => {
     setSentInvites(true);
@@ -43,7 +46,12 @@ export default ({ navigate }: Props) => {
   };
 
   const onCreateMobClick = () => {
-    const mug = selectRandomOneOf(joinedPlayers);
+    setMug(selectRandomOneOf(joinedPlayers));
+  };
+
+  const onMugShown = () => {
+    if (!mug) return;
+
     const mob = joinedPlayers.filter(p => p.id !== mug.id);
     createMobGame(mug, mob, id => {
       navigate && navigate(`/mob/spectator/${id}`);
@@ -72,6 +80,13 @@ export default ({ navigate }: Props) => {
             )}
           </div>
         </div>
+        {mug && (
+          <SplashText onComplete={onMugShown}>
+            Mug:
+            <br />
+            {mug.name}
+          </SplashText>
+        )}
       </Container>
       {isPersistantFeatureEnabled('cnb-debug') && (
         <div style={{ position: 'absolute', right: 0, top: 0 }}>
