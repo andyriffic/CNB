@@ -363,3 +363,20 @@ export const spinAnimation = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(-1080deg); }
 `;
+
+export const backOutRightAnimation = keyframes`
+0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  20% {
+    transform: translateX(0px) scale(0.7);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateX(2000px) scale(0.7);
+    opacity: 0.7;
+  }
+  `;

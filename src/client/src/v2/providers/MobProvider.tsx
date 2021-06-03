@@ -15,6 +15,8 @@ enum MOB_EVENTS {
   NEXT_ROUND_MOB_GAME = 'NEXT_ROUND_MOB_GAME',
 }
 
+export type MoveResult = 'won' | 'lost' | 'draw';
+
 export type MobBasePlayer = {
   player: Player;
   lastMoveId?: MoveKeys;
@@ -27,6 +29,7 @@ export type MugPlayer = MobBasePlayer & {
 export type MobPlayer = MobBasePlayer & {
   active: boolean;
   lastRound: number;
+  lastMoveResult?: MoveResult;
 };
 
 export type MobGame = {

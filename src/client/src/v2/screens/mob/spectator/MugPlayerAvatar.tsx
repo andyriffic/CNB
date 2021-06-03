@@ -13,7 +13,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
   position: relative;
   /* width: 230px; */
 `;
@@ -45,8 +44,8 @@ const Life = styled.img`
 `;
 
 const MoveContainer = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   position: absolute;
   top: 40%;
   right: -10%;

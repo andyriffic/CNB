@@ -49,7 +49,7 @@ export default ({ mobGameId }: Props) => {
 
   const activeMobPlayers = useMemo<MobPlayer[]>(() => {
     if (!mobGame) return [];
-    return mobGame.mobPlayers.filter(mp => mp.active);
+    return mobGame.mobPlayers.filter(mp => mp.lastRound === mobGame.round);
   }, [mobGame]);
 
   if (!mobGame) {

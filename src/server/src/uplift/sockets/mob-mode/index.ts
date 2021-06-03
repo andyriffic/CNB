@@ -7,6 +7,7 @@ import {
   MugPlayer,
   MoveId,
   MobGameSpectatorView,
+  MoveResult,
 } from './types';
 
 const idGenerator = customAlphabet('BCDFGHJKLMNPQRSTVWXZ', 6);
@@ -84,6 +85,10 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
       return {
         ...p,
         active: winningMobPlayerIds.includes(p.player.id),
+        lastMoveResult: getPlayResult(
+          p.lastMoveId,
+          mobGame.mugPlayer.lastMoveId
+        ),
       };
     }),
     mugPlayer: {
@@ -112,6 +117,7 @@ export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
     mobPlayers: mobGame.mobPlayers.map((p) => ({
       ...p,
       lastMoveId: undefined,
+      lastMoveResult: undefined,
       lastRound: p.active ? mobGame.round + 1 : p.lastRound,
     })),
     mugPlayer: {
@@ -132,6 +138,26 @@ function playerWins(playerMove?: MoveId, opponentMove?: MoveId): boolean {
   };
 
   return beats[playerMove] === opponentMove;
+}
+
+function getPlayResult(
+  playerMove?: MoveId,
+  opponentMove?: MoveId
+): MoveResult | undefined {
+  if (!(playerMove && opponentMove)) {
+    return;
+  }
+  if (playerMove === opponentMove) {
+    return 'draw';
+  }
+
+  const beats: { [key in MoveId]: MoveId } = {
+    A: 'B',
+    B: 'C',
+    C: 'A',
+  };
+
+  return beats[playerMove] === opponentMove ? 'won' : 'lost';
 }
 
 export function isMobGameReady(mobGame: MobGame): boolean {

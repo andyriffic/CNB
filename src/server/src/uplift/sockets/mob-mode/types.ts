@@ -2,6 +2,7 @@ import { Player } from '../../services/player/types';
 
 export type MoveId = 'A' | 'B' | 'C';
 export type MobGameState = 'in-progress' | 'ready' | 'resolved';
+export type MoveResult = 'won' | 'lost' | 'draw';
 
 export type MobBasePlayer = {
   player: Player;
@@ -14,6 +15,7 @@ export type MugPlayer = MobBasePlayer & {
 
 export type MobPlayer = MobBasePlayer & {
   active: boolean;
+  lastMoveResult?: MoveResult;
   lastRound: number;
 };
 
