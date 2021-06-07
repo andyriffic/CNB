@@ -9,6 +9,7 @@ import {
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobPlayer, MoveResult } from '../../../providers/MobProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 const CongaPlayer = styled.div<{
   highlight: boolean;
@@ -60,6 +61,7 @@ const MoveResultIndicator = styled.div<{ backgroundColor: string }>`
 
 type Props = {
   activePlayers: MobPlayer[];
+  onComplete: () => void;
 };
 
 function reducer(state: number, action: 'increment'): number {
@@ -71,21 +73,33 @@ function reducer(state: number, action: 'increment'): number {
   }
 }
 
-export function MobCongaLine({ activePlayers }: Props): JSX.Element {
+export function MobCongaLine({
+  activePlayers,
+  onComplete,
+}: Props): JSX.Element {
   const theme = useThemeComponents();
+  const { play } = useSoundProvider();
   const [highlightPlayerIndex, dispatch] = useReducer(reducer, 0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (highlightPlayerIndex > activePlayers.length) {
+      if (highlightPlayerIndex >= activePlayers.length) {
         clearInterval(interval);
+        onComplete();
         return;
       }
       dispatch('increment');
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [activePlayers]);
+  }, [activePlayers, highlightPlayerIndex]);
+
+  useEffect(() => {
+    const player = activePlayers[highlightPlayerIndex];
+    if (player && player.lastMoveResult === 'won') {
+      play('Winner');
+    }
+  }, [activePlayers, highlightPlayerIndex]);
 
   return (
     <div style={{ display: 'flex', marginLeft: '80px', position: 'relative' }}>

@@ -31,9 +31,21 @@ export function createMobGame(
   return {
     id: idGenerator(),
     round: 1,
+    roundState: 'waiting-moves',
     resolved: false,
     mugPlayer: createMugPlayer(mugPlayer),
     mobPlayers: mobPlayers.map(createMobPlayer),
+  };
+}
+
+function updateReadyState(mobGame: MobGame): MobGame {
+  if (mobGame.roundState !== 'waiting-moves' || !isMobGameReady(mobGame)) {
+    return mobGame;
+  }
+
+  return {
+    ...mobGame,
+    roundState: 'ready-to-play',
   };
 }
 
@@ -42,7 +54,8 @@ export function makeMobPlayerMove(
   playerId: string,
   moveId: MoveId
 ): MobGame {
-  return {
+  if (mobGame.roundState !== 'waiting-moves') return mobGame;
+  return updateReadyState({
     ...mobGame,
     mobPlayers: mobGame.mobPlayers.map((mobPlayer) => {
       if (mobPlayer.player.id === playerId) {
@@ -53,16 +66,26 @@ export function makeMobPlayerMove(
       }
       return mobPlayer;
     }),
-  };
+  });
 }
 
 export function makeMugPlayerMove(mobGame: MobGame, moveId: MoveId): MobGame {
-  return {
+  if (mobGame.roundState !== 'waiting-moves') return mobGame;
+
+  return updateReadyState({
     ...mobGame,
     mugPlayer: {
       ...mobGame.mugPlayer,
       lastMoveId: moveId,
     },
+  });
+}
+
+export function markMobGameAsViewed(mobGame: MobGame): MobGame {
+  if (mobGame.roundState !== 'resolved-results') return mobGame;
+  return {
+    ...mobGame,
+    roundState: 'viewed',
   };
 }
 
@@ -80,6 +103,7 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
   return {
     ...mobGame,
     resolved: true,
+    roundState: 'resolved-results',
     mobPlayers: mobGame.mobPlayers.map((p) => {
       const active = winningMobPlayerIds.includes(p.player.id);
       return {
@@ -114,6 +138,7 @@ export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
     ...mobGame,
     resolved: false,
     round: mobGame.round + 1,
+    roundState: 'waiting-moves',
     mobPlayers: mobGame.mobPlayers.map((p) => ({
       ...p,
       lastMoveId: undefined,

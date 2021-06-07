@@ -6,6 +6,7 @@ import {
   createMobGameSpectatorView,
   makeMobPlayerMove,
   makeMugPlayerMove,
+  markMobGameAsViewed,
   resetForNextRoundMobGame,
   resolveMobGame,
 } from '.';
@@ -17,6 +18,7 @@ const CREATE_MOB_GAME = 'CREATE_MOB_GAME';
 const MAKE_MOB_MOVE = 'MAKE_MOB_MOVE';
 const MAKE_MUG_MOVE = 'MAKE_MUG_MOVE';
 const RESOLVE_MOB_GAME = 'RESOLVE_MOB_GAME';
+const VIEWED_MOB_GAME_ROUND = 'VIEWED_MOB_GAME_ROUND';
 const NEXT_ROUND_MOB_GAME = 'NEXT_ROUND_MOB_GAME';
 
 let activeMobGames: MobGame[] = [];
@@ -118,6 +120,25 @@ const init = (socketServer: Server, path: string) => {
       log('Mob Game next round', mobGameId);
 
       const updatedMobGame = resetForNextRoundMobGame(mobGame);
+      activeMobGames = [
+        ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
+        updatedMobGame,
+      ];
+      namespace.emit(
+        MOB_GAMES_UPDATE,
+        activeMobGames.map(createMobGameSpectatorView)
+      );
+    });
+
+    socket.on(VIEWED_MOB_GAME_ROUND, (mobGameId: string) => {
+      const mobGame = activeMobGames.find((mg) => mg.id === mobGameId);
+      if (!mobGame) {
+        log('MobGame does not exist', mobGameId);
+        return;
+      }
+      log('Mob Game viewed', mobGameId);
+
+      const updatedMobGame = markMobGameAsViewed(mobGame);
       activeMobGames = [
         ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
         updatedMobGame,

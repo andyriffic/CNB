@@ -43,6 +43,7 @@ const soundMap: SoundMap = {
   GameOver: gameOverTune,
   WaitForPlayersToJoin: super_smash_bros_2,
   PlayerJoinedGame: ssb4_result,
+  PlayerJoinedMob: flipPop,
   FastestFinger: powerMode,
   SwitchPlayer: fastGesture,
   PullRope: manGrunt,

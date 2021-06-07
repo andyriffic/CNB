@@ -26,7 +26,7 @@ const PlayerList = styled.div`
   margin: 40px 0;
 `;
 const PlayerListItem = styled.div`
-  animation: ${jackInTheBoxAnimation} 1000ms both;
+  animation: ${jackInTheBoxAnimation} 600ms both;
 `;
 
 type Props = {

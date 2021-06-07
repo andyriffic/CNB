@@ -17,6 +17,7 @@ export type SoundMap = {
   GameOver: any;
   WaitForPlayersToJoin: any;
   PlayerJoinedGame: any;
+  PlayerJoinedMob: any;
   FastestFinger: any;
   SwitchPlayer: any;
   PullRope: any;

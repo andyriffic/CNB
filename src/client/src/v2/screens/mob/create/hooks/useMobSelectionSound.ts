@@ -16,7 +16,7 @@ export function useMobSelectionSound(joinedPlayers: Player[]) {
 
   useEffect(() => {
     if (joinedPlayers.length > totalJoinedPlayers.current) {
-      play('PlayerJoinedGame');
+      play('PlayerJoinedMob');
       totalJoinedPlayers.current = joinedPlayers.length;
     }
   }, [joinedPlayers]);

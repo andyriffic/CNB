@@ -13,7 +13,14 @@ enum MOB_EVENTS {
   MAKE_MUG_MOVE = 'MAKE_MUG_MOVE',
   RESOLVE_MOB_GAME = 'RESOLVE_MOB_GAME',
   NEXT_ROUND_MOB_GAME = 'NEXT_ROUND_MOB_GAME',
+  VIEWED_MOB_GAME_ROUND = 'VIEWED_MOB_GAME_ROUND',
 }
+
+export type MobRoundState =
+  | 'waiting-moves'
+  | 'ready-to-play'
+  | 'resolved-results'
+  | 'viewed';
 
 export type MoveResult = 'won' | 'lost' | 'draw';
 
@@ -35,6 +42,7 @@ export type MobPlayer = MobBasePlayer & {
 export type MobGame = {
   id: string;
   round: number;
+  roundState: MobRoundState;
   mobPlayers: MobPlayer[];
   mugPlayer: MugPlayer;
   ready: boolean;
@@ -57,6 +65,7 @@ export type MobService = {
   makeMugPlayerMove: (mobGameId: string, moveId: MoveKeys) => void;
   resolveMobGame: (mobGameId: string) => void;
   nextRound: (mobGameId: string) => void;
+  viewedRound: (mobGameId: string) => void;
 };
 
 export const MobContext = React.createContext<MobService | undefined>(
@@ -98,6 +107,9 @@ export const MobProvider = ({ children }: { children: ReactNode }) => {
         },
         nextRound: mobGameId => {
           socket.emit(MOB_EVENTS.NEXT_ROUND_MOB_GAME, mobGameId);
+        },
+        viewedRound: mobGameId => {
+          socket.emit(MOB_EVENTS.VIEWED_MOB_GAME_ROUND, mobGameId);
         },
       }}
     >

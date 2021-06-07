@@ -13,9 +13,10 @@ import {
 } from './hooks/useMobSpectatorViewUiState';
 import { useTimedPlayState } from './hooks/useTimedPlayState';
 import { MobCongaLine } from './MobCongaLine';
-import { MobPlayerAvatar } from './MobPlayerAvatar';
+import { MobWaitingMoves } from './MobWaitingMoves';
 import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
+import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -46,6 +47,7 @@ export default ({ mobGameId }: Props) => {
   const { resolveMobGame, nextRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
   const { playState } = useTimedPlayState(mobGame);
+  useMobSpectatorSound(mobGame);
 
   const activeMobPlayers = useMemo<MobPlayer[]>(() => {
     if (!mobGame) return [];
@@ -56,13 +58,23 @@ export default ({ mobGameId }: Props) => {
     return <LoadingSpinner />;
   }
 
+  const startNewRound = () => {
+    if (uiState.mobWinner || uiState.mugWinner) {
+      return;
+    }
+    nextRound(mobGame.id);
+    uiState.newRound();
+  };
+
   return (
     <GameScreen scrollable={true}>
       <Container>
         {isPersistantFeatureEnabled('cnb-debug') && (
           <MobPlayerDebug mobGame={mobGame} />
         )}
-        <div>{playState}</div>
+        <div>
+          {playState}:{mobGame.roundState}
+        </div>
         <PlayersContainer>
           <MugContainer>
             <MugPlayerAvatar
@@ -74,9 +86,15 @@ export default ({ mobGameId }: Props) => {
           </MugContainer>
           <MobContainer>
             {playState === 'revealing-moves' && (
-              <MobCongaLine activePlayers={activeMobPlayers} />
+              <MobCongaLine
+                activePlayers={activeMobPlayers}
+                onComplete={startNewRound}
+              />
             )}
-            {playState === 'waiting-moves' && (
+            {['waiting-moves', 'ready-to-play'].includes(
+              mobGame.roundState
+            ) && <MobWaitingMoves activePlayers={activeMobPlayers} />}
+            {/* {playState === 'waiting-moves' && (
               <ul
                 style={{
                   display: 'flex',
@@ -99,18 +117,11 @@ export default ({ mobGameId }: Props) => {
                   />
                 ))}
               </ul>
-            )}
+            )} */}
           </MobContainer>
         </PlayersContainer>
         {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
-          <Button
-            onClick={() => {
-              nextRound(mobGame.id);
-              uiState.newRound();
-            }}
-          >
-            Next round
-          </Button>
+          <Button onClick={startNewRound}>Next round</Button>
         )}
         {mobGame.ready && !mobGame.resolved && (
           <Button onClick={() => resolveMobGame(mobGame.id)}>Ready</Button>
