@@ -6,10 +6,11 @@ import {
   spinAwayAnimationUp,
   backOutRightAnimation,
 } from '../../../../uplift/components/animations';
+import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobPlayer, MoveResult } from '../../../providers/MobProvider';
-import { useSoundProvider } from '../../../providers/SoundProvider';
+import { SoundMap, useSoundProvider } from '../../../providers/SoundProvider';
 
 const CongaPlayer = styled.div<{
   highlight: boolean;
@@ -25,7 +26,7 @@ const CongaPlayer = styled.div<{
       animation: ${animation === 'lose'
           ? spinAwayAnimationUp
           : backOutRightAnimation}
-        1000ms ease-in-out 1500ms both;
+        800ms ease-in-out 1500ms both;
     `}
   transition: all 500ms ease-in;
 `;
@@ -96,9 +97,15 @@ export function MobCongaLine({
 
   useEffect(() => {
     const player = activePlayers[highlightPlayerIndex];
-    if (player && player.lastMoveResult === 'won') {
-      play('Winner');
-    }
+    if (!player) return;
+
+    setTimeout(() => {
+      if (player.lastMoveResult === 'won') {
+        play(selectRandomOneOf(['MobWin_1', 'MobWin_2', 'MobWin_3']));
+      } else {
+        play(selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3']));
+      }
+    }, 1200);
   }, [activePlayers, highlightPlayerIndex]);
 
   return (

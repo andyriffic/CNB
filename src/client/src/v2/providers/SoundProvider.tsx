@@ -38,6 +38,12 @@ export type SoundMap = {
   DonkeyKongExplodeBarrel: any;
   DonkeyKongAngry: any;
   DonkeyKongGameOver: any;
+  MobWin_1: any;
+  MobWin_2: any;
+  MobWin_3: any;
+  MobLose_1: any;
+  MobLose_2: any;
+  MobLose_3: any;
 };
 
 export type PlaySound = (

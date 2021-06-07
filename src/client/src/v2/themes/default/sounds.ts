@@ -28,6 +28,12 @@ import barrelBlast from './sounds/barrel_blast.mp3';
 import donkeyKongColeco from './sounds/donkey_kong_coleco.mp3';
 import roar from './sounds/roar.mp3';
 import fanfare from './sounds/fanfare.mp3';
+import hooray from './sounds/hooray.mp3';
+import woohoo from './sounds/woohoo.mp3';
+import yippee from './sounds/mario64_yippee.mp3';
+import scream1 from './sounds/screaming_ben.mp3';
+import scream2 from './sounds/screaming_sheep.mp3';
+import scream3 from './sounds/wilhelm_scream.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -64,6 +70,12 @@ const soundMap: SoundMap = {
   DonkeyKongExplodeBarrel: barrelBlast,
   DonkeyKongAngry: roar,
   DonkeyKongGameOver: donkeyKongColeco,
+  MobWin_1: hooray,
+  MobWin_2: woohoo,
+  MobWin_3: yippee,
+  MobLose_1: scream1,
+  MobLose_2: scream2,
+  MobLose_3: scream3,
 };
 
 export default soundMap;

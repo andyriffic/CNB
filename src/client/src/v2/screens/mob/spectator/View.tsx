@@ -88,7 +88,7 @@ export default ({ mobGameId }: Props) => {
             {playState === 'revealing-moves' && (
               <MobCongaLine
                 activePlayers={activeMobPlayers}
-                onComplete={startNewRound}
+                onComplete={() => {}}
               />
             )}
             {['waiting-moves', 'ready-to-play'].includes(
