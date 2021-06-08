@@ -15,4 +15,14 @@ export function useMobSpectatorSound(mobGame?: MobGame) {
       play('PlayerMoved');
     }
   }, [totalActivePlayerMoves]);
+
+  useEffect(() => {
+    if (mobGame && mobGame.roundState === 'waiting-moves') {
+      const waitingMusic = play('WaitForMoves', { loop: true });
+
+      return () => {
+        waitingMusic.stop();
+      };
+    }
+  }, [mobGame]);
 }

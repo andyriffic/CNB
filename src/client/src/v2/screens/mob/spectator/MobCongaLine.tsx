@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
   fadeInAnimation,
@@ -81,23 +81,27 @@ export function MobCongaLine({
   const theme = useThemeComponents();
   const { play } = useSoundProvider();
   const [highlightPlayerIndex, dispatch] = useReducer(reducer, 0);
+  const finishedConga = useRef(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (highlightPlayerIndex >= activePlayers.length) {
-        clearInterval(interval);
-        onComplete();
-        return;
-      }
-      dispatch('increment');
-    }, 2000);
-
-    return () => clearInterval(interval);
+    if (highlightPlayerIndex < activePlayers.length) {
+      const timeout = setTimeout(() => dispatch('increment'), 2000);
+      return () => clearTimeout(timeout);
+    } else if (
+      highlightPlayerIndex === activePlayers.length &&
+      !finishedConga.current
+    ) {
+      console.log('CongaLine complete');
+      finishedConga.current = true;
+      onComplete();
+    }
   }, [activePlayers, highlightPlayerIndex]);
 
   useEffect(() => {
     const player = activePlayers[highlightPlayerIndex];
     if (!player) return;
+
+    setTimeout(() => play('PlayerJoinedGame'), 500);
 
     setTimeout(() => {
       if (player.lastMoveResult === 'won') {

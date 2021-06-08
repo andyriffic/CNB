@@ -44,7 +44,7 @@ const getPlayerRevealMove = (
 
 export default ({ mobGameId }: Props) => {
   const { mobGame } = useMobGame(mobGameId);
-  const { resolveMobGame, nextRound } = useMobProvider();
+  const { resolveMobGame, nextRound, viewedRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
   const { playState } = useTimedPlayState(mobGame);
   useMobSpectatorSound(mobGame);
@@ -72,23 +72,33 @@ export default ({ mobGameId }: Props) => {
         {isPersistantFeatureEnabled('cnb-debug') && (
           <MobPlayerDebug mobGame={mobGame} />
         )}
-        <div>
+        {/* <div>
           {playState}:{mobGame.roundState}
-        </div>
+        </div> */}
         <PlayersContainer>
           <MugContainer>
             <MugPlayerAvatar
               mugPlayer={mobGame.mugPlayer}
               revealMove={mobGame.resolved}
-              winner={uiState.mugWinner}
-              loser={uiState.mobWinner}
+              winner={
+                uiState.mugWinner &&
+                !!mobGame &&
+                mobGame.roundState === 'viewed'
+              }
+              loser={
+                uiState.mobWinner &&
+                !!mobGame &&
+                mobGame.roundState === 'viewed'
+              }
             />
           </MugContainer>
           <MobContainer>
             {playState === 'revealing-moves' && (
               <MobCongaLine
                 activePlayers={activeMobPlayers}
-                onComplete={() => {}}
+                onComplete={() => {
+                  mobGame && viewedRound(mobGame.id);
+                }}
               />
             )}
             {['waiting-moves', 'ready-to-play'].includes(

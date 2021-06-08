@@ -12,7 +12,9 @@ type Props = {
 
 export const MobPlay = ({ mobGame, mobPlayer, makeMove }: Props) => {
   const themeComponents = useThemeComponents();
-  const dead = !mobPlayer.active;
+  const dead =
+    (mobGame.roundState === 'viewed' && !mobPlayer.active) ||
+    mobPlayer.lastRound < mobGame.round;
   const selectMove =
     !dead && !(mobGame.ready && mobGame.resolved) && !mobPlayer.lastMoveId;
   const waitingResult = !dead && !mobGame.ready && mobPlayer.lastMoveId;
