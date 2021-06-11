@@ -27,6 +27,10 @@ const WaitingPlayer = styled.div<{ moved: boolean }>`
         `}
 `;
 
+const ReversedPlayerAvatar = styled.div`
+  transform: scaleX(-1);
+`;
+
 const PlayerName = styled.div`
   text-align: center;
   position: relative;
@@ -51,7 +55,9 @@ export function MobWaitingMoves({ activePlayers }: Props): JSX.Element {
         const moved = !!p.lastMoveId;
         return (
           <WaitingPlayer key={p.player.id} moved={moved}>
-            <PlayerAvatar player={p.player} size="smallMedium" />
+            <ReversedPlayerAvatar>
+              <PlayerAvatar player={p.player} size="smallMedium" />
+            </ReversedPlayerAvatar>
             <PlayerName>{p.player.name}</PlayerName>
           </WaitingPlayer>
         );

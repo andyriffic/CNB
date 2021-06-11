@@ -21,8 +21,7 @@ export const GameSettingsProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    console.log('Setting sound (useEffect)', state.soundVolume);
-
+    console.log('Setting sound (useEffect)', state.soundVolume / 10);
     Howler.volume(state.soundVolume / 10);
   }, [state.soundVolume]);
 

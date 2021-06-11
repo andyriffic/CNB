@@ -38,6 +38,7 @@ export type SoundMap = {
   DonkeyKongExplodeBarrel: any;
   DonkeyKongAngry: any;
   DonkeyKongGameOver: any;
+  ChoseMobMusic: any;
   MobWin_1: any;
   MobWin_2: any;
   MobWin_3: any;

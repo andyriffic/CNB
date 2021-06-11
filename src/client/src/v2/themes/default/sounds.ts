@@ -36,6 +36,7 @@ import scream2 from './sounds/screaming_sheep.mp3';
 import scream3 from './sounds/wilhelm_scream.mp3';
 import killBillSms1 from './sounds/kill_bill_sms_1.mp3';
 import killBillSms2 from './sounds/kill_bill_sms_2.mp3';
+import introduction from './sounds/introduction.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -72,6 +73,7 @@ const soundMap: SoundMap = {
   DonkeyKongExplodeBarrel: barrelBlast,
   DonkeyKongAngry: roar,
   DonkeyKongGameOver: donkeyKongColeco,
+  ChoseMobMusic: introduction,
   MugChosen: killBillSms2,
   MobWin_1: hooray,
   MobWin_2: woohoo,

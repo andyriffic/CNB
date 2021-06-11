@@ -42,6 +42,10 @@ const MoveContainer = styled.div`
   transform: scaleX(-1);
 `;
 
+const ReversedPlayerAvatar = styled.div`
+  transform: scaleX(-1);
+`;
+
 const moveResultBackground: { [key in MoveResult]: string } = {
   won: 'green',
   draw: 'orange',
@@ -123,7 +127,9 @@ export function MobCongaLine({
             position={i - highlightPlayerIndex}
             animation={p.lastMoveResult === 'won' ? 'win' : 'lose'}
           >
-            <PlayerAvatar player={p.player} size="medium" />
+            <ReversedPlayerAvatar>
+              <PlayerAvatar player={p.player} size="medium" />
+            </ReversedPlayerAvatar>
             {p.lastMoveId && highlight && theme && (
               <MoveContainer>{theme.moves[p.lastMoveId]}</MoveContainer>
             )}

@@ -1,6 +1,10 @@
+import { Howl, Howler } from 'howler';
 import { useEffect, useRef } from 'react';
 import { Player } from '../../../../providers/PlayersProvider';
-import { useSoundProvider } from '../../../../providers/SoundProvider';
+import {
+  SoundMap,
+  useSoundProvider,
+} from '../../../../providers/SoundProvider';
 
 export function useMobSelectionSound(
   joinedPlayers: Player[],
@@ -8,12 +12,15 @@ export function useMobSelectionSound(
 ) {
   const { play } = useSoundProvider();
   const totalJoinedPlayers = useRef(joinedPlayers.length);
+  const playingSounds = useRef<{ [id: string]: Howl }>({});
 
   useEffect(() => {
-    // const waitingMusic = play('WaitForPlayersToJoin');
+    if (playingSounds.current['music']) return;
+
+    playingSounds.current['music'] = play('ChoseMobMusic', { loop: true });
 
     return () => {
-      //   waitingMusic.stop();
+      playingSounds.current['music']!.stop();
     };
   }, []);
 
@@ -26,6 +33,7 @@ export function useMobSelectionSound(
 
   useEffect(() => {
     if (chosenMug) {
+      !!playingSounds.current['music'] && playingSounds.current['music'].stop();
       play('MugChosen');
     }
   }, [chosenMug]);
