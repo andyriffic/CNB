@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { inOutAnimation } from '../../uplift/components/animations';
 
-const ANIMATION_DURATION_MILLISECONDS = 2500;
+const DEFAULT_DURATION_MILLISECONDS = 2500;
 
 const Container = styled.div`
   position: absolute;
@@ -18,26 +18,34 @@ const Container = styled.div`
   /* z-index: 100; */
 `;
 
-const Text = styled.div`
+const Text = styled.div<{ animationDurationMilliseconds: number }>`
   font-family: ${({ theme }) => theme.fontFamily.feature};
   font-size: 5rem;
   color: ${({ theme }) => theme.color.text01};
   -webkit-text-stroke-width: 4px;
   -webkit-text-stroke-color: ${({ theme }) => theme.color.border01};
-  animation: ${inOutAnimation} ${ANIMATION_DURATION_MILLISECONDS}ms ease-in-out
-    both;
+  ${({ animationDurationMilliseconds }) =>
+    css`
+      animation: ${inOutAnimation} ${animationDurationMilliseconds}ms
+        ease-in-out both;
+    `}
 `;
 
 type Props = {
   children: React.ReactNode;
   onComplete?: () => void;
+  durationMilliseconds?: number;
 };
 
-export const SplashText = ({ children, onComplete }: Props) => {
+export const SplashText = ({
+  children,
+  onComplete,
+  durationMilliseconds = DEFAULT_DURATION_MILLISECONDS,
+}: Props) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       onComplete && onComplete();
-    }, ANIMATION_DURATION_MILLISECONDS);
+    }, durationMilliseconds);
 
     return () => {
       clearTimeout(timeout);
@@ -45,7 +53,9 @@ export const SplashText = ({ children, onComplete }: Props) => {
   }, []);
   return (
     <Container>
-      <Text>{children}</Text>
+      <Text animationDurationMilliseconds={durationMilliseconds}>
+        {children}
+      </Text>
     </Container>
   );
 };

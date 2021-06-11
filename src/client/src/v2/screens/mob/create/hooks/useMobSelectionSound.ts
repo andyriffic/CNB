@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react';
 import { Player } from '../../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
 
-export function useMobSelectionSound(joinedPlayers: Player[]) {
+export function useMobSelectionSound(
+  joinedPlayers: Player[],
+  chosenMug?: Player
+) {
   const { play } = useSoundProvider();
   const totalJoinedPlayers = useRef(joinedPlayers.length);
 
@@ -20,4 +23,10 @@ export function useMobSelectionSound(joinedPlayers: Player[]) {
       totalJoinedPlayers.current = joinedPlayers.length;
     }
   }, [joinedPlayers]);
+
+  useEffect(() => {
+    if (chosenMug) {
+      play('MugChosen');
+    }
+  }, [chosenMug]);
 }

@@ -44,6 +44,8 @@ export type SoundMap = {
   MobLose_1: any;
   MobLose_2: any;
   MobLose_3: any;
+  MugChosen: any;
+  MobStart: any;
 };
 
 export type PlaySound = (

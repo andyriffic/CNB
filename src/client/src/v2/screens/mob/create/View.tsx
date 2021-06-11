@@ -37,8 +37,8 @@ export default ({ navigate }: Props) => {
   const [sentInvites, setSentInvites] = useState(false);
   const { joinedPlayers, sendInvites } = useMobSelection();
   const { createMobGame } = useMobProvider();
-  useMobSelectionSound(joinedPlayers);
   const [mug, setMug] = useState<Player | undefined>();
+  useMobSelectionSound(joinedPlayers, mug);
 
   const onSendInvitesClick = () => {
     setSentInvites(true);
@@ -82,9 +82,11 @@ export default ({ navigate }: Props) => {
         </div>
         {mug && (
           <SplashText onComplete={onMugShown}>
-            Mug:
+            Everyone
             <br />
-            {mug.name}
+            vs
+            <br />
+            {mug.name}!
           </SplashText>
         )}
       </Container>

@@ -6,7 +6,11 @@ import { SplashText } from '../../../components/SplashText';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobGame } from '../../../providers/hooks/useMobGame';
-import { MobPlayer, useMobProvider } from '../../../providers/MobProvider';
+import {
+  MobGame,
+  MobPlayer,
+  useMobProvider,
+} from '../../../providers/MobProvider';
 import {
   UiMobPlayer,
   useMobSpectatorViewUiState,
@@ -17,6 +21,7 @@ import { MobWaitingMoves } from './MobWaitingMoves';
 import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
 import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -42,17 +47,45 @@ const getPlayerRevealMove = (
   return uiPlayer ? uiPlayer.revealMove : false;
 };
 
+const getMobStartMessage = (mobGame: MobGame): string => {
+  const remainingMobPlayers = mobGame.mobPlayers.filter(mp => mp.active);
+  if (remainingMobPlayers.length === 1) {
+    return `Here comes ${remainingMobPlayers[0].player.name}!`;
+  }
+
+  return 'Here comes the Mob!';
+};
+
 export default ({ mobGameId }: Props) => {
+  const { play } = useSoundProvider();
   const { mobGame } = useMobGame(mobGameId);
   const { resolveMobGame, nextRound, viewedRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
   const { playState } = useTimedPlayState(mobGame);
+  const lastResolvedRound = useRef(0);
   useMobSpectatorSound(mobGame);
 
   const activeMobPlayers = useMemo<MobPlayer[]>(() => {
     if (!mobGame) return [];
     return mobGame.mobPlayers.filter(mp => mp.lastRound === mobGame.round);
   }, [mobGame]);
+
+  useEffect(() => {
+    if (
+      !mobGame ||
+      mobGame.roundState !== 'viewed' ||
+      uiState.mobWinner ||
+      uiState.mugWinner ||
+      lastResolvedRound.current === mobGame.round
+    ) {
+      return;
+    }
+    lastResolvedRound.current = mobGame.round;
+    setTimeout(() => {
+      nextRound(mobGame.id);
+      uiState.newRound();
+    }, 1000);
+  }, [mobGame, uiState]);
 
   if (!mobGame) {
     return <LoadingSpinner />;
@@ -133,8 +166,15 @@ export default ({ mobGameId }: Props) => {
         {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
           <Button onClick={startNewRound}>Next round</Button>
         )}
-        {mobGame.ready && !mobGame.resolved && (
-          <Button onClick={() => resolveMobGame(mobGame.id)}>Ready</Button>
+        {mobGame.roundState === 'ready-to-play' && (
+          <SplashText
+            durationMilliseconds={3500}
+            onComplete={() => {
+              resolveMobGame(mobGame.id);
+            }}
+          >
+            {getMobStartMessage(mobGame)}
+          </SplashText>
         )}
       </Container>
     </GameScreen>

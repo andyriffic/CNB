@@ -25,4 +25,10 @@ export function useMobSpectatorSound(mobGame?: MobGame) {
       };
     }
   }, [mobGame]);
+
+  useEffect(() => {
+    if (mobGame && mobGame.roundState === 'ready-to-play') {
+      play('MobStart');
+    }
+  }, [mobGame]);
 }
