@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from 'react';
+import { Howl } from 'howler';
+import { useEffect, useMemo, useRef } from 'react';
 import { MobGame } from '../../../../providers/MobProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
 
@@ -9,6 +10,7 @@ export function useMobSpectatorSound(mobGame?: MobGame) {
     if (mobGame.roundState !== 'waiting-moves') return 0;
     return mobGame.mobPlayers.filter(mp => mp.active && !!mp.lastMoveId).length;
   }, [mobGame]);
+  const playingSounds = useRef<{ [id: string]: Howl }>({});
 
   useEffect(() => {
     if (totalActivePlayerMoves > 0) {
@@ -17,17 +19,18 @@ export function useMobSpectatorSound(mobGame?: MobGame) {
   }, [totalActivePlayerMoves]);
 
   useEffect(() => {
+    if (playingSounds.current['music']) return;
     if (mobGame && mobGame.roundState === 'waiting-moves') {
-      const waitingMusic = play('WaitForMoves', { loop: true });
-
-      return () => {
-        waitingMusic.stop();
-      };
+      playingSounds.current['music'] = play('MobWaitingMovesMusic', {
+        loop: true,
+      });
     }
   }, [mobGame]);
 
   useEffect(() => {
     if (mobGame && mobGame.roundState === 'ready-to-play') {
+      !!playingSounds.current['music'] && playingSounds.current['music'].stop();
+      delete playingSounds.current['music'];
       play('MobStart');
     }
   }, [mobGame]);

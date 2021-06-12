@@ -74,6 +74,7 @@ const soundMap: SoundMap = {
   DonkeyKongAngry: roar,
   DonkeyKongGameOver: donkeyKongColeco,
   ChoseMobMusic: introduction,
+  MobWaitingMovesMusic: introduction,
   MugChosen: killBillSms2,
   MobWin_1: hooray,
   MobWin_2: woohoo,
