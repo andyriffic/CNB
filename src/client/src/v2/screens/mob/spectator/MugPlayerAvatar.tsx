@@ -80,7 +80,7 @@ export const MugPlayerAvatar = ({
         <PlayerAvatar player={mugPlayer.player} size="medium" />
       </Avatar>
       <PlayerName>{mugPlayer.player.name}</PlayerName>
-      {mugPlayer.lastMoveId && revealMove && theme && (
+      {mugPlayer.lastMoveId && revealMove && theme && !winner && (
         <MoveContainer>{theme.moves[mugPlayer.lastMoveId]}</MoveContainer>
       )}
     </Container>
