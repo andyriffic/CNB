@@ -8,6 +8,7 @@ enum PLAYER_CHOICE_EVENTS {
   INITIATE_CHOICE = 'INITIATE_CHOICE',
   SELECT_CHOICE = 'SELECT_CHOICE',
   PLAYER_CHOICE_UPDATE = 'PLAYER_CHOICE_UPDATE',
+  PLAYER_CHOICE_DELETE = 'PLAYER_CHOICE_DELETE',
 }
 
 export type Choice = {
@@ -33,6 +34,7 @@ export type PlayerChoiceService = {
     onCreated?: (choiceId: string) => void
   ) => void;
   selectChoice: (choiceId: string, selectionId: string) => void;
+  deletePlayerChoice: (playerId: string) => void;
 };
 
 const PlayerChoiceContext = React.createContext<
@@ -73,12 +75,15 @@ export const PlayerChoiceProvider = ({ children }: { children: ReactNode }) => {
             onCreated
           );
         },
-        selectChoice: (choiceId: string, selectionId: string) => {
+        selectChoice: (choiceId, selectionId) => {
           socket.emit(
             PLAYER_CHOICE_EVENTS.SELECT_CHOICE,
             choiceId,
             selectionId
           );
+        },
+        deletePlayerChoice: playerId => {
+          socket.emit(PLAYER_CHOICE_EVENTS.PLAYER_CHOICE_DELETE, playerId);
         },
       }}
     >

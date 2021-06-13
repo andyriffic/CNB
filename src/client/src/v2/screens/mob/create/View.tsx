@@ -36,7 +36,7 @@ type Props = {
 
 export default ({ navigate }: Props) => {
   const [sentInvites, setSentInvites] = useState(false);
-  const { joinedPlayers, sendInvites } = useMobSelection();
+  const { joinedPlayers, sendInvites, cleanup } = useMobSelection();
   const { createMobGame } = useMobProvider();
   const [mug, setMug] = useState<Player | undefined>();
   useMobSelectionSound(joinedPlayers, mug);
@@ -47,6 +47,7 @@ export default ({ navigate }: Props) => {
     setTimeout(() => {
       const mob = joinedPlayers.filter(p => p.id !== mug.id);
       createMobGame(mug, mob, id => {
+        cleanup();
         navigate && navigate(`/mob/spectator/${id}`);
       });
     }, 3000);

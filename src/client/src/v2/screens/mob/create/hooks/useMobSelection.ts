@@ -8,12 +8,17 @@ import {
 type UseMobSelection = {
   joinedPlayers: Player[];
   sendInvites: () => void;
+  cleanup: () => void;
 };
 
 export const MOB_JOINED_CHOICE_ID = 'join-mob';
 
 export const useMobSelection = (): UseMobSelection => {
-  const { allPlayerChoices, createChoice } = usePlayerChoiceProvider();
+  const {
+    allPlayerChoices,
+    createChoice,
+    deletePlayerChoice,
+  } = usePlayerChoiceProvider();
   const { allPlayers } = usePlayersProvider();
   const [joinedPlayers, setJoinedPlayers] = useState<Player[]>([]);
 
@@ -47,8 +52,15 @@ export const useMobSelection = (): UseMobSelection => {
       });
   };
 
+  const cleanup = () => {
+    allPlayers.forEach(p => {
+      deletePlayerChoice(p.id);
+    });
+  };
+
   return {
     joinedPlayers,
     sendInvites,
+    cleanup,
   };
 };
