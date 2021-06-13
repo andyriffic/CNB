@@ -1,5 +1,5 @@
 import { NavigateFn } from '@reach/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
@@ -11,6 +11,7 @@ import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobProvider } from '../../../providers/MobProvider';
 import { Player } from '../../../providers/PlayersProvider';
+import { ChosenMug } from './ChosenMug';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
@@ -40,6 +41,17 @@ export default ({ navigate }: Props) => {
   const [mug, setMug] = useState<Player | undefined>();
   useMobSelectionSound(joinedPlayers, mug);
 
+  useEffect(() => {
+    if (!mug) return;
+
+    setTimeout(() => {
+      const mob = joinedPlayers.filter(p => p.id !== mug.id);
+      createMobGame(mug, mob, id => {
+        navigate && navigate(`/mob/spectator/${id}`);
+      });
+    }, 3000);
+  }, [mug]);
+
   const onSendInvitesClick = () => {
     setSentInvites(true);
     sendInvites();
@@ -49,46 +61,33 @@ export default ({ navigate }: Props) => {
     setMug(selectRandomOneOf(joinedPlayers));
   };
 
-  const onMugShown = () => {
-    if (!mug) return;
-
-    const mob = joinedPlayers.filter(p => p.id !== mug.id);
-    createMobGame(mug, mob, id => {
-      navigate && navigate(`/mob/spectator/${id}`);
-    });
-  };
-
   return (
     <GameScreen scrollable={true}>
       <Container>
         <FeatureText>Join the mob</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
         <div>
-          <PlayerList>
-            {joinedPlayers.map(p => (
-              <PlayerListItem key={p.id}>
-                <PlayerAvatar player={p} size="smallMedium" />
-              </PlayerListItem>
-            ))}
-          </PlayerList>
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            {!sentInvites && (
-              <Button onClick={onSendInvitesClick}>Invite Mob</Button>
-            )}
-            {joinedPlayers.length > 2 && (
-              <Button onClick={onCreateMobClick}>Start Mob</Button>
-            )}
-          </div>
+          {!mug && (
+            <PlayerList>
+              {joinedPlayers.map(p => (
+                <PlayerListItem key={p.id}>
+                  <PlayerAvatar player={p} size="smallMedium" />
+                </PlayerListItem>
+              ))}
+            </PlayerList>
+          )}
+          {!mug && (
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              {!sentInvites && (
+                <Button onClick={onSendInvitesClick}>Invite Mob</Button>
+              )}
+              {joinedPlayers.length > 2 && (
+                <Button onClick={onCreateMobClick}>Start Mob</Button>
+              )}
+            </div>
+          )}
         </div>
-        {mug && (
-          <SplashText onComplete={onMugShown}>
-            Everyone
-            <br />
-            vs
-            <br />
-            {mug.name}!
-          </SplashText>
-        )}
+        {mug && <ChosenMug player={mug} />}
       </Container>
       {isPersistantFeatureEnabled('cnb-debug') && (
         <div style={{ position: 'absolute', right: 0, top: 0 }}>
