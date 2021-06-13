@@ -1,8 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
+  bounceInAnimation,
   enterTopAnimation,
+  fadeInAnimation,
   outOfWormholeAnimation,
+  rubberBandAnimation,
+  shakeAndGrowAnimation,
 } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
@@ -17,9 +21,14 @@ const Container = styled.div`
   /* width: 230px; */
 `;
 
-const Avatar = styled.div<{ moved: boolean }>`
+const Avatar = styled.div<{ moved: boolean; won: boolean }>`
   margin-bottom: 10px;
   opacity: ${({ moved }) => (moved ? 1 : 0.5)};
+  ${({ won }) =>
+    won &&
+    css`
+      animation: ${shakeAndGrowAnimation} 1500ms infinite;
+    `}
 `;
 
 const PlayerName = styled.div`
@@ -52,6 +61,13 @@ const MoveContainer = styled.div`
   animation: ${outOfWormholeAnimation} 500ms ease-in 0s forwards;
 `;
 
+const Emoji = styled.div`
+  font-size: 5rem;
+  position: absolute;
+  bottom: 0;
+  animation: ${fadeInAnimation} 800ms ease-in 0s both;
+`;
+
 type Props = {
   mugPlayer: MugPlayer;
   revealMove: boolean;
@@ -69,20 +85,20 @@ export const MugPlayerAvatar = ({
 
   return (
     <Container>
-      {winner && <div>🎉</div>}
-      {loser && <div>😭</div>}
       <Lives>
         {[...Array(mugPlayer.lives)].map((l, i) => (
           <Life key={i} src={lifeHeart} />
         ))}
       </Lives>
-      <Avatar moved={!!mugPlayer.lastMoveId}>
+      <Avatar moved={!!mugPlayer.lastMoveId} won={winner}>
         <PlayerAvatar player={mugPlayer.player} size="medium" />
       </Avatar>
       <PlayerName>{mugPlayer.player.name}</PlayerName>
       {mugPlayer.lastMoveId && revealMove && theme && !winner && (
         <MoveContainer>{theme.moves[mugPlayer.lastMoveId]}</MoveContainer>
       )}
+      {winner && <Emoji>🎉</Emoji>}
+      {loser && <Emoji>😭</Emoji>}
     </Container>
   );
 };

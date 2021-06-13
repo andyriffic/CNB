@@ -2,8 +2,12 @@ import { Howl } from 'howler';
 import { useEffect, useMemo, useRef } from 'react';
 import { MobGame } from '../../../../providers/MobProvider';
 import { useSoundProvider } from '../../../../providers/SoundProvider';
+import { MobSpectatorViewUiState } from './useMobSpectatorViewUiState';
 
-export function useMobSpectatorSound(mobGame?: MobGame) {
+export function useMobSpectatorSound(
+  mobGame: MobGame | undefined,
+  uiState: MobSpectatorViewUiState
+) {
   const { play } = useSoundProvider();
   const totalActivePlayerMoves = useMemo(() => {
     if (!mobGame) return 0;
@@ -34,4 +38,24 @@ export function useMobSpectatorSound(mobGame?: MobGame) {
       play('MobStart');
     }
   }, [mobGame]);
+
+  useEffect(() => {
+    if (!mobGame || !!playingSounds.current['mug-winner-music']) return;
+
+    if (mobGame.roundState === 'viewed' && uiState.mugWinner) {
+      playingSounds.current['mug-winner-music'] = play('MugWinsMusic', {
+        loop: true,
+      });
+    }
+  }, [mobGame, uiState]);
+
+  useEffect(() => {
+    if (!mobGame || !!playingSounds.current['mob-winner-music']) return;
+
+    if (mobGame.roundState === 'viewed' && uiState.mobWinner) {
+      playingSounds.current['mob-winner-music'] = play('MobWinsMusic', {
+        loop: true,
+      });
+    }
+  }, [mobGame, uiState]);
 }

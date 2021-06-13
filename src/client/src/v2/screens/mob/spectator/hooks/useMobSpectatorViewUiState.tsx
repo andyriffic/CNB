@@ -6,7 +6,7 @@ export type UiMobPlayer = {
   revealMove: boolean;
 };
 
-type MobSpectatorViewUiState = {
+export type MobSpectatorViewUiState = {
   mobWinner: boolean;
   mugWinner: boolean;
   playState: PlayState;

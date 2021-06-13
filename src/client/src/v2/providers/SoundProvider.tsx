@@ -40,6 +40,8 @@ export type SoundMap = {
   DonkeyKongGameOver: any;
   ChoseMobMusic: any;
   MobWaitingMovesMusic: any;
+  MugWinsMusic: any;
+  MobWinsMusic: any;
   MobWin_1: any;
   MobWin_2: any;
   MobWin_3: any;
@@ -105,3 +107,5 @@ export function useSoundProvider() {
   }
   return context;
 }
+
+export function useSoundHelper() {}

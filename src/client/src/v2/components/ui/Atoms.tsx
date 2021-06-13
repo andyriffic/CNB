@@ -15,7 +15,9 @@ export const FeatureText = styled.h1`
   padding: 0;
   font-size: 3rem;
   text-align: center;
-  color: ${primaryTextColorHex};
+  color: ${({ theme }) => theme.color.text01};
+  -webkit-text-stroke-width: 4px;
+  -webkit-text-stroke-color: ${({ theme }) => theme.color.border01};
 `;
 
 export const SubHeading = styled.h3`

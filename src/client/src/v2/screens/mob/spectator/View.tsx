@@ -22,6 +22,7 @@ import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
 import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
 import { useSoundProvider } from '../../../providers/SoundProvider';
+import { FeatureText } from '../../../components/ui/Atoms';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -63,7 +64,7 @@ export default ({ mobGameId }: Props) => {
   const uiState = useMobSpectatorViewUiState(mobGame);
   const { playState } = useTimedPlayState(mobGame);
   const lastResolvedRound = useRef(0);
-  useMobSpectatorSound(mobGame);
+  useMobSpectatorSound(mobGame, uiState);
 
   const activeMobPlayers = useMemo<MobPlayer[]>(() => {
     if (!mobGame) return [];
@@ -126,42 +127,25 @@ export default ({ mobGameId }: Props) => {
             />
           </MugContainer>
           <MobContainer>
-            {playState === 'revealing-moves' && (
-              <MobCongaLine
-                activePlayers={activeMobPlayers}
-                onComplete={() => {
-                  mobGame && viewedRound(mobGame.id);
-                }}
-              />
-            )}
+            {playState === 'revealing-moves' &&
+              mobGame.roundState !== 'viewed' && (
+                <MobCongaLine
+                  activePlayers={activeMobPlayers}
+                  onComplete={() => {
+                    mobGame && viewedRound(mobGame.id);
+                  }}
+                />
+              )}
             {['waiting-moves', 'ready-to-play'].includes(
               mobGame.roundState
             ) && <MobWaitingMoves activePlayers={activeMobPlayers} />}
-            {/* {playState === 'waiting-moves' && (
-              <ul
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  flexWrap: 'wrap',
-                }}
-              >
-                {mobGame.mobPlayers.map((mp, i) => (
-                  <MobPlayerAvatar
-                    key={mp.player.id}
-                    mobPlayer={mp}
-                    moved={!!mp.lastMoveId}
-                    reveal={getPlayerRevealMove(
-                      mp.player.id,
-                      uiState.uiMobPlayers
-                    )}
-                    eliminated={!mp.active}
-                    wonRound={!!mp.lastMoveId && mp.active}
-                    wonGame={uiState.mobWinner && mp.active}
-                  />
-                ))}
-              </ul>
-            )} */}
           </MobContainer>
+          {uiState.mugWinner && mobGame.roundState === 'viewed' && (
+            <FeatureText>You beat the mob!</FeatureText>
+          )}
+          {uiState.mobWinner && mobGame.roundState === 'viewed' && (
+            <FeatureText>The mob won</FeatureText>
+          )}
         </PlayersContainer>
         {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
           <Button onClick={startNewRound}>Next round</Button>

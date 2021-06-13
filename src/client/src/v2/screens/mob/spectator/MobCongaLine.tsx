@@ -3,14 +3,14 @@ import styled, { css } from 'styled-components';
 import {
   fadeInAnimation,
   outOfWormholeAnimationFacingLeft,
-  spinAwayAnimationUp,
   backOutRightAnimation,
+  hingeOutAnimation,
 } from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobPlayer, MoveResult } from '../../../providers/MobProvider';
-import { SoundMap, useSoundProvider } from '../../../providers/SoundProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 const CongaPlayer = styled.div<{
   highlight: boolean;
@@ -24,7 +24,7 @@ const CongaPlayer = styled.div<{
     highlight &&
     css`
       animation: ${animation === 'lose'
-          ? spinAwayAnimationUp
+          ? hingeOutAnimation
           : backOutRightAnimation}
         800ms ease-in-out 1500ms both;
     `}
