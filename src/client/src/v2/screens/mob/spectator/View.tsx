@@ -141,7 +141,9 @@ export default ({ mobGameId }: Props) => {
             ) && <MobWaitingMoves activePlayers={activeMobPlayers} />}
           </MobContainer>
           {uiState.mugWinner && mobGame.roundState === 'viewed' && (
-            <FeatureText>You beat the mob!</FeatureText>
+            <FeatureText>
+              {mobGame.mugPlayer.player.name} beat the mob!
+            </FeatureText>
           )}
           {uiState.mobWinner && mobGame.roundState === 'viewed' && (
             <FeatureText>The mob won</FeatureText>
