@@ -95,17 +95,16 @@ export function MobCongaLine({
       highlightPlayerIndex === activePlayers.length &&
       !finishedConga.current
     ) {
-      console.log('CongaLine complete');
       finishedConga.current = true;
-      onComplete();
+      setTimeout(onComplete, 1200);
     }
   }, [activePlayers, highlightPlayerIndex]);
 
   useEffect(() => {
     const player = activePlayers[highlightPlayerIndex];
-    if (!player) return;
+    if (!player || !player.lastMoveId) return;
 
-    setTimeout(() => play('PlayerJoinedGame'), 500);
+    setTimeout(() => play('SwitchPlayer'), 500);
 
     setTimeout(() => {
       if (player.lastMoveResult === 'won') {

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
   bounceInAnimation,
@@ -10,7 +12,7 @@ import {
 } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
-import { MugPlayer } from '../../../providers/MobProvider';
+import { MobRoundState, MugPlayer } from '../../../providers/MobProvider';
 import lifeHeart from './assets/life-heart.png';
 
 const Container = styled.div`
@@ -73,6 +75,7 @@ type Props = {
   revealMove: boolean;
   winner: boolean;
   loser: boolean;
+  roundState: MobRoundState;
 };
 
 export const MugPlayerAvatar = ({
@@ -80,13 +83,22 @@ export const MugPlayerAvatar = ({
   revealMove,
   winner,
   loser,
+  roundState,
 }: Props) => {
   const theme = useThemeComponents();
+
+  const [displayedLives, setDisplayedLives] = useState(mugPlayer.lives);
+
+  useEffect(() => {
+    if (roundState === 'viewed') {
+      setDisplayedLives(mugPlayer.lives);
+    }
+  }, [roundState, mugPlayer]);
 
   return (
     <Container>
       <Lives>
-        {[...Array(mugPlayer.lives)].map((l, i) => (
+        {[...Array(displayedLives)].map((l, i) => (
           <Life key={i} src={lifeHeart} />
         ))}
       </Lives>
@@ -94,7 +106,7 @@ export const MugPlayerAvatar = ({
         <PlayerAvatar player={mugPlayer.player} size="medium" />
       </Avatar>
       <PlayerName>{mugPlayer.player.name}</PlayerName>
-      {mugPlayer.lastMoveId && revealMove && theme && !winner && (
+      {mugPlayer.lastMoveId && revealMove && theme && !winner && !loser && (
         <MoveContainer>{theme.moves[mugPlayer.lastMoveId]}</MoveContainer>
       )}
       {winner && <Emoji>🎉</Emoji>}

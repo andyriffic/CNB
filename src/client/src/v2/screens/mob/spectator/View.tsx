@@ -22,7 +22,8 @@ import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
 import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
 import { useSoundProvider } from '../../../providers/SoundProvider';
-import { FeatureText } from '../../../components/ui/Atoms';
+import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
+import { MobWinners } from './MobWinners';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -124,6 +125,7 @@ export default ({ mobGameId }: Props) => {
                 !!mobGame &&
                 mobGame.roundState === 'viewed'
               }
+              roundState={mobGame.roundState}
             />
           </MugContainer>
           <MobContainer>
@@ -146,7 +148,12 @@ export default ({ mobGameId }: Props) => {
             </FeatureText>
           )}
           {uiState.mobWinner && mobGame.roundState === 'viewed' && (
-            <FeatureText>The mob won</FeatureText>
+            <div>
+              <SubHeading>The mob won</SubHeading>
+              <MobWinners
+                winningPlayers={mobGame.mobPlayers.filter(mp => mp.active)}
+              />
+            </div>
           )}
         </PlayersContainer>
         {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
