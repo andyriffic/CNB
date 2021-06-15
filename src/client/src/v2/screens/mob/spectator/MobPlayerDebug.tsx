@@ -1,4 +1,5 @@
 import React from 'react';
+import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { MobGame, useMobProvider } from '../../../providers/MobProvider';
 import { MoveKeys } from '../../../themes';
 
@@ -8,6 +9,19 @@ type Props = {
 
 export const MobPlayerDebug = ({ mobGame }: Props) => {
   const { makeMobPlayerMove, makeMugPlayerMove } = useMobProvider();
+
+  const randomAllMobMoves = () => {
+    mobGame.mobPlayers
+      .filter(mp => mp.active && !mp.lastMoveId)
+      .forEach(mp => {
+        makeMobPlayerMove(
+          mobGame.id,
+          mp.player.id,
+          selectRandomOneOf(['A', 'B', 'C'])
+        );
+      });
+  };
+
   return (
     <div style={{ position: 'absolute', fontSize: '0.6rem', top: 0, right: 0 }}>
       <div>
@@ -36,6 +50,16 @@ export const MobPlayerDebug = ({ mobGame }: Props) => {
         </form>
       </div>
       <hr />
+      <div>
+        <button
+          onClick={randomAllMobMoves}
+          disabled={mobGame.mobPlayers.every(
+            mp => !mp.active || !!mp.lastMoveId
+          )}
+        >
+          RANDOM
+        </button>
+      </div>
       {mobGame.mobPlayers.map(mp => {
         const makeMove = (moveId: MoveKeys) => {
           makeMobPlayerMove(mobGame.id, mp.player.id, moveId);

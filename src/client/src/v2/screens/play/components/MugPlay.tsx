@@ -34,11 +34,11 @@ export const MugPlay = ({ mobGame, mugPlayer, makeMove }: Props) => {
   return (
     <div>
       <h3 style={{ textAlign: 'center' }}>{mobGame.id}</h3>
-      <Lives>
+      {/* <Lives>
         {[...Array(mugPlayer.lives)].map((l, i) => (
           <Life key={i} src={lifeHeart} />
         ))}
-      </Lives>
+      </Lives> */}
       {lost && <div>The mob was too good 😭</div>}
       {won && <div>You beat the mob! 🎉</div>}
       {selectMove && themeComponents && (

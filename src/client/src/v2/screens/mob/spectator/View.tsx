@@ -23,7 +23,7 @@ import { MugPlayerAvatar } from './MugPlayerAvatar';
 import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
-import { MobWinners } from './MobWinners';
+import { MobResultSummary } from './MobResultSummary';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -110,6 +110,12 @@ export default ({ mobGameId }: Props) => {
         {/* <div>
           {playState}:{mobGame.roundState}
         </div> */}
+        {/* {uiState.mugWinner && mobGame.roundState === 'viewed' && (
+          <FeatureText>
+            {mobGame.mugPlayer.player.name} beat the mob!
+          </FeatureText>
+        )} */}
+
         <PlayersContainer>
           <MugContainer>
             <MugPlayerAvatar
@@ -126,6 +132,7 @@ export default ({ mobGameId }: Props) => {
                 mobGame.roundState === 'viewed'
               }
               roundState={mobGame.roundState}
+              totalMobPlayers={mobGame.mobPlayers.length}
             />
           </MugContainer>
           <MobContainer>
@@ -143,16 +150,17 @@ export default ({ mobGameId }: Props) => {
             ) && <MobWaitingMoves activePlayers={activeMobPlayers} />}
           </MobContainer>
           {uiState.mugWinner && mobGame.roundState === 'viewed' && (
-            <FeatureText>
-              {mobGame.mugPlayer.player.name} beat the mob!
-            </FeatureText>
+            <div>
+              <FeatureText>
+                {mobGame.mugPlayer.player.name} beat the mob!
+              </FeatureText>
+              <MobResultSummary mobGame={mobGame} />
+            </div>
           )}
           {uiState.mobWinner && mobGame.roundState === 'viewed' && (
             <div>
-              <SubHeading>The mob won</SubHeading>
-              <MobWinners
-                winningPlayers={mobGame.mobPlayers.filter(mp => mp.active)}
-              />
+              <FeatureText>The mob won</FeatureText>
+              <MobResultSummary mobGame={mobGame} />
             </div>
           )}
         </PlayersContainer>

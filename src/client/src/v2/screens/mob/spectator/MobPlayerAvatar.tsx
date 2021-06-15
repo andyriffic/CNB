@@ -40,8 +40,8 @@ const PlayerName = styled.div<{ fade: boolean }>`
 `;
 
 const MoveContainer = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   position: absolute;
   top: 40%;
   left: 20px;

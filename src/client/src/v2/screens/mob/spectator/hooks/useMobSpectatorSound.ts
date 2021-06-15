@@ -58,4 +58,13 @@ export function useMobSpectatorSound(
       });
     }
   }, [mobGame, uiState]);
+
+  useEffect(() => {
+    return () => {
+      playingSounds.current['mob-winner-music'] &&
+        playingSounds.current['mob-winner-music'].stop();
+      playingSounds.current['mug-winner-music'] &&
+        playingSounds.current['mug-winner-music'].stop();
+    };
+  }, []);
 }

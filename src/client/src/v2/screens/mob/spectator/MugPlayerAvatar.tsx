@@ -70,12 +70,31 @@ const Emoji = styled.div`
   animation: ${fadeInAnimation} 800ms ease-in 0s both;
 `;
 
+const Points = styled.span`
+  display: inline-block;
+  /* opacity: 0; */
+  position: absolute;
+  padding: 5px 8px;
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%. -50%);
+  color: ${({ theme }) => theme.color.text01};
+  background-color: ${({ theme }) => theme.color.background02};
+  border: 1px solid black;
+  border-radius: 10px;
+  text-transform: none;
+`;
+
 type Props = {
   mugPlayer: MugPlayer;
   revealMove: boolean;
   winner: boolean;
   loser: boolean;
   roundState: MobRoundState;
+  totalMobPlayers: number;
 };
 
 export const MugPlayerAvatar = ({
@@ -84,6 +103,7 @@ export const MugPlayerAvatar = ({
   winner,
   loser,
   roundState,
+  totalMobPlayers,
 }: Props) => {
   const theme = useThemeComponents();
 
@@ -111,6 +131,8 @@ export const MugPlayerAvatar = ({
       )}
       {winner && <Emoji>🎉</Emoji>}
       {loser && <Emoji>😭</Emoji>}
+      {winner && <Points>+{totalMobPlayers}</Points>}
+      {loser && <Points>+3</Points>}
     </Container>
   );
 };
