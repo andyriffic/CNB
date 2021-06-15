@@ -164,9 +164,6 @@ export default ({ mobGameId }: Props) => {
             </div>
           )}
         </PlayersContainer>
-        {mobGame.resolved && !(uiState.mobWinner || uiState.mugWinner) && (
-          <Button onClick={startNewRound}>Next round</Button>
-        )}
         {mobGame.roundState === 'ready-to-play' && (
           <SplashText
             durationMilliseconds={3500}

@@ -17,7 +17,7 @@ const CongaPlayer = styled.div<{
   position: number;
   animation: 'lose' | 'win';
 }>`
-  margin-top: 40px;
+  /* margin-top: 40px; */
   position: absolute;
   left: ${({ position }) => `${Math.max(position, 0) * 200}px`};
   ${({ highlight, animation }) =>
@@ -40,6 +40,19 @@ const MoveContainer = styled.div`
   left: -15%;
   animation: ${outOfWormholeAnimationFacingLeft} 300ms ease-in 500ms both;
   transform: scaleX(-1);
+`;
+
+const PlayerName = styled.div`
+  text-align: center;
+  position: relative;
+  top: -20px;
+  /* font-family: ${({ theme }) => theme.fontFamily.feature}; */
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSize.small};
+  color: ${({ theme }) => theme.color.background03};
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #aaa;
 `;
 
 const ReversedPlayerAvatar = styled.div`
@@ -129,6 +142,7 @@ export function MobCongaLine({
             <ReversedPlayerAvatar>
               <PlayerAvatar player={p.player} size="medium" />
             </ReversedPlayerAvatar>
+            <PlayerName>{p.player.name}</PlayerName>
             {p.lastMoveId && highlight && theme && (
               <MoveContainer>{theme.moves[p.lastMoveId]}</MoveContainer>
             )}

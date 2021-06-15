@@ -9,6 +9,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 `;
 const Text = styled.div`
   animation: ${fadeInAnimation} 500ms ease-out 0s both;

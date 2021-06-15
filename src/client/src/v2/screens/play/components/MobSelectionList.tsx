@@ -21,8 +21,9 @@ export const MobSelectionList = ({ playerId, onMobSelected }: Props) => {
       mobGames
         ? mobGames.filter(
             mg =>
-              mg.mobPlayers.find(mp => mp.player.id === playerId) ||
-              mg.mugPlayer.player.id === playerId
+              (mg.mobPlayers.find(mp => mp.player.id === playerId) ||
+                mg.mugPlayer.player.id === playerId) &&
+              !mg.gameOver
           )
         : [],
     [mobGames]

@@ -49,6 +49,8 @@ const PlayerName = styled.div`
 const Lives = styled.div`
   display: flex;
   margin-bottom: 10px;
+  position: absolute;
+  z-index: 1;
 `;
 const Life = styled.img`
   width: 30px;
