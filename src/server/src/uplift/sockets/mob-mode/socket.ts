@@ -42,7 +42,7 @@ const init = (socketServer: Server, path: string) => {
       (mug: Player, mob: Player[], onCreated: (id: string) => void) => {
         const mobGame = createMobGame(mug, mob);
         log('Created MobGame', mobGame);
-        activeMobGames = [...activeMobGames, mobGame];
+        activeMobGames = [mobGame]; //Only allow one mobGame at a time for now
         namespace.emit(
           MOB_GAMES_UPDATE,
           activeMobGames.map(createMobGameSpectatorView)
