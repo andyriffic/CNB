@@ -11,13 +11,15 @@ import {
 import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { MobPlay } from './components/MobPlay';
 import { MugPlay } from './components/MugPlay';
+import { NavigateFn } from '@reach/router';
 
 type Props = {
   playerId: string;
   mobGameId: string;
+  navigate?: NavigateFn;
 };
 
-export const PlayMobView = ({ playerId, mobGameId }: Props) => {
+export const PlayMobView = ({ playerId, mobGameId, navigate }: Props) => {
   const player = usePlayer(playerId);
   const { mobGame, mobPlayer, makeMove } = useMobGamePlayer(
     mobGameId,
@@ -40,13 +42,23 @@ export const PlayMobView = ({ playerId, mobGameId }: Props) => {
         <DebugBonusChoice playerId={player.id} />
       )}
       {mobGame && mobPlayer && (
-        <MobPlay mobGame={mobGame} mobPlayer={mobPlayer} makeMove={makeMove} />
+        <MobPlay
+          mobGame={mobGame}
+          mobPlayer={mobPlayer}
+          makeMove={makeMove}
+          onGameOver={() => {
+            navigate && navigate(`/play/${playerId}?feature=mob`);
+          }}
+        />
       )}
       {mobMugGame && mugPlayer && (
         <MugPlay
           mobGame={mobMugGame}
           mugPlayer={mugPlayer}
           makeMove={makeMugMove}
+          onGameOver={() => {
+            navigate && navigate(`/play/${playerId}?feature=mob`);
+          }}
         />
       )}
     </GameScreen>

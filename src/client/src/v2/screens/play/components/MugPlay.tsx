@@ -18,9 +18,15 @@ type Props = {
   mobGame: MobGame;
   mugPlayer: MugPlayer;
   makeMove: (moveId: MoveKeys) => void;
+  onGameOver: () => void;
 };
 
-export const MugPlay = ({ mobGame, mugPlayer, makeMove }: Props) => {
+export const MugPlay = ({
+  mobGame,
+  mugPlayer,
+  makeMove,
+  onGameOver,
+}: Props) => {
   const themeComponents = useThemeComponents();
 
   const won =
@@ -54,6 +60,11 @@ export const MugPlay = ({ mobGame, mugPlayer, makeMove }: Props) => {
           </Button>
         </div>
       )}
+      <div>
+        {mobGame.gameOver && (
+          <Button onClick={onGameOver}>&lt;Back to games</Button>
+        )}
+      </div>
     </div>
   );
 };

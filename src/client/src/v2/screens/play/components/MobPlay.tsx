@@ -1,3 +1,4 @@
+import { NavigateFn } from '@reach/router';
 import React from 'react';
 import { Button } from '../../../components/ui/buttons';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
@@ -8,9 +9,15 @@ type Props = {
   mobGame: MobGame;
   mobPlayer: MobPlayer;
   makeMove: (moveId: MoveKeys) => void;
+  onGameOver: () => void;
 };
 
-export const MobPlay = ({ mobGame, mobPlayer, makeMove }: Props) => {
+export const MobPlay = ({
+  mobGame,
+  mobPlayer,
+  makeMove,
+  onGameOver,
+}: Props) => {
   const themeComponents = useThemeComponents();
   const dead =
     (mobGame.roundState === 'viewed' && !mobPlayer.active) ||
@@ -37,6 +44,11 @@ export const MobPlay = ({ mobGame, mobPlayer, makeMove }: Props) => {
           </Button>
         </div>
       )}
+      <div>
+        {mobGame.gameOver && (
+          <Button onClick={onGameOver}>&lt;Back to games</Button>
+        )}
+      </div>
     </div>
   );
 };
