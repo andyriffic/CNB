@@ -13,6 +13,7 @@ import {
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobRoundState, MugPlayer } from '../../../providers/MobProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 import lifeHeart from './assets/life-heart.png';
 
 const Container = styled.div`
@@ -65,11 +66,15 @@ const MoveContainer = styled.div`
   animation: ${outOfWormholeAnimation} 500ms ease-in 0s forwards;
 `;
 
-const Emoji = styled.div`
+const Emoji = styled.div<{ animate: boolean }>`
   font-size: 5rem;
   position: absolute;
   bottom: 0;
-  animation: ${fadeInAnimation} 800ms ease-in 0s both;
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${shakeAndGrowAnimation} 1800ms infinite;
+    `}
 `;
 
 const Points = styled.span`
@@ -97,6 +102,7 @@ type Props = {
   loser: boolean;
   roundState: MobRoundState;
   totalMobPlayers: number;
+  totalActiveMobPlayers: number;
 };
 
 export const MugPlayerAvatar = ({
@@ -106,16 +112,30 @@ export const MugPlayerAvatar = ({
   loser,
   roundState,
   totalMobPlayers,
+  totalActiveMobPlayers,
 }: Props) => {
   const theme = useThemeComponents();
+  const { play } = useSoundProvider();
 
   const [displayedLives, setDisplayedLives] = useState(mugPlayer.lives);
+  const [displayedPlayersRemaining, setDisplayedPlayersRemaining] = useState(
+    totalActiveMobPlayers
+  );
 
   useEffect(() => {
     if (roundState === 'viewed') {
+      if (mugPlayer.lives < displayedLives) {
+        play('TimebombExploded');
+      }
       setDisplayedLives(mugPlayer.lives);
     }
   }, [roundState, mugPlayer]);
+
+  useEffect(() => {
+    if (roundState === 'viewed') {
+      setDisplayedPlayersRemaining(totalActiveMobPlayers);
+    }
+  }, [roundState, totalActiveMobPlayers]);
 
   return (
     <Container>
@@ -131,10 +151,17 @@ export const MugPlayerAvatar = ({
       {mugPlayer.lastMoveId && revealMove && theme && !winner && !loser && (
         <MoveContainer>{theme.moves[mugPlayer.lastMoveId]}</MoveContainer>
       )}
-      {winner && <Emoji>🎉</Emoji>}
-      {loser && <Emoji>😭</Emoji>}
-      {winner && <Points>+{totalMobPlayers}</Points>}
-      {loser && <Points>+3</Points>}
+      {/* <div>
+        Mob remaining: {Number(displayedPlayersRemaining)}/{totalMobPlayers}
+      </div> */}
+      {winner && <Emoji animate={false}>🎉</Emoji>}
+      {loser && <Emoji animate={true}>😭</Emoji>}
+      {winner && (
+        <Points>
+          Knocked out <strong>{totalMobPlayers}</strong> players
+        </Points>
+      )}
+      {/* {loser && <Points>+3</Points>} */}
     </Container>
   );
 };

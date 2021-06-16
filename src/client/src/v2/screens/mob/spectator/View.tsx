@@ -133,6 +133,9 @@ export default ({ mobGameId }: Props) => {
               }
               roundState={mobGame.roundState}
               totalMobPlayers={mobGame.mobPlayers.length}
+              totalActiveMobPlayers={
+                mobGame.mobPlayers.filter(mp => mp.active).length
+              }
             />
           </MugContainer>
           <MobContainer>
