@@ -5,6 +5,7 @@ import { PlayerAvatar } from '../../../components/player-avatar';
 import { MobGame } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import removedCross from './assets/removed-cross.png';
+import winCheck from './assets/win-check.png';
 
 const Container = styled.div`
   display: flex;
@@ -41,6 +42,16 @@ const RemovedPlayer = styled.img`
   left: 50%;
   width: 20px;
   height: 20px;
+  transform: translate(-50%, -50%);
+  animation: ${fadeInAnimation} 500ms ease-in 1000ms both;
+`;
+
+const WinningPlayer = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
   transform: translate(-50%, -50%);
   animation: ${fadeInAnimation} 500ms ease-in 1000ms both;
 `;
@@ -88,9 +99,10 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
                 <div key={p.player.id} style={{ position: 'relative' }}>
                   <ReversedPlayerAvatar>
                     <PlayerAvatar player={p.player} size="small" />
-                    {!p.active && <RemovedPlayer src={removedCross} />}
                   </ReversedPlayerAvatar>
-                  <Points>+{p.active ? mobGame.round + 1 : i + 1}</Points>
+                  {/* <Points>+{p.active ? mobGame.round + 1 : i + 1}</Points> */}
+                  {!p.active && <RemovedPlayer src={removedCross} />}
+                  {p.active && <WinningPlayer src={winCheck} />}
                 </div>
               );
             })}
