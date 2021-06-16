@@ -29,6 +29,10 @@ export const MobSelectionList = ({ playerId, onMobSelected }: Props) => {
     [mobGames]
   );
 
+  if (!playerMobGames.length) {
+    return null;
+  }
+
   return (
     <div>
       <h3 style={{ textAlign: 'center' }}>Mobs</h3>

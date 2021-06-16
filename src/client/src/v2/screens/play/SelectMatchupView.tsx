@@ -75,12 +75,10 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
           </div>
         </>
       )}
-      {isFeatureEnabled('mob') && (
-        <MobSelectionList
-          playerId={playerId}
-          onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
-        />
-      )}
+      <MobSelectionList
+        playerId={playerId}
+        onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
+      />
       {/* {playerMatchups && (
         <>
           <p>Matchups</p>
