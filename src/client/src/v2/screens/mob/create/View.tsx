@@ -67,6 +67,33 @@ export default ({ navigate }: Props) => {
       <Container>
         <FeatureText>Join the mob</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
+        {!mug && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              marginTop: '60px',
+            }}
+          >
+            {!sentInvites && (
+              <Button onClick={onSendInvitesClick}>Invite Mob</Button>
+            )}
+            {sentInvites && (
+              <Button
+                onClick={onCreateMobClick}
+                disabled={joinedPlayers.length < 3}
+              >
+                {joinedPlayers.length < 3 ? (
+                  'Need minimum of 3 players'
+                ) : (
+                  <span>
+                    Play with mob of <strong>{joinedPlayers.length}</strong>{' '}
+                  </span>
+                )}
+              </Button>
+            )}
+          </div>
+        )}
         <div>
           {!mug && (
             <PlayerList>
@@ -76,16 +103,6 @@ export default ({ navigate }: Props) => {
                 </PlayerListItem>
               ))}
             </PlayerList>
-          )}
-          {!mug && (
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              {!sentInvites && (
-                <Button onClick={onSendInvitesClick}>Invite Mob</Button>
-              )}
-              {joinedPlayers.length > 2 && (
-                <Button onClick={onCreateMobClick}>Start Mob</Button>
-              )}
-            </div>
           )}
         </div>
         {mug && <ChosenMug player={mug} />}
