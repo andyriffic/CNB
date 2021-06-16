@@ -29,7 +29,7 @@ export const MobPlay = ({
   return (
     <div>
       <h3 style={{ textAlign: 'center' }}>{mobGame.id}</h3>
-      {!mobPlayer.active && <div>You dead! ☠️</div>}
+      {dead && <div>You dead! ☠️</div>}
       {waitingResult && <div>Waiting for Mob...</div>}
       {selectMove && themeComponents && (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
