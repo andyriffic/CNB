@@ -39,14 +39,14 @@ export default () => {
                   <MobProvider>
                     <ThemedUi>
                       <Router>
-                        <ChoosePlayerScreen path="/" />
+                        <ChoosePlayerScreen path="/classic" />
                         <ScreenWithMatchup
                           path="/spectator/:matchupId"
                           matchupId=""
                         />
                         <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                         <DonkeyKongScreen path="/donkey-kong" />
-                        <CreateMobScreen path="/mob" />
+                        <CreateMobScreen path="/" />
                         <MobSpectatorScreen
                           path="/mob/spectator/:mobGameId"
                           mobGameId=""
