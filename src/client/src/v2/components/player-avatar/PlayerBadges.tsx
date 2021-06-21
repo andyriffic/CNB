@@ -68,6 +68,14 @@ export const PlayerBadges = ({ tags }: Props) => {
           🏮
         </BadgeEmoji>
       )}
+      {tags.includes('badge:donkey_kong_winner') && (
+        <BadgeEmoji
+          title="Won very first Donkey Kong game!"
+          style={{ borderColor: '#000', backgroundColor: '#2A3492' }}
+        >
+          🍒
+        </BadgeEmoji>
+      )}
     </Container>
   );
 };
