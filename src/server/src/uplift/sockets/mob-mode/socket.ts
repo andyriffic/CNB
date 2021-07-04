@@ -107,6 +107,7 @@ const init = (socketServer: Server, path: string) => {
         statsRecords.forEach((statsRecord) => {
           StatsService.saveMobGameStatsEntry(statsRecord);
         });
+        StatsService.publishMobSummaryStats();
       });
 
       activeMobGames = [

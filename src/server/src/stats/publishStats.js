@@ -34,6 +34,21 @@ let q = Queue((id, cb) => {
     });
 }, 5);
 
+export const publishAthenaQueryResult = (athenaQuery, filename) => {
+  makeQuery(athenaQuery)
+    .then((data) => {
+      // console.log('DATA: ', data);
+      statsS3Bucket.saveStats(
+        STATS_AWS_RESULT_BUCKET_NAME,
+        filename,
+        data
+      );
+    })
+    .catch((e) => {
+      console.log('ERROR WRITING ATHENA QUERY: ', e);
+    })
+}
+
 /* Make a SQL query and display results */
 export const publishAllStats = () => {
   const leaderboardQueryAllTime = makeQuery(playerLeaderboardQueryAllTime)

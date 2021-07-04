@@ -9,6 +9,8 @@ import { statsS3Bucket } from '../../../stats/s3';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import moment from 'moment';
 import { MobStatsRecord } from './mobMappers';
+import { publishAthenaQueryResult } from '../../../stats/publishStats';
+import { mobMainPlayerSummaryAthenaQuery } from './mob-main-player-summary-query';
 
 const log = createLogger('statsService', LOG_NAMESPACE.stats);
 
@@ -52,7 +54,15 @@ const saveMobGameStatsEntry = (stats: MobStatsRecord): void => {
   statsS3Bucket.saveStats(MOB_STATS_AWS_SOURCE_BUCKET_NAME, filename, stats);
 };
 
+const publishMobSummaryStats = () => {
+  publishAthenaQueryResult(
+    mobMainPlayerSummaryAthenaQuery,
+    'mob-main-player-summary.json'
+  );
+};
+
 export const StatsService = {
   saveGameStatsEntry,
   saveMobGameStatsEntry,
+  publishMobSummaryStats,
 };
