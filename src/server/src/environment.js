@@ -16,3 +16,6 @@ export const DYNAMO_DB_MATCHUPS_TABLE_NAME =
   process.env.DYNAMO_DB_MATCHUPS_TABLE_NAME || '';
 export const DYNAMO_DB_PLAYERS_TABLE_NAME =
   process.env.DYNAMO_DB_PLAYERS_TABLE_NAME || '';
+
+  export const MOB_STATS_AWS_SOURCE_BUCKET_NAME =
+  process.env.MOB_STATS_AWS_SOURCE_BUCKET_NAME || '';

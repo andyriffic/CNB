@@ -89,7 +89,10 @@ export function markMobGameAsViewed(mobGame: MobGame): MobGame {
   };
 }
 
-export function resolveMobGame(mobGame: MobGame): MobGame {
+export function resolveMobGame(
+  mobGame: MobGame,
+  onResolved?: (resolvedGame: MobGame) => void
+): MobGame {
   if (!isMobGameReady(mobGame)) {
     return mobGame;
   }
@@ -100,7 +103,7 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
     )
     .map((p) => p.player.id);
 
-  return {
+  const resolvedGame: MobGame = {
     ...mobGame,
     resolved: true,
     roundState: 'resolved-results',
@@ -123,6 +126,9 @@ export function resolveMobGame(mobGame: MobGame): MobGame {
       ),
     },
   };
+
+  onResolved && onResolved(resolvedGame);
+  return resolvedGame;
 }
 
 export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {

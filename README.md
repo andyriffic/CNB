@@ -21,7 +21,7 @@ auto/start
 
 1. open terminal to path `/src/server`
 2. get access keys to fill in following command:
-3. run `DYNAMO_DB_PLAYERS_TABLE_NAME=cnb-players-dev DYNAMO_DB_MATCHUPS_TABLE_NAME=cnb-matchups-dev DYNAMO_DB_COUNTERS_TABLE_NAME=cnb-counters-dev STATS_ENABLED=true STATS_AWS_SOURCE_BUCKET_NAME=cnb-stats-dev STATS_AWS_RESULT_BUCKET_NAME=cnb-stats-dev-results STATS_AWS_ACCESS_KEY_ID=**ACCESS KEY ID** STATS_AWS_SECRET_ACCESS_KEY=**ACCESS KEY** STATS_AWS_ATHENA_DB_NAME=cnb_stats_dev npm run serve:local`
+3. run `DYNAMO_DB_PLAYERS_TABLE_NAME=cnb-players-dev DYNAMO_DB_MATCHUPS_TABLE_NAME=cnb-matchups-dev DYNAMO_DB_COUNTERS_TABLE_NAME=cnb-counters-dev STATS_ENABLED=true STATS_AWS_SOURCE_BUCKET_NAME=cnb-stats-dev MOB_STATS_AWS_SOURCE_BUCKET_NAME=cnb-stats-mob-dev STATS_AWS_RESULT_BUCKET_NAME=cnb-stats-dev-results STATS_AWS_ACCESS_KEY_ID=**ACCESS KEY ID** STATS_AWS_SECRET_ACCESS_KEY=**ACCESS KEY** STATS_AWS_ATHENA_DB_NAME=cnb_stats_dev npm run serve:local`
 
 ### Run
 

@@ -17,6 +17,7 @@ const mapMatchupPlayerToPlayerStatsEntry = (
     move: game.moves[playerIndex].moveId!,
     powerUp: 'NONE',
     player: game.moves[playerIndex].playerId!,
+    trophy: game.trophyWon,
     winner:
       game.result!.winnerIndex !== undefined &&
       game.result!.winnerIndex === playerIndex,
@@ -46,6 +47,7 @@ export const mapMatchupGameToGameStatsEntry = (
   return {
     date: new Date().toISOString(),
     matchupId: matchup.id,
+    mode: game.playMode,
     theme,
     player1: mapMatchupPlayerToPlayerStatsEntry(0, matchup, game),
     player2: mapMatchupPlayerToPlayerStatsEntry(1, matchup, game),

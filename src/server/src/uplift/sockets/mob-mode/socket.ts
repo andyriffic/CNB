@@ -11,6 +11,8 @@ import {
   resolveMobGame,
 } from '.';
 import { Player } from '../../services/player/types';
+import { mapMobGameToStats } from '../../services/stats/mobMappers';
+import { StatsService } from '../../services/stats';
 
 const REQUEST_MOB_GAMES = 'REQUEST_MOB_GAMES';
 const MOB_GAMES_UPDATE = 'MOB_GAMES_UPDATE';
@@ -100,7 +102,13 @@ const init = (socketServer: Server, path: string) => {
       }
       log('Resolving Mob Game', mobGameId);
 
-      const updatedMobGame = resolveMobGame(mobGame);
+      const updatedMobGame = resolveMobGame(mobGame, (resolvedGame) => {
+        const statsRecords = mapMobGameToStats(resolvedGame);
+        statsRecords.forEach((statsRecord) => {
+          StatsService.saveMobGameStatsEntry(statsRecord);
+        });
+      });
+
       activeMobGames = [
         ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),
         updatedMobGame,

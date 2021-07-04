@@ -32,6 +32,17 @@ export const rubberBandAnimation = keyframes`
   }
 `;
 
+export const squashedAnimation = keyframes`
+  0% {
+    height: 200px;
+    transform: skew(0);
+  }
+  100% {
+    height: 50px;
+    transform: skew(-25deg);
+  }
+`;
+
 export const fadeInAnimation = keyframes`
   0% {opacity: 0;}
   100% {opacity: 1;}
