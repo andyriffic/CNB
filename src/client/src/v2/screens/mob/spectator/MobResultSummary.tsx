@@ -112,7 +112,7 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
           </RoundPlayers>
         </RoundContainer>
       ))}
-      {roundChampions.length && (
+      {roundChampions.length > 0 && (
         <RoundContainer>
           <RoundLabel>Winners</RoundLabel>
           <RoundPlayers>
