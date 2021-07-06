@@ -66,7 +66,7 @@ const Points = styled.span`
   font-weight: bold;
   top: 50%;
   left: 50%;
-  transform: translate(-50%. -50%);
+  transform: translate(-50%, -50%);
   color: ${({ theme }) => theme.color.text01};
   background-color: ${({ theme }) => theme.color.background02};
   border: 1px solid black;
