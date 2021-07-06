@@ -10,7 +10,7 @@ import winCheck from './assets/win-check.png';
 const Container = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  margin-top: 100px;
+  margin-top: 20px;
   animation: ${fadeInAnimation} 500ms ease-in 500ms both;
 `;
 
@@ -85,8 +85,12 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
   const mugWon = mobGame.mugPlayer.lives > 0;
 
   const playersPerRound = [...Array(mobGame.round)].map((_, roundNumber) => {
-    return mobGame.mobPlayers.filter(mp => mp.lastRound === roundNumber + 1);
+    return mobGame.mobPlayers.filter(
+      mp => mp.lastRound === roundNumber + 1 && !mp.active
+    );
   });
+
+  const roundChampions = mobGame.mobPlayers.filter(mp => mp.active);
 
   return (
     <Container>
@@ -101,14 +105,30 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
                     <PlayerAvatar player={p.player} size="small" />
                   </ReversedPlayerAvatar>
                   {/* <Points>+{p.active ? mobGame.round + 1 : i + 1}</Points> */}
-                  {!p.active && <RemovedPlayer src={removedCross} />}
-                  {p.active && <WinningPlayer src={winCheck} />}
+                  <RemovedPlayer src={removedCross} />
                 </div>
               );
             })}
           </RoundPlayers>
         </RoundContainer>
       ))}
+      {roundChampions.length && (
+        <RoundContainer>
+          <RoundLabel>Winners</RoundLabel>
+          <RoundPlayers>
+            {roundChampions.map(p => {
+              return (
+                <div key={p.player.id} style={{ position: 'relative' }}>
+                  <ReversedPlayerAvatar>
+                    <PlayerAvatar player={p.player} size="small" />
+                  </ReversedPlayerAvatar>
+                  <WinningPlayer src={winCheck} />
+                </div>
+              );
+            })}
+          </RoundPlayers>
+        </RoundContainer>
+      )}
     </Container>
   );
 }
