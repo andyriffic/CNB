@@ -3,11 +3,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
-  bounceInAnimation,
-  enterTopAnimation,
-  fadeInAnimation,
+  zoomOutUpAnimation,
   outOfWormholeAnimation,
-  rubberBandAnimation,
   shakeAndGrowAnimation,
 } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
@@ -53,8 +50,14 @@ const Lives = styled.div`
   position: absolute;
   z-index: 1;
 `;
-const Life = styled.img`
+
+const Life = styled.img<{ used: boolean }>`
   width: 30px;
+  ${({ used }) =>
+    used &&
+    css`
+      animation: ${zoomOutUpAnimation} 1500ms both;
+    `}
 `;
 
 const MoveContainer = styled.div`
@@ -87,7 +90,7 @@ const Points = styled.span`
   font-weight: bold;
   top: 50%;
   left: 50%;
-  transform: translate(-50%. -50%);
+  transform: translate(-50%, -50%);
   color: ${({ theme }) => theme.color.text01};
   background-color: ${({ theme }) => theme.color.background02};
   border: 1px solid black;
@@ -125,7 +128,7 @@ export const MugPlayerAvatar = ({
   useEffect(() => {
     if (roundState === 'viewed') {
       if (mugPlayer.lives < displayedLives) {
-        play('TimebombExploded');
+        play('MobLoseLife');
       }
       setDisplayedLives(mugPlayer.lives);
     }
@@ -140,8 +143,8 @@ export const MugPlayerAvatar = ({
   return (
     <Container>
       <Lives>
-        {[...Array(displayedLives)].map((l, i) => (
-          <Life key={i} src={lifeHeart} />
+        {[...Array(3)].map((l, i) => (
+          <Life key={i} src={lifeHeart} used={i + 1 > displayedLives} />
         ))}
       </Lives>
       <Avatar moved={!!mugPlayer.lastMoveId} won={winner}>
