@@ -1,6 +1,5 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { STATS_API_BASE_URL } from '../../environment';
-import { useFetchJson } from '../../uplift/hooks/useFetchJson';
 
 type RawMainPlayerJson = {
   player_id: string;
@@ -65,4 +64,25 @@ export function useMobStats(): State {
   }, []);
 
   return state;
+}
+
+export function getMostPlayersEliminated(
+  round: 1 | 2 | 3,
+  stats: MainPlayerHistoryStats[]
+): MainPlayerHistoryStats[] {
+  const allRoundPlayers = stats
+    .filter(stat => stat.bestRounds.find(br => br.roundNumber === round))
+    .map(stat => ({
+      ...stat,
+      bestRounds: stat.bestRounds.filter(br => br.roundNumber === round),
+    }));
+
+  const maxPlayersEliminated = allRoundPlayers.reduce((max, stat) => {
+    const playersEliminated = stat.bestRounds[0].playersEliminated;
+    return playersEliminated > max ? playersEliminated : max;
+  }, 0);
+
+  return allRoundPlayers.filter(
+    stat => stat.bestRounds[0].playersEliminated === maxPlayersEliminated
+  );
 }
