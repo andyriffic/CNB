@@ -1,11 +1,14 @@
 import { NavigateFn } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
-import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
+import {
+  fadeInAnimation,
+  jackInTheBoxAnimation,
+} from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
-import { SplashText } from '../../../components/SplashText';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
@@ -13,6 +16,7 @@ import { useMobProvider } from '../../../providers/MobProvider';
 import { Player } from '../../../providers/PlayersProvider';
 import { ChosenMug } from './ChosenMug';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
+import { useCountdownTimer } from './hooks/useCountdownTimer';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
 
@@ -30,6 +34,21 @@ const PlayerListItem = styled.div`
   animation: ${jackInTheBoxAnimation} 600ms both;
 `;
 
+const CountdownTimer = styled.div<{ warning: boolean }>`
+  position: fixed;
+  padding: 30px;
+  min-width: 150px;
+  border-radius: 0 10px 0 0;
+  bottom: 0;
+  left: 0;
+  font-size: 3rem;
+  text-align: center;
+  transition: background-color 10s ease-out;
+  background-color: ${({ warning }) => (warning ? 'red' : 'white')};
+  color: black;
+  animation: ${fadeInAnimation} 1s ease-in 0s 1 both;
+`;
+
 type Props = {
   navigate: NavigateFn | undefined;
 };
@@ -40,6 +59,10 @@ export default ({ navigate }: Props) => {
   const { createMobGame } = useMobProvider();
   const [mug, setMug] = useState<Player | undefined>();
   useMobSelectionSound(joinedPlayers, mug);
+  const timer = useCountdownTimer(11, () => {
+    console.log('countdown complete');
+    // setMug(selectRandomOneOf(joinedPlayers));
+  });
 
   useEffect(() => {
     if (!mug) return;
@@ -53,12 +76,19 @@ export default ({ navigate }: Props) => {
     }, 3000);
   }, [mug]);
 
+  useEffect(() => {
+    if (joinedPlayers.length === 3) {
+      timer.start();
+    }
+  }, [joinedPlayers.length]);
+
   const onSendInvitesClick = () => {
     setSentInvites(true);
     sendInvites();
   };
 
   const onCreateMobClick = () => {
+    timer.stop();
     setMug(selectRandomOneOf(joinedPlayers));
   };
 
@@ -107,6 +137,11 @@ export default ({ navigate }: Props) => {
         </div>
         {mug && <ChosenMug player={mug} />}
       </Container>
+      {timer.status === 'running' && (
+        <CountdownTimer warning={timer.secondsRemaining < 10}>
+          <ReadableNumberFont>{timer.secondsRemaining}</ReadableNumberFont>{' '}
+        </CountdownTimer>
+      )}
       {isPersistantFeatureEnabled('cnb-debug') && (
         <div style={{ position: 'absolute', right: 0, top: 0 }}>
           <DebugPlayerChoice />

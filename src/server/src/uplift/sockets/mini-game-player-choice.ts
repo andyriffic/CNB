@@ -79,7 +79,7 @@ const init = (socketServer: Server, path: string) => {
         updatedChoice,
       ];
 
-      log('Player choice', updatedChoice);
+      // log('Player choice', updatedChoice);
 
       namespace.emit(PLAYER_CHOICE_UPDATE, _allChoices);
     });

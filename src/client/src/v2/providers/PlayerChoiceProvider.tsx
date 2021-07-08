@@ -52,7 +52,7 @@ export const PlayerChoiceProvider = ({ children }: { children: ReactNode }) => {
     socket.on(
       PLAYER_CHOICE_EVENTS.PLAYER_CHOICE_UPDATE,
       (choices: CreatedPlayerChoice[]) => {
-        console.log('Player choices', choices);
+        // console.log('Player choices', choices);
         setAllChoices(choices);
       }
     );
