@@ -3,15 +3,14 @@ import { STATS_API_BASE_URL } from '../../environment';
 import { useFetchJson } from '../../uplift/hooks/useFetchJson';
 
 type RawMainPlayerJson = {
-  playerid: string;
-  min_round_number: string;
-  min_round_players_eliminated: string;
-  most_players_eliminated: string;
+  player_id: string;
+  max_round_number: string;
+  players_eliminated: string;
 };
 
 type MainPlayerHistoryStats = {
   playerId: string;
-  mostPlayersEliminated: number;
+  bestRounds: { roundNumber: number; playersEliminated: number }[];
 };
 
 type MobHistoryStats = {
@@ -46,10 +45,18 @@ export function useMobStats(): State {
       cache: 'no-store',
     }).then(resp => {
       resp.json().then((data: RawMainPlayerJson[]) => {
+        const allPlayerIds = data.map(raw => raw.player_id);
+        const uniquePlayerIds = Array.from(new Set(allPlayerIds));
+
         const mappedData: MobHistoryStats = {
-          mainPlayer: data.map(raw => ({
-            playerId: raw.playerid,
-            mostPlayersEliminated: parseInt(raw.most_players_eliminated),
+          mainPlayer: uniquePlayerIds.map(playerId => ({
+            playerId: playerId,
+            bestRounds: data
+              .filter(raw => raw.player_id === playerId)
+              .map(raw => ({
+                roundNumber: parseInt(raw.max_round_number),
+                playersEliminated: parseInt(raw.players_eliminated),
+              })),
           })),
         };
         dispatch({ type: 'SET_STATS', value: mappedData });

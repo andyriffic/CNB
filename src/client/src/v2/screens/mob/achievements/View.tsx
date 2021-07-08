@@ -6,7 +6,6 @@ import { useMobStats } from '../../../hooks/useMobHistory';
 import { usePlayersProvider } from '../../../providers/PlayersProvider';
 
 const Container = styled.div`
-  width: 790px;
   margin: 0 auto 50px auto;
 `;
 
@@ -27,9 +26,14 @@ export default () => {
           stats.mainPlayer.map(s => {
             const player = allPlayers.find(p => p.id === s.playerId);
             return player ? (
-              <div>
-                {player.name}: {s.mostPlayersEliminated}
-              </div>
+              <dl key={player.id}>
+                <dt>{player.name}</dt>
+                {s.bestRounds.map(br => (
+                  <dd key={br.roundNumber}>
+                    [{br.roundNumber}, {br.playersEliminated}]
+                  </dd>
+                ))}
+              </dl>
             ) : null;
           })}
       </Container>
