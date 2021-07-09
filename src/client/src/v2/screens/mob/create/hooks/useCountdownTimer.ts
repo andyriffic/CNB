@@ -42,8 +42,7 @@ function reducer(state: State, action: 'tick' | 'start' | 'stop'): State {
 }
 
 export const useCountdownTimer = (
-  startingSeconds: number,
-  onComplete: () => void
+  startingSeconds: number
 ): UseCountdownTimer => {
   const [state, dispatch] = useReducer(reducer, {
     secondsRemaining: startingSeconds,
@@ -60,12 +59,6 @@ export const useCountdownTimer = (
       return () => clearInterval(interval);
     }
   }, [state.timer, dispatch]);
-
-  useEffect(() => {
-    if (state.timer === 'complete') {
-      onComplete();
-    }
-  }, [state.timer, onComplete]);
 
   return {
     secondsRemaining: state.secondsRemaining,

@@ -6,6 +6,7 @@ import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import {
   fadeInAnimation,
   jackInTheBoxAnimation,
+  slideInUpAnimation,
 } from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
@@ -46,12 +47,14 @@ const CountdownTimer = styled.div<{ warning: boolean }>`
   transition: background-color 10s ease-out;
   background-color: ${({ warning }) => (warning ? 'red' : 'white')};
   color: black;
-  animation: ${fadeInAnimation} 1s ease-in 0s 1 both;
+  animation: ${slideInUpAnimation} 600ms ease-in 0s 1 both;
 `;
 
 type Props = {
   navigate: NavigateFn | undefined;
 };
+
+const COUNTDOWN_SECONDS = 30;
 
 export default ({ navigate }: Props) => {
   const [sentInvites, setSentInvites] = useState(false);
@@ -59,10 +62,14 @@ export default ({ navigate }: Props) => {
   const { createMobGame } = useMobProvider();
   const [mug, setMug] = useState<Player | undefined>();
   useMobSelectionSound(joinedPlayers, mug);
-  const timer = useCountdownTimer(11, () => {
-    console.log('countdown complete');
-    // setMug(selectRandomOneOf(joinedPlayers));
-  });
+  const timer = useCountdownTimer(COUNTDOWN_SECONDS);
+
+  useEffect(() => {
+    if (timer.status === 'complete') {
+      console.log('countdown complete');
+      setMug(selectRandomOneOf(joinedPlayers));
+    }
+  }, [timer.status]);
 
   useEffect(() => {
     if (!mug) return;
