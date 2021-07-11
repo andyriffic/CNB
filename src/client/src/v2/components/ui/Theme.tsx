@@ -6,6 +6,7 @@ import { useThemeComponents } from '../../providers/hooks/useThemeComponents';
 export interface ThemeStyles {
   fontFamily: {
     feature: string;
+    numbers: string;
   };
   color: {
     primaryBackground: string;
@@ -24,6 +25,7 @@ export interface ThemeStyles {
   };
   fontSize: {
     extraSmall: string;
+    smallish: string;
     small: string;
     medium: string;
     large: string;

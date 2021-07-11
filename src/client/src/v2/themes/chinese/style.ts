@@ -4,6 +4,7 @@ import defaultStyle from '../default/style';
 const theme: ThemeStyles = {
   ...defaultStyle,
   fontFamily: {
+    ...defaultStyle.fontFamily,
     feature: "'ChineseDragon', cursive",
   },
   color: {

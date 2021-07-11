@@ -3,6 +3,7 @@ import { ThemeStyles } from '../../components/ui/Theme';
 const theme: ThemeStyles = {
   fontFamily: {
     feature: "'Bubblegum Sans', cursive",
+    numbers: "'Changa One', cursive",
   },
   color: {
     primaryBackground: '#31aae0',
@@ -21,6 +22,7 @@ const theme: ThemeStyles = {
   },
   fontSize: {
     extraSmall: '0.4rem',
+    smallish: '0.55rem',
     small: '0.8rem',
     medium: '1rem',
     large: '1.5rem',

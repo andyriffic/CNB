@@ -7,7 +7,7 @@ type RawMainPlayerJson = {
   players_eliminated: string;
 };
 
-type MainPlayerHistoryStats = {
+export type MainPlayerHistoryStats = {
   playerId: string;
   bestRounds: { roundNumber: number; playersEliminated: number }[];
 };
