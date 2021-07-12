@@ -51,6 +51,8 @@ export type SoundMap = {
   MobLose_3: any;
   MugChosen: any;
   MobStart: any;
+  CountdownTimerStart: any;
+  CountdownTimerWarning: any;
 };
 
 export type PlaySound = (

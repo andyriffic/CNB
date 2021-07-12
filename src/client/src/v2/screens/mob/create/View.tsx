@@ -15,6 +15,7 @@ import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobProvider } from '../../../providers/MobProvider';
 import { Player } from '../../../providers/PlayersProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 import { ChosenMug } from './ChosenMug';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useCountdownTimer } from './hooks/useCountdownTimer';
@@ -57,6 +58,7 @@ type Props = {
 const COUNTDOWN_SECONDS = 30;
 
 export default ({ navigate }: Props) => {
+  const { play } = useSoundProvider();
   const [sentInvites, setSentInvites] = useState(false);
   const { joinedPlayers, sendInvites, cleanup } = useMobSelection();
   const { createMobGame } = useMobProvider();
@@ -88,6 +90,18 @@ export default ({ navigate }: Props) => {
       timer.start();
     }
   }, [joinedPlayers.length]);
+
+  useEffect(() => {
+    if (timer.secondsRemaining === 8) {
+      play('CountdownTimerWarning');
+    }
+  }, [timer.secondsRemaining, play]);
+
+  useEffect(() => {
+    if (timer.status === 'running') {
+      play('CountdownTimerStart');
+    }
+  }, [timer.status, play]);
 
   const onSendInvitesClick = () => {
     setSentInvites(true);
