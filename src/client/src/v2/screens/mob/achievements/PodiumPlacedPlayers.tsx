@@ -46,25 +46,26 @@ export function PodiumPlacedPlayers({
     mainPlayerStats
   );
 
-  if (!bestPlayerStatsForRound) return null;
-
   const playersEliminated =
-    bestPlayerStatsForRound[0].bestRounds[0].playersEliminated;
+    bestPlayerStatsForRound && bestPlayerStatsForRound.length
+      ? bestPlayerStatsForRound[0].bestRounds[0].playersEliminated
+      : 0;
 
   return (
     <>
-      {bestPlayerStatsForRound.map(s => {
-        const player = allPlayers.find(p => p.id === s.playerId);
-        return (
-          player && (
-            <Container key={s.playerId}>
-              <PlayerAvatar player={player} size="medium" />
-              <PlayersEliminated>{playersEliminated}</PlayersEliminated>
-              {/* {s.bestRounds[0].playersEliminated} */}
-            </Container>
-          )
-        );
-      })}
+      {bestPlayerStatsForRound &&
+        bestPlayerStatsForRound.map(s => {
+          const player = allPlayers.find(p => p.id === s.playerId);
+          return (
+            player && (
+              <Container key={s.playerId}>
+                <PlayerAvatar player={player} size="medium" />
+                <PlayersEliminated>{playersEliminated}</PlayersEliminated>
+                {/* {s.bestRounds[0].playersEliminated} */}
+              </Container>
+            )
+          );
+        })}
       <PodiumPosition position={round} />
     </>
   );
