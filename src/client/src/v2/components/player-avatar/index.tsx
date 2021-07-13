@@ -44,7 +44,7 @@ export const PlayerAvatar = ({ player, size }: Props) => {
       <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
         <PlayerBadges tags={player.tags} />
       </PositionedBadges>
-      <PositionedZodiacSign>
+      <PositionedZodiacSign style={{ transform: `scale(${badgeScale[size]})` }}>
         <ZodiacSign tags={player.tags} />
       </PositionedZodiacSign>
     </Container>
