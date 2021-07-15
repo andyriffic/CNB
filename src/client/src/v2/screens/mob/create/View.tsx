@@ -21,9 +21,22 @@ import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useCountdownTimer } from './hooks/useCountdownTimer';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
+import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
 const Container = styled.div`
   margin: 0 auto 50px auto;
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const ProbablyPlayContainer = styled.div`
+  margin: 0 auto 50px auto;
+  display: none;
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
 `;
 
 const PlayerList = styled.div`
@@ -115,6 +128,13 @@ export default ({ navigate }: Props) => {
 
   return (
     <GameScreen scrollable={true}>
+      <ProbablyPlayContainer>
+        <ProbablyWantPlayScreen
+          onPlayClick={() => {
+            navigate && navigate('/play');
+          }}
+        />
+      </ProbablyPlayContainer>
       <Container>
         <FeatureText>Join the mob</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
