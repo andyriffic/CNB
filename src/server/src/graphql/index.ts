@@ -14,6 +14,11 @@ import {
   schema as weeklySummarySchema,
   resolver as weeklySummaryResolver,
 } from './weekly-summary';
+import {
+  query as mobQuery,
+  schema as mobSchema,
+  resolver as mobResolver,
+} from './mob-leaderboard';
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -22,11 +27,13 @@ const schema = buildSchema(`
     gameHistory: [GameHistoryRecord]
     ${playerHistoryQuery}
     ${weeklySummaryQuery}
+    ${mobQuery}
   }
 
   ${gameHistorySchema}
   ${weeklySummarySchema}
   ${playerHistorySchema}
+  ${mobSchema}
 `);
 
 // The root provides a resolver function for each API endpoint
@@ -37,6 +44,7 @@ const root = {
   gameHistory: gameHistoryResolver,
   playerHistory: playerHistoryResolver,
   weeklySummary: weeklySummaryResolver,
+  ...mobResolver,
 };
 
 export const graphql = graphqlHTTP({
