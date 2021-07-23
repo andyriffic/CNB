@@ -41,6 +41,9 @@ import killBillThemeSlow from './sounds/kill_bill_theme_slow.mp3';
 import slideWhistle from './sounds/slide_whistle_sms.mp3';
 import tickTock from './sounds/tick_tock.mp3';
 import msgAlert24 from './sounds/24_msg_alert.mp3';
+import meh from './sounds/meh.mp3';
+import whatever from './sounds/whatever.mp3';
+import phew from './sounds/phew.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -86,6 +89,9 @@ const soundMap: SoundMap = {
   MobWin_1: hooray,
   MobWin_2: woohoo,
   MobWin_3: yippee,
+  MobDraw_1: meh,
+  MobDraw_2: whatever,
+  MobDraw_3: phew,
   MobLose_1: scream1,
   MobLose_2: scream2,
   MobLose_3: scream3,

@@ -46,6 +46,9 @@ export type SoundMap = {
   MobWin_1: any;
   MobWin_2: any;
   MobWin_3: any;
+  MobDraw_1: any;
+  MobDraw_2: any;
+  MobDraw_3: any;
   MobLose_1: any;
   MobLose_2: any;
   MobLose_3: any;
