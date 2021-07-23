@@ -23,9 +23,12 @@ export type MobPlayer = MobBasePlayer & {
   lastRound: number;
 };
 
+export type MobGameType = 'standard' | 'draw-ok-1-2';
+
 export type MobGame = {
   id: string;
   round: number;
+  gameType: MobGameType;
   roundState: MobRoundState;
   resolved: boolean;
   mobPlayers: MobPlayer[];

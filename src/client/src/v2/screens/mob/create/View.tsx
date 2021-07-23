@@ -92,7 +92,7 @@ export default ({ navigate }: Props) => {
 
     setTimeout(() => {
       const mob = joinedPlayers.filter(p => p.id !== mug.id);
-      createMobGame(mug, mob, id => {
+      createMobGame({ mug, mob, gameType: 'draw-ok-1-2' }, id => {
         cleanup();
         navigate && navigate(`/mob/spectator/${id}`);
       });

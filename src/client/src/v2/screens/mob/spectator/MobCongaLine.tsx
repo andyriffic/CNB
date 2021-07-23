@@ -120,7 +120,7 @@ export function MobCongaLine({
     setTimeout(() => play('SwitchPlayer'), 500);
 
     setTimeout(() => {
-      if (player.lastMoveResult === 'won') {
+      if (player.active) {
         play(selectRandomOneOf(['MobWin_1', 'MobWin_2', 'MobWin_3']));
       } else {
         play(selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3']));
@@ -137,7 +137,7 @@ export function MobCongaLine({
             key={p.player.id}
             highlight={highlight}
             position={i - highlightPlayerIndex}
-            animation={p.lastMoveResult === 'won' ? 'win' : 'lose'}
+            animation={p.active ? 'win' : 'lose'}
           >
             <ReversedPlayerAvatar>
               <PlayerAvatar player={p.player} size="medium" />

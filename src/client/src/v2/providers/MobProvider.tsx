@@ -23,6 +23,7 @@ export type MobRoundState =
   | 'viewed';
 
 export type MoveResult = 'won' | 'lost' | 'draw';
+export type MobGameType = 'standard' | 'draw-ok-1-2';
 
 export type MobBasePlayer = {
   player: Player;
@@ -41,6 +42,7 @@ export type MobPlayer = MobBasePlayer & {
 
 export type MobGame = {
   id: string;
+  gameType: MobGameType;
   round: number;
   roundState: MobRoundState;
   mobPlayers: MobPlayer[];
@@ -50,11 +52,16 @@ export type MobGame = {
   gameOver: boolean;
 };
 
+type CreateMobParams = {
+  mug: Player;
+  mob: Player[];
+  gameType: MobGameType;
+};
+
 export type MobService = {
   mobGames?: MobGame[];
   createMobGame: (
-    mug: Player,
-    mob: Player[],
+    params: CreateMobParams,
     onCreated: (id: string) => void
   ) => void;
   makeMobPlayerMove: (
@@ -93,8 +100,8 @@ export const MobProvider = ({ children }: { children: ReactNode }) => {
     <MobContext.Provider
       value={{
         mobGames,
-        createMobGame: (mug, mob, onCreated) => {
-          socket.emit(MOB_EVENTS.CREATE_MOB_GAME, mug, mob, onCreated);
+        createMobGame: (params, onCreated) => {
+          socket.emit(MOB_EVENTS.CREATE_MOB_GAME, params, onCreated);
         },
         makeMobPlayerMove: (mobGameId, playerId, moveId) => {
           socket.emit(MOB_EVENTS.MAKE_MOB_MOVE, mobGameId, playerId, moveId);

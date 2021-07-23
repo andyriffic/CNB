@@ -8,6 +8,7 @@ import {
 export type MobStatsRecord = {
   date: string;
   mobGameId: string;
+  gameType: string;
   playerId: string;
   playerName: string;
   inMob: boolean;
@@ -21,6 +22,7 @@ export const mapMobGameToStats = (mobGame: MobGame): MobStatsRecord[] => {
   const mugStatsRecord: MobStatsRecord = {
     date: new Date().toISOString(),
     mobGameId: mobGame.id,
+    gameType: mobGame.gameType,
     playerId: mobGame.mugPlayer.player.id,
     playerName: mobGame.mugPlayer.player.name,
     inMob: false,
@@ -33,6 +35,7 @@ export const mapMobGameToStats = (mobGame: MobGame): MobStatsRecord[] => {
     .map<MobStatsRecord>((mobPlayer) => ({
       date: new Date().toISOString(),
       mobGameId: mobGame.id,
+      gameType: mobGame.gameType,
       playerId: mobPlayer.player.id,
       playerName: mobPlayer.player.name,
       inMob: true,

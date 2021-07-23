@@ -1,5 +1,5 @@
 import { Socket, Server } from 'socket.io';
-import { MobGame, MoveId } from './types';
+import { MobGame, MobGameType, MoveId } from './types';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import {
   createMobGame,
@@ -26,6 +26,12 @@ const NEXT_ROUND_MOB_GAME = 'NEXT_ROUND_MOB_GAME';
 let activeMobGames: MobGame[] = [];
 const log = createLogger('mobs', LOG_NAMESPACE.socket);
 
+type CreateMobParams = {
+  mug: Player;
+  mob: Player[];
+  gameType: MobGameType;
+};
+
 const init = (socketServer: Server, path: string) => {
   const namespace = socketServer.of(path);
 
@@ -41,8 +47,11 @@ const init = (socketServer: Server, path: string) => {
 
     socket.on(
       CREATE_MOB_GAME,
-      (mug: Player, mob: Player[], onCreated: (id: string) => void) => {
-        const mobGame = createMobGame(mug, mob);
+      (
+        { mug, mob, gameType }: CreateMobParams,
+        onCreated: (id: string) => void
+      ) => {
+        const mobGame = createMobGame(mug, mob, gameType);
         log('Created MobGame', mobGame);
         activeMobGames = [mobGame]; //Only allow one mobGame at a time for now
         namespace.emit(

@@ -8,6 +8,7 @@ import {
   MoveId,
   MobGameSpectatorView,
   MoveResult,
+  MobGameType,
 } from './types';
 
 const idGenerator = customAlphabet('BCDFGHJKLMNPQRSTVWXZ', 6);
@@ -26,10 +27,12 @@ export function createMobGameSpectatorView(
 
 export function createMobGame(
   mugPlayer: Player,
-  mobPlayers: Player[]
+  mobPlayers: Player[],
+  gameType: MobGameType = 'draw-ok-1-2'
 ): MobGame {
   return {
     id: idGenerator(),
+    gameType,
     round: 1,
     roundState: 'waiting-moves',
     resolved: false,
@@ -89,6 +92,41 @@ export function markMobGameAsViewed(mobGame: MobGame): MobGame {
   };
 }
 
+const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
+  switch (mobGame.gameType) {
+    case 'standard': {
+      return mobGame.mobPlayers
+        .filter((mobPlayer) =>
+          playerWins(mobPlayer.lastMoveId, mobGame.mugPlayer.lastMoveId)
+        )
+        .map((p) => p.player.id);
+    }
+    case 'draw-ok-1-2': {
+      if (mobGame.round < 3) {
+        return mobGame.mobPlayers
+          .filter((mobPlayer) => {
+            const result = getPlayResult(
+              mobPlayer.lastMoveId,
+              mobGame.mugPlayer.lastMoveId
+            );
+            return result === 'won' || result === 'draw';
+          })
+          .map((p) => p.player.id);
+      } else {
+        return mobGame.mobPlayers
+          .filter((mobPlayer) => {
+            const result = getPlayResult(
+              mobPlayer.lastMoveId,
+              mobGame.mugPlayer.lastMoveId
+            );
+            return result === 'won';
+          })
+          .map((p) => p.player.id);
+      }
+    }
+  }
+};
+
 export function resolveMobGame(
   mobGame: MobGame,
   onResolved?: (resolvedGame: MobGame) => void
@@ -97,21 +135,16 @@ export function resolveMobGame(
     return mobGame;
   }
 
-  const winningMobPlayerIds = mobGame.mobPlayers
-    .filter((mobPlayer) =>
-      playerWins(mobPlayer.lastMoveId, mobGame.mugPlayer.lastMoveId)
-    )
-    .map((p) => p.player.id);
+  const survivingMobPlayerIds = getSurvivingPlayersForMobRound(mobGame);
 
   const resolvedGame: MobGame = {
     ...mobGame,
     resolved: true,
     roundState: 'resolved-results',
     mobPlayers: mobGame.mobPlayers.map((p) => {
-      const active = winningMobPlayerIds.includes(p.player.id);
       return {
         ...p,
-        active: winningMobPlayerIds.includes(p.player.id),
+        active: survivingMobPlayerIds.includes(p.player.id),
         lastMoveResult: getPlayResult(
           p.lastMoveId,
           mobGame.mugPlayer.lastMoveId
@@ -121,7 +154,7 @@ export function resolveMobGame(
     mugPlayer: {
       ...mobGame.mugPlayer,
       lives: Math.max(
-        mobGame.mugPlayer.lives - (winningMobPlayerIds.length ? 1 : 0),
+        mobGame.mugPlayer.lives - (survivingMobPlayerIds.length ? 1 : 0),
         0
       ),
     },
