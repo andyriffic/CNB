@@ -21,5 +21,10 @@ if (isFeatureEnabled('uplift-test')) {
 } else if (isFeatureEnabled('uplift-player')) {
   ReactDOM.render(<UpliftPlayerApp />, document.getElementById('root'));
 } else {
-  ReactDOM.render(<ApolloProvider client={client}><AppV2 /></ApolloProvider> , document.getElementById('root'));
+  ReactDOM.render(
+    <ApolloProvider client={client}>
+      <AppV2 />
+    </ApolloProvider>,
+    document.getElementById('root')
+  );
 }
