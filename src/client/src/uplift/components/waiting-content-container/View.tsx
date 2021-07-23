@@ -55,7 +55,7 @@ type WaitingContentContainerProps = {
 
 const View = ({ loaded, children, style }: WaitingContentContainerProps) => {
   return (
-    <SpinningBorderContent className="margins-off" style={style}>
+    <SpinningBorderContent className="margins-off">
       <LoadingContent loaded={loaded}>{children}</LoadingContent>
       <LoadingCircle
         loaded={loaded}

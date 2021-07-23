@@ -23,6 +23,7 @@ import {graphql} from './graphql';
 const store = createStore(reducer);
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -37,7 +38,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/index.html'));
 });
 
-app.use('/graphql', graphql);
+var corsOptions = {
+  origin: 'http://localhost:3001',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use('/graphql', cors(corsOptions), graphql);
 
 const userNamespace = initUserNamespace(io);
 initGameNamespace(io, store, userNamespace);

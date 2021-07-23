@@ -7,6 +7,7 @@ import {
   getMostPlayersEliminated,
   useMobStats,
 } from '../../../hooks/useMobHistory';
+import { useMobLeaderboard } from '../../../providers/MobLeaderboardProvider';
 import { usePlayersProvider } from '../../../providers/PlayersProvider';
 import { PodiumPlacedPlayers } from './PodiumPlacedPlayers';
 import { PodiumPosition } from './PodiumPosition';
@@ -22,13 +23,15 @@ const MainPlayerRoundContainer = styled.div`
   justify-content: center;
 `;
 
-const MainPlayerRound = styled.div``;
+const MainPlayerRound = styled.div`
+  width: 33%;
+`;
 
 export default () => {
-  const { loading, stats } = useMobStats();
   const { allPlayers } = usePlayersProvider();
+  const { topMainPlayerStats } = useMobLeaderboard();
 
-  if (loading || !stats || !allPlayers.length) {
+  if (!topMainPlayerStats || !allPlayers.length) {
     return <LoadingSpinner text="Loading Stats..." />;
   }
 
@@ -37,13 +40,22 @@ export default () => {
       <Container>
         <MainPlayerRoundContainer>
           <MainPlayerRound>
-            <PodiumPlacedPlayers round={2} mainPlayerStats={stats.mainPlayer} />
+            <PodiumPlacedPlayers
+              round={2}
+              mainPlayerStats={topMainPlayerStats.mobMainBestPlayers.round2}
+            />
           </MainPlayerRound>
           <MainPlayerRound>
-            <PodiumPlacedPlayers round={1} mainPlayerStats={stats.mainPlayer} />
+            <PodiumPlacedPlayers
+              round={1}
+              mainPlayerStats={topMainPlayerStats.mobMainBestPlayers.round1}
+            />
           </MainPlayerRound>
           <MainPlayerRound>
-            <PodiumPlacedPlayers round={3} mainPlayerStats={stats.mainPlayer} />
+            <PodiumPlacedPlayers
+              round={3}
+              mainPlayerStats={topMainPlayerStats.mobMainBestPlayers.round3}
+            />
           </MainPlayerRound>
         </MainPlayerRoundContainer>
       </Container>

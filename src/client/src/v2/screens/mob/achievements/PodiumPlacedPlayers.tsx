@@ -5,6 +5,7 @@ import {
   getMostPlayersEliminated,
   MainPlayerHistoryStats,
 } from '../../../hooks/useMobHistory';
+import { TopMainPlayerRound } from '../../../providers/MobLeaderboardProvider';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { PodiumPosition } from './PodiumPosition';
 
@@ -12,6 +13,16 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+`;
+
+const PlayerContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  > * {
+    width: 60px;
+  }
 `;
 
 const PlayersEliminated = styled.div`
@@ -32,7 +43,7 @@ const PlayersEliminated = styled.div`
 
 type Props = {
   round: 1 | 2 | 3;
-  mainPlayerStats: MainPlayerHistoryStats[];
+  mainPlayerStats: TopMainPlayerRound;
 };
 
 export function PodiumPlacedPlayers({
@@ -41,31 +52,25 @@ export function PodiumPlacedPlayers({
 }: Props): JSX.Element | null {
   const { allPlayers } = usePlayersProvider();
 
-  const bestPlayerStatsForRound = getMostPlayersEliminated(
-    round,
-    mainPlayerStats
-  );
-
-  const playersEliminated =
-    bestPlayerStatsForRound && bestPlayerStatsForRound.length
-      ? bestPlayerStatsForRound[0].bestRounds[0].playersEliminated
-      : 0;
-
   return (
     <>
-      {bestPlayerStatsForRound &&
-        bestPlayerStatsForRound.map(s => {
-          const player = allPlayers.find(p => p.id === s.playerId);
-          return (
-            player && (
-              <Container key={s.playerId}>
-                <PlayerAvatar player={player} size="medium" />
-                <PlayersEliminated>{playersEliminated}</PlayersEliminated>
-                {/* {s.bestRounds[0].playersEliminated} */}
-              </Container>
-            )
-          );
-        })}
+      <PlayerContainer>
+        {mainPlayerStats &&
+          mainPlayerStats.playerIds.map(playerId => {
+            const player = allPlayers.find(p => p.id === playerId);
+            return (
+              player && (
+                <Container key={playerId}>
+                  <PlayerAvatar player={player} size="medium" />
+                  {/* {s.bestRounds[0].playersEliminated} */}
+                </Container>
+              )
+            );
+          })}
+        <PlayersEliminated>
+          {mainPlayerStats.playersEliminated}
+        </PlayersEliminated>
+      </PlayerContainer>
       <PodiumPosition position={round} />
     </>
   );

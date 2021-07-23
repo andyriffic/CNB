@@ -8,6 +8,7 @@ import { MatchupProvider } from './providers/MatchupProvider';
 import { GameSettingsProvider } from './providers/GameSettingsProvider';
 import { ThemedUi } from './components/ui/Theme';
 import { SoundProvider } from './providers/SoundProvider';
+import { MobLeaderboardProvider } from './providers/MobLeaderboardProvider';
 import { ScreenWithMatchup } from './screens/spectator';
 import { ChoosePlayerScreen } from './screens/choose-players';
 import { SnakesAndLaddersScreen } from './screens/snakes-and-ladders';
@@ -38,37 +39,39 @@ export default () => {
               <SoundProvider>
                 <PlayerChoiceProvider>
                   <MobProvider>
-                    <ThemedUi>
-                      <Router>
-                        <ChoosePlayerScreen path="/classic" />
-                        <ScreenWithMatchup
-                          path="/spectator/:matchupId"
-                          matchupId=""
-                        />
-                        <SnakesAndLaddersScreen path="/snakes-and-ladders" />
-                        <DonkeyKongScreen path="/donkey-kong" />
-                        <CreateMobScreen path="/" />
-                        <MobSpectatorScreen
-                          path="/mob/spectator/:mobGameId"
-                          mobGameId=""
-                        />
-                        <SelectPlayerScreen path="/play" />
-                        <SelectMatchupScreen path="/play/:playerId" />
-                        <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
-                        <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
-                        <PlayerProfileScreen
-                          path="/player-profile"
-                          playerName=""
-                        />
-                        <PlayerProfileScreen
-                          path="/player-profile/:playerName"
-                          playerName=""
-                        />
-                        <MobAchievementsScreen path="/mob-achievements" />
-                        <GameHistoryScreen path="/game-history" />
-                        <PlayerAdminScreen path="/player-admin" />
-                      </Router>
-                    </ThemedUi>
+                    <MobLeaderboardProvider>
+                      <ThemedUi>
+                        <Router>
+                          <ChoosePlayerScreen path="/classic" />
+                          <ScreenWithMatchup
+                            path="/spectator/:matchupId"
+                            matchupId=""
+                          />
+                          <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                          <DonkeyKongScreen path="/donkey-kong" />
+                          <CreateMobScreen path="/" />
+                          <MobSpectatorScreen
+                            path="/mob/spectator/:mobGameId"
+                            mobGameId=""
+                          />
+                          <SelectPlayerScreen path="/play" />
+                          <SelectMatchupScreen path="/play/:playerId" />
+                          <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                          <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
+                          <PlayerProfileScreen
+                            path="/player-profile"
+                            playerName=""
+                          />
+                          <PlayerProfileScreen
+                            path="/player-profile/:playerName"
+                            playerName=""
+                          />
+                          <MobAchievementsScreen path="/mob-achievements" />
+                          <GameHistoryScreen path="/game-history" />
+                          <PlayerAdminScreen path="/player-admin" />
+                        </Router>
+                      </ThemedUi>
+                    </MobLeaderboardProvider>
                   </MobProvider>
                 </PlayerChoiceProvider>
               </SoundProvider>

@@ -6,6 +6,13 @@ import UpliftSpectatorApp from './socket-uplift/test-spectator-view';
 import UpliftPlayerApp from './socket-uplift/test-player-view';
 import { isFeatureEnabled } from './featureToggle';
 import AppV2 from './v2/App';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { SOCKETS_ENDPOINT } from './environment';
+
+const client = new ApolloClient({
+  uri: `${SOCKETS_ENDPOINT}/graphql`,
+  cache: new InMemoryCache(),
+});
 
 if (isFeatureEnabled('uplift-test')) {
   ReactDOM.render(<UpliftTest />, document.getElementById('root'));
@@ -14,5 +21,5 @@ if (isFeatureEnabled('uplift-test')) {
 } else if (isFeatureEnabled('uplift-player')) {
   ReactDOM.render(<UpliftPlayerApp />, document.getElementById('root'));
 } else {
-  ReactDOM.render(<AppV2 />, document.getElementById('root'));
+  ReactDOM.render(<ApolloProvider client={client}><AppV2 /></ApolloProvider> , document.getElementById('root'));
 }

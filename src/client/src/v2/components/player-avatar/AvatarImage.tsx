@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { CSSObject } from 'styled-components';
 
 export type AvatarSizeStyles = {
-  small: CSSObject;
-  smallMedium: CSSObject;
-  medium: CSSObject;
-  large: CSSObject;
+  small: React.CSSProperties;
+  smallMedium: React.CSSProperties;
+  medium: React.CSSProperties;
+  large: React.CSSProperties;
 };
 
 const avatarSizeStyles: AvatarSizeStyles = {

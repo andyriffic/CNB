@@ -21,6 +21,7 @@ import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useCountdownTimer } from './hooks/useCountdownTimer';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
+import { MobLeaders } from './Leaders';
 import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
 const Container = styled.div`
@@ -128,6 +129,7 @@ export default ({ navigate }: Props) => {
 
   return (
     <GameScreen scrollable={true}>
+      {/* <MobLeaders /> */}
       <ProbablyPlayContainer>
         <ProbablyWantPlayScreen
           onPlayClick={() => {
