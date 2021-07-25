@@ -32,9 +32,10 @@ const badgeScale: { [key in keyof AvatarSizeStyles]: number } = {
 type Props = {
   player: Player;
   size: keyof AvatarSizeStyles;
+  showZodiac?: boolean;
 };
 
-export const PlayerAvatar = ({ player, size }: Props) => {
+export const PlayerAvatar = ({ player, size, showZodiac = true }: Props) => {
   return (
     <Container>
       <AvatarImage
@@ -44,9 +45,13 @@ export const PlayerAvatar = ({ player, size }: Props) => {
       <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
         <PlayerBadges tags={player.tags} />
       </PositionedBadges>
-      <PositionedZodiacSign style={{ transform: `scale(${badgeScale[size]})` }}>
-        <ZodiacSign tags={player.tags} />
-      </PositionedZodiacSign>
+      {showZodiac && (
+        <PositionedZodiacSign
+          style={{ transform: `scale(${badgeScale[size]})` }}
+        >
+          <ZodiacSign tags={player.tags} />
+        </PositionedZodiacSign>
+      )}
     </Container>
   );
 };

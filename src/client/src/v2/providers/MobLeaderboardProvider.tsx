@@ -18,6 +18,13 @@ type TopMainPlayerStats = {
     round2: TopMainPlayerRound;
     round3: TopMainPlayerRound;
   };
+  mobMainPlayerSummary: {
+    playerId: string;
+    bestRounds: {
+      roundNumber: 1 | 2 | 3;
+      playersEliminated: number;
+    }[];
+  }[];
 };
 
 type MobLeaderboardService = {
@@ -40,6 +47,13 @@ const TOP_PLAYERS_QUERY = gql`
         playerIds
       }
     }
+    mobMainPlayerSummary {
+      playerId
+      bestRounds {
+        roundNumber
+        playersEliminated
+      }
+    }
   }
 `;
 
@@ -53,9 +67,6 @@ export const MobLeaderboardProvider = ({
   children: ReactNode;
 }) => {
   const { data } = useQuery<TopMainPlayerStats>(TOP_PLAYERS_QUERY);
-
-  console.log('MOB_APOLLO_DATA', data);
-  useEffect(() => {}, [data]);
 
   return (
     <MobLeaderboardContext.Provider value={{ topMainPlayerStats: data }}>

@@ -9,6 +9,7 @@ import {
   slideInUpAnimation,
 } from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
+import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
@@ -172,7 +173,7 @@ export default ({ navigate }: Props) => {
             <PlayerList>
               {joinedPlayers.map(p => (
                 <PlayerListItem key={p.id}>
-                  <PlayerAvatar player={p} size="smallMedium" />
+                  <PlayerAvatarWithMobPlacing player={p} size="smallMedium" />
                 </PlayerListItem>
               ))}
             </PlayerList>

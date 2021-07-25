@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { fadeInAnimation } from '../../../../uplift/components/animations';
+import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Player } from '../../../providers/PlayersProvider';
@@ -30,7 +31,7 @@ export function ChosenMug({ player }: Props): JSX.Element {
         <SubHeading>Everyone vs:</SubHeading>
       </Text>
       <MugAvatar>
-        <PlayerAvatar player={player} size="medium" />
+        <PlayerAvatarWithMobPlacing player={player} size="medium" />
       </MugAvatar>
     </Container>
   );
