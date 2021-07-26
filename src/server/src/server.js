@@ -19,6 +19,7 @@ import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
 import initMobMode from './uplift/sockets/mob-mode/socket'
 
 import {graphql} from './graphql';
+import { StatsService } from './uplift/services/stats';
 
 const store = createStore(reducer);
 
@@ -62,3 +63,7 @@ initPlayerChoice(io, 'player-choice');
 initMobMode(io, '/mob-mode')
 
 console.log(`App running on http://localhost:${port}`);
+
+
+console.log(`Publishing Mob stats`);
+StatsService.publishMobSummaryStats()
