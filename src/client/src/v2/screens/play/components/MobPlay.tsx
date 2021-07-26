@@ -32,7 +32,13 @@ export const MobPlay = ({
       {dead && <div>You dead! ☠️</div>}
       {waitingResult && <div>Waiting for Mob...</div>}
       {selectMove && themeComponents && (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '10px',
+          }}
+        >
           <Button type="button" onClick={() => makeMove('A')}>
             {themeComponents.moves['A']}
           </Button>
