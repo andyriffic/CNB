@@ -24,6 +24,7 @@ import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { MobResultSummary } from './MobResultSummary';
+import { NewRecord } from './NewRecord';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -178,6 +179,12 @@ export default ({ mobGameId }: Props) => {
           </SplashText>
         )}
       </Container>
+      <NewRecord
+        player={mobGame.mugPlayer.player}
+        lookupNewResult={
+          uiState.mugWinner && !!mobGame && mobGame.roundState === 'viewed'
+        }
+      />
     </GameScreen>
   );
 };

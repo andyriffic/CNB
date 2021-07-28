@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { useEffect } from 'react';
 
 export type MainPlayerHistoryStats = {
   playerId: string;
@@ -12,6 +11,11 @@ export type TopMainPlayerRound = {
   playerIds: string[];
 };
 
+export type RoundResult = {
+  roundNumber: 1 | 2 | 3;
+  playersEliminated: number;
+};
+
 type TopMainPlayerStats = {
   mobMainBestPlayers: {
     round1: TopMainPlayerRound;
@@ -20,15 +24,13 @@ type TopMainPlayerStats = {
   };
   mobMainPlayerSummary: {
     playerId: string;
-    bestRounds: {
-      roundNumber: 1 | 2 | 3;
-      playersEliminated: number;
-    }[];
+    bestRounds: RoundResult[];
   }[];
 };
 
 type MobLeaderboardService = {
   topMainPlayerStats?: TopMainPlayerStats;
+  refresh: () => void;
 };
 
 const TOP_PLAYERS_QUERY = gql`
@@ -66,10 +68,12 @@ export const MobLeaderboardProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { data } = useQuery<TopMainPlayerStats>(TOP_PLAYERS_QUERY);
+  const { data, refetch } = useQuery<TopMainPlayerStats>(TOP_PLAYERS_QUERY);
 
   return (
-    <MobLeaderboardContext.Provider value={{ topMainPlayerStats: data }}>
+    <MobLeaderboardContext.Provider
+      value={{ topMainPlayerStats: data, refresh: refetch }}
+    >
       {children}
     </MobLeaderboardContext.Provider>
   );
