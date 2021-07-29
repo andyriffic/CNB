@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer, useState } from 'react';
+import { useRef } from 'react';
 import { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { slideInUpAnimation } from '../../../../uplift/components/animations';
 import { RainbowText } from '../../../../uplift/components/RainbowText';
 import {
   RoundResult,
+  TopMainPlayerStats,
   useMobLeaderboard,
 } from '../../../providers/MobLeaderboardProvider';
 import { Player } from '../../../providers/PlayersProvider';
@@ -41,11 +43,50 @@ type Props = {
   lookupNewResult: boolean;
 };
 
+const getBestResult = (
+  topMainPlayerStats: TopMainPlayerStats,
+  playerId: string
+): RoundResult | undefined => {
+  if (
+    topMainPlayerStats.mobMainBestPlayers.round1.playerIds.includes(playerId)
+  ) {
+    return {
+      roundNumber: 1,
+      playersEliminated:
+        topMainPlayerStats.mobMainBestPlayers.round1.playersEliminated,
+    };
+  }
+
+  if (
+    topMainPlayerStats.mobMainBestPlayers.round2.playerIds.includes(playerId)
+  ) {
+    return {
+      roundNumber: 2,
+      playersEliminated:
+        topMainPlayerStats.mobMainBestPlayers.round2.playersEliminated,
+    };
+  }
+
+  if (
+    topMainPlayerStats.mobMainBestPlayers.round3.playerIds.includes(playerId)
+  ) {
+    return {
+      roundNumber: 3,
+      playersEliminated:
+        topMainPlayerStats.mobMainBestPlayers.round3.playersEliminated,
+    };
+  }
+  return undefined;
+};
+
 export function NewRecord({
   player,
   lookupNewResult,
 }: Props): JSX.Element | null {
   const { topMainPlayerStats, refresh } = useMobLeaderboard();
+  const currentRecord = useRef<RoundResult | undefined>(
+    topMainPlayerStats && getBestResult(topMainPlayerStats, player.id)
+  );
 
   useEffect(() => {
     if (lookupNewResult) {
@@ -53,41 +94,28 @@ export function NewRecord({
     }
   }, [lookupNewResult]);
 
-  const record = useMemo<RoundResult | undefined>(() => {
-    if (!lookupNewResult || !topMainPlayerStats) return undefined;
+  useEffect(() => {
+    if (currentRecord.current || lookupNewResult || !topMainPlayerStats) return;
 
-    if (
-      topMainPlayerStats.mobMainBestPlayers.round1.playerIds.includes(player.id)
-    ) {
-      return {
-        roundNumber: 1,
-        playersEliminated:
-          topMainPlayerStats.mobMainBestPlayers.round1.playersEliminated,
-      };
-    }
-
-    if (
-      topMainPlayerStats.mobMainBestPlayers.round2.playerIds.includes(player.id)
-    ) {
-      return {
-        roundNumber: 2,
-        playersEliminated:
-          topMainPlayerStats.mobMainBestPlayers.round2.playersEliminated,
-      };
-    }
-
-    if (
-      topMainPlayerStats.mobMainBestPlayers.round3.playerIds.includes(player.id)
-    ) {
-      return {
-        roundNumber: 3,
-        playersEliminated:
-          topMainPlayerStats.mobMainBestPlayers.round3.playersEliminated,
-      };
-    }
+    currentRecord.current = getBestResult(topMainPlayerStats, player.id);
   }, [lookupNewResult, topMainPlayerStats]);
 
-  if (!record) return null;
+  const newRecord = useMemo<RoundResult | undefined>(() => {
+    if (!lookupNewResult || !topMainPlayerStats) return undefined;
+
+    return getBestResult(topMainPlayerStats, player.id);
+  }, [lookupNewResult, topMainPlayerStats]);
+
+  console.log('NewRecord', newRecord, currentRecord);
+
+  if (
+    !newRecord ||
+    (currentRecord.current &&
+      (newRecord.roundNumber === currentRecord.current.roundNumber &&
+        newRecord.playersEliminated ===
+          currentRecord.current.playersEliminated))
+  )
+    return null;
 
   return (
     <Container>
@@ -95,9 +123,9 @@ export function NewRecord({
         <RainbowText>New Record!</RainbowText>
       </NewRecordText>
       <Text>
-        Beat <NumberText>{record.playersEliminated}</NumberText> players in{' '}
-        <NumberText>{record.roundNumber}</NumberText> round
-        {record.roundNumber > 1 && 's'}
+        Beat <NumberText>{newRecord.playersEliminated}</NumberText> players in{' '}
+        <NumberText>{newRecord.roundNumber}</NumberText> round
+        {newRecord.roundNumber > 1 && 's'}
       </Text>
     </Container>
   );

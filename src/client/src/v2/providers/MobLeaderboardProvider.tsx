@@ -16,7 +16,7 @@ export type RoundResult = {
   playersEliminated: number;
 };
 
-type TopMainPlayerStats = {
+export type TopMainPlayerStats = {
   mobMainBestPlayers: {
     round1: TopMainPlayerRound;
     round2: TopMainPlayerRound;
