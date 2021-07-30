@@ -28,7 +28,7 @@ export function createMobGameSpectatorView(
 export function createMobGame(
   mugPlayer: Player,
   mobPlayers: Player[],
-  gameType: MobGameType = 'draw-ok-1-2'
+  gameType: MobGameType = 'standard'
 ): MobGame {
   return {
     id: idGenerator(),
@@ -103,6 +103,29 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
     }
     case 'draw-ok-1-2': {
       if (mobGame.round < 3) {
+        return mobGame.mobPlayers
+          .filter((mobPlayer) => {
+            const result = getPlayResult(
+              mobPlayer.lastMoveId,
+              mobGame.mugPlayer.lastMoveId
+            );
+            return result === 'won' || result === 'draw';
+          })
+          .map((p) => p.player.id);
+      } else {
+        return mobGame.mobPlayers
+          .filter((mobPlayer) => {
+            const result = getPlayResult(
+              mobPlayer.lastMoveId,
+              mobGame.mugPlayer.lastMoveId
+            );
+            return result === 'won';
+          })
+          .map((p) => p.player.id);
+      }
+    }
+    case 'draw-ok-1': {
+      if (mobGame.round === 1) {
         return mobGame.mobPlayers
           .filter((mobPlayer) => {
             const result = getPlayResult(
