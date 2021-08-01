@@ -11,7 +11,9 @@ export type MobSpectatorViewUiState = {
   mugWinner: boolean;
   playState: PlayState;
   uiMobPlayers: UiMobPlayer[];
+  eliminatedPlayers: MobPlayer[];
   newRound: () => void;
+  eliminatePlayer: (mobPlayer: MobPlayer) => void;
 };
 
 type PlayState =
@@ -27,6 +29,7 @@ type State = {
   revealedPlayerIndex: number;
   playState: PlayState;
   uiMobPlayers: UiMobPlayer[];
+  eliminatedPlayers: MobPlayer[];
 };
 
 type ResetAction = {
@@ -56,6 +59,11 @@ type NewRound = {
   type: 'NEW_ROUND';
 };
 
+type EliminatePlayer = {
+  type: 'ELIMINATE_PLAYER';
+  value: MobPlayer;
+};
+
 const reducer = (
   state: State,
   action:
@@ -64,6 +72,7 @@ const reducer = (
     | SetUiMobPlayers
     | UpdateUiMobPlayer
     | NewRound
+    | EliminatePlayer
 ): State => {
   switch (action.type) {
     case 'RESET_REVEALED_PLAYER':
@@ -98,6 +107,11 @@ const reducer = (
       };
       return newState;
     }
+    case 'ELIMINATE_PLAYER':
+      return {
+        ...state,
+        eliminatedPlayers: [...state.eliminatedPlayers, action.value],
+      };
     default:
       return state;
   }
@@ -105,17 +119,18 @@ const reducer = (
 
 // const reducer = ;
 
-const initialState: State = {
+const createInitialState = (mobGame?: MobGame): State => ({
   revealedPlayerIndex: -1,
   playState: 'waiting-moves',
   uiMobPlayers: [],
-};
+  eliminatedPlayers: mobGame ? mobGame.mobPlayers.filter(mp => !mp.active) : [],
+});
 
 export const useMobSpectatorViewUiState = (
   mobGame?: MobGame
 ): MobSpectatorViewUiState => {
   const initialised = useRef(false);
-  const [uiState, dispatch] = useReducer(reducer, initialState);
+  const [uiState, dispatch] = useReducer(reducer, createInitialState(mobGame));
 
   const mugWinner = useMemo(
     () =>
@@ -185,6 +200,10 @@ export const useMobSpectatorViewUiState = (
     mobWinner,
     playState: uiState.playState,
     uiMobPlayers: uiState.uiMobPlayers,
+    eliminatedPlayers: uiState.eliminatedPlayers,
+    eliminatePlayer: mobPlayer => {
+      dispatch({ type: 'ELIMINATE_PLAYER', value: mobPlayer });
+    },
     newRound: () => {
       mobGame &&
         mobGame.mobPlayers.forEach(mp => {

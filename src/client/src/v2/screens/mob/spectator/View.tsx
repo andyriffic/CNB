@@ -25,6 +25,7 @@ import { useSoundProvider } from '../../../providers/SoundProvider';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { MobResultSummary } from './MobResultSummary';
 import { NewRecord } from './NewRecord';
+import { MobGraveyard } from './MobGraveyard';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -37,6 +38,12 @@ const MugContainer = styled.div`
   margin-right: 100px;
 `;
 const MobContainer = styled.div``;
+
+const GraveyardContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`;
 
 type Props = {
   mobGameId: string;
@@ -144,6 +151,7 @@ export default ({ mobGameId }: Props) => {
               mobGame.roundState !== 'viewed' && (
                 <MobCongaLine
                   activePlayers={activeMobPlayers}
+                  onPlayerEliminated={uiState.eliminatePlayer}
                   onComplete={() => {
                     mobGame && viewedRound(mobGame.id);
                   }}
@@ -179,6 +187,11 @@ export default ({ mobGameId }: Props) => {
           </SplashText>
         )}
       </Container>
+      {(mobGame.round < 3 || mobGame.roundState !== 'viewed') && (
+        <GraveyardContainer>
+          <MobGraveyard eliminatedPlayers={uiState.eliminatedPlayers} />
+        </GraveyardContainer>
+      )}
       <NewRecord
         player={mobGame.mugPlayer.player}
         lookupNewResult={

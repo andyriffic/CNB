@@ -431,7 +431,7 @@ export const backOutRightAnimation = keyframes`
 
 export const slideInUpAnimation = keyframes`
   from {
-    transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 120%, 0);
     visibility: visible;
   }
 

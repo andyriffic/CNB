@@ -80,6 +80,7 @@ const MoveResultIndicator = styled.div<{ backgroundColor: string }>`
 type Props = {
   activePlayers: MobPlayer[];
   onComplete: () => void;
+  onPlayerEliminated: (mobPlayer: MobPlayer) => void;
 };
 
 function reducer(state: number, action: 'increment'): number {
@@ -94,6 +95,7 @@ function reducer(state: number, action: 'increment'): number {
 export function MobCongaLine({
   activePlayers,
   onComplete,
+  onPlayerEliminated,
 }: Props): JSX.Element {
   const theme = useThemeComponents();
   const { play } = useSoundProvider();
@@ -125,6 +127,7 @@ export function MobCongaLine({
       } else if (player.active && player.lastMoveResult === 'draw') {
         play(selectRandomOneOf(['MobDraw_1', 'MobDraw_2', 'MobDraw_3']));
       } else {
+        onPlayerEliminated(player);
         play(selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3']));
       }
     }, 1200);
