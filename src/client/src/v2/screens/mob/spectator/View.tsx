@@ -144,6 +144,7 @@ export default ({ mobGameId }: Props) => {
               totalActiveMobPlayers={
                 mobGame.mobPlayers.filter(mp => mp.active).length
               }
+              points={mobGame.points.mugPlayer}
             />
           </MugContainer>
           <MobContainer>

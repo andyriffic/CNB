@@ -9,9 +9,17 @@ import {
   MobGameSpectatorView,
   MoveResult,
   MobGameType,
+  MobGamePoints,
 } from './types';
 
 const idGenerator = customAlphabet('BCDFGHJKLMNPQRSTVWXZ', 6);
+
+function isGameOver(mobGame: MobGame): boolean {
+  return (
+    mobGame.mugPlayer.lives === 0 ||
+    mobGame.mobPlayers.every((mp) => !mp.active)
+  );
+}
 
 export function createMobGameSpectatorView(
   mobGame: MobGame
@@ -19,9 +27,7 @@ export function createMobGameSpectatorView(
   return {
     ...mobGame,
     ready: isMobGameReady(mobGame),
-    gameOver:
-      mobGame.mugPlayer.lives === 0 ||
-      mobGame.mobPlayers.every((mp) => !mp.active),
+    gameOver: isGameOver(mobGame),
   };
 }
 
@@ -38,6 +44,7 @@ export function createMobGame(
     resolved: false,
     mugPlayer: createMugPlayer(mugPlayer),
     mobPlayers: mobPlayers.map(createMobPlayer),
+    points: { mugPlayer: 0, mobPlayers: [] },
   };
 }
 
@@ -183,8 +190,10 @@ export function resolveMobGame(
     },
   };
 
-  onResolved && onResolved(resolvedGame);
-  return resolvedGame;
+  const resolvedGameWithPoints = assignGamePoints(resolvedGame);
+
+  onResolved && onResolved(resolvedGameWithPoints);
+  return resolvedGameWithPoints;
 }
 
 export function resetForNextRoundMobGame(mobGame: MobGame): MobGame {
@@ -245,6 +254,62 @@ function getPlayResult(
   };
 
   return beats[playerMove] === opponentMove ? 'won' : 'lost';
+}
+
+export function assignGamePoints(mobGame: MobGame): MobGame {
+  if (!isGameOver(mobGame)) {
+    return mobGame;
+  }
+
+  const survivingMobPlayers = mobGame.mobPlayers.filter((mp) => mp.active);
+  const deadMobPlayers = mobGame.mobPlayers.filter((mp) => !mp.active);
+  const mugWinner =
+    survivingMobPlayers.length === 0 && mobGame.mugPlayer.lives > 0;
+  const soleMobSurvivor =
+    survivingMobPlayers.length === 1 ? survivingMobPlayers[0] : undefined;
+
+  if (mugWinner) {
+    return {
+      ...mobGame,
+      points: {
+        mugPlayer: mobGame.mobPlayers.length + mobGame.mugPlayer.lives * 3,
+        mobPlayers: mobGame.mobPlayers.map((mp) => ({
+          playerId: mp.player.id,
+          points: mp.lastRound,
+        })),
+      },
+    };
+  }
+
+  if (soleMobSurvivor) {
+    return {
+      ...mobGame,
+      points: {
+        mugPlayer: Math.floor(deadMobPlayers.length / 2),
+        mobPlayers: mobGame.mobPlayers.map((mp) => {
+          const isSoleSurvivor = mp.player.id === soleMobSurvivor.player.id;
+          return {
+            playerId: mp.player.id,
+            points: isSoleSurvivor
+              ? deadMobPlayers.length + 1
+              : mp.lastRound * 2,
+          };
+        }),
+      },
+    };
+  } else {
+    // Mob won with more than one player
+    return {
+      ...mobGame,
+      points: {
+        mugPlayer: Math.floor(deadMobPlayers.length / 2),
+        mobPlayers: mobGame.mobPlayers.map((mp) => ({
+          playerId: mp.player.id,
+          points: mp.lastRound * 2,
+        })),
+      },
+    };
+  }
 }
 
 export function isMobGameReady(mobGame: MobGame): boolean {

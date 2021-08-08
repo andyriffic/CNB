@@ -6,6 +6,7 @@ import { MobGame } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import removedCross from './assets/removed-cross.png';
 import winCheck from './assets/win-check.png';
+import { Points } from './Points';
 
 const Container = styled.div`
   display: flex;
@@ -56,22 +57,11 @@ const WinningPlayer = styled.img`
   animation: ${fadeInAnimation} 500ms ease-in 1000ms both;
 `;
 
-const Points = styled.span`
-  display: inline-block;
-  /* opacity: 0; */
+const PointsContainer = styled.div`
   position: absolute;
-  padding: 5px 8px;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.extraSmall};
-  font-weight: bold;
-  top: 50%;
+  bottom: -20px;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: ${({ theme }) => theme.color.text01};
-  background-color: ${({ theme }) => theme.color.background02};
-  border: 1px solid black;
-  border-radius: 10px;
-  text-transform: none;
 `;
 
 type Props = {
@@ -99,12 +89,19 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
           <RoundLabel>Round {i + 1}</RoundLabel>
           <RoundPlayers>
             {roundPlayers.map(p => {
+              const playerPoints = mobGame.points.mobPlayers.find(
+                pp => pp.playerId === p.player.id
+              );
               return (
                 <div key={p.player.id} style={{ position: 'relative' }}>
                   <ReversedPlayerAvatar>
                     <PlayerAvatar player={p.player} size="small" />
                   </ReversedPlayerAvatar>
-                  {/* <Points>+{p.active ? mobGame.round + 1 : i + 1}</Points> */}
+                  {playerPoints && (
+                    <PointsContainer>
+                      <Points points={playerPoints.points} />
+                    </PointsContainer>
+                  )}
                   <RemovedPlayer src={removedCross} />
                 </div>
               );
@@ -117,11 +114,19 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
           <RoundLabel>Winners</RoundLabel>
           <RoundPlayers>
             {roundChampions.map(p => {
+              const playerPoints = mobGame.points.mobPlayers.find(
+                pp => pp.playerId === p.player.id
+              );
               return (
                 <div key={p.player.id} style={{ position: 'relative' }}>
                   <ReversedPlayerAvatar>
                     <PlayerAvatar player={p.player} size="small" />
                   </ReversedPlayerAvatar>
+                  {playerPoints && (
+                    <PointsContainer>
+                      <Points points={playerPoints.points} />
+                    </PointsContainer>
+                  )}
                   <WinningPlayer src={winCheck} />
                 </div>
               );

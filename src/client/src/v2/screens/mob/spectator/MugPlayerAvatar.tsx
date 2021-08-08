@@ -12,6 +12,7 @@ import { useThemeComponents } from '../../../providers/hooks/useThemeComponents'
 import { MobRoundState, MugPlayer } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import lifeHeart from './assets/life-heart.png';
+import { Points } from './Points';
 
 const Container = styled.div`
   display: flex;
@@ -80,22 +81,11 @@ const Emoji = styled.div<{ animate: boolean }>`
     `}
 `;
 
-const Points = styled.span`
-  display: inline-block;
-  /* opacity: 0; */
+const PointsContainer = styled.div`
   position: absolute;
-  padding: 5px 8px;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.medium};
-  font-weight: bold;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: ${({ theme }) => theme.color.text01};
-  background-color: ${({ theme }) => theme.color.background02};
-  border: 1px solid black;
-  border-radius: 10px;
-  text-transform: none;
 `;
 
 type Props = {
@@ -106,6 +96,7 @@ type Props = {
   roundState: MobRoundState;
   totalMobPlayers: number;
   totalActiveMobPlayers: number;
+  points: number;
 };
 
 export const MugPlayerAvatar = ({
@@ -116,6 +107,7 @@ export const MugPlayerAvatar = ({
   roundState,
   totalMobPlayers,
   totalActiveMobPlayers,
+  points,
 }: Props) => {
   const theme = useThemeComponents();
   const { play } = useSoundProvider();
@@ -159,12 +151,16 @@ export const MugPlayerAvatar = ({
       </div> */}
       {winner && <Emoji animate={false}>🎉</Emoji>}
       {loser && <Emoji animate={true}>😭</Emoji>}
-      {winner && (
+      {/* {winner && (
         <Points>
           Knocked out <strong>{totalMobPlayers}</strong> players
         </Points>
-      )}
-      {/* {loser && <Points>+3</Points>} */}
+      )} */}
+      {winner || loser ? (
+        <PointsContainer>
+          <Points points={points} />
+        </PointsContainer>
+      ) : null}
     </Container>
   );
 };

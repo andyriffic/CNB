@@ -25,6 +25,11 @@ export type MobPlayer = MobBasePlayer & {
 
 export type MobGameType = 'standard' | 'draw-ok-1-2' | 'draw-ok-1';
 
+export type MobGamePoints = {
+  mugPlayer: number;
+  mobPlayers: { playerId: string; points: number }[];
+};
+
 export type MobGame = {
   id: string;
   round: number;
@@ -33,6 +38,7 @@ export type MobGame = {
   resolved: boolean;
   mobPlayers: MobPlayer[];
   mugPlayer: MugPlayer;
+  points: MobGamePoints;
 };
 
 export type MobGameSpectatorView = {

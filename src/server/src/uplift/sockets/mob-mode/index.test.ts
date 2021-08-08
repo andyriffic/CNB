@@ -1,12 +1,15 @@
 import { expect } from 'chai';
 import {
+  assignGamePoints,
   createMobGame,
   isMobGameReady,
   makeMobPlayerMove,
   makeMugPlayerMove,
+  resetForNextRoundMobGame,
   resolveMobGame,
 } from '.';
 import { Player } from '../../services/player/types';
+import { MobGame } from './types';
 
 const testPlayer1: Player = {
   id: 'test-1',
@@ -25,6 +28,13 @@ const testPlayer2: Player = {
 const testPlayer3: Player = {
   id: 'test-3',
   name: 'Test 3',
+  tags: [],
+  avatarImageUrl: '',
+};
+
+const testPlayer4: Player = {
+  id: 'test-4',
+  name: 'Test 4',
   tags: [],
   avatarImageUrl: '',
 };
@@ -55,7 +65,7 @@ it('Makes mob player move correctly', () => {
   const mobGame = createMobGame(testPlayer1, [testPlayer2, testPlayer3]);
   const updatedMobGame = makeMobPlayerMove(mobGame, testPlayer2.id, 'A');
   expect(
-    updatedMobGame.mobPlayers.find((mp) => mp.player.id === testPlayer2.id)
+    updatedMobGame.mobPlayers.find((mp) => mp.player.id === testPlayer2.id)!
       .lastMoveId
   ).to.equal('A');
 });
@@ -88,11 +98,119 @@ it('Resolved mob game is correct', () => {
   );
   const player2Moved = makeMobPlayerMove(player1Moved, testPlayer3.id, 'C');
 
-  const resolvedGame = resolveMobGame(player2Moved);
+  const resolvedGame = resetForNextRoundMobGame(resolveMobGame(player2Moved));
   expect(resolvedGame.mugPlayer.lives).to.equal(2);
   expect(resolvedGame.mugPlayer.lastMoveId).to.be.undefined;
   expect(resolvedGame.mobPlayers[0].active).to.be.false;
   expect(resolvedGame.mobPlayers[0].lastMoveId).to.be.undefined;
   expect(resolvedGame.mobPlayers[1].active).to.be.true;
   expect(resolvedGame.mobPlayers[1].lastMoveId).to.be.undefined;
+});
+
+it('Calculates points correctly when Mug player wins', () => {
+  const mobGame: MobGame = {
+    id: 'test-game',
+    gameType: 'standard',
+    resolved: true,
+    round: 3,
+    roundState: 'viewed',
+    mugPlayer: { lives: 1, player: testPlayer1 },
+    mobPlayers: [
+      { player: testPlayer2, active: false, lastRound: 1 },
+      { player: testPlayer3, active: false, lastRound: 2 },
+      { player: testPlayer4, active: false, lastRound: 3 },
+    ],
+    points: { mugPlayer: 0, mobPlayers: [] },
+  };
+
+  const mobGameWithPoints = assignGamePoints(mobGame);
+
+  expect(mobGameWithPoints.points.mugPlayer).to.equal(6);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer2.id
+    )!.points
+  ).to.equal(1);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer3.id
+    )!.points
+  ).to.equal(2);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer4.id
+    )!.points
+  ).to.equal(3);
+});
+
+it('Calculates points correctly when One mob player wins', () => {
+  const mobGame: MobGame = {
+    id: 'test-game',
+    gameType: 'standard',
+    resolved: true,
+    round: 3,
+    roundState: 'viewed',
+    mugPlayer: { lives: 0, player: testPlayer1 },
+    mobPlayers: [
+      { player: testPlayer2, active: false, lastRound: 1 },
+      { player: testPlayer3, active: false, lastRound: 2 },
+      { player: testPlayer4, active: true, lastRound: 3 },
+    ],
+    points: { mugPlayer: 0, mobPlayers: [] },
+  };
+
+  const mobGameWithPoints = assignGamePoints(mobGame);
+
+  expect(mobGameWithPoints.points.mugPlayer).to.equal(1);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer2.id
+    )!.points
+  ).to.equal(2);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer3.id
+    )!.points
+  ).to.equal(4);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer4.id
+    )!.points
+  ).to.equal(3);
+});
+
+it('Calculates points correctly when two mob players wins', () => {
+  const mobGame: MobGame = {
+    id: 'test-game',
+    gameType: 'standard',
+    resolved: true,
+    round: 3,
+    roundState: 'viewed',
+    mugPlayer: { lives: 0, player: testPlayer1 },
+    mobPlayers: [
+      { player: testPlayer2, active: false, lastRound: 1 },
+      { player: testPlayer3, active: true, lastRound: 3 },
+      { player: testPlayer4, active: true, lastRound: 3 },
+    ],
+    points: { mugPlayer: 0, mobPlayers: [] },
+  };
+
+  const mobGameWithPoints = assignGamePoints(mobGame);
+
+  expect(mobGameWithPoints.points.mugPlayer).to.equal(0);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer2.id
+    )!.points
+  ).to.equal(2);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer3.id
+    )!.points
+  ).to.equal(6);
+  expect(
+    mobGameWithPoints.points.mobPlayers.find(
+      (mp) => mp.playerId === testPlayer4.id
+    )!.points
+  ).to.equal(6);
 });

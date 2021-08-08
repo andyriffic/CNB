@@ -40,6 +40,11 @@ export type MobPlayer = MobBasePlayer & {
   lastMoveResult?: MoveResult;
 };
 
+export type MobGamePoints = {
+  mugPlayer: number;
+  mobPlayers: { playerId: string; points: number }[];
+};
+
 export type MobGame = {
   id: string;
   gameType: MobGameType;
@@ -50,6 +55,7 @@ export type MobGame = {
   ready: boolean;
   resolved: boolean;
   gameOver: boolean;
+  points: MobGamePoints;
 };
 
 type CreateMobParams = {
