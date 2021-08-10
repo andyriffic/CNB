@@ -27,6 +27,7 @@ import { GameHistoryScreen } from './screens/game-history';
 import { PlayerChoiceProvider } from './providers/PlayerChoiceProvider';
 import { MobProvider } from './providers/MobProvider';
 import { MobAchievementsScreen } from './screens/mob/achievements';
+import { MobPointsInstructionsScreen } from './screens/mob/points-instructions';
 
 export default () => {
   return (
@@ -67,6 +68,7 @@ export default () => {
                             playerName=""
                           />
                           <MobAchievementsScreen path="/mob-achievements" />
+                          <MobPointsInstructionsScreen path="/mob-points-explanation" />
                           <GameHistoryScreen path="/game-history" />
                           <PlayerAdminScreen path="/player-admin" />
                         </Router>

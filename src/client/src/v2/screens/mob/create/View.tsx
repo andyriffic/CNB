@@ -1,6 +1,7 @@
 import { NavigateFn } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { FancyLink } from '../../../../components/FancyLink';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import {
@@ -137,12 +138,18 @@ export default ({ navigate }: Props) => {
       <Container>
         <FeatureText>Join the mob</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
+        <div style={{ textAlign: 'center' }}>
+          <FancyLink href="/mob-points-explanation" target="_blank">
+            Points!
+          </FancyLink>
+        </div>
+
         {!mug && (
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-around',
-              marginTop: '60px',
+              marginTop: '20px',
             }}
           >
             {!sentInvites && (
