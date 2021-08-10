@@ -13,6 +13,7 @@ import {
 import { Player } from '../../services/player/types';
 import { mapMobGameToStats } from '../../services/stats/mobMappers';
 import { StatsService } from '../../services/stats';
+import { pointsToPlayers } from './points-to-player';
 
 const REQUEST_MOB_GAMES = 'REQUEST_MOB_GAMES';
 const MOB_GAMES_UPDATE = 'MOB_GAMES_UPDATE';
@@ -118,6 +119,10 @@ const init = (socketServer: Server, path: string) => {
         });
         StatsService.publishMobSummaryStats();
       });
+
+      if (createMobGameSpectatorView(updatedMobGame).gameOver) {
+        pointsToPlayers(updatedMobGame, log);
+      }
 
       activeMobGames = [
         ...activeMobGames.filter((mb) => mb.id !== updatedMobGame.id),

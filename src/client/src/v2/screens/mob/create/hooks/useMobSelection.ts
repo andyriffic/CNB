@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { selectRandomOneOf } from '../../../../../uplift/utils/random';
+import { useMobLeaderboard } from '../../../../providers/MobLeaderboardProvider';
 import { usePlayerChoiceProvider } from '../../../../providers/PlayerChoiceProvider';
 import {
   Player,
@@ -8,6 +10,7 @@ import {
 type UseMobSelection = {
   joinedPlayers: Player[];
   sendInvites: () => void;
+  selectMug: () => Player;
   cleanup: () => void;
 };
 
@@ -20,11 +23,11 @@ export const useMobSelection = (): UseMobSelection => {
     deletePlayerChoice,
   } = usePlayerChoiceProvider();
   const { allPlayers } = usePlayersProvider();
-  const [joinedPlayers, setJoinedPlayers] = useState<Player[]>([]);
+  const { topMainPlayerStats } = useMobLeaderboard();
 
-  useEffect(() => {
+  const joinedPlayers = useMemo<Player[]>(() => {
     if (!allPlayerChoices) {
-      return;
+      return [];
     }
     const acceptedPlayersIds = Array.from(
       new Set(
@@ -34,12 +37,30 @@ export const useMobSelection = (): UseMobSelection => {
       )
     );
 
-    setJoinedPlayers(
-      acceptedPlayersIds.map(
-        playerId => allPlayers.find(p => p.id === playerId)!
-      )
+    return acceptedPlayersIds.map(
+      playerId => allPlayers.find(p => p.id === playerId)!
     );
   }, [allPlayerChoices]);
+
+  const selectMug = (): Player => {
+    if (!topMainPlayerStats) {
+      return selectRandomOneOf(joinedPlayers);
+    }
+
+    const alreadyWonMainPlayerIds = topMainPlayerStats.mobMainPlayerSummary.map(
+      mps => mps.playerId
+    );
+
+    const playersHaventPlayedYet = joinedPlayers.filter(
+      jp => !alreadyWonMainPlayerIds.includes(jp.id)
+    );
+
+    if (playersHaventPlayedYet.length === 0) {
+      return selectRandomOneOf(joinedPlayers);
+    }
+
+    return selectRandomOneOf(playersHaventPlayedYet);
+  };
 
   const sendInvites = () => {
     allPlayers
@@ -61,6 +82,7 @@ export const useMobSelection = (): UseMobSelection => {
   return {
     joinedPlayers,
     sendInvites,
+    selectMug,
     cleanup,
   };
 };

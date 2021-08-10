@@ -20,9 +20,11 @@ const getAllPlayers = (): Promise<Player[]> => {
 };
 
 const getPlayer = (id: string): Promise<Player> => {
-  return getItemById<Player>(DYNAMO_DB_PLAYERS_TABLE_NAME, id).then(player => {
-    return player;
-  });
+  return getItemById<Player>(DYNAMO_DB_PLAYERS_TABLE_NAME, id).then(
+    (player) => {
+      return player;
+    }
+  );
 };
 
 const updatePlayerTags = (player: Player): Promise<Player> => {
@@ -37,7 +39,14 @@ const updatePlayerTags = (player: Player): Promise<Player> => {
   );
 };
 
-export const playersDatastore = {
+export interface PlayersDataStore {
+  addPlayer: (player: Player) => Promise<Player>;
+  getPlayer: (id: string) => Promise<Player>;
+  getAllPlayers: () => Promise<Player[]>;
+  updatePlayerTags: (player: Player) => Promise<Player>;
+}
+
+export const playersDatastore: PlayersDataStore = {
   getAllPlayers,
   addPlayer,
   updatePlayerTags,

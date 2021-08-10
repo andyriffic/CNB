@@ -4,13 +4,10 @@ import styled from 'styled-components';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import {
-  fadeInAnimation,
   jackInTheBoxAnimation,
   slideInUpAnimation,
 } from '../../../../uplift/components/animations';
-import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
@@ -22,7 +19,6 @@ import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useCountdownTimer } from './hooks/useCountdownTimer';
 import { useMobSelection } from './hooks/useMobSelection';
 import { useMobSelectionSound } from './hooks/useMobSelectionSound';
-import { MobLeaders } from './Leaders';
 import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
 const Container = styled.div`
@@ -75,7 +71,7 @@ const COUNTDOWN_SECONDS = 30;
 export default ({ navigate }: Props) => {
   const { play } = useSoundProvider();
   const [sentInvites, setSentInvites] = useState(false);
-  const { joinedPlayers, sendInvites, cleanup } = useMobSelection();
+  const { joinedPlayers, sendInvites, selectMug, cleanup } = useMobSelection();
   const { createMobGame } = useMobProvider();
   const [mug, setMug] = useState<Player | undefined>();
   useMobSelectionSound(joinedPlayers, mug);
@@ -84,7 +80,7 @@ export default ({ navigate }: Props) => {
   useEffect(() => {
     if (timer.status === 'complete') {
       console.log('countdown complete');
-      setMug(selectRandomOneOf(joinedPlayers));
+      setMug(selectMug());
     }
   }, [timer.status]);
 
@@ -125,7 +121,7 @@ export default ({ navigate }: Props) => {
 
   const onCreateMobClick = () => {
     timer.stop();
-    setMug(selectRandomOneOf(joinedPlayers));
+    setMug(selectMug());
   };
 
   return (

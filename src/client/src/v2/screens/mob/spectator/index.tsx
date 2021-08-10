@@ -6,6 +6,6 @@ type Props = {
   mobGameId: string;
 } & RouteComponentProps;
 
-export const MobSpectatorScreen = ({ mobGameId }: Props) => {
-  return <View mobGameId={mobGameId} />;
+export const MobSpectatorScreen = ({ mobGameId, navigate }: Props) => {
+  return <View mobGameId={mobGameId} navigate={navigate} />;
 };

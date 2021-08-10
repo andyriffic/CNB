@@ -61,6 +61,7 @@ export const MobPlayerDebug = ({ mobGame }: Props) => {
         </button>
       </div>
       {mobGame.mobPlayers.map(mp => {
+        if (!mp.active) return null;
         const makeMove = (moveId: MoveKeys) => {
           makeMobPlayerMove(mobGame.id, mp.player.id, moveId);
         };

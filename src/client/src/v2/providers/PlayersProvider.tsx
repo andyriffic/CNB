@@ -90,6 +90,11 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
             return;
           }
 
+          if (numMoves === 0) {
+            onUpdated && onUpdated();
+            return;
+          }
+
           const updatedTags = [
             ...player.tags.filter(t => !t.startsWith('sl_moves')),
             `sl_moves:${parseInt(

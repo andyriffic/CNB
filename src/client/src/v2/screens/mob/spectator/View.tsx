@@ -26,6 +26,9 @@ import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { MobResultSummary } from './MobResultSummary';
 import { NewRecord } from './NewRecord';
 import { MobGraveyard } from './MobGraveyard';
+import { NavigateFn } from '@reach/router';
+import { FancyLink } from '../../../../components/FancyLink';
+import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -45,8 +48,15 @@ const GraveyardContainer = styled.div`
   right: 0;
 `;
 
+const DonkeyKongLinkContainer = styled.div`
+  text-align: center;
+  cursor: pointer;
+  animation: ${jackInTheBoxAnimation} 2000ms linear 4000ms both;
+`;
+
 type Props = {
   mobGameId: string;
+  navigate: NavigateFn | undefined;
 };
 
 const getPlayerRevealMove = (
@@ -66,7 +76,7 @@ const getMobStartMessage = (mobGame: MobGame): string => {
   return 'Here comes the Mob!';
 };
 
-export default ({ mobGameId }: Props) => {
+export default ({ mobGameId, navigate }: Props) => {
   const { play } = useSoundProvider();
   const { mobGame } = useMobGame(mobGameId);
   const { resolveMobGame, nextRound, viewedRound } = useMobProvider();
@@ -74,6 +84,7 @@ export default ({ mobGameId }: Props) => {
   const { playState } = useTimedPlayState(mobGame);
   const lastResolvedRound = useRef(0);
   useMobSpectatorSound(mobGame, uiState);
+  // useDonkeyKongPoints(mobGame);
 
   const activeMobPlayers = useMemo<MobPlayer[]>(() => {
     if (!mobGame) return [];
@@ -100,14 +111,6 @@ export default ({ mobGameId }: Props) => {
   if (!mobGame) {
     return <LoadingSpinner />;
   }
-
-  const startNewRound = () => {
-    if (uiState.mobWinner || uiState.mugWinner) {
-      return;
-    }
-    nextRound(mobGame.id);
-    uiState.newRound();
-  };
 
   return (
     <GameScreen scrollable={true}>
@@ -199,6 +202,13 @@ export default ({ mobGameId }: Props) => {
           uiState.mugWinner && !!mobGame && mobGame.roundState === 'viewed'
         }
       />
+      {mobGame.gameOver && mobGame.roundState === 'viewed' && (
+        <DonkeyKongLinkContainer>
+          <FancyLink onClick={() => navigate && navigate('/donkey-kong')}>
+            To Donkey Kong
+          </FancyLink>
+        </DonkeyKongLinkContainer>
+      )}
     </GameScreen>
   );
 };
