@@ -17,7 +17,7 @@ import {
 } from '../providers/GameBoardProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 
-export const ANIMATION_TIMEOUT_MS = 500;
+export const PLAYER_MOVE_ANIMATION_TIMEOUT_MS = 200;
 
 const CellPlayer = styled.div<{
   priority: number;
@@ -27,7 +27,7 @@ const CellPlayer = styled.div<{
 }>`
   box-sizing: border-box;
   position: absolute;
-  transition: all ${ANIMATION_TIMEOUT_MS}ms ease-in-out;
+  transition: all ${PLAYER_MOVE_ANIMATION_TIMEOUT_MS}ms ease-in-out;
   z-index: ${props => props.priority + props.offset};
   pointer-events: ${props => (props.priority ? 'auto' : 'none')};
   ${props =>

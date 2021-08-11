@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
+import { PLAYER_MOVE_ANIMATION_TIMEOUT_MS } from '../components/BoardPlayer';
 import { useGameBoardCells } from '../hooks/useGameBoardCells';
 import {
   MovePlayerGroup,
@@ -70,14 +71,14 @@ export const GameBoardProvider = ({
               'FINISHED MOVING PLAYER',
               updatedPlayerResult.updatedPlayer
             );
-            setTimeout(() => res(updatedPlayerResult.allPlayers), 1000);
+            setTimeout(() => res(updatedPlayerResult.allPlayers), 500);
           } else {
             setTimeout(() => {
               console.log('DELAYED MOVE PLAYER');
               movePlayerWithDelay(updatedPlayerResult).then(updatedPlayers =>
                 res(updatedPlayers)
               );
-            }, 500);
+            }, PLAYER_MOVE_ANIMATION_TIMEOUT_MS);
           }
         });
       };

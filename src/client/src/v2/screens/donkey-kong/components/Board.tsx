@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { GameBoard } from '../types';
 import { BoardCell } from './BoardCell';
-import { BoardPlayer, ANIMATION_TIMEOUT_MS } from './BoardPlayer';
+import { BoardPlayer, PLAYER_MOVE_ANIMATION_TIMEOUT_MS } from './BoardPlayer';
 import { useGameBoardProvider } from '../providers/GameBoardProvider';
 import { PositionedPlayer } from './PositionedPlayer';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
