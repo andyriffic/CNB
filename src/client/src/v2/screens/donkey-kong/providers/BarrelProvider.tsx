@@ -72,7 +72,7 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const allSquareNumbersOccupied = gameBoardPlayers
+    const allSquareNumbersOccupied = boardPlayers
       .filter(
         p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
       )
