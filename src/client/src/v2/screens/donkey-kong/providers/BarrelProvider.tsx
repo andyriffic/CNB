@@ -127,8 +127,8 @@ export const BarrelProvider = ({
 
           const MAX_BARRELS = 6;
           const MIN_BARRELS = 1;
-          const PLAYERS_ON_BOARD_PER_BARREL = 10;
-          const PLAYER_MAX_POSITION_PER_BARREL = 15;
+          const PLAYERS_ON_BOARD_PER_BARREL = 8;
+          const PLAYER_MAX_POSITION_PER_BARREL = 10;
 
           const totalBarrels = Math.min(
             Math.max(

@@ -78,7 +78,7 @@ export const GameBoardProvider = ({
               movePlayerWithDelay(updatedPlayerResult).then(updatedPlayers =>
                 res(updatedPlayers)
               );
-            }, PLAYER_MOVE_ANIMATION_TIMEOUT_MS);
+            }, PLAYER_MOVE_ANIMATION_TIMEOUT_MS + 100);
           }
         });
       };
