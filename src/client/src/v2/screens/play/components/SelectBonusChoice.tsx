@@ -28,13 +28,14 @@ const Container = styled.div`
 
 const ChoiceList = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
 `;
 
 const ChoiceItem = styled.div`
   width: 30%;
+  flex-grow: 1;
   font-size: ${({ theme }) => theme.fontSize.large};
 
   button {
@@ -65,11 +66,8 @@ export const SelectBonusChoice = ({ playerId }: Props) => {
         JSON.stringify(playersChoice.choices)}
       <ChoiceList>
         {playersChoice.choices.map(choice => (
-          <ChoiceItem>
-            <Button
-              onClick={() => selectChoice(playersChoice.id, choice.id)}
-              key={choice.id}
-            >
+          <ChoiceItem key={choice.id}>
+            <Button onClick={() => selectChoice(playersChoice.id, choice.id)}>
               {playersChoice.maskLabels ? (
                 <ShowThemedVariant placement="prizeIcon" />
               ) : (
