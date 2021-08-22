@@ -29,9 +29,12 @@ const Container = styled.div`
 const ChoiceList = styled.div`
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 const ChoiceItem = styled.div`
+  width: 30%;
   font-size: ${({ theme }) => theme.fontSize.large};
 
   button {

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { GameBoard } from '../types';
+import { BOARD_CELL_TYPE, GameBoard, GameBoardCellWithPlayers } from '../types';
 import { BoardCell } from './BoardCell';
 import { BoardPlayer, PLAYER_MOVE_ANIMATION_TIMEOUT_MS } from './BoardPlayer';
 import { useGameBoardProvider } from '../providers/GameBoardProvider';
@@ -10,6 +10,9 @@ import { Barrels } from './Barrels';
 import { SplashText } from '../../../components/SplashText';
 import { Button } from '../../../components/ui/buttons';
 import { useSoundProvider } from '../../../providers/SoundProvider';
+import { WinnerDonkeyChoice } from './WinnerDonkeyChoice';
+import { Player } from '../../../providers/PlayersProvider';
+import { WinningPlayer } from './WinningPlayer';
 
 enum PlayState {
   WaitingToPlay = 'WaitingToPlay',
@@ -18,6 +21,8 @@ enum PlayState {
   ShowingBarrelsIntro = 'ShowingBarrelsIntro',
   CreatingBarrels = 'CreatingBarrels',
   ThrowingBarrels = 'ThrowingBarrels',
+  CheckWinner = 'CheckWinner',
+  DetermineWinner = 'DetermineWinner',
   GameOver = 'GameOver',
 }
 
@@ -34,6 +39,22 @@ const BoardContainer = styled.div<{
   margin: 0 auto;
 `;
 
+const getPlayersInEndCell = (
+  cellsWithPlayers: GameBoardCellWithPlayers[]
+): Player[] => {
+  const playersInFinalCell = cellsWithPlayers.filter(
+    cell => cell.type === BOARD_CELL_TYPE.END
+  );
+
+  console.log('END PLAYERS', playersInFinalCell);
+
+  if (playersInFinalCell.length === 0) {
+    return [];
+  }
+
+  return playersInFinalCell[0].players.map(gp => gp.player);
+};
+
 type Props = {
   boardImage: any;
   width: string;
@@ -47,7 +68,18 @@ export const Board = ({ boardImage, width, height }: Props) => {
     moveAllPlayers,
   } = useGameBoardProvider();
   const [playState, setPlayState] = useState(PlayState.WaitingToPlay);
+  const [winningPlayer, setWinningPlayer] = useState<Player | undefined>();
   const { play } = useSoundProvider();
+
+  useEffect(() => {
+    if (playState === PlayState.CheckWinner) {
+      if (getPlayersInEndCell(cellsWithPlayers).length > 0) {
+        setPlayState(PlayState.DetermineWinner);
+      } else {
+        setPlayState(PlayState.GameOver);
+      }
+    }
+  }, [playState, cellsWithPlayers]);
 
   useEffect(() => {
     if (playState === PlayState.GameOver) {
@@ -121,8 +153,21 @@ export const Board = ({ boardImage, width, height }: Props) => {
         autoCreateBarrels={playState === PlayState.CreatingBarrels}
         autoThrowBarrels={playState === PlayState.ThrowingBarrels}
         onBarrelsCreated={() => setPlayState(PlayState.ThrowingBarrels)}
-        onBarrelsThrown={() => setPlayState(PlayState.GameOver)}
+        onBarrelsThrown={() => setPlayState(PlayState.CheckWinner)}
       />
+      {playState === PlayState.DetermineWinner && !winningPlayer && (
+        <WinnerDonkeyChoice
+          playersAtEnd={getPlayersInEndCell(cellsWithPlayers)}
+          onComplete={result => {
+            if (result.winningPlayers.length === 1) {
+              setWinningPlayer(result.winningPlayers[0]);
+            } else {
+              setPlayState(PlayState.GameOver);
+            }
+          }}
+        />
+      )}
+      {winningPlayer && <WinningPlayer player={winningPlayer} />}
     </BoardContainer>
   );
 };
