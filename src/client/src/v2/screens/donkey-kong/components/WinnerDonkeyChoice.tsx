@@ -96,8 +96,6 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
   } = usePlayerChoiceProvider();
   const { play } = useSoundProvider();
 
-  console.log('CHERRY BARREL', cherryIndex);
-
   const answeredChoices = useMemo(() => {
     if (!allPlayerChoices) {
       return [];
@@ -164,8 +162,6 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
     });
 
     return () => {
-      console.log('DELETING PLAYER CHOICE');
-
       playersAtEnd.forEach(p => deletePlayerChoice(p.id));
     };
   }, []);
