@@ -69,7 +69,7 @@ const soundMap: SoundMap = {
   SelectPrizePoints: winner,
   SelectPrizeEmpty: missionFalied,
   SelectPrizeGameOver: aww,
-  SnakesAndLaddersMove: marioJump,
+  SnakesAndLaddersMove: pokemonSnapSoSo,
   SnakesAndLaddersSnake: cry,
   SnakesAndLaddersLadder: fanfareSms,
   SnakesAndLaddersWormholeIn: spinningHeart,
