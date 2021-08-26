@@ -16,6 +16,7 @@ export type GameBoardCell = {
   linkedCellIndex?: number | number[];
   fairy?: boolean;
   mustStop?: boolean;
+  facingDirection: 'left' | 'right';
 };
 
 export type GameBoardCellWithPlayers = {

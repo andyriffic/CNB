@@ -48,17 +48,11 @@ const CellPlayer = styled.div<{
   }
 `;
 
-type WormholeState = 'in' | 'out';
-const WormholeAnimation = styled.div<{ wormhole?: WormholeState }>`
-  ${({ wormhole }) =>
-    wormhole === 'in' &&
+const FlipDirection = styled.div<{ reverse: boolean }>`
+  ${({ reverse }) =>
+    reverse &&
     css`
-      animation: ${intoWormholeAnimation} 1000ms ease-in-out both;
-    `}
-  ${({ wormhole }) =>
-    wormhole === 'out' &&
-    css`
-      animation: ${outOfWormholeAnimation} 1000ms ease-in-out both;
+      transform: scaleX(-1);
     `}
 `;
 
@@ -82,12 +76,6 @@ type Props = {
 };
 
 export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
-  const [wormhole, setWormhole] = useState<WormholeState | undefined>(
-    undefined
-  );
-  const { landedInCell } = useGameBoardProvider();
-  const { play } = useSoundProvider();
-
   return (
     <>
       <CellPlayer
@@ -97,16 +85,16 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
         inLead={gameBoardPlayer.inLead}
       >
         <div style={{ position: 'relative' }}>
-          <WormholeAnimation wormhole={wormhole}>
+          <FlipDirection reverse={cell.facingDirection === 'left'}>
             <PlayerAvatar player={gameBoardPlayer.player} size="small" />
-            {!!gameBoardPlayer.movesRemaining && (
-              <MovesRemaining>
-                <ReadableNumberFont>
-                  <Rainbow>{gameBoardPlayer.movesRemaining}</Rainbow>
-                </ReadableNumberFont>
-              </MovesRemaining>
-            )}
-          </WormholeAnimation>
+          </FlipDirection>
+          {!!gameBoardPlayer.movesRemaining && (
+            <MovesRemaining>
+              <ReadableNumberFont>
+                <Rainbow>{gameBoardPlayer.movesRemaining}</Rainbow>
+              </ReadableNumberFont>
+            </MovesRemaining>
+          )}
         </div>
       </CellPlayer>
     </>
