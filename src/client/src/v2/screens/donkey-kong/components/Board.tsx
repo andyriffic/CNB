@@ -107,21 +107,6 @@ export const Board = ({ boardImage, width, height }: Props) => {
 
   return (
     <BoardContainer boardImage={boardImage} width={width} height={height}>
-      {playState === PlayState.ShowingPlayersIntro && (
-        <SplashText onComplete={() => setPlayState(PlayState.MovingPlayers)}>
-          Moving players
-        </SplashText>
-      )}
-
-      {playState === PlayState.ShowingBarrelsIntro && (
-        <SplashText onComplete={() => setPlayState(PlayState.CreatingBarrels)}>
-          Kong angry!
-        </SplashText>
-      )}
-
-      {playState === PlayState.GameOver && (
-        <SplashText onComplete={() => {}}>Game over</SplashText>
-      )}
       {cellsWithPlayers.map(cell => (
         <BoardCell key={cell.number} cell={cell} />
       ))}
@@ -168,6 +153,21 @@ export const Board = ({ boardImage, width, height }: Props) => {
         />
       )}
       {winningPlayer && <WinningPlayer player={winningPlayer} />}
+      {playState === PlayState.ShowingPlayersIntro && (
+        <SplashText onComplete={() => setPlayState(PlayState.MovingPlayers)}>
+          Moving players
+        </SplashText>
+      )}
+
+      {playState === PlayState.ShowingBarrelsIntro && (
+        <SplashText onComplete={() => setPlayState(PlayState.CreatingBarrels)}>
+          Kong angry!
+        </SplashText>
+      )}
+
+      {playState === PlayState.GameOver && (
+        <SplashText onComplete={() => {}}>Game over</SplashText>
+      )}
     </BoardContainer>
   );
 };

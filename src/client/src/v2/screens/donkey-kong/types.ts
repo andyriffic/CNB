@@ -6,7 +6,8 @@ export type BoardCoordinates = [number, number];
 export enum BOARD_CELL_TYPE {
   NORMAL = 0,
   SAFE = 1,
-  END = 2,
+  DANGER = 2,
+  END = 3,
 }
 
 export type GameBoardCell = {

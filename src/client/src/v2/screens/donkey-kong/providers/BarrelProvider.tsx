@@ -1,5 +1,9 @@
 import React, { ReactNode, useState } from 'react';
-import { selectRandomOneOf } from '../../../../uplift/utils/random';
+import {
+  selectRandomOneOf,
+  selectWeightedRandomOneOf,
+  WeightedItem,
+} from '../../../../uplift/utils/random';
 import { GameBoardPlayer } from '../providers/GameBoardProvider';
 import { BOARD_CELL_TYPE, GameBoard } from '../types';
 import { useGameBoardProvider } from './GameBoardProvider';
@@ -72,22 +76,42 @@ export const BarrelProvider = ({
     board: GameBoard,
     boardPlayers: GameBoardPlayer[]
   ): Barrel | undefined => {
-    const allSquareNumbersOccupied = boardPlayers
+    const allDangerSquaresOccupied = boardPlayers
       .filter(
         p =>
-          board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL ||
+          board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.DANGER ||
           board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.END
       )
       .map(p => p.boardCellIndex);
 
-    if (!allSquareNumbersOccupied.length) {
+    const allNormalSquaresOccupied = boardPlayers
+      .filter(
+        p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.NORMAL
+      )
+      .map(p => p.boardCellIndex);
+
+    if (!(allDangerSquaresOccupied.length || allNormalSquaresOccupied.length)) {
       return;
     }
 
-    const uniqueSquaresIndex = new Set(allSquareNumbersOccupied);
+    const targetPlayerSquares =
+      allDangerSquaresOccupied.length > 0
+        ? allDangerSquaresOccupied
+        : allNormalSquaresOccupied;
+
+    const uniqueSquaresIndex = new Set(targetPlayerSquares);
     console.log('Throwing barrel: Unique Cells', uniqueSquaresIndex);
 
-    const targetCellIndex = selectRandomOneOf(Array.from(uniqueSquaresIndex));
+    const weightedSquares = Array.from(uniqueSquaresIndex).map<
+      WeightedItem<number>
+    >(squareIndex => ({
+      item: squareIndex,
+      weight: Math.floor(squareIndex / 5) || 1,
+    }));
+
+    console.log('Barrel weights', weightedSquares);
+
+    const targetCellIndex = selectWeightedRandomOneOf(weightedSquares);
     const targetCell = board.cells[targetCellIndex];
 
     return {

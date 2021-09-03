@@ -68,25 +68,25 @@ export const generateBoard = (): GameBoard => {
       {
         number: 10,
         coordinates: [920, 615],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
         number: 11,
         coordinates: [820, 613],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
         number: 12,
         coordinates: [720, 611],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
         number: 13,
         coordinates: [620, 609],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
@@ -122,37 +122,37 @@ export const generateBoard = (): GameBoard => {
       {
         number: 19,
         coordinates: [280, 375],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 20,
         coordinates: [380, 375],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 21,
         coordinates: [480, 378],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 22,
         coordinates: [580, 380],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 23,
         coordinates: [680, 382],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 24,
         coordinates: [780, 384],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
@@ -188,25 +188,25 @@ export const generateBoard = (): GameBoard => {
       {
         number: 30,
         coordinates: [380, 135],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 31,
         coordinates: [480, 138],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 32,
         coordinates: [580, 141],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {
         number: 33,
         coordinates: [680, 144],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'right',
       },
       {

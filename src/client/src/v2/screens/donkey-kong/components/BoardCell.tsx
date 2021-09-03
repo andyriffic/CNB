@@ -61,6 +61,19 @@ const SafeText = styled.span`
   padding: 2px 6px;
 `;
 
+const DangerText = styled.span`
+  display: inline-block;
+  border: 2px solid darkgreen;
+  background-color: crimson;
+  color: white;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  position: relative;
+  top: 10px;
+  left: -17px;
+  padding: 2px 6px;
+`;
+
 type Props = {
   cell: GameBoardCell;
 };
@@ -95,6 +108,7 @@ export const BoardCell = ({ cell }: Props) => {
       {gameBoardDebug && <DebugText>{cell.number}</DebugText>}
       {cell.type === BOARD_CELL_TYPE.END && <Cherry>🍒</Cherry>}
       {cell.type === BOARD_CELL_TYPE.SAFE && <SafeText>safe</SafeText>}
+      {cell.type === BOARD_CELL_TYPE.DANGER && <DangerText>⚠️</DangerText>}
     </Cell>
   );
 };
