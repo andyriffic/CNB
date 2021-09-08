@@ -1,9 +1,14 @@
 import { Debugger } from 'debug';
-import { Namespace, Server, Socket } from 'socket.io';
+import { Namespace, Socket } from 'socket.io';
 import { PlayersDataStore } from '../datastore/players';
 import { Player } from '../services/player/types';
 
-export class PlayersSocket {
+export interface IPlayersSocketService {
+  addPlayer: (id: string, name: string) => void;
+  updatePlayer: (id: string, tags: string[], onUpdated?: () => void) => void;
+}
+
+export class PlayersSocketService implements IPlayersSocketService {
   private _namespace: Namespace;
   private _playersDataStore: PlayersDataStore;
   private _logger: Debugger;
@@ -19,16 +24,17 @@ export class PlayersSocket {
 
     namespace.on('connection', (socket: Socket) => {
       socket.on('ADD_PLAYER', this.addPlayer);
+      socket.on('UPDATE_PLAYER', this.updatePlayer);
     });
   }
 
   private emitPlayersUpdate(): void {
     this._playersDataStore.getAllPlayers().then((playerList) => {
-      //this.#socket.emit('ALL_PLAYERS_UPDATE', playerList);
+      this._namespace.emit('ALL_PLAYERS_UPDATE', playerList);
     });
   }
 
-  private addPlayer(id: string, name: string) {
+  public addPlayer(id: string, name: string) {
     this._logger('addPlayer', id, name);
     const player: Player = {
       id,
@@ -39,6 +45,24 @@ export class PlayersSocket {
 
     this._playersDataStore.addPlayer(player).then(() => {
       this.emitPlayersUpdate();
+    });
+  }
+
+  public updatePlayer(
+    id: string,
+    tags: string[],
+    onUpdated?: () => void
+  ): void {
+    this._logger('updatePlayer', id, tags);
+    this._playersDataStore.getPlayer(id).then((player) => {
+      const updatedPlayer = {
+        ...player,
+        tags,
+      };
+      this._playersDataStore.updatePlayerTags(updatedPlayer).then(() => {
+        this.emitPlayersUpdate();
+        onUpdated && onUpdated();
+      });
     });
   }
 }
