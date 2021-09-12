@@ -15,7 +15,7 @@ export const getPlayerSnakesAndLaddersMoves = (tags: string[]) => {
   return parseInt(getPlayerAttributeValue(tags, 'sl_moves', '0'));
 };
 
-const getPlayerIntegerAttributeValue = (
+export const getPlayerIntegerAttributeValue = (
   tags: string[],
   tagName: string,
   defaultValue: number = 0

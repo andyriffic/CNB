@@ -21,6 +21,7 @@ import {
   PlayMatchupScreen,
   PlayMobScreen,
 } from './screens/play';
+import { GameEngineScreen } from './screens/game-engine';
 import { PlayerAdminScreen } from './screens/player-admin';
 import { PlayerProfileScreen } from './screens/player-profile';
 import { GameHistoryScreen } from './screens/game-history';
@@ -71,6 +72,7 @@ export default () => {
                           <MobPointsInstructionsScreen path="/mob-points-explanation" />
                           <GameHistoryScreen path="/game-history" />
                           <PlayerAdminScreen path="/player-admin" />
+                          <GameEngineScreen path="/game-engine" />
                         </Router>
                       </ThemedUi>
                     </MobLeaderboardProvider>
