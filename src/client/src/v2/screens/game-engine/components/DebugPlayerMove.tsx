@@ -21,7 +21,6 @@ export const DebugPlayerMove = ({ gameBoardService }: Props): JSX.Element => {
       return;
     }
     const interval = setInterval(() => {
-      console.log('MOVING PLAYER');
       gameBoardService.autoMovePlayer();
     }, 500);
     return () => clearInterval(interval);
@@ -43,20 +42,7 @@ export const DebugPlayerMove = ({ gameBoardService }: Props): JSX.Element => {
     <Container>
       <button onClick={() => setAutoMove(true)}>Move All Players</button>
       {gameBoardService.gamePlayers.map(gp => (
-        <div key={gp.player.id}>
-          {gp.player.name}{' '}
-          <button
-            type="button"
-            onClick={() => gameBoardService.stepPlayer(gp.player.id)}
-          >
-            Move 1
-          </button>
-          <button
-            onClick={() => gameBoardService.selectPlayerToMove(gp.player.id)}
-          >
-            Start Move
-          </button>
-        </div>
+        <div key={gp.player.id}>{gp.player.name}</div>
       ))}
     </Container>
   );

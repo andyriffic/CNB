@@ -22,6 +22,17 @@ const MovesRemaining = styled.div`
   color: white;
 `;
 
+const PlayerName = styled.div`
+  background-color: white;
+  color: red;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 0.5rem;
+  text-align: center;
+  position: absolute;
+  top: -20px;
+`;
+
 type Props = {
   gamePlayer: GamePlayer;
 };
@@ -43,7 +54,9 @@ export const BoardPlayer = ({ gamePlayer }: Props): JSX.Element => {
         {gamePlayer.movesRemaining > 0 && (
           <MovesRemaining>{gamePlayer.movesRemaining}</MovesRemaining>
         )}
-        {gamePlayer.isMoving && <div>moving...</div>}
+        {gamePlayer.isMoving && (
+          <PlayerName>{gamePlayer.player.name}</PlayerName>
+        )}
       </Container>
     </PositionContainer>
   );

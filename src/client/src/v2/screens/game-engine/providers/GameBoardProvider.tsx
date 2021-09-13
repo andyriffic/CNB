@@ -8,11 +8,7 @@ export type GameBoardService = {
   gameBoard: GameBoard;
   gamePlayers: GamePlayer[];
   startGame: () => void;
-  movingPlayer?: GamePlayer;
   allPlayersMoved: boolean;
-  stepPlayer: (playerId: string) => void;
-  selectPlayerToMove: (playerId: string) => void;
-  moveSelectedPlayer: () => void;
   autoMovePlayer: () => void;
 };
 
@@ -34,23 +30,13 @@ export const GameBoardProvider = ({
     createInitialState(gameBoard, participatingPlayers)
   );
 
-  const moveSelectedPlayerCallback = useCallback(
-    () => dispatch({ type: 'MOVE_ACTIVE_PLAYER' }),
-    []
-  );
-
   return (
     <GameBoardContext.Provider
       value={{
         gameBoard,
         gamePlayers: gameState.gamePlayers,
         startGame: () => dispatch({ type: 'START' }),
-        stepPlayer: playerId => dispatch({ type: 'STEP_PLAYER', playerId }),
-        selectPlayerToMove: playerId =>
-          dispatch({ type: 'INITIATE_PLAYER_MOVE', playerId }),
         autoMovePlayer: () => dispatch({ type: 'AUTO_MOVE_PLAYER' }),
-        moveSelectedPlayer: moveSelectedPlayerCallback,
-        movingPlayer: gameState.movingPlayer,
         allPlayersMoved: gameState.allPlayersMoved,
       }}
     >

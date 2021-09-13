@@ -9,7 +9,7 @@ const PositionContainer = styled.div`
 `;
 
 const Container = styled.div`
-  border: 1px solid orange;
+  border: 3px solid purple;
   border-radius: 50%;
   position: relative;
   width: ${CELL_SIZE_PX}px;
@@ -18,9 +18,9 @@ const Container = styled.div`
 
 const LocationMarker = styled.div`
   position: absolute;
-  width: 3px;
-  height: 3px;
-  background: orangered;
+  width: 5px;
+  height: 5px;
+  background: purple;
   border-radius: 50%;
   left: 50%;
   top: 50%;

@@ -9,7 +9,7 @@ import { DebugPlayerMove } from './components/DebugPlayerMove';
 import { useGameBoard } from './providers/GameBoardProvider';
 
 const Container = styled.div`
-  margin: 100px auto 0;
+  margin: 0 auto;
 `;
 
 const View = () => {

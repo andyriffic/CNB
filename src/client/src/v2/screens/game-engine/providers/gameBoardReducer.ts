@@ -1,4 +1,3 @@
-import { cpuUsage } from 'process';
 import { getPlayerIntegerAttributeValue } from '../../../../uplift/utils/player';
 import { Player } from '../../../providers/PlayersProvider';
 import { BOARD_CELL_TYPE, GameBoard, GamePlayer } from '../types';
@@ -14,7 +13,7 @@ type GameState = {
   gamePhase: GAME_PHASE;
   gamePlayers: GamePlayer[];
   playersToMove: GamePlayer[];
-  movingPlayer?: GamePlayer;
+  movingPlayerId?: string;
   allPlayersMoved: boolean;
 };
 
@@ -30,28 +29,8 @@ interface StartMovePlayersAction extends BaseAction {
   type: 'START_MOVE_PLAYERS';
 }
 
-interface InitiatePlayerMoveAction extends BaseAction {
-  type: 'INITIATE_PLAYER_MOVE';
-  playerId?: string;
-}
-
-interface MoveActivePlayerAction extends BaseAction {
-  type: 'MOVE_ACTIVE_PLAYER';
-}
-
 interface AutoMovePlayerAction extends BaseAction {
   type: 'AUTO_MOVE_PLAYER';
-}
-
-// interface PlacePlayersAction extends BaseAction {
-//   type: 'PLACE_PLAYER';
-//   playerId: string;
-//   destinationCell: number;
-// }
-
-interface StepPlayerAction extends BaseAction {
-  type: 'STEP_PLAYER';
-  playerId: string;
 }
 
 export const createInitialState = (
@@ -72,9 +51,6 @@ export const createInitialState = (
 type GamesActions =
   | StartGameAction
   | StartMovePlayersAction
-  | StepPlayerAction
-  | InitiatePlayerMoveAction
-  | MoveActivePlayerAction
   | AutoMovePlayerAction;
 
 export function reducer(state: GameState, action: GamesActions): GameState {
@@ -85,34 +61,14 @@ export function reducer(state: GameState, action: GamesActions): GameState {
     case 'START_MOVE_PLAYERS': {
       return { ...state, gamePhase: GAME_PHASE.START_MOVE_PLAYERS };
     }
-    case 'STEP_PLAYER': {
-      return stepPlayer(state, action.playerId);
-    }
-    case 'INITIATE_PLAYER_MOVE': {
-      const playerToMove = action.playerId
-        ? state.playersToMove.find(gp => gp.player.id === action.playerId)
-        : state.playersToMove[0];
-      return {
-        ...state,
-        movingPlayer: playerToMove,
-      };
-    }
-    case 'MOVE_ACTIVE_PLAYER': {
-      if (!state.movingPlayer) {
-        return state;
-      }
-
-      const movedState = stepPlayer(state, state.movingPlayer.player.id);
-      return {
-        ...movedState,
-      };
-    }
     case 'AUTO_MOVE_PLAYER': {
       if (state.allPlayersMoved) {
         return state;
       }
 
-      const playerToMove = state.movingPlayer || state.playersToMove[0];
+      const playerToMove = state.movingPlayerId
+        ? state.gamePlayers.find(gp => gp.player.id === state.movingPlayerId)!
+        : state.playersToMove[0];
 
       if (!playerToMove) {
         return {
@@ -123,10 +79,12 @@ export function reducer(state: GameState, action: GamesActions): GameState {
 
       const movingState: GameState = {
         ...state,
-        movingPlayer: playerToMove,
+        movingPlayerId: playerToMove.player.id,
       };
 
-      return stepPlayer(movingState, playerToMove.player.id);
+      return playerToMove.movesRemaining === 0
+        ? landedInCell(movingState, playerToMove.player.id)
+        : stepPlayer(movingState, playerToMove.player.id);
     }
     default:
       return state;
@@ -150,6 +108,59 @@ function createGamePlayer(player: Player, gameBoard: GameBoard): GamePlayer {
   };
 }
 
+function landedInCell(gameState: GameState, playerId: string): GameState {
+  const player = gameState.gamePlayers.find(gp => gp.player.id === playerId);
+  if (!player) return gameState;
+
+  if (player.movesRemaining > 0) {
+    return gameState;
+  }
+
+  const stoppedPlayer: GamePlayer = {
+    ...player,
+    isMoving: false,
+  };
+
+  switch (player.cell.type) {
+    case BOARD_CELL_TYPE.LADDER: {
+      const destinationCell = gameState.gameBoard.cells.find(
+        c => c.number === player.cell.linkedCellIndex
+      )!;
+      const movedPlayer: GamePlayer = {
+        ...stoppedPlayer,
+        cell: destinationCell,
+      };
+      const updatedPlayers = replaceWithUpdatedPlayer(
+        movedPlayer,
+        gameState.gamePlayers
+      );
+      const playersToMove = updatedPlayers.filter(gp => gp.movesRemaining > 0);
+      return {
+        ...gameState,
+        movingPlayerId: undefined,
+        gamePlayers: updatedPlayers,
+        playersToMove,
+        allPlayersMoved: playersToMove.length === 0,
+      };
+    }
+    default: {
+      const updatedPlayers = replaceWithUpdatedPlayer(
+        stoppedPlayer,
+        gameState.gamePlayers
+      );
+      const playersToMove = updatedPlayers.filter(gp => gp.movesRemaining > 0);
+
+      return {
+        ...gameState,
+        gamePlayers: updatedPlayers,
+        movingPlayerId: undefined,
+        playersToMove,
+        allPlayersMoved: playersToMove.length === 0,
+      };
+    }
+  }
+}
+
 function stepPlayer(gameState: GameState, playerId: string): GameState {
   const player = gameState.gamePlayers.find(gp => gp.player.id === playerId);
   if (!player) return gameState;
@@ -163,27 +174,31 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   const movesRemaining =
     destinationCell.type === BOARD_CELL_TYPE.END
       ? 0
-      : player.movesRemaining - 1;
+      : Math.max(player.movesRemaining - 1, 0);
 
   const movedPlayer: GamePlayer = {
     ...player,
     movesRemaining,
     cell: destinationCell,
-    isMoving: gameState.movingPlayer
-      ? gameState.movingPlayer.player.id === playerId && movesRemaining > 0
-      : false,
+    isMoving: true,
   };
-  const updatedPlayers = gameState.gamePlayers.map(gp => {
-    return gp.player.id === movedPlayer.player.id ? movedPlayer : gp;
-  });
 
-  const playersToMove = updatedPlayers.filter(gp => gp.movesRemaining > 0);
+  const updatedPlayers = replaceWithUpdatedPlayer(
+    movedPlayer,
+    gameState.gamePlayers
+  );
 
   return {
     ...gameState,
     gamePlayers: updatedPlayers,
-    playersToMove,
-    allPlayersMoved: playersToMove.length === 0,
-    movingPlayer: movedPlayer.isMoving ? movedPlayer : undefined,
   };
+}
+
+function replaceWithUpdatedPlayer(
+  updatedPlayer: GamePlayer,
+  gamePlayers: GamePlayer[]
+): GamePlayer[] {
+  return gamePlayers.map(gp => {
+    return gp.player.id === updatedPlayer.player.id ? updatedPlayer : gp;
+  });
 }
