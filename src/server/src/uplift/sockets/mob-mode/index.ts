@@ -305,7 +305,7 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
         mugPlayer: Math.floor(deadMobPlayers.length / 2),
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
           playerId: mp.player.id,
-          points: mp.lastRound * 2,
+          points: mp.lastRound * (mp.active ? 3 : 2),
         })),
       },
     };
