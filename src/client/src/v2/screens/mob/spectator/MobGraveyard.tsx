@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { slideInUpAnimation } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { MobPlayer } from '../../../providers/MobProvider';
-import tombstoneImage from './assets/tombstone.png';
+import tombstoneImage from './assets/loserville-city-sign.png';
 
 const Container = styled.div`
   display: flex;
@@ -32,7 +32,20 @@ type Props = {
 export function MobGraveyard({ eliminatedPlayers }: Props): JSX.Element {
   return (
     <Container>
-      <img src={tombstoneImage} alt="tombstone" />
+      <div style={{ position: 'relative' }}>
+        <img src={tombstoneImage} alt="tombstone" />
+        <div
+          style={{
+            position: 'absolute',
+            left: '84px',
+            top: '39px',
+            color: 'white',
+            fontSize: '0.55rem',
+          }}
+        >
+          {eliminatedPlayers.length}
+        </div>
+      </div>
       <GraveyardPlayerContainer>
         {eliminatedPlayers.map(p => {
           return (
