@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GameBoardCell, GamePlayer } from '../types';
 
-const OFFSET_X_PX = 50;
-const OFFSET_Y_PX = 75;
+const OFFSET_X_PX = 40;
+const OFFSET_Y_PX = 85;
 
 const PositionContainer = styled.div`
   position: absolute;

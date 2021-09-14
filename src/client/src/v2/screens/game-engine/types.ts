@@ -4,17 +4,37 @@ export type BoardCoordinates = { x: number; y: number };
 
 export enum BOARD_CELL_TYPE {
   NORMAL = 0,
-  SNAKE = 1,
-  LADDER = 2,
-  WORMHOLE = 3,
-  END = 4,
+  LADDER = 1,
+  FROZEN = 2,
+  END = 3,
+}
+
+interface CellType {
+  type: string;
+}
+
+export interface NormalCellType extends CellType {
+  type: 'normal';
+}
+
+export interface LadderCellType extends CellType {
+  type: 'ladder';
+  destinationCellNumber: number;
+}
+
+export interface FrozenCellType extends CellType {
+  type: 'frozen';
+  numberOfTurns: number;
+}
+
+export interface EndCellType extends CellType {
+  type: 'end';
 }
 
 export type GameBoardCell = {
   number: number;
   coordinates: BoardCoordinates;
-  type: BOARD_CELL_TYPE;
-  linkedCellIndex?: number | number[];
+  behaviour: NormalCellType | LadderCellType | FrozenCellType | EndCellType;
 };
 
 export type GamePlayer = {

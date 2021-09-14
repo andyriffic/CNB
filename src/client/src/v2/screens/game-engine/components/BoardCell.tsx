@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { isFeatureEnabled } from '../../../../featureToggle';
 import { GameBoardCell } from '../types';
 
 const CELL_SIZE_PX = 30;
@@ -9,11 +10,15 @@ const PositionContainer = styled.div`
 `;
 
 const Container = styled.div`
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   border-radius: 50%;
   position: relative;
   width: ${CELL_SIZE_PX}px;
   height: ${CELL_SIZE_PX}px;
+`;
+
+const Icon = styled.div`
+  font-size: 1.2rem;
 `;
 
 const LocationMarker = styled.div`
@@ -31,6 +36,8 @@ type Props = {
   cell: GameBoardCell;
 };
 
+const debug = isFeatureEnabled('debug');
+
 export const BoardCell = ({ cell }: Props): JSX.Element => {
   return (
     <PositionContainer
@@ -41,7 +48,8 @@ export const BoardCell = ({ cell }: Props): JSX.Element => {
     >
       <Container>
         {/* {cell.type} */}
-        <LocationMarker />
+        {cell.behaviour.type === 'ladder' && <Icon>✈️</Icon>}
+        {debug && <LocationMarker />}
       </Container>
     </PositionContainer>
   );

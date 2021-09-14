@@ -121,10 +121,12 @@ function landedInCell(gameState: GameState, playerId: string): GameState {
     isMoving: false,
   };
 
-  switch (player.cell.type) {
-    case BOARD_CELL_TYPE.LADDER: {
+  const cellBehaviour = player.cell.behaviour;
+
+  switch (cellBehaviour.type) {
+    case 'ladder': {
       const destinationCell = gameState.gameBoard.cells.find(
-        c => c.number === player.cell.linkedCellIndex
+        c => c.number === cellBehaviour.destinationCellNumber
       )!;
       const movedPlayer: GamePlayer = {
         ...stoppedPlayer,
@@ -172,7 +174,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   if (!destinationCell) return gameState;
 
   const movesRemaining =
-    destinationCell.type === BOARD_CELL_TYPE.END
+    destinationCell.behaviour.type === 'end'
       ? 0
       : Math.max(player.movesRemaining - 1, 0);
 
