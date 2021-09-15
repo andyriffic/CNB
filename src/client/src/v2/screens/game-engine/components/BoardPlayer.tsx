@@ -22,6 +22,13 @@ const MovesRemaining = styled.div`
   color: white;
 `;
 
+const FrozenTurnsRemaining = styled.div`
+  position: absolute;
+  top: 0;
+  background: blueviolet;
+  color: white;
+`;
+
 const PlayerName = styled.div`
   background-color: white;
   color: red;
@@ -53,6 +60,11 @@ export const BoardPlayer = ({ gamePlayer }: Props): JSX.Element => {
         />
         {gamePlayer.movesRemaining > 0 && (
           <MovesRemaining>{gamePlayer.movesRemaining}</MovesRemaining>
+        )}
+        {gamePlayer.frozenTurnsRemaining > 0 && (
+          <FrozenTurnsRemaining>
+            {gamePlayer.frozenTurnsRemaining}
+          </FrozenTurnsRemaining>
         )}
         {gamePlayer.isMoving && (
           <PlayerName>{gamePlayer.player.name}</PlayerName>

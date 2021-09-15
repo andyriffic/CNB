@@ -105,6 +105,11 @@ function createGamePlayer(player: Player, gameBoard: GameBoard): GamePlayer {
     cell,
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'sl_moves', 0),
     isMoving: false,
+    frozenTurnsRemaining: getPlayerIntegerAttributeValue(
+      player.tags,
+      'sl_frozen_turns',
+      0
+    ),
   };
 }
 
@@ -131,6 +136,24 @@ function landedInCell(gameState: GameState, playerId: string): GameState {
       const movedPlayer: GamePlayer = {
         ...stoppedPlayer,
         cell: destinationCell,
+      };
+      const updatedPlayers = replaceWithUpdatedPlayer(
+        movedPlayer,
+        gameState.gamePlayers
+      );
+      const playersToMove = updatedPlayers.filter(gp => gp.movesRemaining > 0);
+      return {
+        ...gameState,
+        movingPlayerId: undefined,
+        gamePlayers: updatedPlayers,
+        playersToMove,
+        allPlayersMoved: playersToMove.length === 0,
+      };
+    }
+    case 'frozen': {
+      const movedPlayer: GamePlayer = {
+        ...stoppedPlayer,
+        frozenTurnsRemaining: cellBehaviour.numberOfTurns,
       };
       const updatedPlayers = replaceWithUpdatedPlayer(
         movedPlayer,

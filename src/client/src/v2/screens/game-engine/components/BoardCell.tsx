@@ -19,6 +19,8 @@ const Container = styled.div`
 
 const Icon = styled.div`
   font-size: 1.2rem;
+  background-color: white;
+  border-radius: 50%;
 `;
 
 const LocationMarker = styled.div`
@@ -49,6 +51,7 @@ export const BoardCell = ({ cell }: Props): JSX.Element => {
       <Container>
         {/* {cell.type} */}
         {cell.behaviour.type === 'ladder' && <Icon>✈️</Icon>}
+        {cell.behaviour.type === 'frozen' && <Icon>❄️</Icon>}
         {debug && <LocationMarker />}
       </Container>
     </PositionContainer>

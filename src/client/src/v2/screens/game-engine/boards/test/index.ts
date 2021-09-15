@@ -35,7 +35,7 @@ export const board: GameBoard = {
     },
     {
       number: 6,
-      behaviour: { type: 'normal' },
+      behaviour: { type: 'frozen', numberOfTurns: 2 },
       coordinates: { x: 104, y: 260 },
     },
     {

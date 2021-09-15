@@ -42,6 +42,7 @@ export type GamePlayer = {
   cell: GameBoardCell;
   movesRemaining: number;
   isMoving: boolean;
+  frozenTurnsRemaining: number;
 };
 
 export type GameBoard = {
