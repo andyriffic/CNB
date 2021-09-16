@@ -212,13 +212,13 @@ export const generateBoard = (): GameBoard => {
       {
         number: 34,
         coordinates: [680, 50],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
         number: 35,
         coordinates: [600, 50],
-        type: BOARD_CELL_TYPE.NORMAL,
+        type: BOARD_CELL_TYPE.DANGER,
         facingDirection: 'left',
       },
       {
