@@ -1,80 +1,113 @@
-import { BOARD_CELL_TYPE, GameBoard } from '../../types';
-import background from './world.jpg';
+import { RacingTrack } from '../../types';
+import background from './race-track.png';
 
-export const board: GameBoard = {
-  cells: [
+export const racingTrack: RacingTrack = {
+  sections: [
     {
-      number: 0,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 70, y: 100 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 520, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 625 } }],
+        },
+      ],
     },
     {
-      number: 1,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 106, y: 122 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 455, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 455, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 455, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 455, y: 625 } }],
+        },
+      ],
     },
     {
-      number: 2,
-      behaviour: { type: 'ladder', destinationCellNumber: 8 },
-      coordinates: { x: 118, y: 143 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 390, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 390, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 390, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 390, y: 625 } }],
+        },
+      ],
     },
     {
-      number: 3,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 122, y: 173 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 325, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 325, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 325, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 325, y: 625 } }],
+        },
+      ],
     },
     {
-      number: 4,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 118, y: 204 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 260, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 260, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 260, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 260, y: 625 } }],
+        },
+      ],
     },
     {
-      number: 5,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 113, y: 230 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 190, y: 555 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 190, y: 610 } }],
+        },
+      ],
     },
     {
-      number: 6,
-      behaviour: { type: 'frozen', numberOfTurns: 2 },
-      coordinates: { x: 104, y: 260 },
-    },
-    {
-      number: 7,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 97, y: 286 },
-    },
-    {
-      number: 8,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 90, y: 312 },
-    },
-    {
-      number: 9,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 82, y: 340 },
-    },
-    {
-      number: 10,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 73, y: 369 },
-    },
-    {
-      number: 11,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 68, y: 397 },
-    },
-    {
-      number: 12,
-      behaviour: { type: 'normal' },
-      coordinates: { x: 66, y: 423 },
-    },
-    {
-      number: 13,
-      behaviour: { type: 'end' },
-      coordinates: { x: 70, y: 453 },
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 125, y: 555 } }],
+        },
+        {
+          squares: [
+            { coordinates: { x: 125, y: 600 } },
+            { coordinates: { x: 80, y: 550 } },
+          ],
+        },
+      ],
     },
   ],
   boardBackgroundImage: background,
   widthPx: 1000,
-  heightPx: 700,
+  heightPx: 650,
 };

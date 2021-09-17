@@ -1,25 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GameBoard } from '../types';
+import { RacingTrack } from '../types';
 
 const Container = styled.div<{ img: any }>`
   position: relative;
   border: 1px solid black;
   background-image: url(${({ img }) => img});
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
 `;
 
 type Props = {
-  board: GameBoard;
+  racingTrack: RacingTrack;
   children: React.ReactNodeArray | React.ReactNode;
 };
 
-export const BoardBackground = ({ board, children }: Props): JSX.Element => {
+export const RacingTrackBackground = ({
+  racingTrack,
+  children,
+}: Props): JSX.Element => {
   return (
     <Container
-      img={board.boardBackgroundImage}
-      style={{ width: `${board.widthPx}px`, height: `${board.heightPx}px` }}
+      img={racingTrack.boardBackgroundImage}
+      style={{
+        width: `${racingTrack.widthPx}px`,
+        height: `${racingTrack.heightPx}px`,
+      }}
     >
       {children}
     </Container>

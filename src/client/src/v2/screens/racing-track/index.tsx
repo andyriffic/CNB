@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
-import { GameBoardProvider } from './providers/GameBoardProvider';
+import { RacingTrackServiceProvider } from './providers/RacingTrackSerivce';
 
-import { board } from './tracks/test';
+import { racingTrack } from './tracks/test';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 
-export const GameEngineScreen = ({  }: RouteComponentProps) => {
+export const RacingTrackScreen = ({  }: RouteComponentProps) => {
   const { allPlayers } = usePlayersProvider();
 
   const participatingPlayers = useMemo(
-    () => allPlayers.filter(p => p.tags.includes('game_participant')),
+    () => allPlayers.filter(p => p.tags.includes('racer')),
     [allPlayers]
   );
 
@@ -19,11 +19,11 @@ export const GameEngineScreen = ({  }: RouteComponentProps) => {
   }
 
   return (
-    <GameBoardProvider
-      gameBoard={board}
+    <RacingTrackServiceProvider
+      racingTrack={racingTrack}
       participatingPlayers={participatingPlayers}
     >
       <View />
-    </GameBoardProvider>
+    </RacingTrackServiceProvider>
   );
 };

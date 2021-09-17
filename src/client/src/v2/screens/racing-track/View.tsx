@@ -1,32 +1,36 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { GameScreen } from '../../components/ui/GameScreen';
-import { BoardBackground } from './components/BoardBackground';
+import { RacingTrackBackground } from './components/RacingTrackBackground';
 
-import { BoardCell } from './components/BoardCell';
-import { BoardPlayer } from './components/BoardPlayer';
+import { RacingSegment } from './components/RacingSegment';
+import { useRacingTrack } from './providers/RacingTrackSerivce';
+import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
-import { useGameBoard } from './providers/GameBoardProvider';
 
 const Container = styled.div`
   margin: 0 auto;
 `;
 
 const View = () => {
-  const gameBoardService = useGameBoard();
+  const racingTrackService = useRacingTrack();
 
   return (
     <GameScreen scrollable={false}>
-      <DebugPlayerMove gameBoardService={gameBoardService} />
+      <DebugPlayerMove racingTrackService={racingTrackService} />
       <Container>
-        <BoardBackground board={gameBoardService.gameBoard}>
-          {gameBoardService.gameBoard.cells.map(cell => (
-            <BoardCell key={cell.number} cell={cell} />
+        <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
+          {racingTrackService.racingTrack.sections.map((section, i) => (
+            <RacingSegment key={i} section={section} />
           ))}
-          {gameBoardService.gamePlayers.map(gamePlayer => (
-            <BoardPlayer key={gamePlayer.player.id} gamePlayer={gamePlayer} />
+          {racingTrackService.racers.map(racer => (
+            <RacingTrackPlayer
+              key={racer.player.id}
+              racingPlayer={racer}
+              racingTrack={racingTrackService.racingTrack}
+            />
           ))}
-        </BoardBackground>
+        </RacingTrackBackground>
       </Container>
     </GameScreen>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { GameBoardService } from '../providers/GameBoardProvider';
-import { GamePlayer } from '../types';
+import { RacingTrackService } from '../providers/RacingTrackSerivce';
 
 const Container = styled.div`
   position: absolute;
@@ -10,21 +9,23 @@ const Container = styled.div`
 `;
 
 type Props = {
-  gameBoardService: GameBoardService;
+  racingTrackService: RacingTrackService;
 };
 
-export const DebugPlayerMove = ({ gameBoardService }: Props): JSX.Element => {
+export const DebugPlayerMove = ({ racingTrackService }: Props): JSX.Element => {
   const [autoMove, setAutoMove] = useState(false);
 
   useEffect(() => {
-    if (gameBoardService.allPlayersMoved || !autoMove) {
+    if (racingTrackService.allPlayersMoved || !autoMove) {
       return;
     }
     const interval = setInterval(() => {
-      gameBoardService.autoMovePlayer();
+      console.log('Auto Move Player Tick');
+
+      racingTrackService.autoMovePlayerTick();
     }, 500);
     return () => clearInterval(interval);
-  }, [autoMove, gameBoardService.allPlayersMoved]);
+  }, [autoMove, racingTrackService.allPlayersMoved]);
 
   // useEffect(() => {
   //   if (!gameBoardService.movingPlayer) {
@@ -41,9 +42,6 @@ export const DebugPlayerMove = ({ gameBoardService }: Props): JSX.Element => {
   return (
     <Container>
       <button onClick={() => setAutoMove(true)}>Move All Players</button>
-      {gameBoardService.gamePlayers.map(gp => (
-        <div key={gp.player.id}>{gp.player.name}</div>
-      ))}
     </Container>
   );
 };

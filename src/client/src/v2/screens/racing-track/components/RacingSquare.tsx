@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { isFeatureEnabled } from '../../../../featureToggle';
-import { GameBoardCell } from '../types';
+import { RackingTrackSquare } from '../types';
 
 const CELL_SIZE_PX = 30;
 
@@ -35,25 +35,20 @@ const LocationMarker = styled.div`
 `;
 
 type Props = {
-  cell: GameBoardCell;
+  square: RackingTrackSquare;
 };
 
 const debug = isFeatureEnabled('debug');
 
-export const BoardCell = ({ cell }: Props): JSX.Element => {
+export const RacingSquare = ({ square }: Props): JSX.Element => {
   return (
     <PositionContainer
       style={{
-        top: `${cell.coordinates.y - CELL_SIZE_PX}px`,
-        left: `${cell.coordinates.x - CELL_SIZE_PX}px`,
+        top: `${square.coordinates.y - CELL_SIZE_PX}px`,
+        left: `${square.coordinates.x - CELL_SIZE_PX}px`,
       }}
     >
-      <Container>
-        {/* {cell.type} */}
-        {cell.behaviour.type === 'ladder' && <Icon>✈️</Icon>}
-        {cell.behaviour.type === 'frozen' && <Icon>❄️</Icon>}
-        {debug && <LocationMarker />}
-      </Container>
+      <Container>{debug && <LocationMarker />}</Container>
     </PositionContainer>
   );
 };

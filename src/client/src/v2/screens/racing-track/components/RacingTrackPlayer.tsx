@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PlayerAvatar } from '../../../components/player-avatar';
-import { GameBoardCell, GamePlayer } from '../types';
+import { RacingPlayer, RacingTrack } from '../types';
+import raceCar from './race-car.png';
 
-const OFFSET_X_PX = 40;
-const OFFSET_Y_PX = 85;
+const OFFSET_X_PX = 30;
+const OFFSET_Y_PX = 30;
 
 const PositionContainer = styled.div`
   position: absolute;
@@ -41,26 +42,40 @@ const PlayerName = styled.div`
 `;
 
 type Props = {
-  gamePlayer: GamePlayer;
+  racingPlayer: RacingPlayer;
+  racingTrack: RacingTrack;
 };
 
-export const BoardPlayer = ({ gamePlayer }: Props): JSX.Element => {
+export const RacingTrackPlayer = ({
+  racingPlayer,
+  racingTrack,
+}: Props): JSX.Element => {
+  const section = racingTrack.sections[racingPlayer.position.sectionIndex];
+  const lane = section.lanes[racingPlayer.position.laneIndex];
+  const square = lane.squares[racingPlayer.position.squareIndex];
+
   return (
     <PositionContainer
       style={{
-        top: `${gamePlayer.cell.coordinates.y - OFFSET_Y_PX}px`,
-        left: `${gamePlayer.cell.coordinates.x - OFFSET_X_PX}px`,
+        top: `${square.coordinates.y - OFFSET_Y_PX}px`,
+        left: `${square.coordinates.x - OFFSET_X_PX}px`,
       }}
     >
       <Container>
-        <PlayerAvatar
+        <img
+          src={raceCar}
+          style={{ width: '45px', transform: 'rotate(180deg)' }}
+        />
+        {racingPlayer.movesRemaining > 0 && (
+          <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
+        )}
+
+        {/* {racingPlayer.player.name} */}
+        {/* <PlayerAvatar
           player={gamePlayer.player}
           size="small"
           showZodiac={false}
         />
-        {gamePlayer.movesRemaining > 0 && (
-          <MovesRemaining>{gamePlayer.movesRemaining}</MovesRemaining>
-        )}
         {gamePlayer.frozenTurnsRemaining > 0 && (
           <FrozenTurnsRemaining>
             {gamePlayer.frozenTurnsRemaining}
@@ -69,6 +84,7 @@ export const BoardPlayer = ({ gamePlayer }: Props): JSX.Element => {
         {gamePlayer.isMoving && (
           <PlayerName>{gamePlayer.player.name}</PlayerName>
         )}
+        */}
       </Container>
     </PositionContainer>
   );
