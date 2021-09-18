@@ -74,16 +74,9 @@ export const RacingTrackPlayer = ({
   const lane = section.lanes[racingPlayer.position.laneIndex];
   const square = lane.squares[racingPlayer.position.squareIndex];
 
-  const x = racingPlayer.startedRacing
-    ? square.coordinates.x - OFFSET_X_PX
-    : 550;
-  const y = racingPlayer.startedRacing
-    ? square.coordinates.y - OFFSET_Y_PX
-    : 490;
-
-  const rotationDeg = racingPlayer.startedRacing
-    ? section.rotationDegrees
-    : 180;
+  const x = square.coordinates.x - OFFSET_X_PX;
+  const y = square.coordinates.y - OFFSET_Y_PX;
+  const rotationDeg = section.rotationDegrees;
 
   return (
     <PositionContainer

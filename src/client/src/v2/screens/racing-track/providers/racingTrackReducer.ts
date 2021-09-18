@@ -43,12 +43,26 @@ interface SyncDataFromServerAction extends BaseAction {
   allPlayers: Player[];
 }
 
-export const createInitialState = (
-  racingTrack: RacingTrack,
-  eligiblePlayers: Player[]
-): GameState => {
-  const racers = eligiblePlayers.map(p => createGamePlayer(p, racingTrack));
-  const playersToMove = racers.filter(gp => gp.movesRemaining > 0);
+const sortMovesRemaining = (a: RacingPlayer, b: RacingPlayer): 1 | -1 => {
+  return a.movesRemaining <= b.movesRemaining ? 1 : -1;
+};
+
+export const createInitialState = ({
+  racingTrack,
+  participatingPlayers,
+}: {
+  racingTrack: RacingTrack;
+  participatingPlayers: Player[];
+}): GameState => {
+  const racers = participatingPlayers.map(p =>
+    createGamePlayer(p, racingTrack)
+  );
+  const playersToMove = racers
+    .filter(gp => gp.movesRemaining > 0)
+    .sort(sortMovesRemaining);
+
+  console.log('SORTED PLAYERS', playersToMove);
+
   return {
     gamePhase: GAME_PHASE.NOT_STARTED,
     racers,
@@ -70,6 +84,8 @@ export function reducer(state: GameState, action: GamesActions): GameState {
       return state;
     }
     case 'SYNC_DATA_FROM_SERVER': {
+      console.log('SYNCING FROM SERVER');
+
       const updatedRacers = action.allPlayers.map<RacingPlayer>(p => {
         const currentRacingPlayer = state.racers.find(
           rp => rp.player.id === p.id
@@ -100,6 +116,8 @@ export function reducer(state: GameState, action: GamesActions): GameState {
           gamePhase: GAME_PHASE.FINISHED_ROUND,
         };
       }
+
+      console.log('MOVING PLAYER', state.movingPlayerId, state.playersToMove);
 
       const playerToMove = state.movingPlayerId
         ? state.racers.find(rp => rp.player.id === state.movingPlayerId)!
@@ -158,8 +176,6 @@ function createGamePlayer(
     blocked: false,
     passedAnotherRacer: false,
     carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
-    startedRacing:
-      getPlayerAttributeValue(player.tags, 'rt_racing', 'no') === 'yes',
   };
 }
 
@@ -198,7 +214,6 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
 
   const updatedPlayer: RacingPlayer = {
     ...player,
-    startedRacing: true,
     blocked: !newPosition.moved,
     passedAnotherRacer:
       newPosition.position.sectionIndex > currentPosition.sectionIndex &&
