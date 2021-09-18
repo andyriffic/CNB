@@ -7,6 +7,23 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 180,
       lanes: [
         {
+          squares: [{ coordinates: { x: 590, y: 517 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 590, y: 552 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 590, y: 590 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 590, y: 625 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 180,
+      lanes: [
+        {
           squares: [{ coordinates: { x: 520, y: 517 } }],
         },
         {

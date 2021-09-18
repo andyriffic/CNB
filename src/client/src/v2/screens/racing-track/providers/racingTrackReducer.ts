@@ -158,6 +158,8 @@ function createGamePlayer(
     blocked: false,
     passedAnotherRacer: false,
     carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
+    startedRacing:
+      getPlayerAttributeValue(player.tags, 'rt_racing', 'no') === 'yes',
   };
 }
 
@@ -196,6 +198,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
 
   const updatedPlayer: RacingPlayer = {
     ...player,
+    startedRacing: true,
     blocked: !newPosition.moved,
     passedAnotherRacer:
       newPosition.position.sectionIndex > currentPosition.sectionIndex &&

@@ -29,6 +29,7 @@ export type RacingPlayer = {
   blocked: boolean;
   passedAnotherRacer: boolean;
   carColor: string;
+  startedRacing: boolean;
 };
 
 export type RacingTrack = {
