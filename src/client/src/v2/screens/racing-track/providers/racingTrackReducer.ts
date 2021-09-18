@@ -121,6 +121,7 @@ function createGamePlayer(
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'rt_moves', 0),
     isMoving: false,
     blocked: false,
+    passedAnotherRacer: false,
   };
 }
 
@@ -155,10 +156,20 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     gameState.racers
   );
 
+  const movesRemaining = newPosition.moved ? player.movesRemaining - 1 : 0;
+
   const updatedPlayer: RacingPlayer = {
     ...player,
+    blocked: !newPosition.moved,
+    passedAnotherRacer:
+      newPosition.position.sectionIndex > currentPosition.sectionIndex &&
+      gameState.racers.filter(
+        rp =>
+          rp.player.id !== player.player.id &&
+          rp.position.sectionIndex === currentPosition.sectionIndex
+      ).length > 0,
     position: newPosition.moved ? newPosition.position : player.position,
-    movesRemaining: newPosition.moved ? player.movesRemaining - 1 : 0,
+    movesRemaining,
   };
 
   const updatedPlayers = replaceWithUpdatedPlayer(
@@ -185,7 +196,7 @@ function getNextLane(
   proposedPosition: RacingTrackPosition,
   maxLanes: number,
   racers: RacingPlayer[]
-): { position: RacingTrackPosition; moved: boolean } {
+): { position: RacingTrackPosition; moved: boolean; overtook: boolean } {
   let position: RacingTrackPosition = {
     ...proposedPosition,
   };
@@ -199,10 +210,10 @@ function getNextLane(
   ) {
     position.laneIndex = laneIndex;
     const squareOccupied = racers.find(
-      gr =>
-        gr.position.sectionIndex === proposedPosition.sectionIndex &&
-        gr.position.laneIndex === laneIndex &&
-        gr.position.squareIndex === proposedPosition.squareIndex
+      rp =>
+        rp.position.sectionIndex === proposedPosition.sectionIndex &&
+        rp.position.laneIndex === laneIndex &&
+        rp.position.squareIndex === proposedPosition.squareIndex
     );
 
     if (!squareOccupied) {
@@ -215,6 +226,7 @@ function getNextLane(
   return {
     position,
     moved,
+    overtook: position.laneIndex < proposedPosition.laneIndex,
   };
 }
 

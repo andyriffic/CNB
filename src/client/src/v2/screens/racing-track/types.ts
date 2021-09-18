@@ -27,6 +27,7 @@ export type RacingPlayer = {
   isMoving: boolean;
   position: RacingTrackPosition;
   blocked: boolean;
+  passedAnotherRacer: boolean;
 };
 
 export type RacingTrack = {

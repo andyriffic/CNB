@@ -8,6 +8,8 @@ import { useRacingTrack } from './providers/RacingTrackSerivce';
 import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
 
+const RACING_SPEED_MS = 800;
+
 const Container = styled.div`
   margin: 0 auto;
 `;
@@ -17,7 +19,10 @@ const View = () => {
 
   return (
     <GameScreen scrollable={false}>
-      <DebugPlayerMove racingTrackService={racingTrackService} />
+      <DebugPlayerMove
+        racingTrackService={racingTrackService}
+        speed={RACING_SPEED_MS}
+      />
       <Container>
         <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
           {racingTrackService.racingTrack.sections.map((section, i) => (
@@ -28,6 +33,7 @@ const View = () => {
               key={racer.player.id}
               racingPlayer={racer}
               racingTrack={racingTrackService.racingTrack}
+              speed={RACING_SPEED_MS}
             />
           ))}
         </RacingTrackBackground>

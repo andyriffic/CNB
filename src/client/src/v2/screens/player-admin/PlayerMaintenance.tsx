@@ -8,11 +8,17 @@ const Container = styled.div`
 `;
 
 export const PlayerMaintenance = () => {
-  const { setAllRacersRandomMoves } = usePlayerMaintenance();
+  const {
+    setAllRacersRandomMoves,
+    resetAllRacersToStartLine,
+  } = usePlayerMaintenance();
 
   return (
     <Container className="margins-off">
       <fieldset>
+        <button type="button" onClick={resetAllRacersToStartLine}>
+          Reset all racing players to start
+        </button>
         <button type="button" onClick={setAllRacersRandomMoves}>
           Set random racing moves
         </button>

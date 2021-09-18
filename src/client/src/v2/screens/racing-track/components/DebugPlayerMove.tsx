@@ -11,9 +11,13 @@ const Container = styled.div`
 
 type Props = {
   racingTrackService: RacingTrackService;
+  speed: number;
 };
 
-export const DebugPlayerMove = ({ racingTrackService }: Props): JSX.Element => {
+export const DebugPlayerMove = ({
+  racingTrackService,
+  speed,
+}: Props): JSX.Element => {
   const [autoMove, setAutoMove] = useState(false);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export const DebugPlayerMove = ({ racingTrackService }: Props): JSX.Element => {
       console.log('Auto Move Player Tick');
 
       racingTrackService.autoMovePlayerTick();
-    }, 400);
+    }, speed);
     return () => clearInterval(interval);
   }, [autoMove, racingTrackService.allPlayersMoved]);
 

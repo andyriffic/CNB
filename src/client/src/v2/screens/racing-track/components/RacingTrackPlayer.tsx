@@ -7,9 +7,9 @@ import raceCar from './race-car.png';
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
 
-const PositionContainer = styled.div`
+const PositionContainer = styled.div<{ speed: number }>`
   position: absolute;
-  transition: all 400ms ease-in-out;
+  transition: all ${({ speed }) => speed}ms ease-in-out;
 `;
 
 const Container = styled.div`
@@ -47,14 +47,28 @@ const PlayerName = styled.div`
   top: -16px;
 `;
 
+const Blocked = styled.div`
+  background-color: goldenrod;
+  text-transform: uppercase;
+  color: red;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 0.4rem;
+  text-align: center;
+  position: absolute;
+  bottom: -16px;
+`;
+
 type Props = {
   racingPlayer: RacingPlayer;
   racingTrack: RacingTrack;
+  speed: number;
 };
 
 export const RacingTrackPlayer = ({
   racingPlayer,
   racingTrack,
+  speed,
 }: Props): JSX.Element => {
   const section = racingTrack.sections[racingPlayer.position.sectionIndex];
   const lane = section.lanes[racingPlayer.position.laneIndex];
@@ -62,6 +76,7 @@ export const RacingTrackPlayer = ({
 
   return (
     <PositionContainer
+      speed={speed}
       style={{
         top: `${square.coordinates.y - OFFSET_Y_PX}px`,
         left: `${square.coordinates.x - OFFSET_X_PX}px`,
@@ -79,6 +94,8 @@ export const RacingTrackPlayer = ({
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
         )}
+        {racingPlayer.blocked && <Blocked>Blocked!</Blocked>}
+        {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>}
 
         {/* {racingPlayer.player.name} */}
         {/* <PlayerAvatar
