@@ -87,6 +87,10 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         racers: updatedRacers,
         playersToMove,
         allPlayersMoved: playersToMove.length === 0,
+        gamePhase:
+          playersToMove.length === 0
+            ? GAME_PHASE.FINISHED_ROUND
+            : GAME_PHASE.NOT_STARTED,
       };
     }
     case 'AUTO_MOVE_PLAYER': {
