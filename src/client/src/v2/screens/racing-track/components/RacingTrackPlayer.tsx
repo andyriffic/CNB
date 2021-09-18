@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { RacingPlayer, RacingTrack } from '../types';
 import raceCar from '../assets/race-car-formula-1-red.png';
 import { RacingCar } from './RacingCar';
+import tinycolor from 'tinycolor2';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
@@ -121,7 +122,16 @@ export const RacingTrackPlayer = ({
           </FrozenTurnsRemaining>
         )}
         */}
-        <PlayerName>{racingPlayer.player.name}</PlayerName>
+        <PlayerName
+          style={{
+            backgroundColor: racingPlayer.carColor,
+            color: tinycolor
+              .mostReadable(racingPlayer.carColor, ['#fff', '#000'])
+              .toHexString(),
+          }}
+        >
+          {racingPlayer.player.name}
+        </PlayerName>
       </Container>
     </PositionContainer>
   );
