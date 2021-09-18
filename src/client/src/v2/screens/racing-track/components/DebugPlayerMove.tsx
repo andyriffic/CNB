@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { GAME_PHASE } from '../providers/racingTrackReducer';
 import { RacingTrackService } from '../providers/RacingTrackSerivce';
 
 const Container = styled.div`
@@ -23,9 +24,17 @@ export const DebugPlayerMove = ({ racingTrackService }: Props): JSX.Element => {
       console.log('Auto Move Player Tick');
 
       racingTrackService.autoMovePlayerTick();
-    }, 500);
+    }, 400);
     return () => clearInterval(interval);
   }, [autoMove, racingTrackService.allPlayersMoved]);
+
+  useEffect(() => {
+    if (racingTrackService.gamePhase === GAME_PHASE.FINISHED_ROUND) {
+      console.log('Saving Player State');
+
+      racingTrackService.savePlayerState();
+    }
+  }, [racingTrackService.gamePhase]);
 
   // useEffect(() => {
   //   if (!gameBoardService.movingPlayer) {

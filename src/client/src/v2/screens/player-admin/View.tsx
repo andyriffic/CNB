@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PlayerEditList } from './PlayerEditList';
 import { PlayerAdd } from './PlayerAdd';
 import { GameScreen } from '../../components/ui/GameScreen';
+import { PlayerMaintenance } from './PlayerMaintenance';
 
 const Container = styled.div`
   width: 1024;
@@ -14,7 +15,10 @@ export default () => {
   return (
     <GameScreen scrollable>
       <Container className="margins-off">
-        <PlayerAdd />
+        <div>
+          <PlayerAdd />
+          <PlayerMaintenance />
+        </div>
         <PlayerEditList />
       </Container>
     </GameScreen>

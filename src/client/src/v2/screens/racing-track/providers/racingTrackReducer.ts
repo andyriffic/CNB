@@ -7,7 +7,14 @@ import {
   RackingTrackSquare,
 } from '../types';
 
+export enum GAME_PHASE {
+  NOT_STARTED = 0,
+  MOVING_PLAYERS = 1,
+  FINISHED_ROUND = 2,
+}
+
 type GameState = {
+  gamePhase: GAME_PHASE;
   racingTrack: RacingTrack;
   racers: RacingPlayer[];
   playersToMove: RacingPlayer[];
@@ -23,6 +30,11 @@ interface AutoMovePlayerAction extends BaseAction {
   type: 'AUTO_MOVE_PLAYER';
 }
 
+interface SyncDataAction extends BaseAction {
+  type: 'SYNC_DATA';
+  saveData: (racingPlayer: RacingPlayer) => void;
+}
+
 export const createInitialState = (
   racingTrack: RacingTrack,
   eligiblePlayers: Player[]
@@ -30,6 +42,7 @@ export const createInitialState = (
   const racers = eligiblePlayers.map(p => createGamePlayer(p, racingTrack));
   const playersToMove = racers.filter(gp => gp.movesRemaining > 0);
   return {
+    gamePhase: GAME_PHASE.NOT_STARTED,
     racers,
     playersToMove,
     racingTrack,
@@ -37,13 +50,20 @@ export const createInitialState = (
   };
 };
 
-type GamesActions = AutoMovePlayerAction;
+type GamesActions = AutoMovePlayerAction | SyncDataAction;
 
 export function reducer(state: GameState, action: GamesActions): GameState {
   switch (action.type) {
+    case 'SYNC_DATA': {
+      state.racers.forEach(action.saveData);
+      return state;
+    }
     case 'AUTO_MOVE_PLAYER': {
       if (state.allPlayersMoved) {
-        return state;
+        return {
+          ...state,
+          gamePhase: GAME_PHASE.FINISHED_ROUND,
+        };
       }
 
       const playerToMove = state.movingPlayerId
@@ -53,12 +73,14 @@ export function reducer(state: GameState, action: GamesActions): GameState {
       if (!playerToMove) {
         return {
           ...state,
+          gamePhase: GAME_PHASE.FINISHED_ROUND,
           allPlayersMoved: true,
         };
       }
 
       const movingState: GameState = {
         ...state,
+        gamePhase: GAME_PHASE.MOVING_PLAYERS,
         movingPlayerId: playerToMove.player.id,
       };
 
@@ -98,6 +120,7 @@ function createGamePlayer(
     },
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'rt_moves', 0),
     isMoving: false,
+    blocked: false,
   };
 }
 
@@ -151,6 +174,10 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     playersToMove: updatedPlayers.filter(rp => rp.movesRemaining > 0),
     allPlayersMoved:
       updatedPlayers.filter(rp => rp.movesRemaining > 0).length === 0,
+    gamePhase:
+      updatedPlayers.filter(rp => rp.movesRemaining > 0).length === 0
+        ? GAME_PHASE.FINISHED_ROUND
+        : GAME_PHASE.MOVING_PLAYERS,
   };
 }
 

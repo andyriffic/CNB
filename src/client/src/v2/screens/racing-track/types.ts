@@ -3,6 +3,7 @@ import { Player } from '../../providers/PlayersProvider';
 export type Coordinates = { x: number; y: number };
 
 export type RacingTrackSection = {
+  rotationDegrees: number;
   lanes: RacingTrackLane[];
 };
 
@@ -25,6 +26,7 @@ export type RacingPlayer = {
   movesRemaining: number;
   isMoving: boolean;
   position: RacingTrackPosition;
+  blocked: boolean;
 };
 
 export type RacingTrack = {

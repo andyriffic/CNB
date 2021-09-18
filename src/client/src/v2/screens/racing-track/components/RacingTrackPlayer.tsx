@@ -9,7 +9,7 @@ const OFFSET_Y_PX = 30;
 
 const PositionContainer = styled.div`
   position: absolute;
-  transition: all 250ms ease-in-out;
+  transition: all 400ms ease-in-out;
 `;
 
 const Container = styled.div`
@@ -19,8 +19,13 @@ const Container = styled.div`
 const MovesRemaining = styled.div`
   position: absolute;
   bottom: 0;
-  background: black;
+  background: steelblue;
   color: white;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  text-align: center;
+  font-weight: bold;
 `;
 
 const FrozenTurnsRemaining = styled.div`
@@ -32,13 +37,14 @@ const FrozenTurnsRemaining = styled.div`
 
 const PlayerName = styled.div`
   background-color: white;
+  text-transform: uppercase;
   color: red;
   padding: 3px;
   border-radius: 5px;
-  font-size: 0.5rem;
+  font-size: 0.4rem;
   text-align: center;
   position: absolute;
-  top: -20px;
+  top: -16px;
 `;
 
 type Props = {
@@ -64,7 +70,11 @@ export const RacingTrackPlayer = ({
       <Container>
         <img
           src={raceCar}
-          style={{ width: '45px', transform: 'rotate(180deg)' }}
+          style={{
+            width: '45px',
+            transform: `rotate(${section.rotationDegrees}deg)`,
+            transition: 'transform 200ms ease-in',
+          }}
         />
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
@@ -81,10 +91,8 @@ export const RacingTrackPlayer = ({
             {gamePlayer.frozenTurnsRemaining}
           </FrozenTurnsRemaining>
         )}
-        {gamePlayer.isMoving && (
-          <PlayerName>{gamePlayer.player.name}</PlayerName>
-        )}
         */}
+        <PlayerName>{racingPlayer.player.name}</PlayerName>
       </Container>
     </PositionContainer>
   );
