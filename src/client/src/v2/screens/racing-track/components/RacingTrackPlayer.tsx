@@ -108,7 +108,7 @@ export const RacingTrackPlayer = ({
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
         )}
         {racingPlayer.blocked && <Blocked>Blocked!</Blocked>}
-        {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>}
+        {/* {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>} */}
 
         {/* {racingPlayer.player.name} */}
         {/* <PlayerAvatar

@@ -137,7 +137,9 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         movingPlayerId: playerToMove.player.id,
       };
 
-      return stepPlayer(movingState, playerToMove.player.id);
+      return playerToMove.movesRemaining === 0
+        ? stopPlayer(movingState, playerToMove.player.id)
+        : stepPlayer(movingState, playerToMove.player.id);
     }
     default:
       return state;
@@ -176,6 +178,34 @@ function createGamePlayer(
     blocked: false,
     passedAnotherRacer: false,
     carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
+  };
+}
+
+function stopPlayer(gameState: GameState, playerId: string): GameState {
+  const player = gameState.racers.find(gp => gp.player.id === playerId);
+  if (!player) return gameState;
+
+  const updatedPlayer: RacingPlayer = {
+    ...player,
+    passedAnotherRacer: false,
+  };
+
+  const updatedRacers = replaceWithUpdatedPlayer(
+    updatedPlayer,
+    gameState.racers
+  );
+
+  return {
+    ...gameState,
+    racers: updatedRacers,
+    movingPlayerId: undefined,
+    playersToMove: updatedRacers.filter(rp => rp.movesRemaining > 0),
+    allPlayersMoved:
+      updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0,
+    gamePhase:
+      updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0
+        ? GAME_PHASE.FINISHED_ROUND
+        : GAME_PHASE.MOVING_PLAYERS,
   };
 }
 
@@ -233,16 +263,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
 
   return {
     ...gameState,
-    movingPlayerId:
-      player.movesRemaining - 1 > 0 ? player.player.id : undefined,
     racers: updatedPlayers,
-    playersToMove: updatedPlayers.filter(rp => rp.movesRemaining > 0),
-    allPlayersMoved:
-      updatedPlayers.filter(rp => rp.movesRemaining > 0).length === 0,
-    gamePhase:
-      updatedPlayers.filter(rp => rp.movesRemaining > 0).length === 0
-        ? GAME_PHASE.FINISHED_ROUND
-        : GAME_PHASE.MOVING_PLAYERS,
   };
 }
 
