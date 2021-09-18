@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { RacingPlayer, RacingTrack } from '../types';
-import raceCar from './race-car.png';
+import raceCar from '../assets/race-car-formula-1-red.png';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;

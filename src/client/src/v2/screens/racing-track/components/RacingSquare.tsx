@@ -27,7 +27,7 @@ const LocationMarker = styled.div`
   position: absolute;
   width: 5px;
   height: 5px;
-  background: purple;
+  background: steelblue;
   border-radius: 50%;
   left: 50%;
   top: 50%;
