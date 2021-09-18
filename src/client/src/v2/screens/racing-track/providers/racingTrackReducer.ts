@@ -77,20 +77,20 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         return {
           ...currentRacingPlayer,
           carColor: getPlayerAttributeValue(p.tags, 'rt_color', 'red'),
-          movesRemaining: getPlayerIntegerAttributeValue(p.tags, 'rt_moves', 0),
+          // movesRemaining: getPlayerIntegerAttributeValue(p.tags, 'rt_moves', 0),
         };
       });
-      const playersToMove = updatedRacers.filter(gp => gp.movesRemaining > 0);
+      // const playersToMove = updatedRacers.filter(gp => gp.movesRemaining > 0);
 
       return {
         ...state,
         racers: updatedRacers,
-        playersToMove,
-        allPlayersMoved: playersToMove.length === 0,
-        gamePhase:
-          playersToMove.length === 0
-            ? GAME_PHASE.FINISHED_ROUND
-            : GAME_PHASE.NOT_STARTED,
+        // playersToMove,
+        // allPlayersMoved: playersToMove.length === 0,
+        // gamePhase:
+        //   playersToMove.length === 0
+        //     ? GAME_PHASE.FINISHED_ROUND
+        //     : GAME_PHASE.NOT_STARTED,
       };
     }
     case 'AUTO_MOVE_PLAYER': {
