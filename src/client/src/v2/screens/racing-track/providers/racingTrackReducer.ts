@@ -33,9 +33,14 @@ interface AutoMovePlayerAction extends BaseAction {
   type: 'AUTO_MOVE_PLAYER';
 }
 
-interface SyncDataAction extends BaseAction {
-  type: 'SYNC_DATA';
+interface SyncDataToServerAction extends BaseAction {
+  type: 'SYNC_DATA_TO_SERVER';
   saveData: (racingPlayer: RacingPlayer) => void;
+}
+
+interface SyncDataFromServerAction extends BaseAction {
+  type: 'SYNC_DATA_FROM_SERVER';
+  allPlayers: Player[];
 }
 
 export const createInitialState = (
@@ -53,13 +58,36 @@ export const createInitialState = (
   };
 };
 
-type GamesActions = AutoMovePlayerAction | SyncDataAction;
+type GamesActions =
+  | AutoMovePlayerAction
+  | SyncDataToServerAction
+  | SyncDataFromServerAction;
 
 export function reducer(state: GameState, action: GamesActions): GameState {
   switch (action.type) {
-    case 'SYNC_DATA': {
+    case 'SYNC_DATA_TO_SERVER': {
       state.racers.forEach(action.saveData);
       return state;
+    }
+    case 'SYNC_DATA_FROM_SERVER': {
+      const updatedRacers = action.allPlayers.map<RacingPlayer>(p => {
+        const currentRacingPlayer = state.racers.find(
+          rp => rp.player.id === p.id
+        )!;
+        return {
+          ...currentRacingPlayer,
+          carColor: getPlayerAttributeValue(p.tags, 'rt_color', 'red'),
+          movesRemaining: getPlayerIntegerAttributeValue(p.tags, 'rt_moves', 0),
+        };
+      });
+      const playersToMove = updatedRacers.filter(gp => gp.movesRemaining > 0);
+
+      return {
+        ...state,
+        racers: updatedRacers,
+        playersToMove,
+        allPlayersMoved: playersToMove.length === 0,
+      };
     }
     case 'AUTO_MOVE_PLAYER': {
       if (state.allPlayersMoved) {

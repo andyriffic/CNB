@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useReducer } from 'react';
+import React, { ReactNode, useCallback, useEffect, useReducer } from 'react';
 import { Player } from '../../../providers/PlayersProvider';
 import { RacingPlayer, RacingTrack } from '../types';
 import { createInitialState, GAME_PHASE, reducer } from './racingTrackReducer';
@@ -34,7 +34,7 @@ export const RacingTrackServiceProvider = ({
 
   const savePlayerState = useCallback(() => {
     dispatch({
-      type: 'SYNC_DATA',
+      type: 'SYNC_DATA_TO_SERVER',
       saveData: racingPlayer => {
         const filteredTags = racingPlayer.player.tags
           .filter(t => !t.startsWith('rt_section'))
@@ -51,6 +51,14 @@ export const RacingTrackServiceProvider = ({
       },
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log('Updating from server');
+    dispatch({
+      type: 'SYNC_DATA_FROM_SERVER',
+      allPlayers: participatingPlayers,
+    });
+  }, [participatingPlayers]);
 
   return (
     <RacingTrackContext.Provider
