@@ -2,15 +2,16 @@ import React from 'react';
 
 type Props = {
   color: string;
+  width?: number;
 };
 
-export const RacingCar = ({ color }: Props): JSX.Element => {
+export const RacingCar = ({ color, width = 45 }: Props): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 960 476"
       version="1.1"
-      width="45"
+      width={width}
     >
       <defs id="defs4">
         <linearGradient id="linearGradient3759">

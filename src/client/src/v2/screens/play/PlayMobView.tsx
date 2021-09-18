@@ -12,6 +12,7 @@ import { LoadingSpinner } from '../../../uplift/components/loading-spinner';
 import { MobPlay } from './components/MobPlay';
 import { MugPlay } from './components/MugPlay';
 import { NavigateFn } from '@reach/router';
+import { PlayerSettings } from './components/PlayerSettings';
 
 type Props = {
   playerId: string;
@@ -61,6 +62,7 @@ export const PlayMobView = ({ playerId, mobGameId, navigate }: Props) => {
           }}
         />
       )}
+      {player && <PlayerSettings player={player} />}
     </GameScreen>
   );
 };

@@ -13,6 +13,7 @@ import {
   isPersistantFeatureEnabled,
 } from '../../../featureToggle';
 import { MobSelectionList } from './components/MobSelectionList';
+import { PlayerSettings } from './components/PlayerSettings';
 
 type Props = {
   playerId: string;
@@ -79,6 +80,7 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
         playerId={playerId}
         onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
       />
+      {player && <PlayerSettings player={player} />}
       {/* {playerMatchups && (
         <>
           <p>Matchups</p>
