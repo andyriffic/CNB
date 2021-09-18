@@ -1,4 +1,7 @@
-import { getPlayerIntegerAttributeValue } from '../../../../uplift/utils/player';
+import {
+  getPlayerAttributeValue,
+  getPlayerIntegerAttributeValue,
+} from '../../../../uplift/utils/player';
 import { Player } from '../../../providers/PlayersProvider';
 import {
   RacingPlayer,
@@ -122,6 +125,7 @@ function createGamePlayer(
     isMoving: false,
     blocked: false,
     passedAnotherRacer: false,
+    carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
   };
 }
 

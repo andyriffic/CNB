@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RacingPlayer, RacingTrack } from '../types';
 import raceCar from '../assets/race-car-formula-1-red.png';
+import { RacingCar } from './RacingCar';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
@@ -82,14 +83,22 @@ export const RacingTrackPlayer = ({
       }}
     >
       <Container>
-        <img
+        <div
+          style={{
+            transform: `rotate(${section.rotationDegrees}deg)`,
+            transition: 'transform 200ms ease-in',
+          }}
+        >
+          <RacingCar color={racingPlayer.carColor} />
+        </div>
+        {/* <img
           src={raceCar}
           style={{
             width: '45px',
             transform: `rotate(${section.rotationDegrees}deg)`,
             transition: 'transform 200ms ease-in',
           }}
-        />
+        /> */}
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
         )}
