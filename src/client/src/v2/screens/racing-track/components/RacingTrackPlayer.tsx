@@ -47,6 +47,7 @@ const PlayerName = styled.div`
   text-align: center;
   position: absolute;
   top: -16px;
+  border: 1px solid;
 `;
 
 const Blocked = styled.div`
@@ -80,6 +81,9 @@ export const RacingTrackPlayer = ({
   const x = square.coordinates.x - OFFSET_X_PX;
   const y = square.coordinates.y - OFFSET_Y_PX;
   const rotationDeg = section.rotationDegrees;
+  const accentColor = tinycolor
+    .mostReadable(racingPlayer.carColor, ['#fff', '#000'])
+    .toHexString();
 
   return (
     <PositionContainer
@@ -127,9 +131,8 @@ export const RacingTrackPlayer = ({
         <PlayerName
           style={{
             backgroundColor: racingPlayer.carColor,
-            color: tinycolor
-              .mostReadable(racingPlayer.carColor, ['#fff', '#000'])
-              .toHexString(),
+            borderColor: accentColor,
+            color: accentColor,
           }}
         >
           {racingPlayer.player.name}
