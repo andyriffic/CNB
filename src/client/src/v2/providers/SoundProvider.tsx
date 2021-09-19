@@ -56,6 +56,8 @@ export type SoundMap = {
   MobStart: any;
   CountdownTimerStart: any;
   CountdownTimerWarning: any;
+  RacingEngineRev: any;
+  RacingCarHorn: any;
 };
 
 export type PlaySound = (

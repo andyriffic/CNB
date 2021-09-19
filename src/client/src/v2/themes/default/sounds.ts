@@ -44,6 +44,8 @@ import msgAlert24 from './sounds/24_msg_alert.mp3';
 import meh from './sounds/meh.mp3';
 import whatever from './sounds/whatever.mp3';
 import phew from './sounds/phew.mp3';
+import engineRev from './sounds/engine_rev.mp3';
+import carHorn from './sounds/car_horn.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -98,6 +100,8 @@ const soundMap: SoundMap = {
   MobStart: killBillSms1,
   CountdownTimerStart: tickTock,
   CountdownTimerWarning: msgAlert24,
+  RacingEngineRev: engineRev,
+  RacingCarHorn: carHorn,
 };
 
 export default soundMap;

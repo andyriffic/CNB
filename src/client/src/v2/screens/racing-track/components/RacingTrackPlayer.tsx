@@ -4,6 +4,7 @@ import { RacingPlayer, RacingTrack } from '../types';
 import raceCar from '../assets/race-car-formula-1-red.png';
 import { RacingCar } from './RacingCar';
 import tinycolor from 'tinycolor2';
+import { inOutAnimation } from '../../../../uplift/components/animations';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
@@ -58,6 +59,7 @@ const Blocked = styled.div`
   text-align: center;
   position: absolute;
   bottom: -16px;
+  animation: ${inOutAnimation} 1000ms ease-in-out both;
 `;
 
 type Props = {

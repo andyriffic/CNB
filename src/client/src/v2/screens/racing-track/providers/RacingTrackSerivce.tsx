@@ -1,5 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useReducer } from 'react';
 import { Player } from '../../../providers/PlayersProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 import { RacingPlayer, RacingTrack } from '../types';
 import { createInitialState, GAME_PHASE, reducer } from './racingTrackReducer';
 
@@ -27,6 +28,7 @@ export const RacingTrackServiceProvider = ({
   participatingPlayers: Player[];
   savePlayer: (playerId: string, tags: string[]) => void;
 }) => {
+  const { play } = useSoundProvider();
   const [gameState, dispatch] = useReducer(
     reducer,
     { racingTrack, participatingPlayers },
@@ -60,6 +62,12 @@ export const RacingTrackServiceProvider = ({
       allPlayers: participatingPlayers,
     });
   }, [participatingPlayers]);
+
+  useEffect(() => {
+    if (gameState.soundEffect) {
+      play(gameState.soundEffect);
+    }
+  }, [gameState.soundEffect]);
 
   return (
     <RacingTrackContext.Provider

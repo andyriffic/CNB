@@ -3,6 +3,7 @@ import {
   getPlayerIntegerAttributeValue,
 } from '../../../../uplift/utils/player';
 import { Player } from '../../../providers/PlayersProvider';
+import { SoundMap } from '../../../providers/SoundProvider';
 import {
   RacingPlayer,
   RacingTrack,
@@ -23,6 +24,7 @@ type GameState = {
   playersToMove: RacingPlayer[];
   movingPlayerId?: string;
   allPlayersMoved: boolean;
+  soundEffect?: keyof SoundMap;
 };
 
 interface BaseAction {
@@ -206,6 +208,7 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
       updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0
         ? GAME_PHASE.FINISHED_ROUND
         : GAME_PHASE.MOVING_PLAYERS,
+    soundEffect: undefined,
   };
 }
 
@@ -241,10 +244,11 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   );
 
   const movesRemaining = newPosition.moved ? player.movesRemaining - 1 : 0;
+  const blocked = !newPosition.moved;
 
   const updatedPlayer: RacingPlayer = {
     ...player,
-    blocked: !newPosition.moved,
+    blocked,
     passedAnotherRacer:
       newPosition.position.sectionIndex > currentPosition.sectionIndex &&
       gameState.racers.filter(
@@ -264,6 +268,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   return {
     ...gameState,
     racers: updatedPlayers,
+    soundEffect: blocked ? 'RacingCarHorn' : 'RacingEngineRev',
   };
 }
 
