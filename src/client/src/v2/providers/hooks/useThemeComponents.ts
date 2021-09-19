@@ -11,7 +11,7 @@ export const useThemeComponents = (): ThemeComponents | undefined => {
   >();
 
   useEffect(() => {
-    console.log('THEME COMPONENTS', allPlayers);
+    // console.log('THEME COMPONENTS', allPlayers);
 
     if (!allPlayers.length) {
       return;

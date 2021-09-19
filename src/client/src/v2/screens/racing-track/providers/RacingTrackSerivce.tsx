@@ -55,13 +55,13 @@ export const RacingTrackServiceProvider = ({
     });
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log('Updating from server');
-    dispatch({
-      type: 'SYNC_DATA_FROM_SERVER',
-      allPlayers: participatingPlayers,
-    });
-  }, [participatingPlayers]);
+  // useEffect(() => {
+  //   console.log('Updating from server');
+  //   dispatch({
+  //     type: 'SYNC_DATA_FROM_SERVER',
+  //     allPlayers: participatingPlayers,
+  //   });
+  // }, [participatingPlayers]);
 
   useEffect(() => {
     if (gameState.soundEffect) {
