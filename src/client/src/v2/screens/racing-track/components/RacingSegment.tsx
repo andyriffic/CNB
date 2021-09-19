@@ -11,7 +11,7 @@ export const RacingSegment = ({ section }: Props): JSX.Element => {
   return (
     <>
       {section.lanes.map((lane, i) => (
-        <RacingLane key={i} lane={lane} />
+        <RacingLane key={i} lane={lane} section={section} />
       ))}
     </>
   );

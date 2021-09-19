@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { isFeatureEnabled } from '../../../../featureToggle';
-import { RackingTrackSquare } from '../types';
+import {
+  RacingTrackLane,
+  RacingTrackSection,
+  RackingTrackSquare,
+} from '../types';
 
 const CELL_SIZE_PX = 30;
 
@@ -36,11 +40,13 @@ const LocationMarker = styled.div`
 
 type Props = {
   square: RackingTrackSquare;
+  lane: RacingTrackLane;
+  section: RacingTrackSection;
 };
 
 const debug = isFeatureEnabled('debug');
 
-export const RacingSquare = ({ square }: Props): JSX.Element => {
+export const RacingSquare = ({ square, lane, section }: Props): JSX.Element => {
   return (
     <PositionContainer
       style={{
@@ -48,7 +54,14 @@ export const RacingSquare = ({ square }: Props): JSX.Element => {
         left: `${square.coordinates.x - CELL_SIZE_PX}px`,
       }}
     >
-      <Container>{debug && <LocationMarker />}</Container>
+      <Container>
+        {debug && <LocationMarker />}
+        {debug && (
+          <div style={{ transform: `rotate(${section.rotationDegrees}deg)` }}>
+            →
+          </div>
+        )}
+      </Container>
     </PositionContainer>
   );
 };

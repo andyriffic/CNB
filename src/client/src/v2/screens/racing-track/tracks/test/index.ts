@@ -209,7 +209,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      rotationDegrees: 295,
+      rotationDegrees: 320,
       lanes: [
         {
           squares: [{ coordinates: { x: 170, y: 120 } }],
@@ -219,6 +219,254 @@ export const racingTrack: RacingTrack = {
             { coordinates: { x: 130, y: 120 } },
             { coordinates: { x: 175, y: 85 } },
           ],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 230, y: 82 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 230, y: 110 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 290, y: 80 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 290, y: 115 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 350, y: 67 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 350, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 350, y: 122 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 410, y: 67 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 410, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 410, y: 122 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 470, y: 67 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 470, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 470, y: 122 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 525, y: 69 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 525, y: 97 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 525, y: 124 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 585, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 585, y: 100 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 585, y: 128 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 645, y: 72 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 645, y: 102 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 645, y: 130 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 705, y: 74 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 705, y: 102 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 705, y: 130 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 765, y: 80 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 765, y: 115 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 825, y: 87 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 400,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 887, y: 98 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 450,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 905, y: 165 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 490,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 900, y: 220 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 835, y: 240 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 765, y: 215 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 765, y: 245 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 705, y: 215 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 705, y: 245 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 645, y: 215 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 645, y: 245 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 580, y: 215 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 580, y: 245 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 520, y: 212 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 242 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 460, y: 212 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 460, y: 242 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 390, y: 212 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 390, y: 242 } }],
         },
       ],
     },
