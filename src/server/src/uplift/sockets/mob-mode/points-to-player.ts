@@ -6,7 +6,12 @@ import { MobGame } from './types';
 
 function givePoints(player: Player, points: number, log: Debugger): void {
   log('Giving points: ', player.id, points);
-  const newTags = incrementIntegerTag('sl_moves:', points, player.tags);
+  const newTags = [
+    ...incrementIntegerTag('rt_moves:', points, player.tags).filter(
+      (t) => t !== 'racer'
+    ),
+    'racer',
+  ];
   playerService.updatePlayerTags(player, newTags).then(() => {
     log('Gave points: ', player.id, points);
   });
