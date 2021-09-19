@@ -51,12 +51,12 @@ const PlayerName = styled.div`
 `;
 
 const Blocked = styled.div`
-  background-color: goldenrod;
+  background-color: white;
   text-transform: uppercase;
   color: red;
   padding: 3px;
   border-radius: 5px;
-  font-size: 0.4rem;
+  font-size: 1rem;
   text-align: center;
   position: absolute;
   bottom: -16px;
@@ -113,7 +113,7 @@ export const RacingTrackPlayer = ({
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
         )}
-        {racingPlayer.blocked && <Blocked>Blocked!</Blocked>}
+        {racingPlayer.blocked && <Blocked>🤬</Blocked>}
         {/* {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>} */}
 
         {/* {racingPlayer.player.name} */}
