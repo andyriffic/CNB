@@ -201,7 +201,9 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
     ...gameState,
     racers: updatedRacers,
     movingPlayerId: undefined,
-    playersToMove: updatedRacers.filter(rp => rp.movesRemaining > 0),
+    playersToMove: gameState.playersToMove.filter(
+      rp => rp.player.id !== playerId
+    ),
     allPlayersMoved:
       updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0,
     gamePhase:
