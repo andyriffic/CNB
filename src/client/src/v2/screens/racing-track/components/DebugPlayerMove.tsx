@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Button } from '../../../components/ui/buttons';
 import { GAME_PHASE } from '../providers/racingTrackReducer';
 import { RacingTrackService } from '../providers/RacingTrackSerivce';
 
@@ -54,7 +55,12 @@ export const DebugPlayerMove = ({
 
   return (
     <Container>
-      <button onClick={() => setAutoMove(true)}>Move All Players</button>
+      <Button
+        onClick={() => setAutoMove(true)}
+        disabled={racingTrackService.gamePhase !== GAME_PHASE.NOT_STARTED}
+      >
+        Start Race 🏁
+      </Button>
     </Container>
   );
 };
