@@ -21,7 +21,6 @@ import { MobWaitingMoves } from './MobWaitingMoves';
 import { MobPlayerDebug } from './MobPlayerDebug';
 import { MugPlayerAvatar } from './MugPlayerAvatar';
 import { useMobSpectatorSound } from './hooks/useMobSpectatorSound';
-import { useSoundProvider } from '../../../providers/SoundProvider';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { MobResultSummary } from './MobResultSummary';
 import { NewRecord } from './NewRecord';
@@ -29,6 +28,7 @@ import { MobGraveyard } from './MobGraveyard';
 import { NavigateFn } from '@reach/router';
 import { FancyLink } from '../../../../components/FancyLink';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
+import { usePlayersProvider } from '../../../providers/PlayersProvider';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -77,11 +77,12 @@ const getMobStartMessage = (mobGame: MobGame): string => {
 };
 
 export default ({ mobGameId, navigate }: Props) => {
-  const { play } = useSoundProvider();
+  const { triggerUpdate } = usePlayersProvider();
   const { mobGame } = useMobGame(mobGameId);
   const { resolveMobGame, nextRound, viewedRound } = useMobProvider();
   const uiState = useMobSpectatorViewUiState(mobGame);
   const { playState } = useTimedPlayState(mobGame);
+  const [syncPlayers, setSyncPlayers] = useState(false);
   const lastResolvedRound = useRef(0);
   useMobSpectatorSound(mobGame, uiState);
   // useDonkeyKongPoints(mobGame);
@@ -107,6 +108,20 @@ export default ({ mobGameId, navigate }: Props) => {
       uiState.newRound();
     }, 1000);
   }, [mobGame, uiState]);
+
+  useEffect(() => {
+    if (mobGame && mobGame.gameOver && mobGame.roundState === 'viewed') {
+      setSyncPlayers(true);
+    }
+  }, [mobGame]);
+
+  useEffect(() => {
+    if (syncPlayers) {
+      console.log('Triggered Player Update 🤞');
+
+      triggerUpdate();
+    }
+  }, [syncPlayers]);
 
   if (!mobGame) {
     return <LoadingSpinner />;
