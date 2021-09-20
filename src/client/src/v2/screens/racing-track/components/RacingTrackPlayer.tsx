@@ -47,6 +47,7 @@ const PlayerName = styled.div`
   position: absolute;
   top: -16px;
   border: 1px solid;
+  white-space: nowrap;
 `;
 
 const Blocked = styled.div`
