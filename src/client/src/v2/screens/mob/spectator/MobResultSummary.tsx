@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { fadeInAnimation } from '../../../../uplift/components/animations';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { MobGame } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import removedCross from './assets/removed-cross.png';
 import winCheck from './assets/win-check.png';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 import { Points } from './Points';
 
 const Container = styled.div`
@@ -90,12 +90,12 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
           <RoundPlayers>
             {roundPlayers.map(p => {
               const playerPoints = mobGame.points.mobPlayers.find(
-                pp => pp.playerId === p.player.id
+                pp => pp.playerId === p.playerId
               );
               return (
-                <div key={p.player.id} style={{ position: 'relative' }}>
+                <div key={p.playerId} style={{ position: 'relative' }}>
                   <ReversedPlayerAvatar>
-                    <PlayerAvatar player={p.player} size="small" />
+                    <PlayerAvatarLookup playerId={p.playerId} size="small" />
                   </ReversedPlayerAvatar>
                   {playerPoints && (
                     <PointsContainer>
@@ -115,12 +115,12 @@ export function MobResultSummary({ mobGame }: Props): JSX.Element {
           <RoundPlayers>
             {roundChampions.map(p => {
               const playerPoints = mobGame.points.mobPlayers.find(
-                pp => pp.playerId === p.player.id
+                pp => pp.playerId === p.playerId
               );
               return (
-                <div key={p.player.id} style={{ position: 'relative' }}>
+                <div key={p.playerId} style={{ position: 'relative' }}>
                   <ReversedPlayerAvatar>
-                    <PlayerAvatar player={p.player} size="small" />
+                    <PlayerAvatarLookup playerId={p.playerId} size="small" />
                   </ReversedPlayerAvatar>
                   {playerPoints && (
                     <PointsContainer>

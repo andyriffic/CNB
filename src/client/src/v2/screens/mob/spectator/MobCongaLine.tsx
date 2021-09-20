@@ -7,10 +7,10 @@ import {
   hingeOutAnimation,
 } from '../../../../uplift/components/animations';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobPlayer, MoveResult } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 
 const CongaPlayer = styled.div<{
   highlight: boolean;
@@ -139,15 +139,15 @@ export function MobCongaLine({
         const highlight = highlightPlayerIndex >= i;
         return (
           <CongaPlayer
-            key={p.player.id}
+            key={p.playerId}
             highlight={highlight}
             position={i - highlightPlayerIndex}
             animation={p.active ? 'win' : 'lose'}
           >
             <ReversedPlayerAvatar>
-              <PlayerAvatar player={p.player} size="medium" />
+              <PlayerAvatarLookup playerId={p.playerId} size="medium" />
             </ReversedPlayerAvatar>
-            <PlayerName>{p.player.name}</PlayerName>
+            {/* <PlayerName>{p.player.name}</PlayerName> */}
             {p.lastMoveId && highlight && theme && (
               <MoveContainer>{theme.moves[p.lastMoveId]}</MoveContainer>
             )}

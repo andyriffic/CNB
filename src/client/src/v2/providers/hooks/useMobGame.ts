@@ -33,7 +33,7 @@ export const useMobGamePlayer = (
   }, [mobGames]);
 
   const mobPlayer = useMemo(() => {
-    return mobGame && mobGame.mobPlayers.find(mp => mp.player.id === playerId);
+    return mobGame && mobGame.mobPlayers.find(mp => mp.playerId === playerId);
   }, [mobGame]);
 
   return {
@@ -64,7 +64,7 @@ export const useMugGamePlayer = (
   const mugPlayer = useMemo(() => {
     return (
       mobGame &&
-      (mobGame.mugPlayer.player.id === playerId ? mobGame.mugPlayer : undefined)
+      (mobGame.mugPlayer.playerId === playerId ? mobGame.mugPlayer : undefined)
     );
   }, [mobGame]);
 

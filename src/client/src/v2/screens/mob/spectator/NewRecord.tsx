@@ -39,7 +39,7 @@ const Text = styled.p`
 `;
 
 type Props = {
-  player: Player;
+  playerId: string;
   lookupNewResult: boolean;
 };
 
@@ -80,12 +80,12 @@ const getBestResult = (
 };
 
 export function NewRecord({
-  player,
+  playerId,
   lookupNewResult,
 }: Props): JSX.Element | null {
   const { topMainPlayerStats, refresh } = useMobLeaderboard();
   const currentRecord = useRef<RoundResult | undefined>(
-    topMainPlayerStats && getBestResult(topMainPlayerStats, player.id)
+    topMainPlayerStats && getBestResult(topMainPlayerStats, playerId)
   );
 
   useEffect(() => {
@@ -97,13 +97,13 @@ export function NewRecord({
   useEffect(() => {
     if (currentRecord.current || lookupNewResult || !topMainPlayerStats) return;
 
-    currentRecord.current = getBestResult(topMainPlayerStats, player.id);
+    currentRecord.current = getBestResult(topMainPlayerStats, playerId);
   }, [lookupNewResult, topMainPlayerStats]);
 
   const newRecord = useMemo<RoundResult | undefined>(() => {
     if (!lookupNewResult || !topMainPlayerStats) return undefined;
 
-    return getBestResult(topMainPlayerStats, player.id);
+    return getBestResult(topMainPlayerStats, playerId);
   }, [lookupNewResult, topMainPlayerStats]);
 
   console.log('NewRecord', newRecord, currentRecord);

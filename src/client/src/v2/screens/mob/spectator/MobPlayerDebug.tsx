@@ -16,7 +16,7 @@ export const MobPlayerDebug = ({ mobGame }: Props) => {
       .forEach(mp => {
         makeMobPlayerMove(
           mobGame.id,
-          mp.player.id,
+          mp.playerId,
           selectRandomOneOf(['A', 'B', 'C'])
         );
       });
@@ -25,7 +25,7 @@ export const MobPlayerDebug = ({ mobGame }: Props) => {
   return (
     <div style={{ position: 'absolute', fontSize: '0.6rem', top: 0, right: 0 }}>
       <div>
-        <div>{mobGame.mugPlayer.player.name}</div>
+        <div>{mobGame.mugPlayer.playerId}</div>
         <form style={{ display: 'flex' }}>
           <fieldset disabled={!!mobGame.mugPlayer.lastMoveId}>
             <button
@@ -63,11 +63,11 @@ export const MobPlayerDebug = ({ mobGame }: Props) => {
       {mobGame.mobPlayers.map(mp => {
         if (!mp.active) return null;
         const makeMove = (moveId: MoveKeys) => {
-          makeMobPlayerMove(mobGame.id, mp.player.id, moveId);
+          makeMobPlayerMove(mobGame.id, mp.playerId, moveId);
         };
         return (
-          <div key={mp.player.id}>
-            <div>{mp.player.name}</div>
+          <div key={mp.playerId}>
+            <div>{mp.playerId}</div>
             <form style={{ display: 'flex' }}>
               <fieldset disabled={!!mp.lastMoveId || !mp.active}>
                 <button type="button" onClick={() => makeMove('A')}>

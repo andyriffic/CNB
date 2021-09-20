@@ -9,7 +9,7 @@ export type MobRoundState =
 export type MoveResult = 'won' | 'lost' | 'draw';
 
 export type MobBasePlayer = {
-  player: Player;
+  playerId: string;
   lastMoveId?: MoveId;
 };
 

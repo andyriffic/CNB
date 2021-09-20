@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { slideInUpAnimation } from '../../../../uplift/components/animations';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { MobPlayer } from '../../../providers/MobProvider';
 import tombstoneImage from './assets/loserville-city-sign.png';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 
 const Container = styled.div`
   display: flex;
@@ -49,9 +49,9 @@ export function MobGraveyard({ eliminatedPlayers }: Props): JSX.Element {
       <GraveyardPlayerContainer>
         {eliminatedPlayers.map(p => {
           return (
-            <GraveyardPlayer key={p.player.id}>
+            <GraveyardPlayer key={p.playerId}>
               <ReversedPlayerAvatar>
-                <PlayerAvatar player={p.player} size="small" />
+                <PlayerAvatarLookup playerId={p.playerId} size="small" />
               </ReversedPlayerAvatar>
             </GraveyardPlayer>
           );

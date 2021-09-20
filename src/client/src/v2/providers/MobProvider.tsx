@@ -26,7 +26,7 @@ export type MoveResult = 'won' | 'lost' | 'draw';
 export type MobGameType = 'standard' | 'draw-ok-1-2' | 'draw-ok-1';
 
 export type MobBasePlayer = {
-  player: Player;
+  playerId: string;
   lastMoveId?: MoveKeys;
 };
 

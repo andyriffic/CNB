@@ -4,8 +4,8 @@ import {
   bounceAnimation,
   jackInTheBoxAnimation,
 } from '../../../../uplift/components/animations';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { MobPlayer } from '../../../providers/MobProvider';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 
 const Container = styled.div`
   display: grid;
@@ -54,11 +54,11 @@ export function MobWaitingMoves({ activePlayers }: Props): JSX.Element {
       {activePlayers.map(p => {
         const moved = !!p.lastMoveId;
         return (
-          <WaitingPlayer key={p.player.id} moved={moved}>
+          <WaitingPlayer key={p.playerId} moved={moved}>
             <ReversedPlayerAvatar>
-              <PlayerAvatar player={p.player} size="smallMedium" />
+              <PlayerAvatarLookup playerId={p.playerId} size="smallMedium" />
             </ReversedPlayerAvatar>
-            <PlayerName>{p.player.name}</PlayerName>
+            {/* <PlayerName>{p.player.name}</PlayerName> */}
           </WaitingPlayer>
         );
       })}

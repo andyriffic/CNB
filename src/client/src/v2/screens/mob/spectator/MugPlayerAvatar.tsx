@@ -7,11 +7,11 @@ import {
   outOfWormholeAnimation,
   shakeAndGrowAnimation,
 } from '../../../../uplift/components/animations';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobRoundState, MugPlayer } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import lifeHeart from './assets/life-heart.png';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 import { Points } from './Points';
 
 const Container = styled.div`
@@ -140,9 +140,9 @@ export const MugPlayerAvatar = ({
         ))}
       </Lives>
       <Avatar moved={!!mugPlayer.lastMoveId} won={winner}>
-        <PlayerAvatar player={mugPlayer.player} size="medium" />
+        <PlayerAvatarLookup playerId={mugPlayer.playerId} size="medium" />
       </Avatar>
-      <PlayerName>{mugPlayer.player.name}</PlayerName>
+      {/* <PlayerName>{mugPlayer.player.name}</PlayerName> */}
       {mugPlayer.lastMoveId && revealMove && theme && !winner && !loser && (
         <MoveContainer>{theme.moves[mugPlayer.lastMoveId]}</MoveContainer>
       )}

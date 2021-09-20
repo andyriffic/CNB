@@ -4,11 +4,11 @@ import {
   fadeInAnimation,
   outOfWormholeAnimationFacingLeft,
 } from '../../../../uplift/components/animations';
-import { PlayerAvatar } from '../../../components/player-avatar';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobPlayer } from '../../../providers/MobProvider';
 import removedCross from './assets/removed-cross.png';
 import winCheck from './assets/win-check.png';
+import { PlayerAvatarLookup } from './PlayerAvatarLookup';
 
 const Container = styled.div`
   display: flex;
@@ -87,14 +87,14 @@ export const MobPlayerAvatar = ({
   const theme = useThemeComponents();
 
   return (
-    <Container key={mobPlayer.player.id}>
+    <Container key={mobPlayer.playerId}>
       {wonGame && <div style={{ position: 'absolute' }}>🎉</div>}
       <Avatar fade={!moved}>
-        <PlayerAvatar player={mobPlayer.player} size="smallMedium" />
+        <PlayerAvatarLookup playerId={mobPlayer.playerId} size="smallMedium" />
       </Avatar>
-      <PlayerName fade={reveal && eliminated}>
+      {/* <PlayerName fade={reveal && eliminated}>
         {mobPlayer.player.name}
-      </PlayerName>
+      </PlayerName> */}
       {mobPlayer.lastMoveId && reveal && theme && (
         <MoveContainer>{theme.moves[mobPlayer.lastMoveId]}</MoveContainer>
       )}

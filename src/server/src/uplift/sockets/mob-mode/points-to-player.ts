@@ -20,7 +20,7 @@ function givePoints(player: Player, points: number, log: Debugger): void {
 export function pointsToPlayers(mobGame: MobGame, log: Debugger) {
   playerService.getPlayersAsync().then((allPlayers) => {
     const mugPlayer = allPlayers.find(
-      (p) => p.id === mobGame.mugPlayer.player.id
+      (p) => p.id === mobGame.mugPlayer.playerId
     );
 
     if (mugPlayer) {

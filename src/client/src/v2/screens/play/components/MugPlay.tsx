@@ -48,7 +48,13 @@ export const MugPlay = ({
       {lost && <div>The mob was too good 😭</div>}
       {won && <div>You beat the mob! 🎉</div>}
       {selectMove && themeComponents && (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '10px',
+          }}
+        >
           <Button type="button" onClick={() => makeMove('A')}>
             {themeComponents.moves['A']}
           </Button>

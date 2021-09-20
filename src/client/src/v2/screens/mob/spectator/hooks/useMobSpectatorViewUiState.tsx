@@ -152,7 +152,7 @@ export const useMobSpectatorViewUiState = (
     }
     initialised.current = true;
     const initialisedUiMobPlayers = mobGame.mobPlayers.map<UiMobPlayer>(mp => ({
-      playerId: mp.player.id,
+      playerId: mp.playerId,
       revealMove: !mp.active,
     }));
 
@@ -173,7 +173,7 @@ export const useMobSpectatorViewUiState = (
       let currentIndex = 0;
       const playerIdsToHighlight = mobGame.mobPlayers
         .filter(mp => mobGame.round === mp.lastRound)
-        .map(mp => mp.player.id);
+        .map(mp => mp.playerId);
 
       const interval = setInterval(() => {
         dispatch({
@@ -209,7 +209,7 @@ export const useMobSpectatorViewUiState = (
         mobGame.mobPlayers.forEach(mp => {
           dispatch({
             type: 'UPDATE_UI_MOB_PLAYER',
-            value: { playerId: mp.player.id, revealed: !mp.active },
+            value: { playerId: mp.playerId, revealed: !mp.active },
           });
         });
     },

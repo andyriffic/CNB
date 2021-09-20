@@ -68,7 +68,7 @@ export function makeMobPlayerMove(
   return updateReadyState({
     ...mobGame,
     mobPlayers: mobGame.mobPlayers.map((mobPlayer) => {
-      if (mobPlayer.player.id === playerId) {
+      if (mobPlayer.playerId === playerId) {
         return {
           ...mobPlayer,
           lastMoveId: moveId,
@@ -106,7 +106,7 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
         .filter((mobPlayer) =>
           playerWins(mobPlayer.lastMoveId, mobGame.mugPlayer.lastMoveId)
         )
-        .map((p) => p.player.id);
+        .map((p) => p.playerId);
     }
     case 'draw-ok-1-2': {
       if (mobGame.round < 3) {
@@ -118,7 +118,7 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
             );
             return result === 'won' || result === 'draw';
           })
-          .map((p) => p.player.id);
+          .map((p) => p.playerId);
       } else {
         return mobGame.mobPlayers
           .filter((mobPlayer) => {
@@ -128,7 +128,7 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
             );
             return result === 'won';
           })
-          .map((p) => p.player.id);
+          .map((p) => p.playerId);
       }
     }
     case 'draw-ok-1': {
@@ -141,7 +141,7 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
             );
             return result === 'won' || result === 'draw';
           })
-          .map((p) => p.player.id);
+          .map((p) => p.playerId);
       } else {
         return mobGame.mobPlayers
           .filter((mobPlayer) => {
@@ -151,7 +151,7 @@ const getSurvivingPlayersForMobRound = (mobGame: MobGame): string[] => {
             );
             return result === 'won';
           })
-          .map((p) => p.player.id);
+          .map((p) => p.playerId);
       }
     }
   }
@@ -174,7 +174,7 @@ export function resolveMobGame(
     mobPlayers: mobGame.mobPlayers.map((p) => {
       return {
         ...p,
-        active: survivingMobPlayerIds.includes(p.player.id),
+        active: survivingMobPlayerIds.includes(p.playerId),
         lastMoveResult: getPlayResult(
           p.lastMoveId,
           mobGame.mugPlayer.lastMoveId
@@ -274,7 +274,7 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
       points: {
         mugPlayer: 3 + mobGame.mugPlayer.lives,
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
-          playerId: mp.player.id,
+          playerId: mp.playerId,
           points: mp.lastRound,
         })),
       },
@@ -287,9 +287,9 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
       points: {
         mugPlayer: 3,
         mobPlayers: mobGame.mobPlayers.map((mp) => {
-          const isSoleSurvivor = mp.player.id === soleMobSurvivor.player.id;
+          const isSoleSurvivor = mp.playerId === soleMobSurvivor.playerId;
           return {
-            playerId: mp.player.id,
+            playerId: mp.playerId,
             points: isSoleSurvivor ? 4 : mp.lastRound,
           };
         }),
@@ -302,7 +302,7 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
       points: {
         mugPlayer: 3,
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
-          playerId: mp.player.id,
+          playerId: mp.playerId,
           points: mp.lastRound,
         })),
       },
@@ -320,7 +320,7 @@ export function isMobGameReady(mobGame: MobGame): boolean {
 
 function createMobPlayer(player: Player): MobPlayer {
   return {
-    player,
+    playerId: player.id,
     lastRound: 1,
     active: true,
   };
@@ -329,7 +329,7 @@ function createMobPlayer(player: Player): MobPlayer {
 function createMugPlayer(player: Player): MugPlayer {
   const TOTAL_STARTING_LIVES = 3;
   return {
-    player,
+    playerId: player.id,
     lives: TOTAL_STARTING_LIVES,
   };
 }

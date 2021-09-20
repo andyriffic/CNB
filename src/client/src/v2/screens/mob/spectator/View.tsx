@@ -70,7 +70,7 @@ const getPlayerRevealMove = (
 const getMobStartMessage = (mobGame: MobGame): string => {
   const remainingMobPlayers = mobGame.mobPlayers.filter(mp => mp.active);
   if (remainingMobPlayers.length === 1) {
-    return `Here comes ${remainingMobPlayers[0].player.name}!`;
+    return `Here comes ${remainingMobPlayers[0].playerId}!`;
   }
 
   return 'Here comes the Mob!';
@@ -168,7 +168,7 @@ export default ({ mobGameId, navigate }: Props) => {
           {uiState.mugWinner && mobGame.roundState === 'viewed' && (
             <div>
               <FeatureText>
-                {mobGame.mugPlayer.player.name} beat the mob!
+                {mobGame.mugPlayer.playerId} beat the mob!
               </FeatureText>
               <MobResultSummary mobGame={mobGame} />
             </div>
@@ -197,7 +197,7 @@ export default ({ mobGameId, navigate }: Props) => {
         </GraveyardContainer>
       )}
       <NewRecord
-        player={mobGame.mugPlayer.player}
+        playerId={mobGame.mugPlayer.playerId}
         lookupNewResult={
           uiState.mugWinner && !!mobGame && mobGame.roundState === 'viewed'
         }
