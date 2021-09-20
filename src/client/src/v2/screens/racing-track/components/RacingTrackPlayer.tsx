@@ -67,12 +67,14 @@ type Props = {
   racingPlayer: RacingPlayer;
   racingTrack: RacingTrack;
   speed: number;
+  isMoving: boolean;
 };
 
 export const RacingTrackPlayer = ({
   racingPlayer,
   racingTrack,
   speed,
+  isMoving,
 }: Props): JSX.Element => {
   const section = racingTrack.sections[racingPlayer.position.sectionIndex];
   const lane = section.lanes[racingPlayer.position.laneIndex];
@@ -91,6 +93,7 @@ export const RacingTrackPlayer = ({
       style={{
         top: `${y}px`,
         left: `${x}px`,
+        zIndex: isMoving ? 1 : 0,
       }}
     >
       <Container>

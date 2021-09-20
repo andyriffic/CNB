@@ -34,6 +34,7 @@ const View = () => {
               racingPlayer={racer}
               racingTrack={racingTrackService.racingTrack}
               speed={RACING_SPEED_MS}
+              isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
         </RacingTrackBackground>

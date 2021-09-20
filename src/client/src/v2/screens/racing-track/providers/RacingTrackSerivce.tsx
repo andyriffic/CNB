@@ -11,6 +11,7 @@ export type RacingTrackService = {
   autoMovePlayerTick: () => void;
   allPlayersMoved: boolean;
   savePlayerState: () => void;
+  movingPlayerId?: string;
 };
 
 const RacingTrackContext = React.createContext<RacingTrackService | undefined>(
@@ -77,6 +78,7 @@ export const RacingTrackServiceProvider = ({
         racers: gameState.racers,
         autoMovePlayerTick: () => dispatch({ type: 'AUTO_MOVE_PLAYER' }),
         allPlayersMoved: gameState.allPlayersMoved,
+        movingPlayerId: gameState.movingPlayerId,
         savePlayerState,
       }}
     >
