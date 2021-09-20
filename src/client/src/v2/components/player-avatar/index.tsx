@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SOCKETS_ENDPOINT } from '../../../environment';
+import { getPlayerAttributeValue } from '../../../uplift/utils/player';
 import { Player } from '../../providers/PlayersProvider';
 import { AvatarImage, AvatarSizeStyles } from './AvatarImage';
 import { PlayerBadges } from './PlayerBadges';
@@ -36,11 +37,14 @@ type Props = {
 };
 
 export const PlayerAvatar = ({ player, size, showZodiac = true }: Props) => {
+  const accentColor = getPlayerAttributeValue(player.tags, 'rt_color', '#000');
+
   return (
     <Container>
       <AvatarImage
         size={size}
         imageUrl={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
+        accentColor={accentColor}
       />
       <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
         <PlayerBadges tags={player.tags} />

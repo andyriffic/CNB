@@ -15,15 +15,27 @@ const avatarSizeStyles: AvatarSizeStyles = {
   large: { width: '30vw', height: '40vw' },
 };
 
-const PlayerImage = styled.img`
+const PlayerImage = styled.img<{ accentColor: string }>`
   display: block;
+  filter: drop-shadow(5px 5px 5px ${({ accentColor }) => accentColor});
 `;
 
 type Props = {
   imageUrl: string;
   size: keyof AvatarSizeStyles;
+  accentColor?: string;
 };
 
-export const AvatarImage = ({ imageUrl, size }: Props) => {
-  return <PlayerImage src={imageUrl} style={avatarSizeStyles[size]} />;
+export const AvatarImage = ({
+  imageUrl,
+  size,
+  accentColor = '#000',
+}: Props) => {
+  return (
+    <PlayerImage
+      src={imageUrl}
+      style={avatarSizeStyles[size]}
+      accentColor={accentColor}
+    />
+  );
 };
