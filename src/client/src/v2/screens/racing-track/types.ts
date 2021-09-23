@@ -21,6 +21,8 @@ export type RacingTrackPosition = {
   squareIndex: number;
 };
 
+export type RacingCarStyles = 'sports' | 'bubble' | 'formula-1';
+
 export type RacingPlayer = {
   player: Player;
   movesRemaining: number;
@@ -29,6 +31,7 @@ export type RacingPlayer = {
   blocked: boolean;
   passedAnotherRacer: boolean;
   carColor: string;
+  carStyle: RacingCarStyles;
 };
 
 export type RacingTrack = {

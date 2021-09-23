@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { SwatchesPicker } from 'react-color';
 import { SecondaryButton } from '../../../../uplift/components/SecondaryButton';
 import { SubHeading } from '../../../components/ui/Atoms';
-import { RacingCar } from '../../racing-track/components/RacingCar';
+
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
+import { SportsCar } from '../../racing-track/components/racing-cars/SportsCar';
 
 const SettingsLauncher = styled.div`
   position: fixed;
@@ -80,7 +81,7 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
           />
         </div>
         <div style={{ padding: '20px', textAlign: 'center' }}>
-          <RacingCar color={color} width={200} />
+          <SportsCar color={color} width={200} />
         </div>
       </ModalContent>
     </SettingsModal>

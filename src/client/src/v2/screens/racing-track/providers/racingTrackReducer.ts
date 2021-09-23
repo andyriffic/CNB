@@ -5,6 +5,7 @@ import {
 import { Player } from '../../../providers/PlayersProvider';
 import { SoundMap } from '../../../providers/SoundProvider';
 import {
+  RacingCarStyles,
   RacingPlayer,
   RacingTrack,
   RacingTrackPosition,
@@ -180,6 +181,11 @@ function createGamePlayer(
     blocked: false,
     passedAnotherRacer: false,
     carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
+    carStyle: getPlayerAttributeValue(
+      player.tags,
+      'rt_car',
+      'sports'
+    ) as RacingCarStyles,
   };
 }
 

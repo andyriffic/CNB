@@ -6,7 +6,7 @@ import {
   inOutAnimation,
   flashAnimation,
 } from '../../../../uplift/components/animations';
-import { SportsCar } from './racing-cars/SportsCar';
+import { PlayerCustomisedCar } from './PlayerCustomisedCar';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
@@ -119,7 +119,7 @@ export const RacingTrackPlayer = ({
             transition: 'transform 200ms ease-in',
           }}
         >
-          <SportsCar color={racingPlayer.carColor} />
+          <PlayerCustomisedCar racingPlayer={racingPlayer} />
         </div>
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>

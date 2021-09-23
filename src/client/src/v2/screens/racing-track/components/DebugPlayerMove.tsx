@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { isFeatureEnabled } from '../../../../featureToggle';
 import { Button } from '../../../components/ui/buttons';
 import { GAME_PHASE } from '../providers/racingTrackReducer';
 import { RacingTrackService } from '../providers/RacingTrackSerivce';
+
+const dontSave = isFeatureEnabled('no-save');
 
 const Container = styled.div`
   position: absolute;
@@ -35,9 +38,9 @@ export const DebugPlayerMove = ({
 
   useEffect(() => {
     if (racingTrackService.gamePhase === GAME_PHASE.FINISHED_ROUND) {
-      console.log('Saving Player State');
+      console.log('Saving Player State', !dontSave);
 
-      racingTrackService.savePlayerState();
+      !dontSave && racingTrackService.savePlayerState();
     }
   }, [racingTrackService.gamePhase]);
 
