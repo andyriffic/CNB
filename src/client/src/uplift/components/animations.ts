@@ -75,6 +75,19 @@ export const inOutAnimation = keyframes`
   100% {opacity: 0; transform: scale(0)}
 `;
 
+export const flashAnimation = keyframes`
+from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+`;
+
 export const pulseAnimation = keyframes`
   0% {transform: scale(1);}
   20% {transform: scale(1.4); }

@@ -1,8 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { RacingPlayer, RacingTrack } from '../types';
 import tinycolor from 'tinycolor2';
-import { inOutAnimation } from '../../../../uplift/components/animations';
+import {
+  inOutAnimation,
+  flashAnimation,
+} from '../../../../uplift/components/animations';
 import { SportsCar } from './racing-cars/SportsCar';
 
 const OFFSET_X_PX = 30;
@@ -15,6 +18,19 @@ const PositionContainer = styled.div<{ speed: number }>`
 
 const Container = styled.div`
   position: relative;
+`;
+
+const MovingIndicator = styled.div`
+  background-color: transparent;
+  text-transform: uppercase;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: center;
+  position: absolute;
+  bottom: -10px;
+  left: 10px;
+  animation: ${flashAnimation} 1000ms ease-in-out both;
 `;
 
 const MovesRemaining = styled.div`
@@ -105,32 +121,12 @@ export const RacingTrackPlayer = ({
         >
           <SportsCar color={racingPlayer.carColor} />
         </div>
-        {/* <img
-          src={raceCar}
-          style={{
-            width: '45px',
-            transform: `rotate(${section.rotationDegrees}deg)`,
-            transition: 'transform 200ms ease-in',
-          }}
-        /> */}
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
         )}
+        {/* {racingPlayer.isMoving && <MovingIndicator>✨</MovingIndicator>} */}
         {racingPlayer.blocked && <Blocked>🤬</Blocked>}
         {/* {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>} */}
-
-        {/* {racingPlayer.player.name} */}
-        {/* <PlayerAvatar
-          player={gamePlayer.player}
-          size="small"
-          showZodiac={false}
-        />
-        {gamePlayer.frozenTurnsRemaining > 0 && (
-          <FrozenTurnsRemaining>
-            {gamePlayer.frozenTurnsRemaining}
-          </FrozenTurnsRemaining>
-        )}
-        */}
         <PlayerName
           style={{
             backgroundColor: racingPlayer.carColor,

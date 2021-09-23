@@ -189,6 +189,7 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
 
   const updatedPlayer: RacingPlayer = {
     ...player,
+    isMoving: false,
     passedAnotherRacer: false,
   };
 
@@ -250,6 +251,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
 
   const updatedPlayer: RacingPlayer = {
     ...player,
+    isMoving: true,
     blocked,
     passedAnotherRacer:
       newPosition.position.sectionIndex > currentPosition.sectionIndex &&

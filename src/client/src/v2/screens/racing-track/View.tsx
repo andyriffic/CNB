@@ -8,7 +8,7 @@ import { useRacingTrack } from './providers/RacingTrackSerivce';
 import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
 
-const RACING_SPEED_MS = 800;
+const RACING_SPEED_MS = 500;
 
 const Container = styled.div`
   margin: 0 auto;
