@@ -9,7 +9,7 @@ import {
   RacingPlayer,
   RacingTrack,
   RacingTrackPosition,
-  RackingTrackSquare,
+  RacerHistoryRecord,
 } from '../types';
 
 export enum GAME_PHASE {
@@ -26,6 +26,7 @@ type GameState = {
   movingPlayerId?: string;
   allPlayersMoved: boolean;
   soundEffect?: keyof SoundMap;
+  racerHistory: RacerHistoryRecord[];
 };
 
 interface BaseAction {
@@ -72,6 +73,7 @@ export const createInitialState = ({
     playersToMove,
     racingTrack,
     allPlayersMoved: playersToMove.length === 0,
+    racerHistory: [],
   };
 };
 
@@ -138,6 +140,7 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         ...state,
         gamePhase: GAME_PHASE.MOVING_PLAYERS,
         movingPlayerId: playerToMove.player.id,
+        racerHistory: appendHistoryRecord(state.racerHistory, playerToMove),
       };
 
       return playerToMove.movesRemaining === 0
@@ -189,6 +192,8 @@ function createGamePlayer(
   };
 }
 
+// function getHistoryRecord(gameSate)
+
 function stopPlayer(gameState: GameState, playerId: string): GameState {
   const player = gameState.racers.find(gp => gp.player.id === playerId);
   if (!player) return gameState;
@@ -218,7 +223,23 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
         ? GAME_PHASE.FINISHED_ROUND
         : GAME_PHASE.MOVING_PLAYERS,
     soundEffect: undefined,
+    // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
   };
+}
+
+function appendHistoryRecord(
+  history: RacerHistoryRecord[],
+  player: RacingPlayer
+): RacerHistoryRecord[] {
+  return [
+    ...history,
+    {
+      playerId: player.player.id,
+      position: player.position,
+      movesRemaining: player.movesRemaining,
+      blocked: player.blocked,
+    },
+  ];
 }
 
 function stepPlayer(gameState: GameState, playerId: string): GameState {
@@ -279,6 +300,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     ...gameState,
     racers: updatedPlayers,
     soundEffect: blocked ? 'RacingCarHorn' : 'RacingEngineRev',
+    // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
   };
 }
 

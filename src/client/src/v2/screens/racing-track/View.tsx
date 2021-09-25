@@ -7,6 +7,7 @@ import { RacingSegment } from './components/RacingSegment';
 import { useRacingTrack } from './providers/RacingTrackSerivce';
 import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
+import { DebugRacerHistory } from './components/DebugRacerHistory';
 
 const RACING_SPEED_MS = 500;
 
@@ -23,6 +24,7 @@ const View = () => {
         racingTrackService={racingTrackService}
         speed={RACING_SPEED_MS}
       />
+      <DebugRacerHistory racingTrackService={racingTrackService} />
       <Container>
         <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
           {racingTrackService.racingTrack.sections.map((section, i) => (

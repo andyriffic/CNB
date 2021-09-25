@@ -1,0 +1,14 @@
+
+
+GET http://localhost:3002/test HTTP/1.1
+
+
+###
+
+POST http://localhost:3002/racing-history HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}

@@ -33,18 +33,34 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 server.listen(port);
 
-app.use(express.static(path.join(__dirname, '/../client')));
-app.use(express.static(path.join(__dirname, './static')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/../client/index.html'));
-});
 
 var corsOptions = {
   origin: 'http://localhost:3001',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-app.use('/graphql', cors(corsOptions), graphql);
+app.use(cors(corsOptions));
+
+app.use(express.static(path.join(__dirname, '/../client')));
+app.use(express.static(path.join(__dirname, './static')));
+app.use(express.json());
+
+app.post('/racing-history', (req, res) => {
+  console.log('GOT RACING DATA', req.body);
+  // res.end()
+})
+
+app.get('/test', (req, res) => {
+  console.log('TEST');
+  res.sendStatus(200)
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client/index.html'));
+});
+
+
+app.use('/graphql', graphql);
 
 const userNamespace = initUserNamespace(io);
 initGameNamespace(io, store, userNamespace);

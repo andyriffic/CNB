@@ -1,7 +1,8 @@
 import React, { ReactNode, useCallback, useEffect, useReducer } from 'react';
+import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { Player } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
-import { RacingPlayer, RacingTrack } from '../types';
+import { RacingPlayer, RacingTrack, RacerHistoryRecord } from '../types';
 import { createInitialState, GAME_PHASE, reducer } from './racingTrackReducer';
 
 export type RacingTrackService = {
@@ -12,6 +13,7 @@ export type RacingTrackService = {
   allPlayersMoved: boolean;
   savePlayerState: () => void;
   movingPlayerId?: string;
+  racerHistory: RacerHistoryRecord[];
 };
 
 const RacingTrackContext = React.createContext<RacingTrackService | undefined>(
@@ -65,6 +67,22 @@ export const RacingTrackServiceProvider = ({
   // }, [participatingPlayers]);
 
   useEffect(() => {
+    if (gameState.gamePhase === GAME_PHASE.FINISHED_ROUND) {
+      console.log('SAVE HISTORY HERE?', gameState.racerHistory);
+      console.log('URL', `${SOCKETS_ENDPOINT}/racing-history`);
+
+      fetch(`${SOCKETS_ENDPOINT}/racing-history`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(gameState.racerHistory),
+      });
+    }
+  }, [gameState.gamePhase, gameState.racerHistory]);
+
+  useEffect(() => {
     if (gameState.soundEffect) {
       play(gameState.soundEffect);
     }
@@ -80,6 +98,7 @@ export const RacingTrackServiceProvider = ({
         allPlayersMoved: gameState.allPlayersMoved,
         movingPlayerId: gameState.movingPlayerId,
         savePlayerState,
+        racerHistory: gameState.racerHistory,
       }}
     >
       {children}

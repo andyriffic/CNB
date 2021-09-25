@@ -40,3 +40,10 @@ export type RacingTrack = {
   widthPx: number;
   heightPx: number;
 };
+
+export type RacerHistoryRecord = {
+  playerId: string;
+  position: RacingTrackPosition;
+  blocked: boolean;
+  movesRemaining: number;
+};
