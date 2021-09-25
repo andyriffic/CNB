@@ -53,7 +53,7 @@ app.post('/racing-history', (req, res) => {
 
 app.get('/test', (req, res) => {
   console.log('TEST');
-  res.sendStatus(200)
+  StatsService.getRacingHistory('game1').then(data => res.send(data));
 });
 
 app.get('*', (req, res) => {

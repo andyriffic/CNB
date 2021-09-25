@@ -28,4 +28,40 @@ export const statsS3Bucket = {
       // console.log('STATS ADDED', data);
     });
   },
+  getRacingStats: (gameId, bucket) => {
+    const params = {
+      Bucket: bucket,
+      Prefix: gameId
+    };
+
+    return new Promise((resolve, reject) => {
+      s3.listObjectsV2(params, (err, data) => {
+        if (err) {
+          console.log('ERROR ADDING STATS', err, err.stack);
+          reject();
+        } else {
+          const allFileKeys = data.Contents.map(d => d.Key);
+          const concatData = [];
+
+          allFileKeys.forEach(key => {
+            s3.getObject({Bucket: bucket, Key: key}, (err, data) => {
+              if (err) {
+                console.log('ERROR getting stats file:', key, err);
+                return;
+              }
+
+              console.log('FILE DATA', key, JSON.parse(data.Body.toString('utf-8')));
+              concatData.push(JSON.parse(data.Body.toString('utf-8')))
+
+              if (key === allFileKeys[allFileKeys.length - 1]) {
+                resolve(concatData);
+
+              }
+            })
+          })
+
+        }
+      })
+    })
+  }
 };
