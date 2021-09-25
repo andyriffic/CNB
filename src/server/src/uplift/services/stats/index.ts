@@ -2,6 +2,7 @@ import { GameStatsEntry } from './types';
 import shortid from 'shortid';
 import {
   MOB_STATS_AWS_SOURCE_BUCKET_NAME,
+  RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME,
   STATS_AWS_SOURCE_BUCKET_NAME,
   STATS_ENABLED,
 } from '../../../environment';
@@ -61,8 +62,35 @@ const publishMobSummaryStats = () => {
   );
 };
 
+const saveRacingHistory = (gameId: string, history: any) => {
+  if (!STATS_ENABLED) {
+    log('STATS DISABLED');
+    return;
+  }
+
+  if (!RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME) {
+    console.log('NO Racing Bucket to save stats to');
+    return;
+  }
+
+  const filename = `${gameId}-${moment().format(
+    'YYYY-MM-DD'
+  )}-${shortid.generate()}.json`;
+
+  log('--- Saving racing history records ---');
+  log('filename', filename);
+  log('bucket', RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME);
+
+  statsS3Bucket.saveStats(
+    RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME,
+    filename,
+    history
+  );
+};
+
 export const StatsService = {
   saveGameStatsEntry,
   saveMobGameStatsEntry,
   publishMobSummaryStats,
+  saveRacingHistory,
 };

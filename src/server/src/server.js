@@ -47,6 +47,7 @@ app.use(express.json());
 
 app.post('/racing-history', (req, res) => {
   console.log('GOT RACING DATA', req.body);
+  StatsService.saveRacingHistory(req.body.gameId, req.body.stats)
   // res.end()
 })
 
