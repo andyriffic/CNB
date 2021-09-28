@@ -74,8 +74,8 @@ const saveRacingHistory = (gameId: string, history: any) => {
   }
 
   const filename = `${gameId}/${moment().format(
-    'YYYY-MM-DD'
-  )}-${shortid.generate()}.json`;
+    'YYYY-MM-DD-HH-mm-ss-SSS'
+  )}.json`;
 
   log('--- Saving racing history records ---');
   log('filename', filename);

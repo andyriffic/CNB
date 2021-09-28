@@ -36,13 +36,13 @@ export const DebugPlayerMove = ({
     return () => clearInterval(interval);
   }, [autoMove, racingTrackService.allPlayersMoved]);
 
-  useEffect(() => {
-    if (racingTrackService.gamePhase === GAME_PHASE.FINISHED_ROUND) {
-      console.log('Saving Player State', !dontSave);
+  // useEffect(() => {
+  //   if (racingTrackService.gamePhase === GAME_PHASE.FINISHED_ROUND) {
+  //     console.log('Saving Player State', !dontSave);
 
-      !dontSave && racingTrackService.savePlayerState();
-    }
-  }, [racingTrackService.gamePhase]);
+  //     !dontSave && racingTrackService.savePlayerState();
+  //   }
+  // }, [racingTrackService.gamePhase]);
 
   // useEffect(() => {
   //   if (!gameBoardService.movingPlayer) {

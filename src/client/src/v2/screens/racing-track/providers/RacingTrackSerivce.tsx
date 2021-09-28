@@ -1,9 +1,12 @@
 import React, { ReactNode, useCallback, useEffect, useReducer } from 'react';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
+import { isFeatureEnabled } from '../../../../featureToggle';
 import { Player } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { RacingPlayer, RacingTrack, RacerHistoryRecord } from '../types';
 import { createInitialState, GAME_PHASE, reducer } from './racingTrackReducer';
+
+const dontSave = isFeatureEnabled('no-save');
 
 export type RacingTrackService = {
   gamePhase: GAME_PHASE;
@@ -67,7 +70,7 @@ export const RacingTrackServiceProvider = ({
   // }, [participatingPlayers]);
 
   useEffect(() => {
-    if (gameState.gamePhase === GAME_PHASE.FINISHED_ROUND) {
+    if (gameState.gamePhase === GAME_PHASE.FINISHED_ROUND && !dontSave) {
       console.log('SAVE HISTORY HERE?', gameState.racerHistory);
       console.log('URL', `${SOCKETS_ENDPOINT}/racing-history`);
 
@@ -84,6 +87,14 @@ export const RacingTrackServiceProvider = ({
       });
     }
   }, [gameState.gamePhase, gameState.racerHistory]);
+
+  useEffect(() => {
+    if (gameState.gamePhase === GAME_PHASE.FINISHED_ROUND) {
+      console.log('Saving Player State', !dontSave);
+
+      !dontSave && savePlayerState();
+    }
+  }, [gameState.gamePhase]);
 
   useEffect(() => {
     if (gameState.soundEffect) {

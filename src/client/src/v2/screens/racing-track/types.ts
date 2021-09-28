@@ -41,6 +41,11 @@ export type RacingTrack = {
   heightPx: number;
 };
 
+export type RacerHistoryRecordsByDay = {
+  date: string;
+  history: RacerHistoryRecord[];
+};
+
 export type RacerHistoryRecord = {
   playerId: string;
   position: RacingTrackPosition;

@@ -41,7 +41,8 @@ export const statsS3Bucket = {
           reject();
         } else {
           const allFileKeys = data.Contents.map(d => d.Key);
-          const concatData = [];
+          console.log('keys:', allFileKeys);
+          const concatData = {};
 
           allFileKeys.forEach(key => {
             s3.getObject({Bucket: bucket, Key: key}, (err, data) => {
@@ -51,11 +52,15 @@ export const statsS3Bucket = {
               }
 
               console.log('FILE DATA', key, JSON.parse(data.Body.toString('utf-8')));
-              concatData.push(JSON.parse(data.Body.toString('utf-8')))
+              concatData[key] = JSON.parse(data.Body.toString('utf-8'));
 
-              if (key === allFileKeys[allFileKeys.length - 1]) {
-                resolve(concatData);
 
+              if (Object.keys(concatData).length === allFileKeys.length) {
+                let sortedData = [];
+                allFileKeys.forEach(dataKey => {
+                  sortedData.push(concatData[dataKey])
+                })
+                resolve(sortedData.flat());
               }
             })
           })

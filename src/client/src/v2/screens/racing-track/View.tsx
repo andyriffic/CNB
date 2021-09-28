@@ -7,7 +7,10 @@ import { RacingSegment } from './components/RacingSegment';
 import { useRacingTrack } from './providers/RacingTrackSerivce';
 import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
-import { DebugRacerHistory } from './components/DebugRacerHistory';
+import { isFeatureEnabled } from '../../../featureToggle';
+import RacingReplay from './replay';
+
+const showReplay = isFeatureEnabled('replay');
 
 const RACING_SPEED_MS = 500;
 
@@ -18,13 +21,16 @@ const Container = styled.div`
 const View = () => {
   const racingTrackService = useRacingTrack();
 
+  if (showReplay) {
+    return <RacingReplay />;
+  }
+
   return (
     <GameScreen scrollable={false}>
       <DebugPlayerMove
         racingTrackService={racingTrackService}
         speed={RACING_SPEED_MS}
       />
-      <DebugRacerHistory racingTrackService={racingTrackService} />
       <Container>
         <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
           {racingTrackService.racingTrack.sections.map((section, i) => (
