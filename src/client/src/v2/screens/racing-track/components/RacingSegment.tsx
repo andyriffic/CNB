@@ -14,7 +14,7 @@ type Props = {
 export const RacingSegment = ({ section }: Props): JSX.Element => {
   return (
     <>
-      {section.catchupBonusMoves && (
+      {/* {section.catchupBonusMoves && (
         <PositionContainer
           style={{
             top: `${section.lanes[0].squares[0].coordinates.y}px`,
@@ -23,7 +23,7 @@ export const RacingSegment = ({ section }: Props): JSX.Element => {
         >
           {section.catchupBonusMoves}
         </PositionContainer>
-      )}
+      )} */}
       {section.lanes.map((lane, i) => (
         <RacingLane key={i} lane={lane} section={section} />
       ))}
