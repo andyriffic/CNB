@@ -7,9 +7,25 @@ import {
   flashAnimation,
 } from '../../../../uplift/components/animations';
 import { PlayerCustomisedCar } from './PlayerCustomisedCar';
+import { isFeatureEnabled } from '../../../../featureToggle';
 
 const OFFSET_X_PX = 30;
 const OFFSET_Y_PX = 30;
+
+const carScales: { [key: number]: number } = { 0: 1.1, 8: 1, 12: 0.8 };
+
+const scaleCarFeature = isFeatureEnabled('carscale');
+
+const getScale = (index: number): number => {
+  let scale = 1;
+  Object.keys(carScales).forEach(s => {
+    const sInt = parseInt(s);
+    if (index >= sInt) {
+      scale = carScales[sInt];
+    }
+  });
+  return scale;
+};
 
 const PositionContainer = styled.div<{ speed: number }>`
   position: absolute;
@@ -119,7 +135,20 @@ export const RacingTrackPlayer = ({
             transition: 'transform 200ms ease-in',
           }}
         >
-          <PlayerCustomisedCar racingPlayer={racingPlayer} />
+          {scaleCarFeature ? (
+            <div
+              style={{
+                transition: 'transform: 600ms linear',
+                transform: `scale(${getScale(
+                  racingPlayer.position.sectionIndex
+                )})`,
+              }}
+            >
+              <PlayerCustomisedCar racingPlayer={racingPlayer} />
+            </div>
+          ) : (
+            <PlayerCustomisedCar racingPlayer={racingPlayer} />
+          )}
         </div>
         {racingPlayer.movesRemaining > 0 && (
           <MovesRemaining>{racingPlayer.movesRemaining}</MovesRemaining>
