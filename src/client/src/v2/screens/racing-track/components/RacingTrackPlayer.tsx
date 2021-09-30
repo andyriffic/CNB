@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { RacingPlayer, RacingTrack } from '../types';
 import tinycolor from 'tinycolor2';
@@ -126,6 +126,7 @@ export const RacingTrackPlayer = ({
         )}
         {/* {racingPlayer.isMoving && <MovingIndicator>✨</MovingIndicator>} */}
         {racingPlayer.blocked && <Blocked>🤬</Blocked>}
+        {racingPlayer.gotBonusMoves && <Blocked>🎉</Blocked>}
         {/* {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>} */}
         <PlayerName
           style={{

@@ -30,6 +30,7 @@ const createHistoryRacer = (
 ): RacingPlayer => {
   return {
     blocked: false,
+    gotBonusMoves: false,
     carColor: '#f00',
     carStyle: 'sports',
     isMoving: false,

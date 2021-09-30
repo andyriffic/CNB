@@ -140,7 +140,10 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         ...state,
         gamePhase: GAME_PHASE.MOVING_PLAYERS,
         movingPlayerId: playerToMove.player.id,
-        racerHistory: appendHistoryRecord(state.racerHistory, playerToMove),
+        racerHistory: appendHistoryRecord(
+          state.racerHistory,
+          state.racers.find(r => r.player.id === playerToMove.player.id)
+        ),
       };
 
       return playerToMove.movesRemaining === 0
@@ -189,6 +192,7 @@ function createGamePlayer(
       'rt_car',
       'sports'
     ) as RacingCarStyles,
+    gotBonusMoves: false,
   };
 }
 
@@ -207,7 +211,16 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
   const updatedRacers = replaceWithUpdatedPlayer(
     updatedPlayer,
     gameState.racers
-  );
+  ).map(rp => ({ ...rp, gotBonusMoves: false }));
+
+  const gamePhase =
+    updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0
+      ? GAME_PHASE.FINISHED_ROUND
+      : GAME_PHASE.MOVING_PLAYERS;
+
+  if (gamePhase == GAME_PHASE.FINISHED_ROUND) {
+    console.log('HISTORY', gameState.racerHistory);
+  }
 
   return {
     ...gameState,
@@ -218,10 +231,7 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
     ),
     allPlayersMoved:
       updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0,
-    gamePhase:
-      updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0
-        ? GAME_PHASE.FINISHED_ROUND
-        : GAME_PHASE.MOVING_PLAYERS,
+    gamePhase,
     soundEffect: undefined,
     // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
   };
@@ -229,8 +239,11 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
 
 function appendHistoryRecord(
   history: RacerHistoryRecord[],
-  player: RacingPlayer
+  player?: RacingPlayer
 ): RacerHistoryRecord[] {
+  if (!player) {
+    return history;
+  }
   return [
     ...history,
     {
@@ -279,6 +292,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   const updatedPlayer: RacingPlayer = {
     ...player,
     isMoving: true,
+    gotBonusMoves: false,
     blocked,
     passedAnotherRacer:
       newPosition.position.sectionIndex > currentPosition.sectionIndex &&
@@ -291,17 +305,65 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     movesRemaining,
   };
 
-  const updatedPlayers = replaceWithUpdatedPlayer(
+  const racersWithUpdatedPlayer = replaceWithUpdatedPlayer(
     updatedPlayer,
     gameState.racers
   );
 
+  const catchupBonusMoves =
+    racingTrack.sections[updatedPlayer.position.sectionIndex].catchupBonusMoves;
+
+  const racersWithUpdatedBonusMoves = catchupBonusMoves
+    ? applyCatchupBonus(
+        racersWithUpdatedPlayer,
+        updatedPlayer.position.sectionIndex,
+        catchupBonusMoves
+      )
+    : racersWithUpdatedPlayer;
+
+  const playerIdsStillToMove = gameState.playersToMove.map(rp => rp.player.id);
+  const playersFinishedMoveButNowWithMoreMoves = racersWithUpdatedBonusMoves
+    .filter(rp => rp.movesRemaining > 0)
+    .filter(rp => !playerIdsStillToMove.includes(rp.player.id));
+
+  const updatedPlayersToMove = playersFinishedMoveButNowWithMoreMoves.length
+    ? [...gameState.playersToMove, ...playersFinishedMoveButNowWithMoreMoves]
+    : gameState.playersToMove;
+
   return {
     ...gameState,
-    racers: updatedPlayers,
-    soundEffect: blocked ? 'RacingCarHorn' : 'RacingEngineRev',
+    racers: racersWithUpdatedBonusMoves,
+    soundEffect: catchupBonusMoves
+      ? 'PowerMode'
+      : blocked
+      ? 'RacingCarHorn'
+      : 'RacingEngineRev',
+    playersToMove: updatedPlayersToMove,
     // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
   };
+}
+
+function applyCatchupBonus(
+  allRacers: RacingPlayer[],
+  sectionIndex: number,
+  catchupMoves: number
+): RacingPlayer[] {
+  const allBehindPlayerIds = allRacers
+    .filter(rp => rp.position.sectionIndex < sectionIndex)
+    .map(rp => rp.player.id);
+
+  const updatedRacers = allRacers.map<RacingPlayer>(rp => {
+    return allBehindPlayerIds.includes(rp.player.id)
+      ? {
+          ...rp,
+          movesRemaining: rp.movesRemaining + catchupMoves,
+          blocked: false,
+          gotBonusMoves: true,
+        }
+      : rp;
+  });
+
+  return updatedRacers;
 }
 
 function getNextLane(

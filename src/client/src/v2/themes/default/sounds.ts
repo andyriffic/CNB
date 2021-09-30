@@ -21,7 +21,7 @@ import spinningHeartReverse from './sounds/spinning_heart_reverse.mp3';
 import manGrunt from './sounds/man_grunt.mp3';
 import fallWithImpact from './sounds/fall_with_impact.mp3';
 import aww from './sounds/aww.mp3';
-import powerMode from './sounds/loz_link_get_powerup.mp3';
+import powerMode from './sounds/power_mode.mp3';
 import eightBitFall from './sounds/8bit_fall.wav';
 import flipPop from './sounds/flip-pop.wav';
 import barrelBlast from './sounds/barrel_blast.mp3';
