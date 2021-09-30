@@ -2,7 +2,7 @@ import { Debugger } from 'debug';
 import { playerService } from '../../services/player';
 import { Player } from '../../services/player/types';
 import { incrementIntegerTag } from '../../utils/tags';
-import { MobGame } from './types';
+import { MobGame, MobPlayerPoints } from './types';
 
 function givePoints(player: Player, points: number, log: Debugger): void {
   log('Giving points: ', player.id, points);
@@ -35,6 +35,21 @@ export function pointsToPlayers(mobGame: MobGame, log: Debugger) {
       if (!mobPlayer) return;
 
       givePoints(mobPlayer, mobPlayerPoints.points, log);
+    });
+
+    const allRacerPlayerIdsThisGame = [
+      mobGame.mugPlayer.playerId,
+      ...mobGame.mobPlayers.map((mp) => mp.playerId),
+    ];
+
+    console.log('MISSING RACERS', allRacerPlayerIdsThisGame);
+
+    const racersMissingThisRace = allPlayers
+      .filter((p) => p.tags.includes('racer'))
+      .filter((p) => !allRacerPlayerIdsThisGame.includes(p.id));
+
+    racersMissingThisRace.forEach((player) => {
+      givePoints(player, 1, log);
     });
   });
 
