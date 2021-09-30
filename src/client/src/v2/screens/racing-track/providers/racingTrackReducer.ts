@@ -251,6 +251,7 @@ function appendHistoryRecord(
       position: player.position,
       movesRemaining: player.movesRemaining,
       blocked: player.blocked,
+      gotBonusMoves: player.gotBonusMoves,
     },
   ];
 }

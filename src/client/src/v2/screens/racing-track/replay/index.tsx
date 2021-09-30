@@ -29,7 +29,7 @@ const createHistoryRacer = (
   historyRecord: RacerHistoryRecord
 ): RacingPlayer => {
   return {
-    blocked: false,
+    blocked: historyRecord.blocked,
     gotBonusMoves: false,
     carColor: '#f00',
     carStyle: 'sports',
@@ -69,6 +69,7 @@ const reducer = (state: LocalState, action: 'NEXT'): LocalState => {
           ...existingRacer,
           position: nextHistoryRecord.position,
           movesRemaining: nextHistoryRecord.movesRemaining,
+          blocked: nextHistoryRecord.blocked,
         };
 
         return {

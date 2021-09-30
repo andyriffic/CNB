@@ -52,5 +52,6 @@ export type RacerHistoryRecord = {
   playerId: string;
   position: RacingTrackPosition;
   blocked: boolean;
+  gotBonusMoves?: boolean;
   movesRemaining: number;
 };
