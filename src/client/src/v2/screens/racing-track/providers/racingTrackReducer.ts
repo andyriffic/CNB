@@ -310,8 +310,10 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     gameState.racers
   );
 
-  const catchupBonusMoves =
-    racingTrack.sections[updatedPlayer.position.sectionIndex].catchupBonusMoves;
+  const catchupBonusMoves = newPosition.moved
+    ? racingTrack.sections[updatedPlayer.position.sectionIndex]
+        .catchupBonusMoves
+    : 0;
 
   const racersWithUpdatedBonusMoves = catchupBonusMoves
     ? applyCatchupBonus(
