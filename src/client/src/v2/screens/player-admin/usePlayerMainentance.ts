@@ -13,7 +13,7 @@ export const usePlayerMaintenance = (): UsePlayerMaintenance => {
     setAllRacersRandomMoves: () => {
       const allRacers = allPlayers.filter(p => p.tags.includes('racer'));
       allRacers.forEach(p => {
-        const moves = selectRandomOneOf([1, 2, 3, 4]);
+        const moves = selectRandomOneOf([1, 2, 3, 4, 5, 6]);
 
         const updatedTags = [
           ...p.tags.filter(t => !t.startsWith('rt_moves')),

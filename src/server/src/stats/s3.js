@@ -41,6 +41,10 @@ export const statsS3Bucket = {
           reject();
         } else {
           const allFileKeys = data.Contents.map(d => d.Key);
+
+          if (allFileKeys.length === 0) {
+            resolve([]);
+          }
           console.log('keys:', allFileKeys);
           const concatData = {};
 

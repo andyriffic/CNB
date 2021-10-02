@@ -31,7 +31,7 @@ const createHistoryRacer = (
   return {
     blocked: historyRecord.blocked,
     gotBonusMoves: false,
-    carColor: '#f00',
+    carColor: '#FFF',
     carStyle: 'sports',
     isMoving: false,
     movesRemaining: historyRecord.movesRemaining,
@@ -47,8 +47,14 @@ const createHistoryRacer = (
   };
 };
 
-const reducer = (state: LocalState, action: 'NEXT'): LocalState => {
-  switch (action) {
+const reducer = (
+  state: LocalState,
+  action: { type: 'NEXT' } | { type: 'LOAD'; history: RacerHistoryRecord[] }
+): LocalState => {
+  switch (action.type) {
+    case 'LOAD': {
+      return { ...state, history: action.history };
+    }
     case 'NEXT': {
       const nextIndex = state.currentHistoryIndex + 1;
       const nextHistoryRecord = state.history[nextIndex];
@@ -100,7 +106,7 @@ const View = () => {
   const [state, dispatch] = useReducer(reducer, {
     finished: false,
     currentHistoryIndex: -1,
-    history: racingHistory.flatHistory,
+    history: [],
     historyRacers: [],
   });
   const [play, setPlay] = useState(false);
@@ -111,17 +117,41 @@ const View = () => {
       const interval = setInterval(() => {
         console.log('HISTORY TICK');
 
-        dispatch('NEXT');
-      }, 500);
+        dispatch({ type: 'NEXT' });
+      }, 300);
 
       return () => clearInterval(interval);
     }
   }, [play, state.finished]);
 
+  useEffect(() => {
+    if (!racingHistory.isLoading) {
+      dispatch({ type: 'LOAD', history: racingHistory.flatHistory });
+    }
+  }, [racingHistory]);
+
   return (
     <GameScreen scrollable={false}>
-      <MainHeading>Replay!</MainHeading>
-      <Button onClick={() => setPlay(!play)}>{play ? 'PAUSE' : 'PLAY'}</Button>
+      <div style={{ position: 'absolute', top: '50px', left: 0 }}>
+        <Button
+          onClick={() => setPlay(!play)}
+          disabled={racingHistory.isLoading}
+        >
+          {play ? 'PAUSE' : 'PLAY'}
+        </Button>
+        <p style={{ fontSize: '0.6rem' }}>
+          {racingHistory.isLoading
+            ? 'Loading'
+            : `Loaded (${racingHistory.flatHistory.length} records)`}
+        </p>
+        {!racingHistory.isLoading && (
+          <p style={{ fontSize: '0.6rem' }}>
+            Showing {state.currentHistoryIndex}/
+            {racingHistory.flatHistory.length}
+          </p>
+        )}
+      </div>
+
       {/* <DebugPlayerMove
         racingTrackService={racingTrackService}
         speed={RACING_SPEED_MS}
@@ -136,7 +166,7 @@ const View = () => {
               key={racer.player.id}
               racingPlayer={racer}
               racingTrack={racingTrackService.racingTrack}
-              speed={RACING_SPEED_MS}
+              speed={300}
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
