@@ -47,13 +47,22 @@ app.use(express.json());
 
 app.post('/racing-history', (req, res) => {
   console.log('GOT RACING DATA', req.body);
-  StatsService.saveRacingHistory(req.body.gameId, req.body.stats)
-  // res.end()
+  StatsService.saveRacingHistory(req.body.gameId, req.body.stats);
+  res.end();
 })
 
-app.get('/test', (req, res) => {
-  console.log('TEST');
-  StatsService.getRacingHistory('game1').then(data => res.send(data));
+app.get('/racing-history/summary/:gameId', (req, res) => {
+  console.log('racing-history summary', req.params.gameId);  
+  StatsService.getRacingHistorySummary(req.params.gameId)
+    .then(data => res.send(data))
+    .catch(err => res.send(err));
+});
+
+app.get('/racing-history/game/:gameId/file/:key', (req, res) => {
+  console.log('racing-history file', req.params.gameId, req.params.key);  
+  StatsService.getRacingHistoryFile(req.params.gameId, req.params.key)
+    .then(data => res.send(data))
+    .catch(err => res.send(err));
 });
 
 app.get('*', (req, res) => {

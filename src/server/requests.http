@@ -1,10 +1,14 @@
 
 
-GET http://localhost:3002/test HTTP/1.1
+GET http://localhost:3002/racing-history/summary/game1 HTTP/1.1
 
 
 ###
 
+GET http://localhost:3002/racing-history/game/game1/file/2021-10-02-09-28-03-118.json HTTP/1.1
+
+
+###
 POST http://localhost:3002/racing-history HTTP/1.1
 content-type: application/json
 
@@ -12,3 +16,8 @@ content-type: application/json
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
 }
+
+###
+
+GET http://cnb.finx-rocks.com/racing-history HTTP/1.1
+

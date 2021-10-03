@@ -5,10 +5,20 @@ import {
   STATS_AWS_SECRET_ACCESS_KEY,
 } from '../environment';
 
+const https = require('https');
+const agent = new https.Agent({
+  keepAlive: true,
+  maxSockets: Infinity,
+  keepAliveMsecs: 3000
+});
+
 const s3 = new AWS.S3({
   accessKeyId: STATS_AWS_ACCESS_KEY_ID,
   secretAccessKey: STATS_AWS_SECRET_ACCESS_KEY,
   apiVersion: '2006-03-01',
+  httpOptions: {
+    agent
+  }
 });
 
 export const statsS3Bucket = {
@@ -28,7 +38,7 @@ export const statsS3Bucket = {
       // console.log('STATS ADDED', data);
     });
   },
-  getRacingStats: (gameId, bucket) => {
+  getRacingStatSummary: (gameId, bucket) => {
     const params = {
       Bucket: bucket,
       Prefix: gameId
@@ -38,39 +48,37 @@ export const statsS3Bucket = {
       s3.listObjectsV2(params, (err, data) => {
         if (err) {
           console.log('ERROR ADDING STATS', err, err.stack);
-          reject();
+          reject(err.message);
+          return;
         } else {
-          const allFileKeys = data.Contents.map(d => d.Key);
-
-          if (allFileKeys.length === 0) {
-            resolve([]);
-          }
-          console.log('keys:', allFileKeys);
-          const concatData = {};
-
-          allFileKeys.forEach(key => {
-            s3.getObject({Bucket: bucket, Key: key}, (err, data) => {
-              if (err) {
-                console.log('ERROR getting stats file:', key, err);
-                return;
-              }
-
-              console.log('FILE DATA', key, JSON.parse(data.Body.toString('utf-8')));
-              concatData[key] = JSON.parse(data.Body.toString('utf-8'));
-
-
-              if (Object.keys(concatData).length === allFileKeys.length) {
-                let sortedData = [];
-                allFileKeys.forEach(dataKey => {
-                  sortedData.push(concatData[dataKey])
-                })
-                resolve(sortedData.flat());
-              }
-            })
-          })
-
+          const allFileKeys = data.Contents
+            .map(d => d.Key)
+            .map(key => key.replace(`${gameId}/`, ''));
+            
+          resolve(allFileKeys);
         }
       })
     })
+  },
+  getRacingStatsFile: (gameId, key, bucket) => {
+    return new Promise((resolve, reject) => {
+      const fullKey = `${gameId}/${key}`;
+      s3.getObject({Bucket: bucket, Key: fullKey}, (err, data) => {
+        if (err) {
+          console.log('ERROR getting stats file:', fullKey, err);
+          reject(err.message);
+          return;
+        }
+        let parsedData;
+  
+        try {
+          parsedData = JSON.parse(data.Body.toString('utf-8'));
+        } catch (err) {
+          reject(err);
+        }
+  
+        resolve(parsedData);
+      })
+    });
   }
 };

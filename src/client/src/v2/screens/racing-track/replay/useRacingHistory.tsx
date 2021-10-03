@@ -44,8 +44,10 @@ export const useRacingHistory = (): State => {
   });
 
   useEffect(() => {
+    console.log('Fetching from', `${SOCKETS_ENDPOINT}/racing-history`);
+
     dispatch({ type: 'start' });
-    fetch(`${SOCKETS_ENDPOINT}/test`, {
+    fetch(`${SOCKETS_ENDPOINT}/racing-history`, {
       cache: 'no-store',
     })
       .then(data => data.json())

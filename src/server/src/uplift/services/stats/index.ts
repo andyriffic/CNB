@@ -74,7 +74,7 @@ const saveRacingHistory = (gameId: string, history: any) => {
   }
 
   const filename = `${gameId}/${moment().format(
-    'YYYY-MM-DD-HH-mm-ss-SSS'
+    'YYYY-MM-DD-hh-mm-ss-SSS'
   )}.json`;
 
   log('--- Saving racing history records ---');
@@ -88,9 +88,17 @@ const saveRacingHistory = (gameId: string, history: any) => {
   );
 };
 
-const getRacingHistory = (gameId: string): Promise<any> => {
-  return statsS3Bucket.getRacingStats(
+const getRacingHistorySummary = (gameId: string): Promise<any> => {
+  return statsS3Bucket.getRacingStatSummary(
     gameId,
+    RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME
+  );
+};
+
+const getRacingHistoryFile = (gameId: string, key: string): Promise<any> => {
+  return statsS3Bucket.getRacingStatsFile(
+    gameId,
+    key,
     RACING_HISTORY_STATS_AWS_SOURCE_BUCKET_NAME
   );
 };
@@ -100,5 +108,6 @@ export const StatsService = {
   saveMobGameStatsEntry,
   publishMobSummaryStats,
   saveRacingHistory,
-  getRacingHistory,
+  getRacingHistorySummary,
+  getRacingHistoryFile,
 };
