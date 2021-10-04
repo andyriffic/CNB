@@ -12,7 +12,7 @@ import { MainHeading } from '../../../../uplift/components/Heading';
 import { Button } from '../../../components/ui/buttons';
 import { RacerHistoryRecord, RacingPlayer } from '../types';
 
-const RACING_SPEED_MS = 500;
+const RACING_SPEED_MS = 250;
 
 const Container = styled.div`
   margin: 0 auto;
@@ -118,7 +118,7 @@ const View = () => {
         console.log('HISTORY TICK');
 
         dispatch({ type: 'NEXT' });
-      }, 300);
+      }, RACING_SPEED_MS);
 
       return () => clearInterval(interval);
     }
@@ -166,7 +166,7 @@ const View = () => {
               key={racer.player.id}
               racingPlayer={racer}
               racingTrack={racingTrackService.racingTrack}
-              speed={300}
+              speed={RACING_SPEED_MS}
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
