@@ -9,6 +9,7 @@ import { RacingTrackPlayer } from './components/RacingTrackPlayer';
 import { DebugPlayerMove } from './components/DebugPlayerMove';
 import { isFeatureEnabled } from '../../../featureToggle';
 import RacingReplay from './replay';
+import { usePlayersProvider } from '../../providers/PlayersProvider';
 
 const showReplay = isFeatureEnabled('replay');
 
@@ -20,9 +21,10 @@ const Container = styled.div`
 
 const View = () => {
   const racingTrackService = useRacingTrack();
+  const { allPlayers } = usePlayersProvider();
 
-  if (showReplay) {
-    return <RacingReplay />;
+  if (showReplay && allPlayers.length) {
+    return <RacingReplay allPlayers={allPlayers} />;
   }
 
   return (

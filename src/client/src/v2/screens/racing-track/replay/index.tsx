@@ -11,6 +11,8 @@ import { useRacingHistory } from './useRacingHistory';
 import { MainHeading } from '../../../../uplift/components/Heading';
 import { Button } from '../../../components/ui/buttons';
 import { RacerHistoryRecord, RacingPlayer } from '../types';
+import { Player } from '../../../providers/PlayersProvider';
+import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 
 const RACING_SPEED_MS = 250;
 
@@ -23,15 +25,17 @@ type LocalState = {
   currentHistoryIndex: number;
   history: RacerHistoryRecord[];
   historyRacers: RacingPlayer[];
+  allPlayers: Player[];
 };
 
 const createHistoryRacer = (
-  historyRecord: RacerHistoryRecord
+  historyRecord: RacerHistoryRecord,
+  player: Player
 ): RacingPlayer => {
   return {
     blocked: historyRecord.blocked,
     gotBonusMoves: false,
-    carColor: '#FFF',
+    carColor: getPlayerAttributeValue(player.tags, 'rt_color', '#fff'),
     carStyle: 'sports',
     isMoving: false,
     movesRemaining: historyRecord.movesRemaining,
@@ -53,7 +57,23 @@ const reducer = (
 ): LocalState => {
   switch (action.type) {
     case 'LOAD': {
-      return { ...state, history: action.history };
+      const allUniqueRacerIds = Array.from(
+        new Set(action.history.map(h => h.playerId))
+      );
+      const initialRacers = allUniqueRacerIds.map(playerId => {
+        const firstPosition = action.history.find(
+          h => h.playerId === playerId
+        )!;
+        return createHistoryRacer(
+          firstPosition,
+          state.allPlayers.find(p => p.id === playerId)!
+        );
+      });
+      return {
+        ...state,
+        history: action.history,
+        historyRacers: initialRacers,
+      };
     }
     case 'NEXT': {
       const nextIndex = state.currentHistoryIndex + 1;
@@ -70,44 +90,51 @@ const reducer = (
         hr => hr.player.id === nextHistoryRecord.playerId
       );
 
-      if (existingRacer) {
-        const updatedRacer: RacingPlayer = {
-          ...existingRacer,
-          position: nextHistoryRecord.position,
-          movesRemaining: nextHistoryRecord.movesRemaining,
-          blocked: nextHistoryRecord.blocked,
-        };
-
-        return {
-          ...state,
-          currentHistoryIndex: nextIndex,
-          historyRacers: state.historyRacers.map(hr => {
-            return hr.player.id === updatedRacer.player.id ? updatedRacer : hr;
-          }),
-        };
+      if (!existingRacer) {
+        throw 'No player found';
       }
+
+      const updatedRacer: RacingPlayer = {
+        ...existingRacer,
+        position: nextHistoryRecord.position,
+        movesRemaining: nextHistoryRecord.movesRemaining,
+        blocked: nextHistoryRecord.blocked,
+      };
 
       return {
         ...state,
         currentHistoryIndex: nextIndex,
-        historyRacers: [
-          ...state.historyRacers,
-          createHistoryRacer(nextHistoryRecord),
-        ],
+        historyRacers: state.historyRacers.map(hr => {
+          return hr.player.id === updatedRacer.player.id ? updatedRacer : hr;
+        }),
       };
+
+      // return {
+      //   ...state,
+      //   currentHistoryIndex: nextIndex,
+      //   historyRacers: [
+      //     ...state.historyRacers,
+      //     createHistoryRacer(nextHistoryRecord),
+      //   ],
+      // };
     }
     default:
       return state;
   }
 };
 
-const View = () => {
+type Props = {
+  allPlayers: Player[];
+};
+
+const View = ({ allPlayers }: Props) => {
   const racingHistory = useRacingHistory();
   const [state, dispatch] = useReducer(reducer, {
     finished: false,
     currentHistoryIndex: -1,
     history: [],
     historyRacers: [],
+    allPlayers,
   });
   const [play, setPlay] = useState(false);
   const racingTrackService = useRacingTrack();
@@ -166,7 +193,7 @@ const View = () => {
               key={racer.player.id}
               racingPlayer={racer}
               racingTrack={racingTrackService.racingTrack}
-              speed={RACING_SPEED_MS}
+              speed={RACING_SPEED_MS + 200}
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
