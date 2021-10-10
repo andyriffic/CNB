@@ -174,7 +174,7 @@ const View = ({ allPlayers }: Props) => {
         {!racingHistory.isLoading && (
           <p style={{ fontSize: '0.6rem' }}>
             Showing {state.currentHistoryIndex}/
-            {racingHistory.flatHistory.length}
+            {racingHistory.flatHistory.length - 1}
           </p>
         )}
       </div>
