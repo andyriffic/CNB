@@ -48,7 +48,11 @@ interface SyncDataFromServerAction extends BaseAction {
 }
 
 const sortMovesRemaining = (a: RacingPlayer, b: RacingPlayer): 1 | -1 => {
-  return a.movesRemaining <= b.movesRemaining ? 1 : -1;
+  if (a.movesRemaining === b.movesRemaining) {
+    return a.position.sectionIndex <= b.position.sectionIndex ? 1 : -1;
+  } else {
+    return a.movesRemaining < b.movesRemaining ? 1 : -1;
+  }
 };
 
 export const createInitialState = ({
@@ -327,7 +331,8 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   const playerIdsStillToMove = gameState.playersToMove.map(rp => rp.player.id);
   const playersFinishedMoveButNowWithMoreMoves = racersWithUpdatedBonusMoves
     .filter(rp => rp.movesRemaining > 0)
-    .filter(rp => !playerIdsStillToMove.includes(rp.player.id));
+    .filter(rp => !playerIdsStillToMove.includes(rp.player.id))
+    .sort(sortMovesRemaining);
 
   const updatedPlayersToMove = playersFinishedMoveButNowWithMoreMoves.length
     ? [...gameState.playersToMove, ...playersFinishedMoveButNowWithMoreMoves]
