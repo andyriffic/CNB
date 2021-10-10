@@ -473,6 +473,141 @@ export const racingTrack: RacingTrack = {
         },
       ],
     },
+    {
+      rotationDegrees: 540,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 330, y: 220 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 500,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 267, y: 230 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 450,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 250, y: 300 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 400,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 258, y: 360 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 325, y: 370 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 390, y: 370 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 390, y: 330 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 455, y: 380 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 455, y: 345 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 455, y: 317 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 520, y: 380 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 345 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 520, y: 317 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 590, y: 380 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 590, y: 345 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 590, y: 317 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 650, y: 380 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 650, y: 347 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 650, y: 317 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 710, y: 380 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 710, y: 348 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 710, y: 317 } }],
+        },
+      ],
+    },
+    {
+      rotationDegrees: 360,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 780, y: 385 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 780, y: 352 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 780, y: 320 } }],
+        },
+      ],
+    },
   ],
   boardBackgroundImage: background,
   widthPx: 1000,
