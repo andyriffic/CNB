@@ -3,15 +3,27 @@ import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { RacerHistoryRecord, RacerHistoryRecordsByDay } from '../types';
 import { mockFlatHistory, mockHistory } from './mockHistory';
 
-type RacingDataFile = {
+export type RacingDataFileLoading = {
   key: string;
   records?: RacerHistoryRecord[];
 };
 
-type State = {
+export type RacingDataFileLoaded = {
+  key: string;
+  title: string;
+  records: RacerHistoryRecord[];
+};
+
+function formatRacingDataFileTitle(key: string): string {
+  const parts = key.split('-');
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+export type RacingHistoryState = {
   isLoading: boolean;
   flatHistory: RacerHistoryRecord[];
-  historyFiles: RacingDataFile[];
+  loadingHistoryFiles: RacingDataFileLoading[];
+  loadedHistoryFiles: RacingDataFileLoaded[];
 };
 
 type StartedFetch = { type: 'start' };
@@ -24,31 +36,52 @@ type LoadedFile = {
 };
 
 const reducer = (
-  state: State,
+  state: RacingHistoryState,
   action: StartedFetch | LoadedFile | LoadedKeys | FailedFetch
-): State => {
+): RacingHistoryState => {
   switch (action.type) {
     case 'start': {
-      return { isLoading: true, flatHistory: [], historyFiles: [] };
+      return {
+        isLoading: true,
+        flatHistory: [],
+        loadingHistoryFiles: [],
+        loadedHistoryFiles: [],
+      };
     }
     case 'failed': {
-      return { isLoading: false, flatHistory: [], historyFiles: [] };
+      return {
+        isLoading: false,
+        flatHistory: [],
+        loadingHistoryFiles: [],
+        loadedHistoryFiles: [],
+      };
     }
     case 'fetched_keys': {
       return {
         ...state,
-        historyFiles: action.keys.map<RacingDataFile>(k => ({ key: k })),
+        loadingHistoryFiles: action.keys.map<RacingDataFileLoading>(k => ({
+          key: k,
+        })),
       };
     }
     case 'fetched_file': {
-      const updatedHistoryFiles = state.historyFiles.map<RacingDataFile>(h =>
-        h.key === action.key ? { ...h, records: action.file } : h
-      );
+      const updatedHistoryFiles = state.loadingHistoryFiles.map<
+        RacingDataFileLoading
+      >(h => (h.key === action.key ? { ...h, records: action.file } : h));
+
       const allRecordsLoaded = updatedHistoryFiles.every(h => !!h.records);
+
       const newState = {
         ...state,
-        historyFiles: updatedHistoryFiles,
+        loadingHistoryFiles: updatedHistoryFiles,
         isLoading: !allRecordsLoaded,
+        loadedHistoryFiles: allRecordsLoaded
+          ? updatedHistoryFiles.map<RacingDataFileLoaded>(hf => ({
+              key: hf.key,
+              title: formatRacingDataFileTitle(hf.key),
+              records: hf.records!,
+            }))
+          : [],
         flatHistory: allRecordsLoaded
           ? updatedHistoryFiles.map(h => h.records!).flat()
           : [],
@@ -65,11 +98,12 @@ const reducer = (
 
 const RACING_GAME_ID = 'game1';
 
-export const useRacingHistory = (): State => {
+export const useRacingHistory = (): RacingHistoryState => {
   const [state, dispatch] = useReducer(reducer, {
-    isLoading: false,
+    isLoading: true,
     flatHistory: [],
-    historyFiles: [],
+    loadingHistoryFiles: [],
+    loadedHistoryFiles: [],
   });
 
   useEffect(() => {

@@ -7,12 +7,13 @@ import { RacingSegment } from '../components/RacingSegment';
 import { useRacingTrack } from '../providers/RacingTrackSerivce';
 import { RacingTrackPlayer } from '../components/RacingTrackPlayer';
 import { DebugPlayerMove } from '../components/DebugPlayerMove';
-import { useRacingHistory } from './useRacingHistory';
+import { RacingDataFileLoaded, useRacingHistory } from './useRacingHistory';
 import { MainHeading } from '../../../../uplift/components/Heading';
 import { Button } from '../../../components/ui/buttons';
 import { RacerHistoryRecord, RacingPlayer } from '../types';
 import { Player } from '../../../providers/PlayersProvider';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
+import { RacingDateControl } from './RacingDateControl';
 
 const RACING_SPEED_MS = 250;
 
@@ -20,10 +21,13 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-type LocalState = {
+export type ReplayUiState = {
   finished: boolean;
+  currentTitle?: string;
+  currentDataFileIndex: number;
   currentHistoryIndex: number;
   history: RacerHistoryRecord[];
+  racingDataFiles: RacingDataFileLoaded[];
   historyRacers: RacingPlayer[];
   allPlayers: Player[];
 };
@@ -35,28 +39,30 @@ const createHistoryRacer = (
   return {
     blocked: historyRecord.blocked,
     gotBonusMoves: false,
-    carColor: getPlayerAttributeValue(player.tags, 'rt_color', '#fff'),
+    carColor: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
     carStyle: 'sports',
     isMoving: false,
     movesRemaining: historyRecord.movesRemaining,
     passedAnotherRacer: false,
     position: historyRecord.position,
-    player: {
-      avatarImageUrl: '',
-      id: historyRecord.playerId,
-      name: historyRecord.playerId,
-      tags: [],
-      teams: [],
-    },
+    player,
   };
 };
 
 const reducer = (
-  state: LocalState,
-  action: { type: 'NEXT' } | { type: 'LOAD'; history: RacerHistoryRecord[] }
-): LocalState => {
+  state: ReplayUiState,
+  action:
+    | { type: 'NEXT' }
+    | {
+        type: 'LOAD';
+        history: RacerHistoryRecord[];
+        racingDataFiles: RacingDataFileLoaded[];
+      }
+): ReplayUiState => {
   switch (action.type) {
     case 'LOAD': {
+      console.log('LOAD', action);
+
       const allUniqueRacerIds = Array.from(
         new Set(action.history.map(h => h.playerId))
       );
@@ -72,18 +78,38 @@ const reducer = (
       return {
         ...state,
         history: action.history,
+        racingDataFiles: action.racingDataFiles,
         historyRacers: initialRacers,
       };
     }
     case 'NEXT': {
-      const nextIndex = state.currentHistoryIndex + 1;
-      const nextHistoryRecord = state.history[nextIndex];
+      let dataFileIndex = state.currentDataFileIndex;
+      let currentDataFile = state.racingDataFiles[state.currentDataFileIndex];
+      let nextHistoryIndex = state.currentHistoryIndex + 1;
+      let nextHistoryRecord = currentDataFile.records[nextHistoryIndex];
 
       if (!nextHistoryRecord) {
-        return {
-          ...state,
-          finished: true,
-        };
+        dataFileIndex = dataFileIndex + 1;
+        currentDataFile = state.racingDataFiles[dataFileIndex];
+
+        if (!currentDataFile) {
+          return {
+            ...state,
+            currentTitle: '',
+            finished: true,
+          };
+        }
+
+        nextHistoryIndex = 0;
+        nextHistoryRecord = currentDataFile[nextHistoryRecord];
+
+        if (!nextHistoryRecord) {
+          return {
+            ...state,
+            currentTitle: '',
+            finished: true,
+          };
+        }
       }
 
       const existingRacer = state.historyRacers.find(
@@ -103,20 +129,13 @@ const reducer = (
 
       return {
         ...state,
-        currentHistoryIndex: nextIndex,
+        currentDataFileIndex: dataFileIndex,
+        currentHistoryIndex: nextHistoryIndex,
+        currentTitle: currentDataFile.title,
         historyRacers: state.historyRacers.map(hr => {
           return hr.player.id === updatedRacer.player.id ? updatedRacer : hr;
         }),
       };
-
-      // return {
-      //   ...state,
-      //   currentHistoryIndex: nextIndex,
-      //   historyRacers: [
-      //     ...state.historyRacers,
-      //     createHistoryRacer(nextHistoryRecord),
-      //   ],
-      // };
     }
     default:
       return state;
@@ -131,8 +150,10 @@ const View = ({ allPlayers }: Props) => {
   const racingHistory = useRacingHistory();
   const [state, dispatch] = useReducer(reducer, {
     finished: false,
-    currentHistoryIndex: -1,
+    currentDataFileIndex: 0,
+    currentHistoryIndex: 0,
     history: [],
+    racingDataFiles: [],
     historyRacers: [],
     allPlayers,
   });
@@ -142,8 +163,6 @@ const View = ({ allPlayers }: Props) => {
   useEffect(() => {
     if (play && !state.finished) {
       const interval = setInterval(() => {
-        console.log('HISTORY TICK');
-
         dispatch({ type: 'NEXT' });
       }, RACING_SPEED_MS);
 
@@ -153,7 +172,13 @@ const View = ({ allPlayers }: Props) => {
 
   useEffect(() => {
     if (!racingHistory.isLoading) {
-      dispatch({ type: 'LOAD', history: racingHistory.flatHistory });
+      console.log('Effect LOAD');
+
+      dispatch({
+        type: 'LOAD',
+        history: racingHistory.flatHistory,
+        racingDataFiles: racingHistory.loadedHistoryFiles,
+      });
     }
   }, [racingHistory]);
 
@@ -198,6 +223,10 @@ const View = ({ allPlayers }: Props) => {
             />
           ))}
         </RacingTrackBackground>
+        <RacingDateControl
+          racingHistoryState={racingHistory}
+          replayUiState={state}
+        />
       </Container>
     </GameScreen>
   );
