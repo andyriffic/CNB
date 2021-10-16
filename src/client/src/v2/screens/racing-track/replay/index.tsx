@@ -101,7 +101,7 @@ const reducer = (
         }
 
         nextHistoryIndex = 0;
-        nextHistoryRecord = currentDataFile[nextHistoryRecord];
+        nextHistoryRecord = currentDataFile.records[nextHistoryIndex];
 
         if (!nextHistoryRecord) {
           return {
@@ -163,6 +163,8 @@ const View = ({ allPlayers }: Props) => {
   useEffect(() => {
     if (play && !state.finished) {
       const interval = setInterval(() => {
+        console.log('REPLAY TICK');
+
         dispatch({ type: 'NEXT' });
       }, RACING_SPEED_MS);
 
