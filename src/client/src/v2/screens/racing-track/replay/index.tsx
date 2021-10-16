@@ -24,6 +24,7 @@ const Container = styled.div`
 export type ReplayUiState = {
   finished: boolean;
   currentTitle?: string;
+  currentDataFileKey?: string;
   currentDataFileIndex: number;
   currentHistoryIndex: number;
   history: RacerHistoryRecord[];
@@ -96,6 +97,7 @@ const reducer = (
           return {
             ...state,
             currentTitle: '',
+            currentDataFileKey: undefined,
             finished: true,
           };
         }
@@ -107,6 +109,7 @@ const reducer = (
           return {
             ...state,
             currentTitle: '',
+            currentDataFileKey: undefined,
             finished: true,
           };
         }
@@ -130,6 +133,7 @@ const reducer = (
       return {
         ...state,
         currentDataFileIndex: dataFileIndex,
+        currentDataFileKey: currentDataFile.key,
         currentHistoryIndex: nextHistoryIndex,
         currentTitle: currentDataFile.title,
         historyRacers: state.historyRacers.map(hr => {

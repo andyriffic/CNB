@@ -8,10 +8,12 @@ const RacingDateList = styled.div`
   gap: 10px;
 `;
 
-const RacingDate = styled.div`
-  font-size: 0.4rem;
+const RacingDate = styled.div<{ highlight: boolean }>`
+  font-size: 0.6rem;
   color: white;
-  background-color: crimson;
+  background-color: ${({ highlight }) =>
+    highlight ? 'blueviolet' : 'crimson'};
+  font-weight: ${({ highlight }) => (highlight ? 'bold' : 'normal')};
   border-radius: 5px;
   padding: 4px;
 `;
@@ -27,10 +29,15 @@ export const RacingDateControl = ({
 }: Props): JSX.Element => {
   return (
     <>
-      <div>{replayUiState.currentTitle}</div>
+      {/* <div>{replayUiState.currentTitle}</div> */}
       <RacingDateList>
         {racingHistoryState.loadedHistoryFiles.map(h => (
-          <RacingDate key={h.key}>{h.title}</RacingDate>
+          <RacingDate
+            key={h.key}
+            highlight={h.key === replayUiState.currentDataFileKey}
+          >
+            {h.title}
+          </RacingDate>
         ))}
       </RacingDateList>
     </>
