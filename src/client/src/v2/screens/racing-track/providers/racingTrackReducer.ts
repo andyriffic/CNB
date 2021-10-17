@@ -47,6 +47,8 @@ interface SyncDataFromServerAction extends BaseAction {
   allPlayers: Player[];
 }
 
+const MAX_MOVES = 10;
+
 const sortMovesRemaining = (a: RacingPlayer, b: RacingPlayer): 1 | -1 => {
   if (a.movesRemaining === b.movesRemaining) {
     return a.position.sectionIndex <= b.position.sectionIndex ? 1 : -1;
@@ -85,6 +87,10 @@ type GamesActions =
   | AutoMovePlayerAction
   | SyncDataToServerAction
   | SyncDataFromServerAction;
+
+function playerEndedTurn(racingPlayer: RacingPlayer): boolean {
+  return racingPlayer.movesRemaining === 0 || racingPlayer.blocked;
+}
 
 export function reducer(state: GameState, action: GamesActions): GameState {
   switch (action.type) {
@@ -150,7 +156,7 @@ export function reducer(state: GameState, action: GamesActions): GameState {
         ),
       };
 
-      return playerToMove.movesRemaining === 0
+      return playerEndedTurn(playerToMove)
         ? stopPlayer(movingState, playerToMove.player.id)
         : stepPlayer(movingState, playerToMove.player.id);
     }
@@ -215,10 +221,35 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
   const updatedRacers = replaceWithUpdatedPlayer(
     updatedPlayer,
     gameState.racers
-  ).map(rp => ({ ...rp, gotBonusMoves: false }));
+  ).map(rp => ({ ...rp, gotBonusMoves: false, blocked: false }));
+
+  const playerIdsStillToMove = gameState.playersToMove
+    .map(rp => rp.player.id)
+    .filter(pid => pid !== player.player.id);
+
+  const playerCanStillMove = (player: RacingPlayer): boolean => {
+    return (
+      player.movesRemaining > 0 &&
+      getNextPlayerPosition(player, updatedRacers, gameState.racingTrack).moved
+    );
+  };
+  const playersFinishedButCanNowMove = updatedRacers
+    .filter(playerCanStillMove)
+    .filter(rp => !playerIdsStillToMove.includes(rp.player.id));
+
+  const updatedPlayersToMove = playersFinishedButCanNowMove.length
+    ? [
+        ...gameState.playersToMove.filter(
+          p => p.player.id !== updatedPlayer.player.id
+        ),
+        ...playersFinishedButCanNowMove.sort(sortMovesRemaining),
+      ]
+    : gameState.playersToMove.filter(
+        p => p.player.id !== updatedPlayer.player.id
+      );
 
   const gamePhase =
-    updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0
+    updatedPlayersToMove.length === 0
       ? GAME_PHASE.FINISHED_ROUND
       : GAME_PHASE.MOVING_PLAYERS;
 
@@ -230,11 +261,8 @@ function stopPlayer(gameState: GameState, playerId: string): GameState {
     ...gameState,
     racers: updatedRacers,
     movingPlayerId: undefined,
-    playersToMove: gameState.playersToMove.filter(
-      rp => rp.player.id !== playerId
-    ),
-    allPlayersMoved:
-      updatedRacers.filter(rp => rp.movesRemaining > 0).length === 0,
+    playersToMove: updatedPlayersToMove,
+    allPlayersMoved: updatedPlayersToMove.length === 0,
     gamePhase,
     soundEffect: undefined,
     // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
@@ -265,33 +293,15 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
   if (!player) return gameState;
 
   const { racingTrack } = gameState;
-  const { position: currentPosition } = player;
-
-  const endOfSquare =
-    racingTrack.sections[currentPosition.sectionIndex].lanes[
-      currentPosition.laneIndex
-    ].squares.length ===
-    currentPosition.squareIndex + 1;
-
-  const nextSquareIndex = endOfSquare ? 0 : currentPosition.squareIndex + 1;
-  const nextLaneIndex = endOfSquare ? 0 : currentPosition.laneIndex;
-  const nextSectionIndex = endOfSquare
-    ? currentPosition.sectionIndex + 1
-    : currentPosition.sectionIndex;
-
-  const possibleNewPosition: RacingTrackPosition = {
-    sectionIndex: nextSectionIndex,
-    laneIndex: nextLaneIndex,
-    squareIndex: nextSquareIndex,
-  };
-
-  const newPosition = getNextLane(
-    possibleNewPosition,
-    racingTrack.sections[possibleNewPosition.sectionIndex].lanes.length,
-    gameState.racers
+  const newPosition = getNextPlayerPosition(
+    player,
+    gameState.racers,
+    racingTrack
   );
 
-  const movesRemaining = newPosition.moved ? player.movesRemaining - 1 : 0;
+  const movesRemaining = newPosition.moved
+    ? player.movesRemaining - 1
+    : Math.min(player.movesRemaining, MAX_MOVES);
   const blocked = !newPosition.moved;
 
   const updatedPlayer: RacingPlayer = {
@@ -300,11 +310,11 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     gotBonusMoves: false,
     blocked,
     passedAnotherRacer:
-      newPosition.position.sectionIndex > currentPosition.sectionIndex &&
+      newPosition.position.sectionIndex > player.position.sectionIndex &&
       gameState.racers.filter(
         rp =>
           rp.player.id !== player.player.id &&
-          rp.position.sectionIndex === currentPosition.sectionIndex
+          rp.position.sectionIndex === player.position.sectionIndex
       ).length > 0,
     position: newPosition.moved ? newPosition.position : player.position,
     movesRemaining,
@@ -328,15 +338,15 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
       )
     : racersWithUpdatedPlayer;
 
-  const playerIdsStillToMove = gameState.playersToMove.map(rp => rp.player.id);
-  const playersFinishedMoveButNowWithMoreMoves = racersWithUpdatedBonusMoves
-    .filter(rp => rp.movesRemaining > 0)
-    .filter(rp => !playerIdsStillToMove.includes(rp.player.id))
-    .sort(sortMovesRemaining);
+  // const playerIdsStillToMove = gameState.playersToMove.map(rp => rp.player.id);
+  // const playersFinishedMoveButNowWithMoreMoves = racersWithUpdatedBonusMoves
+  //   .filter(rp => rp.movesRemaining > 0)
+  //   .filter(rp => !playerIdsStillToMove.includes(rp.player.id))
+  //   .sort(sortMovesRemaining);
 
-  const updatedPlayersToMove = playersFinishedMoveButNowWithMoreMoves.length
-    ? [...gameState.playersToMove, ...playersFinishedMoveButNowWithMoreMoves]
-    : gameState.playersToMove;
+  // const updatedPlayersToMove = playersFinishedMoveButNowWithMoreMoves.length
+  //   ? [...gameState.playersToMove, ...playersFinishedMoveButNowWithMoreMoves]
+  //   : gameState.playersToMove;
 
   return {
     ...gameState,
@@ -346,7 +356,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
       : blocked
       ? 'RacingCarHorn'
       : 'RacingEngineRev',
-    playersToMove: updatedPlayersToMove,
+    // playersToMove: updatedPlayersToMove,
     // racerHistory: appendHistoryRecord(gameState.racerHistory, updatedPlayer),
   };
 }
@@ -374,11 +384,49 @@ function applyCatchupBonus(
   return updatedRacers;
 }
 
+type NextPositionResult = {
+  position: RacingTrackPosition;
+  moved: boolean;
+  overtook: boolean;
+};
+
+function getNextPlayerPosition(
+  player: RacingPlayer,
+  racers: RacingPlayer[],
+  racingTrack: RacingTrack
+) {
+  const { position: currentPosition } = player;
+
+  const endOfSquare =
+    racingTrack.sections[currentPosition.sectionIndex].lanes[
+      currentPosition.laneIndex
+    ].squares.length ===
+    currentPosition.squareIndex + 1;
+
+  const nextSquareIndex = endOfSquare ? 0 : currentPosition.squareIndex + 1;
+  const nextLaneIndex = endOfSquare ? 0 : currentPosition.laneIndex;
+  const nextSectionIndex = endOfSquare
+    ? currentPosition.sectionIndex + 1
+    : currentPosition.sectionIndex;
+
+  const possibleNewPosition: RacingTrackPosition = {
+    sectionIndex: nextSectionIndex,
+    laneIndex: nextLaneIndex,
+    squareIndex: nextSquareIndex,
+  };
+
+  return getNextLane(
+    possibleNewPosition,
+    racingTrack.sections[possibleNewPosition.sectionIndex].lanes.length,
+    racers
+  );
+}
+
 function getNextLane(
   proposedPosition: RacingTrackPosition,
   maxLanes: number,
   racers: RacingPlayer[]
-): { position: RacingTrackPosition; moved: boolean; overtook: boolean } {
+): NextPositionResult {
   let position: RacingTrackPosition = {
     ...proposedPosition,
   };
