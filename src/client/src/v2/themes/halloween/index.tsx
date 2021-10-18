@@ -9,7 +9,7 @@ import {
 } from './HalloweenDecorations';
 import rockImage from './moves/halloween-rock.png';
 import scissorsImage from './moves/halloween-scissors.png';
-import paperImage from './moves/halloween-scissors.png';
+import paperImage from './moves/halloween-paper.png';
 import sounds from './sounds';
 import style from './style';
 

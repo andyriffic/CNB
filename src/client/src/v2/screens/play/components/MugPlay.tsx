@@ -55,13 +55,25 @@ export const MugPlay = ({
             gap: '10px',
           }}
         >
-          <Button type="button" onClick={() => makeMove('A')}>
+          <Button
+            type="button"
+            onClick={() => makeMove('A')}
+            style={{ width: '33%' }}
+          >
             {themeComponents.moves['A']}
           </Button>
-          <Button type="button" onClick={() => makeMove('B')}>
+          <Button
+            type="button"
+            onClick={() => makeMove('B')}
+            style={{ width: '33%' }}
+          >
             {themeComponents.moves['B']}
           </Button>
-          <Button type="button" onClick={() => makeMove('C')}>
+          <Button
+            type="button"
+            onClick={() => makeMove('C')}
+            style={{ width: '33%' }}
+          >
             {themeComponents.moves['C']}
           </Button>
         </div>
