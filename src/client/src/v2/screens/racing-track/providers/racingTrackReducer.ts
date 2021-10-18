@@ -403,10 +403,14 @@ function getNextPlayerPosition(
     ].squares.length ===
     currentPosition.squareIndex + 1;
 
+  const maxSectionIndex = racingTrack.sections.length - 1;
+
   const nextSquareIndex = endOfSquare ? 0 : currentPosition.squareIndex + 1;
   const nextLaneIndex = endOfSquare ? 0 : currentPosition.laneIndex;
   const nextSectionIndex = endOfSquare
-    ? currentPosition.sectionIndex + 1
+    ? currentPosition.sectionIndex + 1 > maxSectionIndex
+      ? 0
+      : currentPosition.sectionIndex + 1
     : currentPosition.sectionIndex;
 
   const possibleNewPosition: RacingTrackPosition = {
