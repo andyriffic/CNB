@@ -131,7 +131,7 @@ export const RacingTrackPlayer = ({
       <Container>
         <div
           style={{
-            transform: `rotate(${rotationDeg}deg)`,
+            // transform: `rotate(${rotationDeg}deg)`,
             transition: 'transform 200ms ease-in',
           }}
         >
