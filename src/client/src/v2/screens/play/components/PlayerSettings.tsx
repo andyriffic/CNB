@@ -7,6 +7,7 @@ import { SubHeading } from '../../../components/ui/Atoms';
 import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 import { SportsCar } from '../../racing-track/components/racing-cars/SportsCar';
+import { PacManGhost } from '../../racing-track/components/racing-cars/PacManGhost';
 
 const SettingsLauncher = styled.div`
   position: fixed;
@@ -81,7 +82,8 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
           />
         </div>
         <div style={{ padding: '20px', textAlign: 'center' }}>
-          <SportsCar color={color} width={200} />
+          <PacManGhost color={color} width={200} />
+          {/* <SportsCar color={color} width={200} /> */}
         </div>
       </ModalContent>
     </SettingsModal>
