@@ -5,6 +5,7 @@ export type Coordinates = { x: number; y: number };
 export type RacingTrackSection = {
   rotationDegrees: number;
   catchupBonusMoves?: number;
+  crossesFinishLine?: boolean;
   lanes: RacingTrackLane[];
 };
 
@@ -34,11 +35,14 @@ export type RacingPlayer = {
   carColor: string;
   carStyle: RacingCarStyles;
   gotBonusMoves: boolean;
+  currentLap: number;
+  finishPosition?: number;
 };
 
 export type RacingTrack = {
   sections: RacingTrackSection[];
   boardBackgroundImage: any;
+  totalLaps: number;
   widthPx: number;
   heightPx: number;
 };
@@ -54,4 +58,6 @@ export type RacerHistoryRecord = {
   blocked: boolean;
   gotBonusMoves?: boolean;
   movesRemaining: number;
+  finishPosition?: number;
+  currentLap?: number;
 };

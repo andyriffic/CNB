@@ -10,6 +10,7 @@ import { DebugPlayerMove } from './components/DebugPlayerMove';
 import { isFeatureEnabled } from '../../../featureToggle';
 import RacingReplay from './replay';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
+import { WinnersPodium } from './components/WinnersPodium';
 
 const showReplay = isFeatureEnabled('replay');
 
@@ -47,6 +48,7 @@ const View = () => {
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
+          <WinnersPodium racers={racingTrackService.racers} />
         </RacingTrackBackground>
       </Container>
     </GameScreen>

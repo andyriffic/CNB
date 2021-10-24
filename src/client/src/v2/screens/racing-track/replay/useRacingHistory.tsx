@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { SOCKETS_ENDPOINT } from '../../../../environment';
 import { RacerHistoryRecord, RacerHistoryRecordsByDay } from '../types';
-import { mockFlatHistory, mockHistory } from './mockHistory';
 
 export type RacingDataFileLoading = {
   key: string;

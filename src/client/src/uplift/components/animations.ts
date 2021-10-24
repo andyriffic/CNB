@@ -46,6 +46,18 @@ export const zoomOutUpAnimation = keyframes`
   }
 `;
 
+export const slowFadeOutAnimation = keyframes`
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
 export const squashedAnimation = keyframes`
   0% {
     height: 200px;

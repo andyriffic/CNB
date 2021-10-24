@@ -17,7 +17,7 @@ export const incrementIntegerTag = (
   ];
 };
 
-const getIntegerAttributeValue = (
+export const getIntegerAttributeValue = (
   tags: string[],
   tagName: string,
   defaultValue: number = 0

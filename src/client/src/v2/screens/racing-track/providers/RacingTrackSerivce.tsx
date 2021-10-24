@@ -49,13 +49,17 @@ export const RacingTrackServiceProvider = ({
           .filter(t => !t.startsWith('rt_section'))
           .filter(t => !t.startsWith('rt_lane'))
           .filter(t => !t.startsWith('rt_square'))
-          .filter(t => !t.startsWith('rt_moves'));
+          .filter(t => !t.startsWith('rt_moves'))
+          .filter(t => !t.startsWith('rt_lap'))
+          .filter(t => !t.startsWith('rt_finish'));
         savePlayer(racingPlayer.player.id, [
           ...filteredTags,
           `rt_section:${racingPlayer.position.sectionIndex}`,
           `rt_lane:${racingPlayer.position.laneIndex}`,
           `rt_square:${racingPlayer.position.squareIndex}`,
           `rt_moves:${racingPlayer.movesRemaining}`,
+          `rt_lap:${racingPlayer.currentLap}`,
+          `rt_finish:${racingPlayer.finishPosition || 0}`,
         ]);
       },
     });

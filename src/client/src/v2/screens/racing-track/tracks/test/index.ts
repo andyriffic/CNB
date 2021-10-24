@@ -2,6 +2,7 @@ import { RacingTrack } from '../../types';
 import background from './race-track.png';
 
 export const racingTrack: RacingTrack = {
+  totalLaps: 1,
   sections: [
     {
       rotationDegrees: 180,
@@ -21,6 +22,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      crossesFinishLine: true,
       rotationDegrees: 180,
       lanes: [
         {

@@ -47,6 +47,8 @@ const createHistoryRacer = (
     passedAnotherRacer: false,
     position: historyRecord.position,
     player,
+    currentLap: historyRecord.currentLap || 1,
+    finishPosition: historyRecord.finishPosition,
   };
 };
 
