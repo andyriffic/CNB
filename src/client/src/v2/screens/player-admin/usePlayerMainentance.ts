@@ -31,7 +31,9 @@ export const usePlayerMaintenance = (): UsePlayerMaintenance => {
             .filter(t => !t.startsWith('rt_section'))
             .filter(t => !t.startsWith('rt_lane'))
             .filter(t => !t.startsWith('rt_square'))
-            .filter(t => !t.startsWith('rt_moves')),
+            .filter(t => !t.startsWith('rt_moves'))
+            .filter(t => !t.startsWith('rt_lap'))
+            .filter(t => !t.startsWith('rt_finish')),
           'rt_moves:0',
         ];
 
