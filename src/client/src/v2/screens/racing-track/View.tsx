@@ -37,7 +37,7 @@ const View = () => {
       <Container>
         <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
           {racingTrackService.racingTrack.sections.map((section, i) => (
-            <RacingSegment key={i} section={section} />
+            <RacingSegment key={i} section={section} index={i} />
           ))}
           {racingTrackService.racers.map(racer => (
             <RacingTrackPlayer

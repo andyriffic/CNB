@@ -14,6 +14,7 @@ import { RacerHistoryRecord, RacingPlayer } from '../types';
 import { Player } from '../../../providers/PlayersProvider';
 import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 import { RacingDateControl } from './RacingDateControl';
+import { WinnersPodium } from '../components/WinnersPodium';
 
 const RACING_SPEED_MS = 250;
 
@@ -130,6 +131,7 @@ const reducer = (
         position: nextHistoryRecord.position,
         movesRemaining: nextHistoryRecord.movesRemaining,
         blocked: nextHistoryRecord.blocked,
+        finishPosition: nextHistoryRecord.finishPosition,
       };
 
       return {
@@ -219,7 +221,7 @@ const View = ({ allPlayers }: Props) => {
       <Container>
         <RacingTrackBackground racingTrack={racingTrackService.racingTrack}>
           {racingTrackService.racingTrack.sections.map((section, i) => (
-            <RacingSegment key={i} section={section} />
+            <RacingSegment key={i} section={section} index={i} />
           ))}
           {state.historyRacers.map(racer => (
             <RacingTrackPlayer
@@ -230,6 +232,7 @@ const View = ({ allPlayers }: Props) => {
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
+          <WinnersPodium racers={state.historyRacers} />
         </RacingTrackBackground>
         <RacingDateControl
           racingHistoryState={racingHistory}

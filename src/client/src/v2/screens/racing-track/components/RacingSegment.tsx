@@ -9,21 +9,20 @@ const PositionContainer = styled.div`
 
 type Props = {
   section: RacingTrackSection;
+  index: number;
 };
 
-export const RacingSegment = ({ section }: Props): JSX.Element => {
+export const RacingSegment = ({ section, index }: Props): JSX.Element => {
   return (
     <>
-      {/* {section.catchupBonusMoves && (
-        <PositionContainer
-          style={{
-            top: `${section.lanes[0].squares[0].coordinates.y}px`,
-            left: `${section.lanes[0].squares[0].coordinates.x}px`,
-          }}
-        >
-          {section.catchupBonusMoves}
-        </PositionContainer>
-      )} */}
+      {/* <PositionContainer
+        style={{
+          top: `${section.lanes[0].squares[0].coordinates.y}px`,
+          left: `${section.lanes[0].squares[0].coordinates.x}px`,
+        }}
+      >
+        {index}
+      </PositionContainer> */}
       {section.lanes.map((lane, i) => (
         <RacingLane key={i} lane={lane} section={section} />
       ))}

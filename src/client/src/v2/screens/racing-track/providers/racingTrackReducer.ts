@@ -339,9 +339,6 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     finishPosition,
   };
 
-  console.log('finished', finishedRace);
-  console.log('stepPlayer', updatedPlayer);
-
   const racersWithUpdatedPlayer = replaceWithUpdatedPlayer(
     updatedPlayer,
     gameState.racers
@@ -428,16 +425,24 @@ function getNextPlayerPosition(
 ) {
   const { position: currentPosition } = player;
 
+  console.log('Current position', player.player.name, currentPosition);
+
   const endOfSquare =
     racingTrack.sections[currentPosition.sectionIndex].lanes[
       currentPosition.laneIndex
     ].squares.length ===
     currentPosition.squareIndex + 1;
 
+  console.log('endOfSquare', player.player.name, endOfSquare);
+
   const maxSectionIndex = racingTrack.sections.length - 1;
 
   const nextSquareIndex = endOfSquare ? 0 : currentPosition.squareIndex + 1;
+  console.log('nextSquareIndex', player.player.name, nextSquareIndex);
+
   const nextLaneIndex = endOfSquare ? 0 : currentPosition.laneIndex;
+  console.log('nextLaneIndex', player.player.name, nextLaneIndex);
+
   const nextSectionIndex = endOfSquare
     ? currentPosition.sectionIndex + 1 > maxSectionIndex
       ? 0
@@ -450,16 +455,12 @@ function getNextPlayerPosition(
     squareIndex: nextSquareIndex,
   };
 
-  return getNextLane(
-    possibleNewPosition,
-    racingTrack.sections[possibleNewPosition.sectionIndex].lanes.length,
-    racers
-  );
+  return getNextLane(possibleNewPosition, racingTrack, racers);
 }
 
 function getNextLane(
   proposedPosition: RacingTrackPosition,
-  maxLanes: number,
+  racingTrack: RacingTrack,
   racers: RacingPlayer[]
 ): NextPositionResult {
   let position: RacingTrackPosition = {
@@ -467,6 +468,8 @@ function getNextLane(
   };
 
   let moved = false;
+  const maxLanes =
+    racingTrack.sections[proposedPosition.sectionIndex].lanes.length;
 
   for (
     let laneIndex = proposedPosition.laneIndex;
@@ -474,7 +477,7 @@ function getNextLane(
     laneIndex++
   ) {
     position.laneIndex = laneIndex;
-    const squareOccupied = racers.find(
+    const racerInProposedSquare = racers.find(
       rp =>
         !rp.finishPosition &&
         rp.position.sectionIndex === proposedPosition.sectionIndex &&
@@ -482,9 +485,16 @@ function getNextLane(
         rp.position.squareIndex === proposedPosition.squareIndex
     );
 
-    if (!squareOccupied) {
+    if (!racerInProposedSquare) {
+      const destinationSquareExists = !!racingTrack.sections[
+        proposedPosition.sectionIndex
+      ].lanes[laneIndex].squares[position.squareIndex];
+
       moved = true;
       position.laneIndex = laneIndex;
+      position.squareIndex = destinationSquareExists
+        ? position.squareIndex
+        : position.squareIndex - 1;
       break;
     }
   }

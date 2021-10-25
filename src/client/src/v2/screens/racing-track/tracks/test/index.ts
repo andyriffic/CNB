@@ -5,6 +5,7 @@ export const racingTrack: RacingTrack = {
   totalLaps: 1,
   sections: [
     {
+      // 0
       rotationDegrees: 180,
       lanes: [
         {
@@ -22,6 +23,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 1
       crossesFinishLine: true,
       rotationDegrees: 180,
       lanes: [
@@ -40,6 +42,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 2
       rotationDegrees: 180,
       lanes: [
         {
@@ -57,6 +60,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 3
       rotationDegrees: 180,
       lanes: [
         {
@@ -74,6 +78,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 4
       rotationDegrees: 180,
       lanes: [
         {
@@ -91,6 +96,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 5
       rotationDegrees: 180,
       lanes: [
         {
@@ -108,6 +114,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 6
       rotationDegrees: 160,
       lanes: [
         {
@@ -119,6 +126,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 7
       rotationDegrees: 225,
       lanes: [
         {
@@ -133,6 +141,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 8
       rotationDegrees: 270,
       lanes: [
         {
@@ -144,6 +153,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 9
       rotationDegrees: 270,
       lanes: [
         {
@@ -158,6 +168,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 10
       rotationDegrees: 270,
       lanes: [
         {
@@ -172,6 +183,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 11
       rotationDegrees: 270,
       lanes: [
         {
@@ -186,6 +198,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 12
       rotationDegrees: 270,
       lanes: [
         {
@@ -200,6 +213,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 13
       rotationDegrees: 270,
       catchupBonusMoves: 1,
       lanes: [
@@ -212,6 +226,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 14
       rotationDegrees: 320,
       lanes: [
         {
@@ -226,6 +241,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 15
       rotationDegrees: 360,
       lanes: [
         {
@@ -237,6 +253,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 16
       rotationDegrees: 360,
       lanes: [
         {
@@ -248,6 +265,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 17
       rotationDegrees: 360,
       lanes: [
         {
@@ -262,6 +280,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 18
       rotationDegrees: 360,
       lanes: [
         {
@@ -276,6 +295,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 19
       rotationDegrees: 360,
       lanes: [
         {
@@ -290,6 +310,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 20
       rotationDegrees: 360,
       lanes: [
         {
@@ -304,6 +325,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 21
       rotationDegrees: 360,
       lanes: [
         {
@@ -318,6 +340,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 22
       rotationDegrees: 360,
       lanes: [
         {
@@ -332,6 +355,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 23
       rotationDegrees: 360,
       lanes: [
         {
@@ -346,6 +370,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 24
       rotationDegrees: 360,
       catchupBonusMoves: 1,
       lanes: [
@@ -358,6 +383,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 25
       rotationDegrees: 360,
       lanes: [
         {
@@ -366,6 +392,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 26
       rotationDegrees: 400,
       lanes: [
         {
@@ -374,6 +401,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 27
       rotationDegrees: 450,
       lanes: [
         {
@@ -382,6 +410,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 28
       rotationDegrees: 490,
       lanes: [
         {
@@ -390,6 +419,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 29
       rotationDegrees: 540,
       lanes: [
         {
@@ -398,6 +428,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 30
       rotationDegrees: 540,
       lanes: [
         {
@@ -409,6 +440,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 31
       rotationDegrees: 540,
       lanes: [
         {
@@ -420,6 +452,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 32
       rotationDegrees: 540,
       lanes: [
         {
@@ -431,6 +464,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 33
       rotationDegrees: 540,
       lanes: [
         {
@@ -442,6 +476,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 34
       rotationDegrees: 540,
       lanes: [
         {
@@ -453,6 +488,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 35
       rotationDegrees: 540,
       lanes: [
         {
@@ -464,6 +500,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 36
       rotationDegrees: 540,
       catchupBonusMoves: 1,
       lanes: [
@@ -476,6 +513,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 37
       rotationDegrees: 540,
       lanes: [
         {
@@ -484,6 +522,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 38
       rotationDegrees: 500,
       lanes: [
         {
@@ -492,6 +531,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 39
       rotationDegrees: 450,
       lanes: [
         {
@@ -500,6 +540,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 40
       rotationDegrees: 400,
       lanes: [
         {
@@ -508,6 +549,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 41
       rotationDegrees: 360,
       lanes: [
         {
@@ -516,6 +558,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 42
       rotationDegrees: 360,
       lanes: [
         {
@@ -527,6 +570,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 43
       rotationDegrees: 360,
       lanes: [
         {
@@ -541,6 +585,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 44
       rotationDegrees: 360,
       lanes: [
         {
@@ -555,6 +600,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 45
       rotationDegrees: 360,
       lanes: [
         {
@@ -569,6 +615,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 46
       rotationDegrees: 360,
       lanes: [
         {
@@ -583,6 +630,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 47
       rotationDegrees: 360,
       lanes: [
         {
@@ -597,6 +645,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 48
       rotationDegrees: 360,
       lanes: [
         {
@@ -611,6 +660,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 49
       rotationDegrees: 405,
       lanes: [
         {
@@ -632,6 +682,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 50
       rotationDegrees: 450,
       lanes: [
         {
@@ -646,6 +697,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 51
       rotationDegrees: 500,
       lanes: [
         {
@@ -667,6 +719,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 52
       rotationDegrees: 540,
       lanes: [
         {
@@ -681,6 +734,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 53
       rotationDegrees: 540,
       lanes: [
         {
@@ -698,6 +752,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
+      // 54
       rotationDegrees: 540,
       lanes: [
         {
