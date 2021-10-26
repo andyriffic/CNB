@@ -1,3 +1,4 @@
+import { getPlayerIntegerAttributeValue } from '../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../uplift/utils/random';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 
@@ -11,7 +12,11 @@ export const usePlayerMaintenance = (): UsePlayerMaintenance => {
 
   return {
     setAllRacersRandomMoves: () => {
-      const allRacers = allPlayers.filter(p => p.tags.includes('racer'));
+      const allRacers = allPlayers
+        .filter(p => p.tags.includes('racer'))
+        .filter(
+          p => getPlayerIntegerAttributeValue(p.tags, 'rt_finish', 0) === 0
+        );
       allRacers.forEach(p => {
         const moves = selectRandomOneOf([1, 2, 3, 4, 5, 6]);
 

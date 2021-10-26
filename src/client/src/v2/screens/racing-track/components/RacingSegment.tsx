@@ -15,14 +15,14 @@ type Props = {
 export const RacingSegment = ({ section, index }: Props): JSX.Element => {
   return (
     <>
-      {/* <PositionContainer
+      <PositionContainer
         style={{
           top: `${section.lanes[0].squares[0].coordinates.y}px`,
           left: `${section.lanes[0].squares[0].coordinates.x}px`,
         }}
       >
         {index}
-      </PositionContainer> */}
+      </PositionContainer>
       {section.lanes.map((lane, i) => (
         <RacingLane key={i} lane={lane} section={section} />
       ))}

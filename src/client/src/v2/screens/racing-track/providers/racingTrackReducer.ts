@@ -425,23 +425,17 @@ function getNextPlayerPosition(
 ) {
   const { position: currentPosition } = player;
 
-  console.log('Current position', player.player.name, currentPosition);
-
   const endOfSquare =
     racingTrack.sections[currentPosition.sectionIndex].lanes[
       currentPosition.laneIndex
     ].squares.length ===
     currentPosition.squareIndex + 1;
 
-  console.log('endOfSquare', player.player.name, endOfSquare);
-
   const maxSectionIndex = racingTrack.sections.length - 1;
 
   const nextSquareIndex = endOfSquare ? 0 : currentPosition.squareIndex + 1;
-  console.log('nextSquareIndex', player.player.name, nextSquareIndex);
 
   const nextLaneIndex = endOfSquare ? 0 : currentPosition.laneIndex;
-  console.log('nextLaneIndex', player.player.name, nextLaneIndex);
 
   const nextSectionIndex = endOfSquare
     ? currentPosition.sectionIndex + 1 > maxSectionIndex
@@ -477,33 +471,37 @@ function getNextLane(
     laneIndex++
   ) {
     position.laneIndex = laneIndex;
+
+    const destinationSquareExists = !!racingTrack.sections[
+      proposedPosition.sectionIndex
+    ].lanes[laneIndex].squares[position.squareIndex];
+
+    position.squareIndex = destinationSquareExists
+      ? position.squareIndex
+      : racingTrack.sections[proposedPosition.sectionIndex].lanes[laneIndex]
+          .squares.length - 1;
+
     const racerInProposedSquare = racers.find(
       rp =>
         !rp.finishPosition &&
         rp.position.sectionIndex === proposedPosition.sectionIndex &&
         rp.position.laneIndex === laneIndex &&
-        rp.position.squareIndex === proposedPosition.squareIndex
+        rp.position.squareIndex === position.squareIndex
     );
 
     if (!racerInProposedSquare) {
-      const destinationSquareExists = !!racingTrack.sections[
-        proposedPosition.sectionIndex
-      ].lanes[laneIndex].squares[position.squareIndex];
-
       moved = true;
       position.laneIndex = laneIndex;
-      position.squareIndex = destinationSquareExists
-        ? position.squareIndex
-        : position.squareIndex - 1;
       break;
     }
   }
-
-  return {
+  const result: NextPositionResult = {
     position,
     moved,
     overtook: position.laneIndex < proposedPosition.laneIndex,
   };
+
+  return result;
 }
 
 function replaceWithUpdatedPlayer(
