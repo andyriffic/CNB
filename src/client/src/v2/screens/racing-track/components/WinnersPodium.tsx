@@ -31,7 +31,10 @@ export const WinnersPodium = ({ racers }: Props): JSX.Element => {
   return (
     <>
       {finishedPlayers.map((rp, i) => (
-        <Container style={{ top: '390px', left: `${i * 65 + 410}px` }}>
+        <Container
+          key={rp.player.id}
+          style={{ top: '390px', left: `${i * 65 + 410}px` }}
+        >
           <PlayerContainer>
             <PlayerAvatar player={rp.player} size="small" showZodiac={false} />
           </PlayerContainer>
