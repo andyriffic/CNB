@@ -155,7 +155,7 @@ type Props = {
 };
 
 const View = ({ allPlayers }: Props) => {
-  const racingHistory = useRacingHistory();
+  const racingHistory = useRacingHistory({ gameId: 'game1' });
   const [state, dispatch] = useReducer(reducer, {
     finished: false,
     currentDataFileIndex: 0,

@@ -95,9 +95,11 @@ const reducer = (
   }
 };
 
-const RACING_GAME_ID = 'game1';
-
-export const useRacingHistory = (): RacingHistoryState => {
+export const useRacingHistory = ({
+  gameId,
+}: {
+  gameId: string;
+}): RacingHistoryState => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: true,
     flatHistory: [],
@@ -108,11 +110,11 @@ export const useRacingHistory = (): RacingHistoryState => {
   useEffect(() => {
     console.log(
       'Fetching from',
-      `${SOCKETS_ENDPOINT}/racing-history/summary/${RACING_GAME_ID}`
+      `${SOCKETS_ENDPOINT}/racing-history/summary/${gameId}`
     );
 
     dispatch({ type: 'start' });
-    fetch(`${SOCKETS_ENDPOINT}/racing-history/summary/${RACING_GAME_ID}`, {
+    fetch(`${SOCKETS_ENDPOINT}/racing-history/summary/${gameId}`, {
       cache: 'no-store',
     })
       .then(data => data.json())
@@ -122,7 +124,7 @@ export const useRacingHistory = (): RacingHistoryState => {
 
         keys.forEach(key => {
           fetch(
-            `${SOCKETS_ENDPOINT}/racing-history/game/${RACING_GAME_ID}/file/${key}`,
+            `${SOCKETS_ENDPOINT}/racing-history/game/${gameId}/file/${key}`,
             {
               cache: 'no-store',
             }

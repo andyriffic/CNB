@@ -2,6 +2,7 @@ import { RacingTrack } from '../../types';
 import background from './race-track.png';
 
 export const racingTrack: RacingTrack = {
+  id: 'game1',
   totalLaps: 1,
   sections: [
     {

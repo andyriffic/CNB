@@ -85,7 +85,7 @@ export const RacingTrackServiceProvider = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          gameId: 'game1',
+          gameId: racingTrack.id,
           stats: gameState.racerHistory,
         }),
       });

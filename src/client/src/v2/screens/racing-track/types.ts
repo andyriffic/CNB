@@ -13,8 +13,11 @@ export type RacingTrackLane = {
   squares: RackingTrackSquare[];
 };
 
+export type RacingTrackSquareType = 'rock';
+
 export type RackingTrackSquare = {
   coordinates: Coordinates;
+  type?: RacingTrackSquareType;
 };
 
 export type RacingTrackPosition = {
@@ -40,6 +43,7 @@ export type RacingPlayer = {
 };
 
 export type RacingTrack = {
+  id: string;
   sections: RacingTrackSection[];
   boardBackgroundImage: any;
   totalLaps: number;
