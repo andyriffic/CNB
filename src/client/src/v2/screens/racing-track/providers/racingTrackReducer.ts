@@ -4,12 +4,15 @@ import {
 } from '../../../../uplift/utils/player';
 import { Player } from '../../../providers/PlayersProvider';
 import { SoundMap } from '../../../providers/SoundProvider';
+import { defaultTrackBehaviour } from '../trackBehaviours';
 import {
   RacingCarStyles,
   RacingPlayer,
   RacingTrack,
   RacingTrackPosition,
   RacerHistoryRecord,
+  TrackSpecialBehaviour,
+  RacingTrackType,
 } from '../types';
 
 export enum GAME_PHASE {
@@ -314,10 +317,12 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     ? Math.max(...gameState.racers.map(r => r.finishPosition || 0)) + 1
     : undefined;
 
+  const squareType = getSquareBehaviour(racingTrack, newPosition.position);
+
   const movesRemaining = finishedRace
     ? 0
     : newPosition.moved
-    ? player.movesRemaining - 1
+    ? squareType.behaviour(player).movesRemaining
     : Math.min(player.movesRemaining, MAX_MOVES);
   const blocked = !newPosition.moved;
 
@@ -361,6 +366,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     ...gameState,
     racers: racersWithUpdatedBonusMoves,
     soundEffect: getMoveSoundEffect({
+      squareType,
       catchupBonusMoves,
       blocked,
       finishedRace,
@@ -369,10 +375,12 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
 }
 
 function getMoveSoundEffect({
+  squareType,
   catchupBonusMoves,
   blocked,
   finishedRace,
 }: {
+  squareType: RacingTrackType;
   catchupBonusMoves?: number;
   blocked: boolean;
   finishedRace: boolean;
@@ -384,7 +392,7 @@ function getMoveSoundEffect({
   } else if (finishedRace) {
     return 'SelectPrizePoints';
   } else {
-    return 'RacingEngineRev';
+    return squareType.sound;
   }
 }
 
@@ -410,6 +418,17 @@ function applyCatchupBonus(
   });
 
   return updatedRacers;
+}
+
+function getSquareBehaviour(
+  raceTrack: RacingTrack,
+  position: RacingTrackPosition
+): RacingTrackType {
+  const square =
+    raceTrack.sections[position.sectionIndex].lanes[position.laneIndex].squares[
+      position.squareIndex
+    ];
+  return square.type ? square.type : defaultTrackBehaviour;
 }
 
 type NextPositionResult = {

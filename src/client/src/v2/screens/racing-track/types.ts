@@ -1,4 +1,5 @@
 import { Player } from '../../providers/PlayersProvider';
+import { SoundMap } from '../../providers/SoundProvider';
 
 export type Coordinates = { x: number; y: number };
 
@@ -13,11 +14,24 @@ export type RacingTrackLane = {
   squares: RackingTrackSquare[];
 };
 
-export type RacingTrackSquareType = 'rock';
+export type RacingTrackType = {
+  type: 'default' | 'rock' | 'boost';
+  context?: number;
+  sound?: keyof SoundMap;
+  behaviour: TrackSpecialBehaviour;
+};
+
+export type TrackSpecialBehaviourResult = {
+  movesRemaining: number;
+};
+
+export type TrackSpecialBehaviour = (
+  player: RacingPlayer
+) => TrackSpecialBehaviourResult;
 
 export type RackingTrackSquare = {
   coordinates: Coordinates;
-  type?: RacingTrackSquareType;
+  type?: RacingTrackType;
 };
 
 export type RacingTrackPosition = {
