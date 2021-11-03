@@ -82,8 +82,7 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
           />
         </div>
         <div style={{ padding: '20px', textAlign: 'center' }}>
-          <PacManGhost color={color} width={200} />
-          {/* <SportsCar color={color} width={200} /> */}
+          <SportsCar color={color} width={200} />
         </div>
       </ModalContent>
     </SettingsModal>

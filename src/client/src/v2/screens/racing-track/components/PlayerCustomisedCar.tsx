@@ -15,8 +15,10 @@ const getCustomCarStyle = (racingPlayer: RacingPlayer): JSX.Element => {
       return <FormulaOneCar color={racingPlayer.carColor} />;
     case 'bubble':
       return <BubbleCar color={racingPlayer.carColor} />;
+    case 'ghost':
+      return <PacManGhost color={racingPlayer.carColor} />;
     default:
-      return <PacManGhost color={racingPlayer.carColor} />; //<SportsCar color={racingPlayer.carColor} />;
+      return <SportsCar color={racingPlayer.carColor} />;
   }
 };
 

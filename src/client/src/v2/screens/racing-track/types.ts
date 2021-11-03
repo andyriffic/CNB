@@ -40,7 +40,7 @@ export type RacingTrackPosition = {
   squareIndex: number;
 };
 
-export type RacingCarStyles = 'sports' | 'bubble' | 'formula-1';
+export type RacingCarStyles = 'sports' | 'bubble' | 'formula-1' | 'ghost';
 
 export type RacingPlayer = {
   player: Player;
