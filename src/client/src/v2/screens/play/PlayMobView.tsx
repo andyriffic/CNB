@@ -13,6 +13,7 @@ import { MobPlay } from './components/MobPlay';
 import { MugPlay } from './components/MugPlay';
 import { NavigateFn } from '@reach/router';
 import { PlayerSettings } from './components/PlayerSettings';
+import { SecondaryButton } from '../../../uplift/components/SecondaryButton';
 
 type Props = {
   playerId: string;
@@ -33,7 +34,16 @@ export const PlayMobView = ({ playerId, mobGameId, navigate }: Props) => {
   } = useMugGamePlayer(mobGameId, playerId);
 
   if (!((player && (mobGame && mobPlayer)) || (mobMugGame && mugPlayer))) {
-    return <LoadingSpinner text="Loading..." />;
+    return (
+      <>
+        <LoadingSpinner text="Loading..." />
+        <div style={{ textAlign: 'center' }}>
+          <SecondaryButton onClick={() => (window.location.href = '/play')}>
+            Back to Player List
+          </SecondaryButton>
+        </div>
+      </>
+    );
   }
 
   return (
