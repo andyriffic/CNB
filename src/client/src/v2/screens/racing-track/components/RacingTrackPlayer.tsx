@@ -157,6 +157,8 @@ export const RacingTrackPlayer = ({
         {racingPlayer.blocked && <Blocked>🤬</Blocked>}
         {racingPlayer.gotBonusMoves && <Blocked>🎉</Blocked>}
         {racingPlayer.finishPosition ? <Blocked>🏁</Blocked> : false}
+        {square.type && square.type.type === 'rock' && <Blocked>💥</Blocked>}
+        {square.type && square.type.type === 'boost' && <Blocked>🆙</Blocked>}
         {/* {racingPlayer.passedAnotherRacer && <Blocked>Overtaken!</Blocked>} */}
         <PlayerName
           style={{
