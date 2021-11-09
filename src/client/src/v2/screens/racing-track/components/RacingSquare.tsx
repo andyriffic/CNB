@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { isFeatureEnabled } from '../../../../featureToggle';
 import { rainbowAnimation } from '../../../../uplift/components/animations';
+import rockImage from './rock-track.png';
 import {
   RacingTrackLane,
   RacingTrackSection,
@@ -87,7 +88,11 @@ export const RacingSquare = ({ square, lane, section }: Props): JSX.Element => {
             →
           </div>
         )}
-        {square.type && square.type.type === 'rock' && <div>🪨</div>}
+        {square.type && square.type.type === 'rock' && (
+          <div>
+            <img src={rockImage} style={{ width: '30px' }} />
+          </div>
+        )}
         {square.type && square.type.type === 'boost' && (
           <PowerBoost>+{square.type.context}</PowerBoost>
         )}
