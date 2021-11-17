@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { shuffleArray } from '../../../../uplift/utils/random';
 import { Button } from '../../../components/ui/buttons';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
 import { MobGame, MugPlayer } from '../../../providers/MobProvider';
@@ -37,6 +38,8 @@ export const MugPlay = ({
   const selectMove =
     !mugPlayer.lastMoveId && mobGame.roundState === 'waiting-moves';
 
+  const randomisedMoves = useRef(shuffleArray<MoveKeys>(['A', 'B', 'C']));
+
   return (
     <div>
       <h3 style={{ textAlign: 'center' }}>{mobGame.id}</h3>
@@ -55,27 +58,16 @@ export const MugPlay = ({
             gap: '10px',
           }}
         >
-          <Button
-            type="button"
-            onClick={() => makeMove('A')}
-            style={{ width: '33%' }}
-          >
-            {themeComponents.moves['A']}
-          </Button>
-          <Button
-            type="button"
-            onClick={() => makeMove('B')}
-            style={{ width: '33%' }}
-          >
-            {themeComponents.moves['B']}
-          </Button>
-          <Button
-            type="button"
-            onClick={() => makeMove('C')}
-            style={{ width: '33%' }}
-          >
-            {themeComponents.moves['C']}
-          </Button>
+          {randomisedMoves.current.map(moveId => (
+            <Button
+              key={moveId}
+              type="button"
+              onClick={() => makeMove(moveId)}
+              style={{ width: '33%' }}
+            >
+              {themeComponents.moves[moveId]}
+            </Button>
+          ))}
         </div>
       )}
       <div>
