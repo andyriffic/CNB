@@ -489,12 +489,12 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 540,
       lanes: [
         {
-          squares: [
-            { coordinates: { x: 580, y: 215 }, type: rockTrackBehaviour },
-          ],
+          squares: [{ coordinates: { x: 580, y: 215 } }],
         },
         {
-          squares: [{ coordinates: { x: 580, y: 245 } }],
+          squares: [
+            { coordinates: { x: 580, y: 245 }, type: rockTrackBehaviour },
+          ],
         },
       ],
     },
