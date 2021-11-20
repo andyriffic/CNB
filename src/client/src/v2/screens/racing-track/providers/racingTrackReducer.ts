@@ -51,6 +51,8 @@ interface SyncDataFromServerAction extends BaseAction {
 }
 
 const MAX_MOVES = 10;
+const DEFAULT_MOVES_PER_SQUARE = 1;
+const MOVES_REQUIRED_TO_PASS = 2;
 
 const sortMovesRemaining = (a: RacingPlayer, b: RacingPlayer): 1 | -1 => {
   if (a.movesRemaining === b.movesRemaining) {
@@ -317,7 +319,13 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     ? Math.max(...gameState.racers.map(r => r.finishPosition || 0)) + 1
     : undefined;
 
-  const squareType = getSquareBehaviour(racingTrack, newPosition.position);
+  const squareType = getSquareBehaviour(
+    racingTrack,
+    newPosition.position,
+    newPosition.swappedWithRacer
+      ? MOVES_REQUIRED_TO_PASS
+      : DEFAULT_MOVES_PER_SQUARE
+  );
 
   const movesRemaining = finishedRace
     ? 0
@@ -325,6 +333,10 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     ? squareType.behaviour(player).movesRemaining
     : Math.min(player.movesRemaining, MAX_MOVES);
   const blocked = !newPosition.moved;
+
+  const overtakenRacer: RacingPlayer | undefined = newPosition.swappedWithRacer
+    ? { ...newPosition.swappedWithRacer, position: player.position }
+    : undefined;
 
   const updatedPlayer: RacingPlayer = {
     ...player,
@@ -344,9 +356,14 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
     finishPosition,
   };
 
+  const racersWithUpdatedOvertakenPlayer = replaceWithUpdatedPlayer(
+    overtakenRacer,
+    gameState.racers
+  );
+
   const racersWithUpdatedPlayer = replaceWithUpdatedPlayer(
     updatedPlayer,
-    gameState.racers
+    racersWithUpdatedOvertakenPlayer
   );
 
   const catchupBonusMoves = newPosition.moved
@@ -370,6 +387,7 @@ function stepPlayer(gameState: GameState, playerId: string): GameState {
       catchupBonusMoves,
       blocked,
       finishedRace,
+      swappedPlayer: !!newPosition.swappedWithRacer,
     }),
   };
 }
@@ -379,11 +397,13 @@ function getMoveSoundEffect({
   catchupBonusMoves,
   blocked,
   finishedRace,
+  swappedPlayer,
 }: {
   squareType: RacingTrackType;
   catchupBonusMoves?: number;
   blocked: boolean;
   finishedRace: boolean;
+  swappedPlayer: boolean;
 }): keyof SoundMap | undefined {
   if (catchupBonusMoves) {
     return 'PowerMode';
@@ -391,6 +411,8 @@ function getMoveSoundEffect({
     return 'RacingCarHorn';
   } else if (finishedRace) {
     return 'SelectPrizePoints';
+  } else if (swappedPlayer) {
+    return 'MobLoseLife';
   } else {
     return squareType.sound;
   }
@@ -422,19 +444,21 @@ function applyCatchupBonus(
 
 function getSquareBehaviour(
   raceTrack: RacingTrack,
-  position: RacingTrackPosition
+  position: RacingTrackPosition,
+  movesUsed: number
 ): RacingTrackType {
   const square =
     raceTrack.sections[position.sectionIndex].lanes[position.laneIndex].squares[
       position.squareIndex
     ];
-  return square.type ? square.type : defaultTrackBehaviour;
+  return square.type ? square.type : defaultTrackBehaviour(movesUsed);
 }
 
 type NextPositionResult = {
   position: RacingTrackPosition;
   moved: boolean;
   overtook: boolean;
+  swappedWithRacer?: RacingPlayer;
 };
 
 function getNextPlayerPosition(
@@ -468,10 +492,11 @@ function getNextPlayerPosition(
     squareIndex: nextSquareIndex,
   };
 
-  return getNextLane(possibleNewPosition, racingTrack, racers);
+  return getNextLane(player, possibleNewPosition, racingTrack, racers);
 }
 
 function getNextLane(
+  player: RacingPlayer,
   proposedPosition: RacingTrackPosition,
   racingTrack: RacingTrack,
   racers: RacingPlayer[]
@@ -481,6 +506,8 @@ function getNextLane(
   };
 
   let moved = false;
+  let swappedPlayer: RacingPlayer | undefined;
+
   const maxLanes =
     racingTrack.sections[proposedPosition.sectionIndex].lanes.length;
 
@@ -508,6 +535,20 @@ function getNextLane(
         rp.position.squareIndex === position.squareIndex
     );
 
+    if (
+      position.sectionIndex > 4 &&
+      racerInProposedSquare &&
+      player.movesRemaining > MOVES_REQUIRED_TO_PASS &&
+      player.movesRemaining > racerInProposedSquare.movesRemaining
+    ) {
+      console.log('SWAPPED', player, racerInProposedSquare);
+
+      swappedPlayer = racerInProposedSquare;
+      moved = true;
+      position.laneIndex = laneIndex;
+      break;
+    }
+
     if (!racerInProposedSquare) {
       moved = true;
       position.laneIndex = laneIndex;
@@ -518,15 +559,20 @@ function getNextLane(
     position,
     moved,
     overtook: position.laneIndex < proposedPosition.laneIndex,
+    swappedWithRacer: swappedPlayer,
   };
 
   return result;
 }
 
 function replaceWithUpdatedPlayer(
-  updatedPlayer: RacingPlayer,
+  updatedPlayer: RacingPlayer | undefined,
   racingPlayers: RacingPlayer[]
 ): RacingPlayer[] {
+  if (!updatedPlayer) {
+    return racingPlayers;
+  }
+
   return racingPlayers.map(rp => {
     return rp.player.id === updatedPlayer.player.id ? updatedPlayer : rp;
   });

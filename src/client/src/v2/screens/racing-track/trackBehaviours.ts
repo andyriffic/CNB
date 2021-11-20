@@ -1,13 +1,15 @@
 import { RacingTrackType } from './types';
 
-export const defaultTrackBehaviour: RacingTrackType = {
-  type: 'default',
-  sound: 'RacingEngineRev',
-  behaviour: player => {
-    return {
-      movesRemaining: player.movesRemaining - 1,
-    };
-  },
+export const defaultTrackBehaviour = (moves: number = 1): RacingTrackType => {
+  return {
+    type: 'default',
+    sound: 'RacingEngineRev',
+    behaviour: player => {
+      return {
+        movesRemaining: player.movesRemaining - moves,
+      };
+    },
+  };
 };
 
 export const rockTrackBehaviour: RacingTrackType = {
