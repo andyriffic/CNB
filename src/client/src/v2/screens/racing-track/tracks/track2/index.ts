@@ -230,7 +230,6 @@ export const racingTrack: RacingTrack = {
     {
       // 13
       rotationDegrees: 270,
-      catchupBonusMoves: 1,
       lanes: [
         {
           squares: [{ coordinates: { x: 113, y: 175 } }],
@@ -391,7 +390,6 @@ export const racingTrack: RacingTrack = {
     {
       // 24
       rotationDegrees: 360,
-      catchupBonusMoves: 1,
       lanes: [
         {
           squares: [{ coordinates: { x: 765, y: 80 } }],
@@ -525,7 +523,6 @@ export const racingTrack: RacingTrack = {
     {
       // 36
       rotationDegrees: 540,
-      catchupBonusMoves: 1,
       lanes: [
         {
           squares: [{ coordinates: { x: 390, y: 212 } }],
