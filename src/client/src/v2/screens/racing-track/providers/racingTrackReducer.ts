@@ -492,14 +492,25 @@ function getNextPlayerPosition(
     squareIndex: nextSquareIndex,
   };
 
-  return getNextLane(player, possibleNewPosition, racingTrack, racers);
+  const nextLaneWithoutOvertake = getNextLane(
+    player,
+    possibleNewPosition,
+    racingTrack,
+    racers,
+    false
+  );
+
+  return nextLaneWithoutOvertake.moved
+    ? nextLaneWithoutOvertake
+    : getNextLane(player, possibleNewPosition, racingTrack, racers, true);
 }
 
 function getNextLane(
   player: RacingPlayer,
   proposedPosition: RacingTrackPosition,
   racingTrack: RacingTrack,
-  racers: RacingPlayer[]
+  racers: RacingPlayer[],
+  canOvertake: boolean
 ): NextPositionResult {
   let position: RacingTrackPosition = {
     ...proposedPosition,
@@ -536,6 +547,7 @@ function getNextLane(
     );
 
     if (
+      canOvertake &&
       position.sectionIndex > 4 &&
       racerInProposedSquare &&
       player.movesRemaining > MOVES_REQUIRED_TO_PASS &&
