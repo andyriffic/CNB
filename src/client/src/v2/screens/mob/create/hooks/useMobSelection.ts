@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getPlayerIntegerAttributeValue } from '../../../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../../../uplift/utils/random';
 import { useMobLeaderboard } from '../../../../providers/MobLeaderboardProvider';
 import { usePlayerChoiceProvider } from '../../../../providers/PlayerChoiceProvider';
@@ -43,23 +44,19 @@ export const useMobSelection = (): UseMobSelection => {
   }, [allPlayerChoices]);
 
   const selectMug = (): Player => {
-    if (!topMainPlayerStats) {
-      return selectRandomOneOf(joinedPlayers);
-    }
-
-    const alreadyWonMainPlayerIds = topMainPlayerStats.mobMainPlayerSummary.map(
-      mps => mps.playerId
+    const lowestRaceTrackSection = Math.min(
+      ...joinedPlayers.map(p =>
+        getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0)
+      )
     );
 
-    const playersHaventPlayedYet = joinedPlayers.filter(
-      jp => !alreadyWonMainPlayerIds.includes(jp.id)
+    const lowestRaceTrackPlayers = joinedPlayers.filter(
+      p =>
+        getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0) ===
+        lowestRaceTrackSection
     );
 
-    if (playersHaventPlayedYet.length === 0) {
-      return selectRandomOneOf(joinedPlayers);
-    }
-
-    return selectRandomOneOf(playersHaventPlayedYet);
+    return selectRandomOneOf(lowestRaceTrackPlayers);
   };
 
   const sendInvites = () => {
