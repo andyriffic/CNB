@@ -44,13 +44,17 @@ export const useMobSelection = (): UseMobSelection => {
   }, [allPlayerChoices]);
 
   const selectMug = (): Player => {
+    const eligibleMugPlayers = joinedPlayers.filter(
+      p => getPlayerIntegerAttributeValue(p.tags, 'rt_finish', 0) === 0
+    );
+
     const lowestRaceTrackSection = Math.min(
-      ...joinedPlayers.map(p =>
+      ...eligibleMugPlayers.map(p =>
         getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0)
       )
     );
 
-    const lowestRaceTrackPlayers = joinedPlayers.filter(
+    const lowestRaceTrackPlayers = eligibleMugPlayers.filter(
       p =>
         getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0) ===
         lowestRaceTrackSection
