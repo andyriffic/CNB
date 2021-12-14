@@ -4,7 +4,6 @@ import { RacingTrack } from '../types';
 
 const Container = styled.div<{ img: any }>`
   position: relative;
-  border: 1px solid black;
   background-image: url(${({ img }) => img});
   background-repeat: no-repeat;
   background-size: cover;
