@@ -32,6 +32,13 @@ const Toggle = styled.div`
   cursor: pointer;
 `;
 
+const SoundHeading = styled.h4`
+  padding: 0;
+  margin: 0;
+  font-size: 0.3rem;
+  text-transform: uppercase;
+`;
+
 export const GameSettings = () => {
   const {
     settings: { soundVolume },
@@ -39,9 +46,22 @@ export const GameSettings = () => {
   } = useGameSettingsProvider();
   const [open, setOpen] = useState(false);
   return (
-    <Container open={open}>
+    <Container open={true}>
       <SettingsContainer>
-        <input
+        <SoundHeading>Sound</SoundHeading>
+        <button
+          onClick={() => updateSettings({ soundVolume: 0 })}
+          style={{ backgroundColor: soundVolume === 0 ? '#999' : '#ccc' }}
+        >
+          Off
+        </button>
+        <button
+          onClick={() => updateSettings({ soundVolume: 1 })}
+          style={{ backgroundColor: soundVolume !== 0 ? '#999' : '#ccc' }}
+        >
+          On
+        </button>
+        {/* <input
           type="range"
           id="points"
           onChange={e =>
@@ -51,9 +71,9 @@ export const GameSettings = () => {
           min={0}
           max={10}
           step={1}
-        ></input>
+        ></input> */}
       </SettingsContainer>
-      <Toggle onClick={() => setOpen(!open)} />
+      {/* <Toggle onClick={() => setOpen(!open)} /> */}
     </Container>
   );
 };
