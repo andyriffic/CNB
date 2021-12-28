@@ -30,6 +30,9 @@ import { PlayerChoiceProvider } from './providers/PlayerChoiceProvider';
 import { MobProvider } from './providers/MobProvider';
 import { MobAchievementsScreen } from './screens/mob/achievements';
 import { MobPointsInstructionsScreen } from './screens/mob/points-instructions';
+import { GasProvider } from './providers/GasProvider';
+import { CreateGasGameScreen } from './screens/gas-out/create';
+import { GasGameSpectatorScreen } from './screens/gas-out/spectator';
 
 export default () => {
   return (
@@ -43,40 +46,47 @@ export default () => {
                 <PlayerChoiceProvider>
                   <MobProvider>
                     <MobLeaderboardProvider>
-                      <ThemedUi>
-                        <Router>
-                          <ChoosePlayerScreen path="/classic" />
-                          <ScreenWithMatchup
-                            path="/spectator/:matchupId"
-                            matchupId=""
-                          />
-                          <SnakesAndLaddersScreen path="/snakes-and-ladders" />
-                          <DonkeyKongScreen path="/donkey-kong" />
-                          <CreateMobScreen path="/" />
-                          <MobSpectatorScreen
-                            path="/mob/spectator/:mobGameId"
-                            mobGameId=""
-                          />
-                          <SelectPlayerScreen path="/play" />
-                          <SelectMatchupScreen path="/play/:playerId" />
-                          <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
-                          <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
-                          <PlayerProfileScreen
-                            path="/player-profile"
-                            playerName=""
-                          />
-                          <PlayerProfileScreen
-                            path="/player-profile/:playerName"
-                            playerName=""
-                          />
-                          <MobAchievementsScreen path="/mob-achievements" />
-                          <MobPointsInstructionsScreen path="/mob-points-explanation" />
-                          <GameHistoryScreen path="/game-history" />
-                          <PlayerAdminScreen path="/player-admin" />
-                          <GameEngineScreen path="/game-engine" />
-                          <RacingTrackScreen path="/race-track" />
-                        </Router>
-                      </ThemedUi>
+                      <GasProvider>
+                        <ThemedUi>
+                          <Router>
+                            <ChoosePlayerScreen path="/classic" />
+                            <ScreenWithMatchup
+                              path="/spectator/:matchupId"
+                              matchupId=""
+                            />
+                            <SnakesAndLaddersScreen path="/snakes-and-ladders" />
+                            <DonkeyKongScreen path="/donkey-kong" />
+                            <CreateMobScreen path="/" />
+                            <MobSpectatorScreen
+                              path="/mob/spectator/:mobGameId"
+                              mobGameId=""
+                            />
+                            <SelectPlayerScreen path="/play" />
+                            <SelectMatchupScreen path="/play/:playerId" />
+                            <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
+                            <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
+                            <PlayerProfileScreen
+                              path="/player-profile"
+                              playerName=""
+                            />
+                            <PlayerProfileScreen
+                              path="/player-profile/:playerName"
+                              playerName=""
+                            />
+                            <MobAchievementsScreen path="/mob-achievements" />
+                            <MobPointsInstructionsScreen path="/mob-points-explanation" />
+                            <GameHistoryScreen path="/game-history" />
+                            <PlayerAdminScreen path="/player-admin" />
+                            <GameEngineScreen path="/game-engine" />
+                            <RacingTrackScreen path="/race-track" />
+                            <CreateGasGameScreen path="gas/start" />
+                            <GasGameSpectatorScreen
+                              path="gas/game/:gameId"
+                              gameId=""
+                            />
+                          </Router>
+                        </ThemedUi>
+                      </GasProvider>
                     </MobLeaderboardProvider>
                   </MobProvider>
                 </PlayerChoiceProvider>

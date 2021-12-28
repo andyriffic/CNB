@@ -1,4 +1,5 @@
 import { Player } from '../../services/player/types';
+import { selectRandomOneOf } from '../../utils/random';
 import { Direction, GasCard, GasGame, GasPlayer } from './types';
 
 export function createGame({
@@ -13,7 +14,7 @@ export function createGame({
     allPlayers: players.map(createGasPlayer),
     alivePlayersIds: [],
     deadPlayerIds: [],
-    direction: 'left',
+    direction: 'right',
     currentPlayer: {
       id: players[0].id,
       pressesRemaining: 0,
@@ -26,6 +27,11 @@ export function createGame({
 }
 
 export function nextPlayer(game: GasGame): GasGame {
+  if (game.currentPlayer.pressesRemaining > 0) {
+    // throw 'Game still has presses remaining'
+    return game;
+  }
+
   const currentPlayerIndex = game.allPlayers.findIndex(
     (p) => p.player.id === game.currentPlayer.id
   );
@@ -87,6 +93,16 @@ export function playCard(
   playerId: string,
   cardIndex: number
 ): GasGame {
+  if (playerId !== game.currentPlayer.id) {
+    // throw `Player ${playerId} is not the current player ${game.currentPlayer.id}`;
+    return game;
+  }
+
+  if (game.currentPlayer.pressesRemaining > 0) {
+    // throw `Still ${game.currentPlayer.pressesRemaining} presses remaining`;
+    return game;
+  }
+
   const { player, card } = getPlayerAndCardOrThrow(game, playerId, cardIndex);
 
   const updatedCards = player.cards.filter((c, i) => i !== cardIndex);
@@ -153,6 +169,13 @@ function createGasPlayer(player: Player): GasPlayer {
   return {
     player,
     status: 'alive',
-    cards: [],
+    cards: [createCard(), createCard(), createCard()],
+  };
+}
+
+function createCard(): GasCard {
+  return {
+    type: 'press',
+    presses: selectRandomOneOf([1, 2, 3, 4, 5]),
   };
 }

@@ -1,7 +1,7 @@
-export const selectRandomOneOf = (items: any[]) => {
+export function selectRandomOneOf<T>(items: T[]) {
   const randomItemIndex = Math.floor(Math.random() * items.length);
   return items[randomItemIndex];
-};
+}
 
 export type WeightedItem<T> = {
   weight: number;

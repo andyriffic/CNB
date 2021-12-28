@@ -17,6 +17,7 @@ import initTeams from './uplift/sockets/teams';
 import initInvitations from './uplift/sockets/invitations';
 import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
 import initMobMode from './uplift/sockets/mob-mode/socket'
+import initGasOut from './uplift/sockets/gas-out/socket'
 
 import {graphql} from './graphql';
 import { StatsService } from './uplift/services/stats';
@@ -87,6 +88,7 @@ initTeams(io, '/teams-realz');
 initInvitations(io, '/invitations');
 initPlayerChoice(io, 'player-choice');
 initMobMode(io, '/mob-mode')
+initGasOut(io, '/gas-out')
 
 console.log(`App running on http://localhost:${port}`);
 
