@@ -37,7 +37,7 @@ type GasCloud = {
 
 export type GasPlayer = {
   player: Player;
-  status: 'alive' | 'dead';
+  status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
 };
 

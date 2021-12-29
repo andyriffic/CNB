@@ -1,5 +1,11 @@
 import { NavigateFn } from '@reach/router';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
@@ -8,16 +14,10 @@ import { SplashText } from '../../../components/SplashText';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
-import { useMobGame } from '../../../providers/hooks/useMobGame';
-import {
-  MobGame,
-  MobPlayer,
-  useMobProvider,
-} from '../../../providers/MobProvider';
-import { CurrentCard } from './CurrentCard';
 import { GasCloud } from './GasCloud';
 import { GasPlayerDebug } from './GasPlayerDebug';
 import { useGasGame } from './hooks/useGasGame';
+import { useGasSound } from './hooks/useGasSound';
 import { PlayerList } from './PlayerList';
 
 const Container = styled.div`
@@ -26,16 +26,7 @@ const Container = styled.div`
 
 const PlayersContainer = styled.div`
   display: flex;
-`;
-const MugContainer = styled.div`
-  margin-right: 100px;
-`;
-const MobContainer = styled.div``;
-
-const GraveyardContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  justify-content: center;
 `;
 
 const DonkeyKongLinkContainer = styled.div`
@@ -51,7 +42,29 @@ type Props = {
 
 export default ({ gameId, navigate }: Props) => {
   const { game } = useGasGame(gameId);
+  useGasSound(game);
   const { nextPlayer } = useGasProvider();
+  const nextPlayerForThisGame = useCallback(() => game && nextPlayer(game.id), [
+    game,
+  ]);
+
+  useEffect(() => {
+    if (!game) {
+      return;
+    }
+    if (
+      (game.currentPlayer.cardPlayed &&
+        game.currentPlayer.pressesRemaining === 0) ||
+      game.gasCloud.exploded
+    ) {
+      const timer = setTimeout(nextPlayerForThisGame, 2000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [game, nextPlayerForThisGame]);
+
   if (!game) {
     return <LoadingSpinner />;
   }
@@ -66,14 +79,15 @@ export default ({ gameId, navigate }: Props) => {
           <PlayerList
             players={game.allPlayers}
             currentPlayerId={game.currentPlayer.id}
+            currentCard={game.currentPlayer.cardPlayed}
           />
         </PlayersContainer>
-        <CurrentCard card={game.currentPlayer.cardPlayed} />
         <GasCloud game={game} />
-        {game.currentPlayer.cardPlayed &&
-          game.currentPlayer.pressesRemaining === 0 && (
-            <Button onClick={() => nextPlayer(game.id)}>Next Player</Button>
-          )}
+        {/* {((game.currentPlayer.cardPlayed &&
+          game.currentPlayer.pressesRemaining === 0) ||
+          game.gasCloud.exploded) && (
+          <Button onClick={() => nextPlayer(game.id)}>Next Player</Button>
+        )} */}
       </Container>
       {/* {mobGame.gameOver && mobGame.roundState === 'viewed' && (
         <DonkeyKongLinkContainer>

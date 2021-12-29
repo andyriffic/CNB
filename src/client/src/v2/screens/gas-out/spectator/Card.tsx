@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { slideInUpAnimation } from '../../../../uplift/components/animations';
 import { GasCard } from '../../../providers/GasProvider';
 
 const CardContainer = styled.div`
@@ -9,23 +10,22 @@ const CardContainer = styled.div`
   gap: 20px;
   border: 3px solid white;
   border-radius: 10px;
-  width: 100px;
-  height: 160px;
+  width: 40px;
+  height: 60px;
   background-color: white;
+  animation: ${slideInUpAnimation} 300ms ease-out 0s both;
 `;
 
 const CardText = styled.div`
-  font-size: 3rem;
+  font-size: 1rem;
   color: steelblue;
   font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
 type Props = {
-  card?: GasCard;
+  card: GasCard;
 };
 
-export function CurrentCard({ card }: Props): JSX.Element {
-  return (
-    <CardContainer>{card && <CardText>{card.presses}</CardText>}</CardContainer>
-  );
+export function Card({ card }: Props): JSX.Element {
+  return <CardContainer>{<CardText>{card.presses}</CardText>}</CardContainer>;
 }

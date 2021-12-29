@@ -1,5 +1,9 @@
 import { Player } from '../../services/player/types';
-import { selectRandomOneOf } from '../../utils/random';
+import {
+  selectRandomOneOf,
+  selectWeightedRandomOneOf,
+  WeightedItem,
+} from '../../utils/random';
 import { Direction, GasCard, GasGame, GasPlayer } from './types';
 
 export function createGame({
@@ -12,7 +16,7 @@ export function createGame({
   return {
     id,
     allPlayers: players.map(createGasPlayer),
-    alivePlayersIds: [],
+    alivePlayersIds: players.map((p) => p.id),
     deadPlayerIds: [],
     direction: 'right',
     currentPlayer: {
@@ -26,9 +30,31 @@ export function createGame({
   };
 }
 
-export function nextPlayer(game: GasGame): GasGame {
+export function moveToNextAlivePlayer(game: GasGame): GasGame {
+  if (game.allPlayers.every((p) => p.status === 'dead')) {
+    //Guard just in case for now
+    return game;
+  }
+
+  let updatedGame = game;
+  let currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+
+  do {
+    updatedGame = moveToNextPlayer(updatedGame);
+    currentPlayer = getPlayerOrThrow(updatedGame, updatedGame.currentPlayer.id);
+  } while (currentPlayer.status === 'dead');
+
+  return updatedGame;
+}
+
+export function moveToNextPlayer(game: GasGame): GasGame {
   if (game.currentPlayer.pressesRemaining > 0) {
     // throw 'Game still has presses remaining'
+    return game;
+  }
+
+  if (!!game.winningPlayerId) {
+    // Game already has a winner
     return game;
   }
 
@@ -70,8 +96,9 @@ export function nextPlayer(game: GasGame): GasGame {
   };
 }
 
-export function press(game: GasGame): GasGame {
-  if (game.currentPlayer.pressesRemaining === 0 || game.gasCloud.exploded) {
+export function resetCloud(game: GasGame): GasGame {
+  if (!game.gasCloud.exploded) {
+    // throw 'Resetting cloud but cloud has not exploded';
     return game;
   }
 
@@ -79,13 +106,85 @@ export function press(game: GasGame): GasGame {
     ...game,
     currentPlayer: {
       ...game.currentPlayer,
+      pressesRemaining: 0,
+    },
+    gasCloud: {
+      pressed: 0,
+      exploded: false,
+    },
+  };
+}
+
+function assignWinner(game: GasGame): GasGame {
+  if (!!game.winningPlayerId) {
+    //Winner already assigned
+    return game;
+  }
+
+  const allAlivePlayers = game.allPlayers.filter((p) => p.status === 'alive');
+
+  if (allAlivePlayers.length > 1) {
+    // No winner yet
+    return game;
+  }
+
+  if (allAlivePlayers.length === 0) {
+    // This shouldn't happen
+    throw 'No alive players when trying to find winner :(';
+  }
+
+  const winningPlayer: GasPlayer = {
+    ...allAlivePlayers[0],
+    status: 'winner',
+  };
+
+  return {
+    ...game,
+    winningPlayerId: winningPlayer.player.id,
+    allPlayers: updatePlayerInList(game.allPlayers, winningPlayer),
+  };
+}
+
+export function press(game: GasGame): GasGame {
+  if (game.currentPlayer.pressesRemaining === 0 || game.gasCloud.exploded) {
+    return game;
+  }
+
+  const explodedWeights: WeightedItem<boolean>[] = [
+    { weight: game.gasCloud.pressed + 1, item: true },
+    { weight: game.allPlayers.length * 2, item: false },
+  ];
+
+  const exploded = selectWeightedRandomOneOf(explodedWeights);
+
+  const deadPlayerIds = exploded
+    ? [...game.deadPlayerIds, game.currentPlayer.id]
+    : game.deadPlayerIds;
+  const alivePlayersIds = exploded
+    ? game.alivePlayersIds.filter((id) => id !== game.currentPlayer.id)
+    : game.alivePlayersIds;
+
+  const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+  const updatedCurrentPlayer: GasPlayer = {
+    ...currentPlayer,
+    status: exploded ? 'dead' : 'alive',
+  };
+
+  return assignWinner({
+    ...game,
+    allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
+    alivePlayersIds,
+    deadPlayerIds,
+    currentPlayer: {
+      ...game.currentPlayer,
       pressesRemaining: game.currentPlayer.pressesRemaining - 1,
     },
     gasCloud: {
       ...game.gasCloud,
       pressed: game.gasCloud.pressed + 1,
+      exploded: exploded,
     },
-  };
+  });
 }
 
 export function playCard(
@@ -108,7 +207,7 @@ export function playCard(
   const updatedCards = player.cards.filter((c, i) => i !== cardIndex);
   const updatedPlayer: GasPlayer = {
     ...player,
-    cards: updatedCards,
+    cards: [...updatedCards, createCard()],
   };
 
   return {

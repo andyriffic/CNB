@@ -45,7 +45,7 @@ export function GasPlayerDebug({ game }: Props): JSX.Element {
             <div>
               {p.cards.map((c, i) => (
                 <button
-                  disabled={!active}
+                  disabled={!active || !!game.currentPlayer.cardPlayed}
                   key={i}
                   onClick={() => playCard(game.id, p.player.id, i)}
                 >

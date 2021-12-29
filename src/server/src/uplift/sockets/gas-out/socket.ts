@@ -1,7 +1,14 @@
 import { Socket, Server } from 'socket.io';
 import { customAlphabet } from 'nanoid';
 
-import { createGame, nextPlayer, playCard, press } from '.';
+import {
+  createGame,
+  moveToNextAlivePlayer,
+  moveToNextPlayer,
+  playCard,
+  press,
+  resetCloud,
+} from '.';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
 import { GasGame } from './types';
@@ -82,7 +89,7 @@ const init = (socketServer: Server, path: string) => {
       log(NEXT_GAS_PAYER, gameId);
       const game = getGameOrThrow(activeGasGames, gameId);
 
-      const updatedGame = nextPlayer(game);
+      const updatedGame = moveToNextAlivePlayer(resetCloud(game));
       activeGasGames = updateGames(activeGasGames, updatedGame);
 
       log('UPDATED GAME', updatedGame);

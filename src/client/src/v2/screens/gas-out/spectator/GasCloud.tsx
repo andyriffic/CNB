@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { GasGame } from '../../../providers/GasProvider';
 
-const Container = styled.div<{ size: number }>`
+const Container = styled.div<{ size: number; exploded: boolean }>`
   margin-top: 40px;
   display: flex;
   justify-content: center;
@@ -10,13 +10,14 @@ const Container = styled.div<{ size: number }>`
   gap: 20px;
   border: 3px solid brown;
   border-radius: 50%;
-  background-color: burlywood;
+  background-color: ${({ exploded }) => (exploded ? 'red' : 'steelblue')};
   width: ${({ size }) => size * 10 + 50}px;
   height: ${({ size }) => size * 10 + 50}px;
+  transition: all 180ms ease-in;
 `;
 
-const PressesRemaining = styled.div`
-  font-size: 1rem;
+const PressesRemaining = styled.div<{ size: number }>`
+  font-size: ${({ size }) => size * 0.1 + 1}rem;
   color: blanchedalmond;
   font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
@@ -27,10 +28,13 @@ type Props = {
 
 export function GasCloud({ game }: Props): JSX.Element {
   return (
-    <Container size={game.gasCloud.pressed}>
+    <Container size={game.gasCloud.pressed} exploded={game.gasCloud.exploded}>
       {
-        <PressesRemaining>
-          {game.currentPlayer.pressesRemaining}
+        <PressesRemaining size={game.gasCloud.pressed}>
+          {game.gasCloud.exploded && 'BOOM!'}
+          {!game.gasCloud.exploded &&
+            game.currentPlayer.pressesRemaining > 0 &&
+            game.currentPlayer.pressesRemaining}
         </PressesRemaining>
       }
     </Container>

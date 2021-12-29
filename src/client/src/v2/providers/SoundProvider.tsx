@@ -58,6 +58,8 @@ export type SoundMap = {
   CountdownTimerWarning: any;
   RacingEngineRev: any;
   RacingCarHorn: any;
+  GasCloudPress: any;
+  GasCloudExplode: any;
 };
 
 export type PlaySound = (

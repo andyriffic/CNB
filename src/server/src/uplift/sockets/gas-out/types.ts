@@ -7,6 +7,7 @@ export type GasGame = {
   allPlayers: GasPlayer[];
   alivePlayersIds: string[];
   deadPlayerIds: string[];
+  winningPlayerId?: string;
   direction: Direction;
   currentPlayer: {
     id: string;
@@ -23,7 +24,7 @@ type GasCloud = {
 
 export type GasPlayer = {
   player: Player;
-  status: 'alive' | 'dead';
+  status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
 };
 
