@@ -274,8 +274,22 @@ function createGasPlayer(player: Player): GasPlayer {
 }
 
 function createCard(): GasCard {
-  return {
-    type: 'press',
-    presses: selectRandomOneOf([1, 2, 3, 4, 5]),
-  };
+  const cardWeights: WeightedItem<GasCard>[] = [
+    {
+      weight: 1,
+      item: {
+        type: 'skip',
+        presses: 0,
+      },
+    },
+    {
+      weight: 5,
+      item: {
+        type: 'press',
+        presses: selectRandomOneOf([1, 2, 3, 4, 5]),
+      },
+    },
+  ];
+
+  return selectWeightedRandomOneOf(cardWeights);
 }
