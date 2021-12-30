@@ -24,7 +24,8 @@ export function useGasSound(game: GasGame | undefined) {
 
   useEffect(() => {
     if (pressedCount > 0) {
-      play('GasCloudPress');
+      const intensity = pressedCount / 100 + 0.5;
+      play('GasCloudPress', { volume: 0.1, rate: intensity });
     }
   }, [pressedCount]);
 

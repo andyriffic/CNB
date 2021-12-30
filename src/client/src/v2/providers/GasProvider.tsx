@@ -21,6 +21,7 @@ export type GasGame = {
   allPlayers: GasPlayer[];
   alivePlayersIds: string[];
   deadPlayerIds: string[];
+  winningPlayerId?: string;
   direction: GasGameDirection;
   currentPlayer: {
     id: string;

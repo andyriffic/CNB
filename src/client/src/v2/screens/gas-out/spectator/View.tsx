@@ -52,6 +52,10 @@ export default ({ gameId, navigate }: Props) => {
     if (!game) {
       return;
     }
+    if (!!game.winningPlayerId) {
+      return;
+    }
+
     if (
       (game.currentPlayer.cardPlayed &&
         game.currentPlayer.pressesRemaining === 0) ||
@@ -82,7 +86,9 @@ export default ({ gameId, navigate }: Props) => {
             currentCard={game.currentPlayer.cardPlayed}
           />
         </PlayersContainer>
-        <GasCloud game={game} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <GasCloud game={game} />
+        </div>
         {/* {((game.currentPlayer.cardPlayed &&
           game.currentPlayer.pressesRemaining === 0) ||
           game.gasCloud.exploded) && (

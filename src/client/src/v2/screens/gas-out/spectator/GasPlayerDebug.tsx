@@ -32,9 +32,10 @@ type Props = {
 
 export function GasPlayerDebug({ game }: Props): JSX.Element {
   const { playCard, pressGas } = useGasProvider();
+  const activePlayers = game.allPlayers.filter(p => p.status !== 'dead');
   return (
     <PlayerListContainer>
-      {game.allPlayers.map(p => {
+      {activePlayers.map(p => {
         const active = p.player.id === game.currentPlayer.id;
         return (
           <PlayerListItem

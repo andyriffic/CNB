@@ -36,6 +36,11 @@ export function moveToNextAlivePlayer(game: GasGame): GasGame {
     return game;
   }
 
+  if (!!game.winningPlayerId) {
+    // Game already has a winner
+    return game;
+  }
+
   let updatedGame = game;
   let currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
 
@@ -50,11 +55,6 @@ export function moveToNextAlivePlayer(game: GasGame): GasGame {
 export function moveToNextPlayer(game: GasGame): GasGame {
   if (game.currentPlayer.pressesRemaining > 0) {
     // throw 'Game still has presses remaining'
-    return game;
-  }
-
-  if (!!game.winningPlayerId) {
-    // Game already has a winner
     return game;
   }
 
@@ -107,6 +107,7 @@ export function resetCloud(game: GasGame): GasGame {
     currentPlayer: {
       ...game.currentPlayer,
       pressesRemaining: 0,
+      cardPlayed: undefined,
     },
     gasCloud: {
       pressed: 0,
@@ -152,7 +153,7 @@ export function press(game: GasGame): GasGame {
 
   const explodedWeights: WeightedItem<boolean>[] = [
     { weight: game.gasCloud.pressed + 1, item: true },
-    { weight: game.allPlayers.length * 2, item: false },
+    { weight: game.allPlayers.length * 4, item: false },
   ];
 
   const exploded = selectWeightedRandomOneOf(explodedWeights);
