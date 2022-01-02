@@ -106,6 +106,7 @@ const soundMap: SoundMap = {
   RacingCarHorn: carHorn,
   GasCloudPress: bubbleLoud,
   GasCloudExplode: balloonPopSound,
+  GasPlayCard: fastGesture,
 };
 
 export default soundMap;
