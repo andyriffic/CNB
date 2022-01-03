@@ -5,12 +5,13 @@ import { RacingTrackServiceProvider } from './providers/RacingTrackSerivce';
 import { racingTrack as track3 } from './tracks/track3';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { RacingTrack } from './types';
+import { shuffleArray } from '../../../uplift/utils/random';
 
 export const RacingTrackScreen = ({ location }: RouteComponentProps) => {
   const { allPlayers, updatePlayer } = usePlayersProvider();
 
   const participatingPlayers = useMemo(
-    () => allPlayers.filter(p => p.tags.includes('racer')),
+    () => shuffleArray(allPlayers.filter(p => p.tags.includes('racer'))),
     [allPlayers]
   );
 
