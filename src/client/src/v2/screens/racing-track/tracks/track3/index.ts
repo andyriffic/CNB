@@ -103,5 +103,122 @@ export const racingTrack: RacingTrack = {
         },
       ],
     },
+    {
+      // 6
+      rotationDegrees: -40,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 286, y: 80 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 310, y: 105 } }],
+        },
+      ],
+    },
+    {
+      // 7
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 380, y: 70 } }],
+        },
+      ],
+    },
+    {
+      // 8
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 435, y: 70 } }],
+        },
+      ],
+    },
+    {
+      // 9
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 495, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 496, y: 95 } }],
+        },
+      ],
+    },
+    {
+      // 10
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 555, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 555, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 555, y: 120 } }],
+        },
+      ],
+    },
+    {
+      // 11
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 610, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 610, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 610, y: 120 } }],
+        },
+      ],
+    },
+    {
+      // 12
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 670, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 670, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 670, y: 120 } }],
+        },
+      ],
+    },
+    {
+      // 13
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 730, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 730, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 730, y: 120 } }],
+        },
+      ],
+    },
+    {
+      // 14
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 790, y: 70 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 790, y: 95 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 790, y: 120 } }],
+        },
+      ],
+    },
   ],
 };

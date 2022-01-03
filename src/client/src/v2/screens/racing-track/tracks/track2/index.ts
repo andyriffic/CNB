@@ -3,7 +3,7 @@ import { RacingTrack } from '../../types';
 import background from './race-track.png';
 
 export const racingTrack: RacingTrack = {
-  id: 'track3',
+  id: 'track2',
   totalLaps: 1,
   boardBackgroundImage: background,
   widthPx: 1000,
