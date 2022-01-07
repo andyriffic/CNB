@@ -23,6 +23,14 @@ export function useGasSound(game: GasGame | undefined) {
     return game.gasCloud.exploded;
   }, [game]);
 
+  const hasWinner = useMemo<boolean>(() => {
+    if (!game) {
+      return false;
+    }
+
+    return !!game.winningPlayerId;
+  }, [game]);
+
   const cardPlayed = useMemo<boolean>(() => {
     if (!game) {
       return false;
@@ -56,6 +64,12 @@ export function useGasSound(game: GasGame | undefined) {
   useEffect(() => {
     if (cardPlayed) {
       play('GasPlayCard');
+    }
+  }, [cardPlayed]);
+
+  useEffect(() => {
+    if (hasWinner) {
+      play('GasWinner');
     }
   }, [cardPlayed]);
 }

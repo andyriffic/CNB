@@ -107,6 +107,7 @@ const soundMap: SoundMap = {
   GasCloudPress: bubbleLoud,
   GasCloudExplode: balloonPopSound,
   GasPlayCard: fastGesture,
+  GasWinner: fanfare,
 };
 
 export default soundMap;

@@ -61,6 +61,7 @@ export type SoundMap = {
   GasCloudPress: any;
   GasCloudExplode: any;
   GasPlayCard: any;
+  GasWinner: any;
 };
 
 export type PlaySound = (
