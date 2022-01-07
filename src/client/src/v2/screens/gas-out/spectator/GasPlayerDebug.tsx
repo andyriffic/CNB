@@ -50,7 +50,7 @@ export function GasPlayerDebug({ game }: Props): JSX.Element {
                   key={i}
                   onClick={() => playCard(game.id, p.player.id, i)}
                 >
-                  ({c.presses})
+                  ({c.type === 'press' ? c.presses : c.type})
                 </button>
               ))}
               {active && game.currentPlayer.pressesRemaining > 0 && (

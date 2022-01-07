@@ -36,6 +36,8 @@ function renderCard(card: GasCard): JSX.Element {
       return <CardNumber>{card.presses}</CardNumber>;
     case 'skip':
       return <CardText>skip</CardText>;
+    case 'reverse':
+      return <CardText>↩</CardText>;
     default:
       throw 'card type not configured';
   }

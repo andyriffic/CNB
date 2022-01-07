@@ -283,7 +283,14 @@ function createCard(): GasCard {
       },
     },
     {
-      weight: 5,
+      weight: 8,
+      item: {
+        type: 'reverse',
+        presses: 0,
+      },
+    },
+    {
+      weight: 8,
       item: {
         type: 'press',
         presses: selectRandomOneOf([1, 2, 3, 4, 5]),
