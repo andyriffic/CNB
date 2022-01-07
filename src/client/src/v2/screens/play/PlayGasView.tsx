@@ -50,8 +50,7 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
   return (
     <GameScreen scrollable={true} showGameSettings={false}>
       <PlayerStatus>{statusText}</PlayerStatus>
-      {playersTurn && <p>Your turn!</p>}
-      {!showCloudPresser && (
+      {!showCloudPresser && gasPlayer.status === 'alive' && (
         <PlayerGasCards
           cards={gasPlayer.cards}
           enabled={playersTurn && !game.currentPlayer.cardPlayed}

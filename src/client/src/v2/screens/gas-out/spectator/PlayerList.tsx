@@ -19,40 +19,74 @@ const CardContainer = styled.div`
   transform: translateX(-50%);
 `;
 
-const PlayerListItem = styled.div<{ active: boolean }>`
+const PlayerListItem = styled.div<{ active: boolean; alive: boolean }>`
   position: relative;
-  ${({ theme, active }) =>
-    active &&
-    css`
-      background-color: ${theme.color.background03};
-    `}
+  transition: top 300ms ease-in-out, opacity 1s linear;
+  top: ${({ active }) => (active ? '-20%' : '0')};
+  opacity: ${({ alive }) => (alive ? 1 : 0.6)};
+`;
+
+const PlayerIcon = styled.div`
+  font-size: 1.4rem;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const PlayerName = styled.div`
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid white;
+  color: ${({ theme }) => theme.color.text02};
+  background-color: ${({ theme }) => theme.color.background02};
+  padding: 5px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-size: ${({ theme }) => theme.fontSize.smallish};
+  white-space: nowrap;
 `;
 
 type Props = {
   players: GasPlayer[];
   currentPlayerId: string;
   currentCard?: GasCard;
+  gameOver: boolean;
+  winningPlayerId: string | undefined;
 };
 
 export function PlayerList({
   players,
   currentPlayerId,
   currentCard,
+  gameOver,
+  winningPlayerId,
 }: Props): JSX.Element {
   return (
     <PlayerListContainer>
       {players.map(p => {
         const active = p.player.id === currentPlayerId;
+        const winner = p.player.id === winningPlayerId;
+        const notDead = p.status !== 'dead';
         return (
-          <PlayerListItem key={p.player.id} active={active}>
-            {active && currentCard && (
+          <PlayerListItem
+            key={p.player.id}
+            active={notDead && (active || winner)}
+            alive={p.status !== 'dead'}
+          >
+            {active && currentCard && !gameOver && p.status === 'alive' && (
               <CardContainer>
                 <Card card={currentCard} />
               </CardContainer>
             )}
+            {(winner || (active && notDead && !gameOver)) && (
+              <PlayerName>{p.player.name}</PlayerName>
+            )}
             <PlayerAvatar player={p.player} size="small" showZodiac={false} />
-            {p.status === 'dead' && <div>☠️</div>}
-            {p.status === 'winner' && <div>🎉</div>}
+            {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>}
+            {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>}
           </PlayerListItem>
         );
       })}

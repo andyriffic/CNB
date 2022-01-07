@@ -84,6 +84,8 @@ export default ({ gameId, navigate }: Props) => {
             players={game.allPlayers}
             currentPlayerId={game.currentPlayer.id}
             currentCard={game.currentPlayer.cardPlayed}
+            gameOver={!!game.winningPlayerId}
+            winningPlayerId={game.winningPlayerId}
           />
         </PlayersContainer>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
