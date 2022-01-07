@@ -4,6 +4,7 @@ import { SelectPlayerView } from './SelectPlayerView';
 import { SelectMatchupView } from './SelectMatchupView';
 import { PlayMatchupView } from './PlayMatchupView';
 import { PlayMobView } from './PlayMobView';
+import { PlayGasView } from './PlayGasView';
 
 export const SelectPlayerScreen = ({  }: RouteComponentProps) => {
   return <SelectPlayerView />;
@@ -19,4 +20,8 @@ export const PlayMatchupScreen = (props: RouteComponentProps) => {
 
 export const PlayMobScreen = (props: RouteComponentProps) => {
   return <PlayMobView playerId="" mobGameId="" {...props} />;
+};
+
+export const PlayGasScreen = (props: RouteComponentProps) => {
+  return <PlayGasView playerId="" gasGameId="" {...props} />;
 };

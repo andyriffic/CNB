@@ -1,3 +1,4 @@
+import { isWhiteSpaceLike } from 'typescript';
 import { ThemeStyles } from '../../components/ui/Theme';
 
 const theme: ThemeStyles = {
@@ -18,6 +19,11 @@ const theme: ThemeStyles = {
       backgroundVariant01: 'steelblue',
       backgroundVariant02: 'darkkhaki',
       backgroundVariant03: 'goldenrod',
+    },
+    gasGame: {
+      cardTextColor01: 'crimson',
+      cardBorderColor: 'white',
+      cardBackgroundColor: 'greenyellow',
     },
   },
   fontSize: {

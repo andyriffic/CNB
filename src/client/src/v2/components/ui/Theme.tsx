@@ -22,6 +22,11 @@ export interface ThemeStyles {
       backgroundVariant02: string;
       backgroundVariant03: string;
     };
+    gasGame: {
+      cardTextColor01: string;
+      cardBackgroundColor: string;
+      cardBorderColor: string;
+    };
   };
   fontSize: {
     extraSmall: string;

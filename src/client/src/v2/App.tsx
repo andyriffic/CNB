@@ -20,6 +20,7 @@ import {
   SelectMatchupScreen,
   PlayMatchupScreen,
   PlayMobScreen,
+  PlayGasScreen,
 } from './screens/play';
 import { GameEngineScreen } from './screens/game-engine';
 import { RacingTrackScreen } from './screens/racing-track';
@@ -65,6 +66,7 @@ export default () => {
                             <SelectMatchupScreen path="/play/:playerId" />
                             <PlayMatchupScreen path="/play/:playerId/matchup/:matchupId" />
                             <PlayMobScreen path="/play/:playerId/mob/:mobGameId" />
+                            <PlayGasScreen path="/play/:playerId/gas/:gasGameId" />
                             <PlayerProfileScreen
                               path="/player-profile"
                               playerName=""

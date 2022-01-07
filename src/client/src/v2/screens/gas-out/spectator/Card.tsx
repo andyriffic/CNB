@@ -8,24 +8,22 @@ const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  border: 3px solid white;
+  border: 3px solid ${({ theme }) => theme.color.gasGame.cardBorderColor};
   border-radius: 10px;
   width: 40px;
   height: 60px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.gasGame.cardBackgroundColor};
   animation: ${slideInUpAnimation} 300ms ease-out 0s both;
+  color: ${({ theme }) => theme.color.gasGame.cardTextColor01};
 `;
 
 const CardNumber = styled.div`
   font-size: 1rem;
-  color: steelblue;
   font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
 const CardText = styled.div`
   font-size: 0.8rem;
-  color: crimson;
-  font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
 type Props = {
