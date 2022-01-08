@@ -224,12 +224,6 @@ export function playCard(
   };
 }
 
-export function giveCardToPlayer(game: GasGame, playerId: string): GasGame {
-  const player = getPlayerOrThrow(game, playerId);
-  // TODO: fill this in
-  return game;
-}
-
 function updatePlayerInList(
   allPlayers: GasPlayer[],
   player: GasPlayer
@@ -290,7 +284,7 @@ function createCard(): GasCard {
       },
     },
     {
-      weight: 8,
+      weight: 12,
       item: {
         type: 'press',
         presses: selectRandomOneOf([1, 2, 3, 4, 5]),
