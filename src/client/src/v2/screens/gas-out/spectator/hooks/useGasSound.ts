@@ -71,5 +71,5 @@ export function useGasSound(game: GasGame | undefined) {
     if (hasWinner) {
       play('GasWinner');
     }
-  }, [cardPlayed]);
+  }, [hasWinner]);
 }

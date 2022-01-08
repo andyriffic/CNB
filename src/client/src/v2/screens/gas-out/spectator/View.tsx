@@ -91,11 +91,6 @@ export default ({ gameId, navigate }: Props) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasCloud game={game} />
         </div>
-        {/* {((game.currentPlayer.cardPlayed &&
-          game.currentPlayer.pressesRemaining === 0) ||
-          game.gasCloud.exploded) && (
-          <Button onClick={() => nextPlayer(game.id)}>Next Player</Button>
-        )} */}
       </Container>
       {/* {mobGame.gameOver && mobGame.roundState === 'viewed' && (
         <DonkeyKongLinkContainer>
