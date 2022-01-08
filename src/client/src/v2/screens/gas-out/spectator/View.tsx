@@ -61,7 +61,7 @@ export default ({ gameId, navigate }: Props) => {
         game.currentPlayer.pressesRemaining === 0) ||
       game.gasCloud.exploded
     ) {
-      const timer = setTimeout(nextPlayerForThisGame, 2000);
+      const timer = setTimeout(nextPlayerForThisGame, 1000);
 
       return () => {
         clearTimeout(timer);
