@@ -32,9 +32,9 @@ export function GasCloud({ game }: Props): JSX.Element {
       {
         <PressesRemaining size={game.gasCloud.pressed}>
           {game.gasCloud.exploded && 'BOOM!'}
-          {!game.gasCloud.exploded &&
+          {/* {!game.gasCloud.exploded &&
             game.currentPlayer.pressesRemaining > 0 &&
-            game.currentPlayer.pressesRemaining}
+            game.currentPlayer.pressesRemaining} */}
         </PressesRemaining>
       }
     </Container>

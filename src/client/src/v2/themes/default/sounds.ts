@@ -48,6 +48,7 @@ import engineRev from './sounds/engine_rev.mp3';
 import carHorn from './sounds/car_horn.mp3';
 import bubbleLoud from './sounds/bubble_loud.mp3';
 import balloonPopSound from './sounds/balloon_pop_sound.mp3';
+import airInflate from './sounds/air_inflate.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -104,7 +105,7 @@ const soundMap: SoundMap = {
   CountdownTimerWarning: msgAlert24,
   RacingEngineRev: engineRev,
   RacingCarHorn: carHorn,
-  GasCloudPress: bubbleLoud,
+  GasCloudPress: airInflate,
   GasCloudExplode: balloonPopSound,
   GasPlayCard: fastGesture,
   GasWinner: fanfare,
