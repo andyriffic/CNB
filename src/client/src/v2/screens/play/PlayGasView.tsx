@@ -8,6 +8,7 @@ import { usePlayerGasGame } from './hooks/usePlayerGasGame';
 import { PlayerGasCards } from './components/PlayerGasCards';
 import { PlayerGasCloudPresser } from './components/PlayerGasCloudPresser';
 import styled from 'styled-components';
+import { SelectBonusChoice } from './components/SelectBonusChoice';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
@@ -37,8 +38,10 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
       <>
         <LoadingSpinner text="Loading..." />
         <div style={{ textAlign: 'center' }}>
-          <SecondaryButton onClick={() => (window.location.href = '/play')}>
-            Back to Player List
+          <SecondaryButton
+            onClick={() => (window.location.href = `/play/${playerId}`)}
+          >
+            Back to your games list
           </SecondaryButton>
         </div>
       </>
@@ -49,6 +52,8 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
 
   return (
     <GameScreen scrollable={true} showGameSettings={false}>
+      {gasPlayer && <SelectBonusChoice playerId={gasPlayer.player.id} />}
+
       <PlayerStatus>{statusText}</PlayerStatus>
       {!showCloudPresser && gasPlayer.status === 'alive' && (
         <PlayerGasCards
@@ -57,7 +62,7 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
           playCard={playPlayersCard}
         />
       )}
-      {showCloudPresser && (
+      {showCloudPresser && gasPlayer.status === 'alive' && (
         <PlayerGasCloudPresser
           pressesRemaining={pressesRemaining}
           press={pressCloud}

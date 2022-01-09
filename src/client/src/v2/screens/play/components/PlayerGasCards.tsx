@@ -5,6 +5,7 @@ import { GasCard } from '../../../providers/GasProvider';
 const Container = styled.div`
   display: flex;
   gap: 10vw;
+  transition: opacity 300ms ease-out;
 `;
 
 const Card = styled.button`
@@ -39,7 +40,7 @@ export const PlayerGasCards = ({
   playCard,
 }: Props): JSX.Element => {
   return (
-    <Container>
+    <Container style={{ opacity: enabled ? 1 : 0.6 }}>
       {cards.map((c, i) => (
         <Card key={i} disabled={!enabled} onClick={() => playCard(i)}>
           {c.type === 'press' && <CardNumber>{c.presses}</CardNumber>}

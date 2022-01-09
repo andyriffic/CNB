@@ -45,6 +45,13 @@ function getPlayerStatusText(
     return 'Press the button 😅';
   }
 
+  if (
+    game.currentPlayer.pressesRemaining === 0 &&
+    gasPlayer.status === 'alive'
+  ) {
+    return 'You survived 🥳';
+  }
+
   return '¯\_(ツ)_/¯';
 }
 

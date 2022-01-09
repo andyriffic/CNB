@@ -14,6 +14,7 @@ import {
 } from '../../../featureToggle';
 import { MobSelectionList } from './components/MobSelectionList';
 import { PlayerSettings } from './components/PlayerSettings';
+import { GasGameSelectionList } from './components/GasGameSelectionList';
 
 type Props = {
   playerId: string;
@@ -76,6 +77,10 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
           </div>
         </>
       )}
+      <GasGameSelectionList
+        playerId={playerId}
+        onGameSelected={gameId => navigate && navigate(`gas/${gameId}`)}
+      />
       <MobSelectionList
         playerId={playerId}
         onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
