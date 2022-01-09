@@ -45,7 +45,7 @@ export const PlayerGasCards = ({
         <Card key={i} disabled={!enabled} onClick={() => playCard(i)}>
           {c.type === 'press' && <CardNumber>{c.presses}</CardNumber>}
           {c.type === 'skip' && <CardText>Skip</CardText>}
-          {c.type === 'reverse' && <CardText>↩</CardText>}
+          {c.type === 'reverse' && <CardText>↔</CardText>}
         </Card>
       ))}
     </Container>
