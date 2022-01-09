@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from '../../../components/ui/buttons';
-import { GasCard } from '../../../providers/GasProvider';
+import { PressableButton } from '../../../components/ui/PressableButton';
 
 const Container = styled.div`
   display: flex;
 `;
 
-const CloudPressButton = styled(Button)`
+const CloudPressButton = styled(PressableButton)`
   width: 100%;
-  min-height: 20vw;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
