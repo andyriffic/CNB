@@ -59,7 +59,8 @@ export type SoundMap = {
   RacingEngineRev: any;
   RacingCarHorn: any;
   GasCloudPress: any;
-  GasCloudExplode: any;
+  GasCloudExplode01: any;
+  GasCloudExplode02: any;
   GasPlayCard: any;
   GasWinner: any;
 };
@@ -99,6 +100,7 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
         play: (soundKey, options = {}, sprite) => {
           const sound = new Howl({
             src: [soundMap[soundKey]],
+            volume: 0.2,
             ...options,
           });
 

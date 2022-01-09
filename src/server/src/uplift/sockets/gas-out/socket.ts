@@ -4,7 +4,6 @@ import { customAlphabet } from 'nanoid';
 import {
   createGame,
   moveToNextAlivePlayer,
-  moveToNextPlayer,
   playCard,
   press,
   resetCloud,

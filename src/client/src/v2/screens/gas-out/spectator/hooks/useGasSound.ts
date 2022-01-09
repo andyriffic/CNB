@@ -1,7 +1,11 @@
 import { Howl } from 'howler';
 import { useEffect, useMemo, useRef } from 'react';
+import { selectRandomOneOf } from '../../../../../uplift/utils/random';
 import { GasCard, GasGame } from '../../../../providers/GasProvider';
-import { useSoundProvider } from '../../../../providers/SoundProvider';
+import {
+  SoundMap,
+  useSoundProvider,
+} from '../../../../providers/SoundProvider';
 
 export function useGasSound(game: GasGame | undefined) {
   const { play } = useSoundProvider();
@@ -57,7 +61,7 @@ export function useGasSound(game: GasGame | undefined) {
 
   useEffect(() => {
     if (exploded) {
-      play('GasCloudExplode');
+      play('GasCloudExplode01');
     }
   }, [exploded]);
 

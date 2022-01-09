@@ -46,7 +46,7 @@ import whatever from './sounds/whatever.mp3';
 import phew from './sounds/phew.mp3';
 import engineRev from './sounds/engine_rev.mp3';
 import carHorn from './sounds/car_horn.mp3';
-import bubbleLoud from './sounds/bubble_loud.mp3';
+import balloonDeflate from './sounds/balloon_deflate.mp3';
 import balloonPopSound from './sounds/balloon_pop_sound.mp3';
 import airInflate from './sounds/air_inflate.mp3';
 
@@ -106,7 +106,8 @@ const soundMap: SoundMap = {
   RacingEngineRev: engineRev,
   RacingCarHorn: carHorn,
   GasCloudPress: airInflate,
-  GasCloudExplode: balloonPopSound,
+  GasCloudExplode01: balloonPopSound,
+  GasCloudExplode02: balloonDeflate,
   GasPlayCard: fastGesture,
   GasWinner: fanfare,
 };

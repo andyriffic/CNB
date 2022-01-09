@@ -39,7 +39,7 @@ const Ballon = styled.div<{ size: number }>`
   box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);
   margin: 20px 30px;
 
-  &:before {
+  &::before {
     content: '▲';
     font-size: 20px;
     color: ${({ size }) =>
@@ -66,14 +66,13 @@ type Props = {
 };
 
 export function GasCloud({ game }: Props): JSX.Element {
+  const visibleSize = game.gasCloud.exploded ? 0 : game.gasCloud.pressed;
   return (
-    <Container size={game.gasCloud.pressed} exploded={game.gasCloud.exploded}>
-      {
-        <PressesRemaining size={game.gasCloud.pressed}>
-          <Ballon size={game.gasCloud.pressed} />
-          {game.gasCloud.exploded && <SplashText>POP!</SplashText>}
-        </PressesRemaining>
-      }
+    <Container size={visibleSize} exploded={game.gasCloud.exploded}>
+      <Ballon size={visibleSize} />
+      {game.gasCloud.exploded && (
+        <SplashText durationMilliseconds={300}>💥</SplashText>
+      )}
     </Container>
   );
 }
