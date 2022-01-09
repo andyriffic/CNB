@@ -1,19 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button } from '../../../components/ui/buttons';
 import { GasCard } from '../../../providers/GasProvider';
 
 const Container = styled.div`
   display: flex;
 `;
 
-const CloudPressButton = styled.button`
-  border: 2px solid white;
-  border-radius: 50%;
-  width: 80vw;
-  height: 80vw;
+const CloudPressButton = styled(Button)`
+  width: 100%;
+  min-height: 20vw;
   font-size: 2rem;
   font-family: ${({ theme }) => theme.fontFamily.feature};
-  color: ${({ theme }) => theme.color.gasGame.cardTextColor01};
 `;
 
 const SubText = styled.div`
