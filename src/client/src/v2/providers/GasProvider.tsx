@@ -40,6 +40,7 @@ export type GasPlayer = {
   player: Player;
   status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
+  finishedPosition?: number;
 };
 
 export type GasCard = {

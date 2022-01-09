@@ -9,11 +9,20 @@ import { PlayerGasCards } from './components/PlayerGasCards';
 import { PlayerGasCloudPresser } from './components/PlayerGasCloudPresser';
 import styled from 'styled-components';
 import { SelectBonusChoice } from './components/SelectBonusChoice';
+import { RainbowText } from '../../../uplift/components/RainbowText';
+import { getOrdinal } from '../../../uplift/utils/ordinal';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.large};
+  font-family: ${({ theme }) => theme.fontFamily.feature};
+`;
+
+const PlayerFinishedPosition = styled.div`
+  margin: 30px 0;
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSize.extraLarge};
   font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
@@ -67,6 +76,13 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
           pressesRemaining={pressesRemaining}
           press={pressCloud}
         />
+      )}
+      {!!gasPlayer.finishedPosition && (
+        <PlayerFinishedPosition>
+          <RainbowText>
+            <>{getOrdinal(gasPlayer.finishedPosition)}</>
+          </RainbowText>
+        </PlayerFinishedPosition>
       )}
       <PlayerSettings player={gasPlayer.player} />
     </GameScreen>

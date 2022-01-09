@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasCard, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
@@ -19,11 +20,24 @@ const CardContainer = styled.div`
   transform: translateX(-50%);
 `;
 
-const PlayerListItem = styled.div<{ active: boolean; alive: boolean }>`
+const PlayerAvatarContainer = styled.div<{ alive: boolean }>`
+  opacity: ${({ alive }) => (alive ? 1 : 0.6)};
+`;
+
+const PlayerListItem = styled.div<{ active: boolean }>`
   position: relative;
   transition: top 300ms ease-in-out, opacity 1s linear;
   top: ${({ active }) => (active ? '-20%' : '0')};
-  opacity: ${({ alive }) => (alive ? 1 : 0.6)};
+`;
+
+const PlayerFinishedPosition = styled.div`
+  font-size: 0.9rem;
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #333;
+  font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
 const PlayerIcon = styled.div`
@@ -74,17 +88,23 @@ export function PlayerList({
           <PlayerListItem
             key={p.player.id}
             active={notDead && (active || winner)}
-            alive={p.status !== 'dead'}
           >
             {active && currentCard && !gameOver && p.status === 'alive' && (
               <CardContainer>
                 <Card card={currentCard} />
               </CardContainer>
             )}
+            {p.finishedPosition && (
+              <PlayerFinishedPosition>
+                {getOrdinal(p.finishedPosition)}
+              </PlayerFinishedPosition>
+            )}
             {(winner || (active && notDead && !gameOver)) && (
               <PlayerName>{p.player.name}</PlayerName>
             )}
-            <PlayerAvatar player={p.player} size="small" showZodiac={false} />
+            <PlayerAvatarContainer alive={p.status !== 'dead'}>
+              <PlayerAvatar player={p.player} size="small" showZodiac={false} />
+            </PlayerAvatarContainer>
             {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>}
             {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>}
           </PlayerListItem>

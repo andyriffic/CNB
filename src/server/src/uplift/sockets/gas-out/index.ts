@@ -137,6 +137,7 @@ function assignWinner(game: GasGame): GasGame {
   const winningPlayer: GasPlayer = {
     ...allAlivePlayers[0],
     status: 'winner',
+    finishedPosition: 1,
   };
 
   return {
@@ -169,6 +170,9 @@ export function press(game: GasGame): GasGame {
   const updatedCurrentPlayer: GasPlayer = {
     ...currentPlayer,
     status: exploded ? 'dead' : 'alive',
+    finishedPosition: exploded
+      ? game.allPlayers.length - (deadPlayerIds.length - 1)
+      : undefined,
   };
 
   return assignWinner({
