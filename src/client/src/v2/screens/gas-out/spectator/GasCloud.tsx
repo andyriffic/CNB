@@ -2,11 +2,11 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import tinycolor from 'tinycolor2';
 import { shakeAnimationLeft } from '../../../../uplift/components/animations';
-import { SplashText } from '../../../components/SplashText';
 import { GasGame } from '../../../providers/GasProvider';
+import explosionImage from './smoke-explode-1.gif';
 
 function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
-  return Math.max(10000 - intensity * 500, 500);
+  return Math.max(10000 - intensity * 500, 100);
 }
 
 const Container = styled.div<{ size: number; exploded: boolean }>`
@@ -55,11 +55,7 @@ const Ballon = styled.div<{ size: number }>`
   }
 `;
 
-const PressesRemaining = styled.div<{ size: number }>`
-  font-size: ${({ size }) => size * 0.1 + 1}rem;
-  color: blanchedalmond;
-  font-family: ${({ theme }) => theme.fontFamily.numbers};
-`;
+const Explosion = styled.img``;
 
 type Props = {
   game: GasGame;
@@ -69,9 +65,10 @@ export function GasCloud({ game }: Props): JSX.Element {
   const visibleSize = game.gasCloud.exploded ? 0 : game.gasCloud.pressed;
   return (
     <Container size={visibleSize} exploded={game.gasCloud.exploded}>
-      <Ballon size={visibleSize} />
-      {game.gasCloud.exploded && (
-        <SplashText durationMilliseconds={300}>💥</SplashText>
+      {game.gasCloud.exploded ? (
+        <Explosion src={explosionImage} alt="" />
+      ) : (
+        <Ballon size={visibleSize} />
       )}
     </Container>
   );
