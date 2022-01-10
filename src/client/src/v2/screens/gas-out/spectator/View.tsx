@@ -62,7 +62,7 @@ export default ({ gameId, navigate }: Props) => {
         game.currentPlayer.pressesRemaining === 0) ||
       game.gasCloud.exploded
     ) {
-      const timeout = game.gasCloud.exploded ? 3000 : 1000;
+      const timeout = game.gasCloud.exploded ? 1500 : 1000;
       const timer = setTimeout(nextPlayerForThisGame, timeout);
 
       return () => {

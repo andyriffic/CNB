@@ -47,8 +47,10 @@ import phew from './sounds/phew.mp3';
 import engineRev from './sounds/engine_rev.mp3';
 import carHorn from './sounds/car_horn.mp3';
 import balloonDeflate from './sounds/balloon_deflate.mp3';
-import balloonPopSound from './sounds/balloon_pop_sound.mp3';
+import balloonPopSound from './sounds/balloon_pop_sound_loud.mp3';
 import airInflate from './sounds/air_inflate.mp3';
+import intenseRingtone from './sounds/intense_ringtone.mp3';
+import popGoesTheWeasal from './sounds/pop_goes_the_weasal.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -106,6 +108,7 @@ const soundMap: SoundMap = {
   RacingEngineRev: engineRev,
   RacingCarHorn: carHorn,
   GasCloudPress: airInflate,
+  GasCloudGameBackgroundMusic: popGoesTheWeasal,
   GasCloudExplode01: balloonPopSound,
   GasCloudExplode02: balloonDeflate,
   GasPlayCard: fastGesture,

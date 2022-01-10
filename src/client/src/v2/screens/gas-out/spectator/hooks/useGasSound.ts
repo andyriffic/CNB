@@ -8,6 +8,8 @@ import {
 } from '../../../../providers/SoundProvider';
 
 export function useGasSound(game: GasGame | undefined) {
+  const playingSounds = useRef<{ [id: string]: Howl }>({});
+
   const { play } = useSoundProvider();
   const lastPlayerPlayedCardRef = useRef<string | undefined>();
 
@@ -52,6 +54,17 @@ export function useGasSound(game: GasGame | undefined) {
     return true;
   }, [game]);
 
+  const gameInProgress = useMemo<boolean>(() => {
+    if (!game) {
+      return false;
+    }
+    if (game.gasCloud.exploded || !!game.winningPlayerId) {
+      return false;
+    }
+
+    return true;
+  }, [game]);
+
   useEffect(() => {
     if (pressedCount > 0) {
       const intensity = pressedCount / 100 + 0.5;
@@ -61,6 +74,8 @@ export function useGasSound(game: GasGame | undefined) {
 
   useEffect(() => {
     if (exploded) {
+      playingSounds.current['background-music'] &&
+        playingSounds.current['background-music'].stop();
       play('GasCloudExplode01');
     }
   }, [exploded]);
@@ -76,4 +91,13 @@ export function useGasSound(game: GasGame | undefined) {
       play('GasWinner');
     }
   }, [hasWinner]);
+
+  useEffect(() => {
+    if (gameInProgress) {
+      playingSounds.current['background-music'] = play(
+        'GasCloudGameBackgroundMusic',
+        { loop: true }
+      );
+    }
+  }, [gameInProgress]);
 }

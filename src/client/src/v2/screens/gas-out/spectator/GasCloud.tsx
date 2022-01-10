@@ -6,7 +6,7 @@ import { GasGame } from '../../../providers/GasProvider';
 import explosionImage from './smoke-explode-1.gif';
 
 function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
-  return Math.max(10000 - intensity * 500, 100);
+  return Math.max(8000 - intensity * 500, 100);
 }
 
 const Container = styled.div<{ size: number; exploded: boolean }>`
