@@ -281,7 +281,7 @@ function createCard(): GasCard {
       },
     },
     {
-      weight: 1,
+      weight: 12,
       item: {
         type: 'reverse',
         presses: 0,

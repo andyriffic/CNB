@@ -14,6 +14,7 @@ import { SplashText } from '../../../components/SplashText';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
+import { GameDirectionIndicator } from './GameDirectionIndicator';
 import { GasCloud } from './GasCloud';
 import { GasPlayerDebug } from './GasPlayerDebug';
 import { useGasGame } from './hooks/useGasGame';
@@ -88,6 +89,9 @@ export default ({ gameId, navigate }: Props) => {
             winningPlayerId={game.winningPlayerId}
           />
         </PlayersContainer>
+        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+          <GameDirectionIndicator game={game} />
+        </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasCloud game={game} />
         </div>
