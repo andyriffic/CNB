@@ -77,6 +77,7 @@ export function useGasSound(game: GasGame | undefined) {
       playingSounds.current['background-music'] &&
         playingSounds.current['background-music'].stop();
       play('GasCloudExplode01');
+      play(selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3']));
     }
   }, [exploded]);
 

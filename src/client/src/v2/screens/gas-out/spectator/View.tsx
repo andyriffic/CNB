@@ -1,17 +1,10 @@
 import { NavigateFn } from '@reach/router';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { SplashText } from '../../../components/SplashText';
-import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
@@ -19,6 +12,7 @@ import { GasCloud } from './GasCloud';
 import { GasPlayerDebug } from './GasPlayerDebug';
 import { useGasGame } from './hooks/useGasGame';
 import { useGasSound } from './hooks/useGasSound';
+import { LastTwoPlayersNotification } from './LastTwoPlayersNotification';
 import { PlayerList } from './PlayerList';
 
 const Container = styled.div`
@@ -97,6 +91,7 @@ export default ({ gameId, navigate }: Props) => {
           <GasCloud game={game} />
         </div>
       </Container>
+      <LastTwoPlayersNotification game={game} />
       {/* {mobGame.gameOver && mobGame.roundState === 'viewed' && (
         <DonkeyKongLinkContainer>
           <FancyLink onClick={() => (window.location.href = '/race-track')}>

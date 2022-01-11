@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { spinAwayAnimationUp } from '../../../../uplift/components/animations';
 import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasCard, GasPlayer } from '../../../providers/GasProvider';
@@ -22,6 +23,11 @@ const CardContainer = styled.div`
 
 const PlayerAvatarContainer = styled.div<{ alive: boolean }>`
   opacity: ${({ alive }) => (alive ? 1 : 0.6)};
+  ${({ alive }) =>
+    !alive &&
+    css`
+      animation: ${spinAwayAnimationUp} 800ms ease-in-out 0s 1 backwards;
+    `}
 `;
 
 const PlayerListItem = styled.div<{ active: boolean }>`
