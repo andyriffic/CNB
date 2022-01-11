@@ -14,6 +14,7 @@ import { useGasGame } from './hooks/useGasGame';
 import { useGasSound } from './hooks/useGasSound';
 import { LastTwoPlayersNotification } from './LastTwoPlayersNotification';
 import { PlayerList } from './PlayerList';
+import { Winner } from './Winner';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -89,6 +90,8 @@ export default ({ gameId, navigate }: Props) => {
             <GameDirectionIndicator game={game} />
           </div>
         )}
+        <Winner game={game} />
+
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasCloud game={game} />
         </div>

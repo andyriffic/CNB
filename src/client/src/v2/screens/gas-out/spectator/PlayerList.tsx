@@ -112,7 +112,7 @@ export function PlayerList({
               <PlayerAvatar player={p.player} size="small" showZodiac={false} />
             </PlayerAvatarContainer>
             {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
-            {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>}
+            {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
           </PlayerListItem>
         );
       })}

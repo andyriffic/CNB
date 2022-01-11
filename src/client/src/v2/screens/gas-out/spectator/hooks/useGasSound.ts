@@ -65,6 +65,16 @@ export function useGasSound(game: GasGame | undefined) {
     return true;
   }, [game]);
 
+  const headToHead = useMemo<boolean>(() => {
+    if (!game) {
+      return false;
+    }
+    return (
+      !game.currentPlayer.cardPlayed &&
+      game.allPlayers.filter(p => p.status === 'alive').length === 2
+    );
+  }, [game]);
+
   useEffect(() => {
     if (pressedCount > 0) {
       const intensity = pressedCount / 100 + 0.5;
@@ -92,6 +102,12 @@ export function useGasSound(game: GasGame | undefined) {
       play('GasWinner');
     }
   }, [hasWinner]);
+
+  useEffect(() => {
+    if (headToHead) {
+      play('PowerMode');
+    }
+  }, [headToHead]);
 
   useEffect(() => {
     if (gameInProgress) {
