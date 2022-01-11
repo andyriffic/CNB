@@ -140,6 +140,11 @@ export const stampAnimation = keyframes`
   }
 `;
 
+export const explodeAnimation = keyframes`
+ 0% { opacity: 1; }
+ 100% { opacity: 0; transform: scale(3) rotate(10deg); }
+`;
+
 export const shakeAndGrowAnimation = keyframes`
   0% { transform: translate(1px, 1px) rotate(0deg) scale(1); }
   10% { transform: translate(-1px, -2px) rotate(-1deg) scale(1.1); }
