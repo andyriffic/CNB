@@ -84,9 +84,11 @@ export default ({ gameId, navigate }: Props) => {
             winningPlayerId={game.winningPlayerId}
           />
         </PlayersContainer>
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <GameDirectionIndicator game={game} />
-        </div>
+        {!game.winningPlayerId && (
+          <div style={{ textAlign: 'center', marginTop: '30px' }}>
+            <GameDirectionIndicator game={game} />
+          </div>
+        )}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasCloud game={game} />
         </div>
