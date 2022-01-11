@@ -3,11 +3,9 @@ import styled, { css } from 'styled-components';
 import tinycolor from 'tinycolor2';
 import {
   explodeAnimation,
-  shakeAndGrowAnimation,
   shakeAnimationLeft,
 } from '../../../../uplift/components/animations';
 import { GasGame } from '../../../providers/GasProvider';
-import explosionImage from './smoke-explode-1.gif';
 
 function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
   return Math.max(8000 - intensity * 500, 100);
