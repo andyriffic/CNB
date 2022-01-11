@@ -4,6 +4,7 @@ import tinycolor from 'tinycolor2';
 import {
   explodeAnimation,
   shakeAnimationLeft,
+  shakeExtremeAnimation,
 } from '../../../../uplift/components/animations';
 import { GasGame } from '../../../providers/GasProvider';
 
@@ -23,7 +24,7 @@ const Container = styled.div<{ size: number; exploded: boolean }>`
           animation: ${explodeAnimation} 100ms ease-in 0s 1 forwards;
         `
       : css`
-          animation: ${shakeAnimationLeft}
+          animation: ${shakeExtremeAnimation}
             ${getCloudAnimationSpeedMilliSeconds(size)}ms ease-in-out 0s
             infinite;
         `};

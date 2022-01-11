@@ -22,11 +22,11 @@ const CardContainer = styled.div`
 `;
 
 const PlayerAvatarContainer = styled.div<{ alive: boolean }>`
-  opacity: ${({ alive }) => (alive ? 1 : 0.6)};
+  opacity: ${({ alive }) => (alive ? 1 : 0.4)};
   ${({ alive }) =>
     !alive &&
     css`
-      animation: ${spinAwayAnimationUp} 800ms ease-in-out 0s 1 backwards;
+      animation: ${spinAwayAnimationUp} 1000ms ease-in-out 0s 1 backwards;
     `}
 `;
 
@@ -111,7 +111,7 @@ export function PlayerList({
             <PlayerAvatarContainer alive={p.status !== 'dead'}>
               <PlayerAvatar player={p.player} size="small" showZodiac={false} />
             </PlayerAvatarContainer>
-            {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>}
+            {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
             {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>}
           </PlayerListItem>
         );

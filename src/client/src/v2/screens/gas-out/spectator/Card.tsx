@@ -24,6 +24,7 @@ const CardNumber = styled.div`
 
 const CardText = styled.div`
   font-size: 0.8rem;
+  font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
 type Props = {
