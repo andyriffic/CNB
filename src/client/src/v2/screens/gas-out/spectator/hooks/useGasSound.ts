@@ -104,8 +104,12 @@ export function useGasSound(game: GasGame | undefined) {
   }, [hasWinner]);
 
   useEffect(() => {
+    if (!!playingSounds.current['head-to-head']) {
+      return;
+    }
+
     if (headToHead) {
-      play('PowerMode');
+      playingSounds.current['head-to-head'] = play('PowerMode');
     }
   }, [headToHead]);
 
