@@ -173,6 +173,7 @@ export function press(game: GasGame): GasGame {
     finishedPosition: exploded
       ? game.allPlayers.length - (deadPlayerIds.length - 1)
       : undefined,
+    totalPresses: currentPlayer.totalPresses + 1,
   };
 
   return assignWinner({
@@ -268,6 +269,7 @@ function createGasPlayer(player: Player): GasPlayer {
     player,
     status: 'alive',
     cards: [createCard(), createCard(), createCard()],
+    totalPresses: 0,
   };
 }
 

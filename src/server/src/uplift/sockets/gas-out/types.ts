@@ -27,6 +27,8 @@ export type GasPlayer = {
   status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
   finishedPosition?: number;
+  points?: number;
+  totalPresses: number;
 };
 
 export type GasCard = {
