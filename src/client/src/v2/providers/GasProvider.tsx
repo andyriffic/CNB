@@ -32,7 +32,7 @@ export type GasGame = {
   pointsMap: number[];
 };
 
-type GasCloud = {
+export type GasCloud = {
   pressed: number;
   exploded: boolean;
 };

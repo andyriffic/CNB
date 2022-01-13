@@ -6,7 +6,7 @@ import {
   shakeAnimationLeft,
   shakeExtremeAnimation,
 } from '../../../../uplift/components/animations';
-import { GasGame } from '../../../providers/GasProvider';
+import { GasCloud } from '../../../providers/GasProvider';
 
 function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
   return Math.max(8000 - intensity * 500, 100);
@@ -64,13 +64,13 @@ const Ballon = styled.div<{ size: number }>`
 const Explosion = styled.img``;
 
 type Props = {
-  game: GasGame;
+  gasCloud: GasCloud;
 };
 
-export function GasCloud({ game }: Props): JSX.Element {
-  const visibleSize = game.gasCloud.exploded ? 10 : game.gasCloud.pressed;
+export function GasBallon({ gasCloud }: Props): JSX.Element {
+  const visibleSize = gasCloud.exploded ? 10 : gasCloud.pressed;
   return (
-    <Container size={visibleSize} exploded={game.gasCloud.exploded}>
+    <Container size={visibleSize} exploded={gasCloud.exploded}>
       <Ballon size={visibleSize} />
     </Container>
   );

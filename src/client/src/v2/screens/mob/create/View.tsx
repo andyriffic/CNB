@@ -15,6 +15,7 @@ import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobProvider } from '../../../providers/MobProvider';
 import { Player } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
+import { GasBallon } from '../../gas-out/spectator/GasBalloon';
 import { ChosenMug } from './ChosenMug';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useCountdownTimer } from './hooks/useCountdownTimer';
@@ -135,6 +136,12 @@ export default ({ navigate }: Props) => {
           }}
         />
       </ProbablyPlayContainer>
+      <div
+        style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}
+        onClick={() => (window.location.href = '/gas/start')}
+      >
+        <GasBallon gasCloud={{ exploded: false, pressed: 5 }} />
+      </div>
       <Container>
         <FeatureText>Join the mob</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>

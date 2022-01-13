@@ -8,7 +8,7 @@ import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
-import { GasCloud } from './GasCloud';
+import { GasBallon } from './GasBalloon';
 import { GasPlayerDebug } from './GasPlayerDebug';
 import { useGasGame } from './hooks/useGasGame';
 import { useGasSound } from './hooks/useGasSound';
@@ -101,7 +101,7 @@ export default ({ gameId, navigate }: Props) => {
         )}
         <LastTwoPlayersNotification game={game} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <GasCloud game={game} />
+          <GasBallon gasCloud={game.gasCloud} />
         </div>
       </Container>
     </GameScreen>
