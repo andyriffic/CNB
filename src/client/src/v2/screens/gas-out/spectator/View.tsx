@@ -1,10 +1,10 @@
 import { NavigateFn } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
+import { FancyLink } from '../../../../components/FancyLink';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
-import { SplashText } from '../../../components/SplashText';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
@@ -28,7 +28,7 @@ const PlayersContainer = styled.div`
 const DonkeyKongLinkContainer = styled.div`
   text-align: center;
   cursor: pointer;
-  animation: ${jackInTheBoxAnimation} 2000ms linear 4000ms both;
+  animation: ${jackInTheBoxAnimation} 2000ms linear 5000ms both;
 `;
 
 type Props = {
@@ -83,6 +83,7 @@ export default ({ gameId, navigate }: Props) => {
             currentCard={game.currentPlayer.cardPlayed}
             gameOver={!!game.winningPlayerId}
             winningPlayerId={game.winningPlayerId}
+            showPoints={!!game.winningPlayerId}
           />
         </PlayersContainer>
         {!game.winningPlayerId && (
@@ -91,19 +92,18 @@ export default ({ gameId, navigate }: Props) => {
           </div>
         )}
         <Winner game={game} />
-
+        {!!game.winningPlayerId && (
+          <DonkeyKongLinkContainer>
+            <FancyLink onClick={() => (window.location.href = '/race-track')}>
+              🏁 To the Race Track! 🏎
+            </FancyLink>
+          </DonkeyKongLinkContainer>
+        )}
+        <LastTwoPlayersNotification game={game} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasCloud game={game} />
         </div>
       </Container>
-      <LastTwoPlayersNotification game={game} />
-      {/* {mobGame.gameOver && mobGame.roundState === 'viewed' && (
-        <DonkeyKongLinkContainer>
-          <FancyLink onClick={() => (window.location.href = '/race-track')}>
-            🏁 To the Race Track! 🏎
-          </FancyLink>
-        </DonkeyKongLinkContainer>
-      )} */}
     </GameScreen>
   );
 };

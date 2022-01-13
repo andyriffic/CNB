@@ -1,6 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { spinAwayAnimationUp } from '../../../../uplift/components/animations';
+import {
+  fadeInAnimation,
+  fadeInLeftAnimation,
+  slideInUpAnimation,
+  spinAwayAnimationUp,
+} from '../../../../uplift/components/animations';
 import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasCard, GasPlayer } from '../../../providers/GasProvider';
@@ -46,12 +51,19 @@ const PlayerFinishedPosition = styled.div`
   font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
-const PlayerIcon = styled.div`
-  font-size: 1.4rem;
+const PlayerPoints = styled.div`
+  font-size: 1rem;
   position: absolute;
-  bottom: 0;
+  bottom: -30%;
   left: 50%;
   transform: translateX(-50%);
+  font-family: ${({ theme }) => theme.fontFamily.numbers};
+  border: 2px solid #444;
+  background-color: crimson;
+  color: white;
+  padding: 3px;
+  border-radius: 4px;
+  animation: ${fadeInAnimation} 1000ms ease-in-out 2500ms both;
 `;
 
 const PlayerName = styled.div`
@@ -75,6 +87,7 @@ type Props = {
   currentCard?: GasCard;
   gameOver: boolean;
   winningPlayerId: string | undefined;
+  showPoints: boolean;
 };
 
 export function PlayerList({
@@ -83,6 +96,7 @@ export function PlayerList({
   currentCard,
   gameOver,
   winningPlayerId,
+  showPoints,
 }: Props): JSX.Element {
   return (
     <PlayerListContainer>
@@ -111,6 +125,7 @@ export function PlayerList({
             <PlayerAvatarContainer alive={p.status !== 'dead'}>
               <PlayerAvatar player={p.player} size="small" showZodiac={false} />
             </PlayerAvatarContainer>
+            {showPoints && <PlayerPoints>{p.points}</PlayerPoints>}
             {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
             {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
           </PlayerListItem>

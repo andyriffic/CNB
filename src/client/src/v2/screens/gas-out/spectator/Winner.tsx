@@ -5,6 +5,7 @@ import { FeatureText } from '../../../components/ui/Atoms';
 import { GasGame, GasPlayer } from '../../../providers/GasProvider';
 
 const TextContainer = styled.div`
+  margin-top: 30px;
   animation: ${fadeInDownAnimation} 1500ms ease-in-out 0s 1 both;
 `;
 

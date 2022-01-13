@@ -13,6 +13,7 @@ function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
 }
 
 const Container = styled.div<{ size: number; exploded: boolean }>`
+  pointer-events: none;
   margin-top: 40px;
   display: flex;
   justify-content: center;
