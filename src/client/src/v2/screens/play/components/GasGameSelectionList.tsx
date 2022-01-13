@@ -24,7 +24,7 @@ export const GasGameSelectionList = ({ playerId, onGameSelected }: Props) => {
 
   return (
     <div>
-      <h3 style={{ textAlign: 'center' }}>Active Games</h3>
+      <h3 style={{ textAlign: 'center' }}>Active Ballon Games</h3>
       {playerGasGames.map(g => (
         <div key={g.id}>
           <Button

@@ -27,7 +27,24 @@ export function createGame({
       pressed: 0,
       exploded: false,
     },
+    pointsMap: createPointsMap(players.length),
   };
+}
+
+function createPointsMap(totalPlayerCount: number): number[] {
+  const POINTS_BRACKETS = 3;
+  const WINNER_POINTS = 5;
+
+  const pointsStep = Math.round(totalPlayerCount / POINTS_BRACKETS);
+
+  return [...Array(totalPlayerCount)].map((_, i) => {
+    if (i === totalPlayerCount - 1) {
+      return WINNER_POINTS;
+    }
+    const points = Math.trunc(i / pointsStep + 1);
+
+    return points;
+  });
 }
 
 export function moveToNextAlivePlayer(game: GasGame): GasGame {
@@ -138,6 +155,7 @@ function assignWinner(game: GasGame): GasGame {
     ...allAlivePlayers[0],
     status: 'winner',
     finishedPosition: 1,
+    points: game.pointsMap[game.pointsMap.length - 1],
   };
 
   return {
@@ -174,6 +192,7 @@ export function press(game: GasGame): GasGame {
       ? game.allPlayers.length - (deadPlayerIds.length - 1)
       : undefined,
     totalPresses: currentPlayer.totalPresses + 1,
+    points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
   };
 
   return assignWinner({
@@ -270,6 +289,7 @@ function createGasPlayer(player: Player): GasPlayer {
     status: 'alive',
     cards: [createCard(), createCard(), createCard()],
     totalPresses: 0,
+    points: 0,
   };
 }
 

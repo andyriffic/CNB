@@ -29,6 +29,7 @@ export type GasGame = {
     pressesRemaining: number;
   };
   gasCloud: GasCloud;
+  pointsMap: number[];
 };
 
 type GasCloud = {
@@ -41,6 +42,8 @@ export type GasPlayer = {
   status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
   finishedPosition?: number;
+  points: number;
+  totalPresses: number;
 };
 
 export type GasCard = {
