@@ -11,6 +11,7 @@ import {
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
 import { GasGame } from './types';
+import { pointsToPlayers } from './points-to-player';
 
 const REQUEST_GAS_GAMES = 'REQUEST_GAS_GAMES';
 const GAS_GAMES_UPDATE = 'GAS_GAMES_UPDATE';
@@ -82,6 +83,10 @@ const init = (socketServer: Server, path: string) => {
 
       log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
+
+      if (!!updatedGame.winningPlayerId) {
+        pointsToPlayers(updatedGame, log);
+      }
     });
 
     socket.on(NEXT_GAS_PAYER, (gameId: string) => {
