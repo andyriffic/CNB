@@ -63,7 +63,7 @@ const PlayerPoints = styled.div`
   color: white;
   padding: 3px;
   border-radius: 4px;
-  animation: ${fadeInAnimation} 1000ms ease-in-out 2500ms both;
+  animation: ${fadeInAnimation} 1000ms ease-in-out 2000ms both;
 `;
 
 const PlayerName = styled.div`
@@ -125,7 +125,7 @@ export function PlayerList({
             <PlayerAvatarContainer alive={p.status !== 'dead'}>
               <PlayerAvatar player={p.player} size="small" showZodiac={false} />
             </PlayerAvatarContainer>
-            {showPoints && <PlayerPoints>{p.points}</PlayerPoints>}
+            {(!notDead || winner) && <PlayerPoints>{p.points}</PlayerPoints>}
             {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
             {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
           </PlayerListItem>
