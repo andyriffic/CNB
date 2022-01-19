@@ -360,5 +360,72 @@ export const racingTrack: RacingTrack = {
         },
       ],
     },
+    {
+      // 27
+      rotationDegrees: 160,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 470, y: 270 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 470, y: 300 } }],
+        },
+      ],
+    },
+    {
+      // 28
+      rotationDegrees: 90,
+      lanes: [
+        {
+          squares: [
+            { coordinates: { x: 410, y: 310 } },
+            { coordinates: { x: 400, y: 360 } },
+            { coordinates: { x: 430, y: 420 } },
+          ],
+        },
+        {
+          squares: [
+            { coordinates: { x: 430, y: 350 } },
+            { coordinates: { x: 450, y: 390 } },
+          ],
+        },
+      ],
+    },
+    {
+      // 29
+      rotationDegrees: 0,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 500, y: 430 } }],
+        },
+      ],
+    },
+    {
+      // 29
+      rotationDegrees: -20,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 560, y: 420 } }],
+        },
+      ],
+    },
+    {
+      // 30
+      rotationDegrees: -20,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 620, y: 400 } }],
+        },
+      ],
+    },
+    {
+      // 31
+      rotationDegrees: -10,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 680, y: 380 } }],
+        },
+      ],
+    },
   ],
 };
