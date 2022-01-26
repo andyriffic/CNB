@@ -465,7 +465,7 @@ function getNextPlayerPosition(
   player: RacingPlayer,
   racers: RacingPlayer[],
   racingTrack: RacingTrack
-) {
+): NextPositionResult {
   const { position: currentPosition } = player;
 
   const endOfSquare =
@@ -561,7 +561,13 @@ function getNextLane(
       break;
     }
 
-    if (!racerInProposedSquare) {
+    const obstacle =
+      racingTrack.sections[position.sectionIndex].lanes[position.laneIndex]
+        .squares[position.squareIndex].type;
+
+    const obstacleInTheWay = obstacle && obstacle.type === 'obstacle';
+
+    if (!racerInProposedSquare && !obstacleInTheWay) {
       moved = true;
       position.laneIndex = laneIndex;
       break;

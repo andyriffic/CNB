@@ -34,3 +34,12 @@ export const boostTrackBehaviour = (boostMoves: number): RacingTrackType => {
     },
   };
 };
+
+export const obstacleTrackBehaviour: RacingTrackType = {
+  type: 'obstacle',
+  behaviour: () => {
+    return {
+      movesRemaining: 0,
+    };
+  },
+};

@@ -23,6 +23,12 @@ const Container = styled.div`
   height: ${CELL_SIZE_PX}px;
 `;
 
+const Obstacle = styled.div`
+  position: absolute;
+  bottom: 0;
+  font-size: 1.3rem;
+`;
+
 const Icon = styled.div`
   font-size: 1.2rem;
   background-color: white;
@@ -95,6 +101,9 @@ export const RacingSquare = ({ square, lane, section }: Props): JSX.Element => {
         )}
         {square.type && square.type.type === 'boost' && (
           <PowerBoost>+{square.type.context}</PowerBoost>
+        )}
+        {square.type && square.type.type === 'obstacle' && (
+          <Obstacle>🐥</Obstacle>
         )}
       </Container>
     </PositionContainer>

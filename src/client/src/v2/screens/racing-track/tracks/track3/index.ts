@@ -1,4 +1,8 @@
-import { boostTrackBehaviour, rockTrackBehaviour } from '../../trackBehaviours';
+import {
+  boostTrackBehaviour,
+  obstacleTrackBehaviour,
+  rockTrackBehaviour,
+} from '../../trackBehaviours';
 import { RacingTrack } from '../../types';
 import background from './track-3.png';
 
@@ -401,7 +405,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 29
+      // 30
       rotationDegrees: -20,
       lanes: [
         {
@@ -410,7 +414,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 30
+      // 31
       rotationDegrees: -20,
       lanes: [
         {
@@ -419,7 +423,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 31
+      // 32
       rotationDegrees: -10,
       lanes: [
         {
@@ -428,7 +432,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 32
+      // 33
       rotationDegrees: 10,
       lanes: [
         {
@@ -440,7 +444,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 33
+      // 34
       rotationDegrees: 10,
       lanes: [
         {
@@ -452,19 +456,23 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 34
+      // 35
       rotationDegrees: 10,
       lanes: [
         {
-          squares: [{ coordinates: { x: 880, y: 395 } }],
+          squares: [
+            { coordinates: { x: 880, y: 395 }, type: obstacleTrackBehaviour },
+          ],
         },
         {
-          squares: [{ coordinates: { x: 880, y: 425 } }],
+          squares: [
+            { coordinates: { x: 880, y: 425 }, type: obstacleTrackBehaviour },
+          ],
         },
       ],
     },
     {
-      // 35
+      // 36
       rotationDegrees: 10,
       lanes: [
         {

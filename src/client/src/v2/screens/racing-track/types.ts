@@ -15,7 +15,7 @@ export type RacingTrackLane = {
 };
 
 export type RacingTrackType = {
-  type: 'default' | 'rock' | 'boost';
+  type: 'default' | 'rock' | 'boost' | 'obstacle';
   context?: number;
   sound?: keyof SoundMap;
   behaviour: TrackSpecialBehaviour;
