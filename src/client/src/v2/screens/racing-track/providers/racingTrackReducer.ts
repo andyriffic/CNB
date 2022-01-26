@@ -50,7 +50,7 @@ interface SyncDataFromServerAction extends BaseAction {
   allPlayers: Player[];
 }
 
-const MAX_MOVES = 10;
+const MAX_MOVES = 4;
 const DEFAULT_MOVES_PER_SQUARE = 1;
 const MOVES_REQUIRED_TO_PASS = 2;
 
@@ -550,8 +550,7 @@ function getNextLane(
       canOvertake &&
       position.sectionIndex > 4 &&
       racerInProposedSquare &&
-      player.movesRemaining > MOVES_REQUIRED_TO_PASS &&
-      player.movesRemaining > racerInProposedSquare.movesRemaining
+      player.movesRemaining >= MOVES_REQUIRED_TO_PASS
     ) {
       console.log('SWAPPED', player, racerInProposedSquare);
 
