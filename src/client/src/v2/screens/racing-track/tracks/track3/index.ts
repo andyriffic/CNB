@@ -460,14 +460,10 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 10,
       lanes: [
         {
-          squares: [
-            { coordinates: { x: 880, y: 395 }, type: obstacleTrackBehaviour },
-          ],
+          squares: [{ coordinates: { x: 880, y: 395 } }],
         },
         {
-          squares: [
-            { coordinates: { x: 880, y: 425 }, type: obstacleTrackBehaviour },
-          ],
+          squares: [{ coordinates: { x: 880, y: 425 } }],
         },
       ],
     },
@@ -476,10 +472,14 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 10,
       lanes: [
         {
-          squares: [{ coordinates: { x: 960, y: 420 } }],
+          squares: [
+            { coordinates: { x: 960, y: 420 }, type: obstacleTrackBehaviour },
+          ],
         },
         {
-          squares: [{ coordinates: { x: 960, y: 450 } }],
+          squares: [
+            { coordinates: { x: 960, y: 450 }, type: obstacleTrackBehaviour },
+          ],
         },
       ],
     },
