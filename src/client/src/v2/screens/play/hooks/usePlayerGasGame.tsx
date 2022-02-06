@@ -14,6 +14,7 @@ type UsePlayerGasGame = {
   pressesRemaining: number;
   pressCloud: () => void;
   statusText: string;
+  guessNextPlayerOut: (guessPlayerId: string) => void;
 };
 
 function getPlayerStatusText(
@@ -59,7 +60,7 @@ export function usePlayerGasGame(
   playerId: string,
   gameId: string
 ): UsePlayerGasGame {
-  const { playCard, pressGas } = useGasProvider();
+  const { playCard, pressGas, guessNextOutPlayer } = useGasProvider();
 
   const { game } = useGasGame(gameId);
 
@@ -83,9 +84,19 @@ export function usePlayerGasGame(
       : 0;
   }, [game]);
 
-  const playPlayersCard = useCallback((cardIndex: number) => {
-    playCard(gameId, playerId, cardIndex);
-  }, []);
+  const playPlayersCard = useCallback(
+    (cardIndex: number) => {
+      playCard(gameId, playerId, cardIndex);
+    },
+    [gameId, playerId]
+  );
+
+  const guessNextPlayerOut = useCallback(
+    (guessPlayerId: string) => {
+      guessNextOutPlayer(gameId, playerId, guessPlayerId);
+    },
+    [gameId, playerId]
+  );
 
   const pressCloud = useCallback(() => {
     pressGas(gameId);
@@ -99,5 +110,6 @@ export function usePlayerGasGame(
     pressesRemaining,
     pressCloud,
     statusText: getPlayerStatusText(playersTurn, game, gasPlayer),
+    guessNextPlayerOut,
   };
 }

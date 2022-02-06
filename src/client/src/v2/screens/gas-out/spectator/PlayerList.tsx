@@ -10,6 +10,7 @@ import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasCard, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
+import { PlayerBonusPoints } from './PlayerBonusPoints';
 
 const PlayerListContainer = styled.div`
   display: flex;
@@ -81,6 +82,35 @@ const PlayerName = styled.div`
   white-space: nowrap;
 `;
 
+const DeathIcon = styled.div``;
+
+const getDeathIcons = (total: number) => {
+  const icons = [];
+  for (var x = 0; x < Math.min(total, 2); x++) {
+    icons.push('☠️');
+  }
+
+  if (total > 2) {
+    icons.push(`x${total}`);
+  }
+
+  return icons;
+};
+
+const markedForDeath = (player: GasPlayer): JSX.Element | null => {
+  if (!player.guesses.nominatedCount) {
+    return null;
+  }
+
+  return (
+    <DeathIcon>
+      {getDeathIcons(player.guesses.nominatedCount).map((d, i) => (
+        <span key={i}>{d}</span>
+      ))}
+    </DeathIcon>
+  );
+};
+
 type Props = {
   players: GasPlayer[];
   currentPlayerId: string;
@@ -109,11 +139,15 @@ export function PlayerList({
             key={p.player.id}
             active={notDead && (active || winner)}
           >
+            <div style={{ position: 'absolute', top: 0 }}>
+              <PlayerBonusPoints points={p.guesses.correctGuessCount} />
+            </div>
             {active && currentCard && !gameOver && p.status === 'alive' && (
               <CardContainer>
                 <Card card={currentCard} />
               </CardContainer>
             )}
+            {markedForDeath(p)}
             {p.finishedPosition && (
               <PlayerFinishedPosition>
                 {getOrdinal(p.finishedPosition)}

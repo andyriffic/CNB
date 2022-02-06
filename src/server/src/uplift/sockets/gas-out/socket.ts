@@ -3,6 +3,7 @@ import { customAlphabet } from 'nanoid';
 
 import {
   createGame,
+  makeNextPlayerOutGuess,
   moveToNextAlivePlayer,
   playCard,
   press,
@@ -19,6 +20,7 @@ const CREATE_GAS_GAME = 'CREATE_GAS_GAME';
 const PLAY_GAS_CARD = 'PLAY_GAS_CARD';
 const PRESS_GAS = 'PRESS_GAS';
 const NEXT_GAS_PAYER = 'NEXT_GAS_PAYER';
+const GUESS_NEXT_PLAYER_OUT = 'GUESS_NEXT_PLAYER_OUT';
 
 const log = createLogger('gas-out', LOG_NAMESPACE.socket);
 
@@ -99,6 +101,24 @@ const init = (socketServer: Server, path: string) => {
       log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
     });
+
+    socket.on(
+      GUESS_NEXT_PLAYER_OUT,
+      (gameId: string, playerId: string, guessPlayerId: string) => {
+        log(GUESS_NEXT_PLAYER_OUT, gameId);
+        const game = getGameOrThrow(activeGasGames, gameId);
+
+        const updatedGame = makeNextPlayerOutGuess(
+          game,
+          playerId,
+          guessPlayerId
+        );
+        activeGasGames = updateGames(activeGasGames, updatedGame);
+
+        log('UPDATED GAME', updatedGame);
+        namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
+      }
+    );
   });
 };
 

@@ -30,6 +30,11 @@ export type GasPlayer = {
   finishedPosition?: number;
   points: number;
   totalPresses: number;
+  guesses: {
+    nextPlayerOutGuess?: string;
+    nominatedCount: number;
+    correctGuessCount: number;
+  };
 };
 
 export type GasCard = {

@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { SelectBonusChoice } from './components/SelectBonusChoice';
 import { RainbowText } from '../../../uplift/components/RainbowText';
 import { getOrdinal } from '../../../uplift/utils/ordinal';
+import { PlayerGasNextOutSelector } from './components/PlayerGasNextOutSelector';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
@@ -22,7 +23,7 @@ const PlayerStatus = styled.div`
 const PlayerFinishedPosition = styled.div`
   margin: 30px 0;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.extraLarge};
+  font-size: ${({ theme }) => theme.fontSize.large};
   font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
@@ -40,6 +41,7 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
     pressesRemaining,
     pressCloud,
     statusText,
+    guessNextPlayerOut,
   } = usePlayerGasGame(playerId, gasGameId);
 
   if (!(gasPlayer && game)) {
@@ -84,6 +86,14 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
           </RainbowText>
         </PlayerFinishedPosition>
       )}
+      {!gasPlayer.guesses.nextPlayerOutGuess &&
+        !game.winningPlayerId &&
+        gasPlayer.status === 'dead' && (
+          <PlayerGasNextOutSelector
+            eligiblePlayers={game.allPlayers.filter(p => p.status === 'alive')}
+            selectPlayer={guessNextPlayerOut}
+          />
+        )}
       <PlayerSettings player={gasPlayer.player} />
     </GameScreen>
   );

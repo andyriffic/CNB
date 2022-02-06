@@ -19,12 +19,13 @@ export const MobSelectionList = ({ playerId, onMobSelected }: Props) => {
   const playerMobGames = useMemo<MobGame[]>(
     () =>
       mobGames
-        ? mobGames.filter(
-            mg =>
-              (mg.mobPlayers.find(mp => mp.playerId === playerId) ||
-                mg.mugPlayer.playerId === playerId) &&
-              !mg.gameOver
-          )
+        ? mobGames
+            .filter(g => !g.gameOver)
+            .filter(
+              mg =>
+                mg.mobPlayers.find(mp => mp.playerId === playerId) ||
+                mg.mugPlayer.playerId === playerId
+            )
         : [],
     [mobGames]
   );

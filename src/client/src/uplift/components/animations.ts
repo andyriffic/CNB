@@ -32,6 +32,23 @@ export const rubberBandAnimation = keyframes`
   }
 `;
 
+export const bounceOutUpAnimation = keyframes`
+  20% {
+    transform: translate3d(0, -10px, 0) scaleY(0.985);
+  }
+
+  40%,
+  45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0) scaleY(0.9);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0) scaleY(3);
+  }
+`;
+
 export const zoomOutUpAnimation = keyframes`
 40% {
     opacity: 1;
@@ -43,6 +60,17 @@ export const zoomOutUpAnimation = keyframes`
     opacity: 0;
     transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -2000px, 0);
     animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+`;
+
+export const fadeOutUpAnimation = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -200%, 0);
   }
 `;
 

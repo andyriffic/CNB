@@ -151,11 +151,15 @@ function assignWinner(game: GasGame): GasGame {
     throw 'No alive players when trying to find winner :(';
   }
 
+  const maxPointsByOtherPlayers = Math.max(
+    ...game.allPlayers.map<number>((p) => p.points)
+  );
+
   const winningPlayer: GasPlayer = {
     ...allAlivePlayers[0],
     status: 'winner',
     finishedPosition: 1,
-    points: game.pointsMap[game.pointsMap.length - 1],
+    points: maxPointsByOtherPlayers + 2,
   };
 
   return {
@@ -163,6 +167,47 @@ function assignWinner(game: GasGame): GasGame {
     winningPlayerId: winningPlayer.player.id,
     allPlayers: updatePlayerInList(game.allPlayers, winningPlayer),
   };
+}
+
+export function makeNextPlayerOutGuess(
+  game: GasGame,
+  playerId: string,
+  guessPlayerId: string
+): GasGame {
+  const guessingPlayer = getPlayerOrThrow(game, playerId);
+  const updatedGuessingPlayer: GasPlayer = {
+    ...guessingPlayer,
+    guesses: {
+      ...guessingPlayer.guesses,
+      nextPlayerOutGuess: guessPlayerId,
+    },
+  };
+
+  const updatedPlayers = updatePlayerInList(
+    game.allPlayers,
+    updatedGuessingPlayer
+  );
+
+  return {
+    ...game,
+    allPlayers: updatedPlayers.map((p) => {
+      return {
+        ...p,
+        guesses: {
+          ...p.guesses,
+          nominatedCount: totalOutNominationsCount(updatedPlayers, p.player.id),
+        },
+      };
+    }),
+  };
+}
+
+function totalOutNominationsCount(
+  allPlayers: GasPlayer[],
+  playerId: string
+): number {
+  return allPlayers.filter((p) => p.guesses.nextPlayerOutGuess === playerId)
+    .length;
 }
 
 export function press(game: GasGame): GasGame {
@@ -195,21 +240,47 @@ export function press(game: GasGame): GasGame {
     points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
   };
 
-  return assignWinner({
+  return resetPlayerGuessesAndGivePoints(
+    assignWinner({
+      ...game,
+      allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
+      alivePlayersIds,
+      deadPlayerIds,
+      currentPlayer: {
+        ...game.currentPlayer,
+        pressesRemaining: game.currentPlayer.pressesRemaining - 1,
+      },
+      gasCloud: {
+        ...game.gasCloud,
+        pressed: game.gasCloud.pressed + 1,
+        exploded: exploded,
+      },
+    })
+  );
+}
+
+function resetPlayerGuessesAndGivePoints(game: GasGame): GasGame {
+  if (!game.gasCloud.exploded) {
+    return game;
+  }
+
+  return {
     ...game,
-    allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
-    alivePlayersIds,
-    deadPlayerIds,
-    currentPlayer: {
-      ...game.currentPlayer,
-      pressesRemaining: game.currentPlayer.pressesRemaining - 1,
-    },
-    gasCloud: {
-      ...game.gasCloud,
-      pressed: game.gasCloud.pressed + 1,
-      exploded: exploded,
-    },
-  });
+    allPlayers: game.allPlayers.map<GasPlayer>((p) => {
+      const guessedCorrectly =
+        p.guesses.nextPlayerOutGuess === game.currentPlayer.id;
+      return {
+        ...p,
+        points: p.points + (guessedCorrectly ? 1 : 0),
+        guesses: {
+          nextPlayerOutGuess: undefined,
+          nominatedCount: 0,
+          correctGuessCount:
+            p.guesses.correctGuessCount + (guessedCorrectly ? 1 : 0),
+        },
+      };
+    }),
+  };
 }
 
 export function playCard(
@@ -290,6 +361,10 @@ function createGasPlayer(player: Player): GasPlayer {
     cards: [createCard(), createCard(), createCard()],
     totalPresses: 0,
     points: 0,
+    guesses: {
+      correctGuessCount: 0,
+      nominatedCount: 0,
+    },
   };
 }
 

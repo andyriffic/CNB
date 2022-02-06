@@ -13,7 +13,9 @@ export const GasGameSelectionList = ({ playerId, onGameSelected }: Props) => {
   const playerGasGames = useMemo<GasGame[]>(
     () =>
       gasGames
-        ? gasGames.filter(g => g.allPlayers.find(p => p.player.id === playerId))
+        ? gasGames
+            .filter(g => !g.winningPlayerId)
+            .filter(g => g.allPlayers.find(p => p.player.id === playerId))
         : [],
     [gasGames]
   );
