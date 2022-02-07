@@ -472,13 +472,110 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 10,
       lanes: [
         {
+          squares: [{ coordinates: { x: 960, y: 420 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 960, y: 450 } }],
+        },
+      ],
+    },
+    {
+      // 37
+      rotationDegrees: 30,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 1020, y: 450 } }],
+        },
+      ],
+    },
+    {
+      // 38
+      rotationDegrees: 90,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 1040, y: 520 } }],
+        },
+      ],
+    },
+    {
+      // 39
+      rotationDegrees: 180,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 1000, y: 570 } }],
+        },
+      ],
+    },
+    {
+      // 40
+      rotationDegrees: 190,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 920, y: 540 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 920, y: 570 } }],
+        },
+      ],
+    },
+    {
+      // 41
+      rotationDegrees: 190,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 850, y: 520 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 850, y: 560 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 850, y: 590 } }],
+        },
+      ],
+    },
+    {
+      // 42
+      rotationDegrees: 190,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 780, y: 500 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 780, y: 540 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 780, y: 570 } }],
+        },
+      ],
+    },
+    {
+      // 43
+      rotationDegrees: 190,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 720, y: 490 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 720, y: 530 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 720, y: 560 } }],
+        },
+      ],
+    },
+    {
+      // 43
+      rotationDegrees: 180,
+      lanes: [
+        {
           squares: [
-            { coordinates: { x: 960, y: 420 }, type: obstacleTrackBehaviour },
+            { coordinates: { x: 660, y: 480 }, type: obstacleTrackBehaviour },
+            { coordinates: { x: 600, y: 480 } },
           ],
         },
         {
           squares: [
-            { coordinates: { x: 960, y: 450 }, type: obstacleTrackBehaviour },
+            { coordinates: { x: 630, y: 510 }, type: obstacleTrackBehaviour },
           ],
         },
       ],
