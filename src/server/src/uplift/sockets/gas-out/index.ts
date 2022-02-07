@@ -240,8 +240,8 @@ export function press(game: GasGame): GasGame {
     points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
   };
 
-  return resetPlayerGuessesAndGivePoints(
-    assignWinner({
+  return assignWinner(
+    resetPlayerGuessesAndGivePoints({
       ...game,
       allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
       alivePlayersIds,
