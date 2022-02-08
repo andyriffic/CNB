@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { fadeOutUpAnimation } from '../../../../uplift/components/animations';
 
-const ANIMATION_DURATION_MS = 2000;
+const ANIMATION_DURATION_MS = 2500;
 
 const Container = styled.div`
   text-align: center;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function PlayerBonusPoints({ points }: Props): JSX.Element | null {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const previousPoints = useRef(points);
 
   useEffect(() => {
