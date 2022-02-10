@@ -12,6 +12,7 @@ import { SelectBonusChoice } from './components/SelectBonusChoice';
 import { RainbowText } from '../../../uplift/components/RainbowText';
 import { getOrdinal } from '../../../uplift/utils/ordinal';
 import { PlayerGasNextOutSelector } from './components/PlayerGasNextOutSelector';
+import { PlayerGasChosenNextOutPlayer } from './components/PlayerGasChosenNextOutPlayer';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
@@ -94,6 +95,12 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
             selectPlayer={guessNextPlayerOut}
           />
         )}
+      {gasPlayer.guesses.nextPlayerOutGuess && (
+        <PlayerGasChosenNextOutPlayer
+          allPlayers={game.allPlayers}
+          selectedPlayerId={gasPlayer.guesses.nextPlayerOutGuess}
+        />
+      )}
       <PlayerSettings player={gasPlayer.player} />
     </GameScreen>
   );
