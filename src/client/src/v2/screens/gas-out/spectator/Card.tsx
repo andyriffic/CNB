@@ -27,23 +27,34 @@ const CardText = styled.div`
   font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
+const CardIcon = styled.div`
+  font-size: 1.2rem;
+`;
+
 type Props = {
   card: GasCard;
+  pressesRemaining: number;
 };
 
-function renderCard(card: GasCard): JSX.Element {
+function renderCard(
+  card: GasCard,
+  pressesRemaining: number
+): JSX.Element | null {
   switch (card.type) {
     case 'press':
-      return <CardNumber>{card.presses}</CardNumber>;
+      return <CardNumber>{pressesRemaining}</CardNumber>;
     case 'skip':
       return <CardText>skip</CardText>;
     case 'reverse':
-      return <CardText>↔</CardText>;
+      return <CardIcon>↔</CardIcon>;
     default:
       throw 'card type not configured';
   }
 }
 
-export function Card({ card }: Props): JSX.Element {
-  return <CardContainer>{renderCard(card)}</CardContainer>;
+export function Card({ card, pressesRemaining }: Props): JSX.Element | null {
+  if (card.type === 'press' && pressesRemaining === 0) {
+    return null;
+  }
+  return <CardContainer>{renderCard(card, pressesRemaining)}</CardContainer>;
 }

@@ -8,9 +8,10 @@ import {
 } from '../../../../uplift/components/animations';
 import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
-import { GasCard, GasPlayer } from '../../../providers/GasProvider';
+import { GasCard, GasGame, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
 import { PlayerBonusPoints } from './PlayerBonusPoints';
+import { PlayerStatsSummary } from './PlayerStatsSummary';
 
 const PlayerListContainer = styled.div`
   display: flex;
@@ -84,6 +85,11 @@ const PlayerName = styled.div`
 
 const DeathIcon = styled.div``;
 
+const PlayerStatsContainer = styled.div`
+  position: absolute;
+  bottom: -200px;
+`;
+
 const getDeathIcons = (total: number) => {
   const icons = [];
   for (var x = 0; x < Math.min(total, 2); x++) {
@@ -112,27 +118,16 @@ const markedForDeath = (player: GasPlayer): JSX.Element | null => {
 };
 
 type Props = {
-  players: GasPlayer[];
-  currentPlayerId: string;
-  currentCard?: GasCard;
+  game: GasGame;
   gameOver: boolean;
-  winningPlayerId: string | undefined;
-  showPoints: boolean;
 };
 
-export function PlayerList({
-  players,
-  currentPlayerId,
-  currentCard,
-  gameOver,
-  winningPlayerId,
-  showPoints,
-}: Props): JSX.Element {
+export function PlayerList({ game, gameOver }: Props): JSX.Element {
   return (
     <PlayerListContainer>
-      {players.map(p => {
-        const active = p.player.id === currentPlayerId;
-        const winner = p.player.id === winningPlayerId;
+      {game.allPlayers.map(p => {
+        const active = p.player.id === game.currentPlayer.id;
+        const winner = p.player.id === game.winningPlayerId;
         const notDead = p.status !== 'dead';
         return (
           <PlayerListItem
@@ -142,11 +137,17 @@ export function PlayerList({
             <div style={{ position: 'absolute', top: 0 }}>
               <PlayerBonusPoints points={p.guesses.correctGuessCount} />
             </div>
-            {active && currentCard && !gameOver && p.status === 'alive' && (
-              <CardContainer>
-                <Card card={currentCard} />
-              </CardContainer>
-            )}
+            {active &&
+              game.currentPlayer.cardPlayed &&
+              !gameOver &&
+              p.status === 'alive' && (
+                <CardContainer>
+                  <Card
+                    card={game.currentPlayer.cardPlayed}
+                    pressesRemaining={game.currentPlayer.pressesRemaining}
+                  />
+                </CardContainer>
+              )}
             {markedForDeath(p)}
             {p.finishedPosition && (
               <PlayerFinishedPosition>
@@ -162,6 +163,9 @@ export function PlayerList({
             {(!notDead || winner) && <PlayerPoints>{p.points}</PlayerPoints>}
             {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
             {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
+            {/* <PlayerStatsContainer>
+              <PlayerStatsSummary gasPlayer={p} />
+            </PlayerStatsContainer> */}
           </PlayerListItem>
         );
       })}

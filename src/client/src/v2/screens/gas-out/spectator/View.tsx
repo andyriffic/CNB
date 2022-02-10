@@ -77,14 +77,7 @@ export default ({ gameId, navigate }: Props) => {
           <GasPlayerDebug game={game} />
         )}
         <PlayersContainer>
-          <PlayerList
-            players={game.allPlayers}
-            currentPlayerId={game.currentPlayer.id}
-            currentCard={game.currentPlayer.cardPlayed}
-            gameOver={!!game.winningPlayerId}
-            winningPlayerId={game.winningPlayerId}
-            showPoints={!!game.winningPlayerId}
-          />
+          <PlayerList game={game} gameOver={!!game.winningPlayerId} />
         </PlayersContainer>
         {!game.winningPlayerId && (
           <div style={{ textAlign: 'center', marginTop: '30px' }}>
