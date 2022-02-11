@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Board } from './components/Board';
-import { generateBoard } from './boards/chinese';
-import gameBoardBackground from './boards/chinese/board.jpg';
+import { generateBoard } from './boards/snake';
+import gameBoardBackground from './boards/snake/board.jpg';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { GameBoardProvider } from './providers/GameBoardProvider';
 

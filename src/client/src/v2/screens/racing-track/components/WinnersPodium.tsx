@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { PlayerAvatar } from '../../../components/player-avatar';
-import { RacingPlayer } from '../types';
+import { Coordinates, RacingPlayer } from '../types';
 
 type Props = {
   racers: RacingPlayer[];
+  displayPositions?: Coordinates[];
 };
 
 const Container = styled.div`
@@ -20,7 +21,10 @@ const sortFinishPosition = (a: RacingPlayer, b: RacingPlayer): 1 | -1 => {
   return a.finishPosition < b.finishPosition ? -1 : 1;
 };
 
-export const WinnersPodium = ({ racers }: Props): JSX.Element => {
+export const WinnersPodium = ({
+  racers,
+  displayPositions,
+}: Props): JSX.Element | null => {
   const finishedPlayers = useMemo(() => {
     const finishers = racers
       .filter(rp => !!rp.finishPosition)
@@ -28,19 +32,34 @@ export const WinnersPodium = ({ racers }: Props): JSX.Element => {
     return finishers.slice(0, Math.min(finishers.length, 6));
   }, [racers]);
 
+  if (!displayPositions) {
+    return null;
+  }
+
   return (
     <>
-      {finishedPlayers.map((rp, i) => (
-        <Container
-          key={rp.player.id}
-          style={{ top: '390px', left: `${i * 65 + 410}px` }}
-        >
-          <PlayerContainer>
-            <PlayerAvatar player={rp.player} size="small" showZodiac={false} />
-          </PlayerContainer>
-          {/* <div>{rp.finishPosition}</div> */}
-        </Container>
-      ))}
+      {finishedPlayers.map((rp, i) => {
+        const displayPosition = displayPositions[i];
+
+        return displayPosition ? (
+          <Container
+            key={rp.player.id}
+            style={{
+              top: `${displayPosition.y}px`,
+              left: `${displayPosition.x}px`,
+            }}
+          >
+            <PlayerContainer>
+              <PlayerAvatar
+                player={rp.player}
+                size="small"
+                showZodiac={false}
+              />
+            </PlayerContainer>
+            {/* <div>{rp.finishPosition}</div> */}
+          </Container>
+        ) : null;
+      })}
     </>
   );
 };

@@ -59,6 +59,7 @@ export type RacingPlayer = {
 export type RacingTrack = {
   id: string;
   sections: RacingTrackSection[];
+  winningDisplayPositions?: Coordinates[];
   boardBackgroundImage: any;
   totalLaps: number;
   widthPx: number;

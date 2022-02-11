@@ -48,7 +48,12 @@ const View = () => {
               isMoving={racer.player.id === racingTrackService.movingPlayerId}
             />
           ))}
-          <WinnersPodium racers={racingTrackService.racers} />
+          <WinnersPodium
+            racers={racingTrackService.racers}
+            displayPositions={
+              racingTrackService.racingTrack.winningDisplayPositions
+            }
+          />
         </RacingTrackBackground>
       </Container>
     </GameScreen>

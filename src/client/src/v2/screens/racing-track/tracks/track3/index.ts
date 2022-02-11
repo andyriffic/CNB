@@ -12,6 +12,14 @@ export const racingTrack: RacingTrack = {
   boardBackgroundImage: background,
   widthPx: 1200,
   heightPx: 650,
+  winningDisplayPositions: [
+    { x: 100, y: 190 },
+    { x: 98, y: 250 },
+    { x: 96, y: 310 },
+    { x: 80, y: 370 },
+    { x: 76, y: 430 },
+    { x: 65, y: 490 },
+  ],
   sections: [
     {
       // 0
@@ -569,14 +577,12 @@ export const racingTrack: RacingTrack = {
       lanes: [
         {
           squares: [
-            { coordinates: { x: 660, y: 480 }, type: obstacleTrackBehaviour },
+            { coordinates: { x: 660, y: 480 } },
             { coordinates: { x: 600, y: 480 } },
           ],
         },
         {
-          squares: [
-            { coordinates: { x: 630, y: 510 }, type: obstacleTrackBehaviour },
-          ],
+          squares: [{ coordinates: { x: 630, y: 510 } }],
         },
       ],
     },
