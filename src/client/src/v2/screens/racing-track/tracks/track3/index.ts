@@ -564,7 +564,7 @@ export const racingTrack: RacingTrack = {
       ],
     },
     {
-      // 43
+      // 44
       rotationDegrees: 180,
       lanes: [
         {
@@ -577,6 +577,85 @@ export const racingTrack: RacingTrack = {
           squares: [
             { coordinates: { x: 630, y: 510 }, type: obstacleTrackBehaviour },
           ],
+        },
+      ],
+    },
+    {
+      // 45
+      rotationDegrees: 155,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 530, y: 500 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 540, y: 530 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 550, y: 560 } }],
+        },
+      ],
+    },
+    {
+      // 46
+      rotationDegrees: 155,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 470, y: 520 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 480, y: 550 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 490, y: 580 } }],
+        },
+      ],
+    },
+    {
+      // 47
+      rotationDegrees: 155,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 410, y: 540 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 420, y: 570 } }],
+        },
+      ],
+    },
+    {
+      // 48
+      rotationDegrees: 210,
+      lanes: [
+        {
+          squares: [
+            { coordinates: { x: 350, y: 560 } },
+            { coordinates: { x: 270, y: 540 } },
+          ],
+        },
+        {
+          squares: [
+            { coordinates: { x: 350, y: 590 } },
+            { coordinates: { x: 270, y: 580 } },
+            { coordinates: { x: 210, y: 550 } },
+          ],
+        },
+      ],
+    },
+    {
+      // 49
+      rotationDegrees: -90,
+      lanes: [
+        {
+          squares: [{ coordinates: { x: 190, y: 480 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 225, y: 482 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 260, y: 484 } }],
+        },
+        {
+          squares: [{ coordinates: { x: 295, y: 486 } }],
         },
       ],
     },
