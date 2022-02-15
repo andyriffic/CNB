@@ -42,7 +42,7 @@ type Props = {
 };
 
 export const PlayerSettings = ({ player }: Props): JSX.Element => {
-  const { updatePlayer } = usePlayersProvider();
+  const { safeUpdatePlayerStringAttribute } = usePlayersProvider();
   const [isOpen, setIsOpen] = useState(false);
   const color = useMemo(
     () => getPlayerAttributeValue(player.tags, 'rt_color', '#ff0000'),
@@ -60,10 +60,7 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
   }
 
   const setPlayerColor = (color: string) => {
-    updatePlayer(player.id, [
-      ...player.tags.filter(t => !t.startsWith('rt_color')),
-      `rt_color:${color}`,
-    ]);
+    safeUpdatePlayerStringAttribute(player.id, 'rt_color', color);
   };
 
   return (

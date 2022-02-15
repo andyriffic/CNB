@@ -21,12 +21,28 @@ const updatePlayerTags = (player: Player, tags: string[]): Promise<Player> => {
   return playersDatastore.updatePlayerTags(updatedPlayer);
 };
 
+const safeUpdatePlayerStringAttribute = (
+  player: Player,
+  attributeName: string,
+  attributeValue: string
+): Promise<Player> => {
+  const updatedPlayer: Player = {
+    ...player,
+    tags: [
+      ...player.tags.filter((t) => !t.startsWith(`${attributeName}:`)),
+      `${attributeName}:${attributeValue}`,
+    ],
+  };
+
+  return playersDatastore.updatePlayerTags(updatedPlayer);
+};
+
 const getAllTeams = (): TeamList => {
   return [...ALL_TEAMS, ...instantTeams];
 };
 
 const getTeamByIdAsync = (id: string): Promise<Team | undefined> => {
-  return Promise.resolve(ALL_TEAMS.find(team => team.id === id));
+  return Promise.resolve(ALL_TEAMS.find((team) => team.id === id));
 };
 
 const addPlayersToInstantTeam = (playerIds: string[], teamId: string) => {
@@ -44,11 +60,11 @@ const getPlayerIdsByTeam = (): { [teamId: string]: string[] } => {
 };
 
 const getTeamsWithPlayers = (allPlayers: Player[]): TeamDetails[] => {
-  return ALL_TEAMS.map(team => {
+  return ALL_TEAMS.map((team) => {
     const teamPlayerIds = PLAYER_IDS_BY_TEAM[team.id];
     console.log('TEAMS-----', team, teamPlayerIds);
     const players = teamPlayerIds.map(
-      playerId => allPlayers.find(player => player.id === playerId)!
+      (playerId) => allPlayers.find((player) => player.id === playerId)!
     );
     return {
       team,
@@ -71,4 +87,5 @@ export const playerService = {
   addPlayersToInstantTeam,
   getPlayerIdsByTeam,
   updatePlayerTags,
+  safeUpdatePlayerStringAttribute,
 };

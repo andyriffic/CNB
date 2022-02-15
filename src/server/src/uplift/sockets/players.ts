@@ -9,6 +9,7 @@ const SUBSCRIBE_TO_ALL_PLAYERS = 'SUBSCRIBE_TO_ALL_PLAYERS';
 const ALL_PLAYERS_UPDATE = 'ALL_PLAYERS_UPDATE';
 const ADD_PLAYER = 'ADD_PLAYER';
 const UPDATE_PLAYER = 'UPDATE_PLAYER';
+const SAFE_UPDATE_PLAYER = 'SAFE_UPDATE_PLAYER';
 const TRIGGER_UPDATE = 'TRIGGER_UPDATE';
 
 const log = createLogger('players', LOG_NAMESPACE.socket);
@@ -117,6 +118,34 @@ const init = (socketServer: Server, path: string) => {
               onUpdated && onUpdated();
             });
           });
+        });
+      }
+    );
+
+    socket.on(
+      SAFE_UPDATE_PLAYER,
+      (
+        id: string,
+        attributeName: string,
+        attributeValue: string,
+        onUpdated?: () => void
+      ) => {
+        log('Received', SAFE_UPDATE_PLAYER);
+        log('Updating Player: ', id, attributeName, attributeValue);
+        playerService.getPlayer(id).then((player) => {
+          playerService
+            .safeUpdatePlayerStringAttribute(
+              player,
+              attributeName,
+              attributeValue
+            )
+            .then(() => {
+              getUpdatedPlayerList().then((playerList) => {
+                log('EMIT', ALL_PLAYERS_UPDATE);
+                namespace.emit(ALL_PLAYERS_UPDATE, playerList);
+                onUpdated && onUpdated();
+              });
+            });
         });
       }
     );

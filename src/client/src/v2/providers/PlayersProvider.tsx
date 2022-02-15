@@ -9,6 +9,7 @@ enum PLAYER_EVENTS {
   ON_PLAYERS_RECEIVED = 'ALL_PLAYERS_UPDATE',
   ADD_PLAYER = 'ADD_PLAYER',
   UPDATE_PLAYER = 'UPDATE_PLAYER',
+  SAFE_UPDATE_PLAYER = 'SAFE_UPDATE_PLAYER',
   TRIGGER_UPDATE = 'TRIGGER_UPDATE',
 }
 
@@ -26,6 +27,12 @@ export type PlayerService = {
   subscribeToPlayers: () => void;
   addPlayer: (id: string, name: string, avatarImageUrl: string) => void;
   updatePlayer: (id: string, tags: string[], onUpdated?: () => void) => void;
+  safeUpdatePlayerStringAttribute: (
+    id: string,
+    attributeName: string,
+    attributeValue: string,
+    onUpdated?: () => void
+  ) => void;
   triggerUpdate: () => void;
   giveSnakesAndLaddersMoves: (
     playerId: string,
@@ -80,6 +87,20 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
         },
         updatePlayer: (id, tags, onUpdated) => {
           socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags, onUpdated);
+        },
+        safeUpdatePlayerStringAttribute: (
+          id,
+          attributeName,
+          attributeValue,
+          onUpdated
+        ) => {
+          socket.emit(
+            PLAYER_EVENTS.SAFE_UPDATE_PLAYER,
+            id,
+            attributeName,
+            attributeValue,
+            onUpdated
+          );
         },
         triggerUpdate: () => {
           socket.emit(PLAYER_EVENTS.TRIGGER_UPDATE);
