@@ -19,6 +19,5 @@
     "lint:server": "cd ./src/server && npm run lint"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {}
+  "license": "ISC"
 }

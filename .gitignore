@@ -3,3 +3,4 @@ lib
 server.stats.dev
 .vscode
 .DS_Store
+node_modules
