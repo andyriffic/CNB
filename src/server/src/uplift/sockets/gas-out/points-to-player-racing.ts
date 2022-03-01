@@ -1,8 +1,11 @@
 import { Debugger } from 'debug';
 import { playerService } from '../../services/player';
 import { Player } from '../../services/player/types';
-import { incrementIntegerTag } from '../../utils/tags';
-import { MobGame } from './types';
+import {
+  getIntegerAttributeValue,
+  incrementIntegerTag,
+} from '../../utils/tags';
+import { GasGame } from './types';
 
 function givePoints(player: Player, points: number, log: Debugger): void {
   log('Giving points: ', player.id, points);
@@ -17,24 +20,14 @@ function givePoints(player: Player, points: number, log: Debugger): void {
   });
 }
 
-export function pointsToPlayers(mobGame: MobGame, log: Debugger) {
+export function pointsToPlayersRacing(game: GasGame, log: Debugger) {
   playerService.getPlayersAsync().then((allPlayers) => {
-    const mugPlayer = allPlayers.find(
-      (p) => p.id === mobGame.mugPlayer.playerId
-    );
-
-    if (mugPlayer) {
-      givePoints(mugPlayer, mobGame.points.mugPlayer, log);
-    }
-
-    mobGame.points.mobPlayers.forEach((mobPlayerPoints) => {
-      const mobPlayer = allPlayers.find(
-        (p) => p.id === mobPlayerPoints.playerId
-      );
-
-      if (!mobPlayer) return;
-
-      givePoints(mobPlayer, mobPlayerPoints.points, log);
+    game.allPlayers.forEach((gasPlayer) => {
+      const player = allPlayers.find((p) => p.id === gasPlayer.player.id);
+      if (!player) {
+        return;
+      }
+      givePoints(gasPlayer.player, gasPlayer.points, log);
     });
   });
 }

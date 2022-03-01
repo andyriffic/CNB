@@ -13,7 +13,7 @@ import {
 import { Player } from '../../services/player/types';
 import { mapMobGameToStats } from '../../services/stats/mobMappers';
 import { StatsService } from '../../services/stats';
-import { pointsToPlayers } from './points-to-player';
+import { pointsToPlayersRacing } from './points-to-player-racing';
 import { playersDatastore } from '../../datastore/players';
 
 const REQUEST_MOB_GAMES = 'REQUEST_MOB_GAMES';
@@ -124,7 +124,7 @@ const init = (socketServer: Server, path: string) => {
       });
 
       if (createMobGameSpectatorView(updatedMobGame).gameOver) {
-        pointsToPlayers(updatedMobGame, log);
+        pointsToPlayersRacing(updatedMobGame, log);
       }
 
       activeMobGames = [

@@ -1,7 +1,8 @@
 import { Player } from '../../providers/PlayersProvider';
 
 export type PacManBoard = {
-  squares: PacManSquare[];
+  playerPath: PacManSquare[];
+  pacManPath: PacManSquare[];
   gridCoordinates: {
     x: number[];
     y: number[];
