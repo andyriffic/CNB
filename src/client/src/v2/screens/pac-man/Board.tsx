@@ -4,9 +4,9 @@ import gameBoardBackground from './assets/pac-man-board.png';
 import { boardConfig, generateTestBoard } from './boardConfig';
 import { BoardPlayer } from './BoardPlayer';
 import { BoardSquare } from './BoardSquare';
+import { PacManUiState } from './hooks/usePacman/reducer';
 import { PacMan } from './PacMan';
 import { Coordinates } from './types';
-import { PacManUiState } from './usePacMan';
 
 const BoardBackground = styled.div`
   width: 80vw;

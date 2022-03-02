@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { Player } from '../../../../providers/PlayersProvider';
+import { PacManBoard } from '../../types';
 import { createInitialState, PacManUiState, reducer } from './reducer';
 
 export type UsePacMan = {
@@ -7,8 +8,12 @@ export type UsePacMan = {
   movePlayer: () => void;
 };
 
-export function usePacMan(allPlayers: Player[]): UsePacMan {
-  const [state, dispatch] = useReducer(reducer, allPlayers, createInitialState);
+export function usePacMan(allPlayers: Player[], board: PacManBoard): UsePacMan {
+  const [state, dispatch] = useReducer(
+    reducer,
+    { allPlayers, board },
+    createInitialState
+  );
 
   return {
     uiState: state,

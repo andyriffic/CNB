@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Player, usePlayersProvider } from '../../providers/PlayersProvider';
 import { Board } from './Board';
-import { usePacMan } from './usePacMan';
+import { usePacMan } from './hooks/usePacman';
 
 const Container = styled.div`
   margin: 0 auto;

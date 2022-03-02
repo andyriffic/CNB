@@ -3,11 +3,18 @@ import {
   getPlayerIntegerAttributeValue,
 } from '../../../../../uplift/utils/player';
 import { Player } from '../../../../providers/PlayersProvider';
-import { PacManPlayer } from '../../types';
+import { PacManBoard, PacManCharacter, PacManPlayer } from '../../types';
 
 export type PacManUiState = {
   allPacPlayers: PacManPlayer[];
-  status: 'loading' | 'ready' | 'moving-players' | 'game-over';
+  pacMan: PacManCharacter;
+  board: PacManBoard;
+  status:
+    | 'loading'
+    | 'ready'
+    | 'moving-players'
+    | 'moving-pacman'
+    | 'game-over';
 };
 
 function createPacManPlayer(player: Player): PacManPlayer {
@@ -15,17 +22,30 @@ function createPacManPlayer(player: Player): PacManPlayer {
     player,
     status: '',
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'pac_moves', 0),
-    squareIndex: getPlayerIntegerAttributeValue(player.tags, 'pac_square', 0),
+    pathIndex: getPlayerIntegerAttributeValue(player.tags, 'pac_square', 0),
     color: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
+    jailTurnsCount: 0,
   };
 }
 
-export function createInitialState(allPlayers: Player[]): PacManUiState {
+export function createInitialState({
+  allPlayers,
+  board,
+}: {
+  allPlayers: Player[];
+  board: PacManBoard;
+}): PacManUiState {
   const eligiblePlayers = allPlayers.filter(p => p.tags.includes('pac_player'));
 
   return {
     allPacPlayers: eligiblePlayers.map(createPacManPlayer),
     status: 'ready',
+    board,
+    pacMan: {
+      movesRemaining: 4,
+      pathIndex: 0,
+      status: '',
+    },
   };
 }
 
@@ -33,13 +53,20 @@ type StartMovingPlayersAction = {
   type: 'MOVE_PLAYERS';
 };
 
+type MovePacManAction = {
+  type: 'MOVE_PACMAN';
+};
+
 export function reducer(
   state: PacManUiState,
-  action: StartMovingPlayersAction
+  action: StartMovingPlayersAction | MovePacManAction
 ): PacManUiState {
   switch (action.type) {
     case 'MOVE_PLAYERS': {
       return autoMovePlayer(state);
+    }
+    case 'MOVE_PACMAN': {
+      return state;
     }
     default: {
       return state;
@@ -83,10 +110,52 @@ function movePlayer(
     {
       ...pacPlayer,
       movesRemaining: pacPlayer.movesRemaining - 1,
-      squareIndex: pacPlayer.squareIndex + 1,
+      pathIndex: pacPlayer.pathIndex + 1,
     },
     state
   );
+}
+
+function movePacmanOneSquare(state: PacManUiState): PacManUiState {
+  return {
+    ...state,
+    pacMan: {
+      ...state.pacMan,
+      movesRemaining: state.pacMan.movesRemaining - 1,
+      pathIndex: state.pacMan.pathIndex + 1,
+    },
+  };
+}
+
+function sendPlayersToJail(state: PacManUiState): PacManUiState {
+  const pacManCoords =
+    state.board.pacManPath[state.pacMan.pathIndex].coordinates;
+  const allPlayersInSamePositionAsPacMan = state.allPacPlayers
+    .filter(p => {
+      const playerCoords = state.board.playerPath[p.pathIndex].coordinates;
+
+      return (
+        p.jailTurnsCount === 0 &&
+        playerCoords.x === pacManCoords.x &&
+        playerCoords.y === pacManCoords.y
+      );
+    })
+    .map(p => ({ ...p, jailTurnsCount: 3 }));
+
+  return updatePlayers(allPlayersInSamePositionAsPacMan, state);
+}
+
+function updatePlayers(
+  pacPlayers: PacManPlayer[],
+  state: PacManUiState
+): PacManUiState {
+  return {
+    ...state,
+    allPacPlayers: state.allPacPlayers.map(p => {
+      const updatedPlayer = pacPlayers.find(up => up.player.id === p.player.id);
+      return updatedPlayer ? updatedPlayer : p;
+    }),
+  };
 }
 
 function updatePlayer(

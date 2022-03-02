@@ -21,7 +21,14 @@ export type Coordinates = {
 export type PacManPlayer = {
   player: Player;
   status: '' | 'moving';
-  squareIndex: number;
+  pathIndex: number;
   movesRemaining: number;
   color: string;
+  jailTurnsCount: number;
+};
+
+export type PacManCharacter = {
+  status: '' | 'moving' | 'moved';
+  pathIndex: number;
+  movesRemaining: number;
 };
