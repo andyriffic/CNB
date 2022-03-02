@@ -17,7 +17,7 @@ import {
 } from '../providers/GameBoardProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 
-export const ANIMATION_TIMEOUT_MS = 500;
+export const ANIMATION_TIMEOUT_MS = 300;
 
 const CellPlayer = styled.div<{
   priority: number;
@@ -105,12 +105,12 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
                   play('SnakesAndLaddersWormholeOut');
                   setWormhole('out');
                 }, 100);
-              }, 500);
-            }, 1000);
+              }, 300);
+            }, 500);
           } else {
             landedInCell(gameBoardPlayer, cell);
           }
-        }, 1000);
+        }, 400);
 
         return;
       }
@@ -118,7 +118,7 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
       setTimeout(() => {
         movePlayer(gameBoardPlayer);
         play('SnakesAndLaddersMove');
-      }, 500);
+      }, ANIMATION_TIMEOUT_MS);
     }
   }, [isMoving, gameBoardPlayer, wormhole]);
 

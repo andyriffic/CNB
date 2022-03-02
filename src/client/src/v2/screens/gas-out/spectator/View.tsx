@@ -87,8 +87,10 @@ export default ({ gameId, navigate }: Props) => {
         <Winner game={game} />
         {!!game.winningPlayerId && (
           <DonkeyKongLinkContainer>
-            <FancyLink onClick={() => (window.location.href = '/race-track')}>
-              🏁 To the Race Track! 🏎
+            <FancyLink
+              onClick={() => (window.location.href = '/snakes-and-ladders')}
+            >
+              🐍 Go to Snakes and Ladders 🐍
             </FancyLink>
           </DonkeyKongLinkContainer>
         )}

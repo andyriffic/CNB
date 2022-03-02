@@ -5,6 +5,7 @@ import { usePlayersProvider } from '../../providers/PlayersProvider';
 type UsePlayerMaintenance = {
   setAllRacersRandomMoves: () => void;
   resetAllRacersToStartLine: () => void;
+  giveRandomSlMoves: () => void;
 };
 
 export const usePlayerMaintenance = (): UsePlayerMaintenance => {
@@ -40,6 +41,21 @@ export const usePlayerMaintenance = (): UsePlayerMaintenance => {
             .filter(t => !t.startsWith('rt_lap'))
             .filter(t => !t.startsWith('rt_finish')),
           'rt_moves:0',
+        ];
+
+        updatePlayer(p.id, updatedTags);
+      });
+    },
+    giveRandomSlMoves: () => {
+      const eligiblePlayers = allPlayers.filter(p =>
+        p.tags.includes('sl_participant')
+      );
+      eligiblePlayers.forEach(p => {
+        const moves = selectRandomOneOf([1, 2, 3, 4, 5, 6]);
+
+        const updatedTags = [
+          ...p.tags.filter(t => !t.startsWith('sl_moves')),
+          `sl_moves:${moves}`,
         ];
 
         updatePlayer(p.id, updatedTags);

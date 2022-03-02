@@ -11,6 +11,7 @@ export const PlayerMaintenance = () => {
   const {
     setAllRacersRandomMoves,
     resetAllRacersToStartLine,
+    giveRandomSlMoves,
   } = usePlayerMaintenance();
 
   return (
@@ -21,6 +22,9 @@ export const PlayerMaintenance = () => {
         </button>
         <button type="button" onClick={setAllRacersRandomMoves}>
           Set random racing moves
+        </button>
+        <button type="button" onClick={giveRandomSlMoves}>
+          Give random S&L moves
         </button>
       </fieldset>
     </Container>

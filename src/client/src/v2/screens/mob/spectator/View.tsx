@@ -219,8 +219,10 @@ export default ({ mobGameId, navigate }: Props) => {
       />
       {mobGame.gameOver && mobGame.roundState === 'viewed' && (
         <DonkeyKongLinkContainer>
-          <FancyLink onClick={() => (window.location.href = '/race-track')}>
-            🏁 To the Race Track! 🏎
+          <FancyLink
+            onClick={() => (window.location.href = '/snakes-and-ladders')}
+          >
+            🐍 Go to Snakes and Ladders 🐍
           </FancyLink>
         </DonkeyKongLinkContainer>
       )}

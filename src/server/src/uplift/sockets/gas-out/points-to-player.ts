@@ -8,19 +8,12 @@ import {
 import { GasGame } from './types';
 
 function givePoints(player: Player, points: number, log: Debugger): void {
-  const finishPlacing = getIntegerAttributeValue(player.tags, 'rt_finish', 0);
-
-  if (finishPlacing > 0) {
-    log('No points for finished place', player.id, finishPlacing);
-    return;
-  }
-
   log('Giving points: ', player.id, points);
   const newTags = [
-    ...incrementIntegerTag('rt_moves:', points, player.tags).filter(
-      (t) => t !== 'racer'
+    ...incrementIntegerTag('sl_moves:', points, player.tags).filter(
+      (t) => t !== 'sl_participant'
     ),
-    'racer',
+    'sl_participant',
   ];
   playerService.updatePlayerTags(player, newTags).then(() => {
     log('Gave points: ', player.id, points);
@@ -30,26 +23,11 @@ function givePoints(player: Player, points: number, log: Debugger): void {
 export function pointsToPlayers(game: GasGame, log: Debugger) {
   playerService.getPlayersAsync().then((allPlayers) => {
     game.allPlayers.forEach((gasPlayer) => {
+      const player = allPlayers.find((p) => p.id === gasPlayer.player.id);
+      if (!player) {
+        return;
+      }
       givePoints(gasPlayer.player, gasPlayer.points, log);
     });
-
-    const allRacerPlayerIdsThisGame = game.allPlayers.map((gp) => gp.player.id);
-
-    log('RACERS THIS GAME', allRacerPlayerIdsThisGame);
-
-    const racersMissingThisRace = allPlayers
-      .filter((p) => p.tags.includes('racer'))
-      .filter((p) => !allRacerPlayerIdsThisGame.includes(p.id));
-
-    log(
-      'MISSING RACERS',
-      racersMissingThisRace.map((p) => p.id)
-    );
-
-    racersMissingThisRace.forEach((player) => {
-      givePoints(player, 1, log);
-    });
   });
-
-  playerService.updatePlayerTags;
 }
