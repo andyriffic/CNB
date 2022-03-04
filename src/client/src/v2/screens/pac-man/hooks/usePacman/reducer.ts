@@ -42,7 +42,7 @@ export function createInitialState({
     status: 'ready',
     board,
     pacMan: {
-      movesRemaining: 4,
+      movesRemaining: board.pacManPath.length - 1,
       pathIndex: 0,
       status: '',
     },
@@ -66,7 +66,7 @@ export function reducer(
       return autoMovePlayer(state);
     }
     case 'MOVE_PACMAN': {
-      return state;
+      return movePacmanOneSquare(state);
     }
     default: {
       return state;
@@ -88,7 +88,7 @@ function pickPlayerToMove(state: PacManUiState): PacManUiState {
   if (!nextPlayer) {
     return {
       ...state,
-      status: 'game-over',
+      status: 'moving-pacman',
     };
   }
 
@@ -117,12 +117,24 @@ function movePlayer(
 }
 
 function movePacmanOneSquare(state: PacManUiState): PacManUiState {
+  if (state.pacMan.movesRemaining === 0) {
+    return {
+      ...state,
+      status: 'game-over',
+    };
+  }
+
+  const newPathIndex =
+    state.pacMan.pathIndex + 1 >= state.board.pacManPath.length
+      ? 0
+      : state.pacMan.pathIndex + 1;
+
   return {
     ...state,
     pacMan: {
       ...state.pacMan,
       movesRemaining: state.pacMan.movesRemaining - 1,
-      pathIndex: state.pacMan.pathIndex + 1,
+      pathIndex: newPathIndex,
     },
   };
 }
@@ -130,7 +142,7 @@ function movePacmanOneSquare(state: PacManUiState): PacManUiState {
 function sendPlayersToJail(state: PacManUiState): PacManUiState {
   const pacManCoords =
     state.board.pacManPath[state.pacMan.pathIndex].coordinates;
-  const allPlayersInSamePositionAsPacMan = state.allPacPlayers
+  const playersGoingToJail = state.allPacPlayers
     .filter(p => {
       const playerCoords = state.board.playerPath[p.pathIndex].coordinates;
 
@@ -142,7 +154,7 @@ function sendPlayersToJail(state: PacManUiState): PacManUiState {
     })
     .map(p => ({ ...p, jailTurnsCount: 3 }));
 
-  return updatePlayers(allPlayersInSamePositionAsPacMan, state);
+  return updatePlayers(playersGoingToJail, state);
 }
 
 function updatePlayers(

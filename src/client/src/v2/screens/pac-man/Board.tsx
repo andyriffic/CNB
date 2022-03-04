@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { isFeatureEnabled } from '../../../featureToggle';
 import gameBoardBackground from './assets/pac-man-board.png';
 import { boardConfig, generateTestBoard } from './boardConfig';
 import { BoardPlayer } from './BoardPlayer';
@@ -7,6 +8,8 @@ import { BoardSquare } from './BoardSquare';
 import { PacManUiState } from './hooks/usePacman/reducer';
 import { PacMan } from './PacMan';
 import { Coordinates } from './types';
+
+const debug = isFeatureEnabled('debug');
 
 const BoardBackground = styled.div`
   width: 80vw;
@@ -37,18 +40,25 @@ export function Board({ uiState }: Props): JSX.Element {
   return (
     <BoardBackground>
       <BoardBackgroundImage />
-      {boardConfig.playerPath.map((s, i) => (
-        <BoardSquare key={i} square={s} />
-      ))}
+      {debug &&
+        boardConfig.playerPath.map((s, i) => (
+          <BoardSquare key={i} square={s} color="white" />
+        ))}
+      {debug &&
+        boardConfig.pacManPath.map((s, i) => (
+          <BoardSquare key={i} square={s} color="red" />
+        ))}
       {uiState.allPacPlayers.map(p => {
-        const square = boardConfig.playerPath[p.squareIndex];
+        const square = boardConfig.playerPath[p.pathIndex];
         return (
           <PositionedPlayer key={p.player.id} position={square.coordinates}>
             <BoardPlayer pacPlayer={p} />
           </PositionedPlayer>
         );
       })}
-      <PositionedPlayer position={boardConfig.pacManPath[0].coordinates}>
+      <PositionedPlayer
+        position={boardConfig.pacManPath[uiState.pacMan.pathIndex].coordinates}
+      >
         <PacMan />
       </PositionedPlayer>
     </BoardBackground>

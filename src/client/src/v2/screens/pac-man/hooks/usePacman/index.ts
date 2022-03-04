@@ -6,6 +6,7 @@ import { createInitialState, PacManUiState, reducer } from './reducer';
 export type UsePacMan = {
   uiState: PacManUiState;
   movePlayer: () => void;
+  movePacman: () => void;
 };
 
 export function usePacMan(allPlayers: Player[], board: PacManBoard): UsePacMan {
@@ -18,5 +19,6 @@ export function usePacMan(allPlayers: Player[], board: PacManBoard): UsePacMan {
   return {
     uiState: state,
     movePlayer: () => dispatch({ type: 'MOVE_PLAYERS' }),
+    movePacman: () => dispatch({ type: 'MOVE_PACMAN' }),
   };
 }

@@ -42,7 +42,17 @@ export const boardConfig: PacManBoard = {
     { coordinates: { x: 7, y: 12 } },
     { coordinates: { x: 7, y: 11 } },
   ],
-  pacManPath: [{ coordinates: { x: 8, y: 5 } }],
+  pacManPath: [
+    { coordinates: { x: 8, y: 5 } },
+    { coordinates: { x: 7, y: 5 } },
+    { coordinates: { x: 6, y: 5 } },
+    { coordinates: { x: 5, y: 5 } },
+    { coordinates: { x: 5, y: 6 } },
+    { coordinates: { x: 5, y: 7 } },
+    { coordinates: { x: 5, y: 8 } },
+    { coordinates: { x: 4, y: 8 } },
+    { coordinates: { x: 3, y: 8 } },
+  ],
   gridCoordinates: {
     x: [5, 10, 16, 22, 27, 32, 37, 42, 47, 53, 58, 63, 69, 74, 79, 84, 91],
     y: [4, 10, 16, 22, 27, 35, 44, 55, 63, 68, 73, 82, 87, 92],

@@ -4,7 +4,9 @@ import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Player, usePlayersProvider } from '../../providers/PlayersProvider';
 import { Board } from './Board';
+import { boardConfig } from './boardConfig';
 import { usePacMan } from './hooks/usePacman';
+import { usePlayerAutoMove } from './hooks/usePlayerMoveTick';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -16,32 +18,20 @@ type Props = {
 
 const View = ({ allPlayers }: Props) => {
   const { triggerUpdate } = usePlayersProvider();
-  const { uiState, movePlayer } = usePacMan(allPlayers);
+  const pacManService = usePacMan(allPlayers, boardConfig);
+  usePlayerAutoMove(pacManService);
 
   useEffect(() => {
     triggerUpdate();
   }, []);
 
-  useEffect(() => {
-    if (uiState.status !== 'moving-players') {
-      return;
-    }
-
-    const interval = setInterval(() => {
-      console.log('Tick');
-
-      movePlayer();
-    }, 250);
-    return () => clearInterval(interval);
-  }, [uiState.status]);
-
   return (
     <GameScreen scrollable={true}>
       <Container>
-        <Board uiState={uiState} />
+        <Board uiState={pacManService.uiState} />
       </Container>
-      <span>{uiState.status}</span>
-      <Button onClick={movePlayer}>Move Player</Button>
+      <span>{pacManService.uiState.status}</span>
+      <Button onClick={pacManService.movePlayer}>Move Player</Button>
     </GameScreen>
   );
 };

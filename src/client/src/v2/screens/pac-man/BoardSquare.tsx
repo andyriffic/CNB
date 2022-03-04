@@ -15,8 +15,13 @@ const Container = styled.div<{ position: Coordinates }>`
 
 type Props = {
   square: PacManSquare;
+  color: string;
 };
 
-export function BoardSquare({ square }: Props): JSX.Element {
-  return <Container position={square.coordinates}>.</Container>;
+export function BoardSquare({ square, color }: Props): JSX.Element {
+  return (
+    <Container style={{ color }} position={square.coordinates}>
+      .
+    </Container>
+  );
 }
