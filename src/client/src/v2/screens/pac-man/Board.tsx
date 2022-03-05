@@ -22,14 +22,18 @@ const BoardBackgroundImage = styled.img.attrs({ src: gameBoardBackground })`
   height: 100%;
 `;
 
-const PositionedPlayer = styled.div<{ position: Coordinates }>`
+const PositionedPlayer = styled.div<{
+  position: Coordinates;
+  moveSpeedMs: number;
+}>`
   position: absolute;
   top: ${({ position }) => boardConfig.gridCoordinates.y[position.y]}%;
   left: ${({ position }) => boardConfig.gridCoordinates.x[position.x]}%;
   width: 5%;
   height: 5%;
   text-align: center;
-  transition: top linear 240ms, left linear 240ms;
+  transition: top linear ${({ moveSpeedMs }) => moveSpeedMs}ms,
+    left linear ${({ moveSpeedMs }) => moveSpeedMs}ms;
 `;
 
 type Props = {
@@ -42,21 +46,46 @@ export function Board({ uiState }: Props): JSX.Element {
       <BoardBackgroundImage />
       {debug &&
         boardConfig.playerPath.map((s, i) => (
-          <BoardSquare key={i} square={s} color="white" />
+          <BoardSquare
+            key={i}
+            square={s}
+            color="white"
+            content={<span>{i}</span>}
+          />
         ))}
       {debug &&
         boardConfig.pacManPath.map((s, i) => (
-          <BoardSquare key={i} square={s} color="red" />
+          <BoardSquare
+            key={i}
+            square={s}
+            color="red"
+            content={
+              <span style={{ transform: 'translateY(1vw)' }}>
+                <br />
+                {i}
+              </span>
+            }
+          />
         ))}
       {uiState.allPacPlayers.map(p => {
         const square = boardConfig.playerPath[p.pathIndex];
+        const playerPosition =
+          p.jailTurnsCount > 0
+            ? uiState.board.jailLocation
+            : square.coordinates;
+        const moveSpeed = p.jailTurnsCount > 0 ? 1000 : 240;
         return (
-          <PositionedPlayer key={p.player.id} position={square.coordinates}>
+          <PositionedPlayer
+            key={p.player.id}
+            position={playerPosition}
+            moveSpeedMs={moveSpeed}
+          >
             <BoardPlayer pacPlayer={p} />
           </PositionedPlayer>
         );
       })}
       <PositionedPlayer
+        moveSpeedMs={240}
         position={boardConfig.pacManPath[uiState.pacMan.pathIndex].coordinates}
       >
         <PacMan />

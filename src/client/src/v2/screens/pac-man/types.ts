@@ -7,6 +7,7 @@ export type PacManBoard = {
     x: number[];
     y: number[];
   };
+  jailLocation: Coordinates;
 };
 
 export type PacManSquare = {

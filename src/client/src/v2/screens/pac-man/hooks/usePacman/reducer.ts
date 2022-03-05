@@ -24,7 +24,7 @@ function createPacManPlayer(player: Player): PacManPlayer {
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'pac_moves', 0),
     pathIndex: getPlayerIntegerAttributeValue(player.tags, 'pac_square', 0),
     color: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
-    jailTurnsCount: 0,
+    jailTurnsCount: getPlayerIntegerAttributeValue(player.tags, 'pac_jail', 0),
   };
 }
 
@@ -66,7 +66,7 @@ export function reducer(
       return autoMovePlayer(state);
     }
     case 'MOVE_PACMAN': {
-      return movePacmanOneSquare(state);
+      return sendPlayersToJail(movePacmanOneSquare(state));
     }
     default: {
       return state;

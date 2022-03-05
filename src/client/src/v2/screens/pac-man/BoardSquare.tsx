@@ -11,17 +11,21 @@ const Container = styled.div<{ position: Coordinates }>`
   height: 5%;
   text-align: center;
   color: white;
+  font-size: 0.4rem;
+  display: flex;
+  align-items: center;
 `;
 
 type Props = {
   square: PacManSquare;
   color: string;
+  content?: React.ReactNode;
 };
 
-export function BoardSquare({ square, color }: Props): JSX.Element {
+export function BoardSquare({ square, color, content }: Props): JSX.Element {
   return (
     <Container style={{ color }} position={square.coordinates}>
-      .
+      {content && content}
     </Container>
   );
 }

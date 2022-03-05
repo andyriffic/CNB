@@ -1,11 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useMemo, useRef } from 'react';
+import styled, { css } from 'styled-components';
 import tinycolor from 'tinycolor2';
+import { spinAnimation } from '../../../uplift/components/animations';
 import { PacManGhost } from './PacManGhost';
 import { PacManPlayer } from './types';
 
-const Container = styled.div`
+const Container = styled.div<{ goingToJail: boolean }>`
   position: relative;
+  ${({ goingToJail }) =>
+    goingToJail &&
+    css`
+      animation: ${spinAnimation} 1000ms linear;
+    `}
 `;
 
 const PlayerName = styled.div`
@@ -27,12 +33,20 @@ type Props = {
 };
 
 export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
+  const startingJailMoves = useRef(pacPlayer.jailTurnsCount);
   const accentColor = tinycolor
     .mostReadable(pacPlayer.color, ['#fff', '#000'])
     .toHexString();
 
+  const goingToJail = useMemo(() => {
+    return (
+      pacPlayer.jailTurnsCount > 0 &&
+      startingJailMoves.current !== pacPlayer.jailTurnsCount
+    );
+  }, [pacPlayer.jailTurnsCount]);
+
   return (
-    <Container>
+    <Container goingToJail={goingToJail}>
       <PacManGhost color={pacPlayer.color} width="3vw" />
       <PlayerName
         style={{
@@ -41,7 +55,7 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
           color: accentColor,
         }}
       >
-        {pacPlayer.player.name}
+        {pacPlayer.player.name}({pacPlayer.jailTurnsCount})
       </PlayerName>
     </Container>
   );
