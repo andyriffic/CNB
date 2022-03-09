@@ -4,6 +4,7 @@ import {
 } from '../../../../../uplift/utils/player';
 import { Player } from '../../../../providers/PlayersProvider';
 import { PacManBoard, PacManCharacter, PacManPlayer } from '../../types';
+import { pipe } from '@mobily/ts-belt';
 
 export type PacManUiState = {
   allPacPlayers: PacManPlayer[];
@@ -63,10 +64,17 @@ export function reducer(
 ): PacManUiState {
   switch (action.type) {
     case 'MOVE_PLAYERS': {
-      return autoMovePlayer(state);
+      return pipe(
+        state,
+        autoMovePlayer
+      );
     }
     case 'MOVE_PACMAN': {
-      return sendPlayersToJail(movePacmanOneSquare(state));
+      return pipe(
+        state,
+        movePacmanOneSquare,
+        sendPlayersToJail
+      );
     }
     default: {
       return state;
