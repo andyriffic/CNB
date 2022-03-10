@@ -13,6 +13,7 @@ import { RainbowText } from '../../../uplift/components/RainbowText';
 import { getOrdinal } from '../../../uplift/utils/ordinal';
 import { PlayerGasNextOutSelector } from './components/PlayerGasNextOutSelector';
 import { PlayerGasChosenNextOutPlayer } from './components/PlayerGasChosenNextOutPlayer';
+import { PlayerGasTimeoutTimer } from './components/PlayerGasTimeoutTimer';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
@@ -43,6 +44,7 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
     pressCloud,
     statusText,
     guessNextPlayerOut,
+    timeOut,
   } = usePlayerGasGame(playerId, gasGameId);
 
   if (!(gasPlayer && game)) {
@@ -68,11 +70,16 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
 
       <PlayerStatus>{statusText}</PlayerStatus>
       {!showCloudPresser && gasPlayer.status === 'alive' && (
-        <PlayerGasCards
-          cards={gasPlayer.cards}
-          enabled={playersTurn && !game.currentPlayer.cardPlayed}
-          playCard={playPlayersCard}
-        />
+        <>
+          <PlayerGasCards
+            cards={gasPlayer.cards}
+            enabled={playersTurn && !game.currentPlayer.cardPlayed}
+            playCard={playPlayersCard}
+          />
+          {playersTurn && !game.currentPlayer.cardPlayed && (
+            <PlayerGasTimeoutTimer onTimedOut={timeOut} />
+          )}
+        </>
       )}
       {showCloudPresser && gasPlayer.status === 'alive' && (
         <PlayerGasCloudPresser

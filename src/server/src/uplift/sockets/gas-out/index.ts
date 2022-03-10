@@ -222,22 +222,45 @@ export function press(game: GasGame): GasGame {
 
   const exploded = selectWeightedRandomOneOf(explodedWeights);
 
-  const deadPlayerIds = exploded
-    ? [...game.deadPlayerIds, game.currentPlayer.id]
-    : game.deadPlayerIds;
-  const alivePlayersIds = exploded
-    ? game.alivePlayersIds.filter((id) => id !== game.currentPlayer.id)
-    : game.alivePlayersIds;
+  // const deadPlayerIds = exploded
+  //   ? [...game.deadPlayerIds, game.currentPlayer.id]
+  //   : game.deadPlayerIds;
+  // const alivePlayersIds = exploded
+  //   ? game.alivePlayersIds.filter((id) => id !== game.currentPlayer.id)
+  //   : game.alivePlayersIds;
 
+  // const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+  // const updatedCurrentPlayer: GasPlayer = {
+  //   ...currentPlayer,
+  //   status: exploded ? 'dead' : 'alive',
+  //   finishedPosition: exploded
+  //     ? game.allPlayers.length - (deadPlayerIds.length - 1)
+  //     : undefined,
+  //   totalPresses: currentPlayer.totalPresses + 1,
+  //   points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
+  // };
+
+  return assignWinner(
+    resetPlayerGuessesAndGivePoints(
+      takeOnePressFromCurrentPlayer(exploded ? explode(game, false) : game)
+    )
+  );
+}
+
+function explode(game: GasGame, timedOut: boolean): GasGame {
+  const deadPlayerIds = [...game.deadPlayerIds, game.currentPlayer.id];
+  const alivePlayersIds = game.alivePlayersIds.filter(
+    (id) => id !== game.currentPlayer.id
+  );
   const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+
   const updatedCurrentPlayer: GasPlayer = {
     ...currentPlayer,
-    status: exploded ? 'dead' : 'alive',
-    finishedPosition: exploded
-      ? game.allPlayers.length - (deadPlayerIds.length - 1)
-      : undefined,
+    status: 'dead',
+    timedOut,
+    finishedPosition: game.allPlayers.length - (deadPlayerIds.length - 1),
     totalPresses: currentPlayer.totalPresses + 1,
-    points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
+    points: game.pointsMap[deadPlayerIds.length - 1],
   };
 
   return assignWinner(
@@ -252,11 +275,30 @@ export function press(game: GasGame): GasGame {
       },
       gasCloud: {
         ...game.gasCloud,
-        pressed: game.gasCloud.pressed + 1,
-        exploded: exploded,
+        exploded: true,
       },
     })
   );
+}
+
+function takeOnePressFromCurrentPlayer(game: GasGame): GasGame {
+  const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+
+  return {
+    ...game,
+    allPlayers: updatePlayerInList(game.allPlayers, {
+      ...currentPlayer,
+      totalPresses: currentPlayer.totalPresses + 1,
+    }),
+    currentPlayer: {
+      ...game.currentPlayer,
+      pressesRemaining: game.currentPlayer.pressesRemaining - 1,
+    },
+    gasCloud: {
+      ...game.gasCloud,
+      pressed: game.gasCloud.pressed + 1,
+    },
+  };
 }
 
 function resetPlayerGuessesAndGivePoints(game: GasGame): GasGame {
@@ -319,6 +361,14 @@ export function playCard(
   };
 }
 
+export function playerTimedOut(game: GasGame, playerId: string): GasGame {
+  if (game.currentPlayer.id !== playerId) {
+    return game;
+  }
+
+  return explode(game, true);
+}
+
 function updatePlayerInList(
   allPlayers: GasPlayer[],
   player: GasPlayer
@@ -361,6 +411,7 @@ function createGasPlayer(player: Player): GasPlayer {
     cards: [createCard(), createCard(), createCard()],
     totalPresses: 0,
     points: 0,
+    timedOut: false,
     guesses: {
       correctGuessCount: 0,
       nominatedCount: 0,

@@ -13,6 +13,7 @@ type UsePlayerGasGame = {
   playPlayersCard: (cardIndex: number) => void;
   pressesRemaining: number;
   pressCloud: () => void;
+  timeOut: () => void;
   statusText: string;
   guessNextPlayerOut: (guessPlayerId: string) => void;
 };
@@ -60,7 +61,12 @@ export function usePlayerGasGame(
   playerId: string,
   gameId: string
 ): UsePlayerGasGame {
-  const { playCard, pressGas, guessNextOutPlayer } = useGasProvider();
+  const {
+    playCard,
+    pressGas,
+    guessNextOutPlayer,
+    timeoutPlayer,
+  } = useGasProvider();
 
   const { game } = useGasGame(gameId);
 
@@ -91,6 +97,10 @@ export function usePlayerGasGame(
     [gameId, playerId]
   );
 
+  const timeOut = useCallback(() => {
+    timeoutPlayer(gameId, playerId);
+  }, [gameId, playerId]);
+
   const guessNextPlayerOut = useCallback(
     (guessPlayerId: string) => {
       guessNextOutPlayer(gameId, playerId, guessPlayerId);
@@ -109,6 +119,7 @@ export function usePlayerGasGame(
     playPlayersCard,
     pressesRemaining,
     pressCloud,
+    timeOut,
     statusText: getPlayerStatusText(playersTurn, game, gasPlayer),
     guessNextPlayerOut,
   };

@@ -13,6 +13,7 @@ enum GAS_EVENTS {
   PRESS_GAS = 'PRESS_GAS',
   NEXT_GAS_PAYER = 'NEXT_GAS_PAYER',
   GUESS_NEXT_PLAYER_OUT = 'GUESS_NEXT_PLAYER_OUT',
+  PLAYER_TIMED_OUT = 'PLAYER_TIMED_OUT',
 }
 
 export type GasGameDirection = 'left' | 'right';
@@ -45,6 +46,7 @@ export type GasPlayer = {
   finishedPosition?: number;
   points: number;
   totalPresses: number;
+  timedOut: boolean;
   guesses: {
     nextPlayerOutGuess?: string;
     nominatedCount: number;
@@ -70,6 +72,7 @@ export type GasService = {
   playCard: (gameId: string, playerId: string, cardIndex: number) => void;
   pressGas: (gameId: string) => void;
   nextPlayer: (gameId: string) => void;
+  timeoutPlayer: (gameId: string, playerId: string) => void;
   guessNextOutPlayer: (
     gameId: string,
     playerId: string,
@@ -111,6 +114,9 @@ export const GasProvider = ({ children }: { children: ReactNode }) => {
         },
         nextPlayer: gameId => {
           socket.emit(GAS_EVENTS.NEXT_GAS_PAYER, gameId);
+        },
+        timeoutPlayer: (gameId, playerId) => {
+          socket.emit(GAS_EVENTS.PLAYER_TIMED_OUT, gameId, playerId);
         },
         guessNextOutPlayer: (gameId, playerId, guessPlayerId) => {
           socket.emit(

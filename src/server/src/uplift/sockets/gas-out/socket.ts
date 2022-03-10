@@ -8,6 +8,7 @@ import {
   playCard,
   press,
   resetCloud,
+  playerTimedOut,
 } from '.';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
@@ -21,6 +22,7 @@ const PLAY_GAS_CARD = 'PLAY_GAS_CARD';
 const PRESS_GAS = 'PRESS_GAS';
 const NEXT_GAS_PAYER = 'NEXT_GAS_PAYER';
 const GUESS_NEXT_PLAYER_OUT = 'GUESS_NEXT_PLAYER_OUT';
+const PLAYER_TIMED_OUT = 'PLAYER_TIMED_OUT';
 
 const log = createLogger('gas-out', LOG_NAMESPACE.socket);
 
@@ -119,6 +121,17 @@ const init = (socketServer: Server, path: string) => {
         namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
       }
     );
+
+    socket.on(PLAYER_TIMED_OUT, (gameId: string, playerId: string) => {
+      log(PLAYER_TIMED_OUT, gameId, playerId);
+      const game = getGameOrThrow(activeGasGames, gameId);
+
+      const updatedGame = playerTimedOut(game, playerId);
+      activeGasGames = updateGames(activeGasGames, updatedGame);
+
+      log('UPDATED GAME', updatedGame);
+      namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
+    });
   });
 };
 

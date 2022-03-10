@@ -84,6 +84,9 @@ const PlayerName = styled.div`
 `;
 
 const DeathIcon = styled.div``;
+const TimedOutIcon = styled.div`
+  position: absolute;
+`;
 
 const PlayerStatsContainer = styled.div`
   position: absolute;
@@ -161,7 +164,7 @@ export function PlayerList({ game, gameOver }: Props): JSX.Element {
               <PlayerAvatar player={p.player} size="small" showZodiac={false} />
             </PlayerAvatarContainer>
             {(!notDead || winner) && <PlayerPoints>{p.points}</PlayerPoints>}
-            {/* {p.status === 'dead' && <PlayerIcon>☠️</PlayerIcon>} */}
+            {p.timedOut && <TimedOutIcon>⏰</TimedOutIcon>}
             {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
             {/* <PlayerStatsContainer>
               <PlayerStatsSummary gasPlayer={p} />
