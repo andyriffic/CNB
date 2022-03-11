@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const fillAnimation = keyframes`
   from { width: 0%; background-color: darkred }
   to {width 100%; background-color: red }
 `;
-
-const TIMEOUT_MS = 3000;
 
 const Container = styled.div`
   margin-top: 30px;
@@ -14,9 +12,11 @@ const Container = styled.div`
   background-color: gray;
 `;
 
-const ProgressFill = styled.div`
-  /* height: 20px; */
-  animation: ${fillAnimation} ${TIMEOUT_MS}ms linear 1 0s both;
+const ProgressFill = styled.div<{ timeOutMilliseconds: number }>`
+  ${({ timeOutMilliseconds }) =>
+    css`
+      animation: ${fillAnimation} ${timeOutMilliseconds}ms linear 1 0s both;
+    `}
   border-radius: 10px;
   padding: 8px;
   text-align: center;
@@ -27,11 +27,16 @@ const ProgressFill = styled.div`
 
 type Props = {
   onTimedOut: () => void;
+  timeOutMilliseconds: number;
 };
 
-export const PlayerGasTimeoutTimer = ({ onTimedOut }: Props): JSX.Element => {
+export const PlayerGasTimeoutTimer = ({
+  onTimedOut,
+  timeOutMilliseconds,
+}: Props): JSX.Element => {
   useEffect(() => {
-    const timeout = setTimeout(onTimedOut, TIMEOUT_MS);
+    // const timeout = setTimeout(onTimedOut, TIMEOUT_MS);
+    const timeout = setTimeout(() => {}, timeOutMilliseconds);
 
     return () => {
       clearTimeout(timeout);
@@ -40,7 +45,9 @@ export const PlayerGasTimeoutTimer = ({ onTimedOut }: Props): JSX.Element => {
 
   return (
     <Container>
-      <ProgressFill>Hurry! 匆忙</ProgressFill>
+      <ProgressFill timeOutMilliseconds={timeOutMilliseconds}>
+        Hurry! 匆忙
+      </ProgressFill>
     </Container>
   );
 };

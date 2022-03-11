@@ -14,6 +14,7 @@ import { getOrdinal } from '../../../uplift/utils/ordinal';
 import { PlayerGasNextOutSelector } from './components/PlayerGasNextOutSelector';
 import { PlayerGasChosenNextOutPlayer } from './components/PlayerGasChosenNextOutPlayer';
 import { PlayerGasTimeoutTimer } from './components/PlayerGasTimeoutTimer';
+import { useDynamicSettings } from '../../hooks/useDynamicSettings';
 
 const PlayerStatus = styled.div`
   margin: 30px 0;
@@ -47,6 +48,12 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
     timeOut,
   } = usePlayerGasGame(playerId, gasGameId);
 
+  const gameSettings = useDynamicSettings();
+
+  if (!gameSettings.hasLoaded) {
+    return <LoadingSpinner text="Loading settings..." />;
+  }
+
   if (!(gasPlayer && game)) {
     return (
       <>
@@ -77,7 +84,12 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
             playCard={playPlayersCard}
           />
           {playersTurn && !game.currentPlayer.cardPlayed && (
-            <PlayerGasTimeoutTimer onTimedOut={timeOut} />
+            <PlayerGasTimeoutTimer
+              timeOutMilliseconds={
+                gameSettings.gasGame.playerMoveTimeoutMilliseconds
+              }
+              onTimedOut={timeOut}
+            />
           )}
         </>
       )}
