@@ -15,9 +15,14 @@ const Container = styled.div`
 `;
 
 const ProgressFill = styled.div`
-  height: 20px;
+  /* height: 20px; */
   animation: ${fillAnimation} ${TIMEOUT_MS}ms linear 1 0s both;
   border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  overflow: visible;
+  white-space: nowrap;
+  color: white;
 `;
 
 type Props = {
@@ -35,7 +40,7 @@ export const PlayerGasTimeoutTimer = ({ onTimedOut }: Props): JSX.Element => {
 
   return (
     <Container>
-      <ProgressFill />
+      <ProgressFill>Hurry! 匆忙</ProgressFill>
     </Container>
   );
 };
