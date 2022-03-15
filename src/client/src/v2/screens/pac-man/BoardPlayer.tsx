@@ -41,7 +41,7 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
   const goingToJail = useMemo(() => {
     return (
       pacPlayer.jailTurnsCount > 0 &&
-      startingJailMoves.current !== pacPlayer.jailTurnsCount
+      pacPlayer.jailTurnsCount > startingJailMoves.current
     );
   }, [pacPlayer.jailTurnsCount]);
 

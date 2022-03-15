@@ -31,7 +31,7 @@ const View = ({ allPlayers }: Props) => {
         <Board uiState={pacManService.uiState} />
       </Container>
       <span>{pacManService.uiState.status}</span>
-      <Button onClick={pacManService.movePlayer}>Move Player</Button>
+      <Button onClick={pacManService.startGame}>Start Game</Button>
     </GameScreen>
   );
 };

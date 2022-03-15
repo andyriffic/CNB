@@ -6,16 +6,18 @@ import { Player } from '../../../../providers/PlayersProvider';
 import { PacManBoard, PacManCharacter, PacManPlayer } from '../../types';
 import { pipe } from '@mobily/ts-belt';
 
+type GameUiStatus =
+  | 'loading'
+  | 'ready'
+  | 'moving-players'
+  | 'moving-pacman'
+  | 'game-over';
+
 export type PacManUiState = {
   allPacPlayers: PacManPlayer[];
   pacMan: PacManCharacter;
   board: PacManBoard;
-  status:
-    | 'loading'
-    | 'ready'
-    | 'moving-players'
-    | 'moving-pacman'
-    | 'game-over';
+  status: GameUiStatus;
 };
 
 function createPacManPlayer(player: Player): PacManPlayer {
@@ -58,9 +60,16 @@ type MovePacManAction = {
   type: 'MOVE_PACMAN';
 };
 
+type ReleasePlayersFromJailAction = {
+  type: 'RELEASE_PLAYERS_FROM_JAIL';
+};
+
 export function reducer(
   state: PacManUiState,
-  action: StartMovingPlayersAction | MovePacManAction
+  action:
+    | StartMovingPlayersAction
+    | MovePacManAction
+    | ReleasePlayersFromJailAction
 ): PacManUiState {
   switch (action.type) {
     case 'MOVE_PLAYERS': {
@@ -74,6 +83,13 @@ export function reducer(
         state,
         movePacmanOneSquare,
         sendPlayersToJail
+      );
+    }
+    case 'RELEASE_PLAYERS_FROM_JAIL': {
+      return pipe(
+        state,
+        reduceJailCountForPlayers,
+        setGameUiStatus('moving-players')
       );
     }
     default: {
@@ -144,6 +160,36 @@ function movePacmanOneSquare(state: PacManUiState): PacManUiState {
       movesRemaining: state.pacMan.movesRemaining - 1,
       pathIndex: newPathIndex,
     },
+  };
+}
+
+function reduceJailCountForPlayers(state: PacManUiState): PacManUiState {
+  const playersInJail = state.allPacPlayers
+    .filter(playerInJail)
+    .map(reducePlayerJailCount);
+
+  return updatePlayers(playersInJail, state);
+}
+
+function playerInJail(player: PacManPlayer): boolean {
+  return player.jailTurnsCount > 0;
+}
+
+function reducePlayerJailCount(player: PacManPlayer): PacManPlayer {
+  return {
+    ...player,
+    jailTurnsCount: player.jailTurnsCount - 1,
+  };
+}
+
+function setGameUiStatus(
+  status: GameUiStatus
+): (state: PacManUiState) => PacManUiState {
+  return state => {
+    return {
+      ...state,
+      status,
+    };
   };
 }
 
