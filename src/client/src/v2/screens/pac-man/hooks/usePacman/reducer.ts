@@ -4,7 +4,7 @@ import {
 } from '../../../../../uplift/utils/player';
 import { Player } from '../../../../providers/PlayersProvider';
 import { PacManBoard, PacManCharacter, PacManPlayer } from '../../types';
-import { pipe } from '@mobily/ts-belt';
+import { pipe, A } from '@mobily/ts-belt';
 
 type GameUiStatus =
   | 'loading'
@@ -164,11 +164,16 @@ function movePacmanOneSquare(state: PacManUiState): PacManUiState {
 }
 
 function reduceJailCountForPlayers(state: PacManUiState): PacManUiState {
-  const playersInJail = state.allPacPlayers
-    .filter(playerInJail)
-    .map(reducePlayerJailCount);
+  const playersInJail = pipe(
+    state.allPacPlayers,
+    A.filter(playerInJail),
+    A.map(reducePlayerJailCount)
+  );
+  // state.allPacPlayers
+  //   .filter(playerInJail)
+  //   .map(reducePlayerJailCount);
 
-  return updatePlayers(playersInJail, state);
+  return updatePlayers(playersInJail)(state);
 }
 
 function playerInJail(player: PacManPlayer): boolean {
@@ -208,19 +213,22 @@ function sendPlayersToJail(state: PacManUiState): PacManUiState {
     })
     .map(p => ({ ...p, jailTurnsCount: 3 }));
 
-  return updatePlayers(playersGoingToJail, state);
+  return updatePlayers(playersGoingToJail)(state);
 }
 
 function updatePlayers(
-  pacPlayers: PacManPlayer[],
-  state: PacManUiState
-): PacManUiState {
-  return {
-    ...state,
-    allPacPlayers: state.allPacPlayers.map(p => {
-      const updatedPlayer = pacPlayers.find(up => up.player.id === p.player.id);
-      return updatedPlayer ? updatedPlayer : p;
-    }),
+  pacPlayers: readonly PacManPlayer[]
+): (state: PacManUiState) => PacManUiState {
+  return state => {
+    return {
+      ...state,
+      allPacPlayers: state.allPacPlayers.map(p => {
+        const updatedPlayer = pacPlayers.find(
+          up => up.player.id === p.player.id
+        );
+        return updatedPlayer ? updatedPlayer : p;
+      }),
+    };
   };
 }
 
