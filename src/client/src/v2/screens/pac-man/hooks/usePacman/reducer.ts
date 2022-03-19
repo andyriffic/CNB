@@ -169,9 +169,6 @@ function reduceJailCountForPlayers(state: PacManUiState): PacManUiState {
     A.filter(playerInJail),
     A.map(reducePlayerJailCount)
   );
-  // state.allPacPlayers
-  //   .filter(playerInJail)
-  //   .map(reducePlayerJailCount);
 
   return updatePlayers(playersInJail)(state);
 }
