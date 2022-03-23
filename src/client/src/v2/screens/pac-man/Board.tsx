@@ -5,6 +5,7 @@ import gameBoardBackground from './assets/pac-man-board.png';
 import { boardConfig, generateTestBoard } from './boardConfig';
 import { BoardPlayer } from './BoardPlayer';
 import { BoardSquare } from './BoardSquare';
+import { getCoordinatesForOffset } from './coordinateOffsets';
 import { PacManUiState } from './hooks/usePacman/reducer';
 import { PacMan } from './PacMan';
 import { Coordinates } from './types';
@@ -24,11 +25,14 @@ const BoardBackgroundImage = styled.img.attrs({ src: gameBoardBackground })`
 
 const PositionedPlayer = styled.div<{
   position: Coordinates;
+  offset: Coordinates;
   moveSpeedMs: number;
 }>`
   position: absolute;
-  top: ${({ position }) => boardConfig.gridCoordinates.y[position.y]}%;
-  left: ${({ position }) => boardConfig.gridCoordinates.x[position.x]}%;
+  top: ${({ position, offset }) =>
+    boardConfig.gridCoordinates.y[position.y] + offset.y}%;
+  left: ${({ position, offset }) =>
+    boardConfig.gridCoordinates.x[position.x] + offset.x}%;
   width: 5%;
   height: 5%;
   text-align: center;
@@ -78,6 +82,7 @@ export function Board({ uiState }: Props): JSX.Element {
           <PositionedPlayer
             key={p.player.id}
             position={playerPosition}
+            offset={getCoordinatesForOffset(p.offset)}
             moveSpeedMs={moveSpeed}
           >
             <BoardPlayer pacPlayer={p} />
@@ -86,6 +91,7 @@ export function Board({ uiState }: Props): JSX.Element {
       })}
       <PositionedPlayer
         moveSpeedMs={240}
+        offset={{ x: 0, y: 0 }}
         position={boardConfig.pacManPath[uiState.pacMan.pathIndex].coordinates}
       >
         <PacMan />

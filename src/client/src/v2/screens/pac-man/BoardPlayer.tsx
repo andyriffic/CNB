@@ -55,7 +55,7 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
           color: accentColor,
         }}
       >
-        {pacPlayer.player.name}({pacPlayer.jailTurnsCount})
+        {pacPlayer.player.name}({pacPlayer.offset})
       </PlayerName>
     </Container>
   );

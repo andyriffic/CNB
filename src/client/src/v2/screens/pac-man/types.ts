@@ -19,13 +19,16 @@ export type Coordinates = {
   y: number;
 };
 
+export type PacManPlayerStatus = '' | 'moving';
+
 export type PacManPlayer = {
   player: Player;
-  status: '' | 'moving';
+  status: PacManPlayerStatus;
   pathIndex: number;
   movesRemaining: number;
   color: string;
   jailTurnsCount: number;
+  offset: number;
 };
 
 export type PacManCharacter = {

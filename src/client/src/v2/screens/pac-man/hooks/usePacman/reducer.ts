@@ -3,8 +3,13 @@ import {
   getPlayerIntegerAttributeValue,
 } from '../../../../../uplift/utils/player';
 import { Player } from '../../../../providers/PlayersProvider';
-import { PacManBoard, PacManCharacter, PacManPlayer } from '../../types';
-import { pipe, A } from '@mobily/ts-belt';
+import {
+  PacManBoard,
+  PacManCharacter,
+  PacManPlayer,
+  PacManPlayerStatus,
+} from '../../types';
+import { pipe, A, D } from '@mobily/ts-belt';
 
 type GameUiStatus =
   | 'loading'
@@ -24,6 +29,7 @@ function createPacManPlayer(player: Player): PacManPlayer {
   return {
     player,
     status: '',
+    offset: 0,
     movesRemaining: getPlayerIntegerAttributeValue(player.tags, 'pac_moves', 0),
     pathIndex: getPlayerIntegerAttributeValue(player.tags, 'pac_square', 0),
     color: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
@@ -40,7 +46,7 @@ export function createInitialState({
 }): PacManUiState {
   const eligiblePlayers = allPlayers.filter(p => p.tags.includes('pac_player'));
 
-  return {
+  const initialState: PacManUiState = {
     allPacPlayers: eligiblePlayers.map(createPacManPlayer),
     status: 'ready',
     board,
@@ -50,6 +56,11 @@ export function createInitialState({
       status: '',
     },
   };
+
+  return initialState.allPacPlayers.reduce(
+    (state, player) => setPlayerPositionOffset(player.offset, state),
+    initialState
+  );
 }
 
 type StartMovingPlayersAction = {
@@ -127,7 +138,10 @@ function movePlayer(
   state: PacManUiState
 ): PacManUiState {
   if (pacPlayer.movesRemaining === 0) {
-    return updatePlayer({ ...pacPlayer, status: '' }, state);
+    return setPlayerPositionOffset(
+      pacPlayer.pathIndex,
+      updatePlayer({ ...pacPlayer, status: '' }, state)
+    );
   }
 
   return updatePlayer(
@@ -138,6 +152,28 @@ function movePlayer(
     },
     state
   );
+}
+
+function setPlayerStatus(
+  player: PacManPlayer,
+  status: PacManPlayerStatus
+): PacManPlayer {
+  return { ...player, status };
+}
+
+function setPlayerPositionOffset(
+  pathIndex: number,
+  state: PacManUiState
+): PacManUiState {
+  return pipe(
+    state.allPacPlayers,
+    A.filter(p => p.pathIndex === pathIndex),
+    A.mapWithIndex<PacManPlayer, PacManPlayer>((index, player) => ({
+      ...player,
+      offset: index,
+    })),
+    updatePlayers
+  )(state);
 }
 
 function movePacmanOneSquare(state: PacManUiState): PacManUiState {
