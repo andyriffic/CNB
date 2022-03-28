@@ -51,14 +51,14 @@ export function createInitialState({
     status: 'ready',
     board,
     pacMan: {
-      movesRemaining: board.pacManPath.length - 1,
+      movesRemaining: board.pacManPath.length + 4,
       pathIndex: 0,
       status: '',
     },
   };
 
   return initialState.allPacPlayers.reduce(
-    (state, player) => setPlayerPositionOffset(player.offset, state),
+    setPlayerPositionOffset,
     initialState
   );
 }
@@ -139,14 +139,15 @@ function movePlayer(
 ): PacManUiState {
   if (pacPlayer.movesRemaining === 0) {
     return setPlayerPositionOffset(
-      pacPlayer.pathIndex,
-      updatePlayer({ ...pacPlayer, status: '' }, state)
+      updatePlayer({ ...pacPlayer, status: '' }, state),
+      pacPlayer
     );
   }
 
   return updatePlayer(
     {
       ...pacPlayer,
+      offset: 0,
       movesRemaining: pacPlayer.movesRemaining - 1,
       pathIndex: pacPlayer.pathIndex + 1,
     },
@@ -162,12 +163,12 @@ function setPlayerStatus(
 }
 
 function setPlayerPositionOffset(
-  pathIndex: number,
-  state: PacManUiState
+  state: PacManUiState,
+  player: PacManPlayer
 ): PacManUiState {
   return pipe(
     state.allPacPlayers,
-    A.filter(p => p.pathIndex === pathIndex),
+    A.filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0),
     A.mapWithIndex<PacManPlayer, PacManPlayer>((index, player) => ({
       ...player,
       offset: index,

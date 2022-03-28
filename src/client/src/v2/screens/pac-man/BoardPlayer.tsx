@@ -28,6 +28,22 @@ const PlayerName = styled.div`
   white-space: nowrap;
 `;
 
+const MovesRemaining = styled.div`
+  position: absolute;
+  bottom: -15%;
+  left: 15%;
+  padding: 0.1rem;
+  background: black;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  font-family: ${({ theme }) => theme.fontFamily.numbers};
+  font-size: 0.6rem;
+`;
+
 type Props = {
   pacPlayer: PacManPlayer;
 };
@@ -57,6 +73,9 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
       >
         {pacPlayer.player.name}({pacPlayer.offset})
       </PlayerName>
+      {pacPlayer.movesRemaining && (
+        <MovesRemaining>{pacPlayer.movesRemaining}</MovesRemaining>
+      )}
     </Container>
   );
 }
