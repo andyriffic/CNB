@@ -11,10 +11,13 @@ import {
 } from '../../types';
 import { pipe, A, D } from '@mobily/ts-belt';
 
+const MIN_PACMAN_MOVES = 3;
+
 type GameUiStatus =
   | 'loading'
   | 'ready'
   | 'moving-players'
+  | 'moving-players-done'
   | 'moving-pacman'
   | 'game-over';
 
@@ -51,7 +54,7 @@ export function createInitialState({
     status: 'ready',
     board,
     pacMan: {
-      movesRemaining: board.pacManPath.length + 4,
+      movesRemaining: 0,
       pathIndex: 0,
       status: '',
     },
@@ -67,6 +70,10 @@ type StartMovingPlayersAction = {
   type: 'MOVE_PLAYERS';
 };
 
+type StartMovePacManAction = {
+  type: 'START_MOVE_PACMAN';
+};
+
 type MovePacManAction = {
   type: 'MOVE_PACMAN';
 };
@@ -80,6 +87,7 @@ export function reducer(
   action:
     | StartMovingPlayersAction
     | MovePacManAction
+    | StartMovePacManAction
     | ReleasePlayersFromJailAction
 ): PacManUiState {
   switch (action.type) {
@@ -87,6 +95,13 @@ export function reducer(
       return pipe(
         state,
         autoMovePlayer
+      );
+    }
+    case 'START_MOVE_PACMAN': {
+      return pipe(
+        state,
+        initialisePacmanMoves,
+        setGameUiStatus('moving-pacman')
       );
     }
     case 'MOVE_PACMAN': {
@@ -118,13 +133,15 @@ function autoMovePlayer(state: PacManUiState): PacManUiState {
 }
 
 function pickPlayerToMove(state: PacManUiState): PacManUiState {
-  const nextPlayer = state.allPacPlayers.find(p => p.movesRemaining > 0);
+  const nextPlayer = state.allPacPlayers
+    .filter(playerNotInJail)
+    .find(p => p.movesRemaining > 0);
 
   if (!nextPlayer) {
-    return {
-      ...state,
-      status: 'moving-pacman',
-    };
+    return pipe(
+      state,
+      setGameUiStatus('moving-players-done')
+    );
   }
 
   return movePlayer(
@@ -177,6 +194,21 @@ function setPlayerPositionOffset(
   )(state);
 }
 
+function initialisePacmanMoves(state: PacManUiState): PacManUiState {
+  const allPlayersInJail = state.allPacPlayers.filter(playerInJail);
+  const totalMovesForPlayersInJail = allPlayersInJail
+    .map<number>(p => p.movesRemaining)
+    .reduce((acc, v) => acc + v, 0);
+
+  return {
+    ...updatePlayers(allPlayersInJail.map(resetPlayersMoves))(state),
+    pacMan: {
+      ...state.pacMan,
+      movesRemaining: Math.max(totalMovesForPlayersInJail, MIN_PACMAN_MOVES),
+    },
+  };
+}
+
 function movePacmanOneSquare(state: PacManUiState): PacManUiState {
   if (state.pacMan.movesRemaining === 0) {
     return {
@@ -210,8 +242,19 @@ function reduceJailCountForPlayers(state: PacManUiState): PacManUiState {
   return updatePlayers(playersInJail)(state);
 }
 
+function playerNotInJail(player: PacManPlayer): boolean {
+  return !playerInJail(player);
+}
+
 function playerInJail(player: PacManPlayer): boolean {
   return player.jailTurnsCount > 0;
+}
+
+function resetPlayersMoves(player: PacManPlayer): PacManPlayer {
+  return {
+    ...player,
+    movesRemaining: 0,
+  };
 }
 
 function reducePlayerJailCount(player: PacManPlayer): PacManPlayer {

@@ -48,15 +48,18 @@ export function Board({ uiState }: Props): JSX.Element {
   return (
     <BoardBackground>
       <BoardBackgroundImage />
-      {debug &&
-        boardConfig.playerPath.map((s, i) => (
-          <BoardSquare
-            key={i}
-            square={s}
-            color="white"
-            content={<span>{i}</span>}
-          />
-        ))}
+      {boardConfig.playerPath.map((s, i) => (
+        <BoardSquare
+          key={i}
+          square={s}
+          color="white"
+          content={
+            <span style={{ transform: 'translate3d(0.6rem, -0.2rem, 0)' }}>
+              {debug ? i : <span style={{ fontSize: '2rem' }}>.</span>}
+            </span>
+          }
+        />
+      ))}
       {debug &&
         boardConfig.pacManPath.map((s, i) => (
           <BoardSquare
@@ -94,7 +97,7 @@ export function Board({ uiState }: Props): JSX.Element {
         offset={{ x: 0, y: 0 }}
         position={boardConfig.pacManPath[uiState.pacMan.pathIndex].coordinates}
       >
-        <PacMan />
+        <PacMan state={uiState} />
       </PositionedPlayer>
     </BoardBackground>
   );

@@ -71,9 +71,9 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
           color: accentColor,
         }}
       >
-        {pacPlayer.player.name}({pacPlayer.offset})
+        {pacPlayer.player.name}
       </PlayerName>
-      {pacPlayer.movesRemaining && (
+      {pacPlayer.movesRemaining > 0 && (
         <MovesRemaining>{pacPlayer.movesRemaining}</MovesRemaining>
       )}
     </Container>

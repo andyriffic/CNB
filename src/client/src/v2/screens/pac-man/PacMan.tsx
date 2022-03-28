@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { PacManUiState } from './hooks/usePacman/reducer';
 
 const mouthAnimation = keyframes`
 0% {
@@ -41,10 +42,33 @@ const Mouth = styled.div`
   animation-iteration-count: infinite;
 `;
 
-export function PacMan(): JSX.Element {
+const MovesRemaining = styled.div`
+  position: absolute;
+  bottom: -15%;
+  left: 15%;
+  padding: 0.1rem;
+  background: black;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: yellow;
+  font-family: ${({ theme }) => theme.fontFamily.numbers};
+  font-size: 0.6rem;
+`;
+
+type Props = {
+  state: PacManUiState;
+};
+
+export function PacMan({ state }: Props): JSX.Element {
   return (
     <Container>
       <Mouth />
+      {state.pacMan.movesRemaining > 0 && (
+        <MovesRemaining>{state.pacMan.movesRemaining}</MovesRemaining>
+      )}
     </Container>
   );
 }
