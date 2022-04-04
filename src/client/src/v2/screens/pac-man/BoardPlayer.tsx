@@ -50,20 +50,18 @@ type Props = {
 
 export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
   const startingJailMoves = useRef(pacPlayer.jailTurnsCount);
+  const inJail = pacPlayer.jailTurnsCount > 0;
   const accentColor = tinycolor
     .mostReadable(pacPlayer.color, ['#fff', '#000'])
     .toHexString();
 
   const goingToJail = useMemo(() => {
-    return (
-      pacPlayer.jailTurnsCount > 0 &&
-      pacPlayer.jailTurnsCount > startingJailMoves.current
-    );
+    return inJail && pacPlayer.jailTurnsCount > startingJailMoves.current;
   }, [pacPlayer.jailTurnsCount]);
 
   return (
     <Container goingToJail={goingToJail}>
-      <PacManGhost color={pacPlayer.color} width="3vw" />
+      <PacManGhost color={inJail ? '#777777' : pacPlayer.color} width="3vw" />
       <PlayerName
         style={{
           backgroundColor: pacPlayer.color,

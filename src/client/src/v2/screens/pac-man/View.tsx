@@ -6,6 +6,7 @@ import { Player, usePlayersProvider } from '../../providers/PlayersProvider';
 import { Board } from './Board';
 import { boardConfig } from './boardConfig';
 import { usePacMan } from './hooks/usePacman';
+import { usePacmanSound } from './hooks/usePacmanSound';
 import { usePlayerAutoMove } from './hooks/usePlayerMoveTick';
 
 const Container = styled.div`
@@ -19,6 +20,7 @@ type Props = {
 const View = ({ allPlayers }: Props) => {
   const { triggerUpdate } = usePlayersProvider();
   const pacManService = usePacMan(allPlayers, boardConfig);
+  usePacmanSound(pacManService.uiState);
   usePlayerAutoMove(pacManService);
 
   useEffect(() => {
