@@ -48,6 +48,7 @@ export function createInitialState({
   board: PacManBoard;
 }): PacManUiState {
   const eligiblePlayers = allPlayers.filter(p => p.tags.includes('pac_player'));
+  const pacManPlayer = allPlayers.find(p => p.id === 'mc_settings_face');
 
   const initialState: PacManUiState = {
     allPacPlayers: eligiblePlayers.map(createPacManPlayer),
@@ -55,7 +56,9 @@ export function createInitialState({
     board,
     pacMan: {
       movesRemaining: 0,
-      pathIndex: 0,
+      pathIndex: pacManPlayer
+        ? getPlayerIntegerAttributeValue(pacManPlayer.tags, 'pac_square', 0)
+        : 0,
       status: '',
     },
   };
