@@ -34,6 +34,7 @@ import { MobPointsInstructionsScreen } from './screens/mob/points-instructions';
 import { GasProvider } from './providers/GasProvider';
 import { CreateGasGameScreen } from './screens/gas-out/create';
 import { GasGameSpectatorScreen } from './screens/gas-out/spectator';
+import { PacManScreen } from './screens/pac-man';
 
 export default () => {
   return (
@@ -57,6 +58,7 @@ export default () => {
                             />
                             <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                             <DonkeyKongScreen path="/donkey-kong" />
+                            <PacManScreen path="/pac-man" />
                             <CreateMobScreen path="/" />
                             <MobSpectatorScreen
                               path="/mob/spectator/:mobGameId"

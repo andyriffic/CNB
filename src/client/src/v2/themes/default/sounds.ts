@@ -51,6 +51,9 @@ import balloonPopSound from './sounds/balloon_pop_sound_loud.mp3';
 import airInflate from './sounds/air_inflate.mp3';
 import intenseRingtone from './sounds/intense_ringtone.mp3';
 import popGoesTheWeasal from './sounds/pop_goes_the_weasal.mp3';
+import pacmanGhost from './sounds/pacman_ghost.mp3';
+import pacmanFruit from './sounds/pacman_fruit.mp3';
+import pacmanMove from './sounds/pacman_move.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -113,6 +116,9 @@ const soundMap: SoundMap = {
   GasCloudExplode02: balloonDeflate,
   GasPlayCard: fastGesture,
   GasWinner: fanfare,
+  PacManMovePlayer: pacmanFruit,
+  PacManMovePacman: pacmanMove,
+  PacmanEatGhost: pacmanGhost,
 };
 
 export default soundMap;
