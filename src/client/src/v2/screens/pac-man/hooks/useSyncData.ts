@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePlayersProvider } from '../../../providers/PlayersProvider';
 import { PacManUiState } from './usePacman/reducer';
 
 export function useSyncData(uiState: PacManUiState, disabled: boolean) {
   const { updatePlayer, allPlayers } = usePlayersProvider();
+  const saved = useRef(false);
 
   useEffect(() => {
-    if (uiState.status === 'game-over' && !disabled) {
+    if (!saved.current && uiState.status === 'game-over' && !disabled) {
+      saved.current = true;
       uiState.allPacPlayers.forEach(p => {
         const filteredTags = p.player.tags
           .filter(t => !t.startsWith('pac_moves'))
