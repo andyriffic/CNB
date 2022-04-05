@@ -9,7 +9,6 @@ import {
   PacManPlayer,
   PacManPlayerStatus,
 } from '../../types';
-import { pipe, A, D } from '@mobily/ts-belt';
 
 const MIN_PACMAN_MOVES = 3;
 
@@ -95,31 +94,37 @@ export function reducer(
 ): PacManUiState {
   switch (action.type) {
     case 'MOVE_PLAYERS': {
-      return pipe(
-        state,
-        autoMovePlayer
-      );
+      return autoMovePlayer(state);
+      // return pipe(
+      //   state,
+      //   autoMovePlayer
+      // );
     }
     case 'START_MOVE_PACMAN': {
-      return pipe(
-        state,
-        initialisePacmanMoves,
-        setGameUiStatus('moving-pacman')
-      );
+      return setGameUiStatus('moving-pacman')(initialisePacmanMoves(state));
+      // return pipe(
+      //   state,
+      //   initialisePacmanMoves,
+      //   setGameUiStatus('moving-pacman')
+      // );
     }
     case 'MOVE_PACMAN': {
-      return pipe(
-        state,
-        movePacmanOneSquare,
-        sendPlayersToJail
-      );
+      return sendPlayersToJail(movePacmanOneSquare(state));
+      // return pipe(
+      //   state,
+      //   movePacmanOneSquare,
+      //   sendPlayersToJail
+      // );
     }
     case 'RELEASE_PLAYERS_FROM_JAIL': {
-      return pipe(
-        state,
-        reduceJailCountForPlayers,
-        setGameUiStatus('moving-players')
+      return setGameUiStatus('moving-players')(
+        reduceJailCountForPlayers(state)
       );
+      // return pipe(
+      //   state,
+      //   reduceJailCountForPlayers,
+      //   setGameUiStatus('moving-players')
+      // );
     }
     default: {
       return state;
@@ -141,10 +146,11 @@ function pickPlayerToMove(state: PacManUiState): PacManUiState {
     .find(p => p.movesRemaining > 0);
 
   if (!nextPlayer) {
-    return pipe(
-      state,
-      setGameUiStatus('moving-players-done')
-    );
+    return setGameUiStatus('moving-players-done')(state);
+    // return pipe(
+    //   state,
+    //   setGameUiStatus('moving-players-done')
+    // );
   }
 
   return movePlayer(
@@ -186,15 +192,21 @@ function setPlayerPositionOffset(
   state: PacManUiState,
   player: PacManPlayer
 ): PacManUiState {
-  return pipe(
-    state.allPacPlayers,
-    A.filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0),
-    A.mapWithIndex<PacManPlayer, PacManPlayer>((index, player) => ({
-      ...player,
-      offset: index,
-    })),
-    updatePlayers
-  )(state);
+  const updatedPlayers = state.allPacPlayers
+    .filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0)
+    .map<PacManPlayer>((p, i) => ({ ...p, offset: i }));
+
+  return updatePlayers(updatedPlayers)(state);
+
+  // return pipe(
+  //   state.allPacPlayers,
+  //   A.filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0),
+  //   A.mapWithIndex<PacManPlayer, PacManPlayer>((index, player) => ({
+  //     ...player,
+  //     offset: index,
+  //   })),
+  //   updatePlayers
+  // )(state);
 }
 
 function initialisePacmanMoves(state: PacManUiState): PacManUiState {
@@ -236,13 +248,17 @@ function movePacmanOneSquare(state: PacManUiState): PacManUiState {
 }
 
 function reduceJailCountForPlayers(state: PacManUiState): PacManUiState {
-  const playersInJail = pipe(
-    state.allPacPlayers,
-    A.filter(playerInJail),
-    A.map(reducePlayerJailCount)
-  );
+  const updatedPlayersInJail = state.allPacPlayers
+    .filter(playerInJail)
+    .map(reducePlayerJailCount);
 
-  return updatePlayers(playersInJail)(state);
+  // const playersInJail = pipe(
+  //   state.allPacPlayers,
+  //   A.filter(playerInJail),
+  //   A.map(reducePlayerJailCount)
+  // );
+
+  return updatePlayers(updatedPlayersInJail)(state);
 }
 
 function playerNotInJail(player: PacManPlayer): boolean {
