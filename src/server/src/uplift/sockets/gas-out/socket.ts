@@ -13,7 +13,7 @@ import {
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
 import { GasGame } from './types';
-import { pointsToPlayersRacing } from './points-to-player-racing';
+import { pointsToPlayersPacman } from './points-to-player-pacman';
 
 const REQUEST_GAS_GAMES = 'REQUEST_GAS_GAMES';
 const GAS_GAMES_UPDATE = 'GAS_GAMES_UPDATE';
@@ -89,7 +89,7 @@ const init = (socketServer: Server, path: string) => {
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
 
       if (!!updatedGame.winningPlayerId) {
-        pointsToPlayersRacing(updatedGame, log);
+        pointsToPlayersPacman(updatedGame, log);
       }
     });
 
