@@ -24,11 +24,16 @@ const mouthAnimation = keyframes`
 `;
 
 const Container = styled.div`
+  position: relative;
+`;
+
+const Head = styled.div`
   width: 3vw;
   height: 3vw;
   border-radius: 50%;
   background: #f2d648;
   position: relative;
+  transform: scaleX(-1);
 `;
 
 const Mouth = styled.div`
@@ -65,7 +70,9 @@ type Props = {
 export function PacMan({ state }: Props): JSX.Element {
   return (
     <Container>
-      <Mouth />
+      <Head>
+        <Mouth />
+      </Head>
       {state.pacMan.movesRemaining > 0 && (
         <MovesRemaining>{state.pacMan.movesRemaining}</MovesRemaining>
       )}

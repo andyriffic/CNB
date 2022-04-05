@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { isFeatureEnabled } from '../../../featureToggle';
+import { SplashText } from '../../components/SplashText';
 import { Button } from '../../components/ui/buttons';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { Player, usePlayersProvider } from '../../providers/PlayersProvider';
@@ -37,7 +38,10 @@ const View = ({ allPlayers }: Props) => {
       <Container>
         <Board uiState={pacManService.uiState} />
       </Container>
-      <span>{pacManService.uiState.status}</span>
+      {pacManService.uiState.status === 'game-over' && (
+        <SplashText>Game Over</SplashText>
+      )}
+      {/* <span>{pacManService.uiState.status}</span> */}
       <Button onClick={pacManService.startGame}>Start Game</Button>
     </GameScreen>
   );
