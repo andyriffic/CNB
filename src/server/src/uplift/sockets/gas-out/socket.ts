@@ -131,6 +131,10 @@ const init = (socketServer: Server, path: string) => {
 
       log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
+
+      if (!!updatedGame.winningPlayerId) {
+        pointsToPlayersPacman(updatedGame, log);
+      }
     });
   });
 };
