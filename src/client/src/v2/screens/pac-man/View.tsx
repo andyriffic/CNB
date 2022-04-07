@@ -42,7 +42,12 @@ const View = ({ allPlayers }: Props) => {
         <SplashText>Game Over</SplashText>
       )}
       {/* <span>{pacManService.uiState.status}</span> */}
-      <Button onClick={pacManService.startGame}>Start Game</Button>
+      <Button
+        onClick={pacManService.startGame}
+        disabled={pacManService.uiState.status !== 'ready'}
+      >
+        Start Game
+      </Button>
     </GameScreen>
   );
 };
