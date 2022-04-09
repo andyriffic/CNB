@@ -192,11 +192,19 @@ function setPlayerPositionOffset(
   state: PacManUiState,
   player: PacManPlayer
 ): PacManUiState {
-  const updatedPlayers = state.allPacPlayers
-    .filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0)
-    .map<PacManPlayer>((p, i) => ({ ...p, offset: i }));
+  if (playerInJail(player)) {
+    const updatedPlayers = state.allPacPlayers
+      .filter(playerInJail)
+      .map<PacManPlayer>((p, i) => ({ ...p, offset: i }));
 
-  return updatePlayers(updatedPlayers)(state);
+    return updatePlayers(updatedPlayers)(state);
+  } else {
+    const updatedPlayers = state.allPacPlayers
+      .filter(p => p.pathIndex === player.pathIndex && p.jailTurnsCount === 0)
+      .map<PacManPlayer>((p, i) => ({ ...p, offset: i }));
+
+    return updatePlayers(updatedPlayers)(state);
+  }
 
   // return pipe(
   //   state.allPacPlayers,
