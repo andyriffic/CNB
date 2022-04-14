@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { PacManUiState } from './hooks/usePacman/reducer';
 
 const mouthAnimation = keyframes`
@@ -27,13 +27,17 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Head = styled.div`
+const Head = styled.div<{ reverse: boolean }>`
   width: 3vw;
   height: 3vw;
   border-radius: 50%;
   background: #f2d648;
   position: relative;
-  transform: scaleX(-1);
+  ${({ reverse }) =>
+    reverse &&
+    css`
+      transform: scaleX(-1);
+    `}
 `;
 
 const Mouth = styled.div`
@@ -70,7 +74,7 @@ type Props = {
 export function PacMan({ state }: Props): JSX.Element {
   return (
     <Container>
-      <Head>
+      <Head reverse={state.pacMan.facingDirection === 'left'}>
         <Mouth />
       </Head>
       {state.pacMan.movesRemaining > 0 && (

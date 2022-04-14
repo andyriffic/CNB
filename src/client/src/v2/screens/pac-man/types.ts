@@ -31,8 +31,11 @@ export type PacManPlayer = {
   offset: number;
 };
 
+export type PacManDirection = 'left' | 'right';
+
 export type PacManCharacter = {
   status: '' | 'moving' | 'moved';
   pathIndex: number;
   movesRemaining: number;
+  facingDirection: PacManDirection;
 };

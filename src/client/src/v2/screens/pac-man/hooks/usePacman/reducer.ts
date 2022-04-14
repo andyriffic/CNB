@@ -6,6 +6,7 @@ import { Player } from '../../../../providers/PlayersProvider';
 import {
   PacManBoard,
   PacManCharacter,
+  PacManDirection,
   PacManPlayer,
   PacManPlayerStatus,
 } from '../../types';
@@ -53,13 +54,17 @@ export function createInitialState({
     allPacPlayers: eligiblePlayers.map(createPacManPlayer),
     status: 'ready',
     board,
-    pacMan: {
-      movesRemaining: 0,
-      pathIndex: pacManPlayer
-        ? getPlayerIntegerAttributeValue(pacManPlayer.tags, 'pac_square', 0)
-        : 0,
-      status: '',
-    },
+    pacMan: setPacManFacingDirection(
+      {
+        movesRemaining: 0,
+        pathIndex: pacManPlayer
+          ? getPlayerIntegerAttributeValue(pacManPlayer.tags, 'pac_square', 0)
+          : 0,
+        status: '',
+        facingDirection: 'right',
+      },
+      board
+    ),
   };
 
   return initialState.allPacPlayers.reduce(
@@ -247,11 +252,14 @@ function movePacmanOneSquare(state: PacManUiState): PacManUiState {
 
   return {
     ...state,
-    pacMan: {
-      ...state.pacMan,
-      movesRemaining: state.pacMan.movesRemaining - 1,
-      pathIndex: newPathIndex,
-    },
+    pacMan: setPacManFacingDirection(
+      {
+        ...state.pacMan,
+        movesRemaining: state.pacMan.movesRemaining - 1,
+        pathIndex: newPathIndex,
+      },
+      state.board
+    ),
   };
 }
 
@@ -345,5 +353,25 @@ function updatePlayer(
     allPacPlayers: state.allPacPlayers.map(p =>
       p.player.id === pacPlayer.player.id ? pacPlayer : p
     ),
+  };
+}
+
+function setPacManFacingDirection(
+  pacMan: PacManCharacter,
+  board: PacManBoard
+): PacManCharacter {
+  const currentPosition = board.pacManPath[pacMan.pathIndex];
+  const nextPosition = board.pacManPath[pacMan.pathIndex + 1]; // TODO: account for end of path
+
+  if (currentPosition.coordinates.x === nextPosition.coordinates.x) {
+    return pacMan;
+  }
+
+  return {
+    ...pacMan,
+    facingDirection:
+      nextPosition.coordinates.x > currentPosition.coordinates.x
+        ? 'right'
+        : 'left',
   };
 }
