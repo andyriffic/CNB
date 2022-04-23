@@ -10,6 +10,7 @@ const CloudPressButton = styled(PressableButton)`
   width: 100%;
   font-size: 2.5rem;
   font-family: ${({ theme }) => theme.fontFamily.feature};
+  touch-action: manipulation;
 `;
 
 const SubText = styled.div`
