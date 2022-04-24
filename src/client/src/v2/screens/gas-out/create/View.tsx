@@ -18,6 +18,7 @@ import { Player } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
 import { useOpenPlayerSelection } from './hooks/useOpenSelection';
+import { useSound } from './hooks/useSound';
 import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
 const Container = styled.div`
@@ -65,15 +66,15 @@ type Props = {
   navigate: NavigateFn | undefined;
 };
 
-const COUNTDOWN_SECONDS = 30;
-
 export default ({ navigate }: Props) => {
   const { createGasGame } = useGasProvider();
   const { play } = useSoundProvider();
   const [sentInvites, setSentInvites] = useState(false);
   const { joinedPlayers, sendInvites, cleanup } = useOpenPlayerSelection();
+  useSound(joinedPlayers);
 
   const onSendInvitesClick = () => {
+    // stopSound();
     setSentInvites(true);
     sendInvites();
   };
@@ -104,9 +105,11 @@ export default ({ navigate }: Props) => {
         )}
 
         {joinedPlayers.length > 3 && (
-          <Button onClick={onStartGameClick}>
-            Start Game with <strong>{joinedPlayers.length}</strong> players
-          </Button>
+          <div style={{ textAlign: 'center', margin: '20px 0' }}>
+            <Button onClick={onStartGameClick}>
+              Start Game with <strong>{joinedPlayers.length}</strong> players
+            </Button>
+          </div>
         )}
 
         <PlayerList>
