@@ -6,7 +6,7 @@ import {
   useSoundProvider,
 } from '../../../../providers/SoundProvider';
 
-export function useSound(joinedPlayers: Player[]): { stopSound: () => void } {
+export function useSound(joinedPlayers: Player[]) {
   const { play } = useSoundProvider();
   const totalJoinedPlayers = useRef(joinedPlayers.length);
   const playingSounds = useRef<{ [id: string]: Howl }>({});
@@ -33,10 +33,4 @@ export function useSound(joinedPlayers: Player[]): { stopSound: () => void } {
       playingSounds.current['music'] && playingSounds.current['music'].stop();
     };
   }, []);
-
-  return {
-    stopSound: () => {
-      playingSounds.current['music'] && playingSounds.current['music'].stop();
-    },
-  };
 }

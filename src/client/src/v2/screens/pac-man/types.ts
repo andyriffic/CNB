@@ -7,7 +7,7 @@ export type PacManBoard = {
     x: number[];
     y: number[];
   };
-  jailLocation: Coordinates;
+  jailLocations: Coordinates[];
 };
 
 export type PacManSquare = {
@@ -29,6 +29,7 @@ export type PacManPlayer = {
   color: string;
   jailTurnsCount: number;
   offset: number;
+  powerPill: boolean;
 };
 
 export type PacManDirection = 'left' | 'right';

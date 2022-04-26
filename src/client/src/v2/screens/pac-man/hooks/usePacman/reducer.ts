@@ -1,5 +1,6 @@
 import {
   getPlayerAttributeValue,
+  getPlayerBooleanAttributeValue,
   getPlayerIntegerAttributeValue,
 } from '../../../../../uplift/utils/player';
 import { Player } from '../../../../providers/PlayersProvider';
@@ -37,6 +38,7 @@ function createPacManPlayer(player: Player): PacManPlayer {
     pathIndex: getPlayerIntegerAttributeValue(player.tags, 'pac_square', 0),
     color: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
     jailTurnsCount: getPlayerIntegerAttributeValue(player.tags, 'pac_jail', 0),
+    powerPill: getPlayerBooleanAttributeValue(player.tags, 'pac_pill'),
   };
 }
 

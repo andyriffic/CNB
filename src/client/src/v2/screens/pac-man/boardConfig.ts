@@ -15,7 +15,7 @@ export const generateTestBoard = (): PacManBoard => {
 };
 
 export const boardConfig: PacManBoard = {
-  jailLocation: { x: 8, y: 6 },
+  jailLocations: [{ x: 9, y: 6 }, { x: 8, y: 6 }, { x: 7, y: 6 }],
   playerPath: [
     { coordinates: { x: 0, y: 6 } },
     { coordinates: { x: 1, y: 6 } },

@@ -30,6 +30,14 @@ export const getPlayerIntegerAttributeValue = (
   return parsedValue === undefined ? defaultValue : parsedValue;
 };
 
+export const getPlayerBooleanAttributeValue = (
+  tags: string[],
+  tagName: string,
+  defaultValue: boolean = false
+): boolean => {
+  return tags.includes(tagName) ? true : defaultValue;
+};
+
 export const getPlayerPowerups = (
   tags: string[]
 ): { [key: string]: number } => {

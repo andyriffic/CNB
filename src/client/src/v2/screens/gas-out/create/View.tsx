@@ -74,7 +74,6 @@ export default ({ navigate }: Props) => {
   useSound(joinedPlayers);
 
   const onSendInvitesClick = () => {
-    // stopSound();
     setSentInvites(true);
     sendInvites();
   };

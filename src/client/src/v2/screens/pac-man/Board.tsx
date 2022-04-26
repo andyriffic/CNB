@@ -38,6 +38,10 @@ const PositionedPlayer = styled.div<{
   text-align: center;
   transition: top linear ${({ moveSpeedMs }) => moveSpeedMs}ms,
     left linear ${({ moveSpeedMs }) => moveSpeedMs}ms;
+
+  &:hover {
+    z-index: 1;
+  }
 `;
 
 type Props = {
@@ -78,7 +82,7 @@ export function Board({ uiState }: Props): JSX.Element {
         const square = boardConfig.playerPath[p.pathIndex];
         const playerPosition =
           p.jailTurnsCount > 0
-            ? uiState.board.jailLocation
+            ? uiState.board.jailLocations[p.jailTurnsCount - 1]
             : square.coordinates;
         const moveSpeed = p.jailTurnsCount > 0 ? 1000 : 240;
         return (
