@@ -35,6 +35,7 @@ import { GasProvider } from './providers/GasProvider';
 import { CreateGasGameScreen } from './screens/gas-out/create';
 import { GasGameSpectatorScreen } from './screens/gas-out/spectator';
 import { PacManScreen } from './screens/pac-man';
+import { ChooseGameScreen } from './screens/choose-game';
 
 export default () => {
   return (
@@ -51,6 +52,7 @@ export default () => {
                       <GasProvider>
                         <ThemedUi>
                           <Router>
+                            <ChooseGameScreen path="/choose-game" />
                             <ChoosePlayerScreen path="/classic" />
                             <ScreenWithMatchup
                               path="/spectator/:matchupId"
