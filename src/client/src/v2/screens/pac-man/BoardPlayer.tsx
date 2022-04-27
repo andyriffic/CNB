@@ -44,6 +44,16 @@ const MovesRemaining = styled.div`
   font-size: 0.6rem;
 `;
 
+const PowerPill = styled.div`
+  position: absolute;
+  bottom: -15%;
+  right: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+`;
+
 type Props = {
   pacPlayer: PacManPlayer;
 };
@@ -74,6 +84,7 @@ export function BoardPlayer({ pacPlayer }: Props): JSX.Element {
       {pacPlayer.movesRemaining > 0 && (
         <MovesRemaining>{pacPlayer.movesRemaining}</MovesRemaining>
       )}
+      {pacPlayer.powerPill && <PowerPill>💊</PowerPill>}
     </Container>
   );
 }

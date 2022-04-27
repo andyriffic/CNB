@@ -13,7 +13,12 @@ export function useSyncData(uiState: PacManUiState, disabled: boolean) {
         const filteredTags = p.player.tags
           .filter(t => !t.startsWith('pac_moves'))
           .filter(t => !t.startsWith('pac_jail'))
-          .filter(t => !t.startsWith('pac_square'));
+          .filter(t => !t.startsWith('pac_square'))
+          .filter(t => !t.startsWith('pac_pill'));
+
+        if (p.powerPill) {
+          filteredTags.push('pac_pill');
+        }
 
         updatePlayer(p.player.id, [
           ...filteredTags,

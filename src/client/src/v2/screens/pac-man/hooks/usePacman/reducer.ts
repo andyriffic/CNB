@@ -325,7 +325,10 @@ function sendPlayersToJail(state: PacManUiState): PacManUiState {
         playerCoords.y === pacManCoords.y
       );
     })
-    .map(p => ({ ...p, jailTurnsCount: 3 }));
+    .map(p => ({ ...p, jailTurnsCount: 3 }))
+    .map(p => {
+      return p.powerPill ? { ...p, jailTurnsCount: 0, powerPill: false } : p;
+    });
 
   return updatePlayers(playersGoingToJail)(state);
 }
