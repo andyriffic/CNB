@@ -52,7 +52,7 @@ export default () => {
                       <GasProvider>
                         <ThemedUi>
                           <Router>
-                            <ChooseGameScreen path="/choose-game" />
+                            <ChooseGameScreen path="/" />
                             <ChoosePlayerScreen path="/classic" />
                             <ScreenWithMatchup
                               path="/spectator/:matchupId"
@@ -61,7 +61,7 @@ export default () => {
                             <SnakesAndLaddersScreen path="/snakes-and-ladders" />
                             <DonkeyKongScreen path="/donkey-kong" />
                             <PacManScreen path="/pac-man" />
-                            <CreateMobScreen path="/" />
+                            <CreateMobScreen path="/mob/start" />
                             <MobSpectatorScreen
                               path="/mob/spectator/:mobGameId"
                               mobGameId=""

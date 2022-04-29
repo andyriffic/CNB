@@ -36,7 +36,7 @@ export default ({ navigate }: Props) => {
             gap: '20px',
           }}
         >
-          <GameButton onClick={() => navigate && navigate('/mob-mode')}>
+          <GameButton onClick={() => navigate && navigate('/mob/start')}>
             👨‍👩‍👧‍👦 Mob 👨‍👩‍👧‍👦
           </GameButton>
           <GameButton onClick={() => navigate && navigate('/gas/start')}>
