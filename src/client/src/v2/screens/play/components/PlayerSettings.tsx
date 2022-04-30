@@ -71,7 +71,7 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
         </SecondaryButton>
       </CloseModal>
       <ModalContent>
-        <SubHeading>Racing Car Colour</SubHeading>
+        <SubHeading>Custom Colour</SubHeading>
         <div style={{}}>
           <SwatchesPicker
             color={color}
@@ -79,7 +79,8 @@ export const PlayerSettings = ({ player }: Props): JSX.Element => {
           />
         </div>
         <div style={{ padding: '20px', textAlign: 'center' }}>
-          <SportsCar color={color} width={200} />
+          {/* <SportsCar color={color} width={200} /> */}
+          <PacManGhost color={color} width={200} />
         </div>
       </ModalContent>
     </SettingsModal>
