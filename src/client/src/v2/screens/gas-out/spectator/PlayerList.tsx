@@ -94,12 +94,13 @@ const PlayerStatsContainer = styled.div`
 `;
 
 const getDeathIcons = (total: number) => {
-  const icons = [];
-  for (var x = 0; x < Math.min(total, 2); x++) {
-    icons.push('☠️');
+  if (!total) {
+    return [];
   }
 
-  if (total > 2) {
+  const icons = ['☠️'];
+
+  if (total > 1) {
     icons.push(`x${total}`);
   }
 
