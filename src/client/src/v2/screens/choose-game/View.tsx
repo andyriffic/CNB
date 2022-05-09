@@ -37,10 +37,10 @@ export default ({ navigate }: Props) => {
           }}
         >
           <GameButton onClick={() => navigate && navigate('/mob/start')}>
-            👨‍👩‍👧‍👦 Mob 👨‍👩‍👧‍👦
+            👨‍👩‍👧‍👦 Mob
           </GameButton>
           <GameButton onClick={() => navigate && navigate('/gas/start')}>
-            🎈 Ballon 🎈
+            🎈 Balloon
           </GameButton>
         </div>
       </Container>
