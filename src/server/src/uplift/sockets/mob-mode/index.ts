@@ -272,7 +272,7 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
     return {
       ...mobGame,
       points: {
-        mugPlayer: 3 + mobGame.mugPlayer.lives,
+        mugPlayer: mobGame.mobPlayers.length,
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
           playerId: mp.playerId,
           points: mp.lastRound,
@@ -285,12 +285,12 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
     return {
       ...mobGame,
       points: {
-        mugPlayer: 3,
+        mugPlayer: 4,
         mobPlayers: mobGame.mobPlayers.map((mp) => {
           const isSoleSurvivor = mp.playerId === soleMobSurvivor.playerId;
           return {
             playerId: mp.playerId,
-            points: isSoleSurvivor ? 4 : mp.lastRound,
+            points: isSoleSurvivor ? mobGame.mobPlayers.length : mp.lastRound,
           };
         }),
       },
@@ -303,7 +303,7 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
         mugPlayer: 3,
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
           playerId: mp.playerId,
-          points: mp.lastRound,
+          points: 3,
         })),
       },
     };
