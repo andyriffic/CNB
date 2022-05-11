@@ -9,10 +9,11 @@ import {
   press,
   resetCloud,
   playerTimedOut,
+  playEffect,
 } from '.';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
-import { GasGame } from './types';
+import { GasGame, GlobalEffect } from './types';
 import { pointsToPlayersPacman } from './points-to-player-pacman';
 
 const REQUEST_GAS_GAMES = 'REQUEST_GAS_GAMES';
@@ -23,6 +24,7 @@ const PRESS_GAS = 'PRESS_GAS';
 const NEXT_GAS_PAYER = 'NEXT_GAS_PAYER';
 const GUESS_NEXT_PLAYER_OUT = 'GUESS_NEXT_PLAYER_OUT';
 const PLAYER_TIMED_OUT = 'PLAYER_TIMED_OUT';
+const PLAY_EFFECT = 'PLAY_EFFECT';
 
 const log = createLogger('gas-out', LOG_NAMESPACE.socket);
 
@@ -73,7 +75,7 @@ const init = (socketServer: Server, path: string) => {
         const updatedGame = playCard(game, playerId, cardIndex);
         activeGasGames = updateGames(activeGasGames, updatedGame);
 
-        log('UPDATED GAME', updatedGame);
+        // log('UPDATED GAME', updatedGame);
         namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
       }
     );
@@ -85,7 +87,7 @@ const init = (socketServer: Server, path: string) => {
       const updatedGame = press(game);
       activeGasGames = updateGames(activeGasGames, updatedGame);
 
-      log('UPDATED GAME', updatedGame);
+      // log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
 
       if (!!updatedGame.winningPlayerId) {
@@ -100,7 +102,18 @@ const init = (socketServer: Server, path: string) => {
       const updatedGame = moveToNextAlivePlayer(resetCloud(game));
       activeGasGames = updateGames(activeGasGames, updatedGame);
 
-      log('UPDATED GAME', updatedGame);
+      // log('UPDATED GAME', updatedGame);
+      namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
+    });
+
+    socket.on(PLAY_EFFECT, (gameId: string, globalEffect: GlobalEffect) => {
+      log(PLAY_EFFECT, gameId, globalEffect);
+      const game = getGameOrThrow(activeGasGames, gameId);
+
+      const updatedGame = playEffect(game, globalEffect);
+      activeGasGames = updateGames(activeGasGames, updatedGame);
+
+      // log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
     });
 
@@ -117,7 +130,7 @@ const init = (socketServer: Server, path: string) => {
         );
         activeGasGames = updateGames(activeGasGames, updatedGame);
 
-        log('UPDATED GAME', updatedGame);
+        // log('UPDATED GAME', updatedGame);
         namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
       }
     );
@@ -129,7 +142,7 @@ const init = (socketServer: Server, path: string) => {
       const updatedGame = playerTimedOut(game, playerId);
       activeGasGames = updateGames(activeGasGames, updatedGame);
 
-      log('UPDATED GAME', updatedGame);
+      // log('UPDATED GAME', updatedGame);
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
 
       if (!!updatedGame.winningPlayerId) {

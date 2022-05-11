@@ -35,7 +35,12 @@ type Props = {
 };
 
 export function GasPlayerDebug({ game }: Props): JSX.Element {
-  const { playCard, pressGas, guessNextOutPlayer } = useGasProvider();
+  const {
+    playCard,
+    pressGas,
+    guessNextOutPlayer,
+    playEffect,
+  } = useGasProvider();
   const activePlayers = game.allPlayers.filter(p => p.status !== 'dead');
   return (
     <PlayerListContainer>
@@ -57,6 +62,18 @@ export function GasPlayerDebug({ game }: Props): JSX.Element {
                   ({c.type === 'press' ? c.presses : c.type})
                 </button>
               ))}
+              {p.effectPower && (
+                <button
+                  onClick={() =>
+                    playEffect(game.id, {
+                      type: p.effectPower!,
+                      playedByPlayerId: p.player.id,
+                    })
+                  }
+                >
+                  {p.effectPower}
+                </button>
+              )}
               {active && game.currentPlayer.pressesRemaining > 0 && (
                 <button onClick={() => pressGas(game.id)}>PRESS!</button>
               )}

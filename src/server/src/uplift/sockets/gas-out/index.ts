@@ -4,7 +4,14 @@ import {
   selectWeightedRandomOneOf,
   WeightedItem,
 } from '../../utils/random';
-import { Direction, GasCard, GasGame, GasPlayer } from './types';
+import {
+  Direction,
+  EffectType,
+  GasCard,
+  GasGame,
+  GasPlayer,
+  GlobalEffect,
+} from './types';
 
 export function createGame({
   id,
@@ -13,22 +20,27 @@ export function createGame({
   id: string;
   players: Player[];
 }): GasGame {
-  return {
-    id,
-    allPlayers: players.map(createGasPlayer),
-    alivePlayersIds: players.map((p) => p.id),
-    deadPlayerIds: [],
-    direction: 'right',
-    currentPlayer: {
-      id: players[0].id,
-      pressesRemaining: 0,
+  const randomPlayer = selectRandomOneOf(players);
+  return giveEffectPowerToPlayer(
+    {
+      id,
+      allPlayers: players.map(createGasPlayer),
+      alivePlayersIds: players.map((p) => p.id),
+      deadPlayerIds: [],
+      direction: 'right',
+      currentPlayer: {
+        id: players[0].id,
+        pressesRemaining: 0,
+      },
+      gasCloud: {
+        pressed: 0,
+        exploded: false,
+      },
+      pointsMap: createPointsMap(players.length),
     },
-    gasCloud: {
-      pressed: 0,
-      exploded: false,
-    },
-    pointsMap: createPointsMap(players.length),
-  };
+    randomPlayer.id,
+    'double'
+  );
 }
 
 function createPointsMap(totalPlayerCount: number): number[] {
@@ -110,6 +122,55 @@ export function moveToNextPlayer(game: GasGame): GasGame {
       id: nextPlayerId,
       pressesRemaining: 0,
     },
+  };
+}
+
+function giveEffectPowerToPlayer(
+  game: GasGame,
+  playerId: string,
+  effect: EffectType
+): GasGame {
+  const player = getPlayerOrThrow(game, playerId);
+
+  return {
+    ...game,
+    allPlayers: updatePlayerInList(game.allPlayers, {
+      ...player,
+      effectPower: effect,
+    }),
+  };
+}
+
+function removeEffectPowerFromPlayer(game: GasGame, playerId: string): GasGame {
+  const player = getPlayerOrThrow(game, playerId);
+
+  return {
+    ...game,
+    allPlayers: updatePlayerInList(game.allPlayers, {
+      ...player,
+      effectPower: undefined,
+    }),
+  };
+}
+
+function activateEffect(game: GasGame, effect: GlobalEffect): GasGame {
+  return {
+    ...game,
+    globalEffect: effect,
+  };
+}
+
+export function playEffect(game: GasGame, effect: GlobalEffect): GasGame {
+  return removeEffectPowerFromPlayer(
+    activateEffect(game, effect),
+    effect.playedByPlayerId
+  );
+}
+
+function deactivateEffect(game: GasGame): GasGame {
+  return {
+    ...game,
+    globalEffect: undefined,
   };
 }
 
@@ -217,28 +278,10 @@ export function press(game: GasGame): GasGame {
 
   const explodedWeights: WeightedItem<boolean>[] = [
     { weight: game.gasCloud.pressed + 1, item: true },
-    { weight: game.allPlayers.length * 4, item: false },
+    { weight: game.allPlayers.length * 5, item: false },
   ];
 
   const exploded = selectWeightedRandomOneOf(explodedWeights);
-
-  // const deadPlayerIds = exploded
-  //   ? [...game.deadPlayerIds, game.currentPlayer.id]
-  //   : game.deadPlayerIds;
-  // const alivePlayersIds = exploded
-  //   ? game.alivePlayersIds.filter((id) => id !== game.currentPlayer.id)
-  //   : game.alivePlayersIds;
-
-  // const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
-  // const updatedCurrentPlayer: GasPlayer = {
-  //   ...currentPlayer,
-  //   status: exploded ? 'dead' : 'alive',
-  //   finishedPosition: exploded
-  //     ? game.allPlayers.length - (deadPlayerIds.length - 1)
-  //     : undefined,
-  //   totalPresses: currentPlayer.totalPresses + 1,
-  //   points: exploded ? game.pointsMap[deadPlayerIds.length - 1] : 0,
-  // };
 
   return assignWinner(
     resetPlayerGuessesAndGivePoints(
@@ -354,11 +397,34 @@ export function playCard(
     currentPlayer: {
       ...game.currentPlayer,
       cardPlayed: card,
-      pressesRemaining: card.presses,
+      pressesRemaining: applyEffectToCardPresses(
+        card,
+        game.globalEffect,
+        playerId
+      ),
     },
     direction:
       card.type === 'reverse' ? getReverseDirection(game) : game.direction,
   };
+}
+
+function applyEffectToCardPresses(
+  card: GasCard,
+  effect: GlobalEffect | undefined,
+  playerId: string
+): number {
+  if (!effect || effect.playedByPlayerId === playerId) {
+    return card.presses;
+  }
+
+  switch (effect.type) {
+    case 'double': {
+      return card.presses * 2;
+    }
+    default: {
+      return card.presses;
+    }
+  }
 }
 
 export function playerTimedOut(game: GasGame, playerId: string): GasGame {

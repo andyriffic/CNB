@@ -1,8 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import socketIOClient from 'socket.io-client';
-import { SOCKETS_ENDPOINT } from '../../environment';
 import { createSocket } from '../services/sockets';
-import { MoveKeys } from '../themes';
 import { Player } from './PlayersProvider';
 
 enum GAS_EVENTS {
@@ -14,6 +11,7 @@ enum GAS_EVENTS {
   NEXT_GAS_PAYER = 'NEXT_GAS_PAYER',
   GUESS_NEXT_PLAYER_OUT = 'GUESS_NEXT_PLAYER_OUT',
   PLAYER_TIMED_OUT = 'PLAYER_TIMED_OUT',
+  PLAY_EFFECT = 'PLAY_EFFECT',
 }
 
 export type GasGameDirection = 'left' | 'right';
@@ -32,6 +30,7 @@ export type GasGame = {
   };
   gasCloud: GasCloud;
   pointsMap: number[];
+  globalEffect?: GlobalEffect;
 };
 
 export type GasCloud = {
@@ -43,6 +42,7 @@ export type GasPlayer = {
   player: Player;
   status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
+  effectPower?: EffectType;
   finishedPosition?: number;
   points: number;
   totalPresses: number;
@@ -52,6 +52,13 @@ export type GasPlayer = {
     nominatedCount: number;
     correctGuessCount: number;
   };
+};
+
+export type EffectType = 'double';
+
+export type GlobalEffect = {
+  type: EffectType;
+  playedByPlayerId: string;
 };
 
 export type GasCard = {
@@ -73,6 +80,7 @@ export type GasService = {
   pressGas: (gameId: string) => void;
   nextPlayer: (gameId: string) => void;
   timeoutPlayer: (gameId: string, playerId: string) => void;
+  playEffect: (gameId: string, effect: GlobalEffect) => void;
   guessNextOutPlayer: (
     gameId: string,
     playerId: string,
@@ -117,6 +125,9 @@ export const GasProvider = ({ children }: { children: ReactNode }) => {
         },
         timeoutPlayer: (gameId, playerId) => {
           socket.emit(GAS_EVENTS.PLAYER_TIMED_OUT, gameId, playerId);
+        },
+        playEffect: (gameId, effect) => {
+          socket.emit(GAS_EVENTS.PLAY_EFFECT, gameId, effect);
         },
         guessNextOutPlayer: (gameId, playerId, guessPlayerId) => {
           socket.emit(

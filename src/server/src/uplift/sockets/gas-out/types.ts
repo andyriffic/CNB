@@ -16,6 +16,7 @@ export type GasGame = {
   };
   gasCloud: GasCloud;
   pointsMap: number[];
+  globalEffect?: GlobalEffect;
 };
 
 type GasCloud = {
@@ -27,6 +28,7 @@ export type GasPlayer = {
   player: Player;
   status: 'alive' | 'dead' | 'winner';
   cards: GasCard[];
+  effectPower?: EffectType;
   finishedPosition?: number;
   points: number;
   totalPresses: number;
@@ -41,4 +43,11 @@ export type GasPlayer = {
 export type GasCard = {
   type: 'press' | 'skip' | 'reverse';
   presses: number;
+};
+
+export type EffectType = 'double';
+
+export type GlobalEffect = {
+  type: EffectType;
+  playedByPlayerId: string;
 };

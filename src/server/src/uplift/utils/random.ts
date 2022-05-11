@@ -17,6 +17,9 @@ export function selectWeightedRandomOneOf<T>(
   }, 0);
 
   let randomWeight = Math.floor(Math.random() * totalWeights) + 1;
+
+  // console.log('weights: total,random', totalWeights, randomWeight);
+
   let randomItem: WeightedItem<T>;
   for (let i = 0; i < weightedList.length; i++) {
     randomWeight -= weightedList[i].weight;
