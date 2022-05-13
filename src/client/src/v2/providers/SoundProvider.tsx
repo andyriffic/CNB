@@ -67,6 +67,8 @@ export type SoundMap = {
   PacManMovePlayer: any;
   PacManMovePacman: any;
   PacmanEatGhost: any;
+  WhosThanIntro: any;
+  WhosThatReveal: any;
 };
 
 export type PlaySound = (

@@ -54,6 +54,8 @@ import popGoesTheWeasal from './sounds/pop_goes_the_weasal.mp3';
 import pacmanGhost from './sounds/pacman_ghost.mp3';
 import pacmanFruit from './sounds/pacman_fruit.mp3';
 import pacmanMove from './sounds/pacman_move.mp3';
+import pokemonWhosThat from './sounds/pokemon-whos-that.mp3';
+import pokemonReceivedItem from './sounds/pokemon-received-an-item.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -119,6 +121,8 @@ const soundMap: SoundMap = {
   PacManMovePlayer: pacmanFruit,
   PacManMovePacman: pacmanMove,
   PacmanEatGhost: pacmanGhost,
+  WhosThanIntro: pokemonWhosThat,
+  WhosThatReveal: pokemonReceivedItem,
 };
 
 export default soundMap;

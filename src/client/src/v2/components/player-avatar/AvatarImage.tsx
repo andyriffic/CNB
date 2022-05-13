@@ -17,7 +17,7 @@ const avatarSizeStyles: AvatarSizeStyles = {
 
 const PlayerImage = styled.img<{ accentColor: string }>`
   display: block;
-  filter: drop-shadow(5px 5px 0px ${({ accentColor }) => accentColor});
+  /* filter: drop-shadow(5px 5px 0px ${({ accentColor }) => accentColor}); */
 `;
 
 type Props = {

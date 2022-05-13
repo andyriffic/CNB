@@ -34,9 +34,15 @@ type Props = {
   player: Player;
   size: keyof AvatarSizeStyles;
   showZodiac?: boolean;
+  showBadges?: boolean;
 };
 
-export const PlayerAvatar = ({ player, size, showZodiac = true }: Props) => {
+export const PlayerAvatar = ({
+  player,
+  size,
+  showZodiac = true,
+  showBadges = true,
+}: Props) => {
   const accentColor = getPlayerAttributeValue(player.tags, 'rt_color', '#000');
 
   return (
@@ -46,9 +52,11 @@ export const PlayerAvatar = ({ player, size, showZodiac = true }: Props) => {
         imageUrl={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
         accentColor={accentColor}
       />
-      <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
-        <PlayerBadges tags={player.tags} />
-      </PositionedBadges>
+      {showBadges && (
+        <PositionedBadges style={{ transform: `scale(${badgeScale[size]})` }}>
+          <PlayerBadges tags={player.tags} />
+        </PositionedBadges>
+      )}
       {showZodiac && (
         <PositionedZodiacSign
           style={{ transform: `scale(${badgeScale[size]})` }}
