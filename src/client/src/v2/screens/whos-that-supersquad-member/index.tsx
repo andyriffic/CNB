@@ -8,5 +8,11 @@ type Props = {
 
 export const WhosThatSupersquadMemberScreen = (props: RouteComponentProps) => {
   const urlParams = new URLSearchParams(props.location!.search);
-  return <View continueUrl={urlParams.get('continueUrl')} {...props} />;
+  return (
+    <View
+      continueUrl={urlParams.get('continueUrl')}
+      playerId={urlParams.get('playerId')}
+      {...props}
+    />
+  );
 };

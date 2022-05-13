@@ -1,6 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { getPlayerAttributeValue } from '../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../uplift/utils/random';
 import { PlayerAvatar } from '../../components/player-avatar';
 import { GameScreen } from '../../components/ui/GameScreen';
@@ -29,24 +30,41 @@ const PlayerContainer = styled.div<{ reveal: boolean }>`
 
 // #E52A21
 
-const Text = styled.p`
+const TextContainer = styled.div`
   position: absolute;
   right: 10%;
   bottom: 30%;
+  max-width: 40%;
+`;
+
+const Text = styled.p`
+  margin: 0;
+  padding: 0;
   font-family: 'Pokemon Solid', sans-serif;
   font-size: 3.3rem;
-  max-width: 40%;
   text-align: right;
   color: #fecb03;
   -webkit-text-stroke-width: 4px;
   -webkit-text-stroke-color: #38649d;
 `;
 
+const SubText = styled.p`
+  margin: 0;
+  padding: 0;
+  font-family: 'Pokemon Solid', sans-serif;
+  font-size: 1.5rem;
+  text-align: right;
+  color: #fecb03;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #38649d;
+`;
+
 type Props = {
   continueUrl: string | null;
+  playerId: string | null;
 } & RouteComponentProps;
 
-const View = ({ continueUrl, navigate }: Props) => {
+const View = ({ continueUrl, playerId, navigate }: Props) => {
   const { allPlayers } = usePlayersProvider();
   const [player, setPlayer] = useState<Player | undefined>();
   const [reveal, setReveal] = useState(false);
@@ -72,11 +90,15 @@ const View = ({ continueUrl, navigate }: Props) => {
       return;
     }
     setPlayer(
-      selectRandomOneOf(
-        allPlayers.filter(p => !p.tags.includes('no-whos-that'))
-      )
+      playerId
+        ? allPlayers.find(p => p.id === playerId)
+        : selectRandomOneOf(
+            allPlayers.filter(p => !p.tags.includes('no-whos-that'))
+          )
     );
   }, [allPlayers, player]);
+
+  const subTitle = player && getPlayerAttributeValue(player.tags, 'role', '');
 
   return (
     <GameScreen scrollable={false}>
@@ -91,9 +113,12 @@ const View = ({ continueUrl, navigate }: Props) => {
                 showBadges={false}
               />
             </PlayerContainer>
-            <Text>
-              {reveal ? player.name : "Who's that Supersquad member?"}
-            </Text>
+            <TextContainer>
+              <Text>
+                {reveal ? player.name : "Who's that Supersquad member?"}
+              </Text>
+              {reveal && subTitle && <SubText>{subTitle}</SubText>}
+            </TextContainer>
           </>
         )}
       </Container>
