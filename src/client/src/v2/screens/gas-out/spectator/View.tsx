@@ -1,10 +1,9 @@
 import { NavigateFn } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { FancyLink } from '../../../../components/FancyLink';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
-import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
+import { LinkToMiniGame } from '../../../components/LinkToMiniGame';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
@@ -23,12 +22,6 @@ const Container = styled.div`
 const PlayersContainer = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const DonkeyKongLinkContainer = styled.div`
-  text-align: center;
-  cursor: pointer;
-  animation: ${jackInTheBoxAnimation} 2000ms linear 5000ms both;
 `;
 
 type Props = {
@@ -85,13 +78,7 @@ export default ({ gameId, navigate }: Props) => {
           </div>
         )}
         <Winner game={game} />
-        {!!game.winningPlayerId && (
-          <DonkeyKongLinkContainer>
-            <FancyLink onClick={() => (window.location.href = '/pac-man')}>
-              🥳 Go to Mini Game 🥳
-            </FancyLink>
-          </DonkeyKongLinkContainer>
-        )}
+        {!!game.winningPlayerId && <LinkToMiniGame />}
         <LastTwoPlayersNotification game={game} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasBallon gasCloud={game.gasCloud} />

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { isPersistantFeatureEnabled } from '../../../../featureToggle';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { SplashText } from '../../../components/SplashText';
-import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useMobGame } from '../../../providers/hooks/useMobGame';
 import {
@@ -26,9 +25,8 @@ import { MobResultSummary } from './MobResultSummary';
 import { NewRecord } from './NewRecord';
 import { MobGraveyard } from './MobGraveyard';
 import { NavigateFn } from '@reach/router';
-import { FancyLink } from '../../../../components/FancyLink';
-import { jackInTheBoxAnimation } from '../../../../uplift/components/animations';
 import { usePlayersProvider } from '../../../providers/PlayersProvider';
+import { LinkToMiniGame } from '../../../components/LinkToMiniGame';
 
 const Container = styled.div`
   margin: 50px auto 50px auto;
@@ -46,12 +44,6 @@ const GraveyardContainer = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-`;
-
-const DonkeyKongLinkContainer = styled.div`
-  text-align: center;
-  cursor: pointer;
-  animation: ${jackInTheBoxAnimation} 2000ms linear 4000ms both;
 `;
 
 type Props = {
@@ -218,11 +210,7 @@ export default ({ mobGameId, navigate }: Props) => {
         }
       />
       {mobGame.gameOver && mobGame.roundState === 'viewed' && (
-        <DonkeyKongLinkContainer>
-          <FancyLink onClick={() => (window.location.href = '/pac-man')}>
-            🥳 Go to Mini Game 🥳
-          </FancyLink>
-        </DonkeyKongLinkContainer>
+        <LinkToMiniGame />
       )}
     </GameScreen>
   );
