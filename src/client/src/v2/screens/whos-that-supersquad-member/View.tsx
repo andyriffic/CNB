@@ -74,15 +74,17 @@ const View = ({ continueUrl, playerId, navigate }: Props) => {
     if (!player) {
       return;
     }
-    play('WhosThanIntro');
-    setTimeout(() => {
-      setReveal(true);
-      if (continueUrl) {
-        setTimeout(() => {
-          navigate && navigate(continueUrl);
-        }, 3000);
-      }
-    }, 3000);
+    play('WhosThanIntro').on('load', () => {
+      console.log('sound loaded');
+      setTimeout(() => {
+        setReveal(true);
+        if (continueUrl) {
+          setTimeout(() => {
+            navigate && navigate(continueUrl);
+          }, 3000);
+        }
+      }, 3000);
+    });
   }, [player]);
 
   useEffect(() => {
