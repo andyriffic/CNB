@@ -116,6 +116,10 @@ export function reducer(
       // );
     }
     case 'MOVE_PACMAN': {
+      if (state.pacMan.movesRemaining === 0) {
+        return { ...state, status: 'game-over' };
+      }
+
       return sendPlayersToJail(movePacmanOneSquare(state));
       // return pipe(
       //   state,
@@ -240,13 +244,6 @@ function initialisePacmanMoves(state: PacManUiState): PacManUiState {
 }
 
 function movePacmanOneSquare(state: PacManUiState): PacManUiState {
-  if (state.pacMan.movesRemaining === 0) {
-    return {
-      ...state,
-      status: 'game-over',
-    };
-  }
-
   const newPathIndex =
     state.pacMan.pathIndex + 1 >= state.board.pacManPath.length
       ? 0
