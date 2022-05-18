@@ -366,7 +366,9 @@ function setPacManFacingDirection(
   board: PacManBoard
 ): PacManCharacter {
   const currentPosition = board.pacManPath[pacMan.pathIndex];
-  const nextPosition = board.pacManPath[pacMan.pathIndex + 1]; // TODO: account for end of path
+  const nextPosition = board.pacManPath[pacMan.pathIndex + 1]
+    ? board.pacManPath[pacMan.pathIndex + 1]
+    : board.pacManPath[0];
 
   if (currentPosition.coordinates.x === nextPosition.coordinates.x) {
     return pacMan;
