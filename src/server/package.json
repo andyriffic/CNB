@@ -60,7 +60,7 @@
     "nanoid": "^3.1.20",
     "ramda": "^0.25.0",
     "shortid": "^2.2.14",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "supports-color": "^7.0.0",
     "uuid": "^3.3.2"
   }
