@@ -1,13 +1,14 @@
 import { pipe } from '@mobily/ts-belt';
+import { MatchTournament } from './types';
 
-type State = {
-  something: boolean;
-};
-
-export function doSomething(state: State) {
-  return pipe(state, setTrue);
+export function createGame(playerIds: string[]): MatchTournament {
+  return {
+    games: [],
+    currentGameIndex: 0,
+  };
 }
 
-function setTrue(state: State): State {
-  return { ...state, something: true };
+function groupIntoTwos(playerIds: string[]): [string, string][] {
+  // playerIds.reduce()
+  return [];
 }
