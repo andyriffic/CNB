@@ -36,13 +36,14 @@ server.listen(port);
 
 
 var corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: 'http://localhost:3001,http://localhost:3003',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/../client')));
+app.use(express.static(path.join(__dirname, '/../client-v2')));
 app.use(express.static(path.join(__dirname, './static')));
 app.use(express.json());
 
@@ -64,6 +65,11 @@ app.get('/racing-history/game/:gameId/file/:key', (req, res) => {
   StatsService.getRacingHistoryFile(req.params.gameId, req.params.key)
     .then(data => res.send(data))
     .catch(err => res.send(err));
+});
+
+
+app.get('/v2/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client-v2/index.html'));
 });
 
 app.get('*', (req, res) => {
