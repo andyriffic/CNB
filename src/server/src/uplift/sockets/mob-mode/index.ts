@@ -12,11 +12,7 @@ import {
   MobGamePoints,
 } from './types';
 
-import { doSomething } from '../match-mode';
-
 const idGenerator = customAlphabet('BCDFGHJKLMNPQRSTVWXZ', 6);
-
-console.log(doSomething({ something: false }));
 
 function isGameOver(mobGame: MobGame): boolean {
   return (
