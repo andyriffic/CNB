@@ -21,6 +21,7 @@ import initGasOut from './uplift/sockets/gas-out/socket'
 
 import {graphql} from './graphql';
 import { StatsService } from './uplift/services/stats';
+import { setupHudsonServer } from './hudson-server-create';
 
 const store = createStore(reducer);
 
@@ -101,3 +102,5 @@ console.log(`App running on http://localhost:${port}`);
 
 console.log(`Publishing Mob stats`);
 StatsService.publishMobSummaryStats()
+
+setupHudsonServer(server);

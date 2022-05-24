@@ -14,7 +14,7 @@
     "build": "rm -rf lib && npm run install && npm run build:server && npm run build:client && npm run build:client-v2",
     "build:docker": "rm -rf lib && npm run build:server && npm run build:client && npm run build:client-v2",
     "start": "npm run build && npm run startup",
-    "startup": "node ./lib/server/server.js",
+    "startup": "node ./lib/server/hudson-server.js",
     "local:client": "cd ./src/client && npm run start:local",
     "local:server": "cd ./src/server && npm run serve:local",
     "test:client": "cd ./src/client && npm run test",

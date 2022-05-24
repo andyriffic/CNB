@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "serve": "npm run build && node ../../lib/server/server.js",
+    "serve:hudson": "npm run build && node ../../lib/server/hudson-server.js && node ../../lib/server/server.js",
     "serve:stat-test": "npm run build && node ../../lib/server/stats/test.js",
     "serve:local": "DEBUG=CNB:* PORT=3002 npm run serve",
+    "serve:local:hudson": "DEBUG=CNB:* PORT=3002 npm run serve:hudson",
     "start": "npm run build && node ../../lib/server/index.js",
     "build:deps": "cp ./package.json ../../lib/server/package.json && cd ../../lib/server && npm install --production",
     "babel": "babel ./src -d ../../lib/server --copy-files --ignore '**/*.test.js' --extensions '.ts,.js'",
@@ -62,6 +64,7 @@
     "shortid": "^2.2.14",
     "socket.io": "^2.1.1",
     "supports-color": "^7.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "websocket": "^1.0.34"
   }
 }
