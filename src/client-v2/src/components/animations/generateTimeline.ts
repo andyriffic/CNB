@@ -10,7 +10,8 @@ export function generateTimeline(
       return {
         ...tweenVars,
         ease: 'bounce.out',
-        y: -500,
+        duration: 1.5,
+        y: -1000,
       };
     }
     case 'spin': {
