@@ -1,9 +1,9 @@
-import socketIOClient from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
 
-export const createSocket = (endpoint: string): SocketIOClient.Socket => {
+export const createSocket = (endpoint: string): Socket => {
   console.log(`%c[SOCKET][${endpoint}]: creating socket`, 'color: blue;');
-  const socket = socketIOClient(`${SOCKETS_ENDPOINT}/${endpoint}`, {
+  const socket = io(`${SOCKETS_ENDPOINT}/${endpoint}`, {
     autoConnect: false,
   });
 

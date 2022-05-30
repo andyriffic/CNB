@@ -64,6 +64,7 @@ const getUpdatedPlayerList = (): Promise<any> => {
 };
 
 const init = (socketServer: Server, path: string) => {
+  log('setting up namespace', path);
   const namespace = socketServer.of(path);
 
   namespace.on('connection', function (socket: Socket) {

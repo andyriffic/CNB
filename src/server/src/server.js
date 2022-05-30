@@ -19,6 +19,7 @@ import initPlayerChoice from './uplift/sockets/mini-game-player-choice';
 import initMobMode from './uplift/sockets/mob-mode/socket'
 import initGasOut from './uplift/sockets/gas-out/socket'
 
+
 import {graphql} from './graphql';
 import { StatsService } from './uplift/services/stats';
 
@@ -27,8 +28,12 @@ const store = createStore(reducer);
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const { Server } = require("socket.io");
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const io = new Server(server, {cors: {
+  origins: ["http://localhost:3003", "http://localhost:3001"],
+  methods: ["GET", "POST"]
+}})
 const path = require('path');
 
 const port = process.env.PORT || 3000;
@@ -36,11 +41,10 @@ server.listen(port);
 
 
 var corsOptions = {
-  origin: 'http://localhost:3001,http://localhost:3003',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-app.use(cors(corsOptions));
+app.use(cors({}));
 
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use(express.static(path.join(__dirname, '/../client-v2')));
@@ -79,13 +83,13 @@ app.get('*', (req, res) => {
 
 app.use('/graphql', graphql);
 
-const userNamespace = initUserNamespace(io);
-initGameNamespace(io, store, userNamespace);
-initStats(io);
-initPlayers(io);
-initTheme(io);
-initGameSocket(io, '/games');
-initMatchupsSocket(io, '/matchups');
+// const userNamespace = initUserNamespace(io);
+// initGameNamespace(io, store, userNamespace);
+// initStats(io);
+// initPlayers(io);
+// initTheme(io);
+// initGameSocket(io, '/games');
+// initMatchupsSocket(io, '/matchups');
 
 initMatchupsSocketForRealz(io, '/matchups-realz');
 initPlayersSocket(io, '/players-realz');
@@ -99,5 +103,5 @@ initGasOut(io, '/gas-out')
 console.log(`App running on http://localhost:${port}`);
 
 
-console.log(`Publishing Mob stats`);
-StatsService.publishMobSummaryStats()
+// console.log(`Publishing Mob stats`);
+// StatsService.publishMobSummaryStats()

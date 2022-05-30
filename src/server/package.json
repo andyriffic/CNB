@@ -33,7 +33,6 @@
     "@types/debug": "^4.1.4",
     "@types/mocha": "^5.2.7",
     "@types/shortid": "0.0.29",
-    "@types/socket.io": "^2.1.2",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.4",
     "chai": "^4.1.2",
@@ -60,7 +59,7 @@
     "nanoid": "^3.1.20",
     "ramda": "^0.25.0",
     "shortid": "^2.2.14",
-    "socket.io": "^2.1.1",
+    "socket.io": "^4.5.1",
     "supports-color": "^7.0.0",
     "uuid": "^3.3.2"
   }
