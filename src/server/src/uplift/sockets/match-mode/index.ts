@@ -3,8 +3,8 @@ import { MatchTournament } from './types';
 
 export function createGame(playerIds: string[]): MatchTournament {
   return {
-    games: [],
-    currentGameIndex: 0,
+    rounds: [],
+    currentRound: 0,
   };
 }
 

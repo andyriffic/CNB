@@ -1,4 +1,4 @@
-import { createRef, useLayoutEffect, useRef } from 'react';
+import { createRef, useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { generateTimeline } from './generateTimeline';
 import { AnimationName } from './types';
@@ -20,10 +20,14 @@ export function AnimatedItem({
   const q = gsap.utils.selector(el);
   const tl = useRef<gsap.core.Timeline>();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     tl.current = gsap
       .timeline()
       .from(q(`.${ITEM_CLASS_NAME}`), generateTimeline(animationName, options));
+
+    return () => {
+      tl.current?.kill();
+    };
   }, [el]);
 
   return (

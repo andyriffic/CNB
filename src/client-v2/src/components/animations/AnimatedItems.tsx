@@ -24,6 +24,10 @@ export function AnimatedItems({
     tl.current = gsap
       .timeline()
       .from(q(`.${ITEM_CLASS_NAME}`), generateTimeline(animationName, options));
+
+    return () => {
+      tl.current?.kill();
+    };
   }, [el]);
 
   return (

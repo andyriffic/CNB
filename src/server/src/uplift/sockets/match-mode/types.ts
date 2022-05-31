@@ -1,7 +1,12 @@
 export type MatchTournament = {
-  games: MatchupGame[];
-  currentGameIndex: number;
+  rounds: MatchRound[];
+  currentRound: number;
   extraPlayer?: MatchupExtraPlayer;
+};
+
+export type MatchRound = {
+  currentGame: number;
+  games: MatchupGame[];
 };
 
 export type MoveId = 'A' | 'B' | 'C';
