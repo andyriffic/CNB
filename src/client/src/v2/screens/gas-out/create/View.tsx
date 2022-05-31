@@ -7,6 +7,7 @@ import {
   jackInTheBoxAnimation,
   slideInUpAnimation,
 } from '../../../../uplift/components/animations';
+import { shuffleArray } from '../../../../uplift/utils/random';
 import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
@@ -80,7 +81,7 @@ export default ({ navigate }: Props) => {
 
   const onStartGameClick = () => {
     cleanup();
-    createGasGame({ players: joinedPlayers }, gameId => {
+    createGasGame({ players: shuffleArray(joinedPlayers) }, gameId => {
       navigate && navigate(`/gas/game/${gameId}`);
     });
   };
