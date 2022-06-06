@@ -12,7 +12,7 @@ import {
   PacManPlayerStatus,
 } from '../../types';
 
-const MIN_PACMAN_MOVES = 5;
+const MIN_PACMAN_MOVES = 25;
 
 type GameUiStatus =
   | 'loading'
