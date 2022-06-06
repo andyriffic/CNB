@@ -238,7 +238,7 @@ function initialisePacmanMoves(state: PacManUiState): PacManUiState {
     ...updatePlayers(allPlayersInJail.map(resetPlayersMoves))(state),
     pacMan: {
       ...state.pacMan,
-      movesRemaining: Math.max(totalMovesForPlayersInJail, MIN_PACMAN_MOVES),
+      movesRemaining: totalMovesForPlayersInJail + MIN_PACMAN_MOVES,
     },
   };
 }
