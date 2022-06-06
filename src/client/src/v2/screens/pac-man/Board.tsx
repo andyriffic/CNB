@@ -65,19 +65,21 @@ export function Board({ uiState }: Props): JSX.Element {
         />
       ))}
       {debug &&
-        boardConfig.pacManPath.map((s, i) => (
-          <BoardSquare
-            key={i}
-            square={s}
-            color="red"
-            content={
-              <span style={{ transform: 'translateY(1vw)' }}>
-                <br />
-                {i}
-              </span>
-            }
-          />
-        ))}
+        boardConfig.pacManPath.map((s, i) => {
+          return (
+            <BoardSquare
+              key={i}
+              square={s}
+              color="red"
+              content={
+                <span style={{ transform: 'translateY(1vw)' }}>
+                  <br />
+                  {i}
+                </span>
+              }
+            />
+          );
+        })}
       {uiState.allPacPlayers.map(p => {
         const square = boardConfig.playerPath[p.pathIndex];
         const playerPosition =

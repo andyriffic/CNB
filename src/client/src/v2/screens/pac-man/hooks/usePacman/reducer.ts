@@ -181,12 +181,16 @@ function movePlayer(
     );
   }
 
+  const atEnd = pacPlayer.pathIndex + 1 >= state.board.playerPath.length - 1;
+
   return updatePlayer(
     {
       ...pacPlayer,
       offset: 0,
-      movesRemaining: pacPlayer.movesRemaining - 1,
-      pathIndex: pacPlayer.pathIndex + 1,
+      movesRemaining: atEnd ? 0 : pacPlayer.movesRemaining - 1,
+      pathIndex: atEnd
+        ? state.board.playerPath.length - 1
+        : pacPlayer.pathIndex + 1,
     },
     state
   );
