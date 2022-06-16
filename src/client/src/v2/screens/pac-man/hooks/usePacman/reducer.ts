@@ -39,6 +39,11 @@ function createPacManPlayer(player: Player): PacManPlayer {
     color: getPlayerAttributeValue(player.tags, 'rt_color', 'red'),
     jailTurnsCount: getPlayerIntegerAttributeValue(player.tags, 'pac_jail', 0),
     powerPill: getPlayerBooleanAttributeValue(player.tags, 'pac_pill'),
+    finishPosition: getPlayerIntegerAttributeValue(
+      player.tags,
+      'pac_finish',
+      0
+    ),
   };
 }
 
@@ -182,6 +187,8 @@ function movePlayer(
   }
 
   const atEnd = pacPlayer.pathIndex + 1 >= state.board.playerPath.length - 1;
+  const finishPosition =
+    !pacPlayer.finishPosition && atEnd ? getNextFinishPosition(state) : 0;
 
   return updatePlayer(
     {
@@ -191,9 +198,15 @@ function movePlayer(
       pathIndex: atEnd
         ? state.board.playerPath.length - 1
         : pacPlayer.pathIndex + 1,
+      finishPosition,
     },
     state
   );
+}
+
+function getNextFinishPosition(state: PacManUiState): number {
+  const allFinishPositions = state.allPacPlayers.map(p => p.finishPosition);
+  return Math.max(...allFinishPositions) + 1;
 }
 
 function setPlayerStatus(

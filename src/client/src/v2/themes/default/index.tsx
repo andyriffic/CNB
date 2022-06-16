@@ -30,7 +30,11 @@ const themeComponents: ThemeComponents = {
     prizeIcon: <span>🎁</span>,
     bombIcon: <span>💣</span>,
     mainGameOverAction: (
-      <FancyLink href="/snakes-and-ladders">🐍 To Snakes and Ladders</FancyLink>
+      <>
+        {/* <FancyLink href="/snakes-and-ladders">
+          🐍 To Snakes and Ladders
+        </FancyLink> */}
+      </>
     ),
   },
 };

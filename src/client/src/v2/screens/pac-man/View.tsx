@@ -7,6 +7,7 @@ import { GameScreen } from '../../components/ui/GameScreen';
 import { Player, usePlayersProvider } from '../../providers/PlayersProvider';
 import { Board } from './Board';
 import { boardConfig } from './boardConfig';
+import { BoardFinalMatchup } from './BoardFinalMatchup';
 import { usePacMan } from './hooks/usePacman';
 import { usePacmanSound } from './hooks/usePacmanSound';
 import { usePlayerAutoMove } from './hooks/usePlayerMoveTick';
@@ -41,13 +42,15 @@ const View = ({ allPlayers }: Props) => {
       {pacManService.uiState.status === 'game-over' && (
         <SplashText>Game Over</SplashText>
       )}
-      {/* <span>{pacManService.uiState.status}</span> */}
-      <Button
-        onClick={pacManService.startGame}
-        disabled={pacManService.uiState.status !== 'ready'}
-      >
-        Start Game
-      </Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button
+          onClick={pacManService.startGame}
+          disabled={pacManService.uiState.status !== 'ready'}
+        >
+          Start Game
+        </Button>
+        <BoardFinalMatchup state={pacManService.uiState} />
+      </div>
     </GameScreen>
   );
 };

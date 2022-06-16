@@ -30,6 +30,7 @@ export type PacManPlayer = {
   jailTurnsCount: number;
   offset: number;
   powerPill: boolean;
+  finishPosition: number;
 };
 
 export type PacManDirection = 'left' | 'right';

@@ -14,7 +14,8 @@ export function useSyncData(uiState: PacManUiState, disabled: boolean) {
           .filter(t => !t.startsWith('pac_moves'))
           .filter(t => !t.startsWith('pac_jail'))
           .filter(t => !t.startsWith('pac_square'))
-          .filter(t => !t.startsWith('pac_pill'));
+          .filter(t => !t.startsWith('pac_pill'))
+          .filter(t => !t.startsWith('pac_finish'));
 
         if (p.powerPill) {
           filteredTags.push('pac_pill');
@@ -25,6 +26,7 @@ export function useSyncData(uiState: PacManUiState, disabled: boolean) {
           `pac_moves:${p.movesRemaining}`,
           `pac_jail:${p.jailTurnsCount}`,
           `pac_square:${p.pathIndex}`,
+          `pac_finish:${p.finishPosition}`,
         ]);
       });
 

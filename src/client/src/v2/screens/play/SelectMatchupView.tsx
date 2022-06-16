@@ -15,6 +15,7 @@ import {
 import { MobSelectionList } from './components/MobSelectionList';
 import { PlayerSettings } from './components/PlayerSettings';
 import { GasGameSelectionList } from './components/GasGameSelectionList';
+import { usePlayerMatchups } from './hooks/usePlayerMatchups';
 
 type Props = {
   playerId: string;
@@ -23,7 +24,7 @@ type Props = {
 export const SelectMatchupView = ({ playerId, navigate }: Props) => {
   const { invitations, acceptInvitation } = useInvitationsProvider();
   const player = usePlayer(playerId);
-  //const playerMatchups = usePlayerMatchups(playerId);
+  const playerMatchups = usePlayerMatchups(playerId);
 
   const [playerInvitations, setPlayerInvitations] = useState(
     invitations &&
@@ -86,7 +87,7 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
         onMobSelected={mobGameId => navigate && navigate(`mob/${mobGameId}`)}
       />
       {player && <PlayerSettings player={player} />}
-      {/* {playerMatchups && (
+      {playerMatchups && (
         <>
           <p>Matchups</p>
           {playerMatchups.map(pmu => (
@@ -95,7 +96,7 @@ export const SelectMatchupView = ({ playerId, navigate }: Props) => {
             </div>
           ))}
         </>
-      )} */}
+      )}
     </GameScreen>
   );
 };
