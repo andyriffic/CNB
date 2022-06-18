@@ -7,14 +7,15 @@ import { AnimatedItem } from './components/animations/AnimatedItem';
 import { UiGameScreen } from './components/ui/GameScreen';
 import theme from './themes/default';
 import { UiTitle } from './components/ui/Title';
+import { selectRandomOneOf } from './utils/random';
 
 function App() {
   const { activePlayers } = usePlayers();
   const player1 = useMemo(() => {
-    return activePlayers.find((p) => p.id === 'andy');
+    return selectRandomOneOf(activePlayers);
   }, [activePlayers]);
   const player2 = useMemo(() => {
-    return activePlayers.find((p) => p.id === 'alex');
+    return selectRandomOneOf(activePlayers);
   }, [activePlayers]);
 
   if (!(player1 && player2)) {
