@@ -1,4 +1,4 @@
-import { createRef, useEffect, useLayoutEffect, useRef } from 'react';
+import { createRef, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { generateTimeline } from './generateTimeline';
 import { AnimationName } from './types';
@@ -28,7 +28,7 @@ export function AnimatedItem({
     return () => {
       tl.current?.kill();
     };
-  }, [el]);
+  }, [el, q, animationName, options]);
 
   return (
     <div ref={el}>

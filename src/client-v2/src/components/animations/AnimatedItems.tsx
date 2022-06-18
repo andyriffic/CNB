@@ -28,7 +28,7 @@ export function AnimatedItems({
     return () => {
       tl.current?.kill();
     };
-  }, [el]);
+  }, [el, q, animationName, options]);
 
   return (
     <div style={{ display: 'flex' }} ref={el}>
