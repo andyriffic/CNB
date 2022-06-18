@@ -30,7 +30,7 @@ export function PlayerAvatar({
     <Container>
       <AvatarImage
         reverse={facingDirection === 'left'}
-        src={`${SOCKETS_ENDPOINT}/${player.avatarImageUrl}`}
+        src={`${SOCKETS_ENDPOINT}${player.avatarImageUrl}`}
       />
     </Container>
   );
