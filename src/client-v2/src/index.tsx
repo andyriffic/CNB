@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { PlayersProvider } from './contexts/PlayersContext';
+import { PlayerChoiceProvider } from './contexts/PlayerChoiceContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <PlayersProvider>
-    <App />
+    <PlayerChoiceProvider>
+      <App />
+    </PlayerChoiceProvider>
   </PlayersProvider>
 );
 

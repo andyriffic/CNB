@@ -6,6 +6,8 @@ const theme: ThemeStyles = {
   color: {
     primaryBackground: '#4361EE',
     primaryText: '#F72585',
+    secondaryBackground: '#4CC9F0',
+    secondaryText: '#000000',
   },
 };
 

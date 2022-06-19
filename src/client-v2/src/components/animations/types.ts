@@ -1,1 +1,1 @@
-export type AnimationName = 'spin' | 'drop-in';
+export type AnimationName = 'spin' | 'drop-in' | 'appear-standard';

@@ -14,19 +14,21 @@ const ITEM_CLASS_NAME = 'anim-item';
 export function AnimatedItem({
   children,
   animationName,
-  options = { delay: 0, stagger: 0.3 },
+  options = { delay: 0 },
 }: Props): JSX.Element {
   const el = createRef<HTMLDivElement>();
-  const q = gsap.utils.selector(el);
+  const q = useRef(gsap.utils.selector(el));
   const tl = useRef<gsap.core.Timeline>();
 
   useEffect(() => {
-    tl.current = gsap
-      .timeline()
-      .from(q(`.${ITEM_CLASS_NAME}`), generateTimeline(animationName, options));
+    tl.current = generateTimeline(
+      animationName,
+      q.current(`.${ITEM_CLASS_NAME}`),
+      options
+    );
 
     return () => {
-      tl.current?.kill();
+      // tl.current?.kill();
     };
   }, [el, q, animationName, options]);
 
