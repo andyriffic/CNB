@@ -7,8 +7,8 @@ const StyledLabel = styled.label`
   border-radius: 2em;
   box-sizing: border-box;
   text-decoration: none;
-  color: black;
-  background-color: white;
+  color: ${({ theme }) => theme.color.tertiaryText};
+  background-color: ${({ theme }) => theme.color.tertiaryBackground};
   text-align: center;
   font-size: 0.7rem;
   text-transform: uppercase;

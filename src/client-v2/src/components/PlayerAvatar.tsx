@@ -15,6 +15,7 @@ const sizeStyles: { [key in AvatarSize]: CSSProperties } = {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.4rem;
 `;
 

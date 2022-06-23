@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { usePlayerChoice } from '../contexts/PlayerChoiceContext';
 import { usePlayers } from '../contexts/PlayersContext';
 import { Player } from '../types/Player';
@@ -19,7 +19,6 @@ export function useGroupJoinSelection(
   const { allPlayerChoices, createChoice, deletePlayerChoice } =
     usePlayerChoice();
   const { activePlayers } = usePlayers();
-  const [status, setStatus] = useState<Status>('');
 
   const joinedPlayers = useMemo<Player[]>(() => {
     if (!allPlayerChoices) {
@@ -38,6 +37,10 @@ export function useGroupJoinSelection(
     );
   }, [allPlayerChoices, activePlayers, choiceId]);
 
+  const [status, setStatus] = useState<Status>(
+    joinedPlayers.length ? 'invitations-sent' : ''
+  );
+
   const sendInvites = () => {
     setStatus('invitations-sent');
     activePlayers.forEach((player) => {
@@ -48,11 +51,11 @@ export function useGroupJoinSelection(
     });
   };
 
-  const cleanup = () => {
+  const cleanup = useCallback(() => {
     activePlayers.forEach((p) => {
       deletePlayerChoice(p.id);
     });
-  };
+  }, [activePlayers]);
 
   // useEffect(() => {
   //   console.log('useGroupJoinSelection cleanup');

@@ -8,6 +8,8 @@ const theme: ThemeStyles = {
     primaryText: '#F72585',
     secondaryBackground: '#4CC9F0',
     secondaryText: '#000000',
+    tertiaryBackground: '#3A0CA3',
+    tertiaryText: '#ffffff',
   },
 };
 

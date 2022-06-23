@@ -6,5 +6,7 @@ export type ThemeStyles = {
     primaryText: string;
     secondaryBackground: string;
     secondaryText: string;
+    tertiaryBackground: string;
+    tertiaryText: string;
   };
 };

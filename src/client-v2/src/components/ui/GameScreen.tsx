@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import styled, { css } from 'styled-components';
 import { isDebugFeatureEnabled } from '../../utils/featureToggle';
 
 const Container = styled.div`
@@ -20,7 +21,7 @@ const Main = styled.div`
   overflow: hidden;
 `;
 
-const Debug = styled.div`
+const Debug = styled.div<{ hide: boolean }>`
   position: absolute;
   right: 0;
   top: 0;
@@ -29,6 +30,19 @@ const Debug = styled.div`
   background-color: #ccc;
   overflow: scroll;
   max-height: 100vh;
+  transition: opacity 200ms ease-out;
+  ${({ hide }) =>
+    hide &&
+    css`
+      opacity: 0;
+      pointer-events: none;
+    `}
+`;
+
+const DebugToggle = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 type Props = {
@@ -39,10 +53,17 @@ type Props = {
 const isDebug = isDebugFeatureEnabled();
 
 export function UiGameScreen({ children, debugContent }: Props): JSX.Element {
+  const [debugOpen, setDebugOpen] = useState(true);
+
   return (
     <Container>
       <Main>{children}</Main>
-      {isDebug && debugContent && <Debug>{debugContent}</Debug>}
+      {isDebug && debugContent && (
+        <>
+          <Debug hide={!debugOpen}>{debugContent}</Debug>
+          <DebugToggle onClick={() => setDebugOpen(!debugOpen)}>x</DebugToggle>
+        </>
+      )}
     </Container>
   );
 }

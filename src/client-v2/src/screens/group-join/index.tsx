@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
+import styled from 'styled-components';
 import { AnimatedItem } from '../../components/animations/AnimatedItem';
-import { AnimatedItems } from '../../components/animations/AnimatedItems';
 import { DebugPlayerChoice } from '../../components/debug/DebugPlayerChoice';
 import { PlayerAvatar } from '../../components/PlayerAvatar';
 import { UiButton } from '../../components/ui/Button';
@@ -10,9 +10,18 @@ import { LayoutCentered } from '../../components/ui/Layouts';
 import { UiTitle } from '../../components/ui/Title';
 import { useGroupJoinSelection } from '../../hooks/useGroupJoinSelection';
 
+const PlayerListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem 0 0 0;
+  max-width: 90vw;
+`;
+
 export function GroupJoinScreen(): JSX.Element {
   const { sendInvites, joinedPlayers, cleanup, status } = useGroupJoinSelection(
-    'JOIN GANE',
+    'JOIN GAME',
     'join-open-game'
   );
 
@@ -21,14 +30,14 @@ export function GroupJoinScreen(): JSX.Element {
       console.log('GroupJoinScreen cleanup');
       cleanup();
     };
-  }, []);
+  }, [cleanup]);
 
   return (
     <UiGameScreen
       debugContent={<DebugPlayerChoice choiceId="join-open-game" />}
     >
       <LayoutCentered>
-        <UiTitle>Group Join</UiTitle>
+        <UiTitle>Join Group</UiTitle>
 
         {!status && (
           <AnimatedItem animationName="drop-in">
@@ -42,27 +51,16 @@ export function GroupJoinScreen(): JSX.Element {
           </AnimatedItem>
         )}
 
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '2rem',
-            margin: '2rem 0 0 0',
-            maxWidth: '90vw',
-          }}
-        >
+        <PlayerListContainer>
           {joinedPlayers.map((p) => (
-            <div key={p.id}>
-              <AnimatedItem animationName="appear-standard">
-                <PlayerAvatar
-                  player={p}
-                  size={joinedPlayers.length > 7 ? 'small' : 'medium'}
-                />
-              </AnimatedItem>
-            </div>
+            <AnimatedItem key={p.id} animationName="appear-standard">
+              <PlayerAvatar
+                player={p}
+                size={joinedPlayers.length > 7 ? 'small' : 'medium'}
+              />
+            </AnimatedItem>
           ))}
-        </div>
+        </PlayerListContainer>
       </LayoutCentered>
     </UiGameScreen>
   );
