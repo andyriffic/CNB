@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { rotateAnimation } from '../../../uplift/components/animations';
 import vortexImage from '../../screens/snakes-and-ladders/assets/vortex.png';
+import { PacManBadge } from './PacManBadge';
 
 const Container = styled.div`
   /* width: 20px;
@@ -70,10 +71,18 @@ export const PlayerBadges = ({ tags }: Props) => {
       )}
       {tags.includes('badge:donkey_kong_winner') && (
         <BadgeEmoji
-          title="Won very first Donkey Kong game!"
+          title="Won Donkey Kong game!"
           style={{ borderColor: '#000', backgroundColor: '#2A3492' }}
         >
           🍒
+        </BadgeEmoji>
+      )}
+      {tags.includes('badge:pac_man_winner') && (
+        <BadgeEmoji
+          title="Won Pac Man game!"
+          style={{ borderColor: '#FFD84B', backgroundColor: '#000000' }}
+        >
+          <PacManBadge />
         </BadgeEmoji>
       )}
     </Container>
