@@ -10,15 +10,15 @@ const Container = styled.div`
 export const PlayerMaintenance = () => {
   const {
     setAllRacersRandomMoves,
-    resetAllRacersToStartLine,
+    resetAllGameSettings,
     giveRandomSlMoves,
   } = usePlayerMaintenance();
 
   return (
     <Container className="margins-off">
       <fieldset>
-        <button type="button" onClick={resetAllRacersToStartLine}>
-          Reset all racing players to start
+        <button type="button" onClick={resetAllGameSettings}>
+          Reset all game settings!!!
         </button>
         <button type="button" onClick={setAllRacersRandomMoves}>
           Set random racing moves

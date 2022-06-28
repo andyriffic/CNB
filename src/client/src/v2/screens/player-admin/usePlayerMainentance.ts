@@ -4,7 +4,7 @@ import { usePlayersProvider } from '../../providers/PlayersProvider';
 
 type UsePlayerMaintenance = {
   setAllRacersRandomMoves: () => void;
-  resetAllRacersToStartLine: () => void;
+  resetAllGameSettings: () => void;
   giveRandomSlMoves: () => void;
 };
 
@@ -29,18 +29,19 @@ export const usePlayerMaintenance = (): UsePlayerMaintenance => {
         updatePlayer(p.id, updatedTags);
       });
     },
-    resetAllRacersToStartLine: () => {
-      const allRacers = allPlayers.filter(p => p.tags.includes('racer'));
-      allRacers.forEach(p => {
+    resetAllGameSettings: () => {
+      allPlayers.forEach(p => {
         const updatedTags = [
           ...p.tags
+            .filter(t => !t.startsWith('racer'))
             .filter(t => !t.startsWith('rt_section'))
             .filter(t => !t.startsWith('rt_lane'))
             .filter(t => !t.startsWith('rt_square'))
             .filter(t => !t.startsWith('rt_moves'))
             .filter(t => !t.startsWith('rt_lap'))
-            .filter(t => !t.startsWith('rt_finish')),
-          'rt_moves:0',
+            .filter(t => !t.startsWith('rt_finish'))
+            .filter(t => !t.startsWith('pac_'))
+            .filter(t => !t.startsWith('sl_')),
         ];
 
         updatePlayer(p.id, updatedTags);
