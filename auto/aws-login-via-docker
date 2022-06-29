@@ -1,0 +1,1 @@
+docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli:2.0.6 ecr get-login-password --region ap-southeast-2 --profile cnb | docker login --username AWS --password-stdin 766741520701.dkr.ecr.ap-southeast-2.amazonaws.com/cnb-repo-prod
