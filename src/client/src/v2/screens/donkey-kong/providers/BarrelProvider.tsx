@@ -152,7 +152,7 @@ export const BarrelProvider = ({
           );
 
           const MAX_BARRELS = 6;
-          const MIN_BARRELS = 1;
+          const MIN_BARRELS = 2;
           const PLAYERS_ON_BOARD_PER_BARREL = 8;
           const PLAYER_MAX_POSITION_PER_BARREL = 10;
 
@@ -204,7 +204,7 @@ export const BarrelProvider = ({
             .map<GameBoardPlayer>(p => ({
               ...p,
               boardCellIndex: Math.max(
-                p.boardCellIndex - selectRandomOneOf([1, 2, 3]),
+                p.boardCellIndex - selectRandomOneOf([3, 5, 7]),
                 0
               ),
             }));
