@@ -1,0 +1,5 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli:2.0.6 ecs update-service --cluster cnb-prod-a --service cnb-prod-a-service --force-new-deployment --profile cnb --region ap-southeast-2

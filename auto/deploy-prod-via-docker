@@ -1,0 +1,8 @@
+#!/bin/bash -eu
+
+cd $(dirname $0)/..
+
+auto/aws-login-via-docker
+auto/build-image-prod
+auto/push-image-prod
+auto/re-deploy-ecs-service-prod-via-docker
