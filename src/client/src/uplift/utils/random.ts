@@ -1,5 +1,7 @@
+import random from 'random';
+
 export function selectRandomOneOf<T>(items: T[]): T {
-  const randomItemIndex = Math.floor(Math.random() * items.length);
+  const randomItemIndex = random.int(0, items.length - 1);
   return items[randomItemIndex];
 }
 
@@ -16,7 +18,7 @@ export function selectWeightedRandomOneOf<T>(
     return acc + weightedItem.weight;
   }, 0);
 
-  let randomWeight = Math.floor(Math.random() * totalWeights) + 1;
+  let randomWeight = random.int(1, totalWeights);
   let randomItem: WeightedItem<T>;
   for (let i = 0; i < weightedList.length; i++) {
     randomWeight -= weightedList[i].weight;
@@ -33,7 +35,7 @@ export function selectWeightedRandomOneOf<T>(
 export function shuffleArray<T>(array: T[]): T[] {
   const arrayClone = [...array];
   for (let i = arrayClone.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+    let j = random.int(0, i);
     [arrayClone[i], arrayClone[j]] = [arrayClone[j], arrayClone[i]]; // swap elements
   }
   return arrayClone;

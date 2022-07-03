@@ -1,6 +1,7 @@
 import { Socket, Server } from 'socket.io';
 import { matchupService } from '../services/matchup';
 import shortid from 'shortid';
+import random from 'random';
 import { matchupDatastore } from '../datastore/matchup';
 import { counterService } from '../services/counter';
 import { counterDatastore } from '../datastore/counters';
@@ -179,7 +180,7 @@ const init = (socketServer: Server, path: string) => {
           if (player.tags.includes('retired')) {
             return;
           }
-          const numberOfMoves = Math.floor(Math.random() * 10) + 1;
+          const numberOfMoves = random.int(1, 10);
           log('Assigning moves', player.name, numberOfMoves);
 
           const updatedTags = [

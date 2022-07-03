@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useMemo } from 'react';
 import { useRef } from 'react';
 import styled from 'styled-components';
+import random from 'random';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { SubHeading } from '../../../components/ui/Atoms';
 import { usePlayerChoiceProvider } from '../../../providers/PlayerChoiceProvider';
@@ -88,7 +89,7 @@ const renderChoices = (
 
 export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
   const [choiceState, setChoiceState] = useState(ChoiceState.Intro);
-  const cherryIndex = useRef(Math.floor(Math.random() * TOTAL_BARRELS));
+  const cherryIndex = useRef(random.int(0, TOTAL_BARRELS));
   const {
     createChoice,
     deletePlayerChoice,

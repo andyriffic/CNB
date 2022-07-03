@@ -13,6 +13,7 @@
     "gsap": "^2.0.2",
     "howler": "^2.0.15",
     "moment": "^2.24.0",
+    "random": "^3.0.6",
     "react": "^16.8.6",
     "react-color": "^2.19.3",
     "react-confetti": "^4.0.1",
