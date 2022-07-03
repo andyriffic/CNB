@@ -188,7 +188,9 @@ function movePlayer(
 
   const atEnd = pacPlayer.pathIndex + 1 >= state.board.playerPath.length - 1;
   const finishPosition =
-    !pacPlayer.finishPosition && atEnd ? getNextFinishPosition(state) : 0;
+    !pacPlayer.finishPosition && atEnd
+      ? getNextFinishPosition(state)
+      : pacPlayer.finishPosition;
 
   return updatePlayer(
     {
