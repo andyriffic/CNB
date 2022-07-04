@@ -46,14 +46,13 @@ export const useMobSelection = (): UseMobSelection => {
   const selectMug = (): Player => {
     const lowestPacSquare = Math.min(
       ...joinedPlayers.map(p =>
-        getPlayerIntegerAttributeValue(p.tags, 'pac_square', 0)
+        getPlayerIntegerAttributeValue(p.tags, 'sl_cell', 0)
       )
     );
 
     const lowestRaceTrackPlayers = joinedPlayers.filter(
       p =>
-        getPlayerIntegerAttributeValue(p.tags, 'pac_square', 0) ===
-        lowestPacSquare
+        getPlayerIntegerAttributeValue(p.tags, 'sl_cell', 0) === lowestPacSquare
     );
 
     return selectRandomOneOf(lowestRaceTrackPlayers);
