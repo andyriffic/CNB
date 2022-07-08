@@ -48,6 +48,10 @@ const PlayerName = styled.div`
   text-transform: uppercase;
   font-size: ${({ theme }) => theme.fontSize.extraSmall};
   margin-top: 10px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 4px;
 `;
 
 enum ChoiceState {
@@ -80,7 +84,7 @@ const renderChoices = (
     if (reveal && i === cherryIndex) {
       items.push(<Emoji selected={selectedItems.includes(i)}>🍒</Emoji>);
     } else {
-      items.push(<Emoji selected={selectedItems.includes(i)}>🛢</Emoji>);
+      items.push(<Emoji selected={false}>🛢</Emoji>);
     }
   }
 
@@ -116,6 +120,15 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
     return answeredChoices.map(c => parseInt(c.selectedChoiceId!));
   }, [answeredChoices]);
 
+  const playersStillToMakeChoice = useMemo(() => {
+    if (!allPlayerChoices) {
+      return playersAtEnd;
+    }
+    return playersAtEnd.filter(p =>
+      allPlayerChoices.find(c => c.playerId === p.id && !c.selectedChoiceId)
+    );
+  }, [allPlayerChoices, playersAtEnd]);
+
   useEffect(() => {
     if (allChoicesSelected) {
       setTimeout(() => {
@@ -145,7 +158,7 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
 
       setTimeout(() => {
         onComplete(result);
-      }, 2000);
+      }, 4000);
     }
   }, [choiceState, answeredChoices]);
 
@@ -170,6 +183,11 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
   return (
     <Container>
       <SubHeading>Find the Cherry!</SubHeading>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        {playersStillToMakeChoice.map(p => (
+          <PlayerName key={p.id}>{p.name}</PlayerName>
+        ))}
+      </div>
       <ChoiceList>
         {renderChoices(
           cherryIndex.current,
@@ -178,11 +196,12 @@ export const WinnerDonkeyChoice = ({ playersAtEnd, onComplete }: Props) => {
         ).map((item, index) => (
           <ChoiceItem key={index}>
             {item}
-            {answeredChoices.map(ac =>
-              parseInt(ac.selectedChoiceId!) === index ? (
-                <PlayerName key={ac.playerId}>{ac.playerId}</PlayerName>
-              ) : null
-            )}
+            {choiceState >= ChoiceState.RevealChoices &&
+              answeredChoices.map(ac =>
+                parseInt(ac.selectedChoiceId!) === index ? (
+                  <PlayerName key={ac.playerId}>{ac.playerId}</PlayerName>
+                ) : null
+              )}
           </ChoiceItem>
         ))}
       </ChoiceList>
