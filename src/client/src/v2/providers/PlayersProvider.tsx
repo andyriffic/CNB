@@ -1,7 +1,10 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SOCKETS_ENDPOINT } from '../../environment';
-import { getPlayerAttributeValue } from '../../uplift/utils/player';
+import {
+  getPlayerAttributeValue,
+  getPlayerIntegerAttributeValue,
+} from '../../uplift/utils/player';
 import { createSocket } from '../services/sockets';
 
 enum PLAYER_EVENTS {
@@ -43,6 +46,7 @@ export type PlayerService = {
     numMoves: number,
     onUpdated?: () => void
   ) => void;
+  setNextFinishedPlacing: (playerId: string, placingKey: string) => void;
 };
 
 const PlayersContext = React.createContext<PlayerService | undefined>(
@@ -141,6 +145,32 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
             socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, p.id, updatedTags);
           });
           onUpdated && onUpdated();
+        },
+        setNextFinishedPlacing: (playerId, placingKey) => {
+          const player = allPlayers.find(p => p.id === playerId);
+          if (!player) {
+            return;
+          }
+          const currentPlacing = getPlayerIntegerAttributeValue(
+            player.tags,
+            placingKey,
+            0
+          );
+          if (currentPlacing > 0) {
+            return;
+          }
+
+          const topPlacing = Math.max(
+            ...allPlayers.map(p =>
+              getPlayerIntegerAttributeValue(p.tags, placingKey, 0)
+            )
+          );
+
+          const updatedTags = [
+            ...player.tags.filter(t => !t.startsWith(placingKey)),
+            `${placingKey}:${topPlacing + 1}`,
+          ];
+          socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, playerId, updatedTags);
         },
       }}
     >

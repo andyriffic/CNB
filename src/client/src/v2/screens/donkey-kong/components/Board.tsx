@@ -11,7 +11,7 @@ import { SplashText } from '../../../components/SplashText';
 import { Button } from '../../../components/ui/buttons';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { WinnerDonkeyChoice } from './WinnerDonkeyChoice';
-import { Player } from '../../../providers/PlayersProvider';
+import { Player, usePlayersProvider } from '../../../providers/PlayersProvider';
 import { WinningPlayer } from './WinningPlayer';
 
 enum PlayState {
@@ -67,6 +67,7 @@ export const Board = ({ boardImage, width, height }: Props) => {
     cellsWithPlayers,
     moveAllPlayers,
   } = useGameBoardProvider();
+  const { setNextFinishedPlacing } = usePlayersProvider();
   const [playState, setPlayState] = useState(PlayState.WaitingToPlay);
   const [winningPlayer, setWinningPlayer] = useState<Player | undefined>();
   const { play } = useSoundProvider();
@@ -145,7 +146,9 @@ export const Board = ({ boardImage, width, height }: Props) => {
           playersAtEnd={getPlayersInEndCell(cellsWithPlayers)}
           onComplete={result => {
             if (result.winningPlayers.length === 1) {
-              setWinningPlayer(result.winningPlayers[0]);
+              const winner = result.winningPlayers[0];
+              setWinningPlayer(winner);
+              setNextFinishedPlacing(winner.id, 'sl_finish');
             } else {
               setPlayState(PlayState.GameOver);
             }
