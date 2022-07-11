@@ -7,6 +7,7 @@ import gameBoardBackground from './boards/classic-donkey-kong-board.png';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { GameBoardProvider } from './providers/GameBoardProvider';
 import { BarrelProvider } from './providers/BarrelProvider';
+import { FinalEpicMatchup } from '../../components/FinalEpicMatchup';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -35,6 +36,9 @@ const View = () => {
               width={boardWidth}
               height={boardHeight}
             />
+            <div style={{ position: 'absolute', top: 0, right: 0 }}>
+              <FinalEpicMatchup placingKey="sl_finish" />
+            </div>
           </BarrelProvider>
         </GameBoardProvider>
       </Container>
