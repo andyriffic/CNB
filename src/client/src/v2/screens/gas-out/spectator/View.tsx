@@ -9,6 +9,7 @@ import { useGasProvider } from '../../../providers/GasProvider';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
 import { GasBallon } from './GasBalloon';
 import { GasPlayerDebug } from './GasPlayerDebug';
+import { Graveyard } from './Graveyard';
 import { useGasGame } from './hooks/useGasGame';
 import { useGasSound } from './hooks/useGasSound';
 import { LastTwoPlayersNotification } from './LastTwoPlayersNotification';
@@ -16,7 +17,7 @@ import { PlayerList } from './PlayerList';
 import { Winner } from './Winner';
 
 const Container = styled.div`
-  margin: 50px auto 50px auto;
+  margin: 50px auto;
 `;
 
 const PlayersContainer = styled.div`
@@ -24,12 +25,18 @@ const PlayersContainer = styled.div`
   justify-content: center;
 `;
 
+const GraveyardContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 25%;
+`;
+
 type Props = {
   gameId: string;
   navigate: NavigateFn | undefined;
 };
 
-export default ({ gameId, navigate }: Props) => {
+export default ({ gameId }: Props) => {
   const { game } = useGasGame(gameId);
   useGasSound(game);
   const { nextPlayer } = useGasProvider();
@@ -83,6 +90,9 @@ export default ({ gameId, navigate }: Props) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GasBallon gasCloud={game.gasCloud} />
         </div>
+        <GraveyardContainer>
+          <Graveyard game={game} />
+        </GraveyardContainer>
       </Container>
     </GameScreen>
   );
