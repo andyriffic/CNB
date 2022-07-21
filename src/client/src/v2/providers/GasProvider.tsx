@@ -31,6 +31,10 @@ export type GasGame = {
   gasCloud: GasCloud;
   pointsMap: number[];
   globalEffect?: GlobalEffect;
+  mvpPlayerIds?: {
+    mostCorrectGuesses: string[];
+    mostPresses: string[];
+  };
 };
 
 export type GasCloud = {

@@ -20,7 +20,14 @@ export function PlayerList({ game, gameOver }: Props): JSX.Element {
   return (
     <PlayerListContainer>
       {game.allPlayers.map(p => {
-        return <PlayerListPlayer player={p} game={game} gameOver={gameOver} />;
+        return (
+          <PlayerListPlayer
+            key={p.player.id}
+            player={p}
+            game={game}
+            gameOver={gameOver}
+          />
+        );
       })}
     </PlayerListContainer>
   );

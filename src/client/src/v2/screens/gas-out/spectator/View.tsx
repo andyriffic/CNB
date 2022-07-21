@@ -6,6 +6,7 @@ import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { LinkToMiniGame } from '../../../components/LinkToMiniGame';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
+import { FinalPodium } from './FinalPodium';
 import { GameDirectionIndicator } from './GameDirectionIndicator';
 import { GasBallon } from './GasBalloon';
 import { GasPlayerDebug } from './GasPlayerDebug';
@@ -76,15 +77,19 @@ export default ({ gameId }: Props) => {
         {isPersistantFeatureEnabled('cnb-debug') && (
           <GasPlayerDebug game={game} />
         )}
-        <PlayersContainer>
-          <PlayerList game={game} gameOver={!!game.winningPlayerId} />
-        </PlayersContainer>
         {!game.winningPlayerId && (
-          <div style={{ textAlign: 'center', marginTop: '30px' }}>
-            <GameDirectionIndicator game={game} />
-          </div>
+          <>
+            {' '}
+            <PlayersContainer>
+              <PlayerList game={game} gameOver={!!game.winningPlayerId} />
+            </PlayersContainer>
+            <div style={{ textAlign: 'center', marginTop: '30px' }}>
+              <GameDirectionIndicator game={game} />
+            </div>
+          </>
         )}
-        <Winner game={game} />
+        {/* <Winner game={game} /> */}
+        <FinalPodium game={game} />
         {!!game.winningPlayerId && <LinkToMiniGame />}
         <LastTwoPlayersNotification game={game} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>

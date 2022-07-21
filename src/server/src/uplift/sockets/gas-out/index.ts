@@ -194,6 +194,48 @@ export function resetCloud(game: GasGame): GasGame {
   };
 }
 
+function assignMvps(game: GasGame): GasGame {
+  if (!game.winningPlayerId) {
+    return game;
+  }
+
+  return {
+    ...game,
+    mvpPlayerIds: {
+      mostCorrectGuesses: getMostCorrectGuessesPlayerId(game),
+      mostPresses: getMostPressesPlayerId(game),
+    },
+  };
+}
+
+function getMostPressesPlayerId(game: GasGame): string[] {
+  const mostPressesCount = Math.max(
+    ...game.allPlayers.map((p) => p.totalPresses)
+  );
+
+  if (mostPressesCount === 0) {
+    return [];
+  }
+
+  return game.allPlayers
+    .filter((p) => p.totalPresses === mostPressesCount)
+    .map((p) => p.player.id);
+}
+
+function getMostCorrectGuessesPlayerId(game: GasGame): string[] {
+  const mostCorrectGuessesCount = Math.max(
+    ...game.allPlayers.map((p) => p.guesses.correctGuessCount)
+  );
+
+  if (mostCorrectGuessesCount === 0) {
+    return [];
+  }
+
+  return game.allPlayers
+    .filter((p) => p.guesses.correctGuessCount === mostCorrectGuessesCount)
+    .map((p) => p.player.id);
+}
+
 function assignWinner(game: GasGame): GasGame {
   if (!!game.winningPlayerId) {
     //Winner already assigned
@@ -279,9 +321,11 @@ export function press(game: GasGame): GasGame {
 
   const exploded = selectWeightedRandomOneOf(explodedWeights);
 
-  return assignWinner(
-    resetPlayerGuessesAndGivePoints(
-      takeOnePressFromCurrentPlayer(exploded ? explode(game, false) : game)
+  return assignMvps(
+    assignWinner(
+      resetPlayerGuessesAndGivePoints(
+        takeOnePressFromCurrentPlayer(exploded ? explode(game, false) : game)
+      )
     )
   );
 }
@@ -302,21 +346,23 @@ function explode(game: GasGame, timedOut: boolean): GasGame {
     points: deadPlayerIds.length,
   };
 
-  return assignWinner(
-    resetPlayerGuessesAndGivePoints({
-      ...game,
-      allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
-      alivePlayersIds,
-      deadPlayerIds,
-      currentPlayer: {
-        ...game.currentPlayer,
-        pressesRemaining: game.currentPlayer.pressesRemaining - 1,
-      },
-      gasCloud: {
-        ...game.gasCloud,
-        exploded: true,
-      },
-    })
+  return assignMvps(
+    assignWinner(
+      resetPlayerGuessesAndGivePoints({
+        ...game,
+        allPlayers: updatePlayerInList(game.allPlayers, updatedCurrentPlayer),
+        alivePlayersIds,
+        deadPlayerIds,
+        currentPlayer: {
+          ...game.currentPlayer,
+          pressesRemaining: game.currentPlayer.pressesRemaining - 1,
+        },
+        gasCloud: {
+          ...game.gasCloud,
+          exploded: true,
+        },
+      })
+    )
   );
 }
 
@@ -477,6 +523,12 @@ function createGasPlayer(player: Player): GasPlayer {
     guesses: {
       correctGuessCount: 0,
       nominatedCount: 0,
+    },
+    pointsAllocation: {
+      base: 0,
+      correctGuesses: 0,
+      mostCorrectGuesses: 0,
+      mostPresses: 0,
     },
   };
 }

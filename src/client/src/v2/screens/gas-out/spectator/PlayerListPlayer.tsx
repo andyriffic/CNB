@@ -6,6 +6,7 @@ import {
 } from '../../../../uplift/components/animations';
 import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
+import { AvatarSizeStyles } from '../../../components/player-avatar/AvatarImage';
 import { GasGame, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
 import { PlayerBonusPoints } from './PlayerBonusPoints';
@@ -114,12 +115,14 @@ type Props = {
   player: GasPlayer;
   game: GasGame;
   gameOver: boolean;
+  size?: keyof AvatarSizeStyles;
 };
 
 export function PlayerListPlayer({
   player,
   game,
   gameOver,
+  size = 'small',
 }: Props): JSX.Element | null {
   const alive = useMemo(() => {
     return player.status !== 'dead';
@@ -170,7 +173,7 @@ export function PlayerListPlayer({
         <PlayerName>{player.player.name}</PlayerName>
       )}
       <PlayerAvatarContainer alive={alive}>
-        <PlayerAvatar player={player.player} size="small" showZodiac={false} />
+        <PlayerAvatar player={player.player} size={size} showZodiac={false} />
       </PlayerAvatarContainer>
       {(!notDead || winner) && <PlayerPoints>{player.points}</PlayerPoints>}
       {player.timedOut && <TimedOutIcon>⏰</TimedOutIcon>}
