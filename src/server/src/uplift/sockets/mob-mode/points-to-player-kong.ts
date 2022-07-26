@@ -4,6 +4,35 @@ import { Player } from '../../services/player/types';
 import { incrementIntegerTag } from '../../utils/tags';
 import { MobGame } from './types';
 
+function giveKongImmunity(player: Player): Player {
+  return {
+    ...player,
+    tags: [
+      ...player.tags.filter((t) => t !== 'kong_immunity'),
+      'kong_immunity',
+    ],
+  };
+}
+
+function giveWinnerBonus(player: Player, mobGame: MobGame): Player {
+  const survivingMobPlayers = mobGame.mobPlayers.filter((mp) => mp.active);
+  const mugWinner =
+    survivingMobPlayers.length === 0 && mobGame.mugPlayer.lives > 0;
+  const soleMobSurvivor =
+    survivingMobPlayers.length === 1 ? survivingMobPlayers[0] : undefined;
+
+  if (
+    !(
+      (mugWinner && player.id === mobGame.mugPlayer.playerId) ||
+      (soleMobSurvivor && player.id === survivingMobPlayers[0].playerId)
+    )
+  ) {
+    return player;
+  }
+
+  return giveKongImmunity(player);
+}
+
 function givePoints(player: Player, points: number, log: Debugger): void {
   log('Giving points: ', player.id, points);
   const newTags = [
@@ -24,7 +53,11 @@ export function pointsToPlayersKong(mobGame: MobGame, log: Debugger) {
     );
 
     if (mugPlayer) {
-      givePoints(mugPlayer, mobGame.points.mugPlayer, log);
+      givePoints(
+        giveWinnerBonus(mugPlayer, mobGame),
+        mobGame.points.mugPlayer,
+        log
+      );
     }
 
     mobGame.points.mobPlayers.forEach((mobPlayerPoints) => {
@@ -34,7 +67,11 @@ export function pointsToPlayersKong(mobGame: MobGame, log: Debugger) {
 
       if (!mobPlayer) return;
 
-      givePoints(mobPlayer, mobPlayerPoints.points, log);
+      givePoints(
+        giveWinnerBonus(mobPlayer, mobGame),
+        mobPlayerPoints.points,
+        log
+      );
     });
   });
 }
