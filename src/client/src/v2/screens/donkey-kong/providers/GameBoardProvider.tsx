@@ -17,6 +17,7 @@ export type GameBoardPlayer = {
   inLead: boolean;
   isWinner: boolean;
   moving: boolean;
+  immunity: boolean;
 };
 
 type GameBoardService = {
@@ -110,14 +111,17 @@ export const GameBoardProvider = ({
         cellsWithPlayers,
         savePlayer: gameBoardPlayer => {
           const playerTags = gameBoardPlayer.player.tags
+            .filter(t => t !== 'kong_immunity')
             .filter(t => !t.startsWith('sl_moves:'))
             .filter(t => !t.startsWith('sl_cell:'));
 
-          updatePlayer(gameBoardPlayer.player.id, [
+          const updatedTags = [
             ...playerTags,
             'sl_moves:0',
             `sl_cell:${gameBoardPlayer.boardCellIndex}`,
-          ]);
+          ];
+
+          updatePlayer(gameBoardPlayer.player.id, updatedTags);
         },
         landedInCell: (gameBoardPlayer, cell) => {
           const playerFinalRestingPlace = landedInCell(gameBoardPlayer, cell);

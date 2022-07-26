@@ -201,7 +201,9 @@ export const BarrelProvider = ({
           console.log('EXPLODING BARREL', explodedBarrel);
           const explodedPlayers = throwBarrelProps.gameBoardPlayers
             .filter(
-              p => p.boardCellIndex === throwBarrelProps.barrel.targetCellIndex
+              p =>
+                !p.immunity &&
+                p.boardCellIndex === throwBarrelProps.barrel.targetCellIndex
             )
             .map<GameBoardPlayer>(p => ({
               ...p,

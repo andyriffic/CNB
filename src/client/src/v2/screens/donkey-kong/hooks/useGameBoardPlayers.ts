@@ -29,6 +29,7 @@ const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
       inLead: false,
       isWinner: player.tags.includes('sl_winner'),
       moving: player.tags.includes('sl_moving'),
+      immunity: player.tags.includes('kong_immunity'),
     };
   });
   return boardPlayers;

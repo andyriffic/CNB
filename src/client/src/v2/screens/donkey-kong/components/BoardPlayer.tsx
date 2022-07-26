@@ -1,23 +1,28 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import Rainbow from '../../../../components/rainbow-text';
-import { BOARD_CELL_TYPE, GameBoardCellWithPlayers } from '../types';
+import { GameBoardCellWithPlayers } from '../types';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
 import {
   bounceAnimation,
-  intoWormholeAnimation,
-  outOfWormholeAnimation,
   superSaiyanAnimation,
 } from '../../../../uplift/components/animations';
-import { selectWeightedRandomOneOf } from '../../../../uplift/utils/random';
 import { PlayerAvatar } from '../../../components/player-avatar';
-import {
-  GameBoardPlayer,
-  useGameBoardProvider,
-} from '../providers/GameBoardProvider';
-import { useSoundProvider } from '../../../providers/SoundProvider';
+import { GameBoardPlayer } from '../providers/GameBoardProvider';
 
 export const PLAYER_MOVE_ANIMATION_TIMEOUT_MS = 200;
+
+const borderPulseAnimation = keyframes`
+0% {
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      box-shadow: 0 0 0 20px rgba(204,169,44, 0);
+  }
+  100% {
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+  `;
 
 const CellPlayer = styled.div<{
   priority: number;
@@ -70,6 +75,18 @@ const MovesRemaining = styled.div`
   justify-content: center;
 `;
 
+const Shield = styled.div`
+  width: 80px;
+  height: 80px;
+  border: 2px solid goldenrod;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: -15px;
+  box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
+  animation: ${borderPulseAnimation} 1.5s infinite;
+`;
+
 type Props = {
   gameBoardPlayer: GameBoardPlayer;
   cell: GameBoardCellWithPlayers;
@@ -95,6 +112,7 @@ export const BoardPlayer = ({ gameBoardPlayer, cell }: Props) => {
               </ReadableNumberFont>
             </MovesRemaining>
           )}
+          {gameBoardPlayer.immunity && <Shield />}
         </div>
       </CellPlayer>
     </>
