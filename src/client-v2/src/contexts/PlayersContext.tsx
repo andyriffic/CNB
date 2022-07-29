@@ -1,4 +1,10 @@
-import React, { useState, useEffect, ReactNode, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  ReactNode,
+  useMemo,
+  useCallback,
+} from 'react';
 import { createSocket } from '../services/sockets';
 import { Player } from '../types/Player';
 
@@ -39,14 +45,19 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const updatePlayer = useCallback(
+    (id: string, tags: string[], onUpdated?: () => void) => {
+      socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags, onUpdated);
+    },
+    []
+  );
+
   return (
     <PlayersContext.Provider
       value={{
         allPlayers,
         activePlayers,
-        updatePlayer: (id, tags, onUpdated) => {
-          socket.emit(PLAYER_EVENTS.UPDATE_PLAYER, id, tags, onUpdated);
-        },
+        updatePlayer,
       }}
     >
       {children}
