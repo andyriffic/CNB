@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode, useCallback } from 'react';
 import { createSocket } from '../services/sockets';
 
 enum PLAYER_CHOICE_EVENTS {
@@ -63,27 +63,35 @@ export const PlayerChoiceProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const createChoice = useCallback(
+    (
+      initiateChoice: InitiatePlayerChoice,
+      onCreated?: (choiceId: string) => void
+    ) => {
+      socket.emit(
+        PLAYER_CHOICE_EVENTS.INITIATE_CHOICE,
+        initiateChoice,
+        onCreated
+      );
+    },
+    []
+  );
+
+  const selectChoice = useCallback((choiceId: string, selectionId: string) => {
+    socket.emit(PLAYER_CHOICE_EVENTS.SELECT_CHOICE, choiceId, selectionId);
+  }, []);
+
+  const deletePlayerChoice = useCallback((playerId: string) => {
+    socket.emit(PLAYER_CHOICE_EVENTS.PLAYER_CHOICE_DELETE, playerId);
+  }, []);
+
   return (
     <PlayerChoiceContext.Provider
       value={{
         allPlayerChoices: allChoices,
-        createChoice: (initiateChoice: InitiatePlayerChoice, onCreated) => {
-          socket.emit(
-            PLAYER_CHOICE_EVENTS.INITIATE_CHOICE,
-            initiateChoice,
-            onCreated
-          );
-        },
-        selectChoice: (choiceId, selectionId) => {
-          socket.emit(
-            PLAYER_CHOICE_EVENTS.SELECT_CHOICE,
-            choiceId,
-            selectionId
-          );
-        },
-        deletePlayerChoice: (playerId) => {
-          socket.emit(PLAYER_CHOICE_EVENTS.PLAYER_CHOICE_DELETE, playerId);
-        },
+        createChoice,
+        selectChoice,
+        deletePlayerChoice,
       }}
     >
       {children}

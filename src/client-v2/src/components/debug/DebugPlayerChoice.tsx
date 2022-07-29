@@ -11,7 +11,7 @@ type Props = {
 export function DebugPlayerChoice({ choiceId }: Props): JSX.Element {
   const { allPlayerChoices, selectChoice } = usePlayerChoice();
 
-  const joinMobChoices = useMemo<CreatedPlayerChoice[]>(
+  const allChoices = useMemo<CreatedPlayerChoice[]>(
     () =>
       allPlayerChoices
         ? allPlayerChoices.filter((c) =>
@@ -21,23 +21,43 @@ export function DebugPlayerChoice({ choiceId }: Props): JSX.Element {
     [allPlayerChoices, choiceId]
   );
 
+  const selectedChoices = useMemo(() => {
+    return allChoices.filter((c) => !!c.selectedChoiceId);
+  }, [allChoices]);
+
+  const unselectedChoices = useMemo(() => {
+    return allChoices.filter((c) => !c.selectedChoiceId);
+  }, [allChoices]);
+
   return (
     <div>
       <h4>Choices</h4>
+      <h5>Unselected</h5>
       <div>
-        {joinMobChoices.map((playerChoice) => (
+        {unselectedChoices.map((playerChoice) => (
           <div key={`${playerChoice.id}-${playerChoice.playerId}`}>
             <div>{playerChoice.playerId}</div>
             <div>
-              {playerChoice.choices.map((choice) => (
-                <button
-                  key={choice.id}
-                  onClick={() => selectChoice(playerChoice.id, choice.id)}
-                >
-                  {choice.label}
-                </button>
-              ))}
+              {playerChoice.choices.map((choice) => {
+                return (
+                  <button
+                    key={choice.id}
+                    onClick={() => selectChoice(playerChoice.id, choice.id)}
+                  >
+                    {choice.label}
+                  </button>
+                );
+              })}
             </div>
+          </div>
+        ))}
+      </div>
+      <h5>Selected</h5>
+      <div>
+        {selectedChoices.map((playerChoice) => (
+          <div key={`${playerChoice.id}-${playerChoice.playerId}`}>
+            <strong>{playerChoice.playerId}</strong>
+            <div>{playerChoice.selectedChoiceId}</div>
           </div>
         ))}
       </div>

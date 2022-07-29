@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { AnimatedItem } from '../../components/animations/AnimatedItem';
 import { DebugPlayerChoice } from '../../components/debug/DebugPlayerChoice';
@@ -32,9 +32,18 @@ export function GroupJoinScreen(): JSX.Element {
     };
   }, [cleanup]);
 
+  const reset = useCallback(() => {
+    cleanup();
+  }, [cleanup]);
+
   return (
     <UiGameScreen
-      debugContent={<DebugPlayerChoice choiceId="join-open-game" />}
+      debugContent={
+        <>
+          <button onClick={reset}>RESET</button>
+          <DebugPlayerChoice choiceId="join-open-game" />
+        </>
+      }
     >
       <LayoutCentered>
         <UiTitle>Join Group</UiTitle>

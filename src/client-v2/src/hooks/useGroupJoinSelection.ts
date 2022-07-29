@@ -37,25 +37,32 @@ export function useGroupJoinSelection(
     );
   }, [allPlayerChoices, activePlayers, choiceId]);
 
-  const [status, setStatus] = useState<Status>(
-    joinedPlayers.length ? 'invitations-sent' : ''
-  );
+  const status = useMemo<Status>(() => {
+    if (allPlayerChoices?.length) {
+      return 'invitations-sent';
+    }
 
-  const sendInvites = () => {
-    setStatus('invitations-sent');
+    return '';
+  }, [allPlayerChoices]);
+
+  // const [status, setStatus] = useState<Status>(
+  //   joinedPlayers.length ? 'invitations-sent' : ''
+  // );
+
+  const sendInvites = useCallback(() => {
     activePlayers.forEach((player) => {
       createChoice({
         playerId: player.id,
         choices: [{ id: choiceId, label }],
       });
     });
-  };
+  }, [activePlayers, choiceId, createChoice, label]);
 
   const cleanup = useCallback(() => {
     activePlayers.forEach((p) => {
       deletePlayerChoice(p.id);
     });
-  }, [activePlayers]);
+  }, [activePlayers, deletePlayerChoice]);
 
   // useEffect(() => {
   //   console.log('useGroupJoinSelection cleanup');
