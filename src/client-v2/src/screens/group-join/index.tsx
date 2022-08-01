@@ -9,6 +9,7 @@ import { UiGameScreen } from '../../components/ui/GameScreen';
 import { LayoutCentered } from '../../components/ui/Layouts';
 import { UiTitle } from '../../components/ui/Title';
 import { useGroupJoinSelection } from '../../hooks/useGroupJoinSelection';
+import { useGroupJoinSoundEffect } from './useGroupJoinSoundEffects';
 
 const PlayerListContainer = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ export function GroupJoinScreen(): JSX.Element {
     'JOIN GAME',
     'join-open-game'
   );
+  useGroupJoinSoundEffect(joinedPlayers);
 
   useEffect(() => {
     return () => {
