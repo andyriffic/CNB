@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import View from './View';
 import { RacingTrackServiceProvider } from './providers/RacingTrackSerivce';
-import { racingTrack as track3 } from './tracks/track3';
+import { racingTrack as track4 } from './tracks/track2';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { RacingTrack } from './types';
 import { shuffleArray } from '../../../uplift/utils/random';
@@ -25,7 +25,7 @@ export const RacingTrackScreen = ({ location }: RouteComponentProps) => {
 
   return (
     <RacingTrackServiceProvider
-      racingTrack={track3}
+      racingTrack={track4}
       participatingPlayers={participatingPlayers}
       savePlayer={savePlayer}
     >
