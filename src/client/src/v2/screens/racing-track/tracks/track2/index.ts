@@ -1,4 +1,8 @@
-import { boostTrackBehaviour, rockTrackBehaviour } from '../../trackBehaviours';
+import {
+  boostTrackBehaviour,
+  obstacleTrackBehaviour,
+  rockTrackBehaviour,
+} from '../../trackBehaviours';
 import { RacingTrack } from '../../types';
 import background from './race-track.png';
 
@@ -232,10 +236,14 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 270,
       lanes: [
         {
-          squares: [{ coordinates: { x: 113, y: 175 } }],
+          squares: [
+            { coordinates: { x: 113, y: 175 }, type: obstacleTrackBehaviour },
+          ],
         },
         {
-          squares: [{ coordinates: { x: 150, y: 175 } }],
+          squares: [
+            { coordinates: { x: 150, y: 175 }, type: obstacleTrackBehaviour },
+          ],
         },
       ],
     },

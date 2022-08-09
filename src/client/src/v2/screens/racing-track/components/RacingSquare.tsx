@@ -103,7 +103,7 @@ export const RacingSquare = ({ square, lane, section }: Props): JSX.Element => {
           <PowerBoost>+{square.type.context}</PowerBoost>
         )}
         {square.type && square.type.type === 'obstacle' && (
-          <Obstacle>🚧</Obstacle>
+          <Obstacle>🐥</Obstacle>
         )}
       </Container>
     </PositionContainer>
