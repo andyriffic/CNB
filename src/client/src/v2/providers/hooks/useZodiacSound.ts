@@ -13,12 +13,11 @@ const getPlayerZodiacSoundName = (player: Player): keyof SoundMap => {
 };
 
 export const usePlayPlayerZodiacSoundByPlayer = (
-  player: Player,
   fallbackSound: keyof SoundMap
-): (() => void) => {
+): ((player: Player) => void) => {
   const { play } = useSoundProvider();
 
-  return useCallback(() => {
+  return useCallback((player: Player) => {
     const sound = play(getPlayerZodiacSoundName(player));
 
     if (sound.state() === 'unloaded') {

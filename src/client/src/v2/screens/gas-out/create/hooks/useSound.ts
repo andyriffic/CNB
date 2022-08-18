@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler';
 import { useEffect, useRef } from 'react';
+import { usePlayPlayerZodiacSoundByPlayer } from '../../../../providers/hooks/useZodiacSound';
 import { Player } from '../../../../providers/PlayersProvider';
 import {
   SoundMap,
@@ -8,7 +9,10 @@ import {
 
 export function useSound(joinedPlayers: Player[]) {
   const { play } = useSoundProvider();
-  const totalJoinedPlayers = useRef(joinedPlayers.length);
+  const playPlayersZodiacSound = usePlayPlayerZodiacSoundByPlayer(
+    'GasCloudPress'
+  );
+  const previousJoinedPlayers = useRef(joinedPlayers);
   const playingSounds = useRef<{ [id: string]: Howl }>({});
 
   useEffect(() => {
@@ -22,10 +26,17 @@ export function useSound(joinedPlayers: Player[]) {
   }, []);
 
   useEffect(() => {
-    if (joinedPlayers.length > totalJoinedPlayers.current) {
-      play('GasCloudPress');
-      totalJoinedPlayers.current = joinedPlayers.length;
-    }
+    const newlyJoinedPlayers = joinedPlayers.filter(
+      p => !previousJoinedPlayers.current.find(jp => jp.id === p.id)
+    );
+
+    // console.log('NEWLY JOINED PLAYERS', newlyJoinedPlayers);
+
+    previousJoinedPlayers.current = joinedPlayers;
+
+    newlyJoinedPlayers.forEach(p => {
+      playPlayersZodiacSound(p);
+    });
   }, [joinedPlayers]);
 
   useEffect(() => {
