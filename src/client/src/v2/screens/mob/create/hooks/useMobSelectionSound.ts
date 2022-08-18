@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler';
 import { useEffect, useRef } from 'react';
+import { usePlayPlayerZodiacSoundByPlayer } from '../../../../providers/hooks/useZodiacSound';
 import { Player } from '../../../../providers/PlayersProvider';
 import {
   SoundMap,
@@ -11,6 +12,11 @@ export function useMobSelectionSound(
   chosenMug?: Player
 ) {
   const { play } = useSoundProvider();
+  const previousJoinedPlayers = useRef(joinedPlayers);
+  const playPlayersZodiacSound = usePlayPlayerZodiacSoundByPlayer(
+    'PlayerJoinedMob'
+  );
+
   const totalJoinedPlayers = useRef(joinedPlayers.length);
   const playingSounds = useRef<{ [id: string]: Howl }>({});
 
@@ -25,10 +31,17 @@ export function useMobSelectionSound(
   }, []);
 
   useEffect(() => {
-    if (joinedPlayers.length > totalJoinedPlayers.current) {
-      play('PlayerJoinedMob');
-      totalJoinedPlayers.current = joinedPlayers.length;
-    }
+    const newlyJoinedPlayers = joinedPlayers.filter(
+      p => !previousJoinedPlayers.current.find(jp => jp.id === p.id)
+    );
+
+    // console.log('NEWLY JOINED PLAYERS', newlyJoinedPlayers);
+
+    previousJoinedPlayers.current = joinedPlayers;
+
+    newlyJoinedPlayers.forEach(p => {
+      playPlayersZodiacSound(p);
+    });
   }, [joinedPlayers]);
 
   useEffect(() => {
