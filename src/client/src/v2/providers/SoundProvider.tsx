@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Howl, HowlOptions } from 'howler';
 import { useThemeComponents } from './hooks/useThemeComponents';
 import { LoadingSpinner } from '../../uplift/components/loading-spinner';
@@ -69,6 +69,9 @@ export type SoundMap = {
   PacmanEatGhost: any;
   WhosThanIntro: any;
   WhosThatReveal: any;
+  zodiac_snake: any;
+  zodiac_rat: any;
+  zodiac_dog: any;
 };
 
 export type PlaySound = (
@@ -87,6 +90,23 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
   const [soundMap, setSoundMap] = useState<SoundMap | undefined>(undefined);
   const themeComponents = useThemeComponents();
 
+  const play = useCallback(
+    (soundKey: keyof SoundMap, options: HowlOptions = {}, sprite) => {
+      if (!soundMap) {
+        return new Howl({});
+      }
+      const sound = new Howl({
+        src: [soundMap[soundKey]],
+        volume: 0.2,
+        ...options,
+      });
+
+      sound.play(sprite);
+      return sound;
+    },
+    [soundMap]
+  );
+
   useEffect(() => {
     console.log('SOUNDS', themeComponents);
 
@@ -103,16 +123,7 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SoundContext.Provider
       value={{
-        play: (soundKey, options = {}, sprite) => {
-          const sound = new Howl({
-            src: [soundMap[soundKey]],
-            volume: 0.2,
-            ...options,
-          });
-
-          sound.play(sprite);
-          return sound;
-        },
+        play,
       }}
     >
       {children}

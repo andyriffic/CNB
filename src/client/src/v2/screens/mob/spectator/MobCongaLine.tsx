@@ -6,8 +6,10 @@ import {
   backOutRightAnimation,
   hingeOutAnimation,
 } from '../../../../uplift/components/animations';
+import { getPlayerAttributeValue } from '../../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../../uplift/utils/random';
 import { useThemeComponents } from '../../../providers/hooks/useThemeComponents';
+import { usePlayPlayerZodiacSoundByPlayerId } from '../../../providers/hooks/useZodiacSound';
 import { MobPlayer, MoveResult } from '../../../providers/MobProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { PlayerAvatarLookup } from './PlayerAvatarLookup';
@@ -98,6 +100,9 @@ export function MobCongaLine({
   onPlayerEliminated,
 }: Props): JSX.Element {
   const theme = useThemeComponents();
+  const playPlayersZodiacSound = usePlayPlayerZodiacSoundByPlayerId(
+    selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3'])
+  );
   const { play } = useSoundProvider();
   const [highlightPlayerIndex, dispatch] = useReducer(reducer, 0);
   const finishedConga = useRef(false);
@@ -128,7 +133,7 @@ export function MobCongaLine({
         play(selectRandomOneOf(['MobDraw_1', 'MobDraw_2', 'MobDraw_3']));
       } else {
         onPlayerEliminated(player);
-        play(selectRandomOneOf(['MobLose_1', 'MobLose_2', 'MobLose_3']));
+        playPlayersZodiacSound(player.playerId);
       }
     }, 1200);
   }, [activePlayers, highlightPlayerIndex]);

@@ -56,6 +56,9 @@ import pacmanFruit from './sounds/pacman_fruit.mp3';
 import pacmanMove from './sounds/pacman_move.mp3';
 import pokemonWhosThat from './sounds/pokemon-whos-that.mp3';
 import pokemonReceivedItem from './sounds/pokemon-received-an-item.mp3';
+import snakeHiss from './sounds/zodiac/snake_hiss.mp3';
+import mickeyOhBoy from './sounds/zodiac/mickey_mouse_oh_boy.mp3';
+import dogBark from './sounds/zodiac/dog.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -123,6 +126,9 @@ const soundMap: SoundMap = {
   PacmanEatGhost: pacmanGhost,
   WhosThanIntro: pokemonWhosThat,
   WhosThatReveal: pokemonReceivedItem,
+  zodiac_snake: snakeHiss,
+  zodiac_rat: mickeyOhBoy,
+  zodiac_dog: dogBark,
 };
 
 export default soundMap;
