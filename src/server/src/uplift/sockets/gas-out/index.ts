@@ -254,11 +254,15 @@ function assignWinner(game: GasGame): GasGame {
     throw 'No alive players when trying to find winner :(';
   }
 
+  const maxPointsByOtherPlayers = Math.max(
+    ...game.allPlayers.map<number>((p) => p.points)
+  );
+
   const winningPlayer: GasPlayer = {
     ...allAlivePlayers[0],
     status: 'winner',
     finishedPosition: 1,
-    points: game.allPlayers.length + 2,
+    points: maxPointsByOtherPlayers + 3,
   };
 
   return {
@@ -343,7 +347,7 @@ function explode(game: GasGame, timedOut: boolean): GasGame {
     timedOut,
     finishedPosition: game.allPlayers.length - (deadPlayerIds.length - 1),
     totalPresses: currentPlayer.totalPresses + 1,
-    points: deadPlayerIds.length,
+    points: game.pointsMap[deadPlayerIds.length - 1],
   };
 
   return assignMvps(
