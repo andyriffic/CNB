@@ -12,6 +12,14 @@ export const racingTrack: RacingTrack = {
   boardBackgroundImage: background,
   widthPx: 1000,
   heightPx: 650,
+  winningDisplayPositions: [
+    { x: 405, y: 390 },
+    { x: 475, y: 390 },
+    { x: 540, y: 390 },
+    { x: 615, y: 390 },
+    { x: 690, y: 390 },
+    { x: 750, y: 390 },
+  ],
   sections: [
     {
       // 0
