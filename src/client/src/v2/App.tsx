@@ -37,6 +37,7 @@ import { GasGameSpectatorScreen } from './screens/gas-out/spectator';
 import { PacManScreen } from './screens/pac-man';
 import { ChooseGameScreen } from './screens/choose-game';
 import { WhosThatSupersquadMemberScreen } from './screens/whos-that-supersquad-member';
+import { MiniTournamentScreen } from './screens/mini-tournament';
 
 export default () => {
   return (
@@ -92,6 +93,7 @@ export default () => {
                               gameId=""
                             />
                             <WhosThatSupersquadMemberScreen path="whos-that-supersquad-member" />
+                            <MiniTournamentScreen path="mini-tournament" />
                           </Router>
                         </ThemedUi>
                       </GasProvider>

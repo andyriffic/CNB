@@ -18,9 +18,10 @@ const Container = styled.div`
 
 type Props = {
   placingKey: string;
+  winnerKey?: string;
 };
 
-export const FinalEpicMatchup = ({ placingKey }: Props) => {
+export const FinalEpicMatchup = ({ placingKey, winnerKey }: Props) => {
   const { allPlayers } = usePlayersProvider();
   const { addInstantMatchup } = useMatchupProvider();
 
@@ -36,9 +37,12 @@ export const FinalEpicMatchup = ({ placingKey }: Props) => {
     );
   }, [allPlayers]);
 
-  const canPlayFinal = useMemo(() => {
-    return !!(player1 && player2);
-  }, [player1, player2]);
+  const winner = useMemo(() => {
+    if (!winnerKey) {
+      return;
+    }
+    return allPlayers.find(p => p.tags.includes(winnerKey));
+  }, [allPlayers]);
 
   const startMatchup = () => {
     if (!(player1 && player2)) {
@@ -50,21 +54,33 @@ export const FinalEpicMatchup = ({ placingKey }: Props) => {
       2,
       'rock-paper-scissors-classic',
       matchupId => {
-        window.location.href = `/spectator/${matchupId}`;
+        window.location.href = `/spectator/${matchupId}${
+          winnerKey ? `?winner-key=${winnerKey}` : ''
+        }`;
       }
     );
   };
 
   return (
     <Container>
-      <Heading>Final</Heading>
+      {/* <Heading>Final</Heading> */}
       <div>{player1 && <PlayerAvatar player={player1} size="small" />}</div>
       <Heading>vs</Heading>
       <div>{player2 && <PlayerAvatar player={player2} size="small" />}</div>
-      {player1 && player2 && (
+      {player1 && player2 && !winner && (
         <div>
           <SecondaryButton onClick={startMatchup}>Play</SecondaryButton>
         </div>
+      )}
+      {winner && (
+        <>
+          <div>
+            <Heading>Winner:</Heading>
+          </div>
+          <div>
+            <PlayerAvatar player={winner} size="small" />
+          </div>
+        </>
       )}
     </Container>
   );
