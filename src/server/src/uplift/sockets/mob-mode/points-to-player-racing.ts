@@ -1,10 +1,20 @@
 import { Debugger } from 'debug';
 import { playerService } from '../../services/player';
 import { Player } from '../../services/player/types';
-import { incrementIntegerTag } from '../../utils/tags';
+import {
+  getIntegerAttributeValue,
+  incrementIntegerTag,
+} from '../../utils/tags';
 import { MobGame } from './types';
 
 function givePoints(player: Player, points: number, log: Debugger): void {
+  const finishPlacing = getIntegerAttributeValue(player.tags, 'rt_finish', 0);
+
+  if (finishPlacing > 0) {
+    log('No points for finished place', player.id, finishPlacing);
+    return;
+  }
+
   log('Giving points: ', player.id, points);
   const newTags = [
     ...incrementIntegerTag('rt_moves:', points, player.tags).filter(
