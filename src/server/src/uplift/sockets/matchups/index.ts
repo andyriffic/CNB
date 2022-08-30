@@ -160,50 +160,53 @@ const init = (socketServer: Server, path: string) => {
             counterDatastore.getCounter(matchup.pointCounterIds[0]),
             counterDatastore.getCounter(matchup.pointCounterIds[1]),
           ])
-            .then((currentPoints: [Counter, Counter]):
-              | [Counter, Counter]
-              | Promise<[Counter, Counter]> => {
-              //TODO: more tidy
-              const trophyWon =
-                carryOverGameMode === PLAY_MODE.Timebomb
-                  ? gamesInProgress[matchupId] &&
-                    gamesInProgress[matchupId].gameAttributes[
-                      TimebombAttributes.Exploded
-                    ]
-                  : currentPoints.reduce(
-                      (acc, point) => acc || point.value >= matchup.trophyGoal,
-                      false
-                    );
+            .then(
+              (
+                currentPoints: [Counter, Counter]
+              ): [Counter, Counter] | Promise<[Counter, Counter]> => {
+                //TODO: more tidy
+                const trophyWon =
+                  carryOverGameMode === PLAY_MODE.Timebomb
+                    ? gamesInProgress[matchupId] &&
+                      gamesInProgress[matchupId].gameAttributes[
+                        TimebombAttributes.Exploded
+                      ]
+                    : currentPoints.reduce(
+                        (acc, point) =>
+                          acc || point.value >= matchup.trophyGoal,
+                        false
+                      );
 
-              log('PLAY MODE IS', carryOverGameMode);
-              log('Existing game is', gamesInProgress[matchupId]);
+                log('PLAY MODE IS', carryOverGameMode);
+                log('Existing game is', gamesInProgress[matchupId]);
 
-              const game = matchupService.createGame(
-                shortid.generate(),
-                matchup.teamIds,
-                trophyWon,
-                carryOverGameMode,
-                gamesInProgress[matchupId]
-              );
+                const game = matchupService.createGame(
+                  shortid.generate(),
+                  matchup.teamIds,
+                  trophyWon,
+                  carryOverGameMode,
+                  gamesInProgress[matchupId]
+                );
 
-              gamesInProgress[matchupId] = game;
-              log('NEW GAME ------------->', game);
+                gamesInProgress[matchupId] = game;
+                log('NEW GAME ------------->', game);
 
-              if (trophyWon) {
-                log('------- RESET POINTS--------');
-                return Promise.all([
-                  counterDatastore.updateCounter(
-                    counterService.resetCounter(currentPoints[0])
-                  ),
-                  counterDatastore.updateCounter(
-                    counterService.resetCounter(currentPoints[1])
-                  ),
-                ]);
+                if (trophyWon) {
+                  log('------- RESET POINTS--------');
+                  return Promise.all([
+                    counterDatastore.updateCounter(
+                      counterService.resetCounter(currentPoints[0])
+                    ),
+                    counterDatastore.updateCounter(
+                      counterService.resetCounter(currentPoints[1])
+                    ),
+                  ]);
+                }
+
+                log('------- DONT NEED TO RESET POINTS--------');
+                return currentPoints;
               }
-
-              log('------- DONT NEED TO RESET POINTS--------');
-              return currentPoints;
-            })
+            )
             .finally(() => {
               log('------- BROADCAST UPDATE --------');
               getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
@@ -401,12 +404,11 @@ const init = (socketServer: Server, path: string) => {
                 ) {
                   log('Test team, not saving stats');
                 } else {
-                  const statsEntry = mapMatchupViewToGameStatsEntry(
-                    matchupView
-                  );
+                  const statsEntry =
+                    mapMatchupViewToGameStatsEntry(matchupView);
                   if (statsEntry) {
                     log('Saving stats entry...');
-                    StatsService.saveGameStatsEntry(statsEntry);
+                    // StatsService.saveGameStatsEntry(statsEntry); // Removed cause getting errors
                     log('Publishing stats...');
                     publishAllStats();
                   }
@@ -437,9 +439,8 @@ const init = (socketServer: Server, path: string) => {
         return;
       }
 
-      gamesInProgress[matchupId] = matchupService.setGamedViewed(
-        gameInProgress
-      );
+      gamesInProgress[matchupId] =
+        matchupService.setGamedViewed(gameInProgress);
 
       getMatchupView(matchupId, gamesInProgress).then((matchupView) => {
         const matchupChannel = `matchup-${matchupId}`;
