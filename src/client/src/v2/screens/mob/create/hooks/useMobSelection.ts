@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { getPlayerIntegerAttributeValue } from '../../../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../../../uplift/utils/random';
 import { useMobLeaderboard } from '../../../../providers/MobLeaderboardProvider';
@@ -24,7 +24,6 @@ export const useMobSelection = (): UseMobSelection => {
     deletePlayerChoice,
   } = usePlayerChoiceProvider();
   const { allPlayers } = usePlayersProvider();
-  const { topMainPlayerStats } = useMobLeaderboard();
 
   const joinedPlayers = useMemo<Player[]>(() => {
     if (!allPlayerChoices) {
