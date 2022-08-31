@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { slideInUpAnimation } from '../../../../uplift/components/animations';
 import { GasCard } from '../../../providers/GasProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 const CardContainer = styled.div`
   display: flex;
@@ -53,6 +54,25 @@ function renderCard(
 }
 
 export function Card({ card, pressesRemaining }: Props): JSX.Element | null {
+  const { play } = useSoundProvider();
+
+  useEffect(() => {
+    switch (card.type) {
+      case 'press':
+        play('GasPlayNumberCard');
+        break;
+      case 'reverse':
+        play('GasPlayReverseCard');
+        break;
+      case 'skip':
+        play('GasPlaySkipCard');
+        break;
+
+      default:
+        break;
+    }
+  }, [card.type]);
+
   if (card.type === 'press' && pressesRemaining === 0) {
     return null;
   }

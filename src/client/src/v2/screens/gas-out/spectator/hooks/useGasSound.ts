@@ -91,11 +91,11 @@ export function useGasSound(game: GasGame | undefined) {
     }
   }, [exploded]);
 
-  useEffect(() => {
-    if (cardPlayed) {
-      play('GasPlayCard');
-    }
-  }, [cardPlayed]);
+  // useEffect(() => {
+  //   if (cardPlayed) {
+  //     play('GasPlayNumberCard');
+  //   }
+  // }, [cardPlayed]);
 
   useEffect(() => {
     if (hasWinner) {

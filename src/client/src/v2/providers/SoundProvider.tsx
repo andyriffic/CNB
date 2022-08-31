@@ -62,7 +62,9 @@ export type SoundMap = {
   GasCloudGameBackgroundMusic: any;
   GasCloudExplode01: any;
   GasCloudExplode02: any;
-  GasPlayCard: any;
+  GasPlayNumberCard: any;
+  GasPlayReverseCard: any;
+  GasPlaySkipCard: any;
   GasWinner: any;
   PacManMovePlayer: any;
   PacManMovePacman: any;

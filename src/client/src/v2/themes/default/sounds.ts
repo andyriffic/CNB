@@ -59,6 +59,8 @@ import pokemonReceivedItem from './sounds/pokemon-received-an-item.mp3';
 import snakeHiss from './sounds/zodiac/snake_hiss.mp3';
 import mickeyOhBoy from './sounds/zodiac/mickey_mouse_oh_boy.mp3';
 import dogBark from './sounds/zodiac/dog.mp3';
+import taunt from './sounds/taunt.mp3';
+import wuuheeCute from './sounds/wuuhee_cute.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -119,7 +121,9 @@ const soundMap: SoundMap = {
   GasCloudGameBackgroundMusic: popGoesTheWeasal,
   GasCloudExplode01: balloonPopSound,
   GasCloudExplode02: balloonDeflate,
-  GasPlayCard: fastGesture,
+  GasPlayNumberCard: fastGesture,
+  GasPlaySkipCard: wuuheeCute,
+  GasPlayReverseCard: taunt,
   GasWinner: fanfare,
   PacManMovePlayer: pacmanFruit,
   PacManMovePacman: pacmanMove,
