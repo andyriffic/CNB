@@ -76,7 +76,7 @@ export const TugoWarGameScreen = ({
     return (
       <>
         {isPersistantFeatureEnabled('cnb-debug') && (
-          <PositionedArea position={{ top: 0, left: 0 }}>
+          <PositionedArea position={{ top: 10, left: 0 }}>
             <DebugPlayerMove matchup={matchup} />
           </PositionedArea>
         )}

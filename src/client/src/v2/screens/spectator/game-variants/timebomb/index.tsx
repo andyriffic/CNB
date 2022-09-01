@@ -85,7 +85,7 @@ export const TimebombGameScreen = ({
       <>
         {/* <button onClick={startNewGame}>new game</button> */}
         {isPersistantFeatureEnabled('cnb-debug') && (
-          <PositionedArea position={{ top: 0, left: 0 }}>
+          <PositionedArea position={{ top: 10, left: 0 }}>
             <DebugPlayerMove matchup={matchup} />
           </PositionedArea>
         )}

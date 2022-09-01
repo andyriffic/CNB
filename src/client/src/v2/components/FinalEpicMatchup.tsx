@@ -20,6 +20,7 @@ type Props = {
   heading?: string;
   placingKey: string;
   winnerKey?: string;
+  winnerPosition?: number;
   placePositions?: [number, number];
 };
 
@@ -27,6 +28,7 @@ export const FinalEpicMatchup = ({
   heading,
   placingKey,
   winnerKey,
+  winnerPosition = 1,
   placePositions = [1, 2],
 }: Props) => {
   const { allPlayers } = usePlayersProvider();
@@ -52,7 +54,10 @@ export const FinalEpicMatchup = ({
     if (!winnerKey) {
       return;
     }
-    return allPlayers.find(p => p.tags.includes(winnerKey));
+    return allPlayers.find(
+      p =>
+        getPlayerIntegerAttributeValue(p.tags, winnerKey, 0) === winnerPosition
+    );
   }, [allPlayers]);
 
   const startMatchup = () => {
@@ -65,7 +70,9 @@ export const FinalEpicMatchup = ({
       2,
       'rock-paper-scissors-classic',
       matchupId => {
-        window.location.href = `/spectator/${matchupId}`;
+        window.location.href = `/spectator/${matchupId}${
+          winnerKey ? `?winnerKey=${winnerKey}` : ''
+        }`;
       }
     );
   };

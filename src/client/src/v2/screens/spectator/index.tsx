@@ -55,6 +55,10 @@ const renderGameView = (
 
 export const ScreenWithMatchup = ({ matchupId }: Props) => {
   const createdGame = useRef(false);
+  const winnerKey = useRef(
+    new URLSearchParams(window.location.search).get('winnerKey')
+  );
+
   const [shownGameMode, setShowGameMode] = useState(false);
   const { allPlayers } = usePlayersProvider();
   const {
@@ -76,7 +80,9 @@ export const ScreenWithMatchup = ({ matchupId }: Props) => {
     setTheme(currentMatchup.themeId);
     if (!currentMatchup.gameInProgress) {
       createdGame.current = true;
-      startGameForMatchup(matchupId, selectRandomOneOf(availableGameModes));
+      startGameForMatchup(matchupId, selectRandomOneOf(availableGameModes), {
+        winnerKey: winnerKey.current,
+      });
     }
   }, [currentMatchup]);
 

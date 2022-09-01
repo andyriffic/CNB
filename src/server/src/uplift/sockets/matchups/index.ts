@@ -28,7 +28,10 @@ import {
   TimebombAttributes,
   adjustPlayResultForTimebomb,
 } from '../../services/matchup/timebomb';
-import { incrementIntegerTag } from '../../utils/tags';
+import {
+  getIntegerAttributeValue,
+  incrementIntegerTag,
+} from '../../utils/tags';
 import {
   adjustPlayResultForPowerups,
   getRandomPowerup,
@@ -53,15 +56,26 @@ const SET_GAME_VIEWED = 'SET_GAME_VIEWED';
 const ADD_INSTANT_MATCHUP = 'ADD_INSTANT_MATCHUP';
 
 let gamesInProgress: { [matchupId: string]: Game } = {};
+let matchupAttributes: {
+  [matchupId: string]: { [key: string]: any } | undefined;
+} = {};
 let watchupPlayerIds: string[] = [];
 
 const log = createLogger('matchups', LOG_NAMESPACE.socket);
+
+const getNextPlacingValue = (allPlayers: Player[], keyName: string): number => {
+  const allPlacingValues = allPlayers.map((p) =>
+    getIntegerAttributeValue(p.tags, keyName, 0)
+  );
+  return Math.max(...allPlacingValues) + 1;
+};
 
 const updatePlayerAttributes = (
   playerId: string,
   snakesAndLaddersMoves: number,
   powerUpUsed: string,
-  awardedPowerUp: string
+  won: boolean,
+  winnerTag: string | undefined
 ): Promise<any> => {
   return new Promise((res) => {
     playerService.getPlayersAsync().then((allPlayers) => {
@@ -91,19 +105,21 @@ const updatePlayerAttributes = (
 
       log('tagsWithUpdatedPowerUpCount TAGS:', tagsWithUpdatedPowerUpCount);
 
-      const tagsWithAwardedPowerUpCount = awardedPowerUp
-        ? incrementIntegerTag(
-            `powerup_${awardedPowerUp}:`,
-            1,
-            tagsWithUpdatedPowerUpCount
-          )
-        : tagsWithUpdatedPowerUpCount;
+      log('PLAYER WON', player.id, won, winnerTag);
 
-      log('tagsWithAwardedPowerUpCount TAGS:', tagsWithAwardedPowerUpCount);
+      const tagsWithWinnerTag =
+        won && !!winnerTag
+          ? [
+              ...tagsWithUpdatedPowerUpCount,
+              `${winnerTag}:${getNextPlacingValue(allPlayers, winnerTag)}`,
+            ]
+          : tagsWithUpdatedPowerUpCount;
+
+      log('tagsWithWinnerTag TAGS:', tagsWithWinnerTag);
 
       playerService
-        .updatePlayerTags(player, tagsWithAwardedPowerUpCount)
-        .then(() => res());
+        .updatePlayerTags(player, tagsWithWinnerTag)
+        .then(() => res(undefined));
     });
   });
 };
@@ -150,6 +166,10 @@ const init = (socketServer: Server, path: string) => {
         startingAttributes?: { [key: string]: any }
       ) => {
         log('RECEIVED', START_GAME_FOR_MATCHUP, matchupId);
+        matchupAttributes[matchupId] =
+          matchupAttributes[matchupId] || startingAttributes;
+
+        log('Starting Attributes', startingAttributes);
         const carryOverGameMode =
           (gamesInProgress[matchupId] && gamesInProgress[matchupId].playMode) ||
           playMode;
@@ -378,20 +398,28 @@ const init = (socketServer: Server, path: string) => {
           ]).then(() => {
             log('Saved all counters');
 
+            log('Game Attributes', matchupAttributes[matchupId]);
+
+            const winnerKey =
+              matchupAttributes[matchupId] &&
+              matchupAttributes[matchupId]!.winnerKey;
+
             // ADD SNAKES AND LADDERS MOVE IF WON GAME, AND REMOVE POWERUP IF USED
             const playerTagUpdates = [
               updatePlayerAttributes(
                 gamesInProgress[matchupId].moves[0].playerId!,
                 result.pointDiffs[0],
                 gamesInProgress[matchupId].moves[0].powerUpId!,
-                result.trophies[0].value > 0 ? getRandomPowerup() : ''
+                result.trophies[0].value > 0,
+                winnerKey
               ),
 
               updatePlayerAttributes(
                 gamesInProgress[matchupId].moves[1].playerId!,
                 result.pointDiffs[1],
                 gamesInProgress[matchupId].moves[1].powerUpId!,
-                result.trophies[1].value > 0 ? getRandomPowerup() : ''
+                result.trophies[1].value > 0,
+                winnerKey
               ),
             ];
 
@@ -410,7 +438,7 @@ const init = (socketServer: Server, path: string) => {
                     log('Saving stats entry...');
                     // StatsService.saveGameStatsEntry(statsEntry); // Removed cause getting errors
                     log('Publishing stats...');
-                    publishAllStats();
+                    // publishAllStats();
                   }
                 }
 

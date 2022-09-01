@@ -46,7 +46,8 @@ const View = () => {
             <FinalEpicMatchup
               placePositions={[3, 4]}
               placingKey="rt_finish"
-              winnerKey="mt_semi_final_1"
+              winnerKey="mt_semi_final"
+              winnerPosition={1}
             />
           </MatchupContainer>
           <MatchupContainer>
@@ -55,7 +56,8 @@ const View = () => {
             <FinalEpicMatchup
               placePositions={[5, 6]}
               placingKey="rt_finish"
-              winnerKey="mt_semi_final_2"
+              winnerKey="mt_semi_final"
+              winnerPosition={2}
             />
           </MatchupContainer>
           <MatchupContainer>
@@ -63,7 +65,8 @@ const View = () => {
             <FinalEpicMatchup
               placePositions={[1, 2]}
               placingKey="mt_semi_final"
-              winnerKey="mt_semi_final"
+              winnerKey="mt_final"
+              winnerPosition={3}
             />
           </MatchupContainer>
         </div>
