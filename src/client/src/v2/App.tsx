@@ -38,6 +38,7 @@ import { PacManScreen } from './screens/pac-man';
 import { ChooseGameScreen } from './screens/choose-game';
 import { WhosThatSupersquadMemberScreen } from './screens/whos-that-supersquad-member';
 import { MiniTournamentScreen } from './screens/mini-tournament';
+import { TestScreen } from './screens/test';
 
 export default () => {
   return (
@@ -94,6 +95,7 @@ export default () => {
                             />
                             <WhosThatSupersquadMemberScreen path="whos-that-supersquad-member" />
                             <MiniTournamentScreen path="mini-tournament" />
+                            <TestScreen path="test" />
                           </Router>
                         </ThemedUi>
                       </GasProvider>
