@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import { Player } from '../providers/PlayersProvider';
-import { PlayerAvatar } from './player-avatar';
+import { PlayerAvatar } from '../../../components/player-avatar';
+import { GasGame } from '../../../providers/GasProvider';
+import { PlayerCarouselPlayer } from './PlayerCarouselPlayer';
 
-// Taken from: https://www.sitepoint.com/building-3d-rotating-carousel-css-javascript/
-
-const DISPLAY_ITEMS_COUNT = 5;
 const TILE_WIDTH_PX = 400;
 const TILE_GAP_PX = 20;
 
@@ -43,29 +41,18 @@ const CarouselItem = styled.div<{ apothem: number; rotate: number }>`
     `}
 `;
 
-const CarouselContent = styled.div<{
-  apothem: number;
-  rotate: number;
-  showing: boolean;
-}>`
+const CarouselContent = styled.div<{ apothem: number; rotate: number }>`
   width: 100%;
   box-sizing: border-box;
   padding: 0;
   backface-visibility: visible;
   display: flex;
   justify-content: center;
-  transition: transform 0.5s;
-  /* ${({ showing }) =>
-    !showing &&
-    css`
-      opacity: 0.6;
-    `} */
 
-  ${({ apothem, rotate, showing }) =>
+  ${({ apothem, rotate }) =>
     css`
       transform-origin: 50% 50% ${-apothem}px;
       transform: rotateY(${rotate}rad);
-      /* background-color: ${showing ? 'red' : 'blue'}; */
     `}
 
   &:not(:first-of-type) {
@@ -77,48 +64,45 @@ const CarouselContent = styled.div<{
 
 type Props = {
   displayIndex: number;
-  players: Player[];
+  game: GasGame;
+  gameOver: boolean;
 };
 
-export const RotatingPlayerCarousel = ({ players, displayIndex }: Props) => {
-  //   const displayPlayers = useMemo(() => {
-  //     const highlightedPlayer = players[displayIndex];
-  //     const nextPlayers = players.splice(displayIndex + 1, players.length - 1);
-  //     const prevPlayers = nextPlayers.reverse();
-  //     return [...prevPlayers, highlightedPlayer, ...nextPlayers];
-  //   }, [players]);
-
-  const theta = useMemo(() => (2 * Math.PI) / players.length, [players]);
+export const RotatingPlayerCarousel = ({
+  game,
+  displayIndex,
+  gameOver,
+}: Props) => {
+  const theta = useMemo(() => (2 * Math.PI) / game.alivePlayersIds.length, [
+    game.alivePlayersIds,
+  ]);
   const apothem = useMemo(
-    () => TILE_WIDTH_PX / (2 * Math.tan(Math.PI / players.length)),
-    [players]
+    () => TILE_WIDTH_PX / (2 * Math.tan(Math.PI / game.alivePlayersIds.length)),
+    [game.alivePlayersIds]
   );
-
-  console.log('theta', theta);
-  console.log('apothem', apothem);
-  console.log('displayIndex', displayIndex);
 
   return (
     <Container>
       <CarouselContainer>
         <CarouselItem apothem={apothem} rotate={displayIndex * -theta}>
-          {players.map((player, index) => {
+          {game.alivePlayersIds.map((playerId, index) => {
+            const player = game.allPlayers.find(p => p.player.id === playerId)!;
             return (
               <CarouselContent
-                key={player.id}
+                key={player.player.id}
                 apothem={apothem}
                 rotate={index * theta}
-                showing={
-                  index ===
-                  displayIndex -
-                    Math.floor(displayIndex / players.length) * players.length
-                }
               >
-                <PlayerAvatar
+                <PlayerCarouselPlayer
+                  game={game}
                   player={player}
+                  gameOver={gameOver}
+                />
+                {/* <PlayerAvatar
+                  player={player.player}
                   size="medium"
                   showZodiac={false}
-                />
+                /> */}
               </CarouselContent>
             );
           })}

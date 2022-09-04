@@ -1,7 +1,10 @@
 import { NavigateFn } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { isPersistantFeatureEnabled } from '../../../../featureToggle';
+import {
+  isFeatureEnabled,
+  isPersistantFeatureEnabled,
+} from '../../../../featureToggle';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { LinkToMiniGame } from '../../../components/LinkToMiniGame';
 import { GameScreen } from '../../../components/ui/GameScreen';
@@ -14,6 +17,7 @@ import { Graveyard } from './Graveyard';
 import { useGasGame } from './hooks/useGasGame';
 import { useGasSound } from './hooks/useGasSound';
 import { LastTwoPlayersNotification } from './LastTwoPlayersNotification';
+import { PlayerCarousel } from './PlayerCarousel';
 import { PlayerList } from './PlayerList';
 import { Winner } from './Winner';
 
@@ -36,6 +40,8 @@ type Props = {
   gameId: string;
   navigate: NavigateFn | undefined;
 };
+
+const usePlayerCarousel = isFeatureEnabled('carousel');
 
 export default ({ gameId }: Props) => {
   const { game } = useGasGame(gameId);
@@ -79,10 +85,13 @@ export default ({ gameId }: Props) => {
         )}
         {!game.winningPlayerId && (
           <>
-            {' '}
-            <PlayersContainer>
-              <PlayerList game={game} gameOver={!!game.winningPlayerId} />
-            </PlayersContainer>
+            {usePlayerCarousel ? (
+              <PlayerCarousel game={game} gameOver={!!game.winningPlayerId} />
+            ) : (
+              <PlayersContainer>
+                <PlayerList game={game} gameOver={!!game.winningPlayerId} />
+              </PlayersContainer>
+            )}
             <div style={{ textAlign: 'center', marginTop: '30px' }}>
               <GameDirectionIndicator game={game} />
             </div>

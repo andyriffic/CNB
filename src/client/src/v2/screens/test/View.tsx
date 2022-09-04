@@ -4,8 +4,6 @@ import { RotatingPlayerCarousel } from '../../components/RotatingPlayerCarousel'
 import { GameScreen } from '../../components/ui/GameScreen';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 
-const MAX_PLAYERS = 17;
-
 const Container = styled.div`
   margin: 0 auto;
   background-size: contain;
@@ -17,15 +15,18 @@ const Container = styled.div`
 const View = () => {
   const { allPlayers } = usePlayersProvider();
 
+  const [numPlayers, setNumPlayers] = useState(5);
   const [displayIndex, setDisplayIndex] = useState(0);
 
   const carouselPlayers = useMemo(() => {
-    return allPlayers.slice(0, MAX_PLAYERS);
-  }, []);
+    return allPlayers.slice(0, numPlayers);
+  }, [numPlayers]);
 
   return (
     <GameScreen scrollable={false}>
+      <label htmlFor="displayIndex">Display index</label>
       <input
+        id="displayIndex"
         type="number"
         value={displayIndex}
         step={1}
@@ -34,6 +35,21 @@ const View = () => {
           setDisplayIndex(val);
         }}
       />
+      <label htmlFor="numPlayers">Players</label>
+
+      <input
+        id="numPlayers"
+        type="number"
+        min={0}
+        max={20}
+        value={numPlayers}
+        step={1}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          let val = e.target.valueAsNumber;
+          setNumPlayers(val);
+        }}
+      />
+
       <Container>
         <RotatingPlayerCarousel
           players={carouselPlayers}
