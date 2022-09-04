@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-auto/aws-login
-auto/build-image-prod
+auto/aws-login-via-docker
+DOCKER_DEFAULT_PLATFORM=linux/amd64 auto/build-image-prod
 auto/push-image-prod
-auto/re-deploy-ecs-service-prod
+auto/re-deploy-ecs-service-prod-via-docker
