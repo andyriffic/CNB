@@ -267,11 +267,13 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
   const soleMobSurvivor =
     survivingMobPlayers.length === 1 ? survivingMobPlayers[0] : undefined;
 
+  const MAX_POINTS = 6;
+
   if (mugWinner) {
     return {
       ...mobGame,
       points: {
-        mugPlayer: mobGame.mobPlayers.length,
+        mugPlayer: MAX_POINTS,
         mobPlayers: mobGame.mobPlayers.map((mp) => ({
           playerId: mp.playerId,
           points: mp.lastRound,
@@ -284,12 +286,12 @@ export function assignGamePoints(mobGame: MobGame): MobGame {
     return {
       ...mobGame,
       points: {
-        mugPlayer: 4,
+        mugPlayer: 3,
         mobPlayers: mobGame.mobPlayers.map((mp) => {
           const isSoleSurvivor = mp.playerId === soleMobSurvivor.playerId;
           return {
             playerId: mp.playerId,
-            points: isSoleSurvivor ? mobGame.mobPlayers.length : mp.lastRound,
+            points: isSoleSurvivor ? MAX_POINTS : mp.lastRound,
           };
         }),
       },
