@@ -7,7 +7,7 @@ import { RacingTrack } from '../../types';
 import background from './track-3.png';
 
 export const racingTrack: RacingTrack = {
-  id: 'track3',
+  id: 'track5',
   totalLaps: 1,
   boardBackgroundImage: background,
   widthPx: 1200,
@@ -111,9 +111,7 @@ export const racingTrack: RacingTrack = {
           squares: [{ coordinates: { x: 275, y: 150 } }],
         },
         {
-          squares: [
-            { coordinates: { x: 305, y: 150 }, type: boostTrackBehaviour(2) },
-          ],
+          squares: [{ coordinates: { x: 305, y: 150 } }],
         },
       ],
     },
@@ -179,9 +177,7 @@ export const racingTrack: RacingTrack = {
       rotationDegrees: 0,
       lanes: [
         {
-          squares: [
-            { coordinates: { x: 610, y: 70 }, type: rockTrackBehaviour },
-          ],
+          squares: [{ coordinates: { x: 610, y: 70 } }],
         },
         {
           squares: [{ coordinates: { x: 610, y: 95 } }],
