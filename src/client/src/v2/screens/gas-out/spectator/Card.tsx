@@ -9,27 +9,30 @@ const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  border: 3px solid ${({ theme }) => theme.color.gasGame.cardBorderColor};
+  border: 5px solid ${({ theme }) => theme.color.gasGame.cardBorderColor};
   border-radius: 10px;
-  width: 40px;
-  height: 60px;
+  width: 70px;
+  height: 100px;
   background-color: ${({ theme }) => theme.color.gasGame.cardBackgroundColor};
   animation: ${slideInUpAnimation} 300ms ease-out 0s both;
   color: ${({ theme }) => theme.color.gasGame.cardTextColor01};
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 `;
 
 const CardNumber = styled.div`
-  font-size: 1rem;
+  font-size: 2rem;
   font-family: ${({ theme }) => theme.fontFamily.numbers};
 `;
 
 const CardText = styled.div`
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-family: ${({ theme }) => theme.fontFamily.feature};
 `;
 
 const CardIcon = styled.div`
-  font-size: 1.2rem;
+  font-size: 2rem;
 `;
 
 type Props = {

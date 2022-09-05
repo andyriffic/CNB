@@ -55,11 +55,12 @@ const CarouselContent = styled.div<{
   display: flex;
   justify-content: center;
   transition: transform 0.5s;
-  /* ${({ showing }) =>
-    !showing &&
+  position: relative;
+  ${({ showing }) =>
+    showing &&
     css`
-      opacity: 0.6;
-    `} */
+      z-index: 1;
+    `}
 
   ${({ apothem, rotate, showing }) =>
     css`

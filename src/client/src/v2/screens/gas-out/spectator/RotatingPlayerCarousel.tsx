@@ -10,6 +10,7 @@ const TILE_GAP_PX = 20;
 const Container = styled.div`
   /* width: 100%;
   border: 2px solid black; */
+  pointer-events: none;
 `;
 
 const CarouselContainer = styled.div`
@@ -41,13 +42,24 @@ const CarouselItem = styled.div<{ apothem: number; rotate: number }>`
     `}
 `;
 
-const CarouselContent = styled.div<{ apothem: number; rotate: number }>`
+const CarouselContent = styled.div<{
+  apothem: number;
+  rotate: number;
+  showing: boolean;
+}>`
   width: 100%;
   box-sizing: border-box;
   padding: 0;
-  backface-visibility: visible;
+  backface-visibility: hidden;
   display: flex;
   justify-content: center;
+
+  position: relative;
+  ${({ showing }) =>
+    showing &&
+    css`
+      z-index: 1;
+    `}
 
   ${({ apothem, rotate }) =>
     css`
@@ -92,6 +104,12 @@ export const RotatingPlayerCarousel = ({
                 key={player.player.id}
                 apothem={apothem}
                 rotate={index * theta}
+                showing={
+                  index ===
+                  displayIndex -
+                    Math.floor(displayIndex / game.alivePlayersIds.length) *
+                      game.alivePlayersIds.length
+                }
               >
                 <PlayerCarouselPlayer
                   game={game}

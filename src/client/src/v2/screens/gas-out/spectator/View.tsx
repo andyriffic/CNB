@@ -30,6 +30,17 @@ const PlayersContainer = styled.div`
   justify-content: center;
 `;
 
+const CarouselContainer = styled.div`
+  margin-top: 200px;
+`;
+
+const BalloonContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 const GraveyardContainer = styled.div`
   position: absolute;
   bottom: 0;
@@ -86,24 +97,40 @@ export default ({ gameId }: Props) => {
         {!game.winningPlayerId && (
           <>
             {usePlayerCarousel ? (
-              <PlayerCarousel game={game} gameOver={!!game.winningPlayerId} />
+              <CarouselContainer>
+                <PlayerCarousel game={game} gameOver={!!game.winningPlayerId} />
+              </CarouselContainer>
             ) : (
               <PlayersContainer>
                 <PlayerList game={game} gameOver={!!game.winningPlayerId} />
               </PlayersContainer>
             )}
-            <div style={{ textAlign: 'center', marginTop: '30px' }}>
-              <GameDirectionIndicator game={game} />
-            </div>
+            {!usePlayerCarousel && (
+              <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                <GameDirectionIndicator game={game} />
+              </div>
+            )}
           </>
         )}
         {/* <Winner game={game} /> */}
         <FinalPodium game={game} />
         {!!game.winningPlayerId && <LinkToMiniGame />}
         <LastTwoPlayersNotification game={game} />
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <GasBallon gasCloud={game.gasCloud} />
-        </div>
+        {usePlayerCarousel ? (
+          <BalloonContainer>
+            <GasBallon gasCloud={game.gasCloud} />
+          </BalloonContainer>
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <GasBallon gasCloud={game.gasCloud} />
+          </div>
+        )}
+
         <GraveyardContainer>
           <Graveyard game={game} />
         </GraveyardContainer>

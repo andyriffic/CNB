@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { isFeatureEnabled } from '../../../../featureToggle';
 import {
   fadeInAnimation,
   spinAwayAnimationUp,
@@ -11,11 +12,13 @@ import { GasGame, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
 import { PlayerBonusPoints } from './PlayerBonusPoints';
 
+const usePlayerCarousel = isFeatureEnabled('carousel');
+
 const CardContainer = styled.div`
   position: absolute;
-  top: -80px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 `;
 
 const PlayerAvatarContainer = styled.div<{ alive: boolean }>`
@@ -75,7 +78,21 @@ const PlayerName = styled.div`
   white-space: nowrap;
 `;
 
-const DeathIcon = styled.div``;
+const DeathContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  /* border: 2px solid darkred;
+  border-radius: 25%;
+  background: black;
+  padding: 4px; */
+`;
+
+const DeathIcon = styled.div`
+  font-size: 1.3rem;
+`;
+
 const TimedOutIcon = styled.div`
   position: absolute;
 `;
@@ -88,6 +105,10 @@ const PlayerStatsContainer = styled.div`
 const getDeathIcons = (total: number) => {
   if (!total) {
     return [];
+  }
+
+  if (usePlayerCarousel) {
+    return new Array(total).fill('☠️');
   }
 
   const icons = ['☠️'];
@@ -105,11 +126,13 @@ const markedForDeath = (player: GasPlayer): JSX.Element | null => {
   }
 
   return (
-    <DeathIcon>
-      {getDeathIcons(player.guesses.nominatedCount).map((d, i) => (
-        <span key={i}>{d}</span>
-      ))}
-    </DeathIcon>
+    <DeathContainer>
+      <DeathIcon>
+        {getDeathIcons(player.guesses.nominatedCount).map((d, i) => (
+          <span key={i}>{d}</span>
+        ))}
+      </DeathIcon>
+    </DeathContainer>
   );
 };
 
@@ -151,6 +174,17 @@ export function PlayerCarouselPlayer({
       key={player.player.id}
       active={notDead && (active || winner)}
     >
+      {/* {(winner || (active && notDead && !gameOver)) && (
+        <PlayerName>{player.player.name}</PlayerName>
+      )} */}
+      <PlayerAvatarContainer alive={alive}>
+        <PlayerAvatar
+          player={player.player}
+          size={size}
+          showZodiac={false}
+          showBadges={false}
+        />
+      </PlayerAvatarContainer>
       {active &&
         game.currentPlayer.cardPlayed &&
         !gameOver &&
@@ -162,13 +196,7 @@ export function PlayerCarouselPlayer({
             />
           </CardContainer>
         )}
-      {/* {markedForDeath(player)} */}
-      {/* {(winner || (active && notDead && !gameOver)) && (
-        <PlayerName>{player.player.name}</PlayerName>
-      )} */}
-      <PlayerAvatarContainer alive={alive}>
-        <PlayerAvatar player={player.player} size={size} showZodiac={false} />
-      </PlayerAvatarContainer>
+      {markedForDeath(player)}
     </PlayerListItem>
   ) : null;
 }
