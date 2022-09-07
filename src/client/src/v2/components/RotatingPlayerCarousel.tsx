@@ -47,11 +47,13 @@ const CarouselContent = styled.div<{
   apothem: number;
   rotate: number;
   showing: boolean;
+  transparent: boolean;
 }>`
   width: 100%;
   box-sizing: border-box;
   padding: 0;
-  backface-visibility: visible;
+  backface-visibility: ${({ transparent }) =>
+    transparent ? 'visbile' : 'hidden'};
   display: flex;
   justify-content: center;
   transition: transform 0.5s;
@@ -79,9 +81,14 @@ const CarouselContent = styled.div<{
 type Props = {
   displayIndex: number;
   players: Player[];
+  transparent: boolean;
 };
 
-export const RotatingPlayerCarousel = ({ players, displayIndex }: Props) => {
+export const RotatingPlayerCarousel = ({
+  players,
+  displayIndex,
+  transparent,
+}: Props) => {
   //   const displayPlayers = useMemo(() => {
   //     const highlightedPlayer = players[displayIndex];
   //     const nextPlayers = players.splice(displayIndex + 1, players.length - 1);
@@ -114,6 +121,7 @@ export const RotatingPlayerCarousel = ({ players, displayIndex }: Props) => {
                   displayIndex -
                     Math.floor(displayIndex / players.length) * players.length
                 }
+                transparent={transparent}
               >
                 <PlayerAvatar
                   player={player}

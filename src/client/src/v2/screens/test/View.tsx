@@ -17,6 +17,7 @@ const View = () => {
 
   const [numPlayers, setNumPlayers] = useState(5);
   const [displayIndex, setDisplayIndex] = useState(0);
+  const [transparent, setTransparent] = useState(false);
 
   const carouselPlayers = useMemo(() => {
     return allPlayers.slice(0, numPlayers);
@@ -50,10 +51,21 @@ const View = () => {
         }}
       />
 
+      <label htmlFor="transparent">Transparent</label>
+      <input
+        id="transparent"
+        type="checkbox"
+        checked={transparent}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setTransparent(!!e.target.checked);
+        }}
+      />
+
       <Container>
         <RotatingPlayerCarousel
           players={carouselPlayers}
           displayIndex={displayIndex}
+          transparent={transparent}
         />
       </Container>
     </GameScreen>
