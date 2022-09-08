@@ -10,6 +10,7 @@ import {
   resetCloud,
   playerTimedOut,
   playEffect,
+  moveToNextAlivePlayerWithReverseDeath,
 } from '.';
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
@@ -99,7 +100,9 @@ const init = (socketServer: Server, path: string) => {
       log(NEXT_GAS_PAYER, gameId);
       const game = getGameOrThrow(activeGasGames, gameId);
 
-      const updatedGame = moveToNextAlivePlayer(resetCloud(game));
+      const updatedGame = moveToNextAlivePlayerWithReverseDeath(
+        resetCloud(game)
+      );
       activeGasGames = updateGames(activeGasGames, updatedGame);
 
       // log('UPDATED GAME', updatedGame);

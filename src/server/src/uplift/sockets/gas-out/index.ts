@@ -5,6 +5,7 @@ import {
   WeightedItem,
 } from '../../utils/random';
 import {
+  CardHistory,
   Direction,
   EffectType,
   GasCard,
@@ -37,6 +38,7 @@ export function createGame({
         exploded: false,
       },
       pointsMap: createPointsMap(players.length),
+      moveHistory: [],
     },
     randomPlayer.id,
     'double'
@@ -57,6 +59,31 @@ function createPointsMap(totalPlayerCount: number): number[] {
 
     return points;
   });
+}
+
+export function moveToNextAlivePlayerWithReverseDeath(game: GasGame): GasGame {
+  const gameWithNextPlayer = moveToNextAlivePlayer(game);
+
+  if (gameWithNextPlayer.alivePlayersIds.length === 2) {
+    return gameWithNextPlayer;
+  }
+
+  if (gameWithNextPlayer.moveHistory.length < 2) {
+    return gameWithNextPlayer;
+  }
+
+  const lastCardMove = gameWithNextPlayer.moveHistory[0];
+  const secondLastCarMove = gameWithNextPlayer.moveHistory[1];
+
+  if (
+    lastCardMove.cardPlayed.type === 'reverse' &&
+    secondLastCarMove.cardPlayed.type === 'reverse' &&
+    secondLastCarMove.playerId === gameWithNextPlayer.currentPlayer.id
+  ) {
+    return explode(gameWithNextPlayer, false);
+  }
+
+  return gameWithNextPlayer;
 }
 
 export function moveToNextAlivePlayer(game: GasGame): GasGame {
@@ -414,6 +441,14 @@ function resetPlayerGuessesAndGivePoints(game: GasGame): GasGame {
   };
 }
 
+function addCardToHistory(
+  history: CardHistory[],
+  playerId: string,
+  card: GasCard
+): CardHistory[] {
+  return [{ playerId, cardPlayed: card }, ...history];
+}
+
 export function playCard(
   game: GasGame,
   playerId: string,
@@ -451,6 +486,7 @@ export function playCard(
     },
     direction:
       card.type === 'reverse' ? getReverseDirection(game) : game.direction,
+    moveHistory: addCardToHistory(game.moveHistory, playerId, card),
   };
 }
 

@@ -21,7 +21,10 @@ export type GasGame = {
     mostCorrectGuesses: string[];
     mostPresses: string[];
   };
+  moveHistory: CardHistory[];
 };
+
+export type CardHistory = { playerId: string; cardPlayed: GasCard };
 
 type GasCloud = {
   pressed: number;
