@@ -61,6 +61,9 @@ import mickeyOhBoy from './sounds/zodiac/mickey_mouse_oh_boy.mp3';
 import dogBark from './sounds/zodiac/dog.mp3';
 import taunt from './sounds/taunt.mp3';
 import wuuheeCute from './sounds/wuuhee_cute.mp3';
+import rheb from './sounds/rheb.mp3';
+import patheticSob from './sounds/pathetic_sob.mp3';
+import manScream from './sounds/man-scream-7049.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -125,6 +128,9 @@ const soundMap: SoundMap = {
   GasPlaySkipCard: wuuheeCute,
   GasPlayReverseCard: taunt,
   GasWinner: fanfare,
+  GasPlayerDie1: rheb,
+  GasPlayerDie2: patheticSob,
+  GasPlayerDie3: manScream,
   PacManMovePlayer: pacmanFruit,
   PacManMovePacman: pacmanMove,
   PacmanEatGhost: pacmanGhost,
