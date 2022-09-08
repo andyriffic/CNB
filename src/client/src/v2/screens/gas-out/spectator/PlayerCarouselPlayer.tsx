@@ -5,12 +5,10 @@ import {
   fadeInAnimation,
   spinAwayAnimationUp,
 } from '../../../../uplift/components/animations';
-import { getOrdinal } from '../../../../uplift/utils/ordinal';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { AvatarSizeStyles } from '../../../components/player-avatar/AvatarImage';
 import { GasGame, GasPlayer } from '../../../providers/GasProvider';
 import { Card } from './Card';
-import { PlayerBonusPoints } from './PlayerBonusPoints';
 
 const usePlayerCarousel = isFeatureEnabled('carousel');
 

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasGame } from '../../../providers/GasProvider';
+import { ExplodingPlayer } from './ExplodingPlayer';
 import { PlayerCarouselPlayer } from './PlayerCarouselPlayer';
 
 const TILE_WIDTH_PX = 400;
@@ -11,6 +12,7 @@ const Container = styled.div`
   /* width: 100%;
   border: 2px solid black; */
   pointer-events: none;
+  position: relative;
 `;
 
 const CarouselContainer = styled.div`
@@ -131,6 +133,16 @@ export const RotatingPlayerCarousel = ({
           })}
         </CarouselItem>
       </CarouselContainer>
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          bottom: '0',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        <ExplodingPlayer game={game} />
+      </div>
     </Container>
   );
 };
