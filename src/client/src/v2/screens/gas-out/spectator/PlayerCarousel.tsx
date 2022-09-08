@@ -1,7 +1,10 @@
 import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
+import { isFeatureEnabled } from '../../../../featureToggle';
 import { GasGame } from '../../../providers/GasProvider';
 import { RotatingPlayerCarousel } from './RotatingPlayerCarousel';
+
+const transparentCarousel = isFeatureEnabled('transparent');
 
 const PlayerListContainer = styled.div``;
 
@@ -44,6 +47,7 @@ export function PlayerCarousel({ game, gameOver }: Props): JSX.Element {
         game={game}
         gameOver={gameOver}
         displayIndex={displayIndex}
+        transparent={transparentCarousel}
       />
     </PlayerListContainer>
   );

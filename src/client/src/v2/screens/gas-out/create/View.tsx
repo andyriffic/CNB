@@ -82,7 +82,7 @@ export default ({ navigate }: Props) => {
   const onStartGameClick = () => {
     cleanup();
     createGasGame({ players: shuffleArray(joinedPlayers) }, gameId => {
-      window.location.href = `/gas/game/${gameId}?feature=carousel`;
+      window.location.href = `/gas/game/${gameId}?feature=carousel,transparent`;
     });
   };
 

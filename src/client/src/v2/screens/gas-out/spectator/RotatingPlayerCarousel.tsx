@@ -46,11 +46,13 @@ const CarouselContent = styled.div<{
   apothem: number;
   rotate: number;
   showing: boolean;
+  transparent: boolean;
 }>`
   width: 100%;
   box-sizing: border-box;
   padding: 0;
-  backface-visibility: hidden;
+  backface-visibility: ${({ transparent }) =>
+    transparent ? 'visbile' : 'hidden'};
   display: flex;
   justify-content: center;
 
@@ -78,12 +80,14 @@ type Props = {
   displayIndex: number;
   game: GasGame;
   gameOver: boolean;
+  transparent?: boolean;
 };
 
 export const RotatingPlayerCarousel = ({
   game,
   displayIndex,
   gameOver,
+  transparent = true,
 }: Props) => {
   const theta = useMemo(() => (2 * Math.PI) / game.alivePlayersIds.length, [
     game.alivePlayersIds,
@@ -110,6 +114,7 @@ export const RotatingPlayerCarousel = ({
                     Math.floor(displayIndex / game.alivePlayersIds.length) *
                       game.alivePlayersIds.length
                 }
+                transparent={transparent}
               >
                 <PlayerCarouselPlayer
                   game={game}

@@ -78,11 +78,13 @@ const PlayerName = styled.div`
   white-space: nowrap;
 `;
 
-const DeathContainer = styled.div`
+const DeathContainer = styled.div<{ active: boolean }>`
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+  transition: opacity 0.1s;
+  opacity: ${({ active }) => (active ? '1' : '0.5')};
   /* border: 2px solid darkred;
   border-radius: 25%;
   background: black;
@@ -120,13 +122,16 @@ const getDeathIcons = (total: number) => {
   return icons;
 };
 
-const markedForDeath = (player: GasPlayer): JSX.Element | null => {
+const markedForDeath = (
+  player: GasPlayer,
+  active: boolean
+): JSX.Element | null => {
   if (!player.guesses.nominatedCount) {
     return null;
   }
 
   return (
-    <DeathContainer>
+    <DeathContainer active={active}>
       <DeathIcon>
         {getDeathIcons(player.guesses.nominatedCount).map((d, i) => (
           <span key={i}>{d}</span>
@@ -196,7 +201,7 @@ export function PlayerCarouselPlayer({
             />
           </CardContainer>
         )}
-      {markedForDeath(player)}
+      {markedForDeath(player, active)}
     </PlayerListItem>
   ) : null;
 }
