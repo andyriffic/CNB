@@ -128,7 +128,8 @@ export function GraveyardPlayer({ player, game }: Props): JSX.Element {
         <PlayerAvatar player={player.player} size="small" showZodiac={false} />
       </PlayerAvatarContainer>
       {(!notDead || winner) && <PlayerPoints>{player.points}</PlayerPoints>}
-      {player.timedOut && <TimedOutIcon>⏰</TimedOutIcon>}
+      {player.killedBy === 'timeout' && <TimedOutIcon>⏰</TimedOutIcon>}
+      {player.killedBy === 'boomerang' && <TimedOutIcon>🪃</TimedOutIcon>}
     </PlayerListItem>
   );
 }

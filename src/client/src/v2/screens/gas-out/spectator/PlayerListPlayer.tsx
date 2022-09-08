@@ -176,7 +176,6 @@ export function PlayerListPlayer({
         <PlayerAvatar player={player.player} size={size} showZodiac={false} />
       </PlayerAvatarContainer>
       {(!notDead || winner) && <PlayerPoints>{player.points}</PlayerPoints>}
-      {player.timedOut && <TimedOutIcon>⏰</TimedOutIcon>}
       {/* {p.status === 'winner' && <PlayerIcon>🎉</PlayerIcon>} */}
       {/* <PlayerStatsContainer>
               <PlayerStatsSummary gasPlayer={p} />

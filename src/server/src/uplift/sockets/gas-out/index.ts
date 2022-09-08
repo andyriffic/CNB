@@ -6,6 +6,7 @@ import {
 } from '../../utils/random';
 import {
   CardHistory,
+  DeathType,
   Direction,
   EffectType,
   GasCard,
@@ -80,7 +81,7 @@ export function moveToNextAlivePlayerWithReverseDeath(game: GasGame): GasGame {
     secondLastCarMove.cardPlayed.type === 'reverse' &&
     secondLastCarMove.playerId === gameWithNextPlayer.currentPlayer.id
   ) {
-    return explode(gameWithNextPlayer, false);
+    return explode(gameWithNextPlayer, 'boomerang');
   }
 
   return gameWithNextPlayer;
@@ -355,13 +356,15 @@ export function press(game: GasGame): GasGame {
   return assignMvps(
     assignWinner(
       resetPlayerGuessesAndGivePoints(
-        takeOnePressFromCurrentPlayer(exploded ? explode(game, false) : game)
+        takeOnePressFromCurrentPlayer(
+          exploded ? explode(game, 'balloon') : game
+        )
       )
     )
   );
 }
 
-function explode(game: GasGame, timedOut: boolean): GasGame {
+function explode(game: GasGame, killedBy: DeathType | undefined): GasGame {
   const deadPlayerIds = [...game.deadPlayerIds, game.currentPlayer.id];
   const alivePlayersIds = game.alivePlayersIds.filter(
     (id) => id !== game.currentPlayer.id
@@ -371,7 +374,7 @@ function explode(game: GasGame, timedOut: boolean): GasGame {
   const updatedCurrentPlayer: GasPlayer = {
     ...currentPlayer,
     status: 'dead',
-    timedOut,
+    killedBy,
     finishedPosition: game.allPlayers.length - (deadPlayerIds.length - 1),
     totalPresses: currentPlayer.totalPresses + 1,
     points: game.pointsMap[deadPlayerIds.length - 1],
@@ -514,7 +517,7 @@ export function playerTimedOut(game: GasGame, playerId: string): GasGame {
     return game;
   }
 
-  return explode(game, true);
+  return explode(game, 'timeout');
 }
 
 function updatePlayerInList(
@@ -559,7 +562,6 @@ function createGasPlayer(player: Player): GasPlayer {
     cards: [createCard(), createCard(), createCard()],
     totalPresses: 0,
     points: 0,
-    timedOut: false,
     guesses: {
       correctGuessCount: 0,
       nominatedCount: 0,

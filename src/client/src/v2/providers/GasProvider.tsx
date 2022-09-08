@@ -42,6 +42,8 @@ export type GasCloud = {
   exploded: boolean;
 };
 
+export type DeathType = 'balloon' | 'timeout' | 'boomerang';
+
 export type GasPlayer = {
   player: Player;
   status: 'alive' | 'dead' | 'winner';
@@ -50,7 +52,7 @@ export type GasPlayer = {
   finishedPosition?: number;
   points: number;
   totalPresses: number;
-  timedOut: boolean;
+  killedBy?: DeathType;
   guesses: {
     nextPlayerOutGuess?: string;
     nominatedCount: number;
