@@ -50,7 +50,7 @@ interface SyncDataFromServerAction extends BaseAction {
   allPlayers: Player[];
 }
 
-const MAX_MOVES = 4;
+const MAX_MOVES = 20;
 const DEFAULT_MOVES_PER_SQUARE = 1;
 const MOVES_REQUIRED_TO_PASS = 2;
 
