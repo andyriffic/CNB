@@ -5,9 +5,18 @@ import { RacingTrackServiceProvider } from './providers/RacingTrackSerivce';
 import { racingTrack as track5 } from './tracks/track3';
 import { usePlayersProvider } from '../../providers/PlayersProvider';
 import { shuffleArray } from '../../../uplift/utils/random';
+import { withDynamicRoadBlocks } from './dynamicTrack';
+import { useDynamicSettings } from '../../hooks/useDynamicSettings';
 
 export const RacingTrackScreen = ({ location }: RouteComponentProps) => {
   const { allPlayers, updatePlayer } = usePlayersProvider();
+  const dynamicSettings = useDynamicSettings();
+  const dynamicRaceTrack = useMemo(() => {
+    return withDynamicRoadBlocks(
+      track5,
+      dynamicSettings.raceTrack.roadBlockSectionIndex
+    );
+  }, [dynamicSettings]);
 
   const participatingPlayers = useMemo(
     () => shuffleArray(allPlayers.filter(p => p.tags.includes('racer'))),
@@ -24,7 +33,7 @@ export const RacingTrackScreen = ({ location }: RouteComponentProps) => {
 
   return (
     <RacingTrackServiceProvider
-      racingTrack={track5}
+      racingTrack={dynamicRaceTrack}
       participatingPlayers={participatingPlayers}
       savePlayer={savePlayer}
     >

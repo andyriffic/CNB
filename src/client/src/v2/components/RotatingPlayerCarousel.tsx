@@ -17,7 +17,7 @@ const Container = styled.div`
 const CarouselContainer = styled.div`
   padding: 20px;
 
-  perspective: 2000px;
+  perspective: 3000px;
   overflow: hidden;
 
   display: flex;

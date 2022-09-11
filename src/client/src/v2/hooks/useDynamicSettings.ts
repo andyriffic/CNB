@@ -5,6 +5,9 @@ import { usePlayer } from '../screens/play/hooks/usePlayer';
 
 export type DynamicSettings = {
   hasLoaded: boolean;
+  raceTrack: {
+    roadBlockSectionIndex: number;
+  };
   gasGame: {
     playerMoveTimeoutMilliseconds: number;
   };
@@ -12,6 +15,9 @@ export type DynamicSettings = {
 
 const defaultSettings: DynamicSettings = {
   hasLoaded: false,
+  raceTrack: {
+    roadBlockSectionIndex: -1,
+  },
   gasGame: {
     playerMoveTimeoutMilliseconds: 3000,
   },
@@ -24,6 +30,13 @@ function getSettings(player: Player | undefined): DynamicSettings {
 
   return {
     hasLoaded: true,
+    raceTrack: {
+      roadBlockSectionIndex: getPlayerIntegerAttributeValue(
+        player.tags,
+        'race_track_road_block_section_index',
+        -1
+      ),
+    },
     gasGame: {
       playerMoveTimeoutMilliseconds: getPlayerIntegerAttributeValue(
         player.tags,
