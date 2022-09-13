@@ -69,6 +69,7 @@ export type SoundMap = {
   GasPlayerDie1: any;
   GasPlayerDie2: any;
   GasPlayerDie3: any;
+  GasBoomerang: any;
   PacManMovePlayer: any;
   PacManMovePacman: any;
   PacmanEatGhost: any;

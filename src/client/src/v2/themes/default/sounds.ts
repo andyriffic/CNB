@@ -64,6 +64,7 @@ import wuuheeCute from './sounds/wuuhee_cute.mp3';
 import rheb from './sounds/rheb.mp3';
 import patheticSob from './sounds/pathetic_sob.mp3';
 import manScream from './sounds/man-scream-7049.mp3';
+import smackAaaOh from './sounds/smack_aaa_oh.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -131,6 +132,7 @@ const soundMap: SoundMap = {
   GasPlayerDie1: rheb,
   GasPlayerDie2: patheticSob,
   GasPlayerDie3: manScream,
+  GasBoomerang: smackAaaOh,
   PacManMovePlayer: pacmanFruit,
   PacManMovePacman: pacmanMove,
   PacmanEatGhost: pacmanGhost,

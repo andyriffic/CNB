@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { isFeatureEnabled } from '../../../../featureToggle';
+import { spinAwayAnimationUp } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { GasGame, GasPlayer } from '../../../providers/GasProvider';
+import { useSoundProvider } from '../../../providers/SoundProvider';
 
 const Container = styled.div``;
 
@@ -26,15 +28,27 @@ const PlayerAvatarContainer = styled.div<{ exploded: boolean }>`
     `}
 `;
 
+const Boomerang = styled.div`
+  font-size: 3rem;
+  animation: ${spinAwayAnimationUp} 2s ease-in-out both;
+`;
+
 type Props = {
   game: GasGame;
 };
 
 export function ExplodingPlayer({ game }: Props): JSX.Element {
+  const { play } = useSoundProvider();
   const currentPlayer = useMemo(
     () => game.allPlayers.find(p => p.player.id === game.currentPlayer.id)!,
     [game]
   );
+
+  useEffect(() => {
+    if (currentPlayer.killedBy === 'boomerang') {
+      play('GasBoomerang');
+    }
+  }, [currentPlayer.killedBy]);
 
   return (
     <Container>
@@ -46,6 +60,9 @@ export function ExplodingPlayer({ game }: Props): JSX.Element {
           showZodiac={false}
         />
       </PlayerAvatarContainer>
+      <Boomerang></Boomerang>
+
+      {currentPlayer.killedBy === 'boomerang' && <Boomerang>🪃</Boomerang>}
     </Container>
   );
 }
