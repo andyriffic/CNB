@@ -31,7 +31,7 @@ const app = express();
 const { Server } = require("socket.io");
 const server = require('http').Server(app);
 const io = new Server(server, {cors: {
-  origins: ["http://localhost:3003", "http://localhost:3001"],
+  origins: ["http://localhost:3003", "http://localhost:3001", "http://localhost:3000"],
   methods: ["GET", "POST"]
 }})
 const path = require('path');
