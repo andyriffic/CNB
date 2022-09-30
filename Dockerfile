@@ -25,12 +25,6 @@ COPY src/client/package-lock.json ./src/client/package-lock.json
 RUN npm run install:client
 COPY src/client ./src/client
 
-# client packages v2
-COPY src/client-v2/package.json ./src/client-v2/package.json
-COPY src/client-v2/package-lock.json ./src/client-v2/package-lock.json
-RUN npm run install:client-v2
-COPY src/client-v2 ./src/client-v2
-
 RUN npm run build:docker
 
 EXPOSE 3000
