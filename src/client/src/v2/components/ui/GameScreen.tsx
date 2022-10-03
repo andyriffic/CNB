@@ -1,11 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import {
-  superSaiyanAnimation,
-  shakeAnimationLeft,
-  pulseAnimation,
-  rainbowAnimation,
-} from '../../../uplift/components/animations';
+import { rainbowAnimation } from '../../../uplift/components/animations';
 import { GameSettings } from '../GameSettings';
 
 export const featureFontFamily = "'Alfa Slab One', cursive";

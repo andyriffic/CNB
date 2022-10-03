@@ -43,21 +43,25 @@ export const useMobSelection = (): UseMobSelection => {
   }, [allPlayerChoices]);
 
   const selectMug = (): Player => {
-    const lowestPacSquare = Math.min(
-      ...joinedPlayers
-        .filter(
-          p => getPlayerIntegerAttributeValue(p.tags, 'rt_finish', 0) === 0
-        )
-        .map(p => getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0))
+    // const lowestPacSquare = Math.min(
+    //   ...joinedPlayers
+    //     .filter(
+    //       p => getPlayerIntegerAttributeValue(p.tags, 'rt_finish', 0) === 0
+    //     )
+    //     .map(p => getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0))
+    // );
+
+    // const lowestRaceTrackPlayers = joinedPlayers.filter(
+    //   p =>
+    //     getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0) ===
+    //     lowestPacSquare
+    // );
+
+    const everyoneExceptCastleDefender = joinedPlayers.filter(
+      p => !p.tags.includes('castle_defender')
     );
 
-    const lowestRaceTrackPlayers = joinedPlayers.filter(
-      p =>
-        getPlayerIntegerAttributeValue(p.tags, 'rt_section', 0) ===
-        lowestPacSquare
-    );
-
-    return selectRandomOneOf(lowestRaceTrackPlayers);
+    return selectRandomOneOf(everyoneExceptCastleDefender);
   };
 
   const sendInvites = () => {

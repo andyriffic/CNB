@@ -15,7 +15,7 @@ import {
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
 import { GasGame, GlobalEffect } from './types';
-import { pointsToPlayersRacing } from './points-to-player-racing';
+import { pointsToPlayersCastle } from './points-to-player-castle';
 
 const REQUEST_GAS_GAMES = 'REQUEST_GAS_GAMES';
 const GAS_GAMES_UPDATE = 'GAS_GAMES_UPDATE';
@@ -92,7 +92,7 @@ const init = (socketServer: Server, path: string) => {
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
 
       if (!!updatedGame.winningPlayerId) {
-        pointsToPlayersRacing(updatedGame, log);
+        pointsToPlayersCastle(updatedGame, log);
       }
     });
 
@@ -149,7 +149,7 @@ const init = (socketServer: Server, path: string) => {
       namespace.emit(GAS_GAMES_UPDATE, activeGasGames);
 
       if (!!updatedGame.winningPlayerId) {
-        pointsToPlayersRacing(updatedGame, log);
+        pointsToPlayersCastle(updatedGame, log);
       }
     });
   });

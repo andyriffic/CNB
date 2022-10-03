@@ -39,6 +39,7 @@ import { ChooseGameScreen } from './screens/choose-game';
 import { WhosThatSupersquadMemberScreen } from './screens/whos-that-supersquad-member';
 import { MiniTournamentScreen } from './screens/mini-tournament';
 import { TestScreen } from './screens/test';
+import { RulerOfTheCastleScreen } from './screens/ruler-of-the-castle';
 
 export default () => {
   return (
@@ -95,6 +96,7 @@ export default () => {
                             />
                             <WhosThatSupersquadMemberScreen path="whos-that-supersquad-member" />
                             <MiniTournamentScreen path="mini-tournament" />
+                            <RulerOfTheCastleScreen path="ruler-of-the-castle" />
                             <TestScreen path="test" />
                           </Router>
                         </ThemedUi>
