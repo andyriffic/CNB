@@ -42,8 +42,8 @@ const Body = styled.div<{
   overflow: ${props => (props.scrollable ? 'scroll' : 'hidden')};
 `;
 
-const BodyContent = styled.section`
-  width: 75%;
+const BodyContent = styled.section<{ widthPercent: number }>`
+  width: ${({ widthPercent }) => `${widthPercent}%`};
 `;
 
 type FullPageScreenLayoutProps = {
@@ -51,6 +51,7 @@ type FullPageScreenLayoutProps = {
   scrollable?: boolean;
   showGameSettings?: boolean;
   powerMode?: boolean;
+  widthPercent?: number;
 };
 
 export const GameScreen = ({
@@ -58,12 +59,13 @@ export const GameScreen = ({
   scrollable = true,
   showGameSettings = true,
   powerMode = false,
+  widthPercent = 75,
 }: FullPageScreenLayoutProps) => {
   return (
     <FullPage className="margins-off" powerMode={powerMode}>
       {showGameSettings && <GameSettings />}
       <Body scrollable={scrollable} className="margins-off">
-        <BodyContent>{children}</BodyContent>
+        <BodyContent widthPercent={widthPercent}>{children}</BodyContent>
       </Body>
     </FullPage>
   );

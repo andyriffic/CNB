@@ -34,53 +34,42 @@ function clearAttackingPlayer(player: Player | undefined, log: Debugger): void {
   });
 }
 
-function wonAttackingRights(player: Player, mobGame: MobGame): boolean {
+function getWinningAttackerId(mobGame: MobGame): string {
   const survivingMobPlayers = mobGame.mobPlayers.filter((mp) => mp.active);
   const mugWinner =
     survivingMobPlayers.length === 0 && mobGame.mugPlayer.lives > 0;
   const soleMobSurvivor =
     survivingMobPlayers.length === 1 ? survivingMobPlayers[0] : undefined;
 
-  if (
-    player.id === mobGame.mugPlayer.playerId &&
-    (mugWinner || survivingMobPlayers.length > 1)
-  ) {
-    return true;
+  if (mugWinner || survivingMobPlayers.length > 1) {
+    return mobGame.mugPlayer.playerId;
   }
 
-  if (soleMobSurvivor && survivingMobPlayers[0].playerId === player.id) {
-    return true;
+  if (soleMobSurvivor) {
+    return soleMobSurvivor.playerId;
   }
 
-  return false;
+  console.log('Could not determine Winning player for castle game');
+  return '';
 }
 
 export function pointsToPlayersCastle(mobGame: MobGame, log: Debugger) {
   playerService.getPlayersAsync().then((allPlayers) => {
     //TODO: need to remove attack tag from a player if they didn't play the game
 
-    const mugPlayer = allPlayers.find(
-      (p) => p.id === mobGame.mugPlayer.playerId
+    const existingAttackingPlayer = allPlayers.find((p) =>
+      p.tags.includes('castle_attacker')
     );
 
-    if (mugPlayer && wonAttackingRights(mugPlayer, mobGame)) {
-      setAttackingPlayer(mugPlayer, log);
-    } else {
-      clearAttackingPlayer(mugPlayer, log);
+    const newAttackingPlayerId = getWinningAttackerId(mobGame);
+
+    const newAttackingPlayer = newAttackingPlayerId
+      ? allPlayers.find((p) => p.id === newAttackingPlayerId)
+      : undefined;
+
+    if (existingAttackingPlayer?.id !== newAttackingPlayer?.id) {
+      clearAttackingPlayer(existingAttackingPlayer, log);
+      setAttackingPlayer(newAttackingPlayer, log);
     }
-
-    mobGame.points.mobPlayers.forEach((mobPlayerPoints) => {
-      const mobPlayer = allPlayers.find(
-        (p) => p.id === mobPlayerPoints.playerId
-      );
-
-      if (!mobPlayer) return;
-
-      if (wonAttackingRights(mobPlayer, mobGame)) {
-        setAttackingPlayer(mobPlayer, log);
-      } else {
-        clearAttackingPlayer(mobPlayer, log);
-      }
-    });
   });
 }
