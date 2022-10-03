@@ -23,6 +23,12 @@ const PositionedZodiacSign = styled.div`
   left: 20%;
 `;
 
+const CastleDefenderBadge = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`;
+
 const badgeScale: { [key in keyof AvatarSizeStyles]: number } = {
   small: 0.5,
   smallMedium: 0.6,
@@ -44,6 +50,7 @@ export const PlayerAvatar = ({
   showBadges = true,
 }: Props) => {
   const accentColor = getPlayerAttributeValue(player.tags, 'rt_color', '#000');
+  const isCastleDefender = player.tags.includes('castle_defender');
 
   return (
     <Container>
@@ -64,6 +71,7 @@ export const PlayerAvatar = ({
           <ZodiacSign tags={player.tags} />
         </PositionedZodiacSign>
       )}
+      {isCastleDefender && <CastleDefenderBadge>🏰</CastleDefenderBadge>}
     </Container>
   );
 };
