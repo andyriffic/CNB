@@ -234,13 +234,21 @@ const View = ({
             Game over
           </SplashText>
         )}
+        {gamePhase === GamePhase.gameOver && (
+          <PositionedArea position={{ left: 45, top: 30 }}>
+            <FancyLink href="/ruler-of-the-castle">
+              Back to the castle
+            </FancyLink>
+          </PositionedArea>
+        )}
+
         {showGameOverAction && (
           <PositionedArea position={{ left: 40, bottom: 0 }}>
             <ShowThemedVariant placement="mainGameOverAction" />
           </PositionedArea>
         )}
       </GameplayArea>
-      <PositionedArea position={{ left: 40, top: 0 }}>
+      {/* <PositionedArea position={{ left: 40, top: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           LUCKY SIGN:{' '}
           <img
@@ -248,7 +256,7 @@ const View = ({
             src={`${SOCKETS_ENDPOINT}/zodiac/disc/${luckySign}.png`}
           />
         </div>
-      </PositionedArea>
+      </PositionedArea> */}
       {game.attributes.powerMode && <SplashText>POWERMODE!!</SplashText>}
     </GameScreen>
   );

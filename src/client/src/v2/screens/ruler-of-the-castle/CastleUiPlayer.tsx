@@ -5,44 +5,55 @@ import styled, {
   keyframes,
 } from 'styled-components';
 import { PlayerAvatar } from '../../components/player-avatar';
-import { CastlePlayer, CastlePlayerPosition } from './useCastleState';
-
-type PlayerMovements = 'arriving' | 'entering-castle' | 'leaving-castle';
+import {
+  CastlePlayer,
+  CastlePlayerPosition,
+  PlayerMovements,
+  UseCastleStateResult,
+} from './useCastleState';
 
 const PLAYER_POSITIONS_PERCENT: {
   [key in CastlePlayerPosition]: [number, number];
 } = {
-  'approaching-castle': [10, 45],
-  'in-castle': [55, 30],
+  'outside-castle': [10, 45],
+  'inside-castle': [55, 30],
   'leaving-castle': [150, 30],
 };
 
 const approachingAnimation = keyframes`
     from { top: 100%; }
-    to { top: ${PLAYER_POSITIONS_PERCENT['approaching-castle'][1]}%; }
+    to { top: ${PLAYER_POSITIONS_PERCENT['outside-castle'][1]}%; }
 `;
 
 const shrinkAnimation = keyframes`
     from { 
-      top: ${PLAYER_POSITIONS_PERCENT['approaching-castle'][1]}%;
-      left: ${PLAYER_POSITIONS_PERCENT['approaching-castle'][0]}%;
+      top: ${PLAYER_POSITIONS_PERCENT['outside-castle'][1]}%;
+      left: ${PLAYER_POSITIONS_PERCENT['outside-castle'][0]}%;
       transform: scale(1);
      }
     to { 
-      top: ${PLAYER_POSITIONS_PERCENT['in-castle'][1]}%;
-      left: ${PLAYER_POSITIONS_PERCENT['in-castle'][0]}%;
+      top: ${PLAYER_POSITIONS_PERCENT['inside-castle'][1]}%;
+      left: ${PLAYER_POSITIONS_PERCENT['inside-castle'][0]}%;
       transform: scale(0.6);
     }
+`;
+
+export const spinAwayAnimationRight = keyframes`
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(600%, 0) rotate(1080deg); }
 `;
 
 const PLAYER_MOVEMENT_ANIMATIONS: {
   [key in PlayerMovements]?: FlattenSimpleInterpolation;
 } = {
-  arriving: css`
+  arrive: css`
     animation: ${approachingAnimation} 2000ms linear 1 both;
   `,
-  'entering-castle': css`
+  'enter-castle': css`
     animation: ${shrinkAnimation} 1000ms linear 1 both;
+  `,
+  'leave-castle': css`
+    animation: ${spinAwayAnimationRight} 1000ms linear 1 both;
   `,
 };
 
@@ -60,6 +71,8 @@ const PositionedPlayer = styled.div<{
 
 type Props = {
   castlePlayer: CastlePlayer;
+  castleState: UseCastleStateResult;
+  movement?: PlayerMovements;
 };
 
 const getPlayerMovement = (
@@ -67,14 +80,14 @@ const getPlayerMovement = (
   enteringCastle: boolean
 ): PlayerMovements | undefined => {
   if (enteringCastle) {
-    return 'entering-castle';
+    return 'enter-castle';
   }
-  if (castlePlayer.position === 'approaching-castle') {
-    return 'arriving';
+  if (castlePlayer.position === 'outside-castle') {
+    return 'arrive';
   }
 };
 
-export const CastleUiPlayer = ({ castlePlayer }: Props) => {
+export const CastleUiPlayer = ({ castlePlayer, movement }: Props) => {
   const [enterCastle, setEnterCastle] = useState(false);
 
   useEffect(() => {
@@ -90,14 +103,12 @@ export const CastleUiPlayer = ({ castlePlayer }: Props) => {
   return (
     <PositionedPlayer
       position={PLAYER_POSITIONS_PERCENT[castlePlayer.position]}
-      movement={getPlayerMovement(castlePlayer, enterCastle)}
+      movement={movement}
     >
       <PlayerAvatar
         player={castlePlayer.player}
         size={
-          castlePlayer.position === 'approaching-castle'
-            ? 'medium'
-            : 'smallMedium'
+          castlePlayer.position === 'outside-castle' ? 'medium' : 'smallMedium'
         }
         showZodiac={false}
         showBadges={false}
