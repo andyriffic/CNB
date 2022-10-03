@@ -11,7 +11,9 @@ export const useCastleSound = (
   const { play } = useSoundProvider();
 
   useEffect(() => {
-    !castleState.outcome && play('DonkeyKongAngry');
+    !castleState.outcome &&
+      castleState.attackingPlayer &&
+      play('DonkeyKongAngry');
   }, [castleState]);
 
   useEffect(() => {

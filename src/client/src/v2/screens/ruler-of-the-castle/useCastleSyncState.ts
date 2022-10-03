@@ -16,14 +16,9 @@ export const useCastleSyncState = (castleState: UseCastleStateResult): void => {
     ) {
       const newTags = [
         ...castleState.attackingPlayer.player.tags
-          .filter(t => !t.startsWith('castle_points'))
+          // .filter(t => !t.startsWith('castle_points'))
           .filter(t => t !== 'castle_defender')
           .filter(t => t !== 'castle_attacker'),
-        `castle_points:${getPlayerIntegerAttributeValue(
-          castleState.attackingPlayer.player.tags,
-          'castle_points',
-          0
-        ) + 1}`,
         'castle_defender',
       ];
       updatePlayer(castleState.attackingPlayer.player.id, newTags);
@@ -60,6 +55,15 @@ export const useCastleSyncState = (castleState: UseCastleStateResult): void => {
         'castle_defender',
       ];
       updatePlayer(castleState.defendingPlayer.player.id, newTags);
+
+      if (castleState.attackingPlayer && castleState.attackingPlayer.player) {
+        updatePlayer(
+          castleState.attackingPlayer.player.id,
+          castleState.attackingPlayer.player.tags.filter(
+            t => t !== 'castle_attacker'
+          )
+        );
+      }
     }
   }, [castleState]);
 };
