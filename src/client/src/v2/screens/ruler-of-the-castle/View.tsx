@@ -32,7 +32,7 @@ const View = () => {
   const [showBattleStarter, setShowBattleStarter] = useState(false);
   const [showAnimations, setShowAnimations] = useState(false);
   const castleState = useCastleState();
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(1);
   useCastleSound(castleState, points, showAnimations);
   useCastleSyncState(castleState);
 
@@ -66,7 +66,7 @@ const View = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setPoints(1);
+      setPoints(2);
     }, 4000);
 
     return () => {
