@@ -14,7 +14,7 @@ import { Player } from '../../services/player/types';
 import { mapMobGameToStats } from '../../services/stats/mobMappers';
 import { StatsService } from '../../services/stats';
 import { playersDatastore } from '../../datastore/players';
-import { pointsToPlayersCastle } from './points-to-player-castle';
+import { pointsToPlayersRacing } from './points-to-player-racing';
 
 const REQUEST_MOB_GAMES = 'REQUEST_MOB_GAMES';
 const MOB_GAMES_UPDATE = 'MOB_GAMES_UPDATE';
@@ -124,7 +124,7 @@ const init = (socketServer: Server, path: string) => {
       });
 
       if (createMobGameSpectatorView(updatedMobGame).gameOver) {
-        pointsToPlayersCastle(updatedMobGame, log);
+        pointsToPlayersRacing(updatedMobGame, log);
       }
 
       activeMobGames = [
