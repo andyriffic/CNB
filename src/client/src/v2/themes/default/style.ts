@@ -24,6 +24,8 @@ const theme: ThemeStyles = {
       cardTextColor01: 'crimson',
       cardBorderColor: 'white',
       cardBackgroundColor: 'greenyellow',
+      cardTextColorSpecial: '#EFB9AD',
+      cardBackgroundColorSpecial: '#680003',
     },
   },
   fontSize: {

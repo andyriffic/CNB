@@ -29,6 +29,19 @@ export function useGasSound(game: GasGame | undefined) {
     return game.gasCloud.exploded;
   }, [game]);
 
+  const finishedPressingRiskyCard = useMemo<boolean>(() => {
+    if (!game) {
+      return false;
+    }
+
+    return (
+      game.currentPlayer.pressesRemaining === 0 &&
+      !!game.currentPlayer.cardPlayed &&
+      game.currentPlayer.cardPlayed.type === 'risky' &&
+      game.alivePlayersIds.includes(game.currentPlayer.id)
+    );
+  }, [game]);
+
   const hasWinner = useMemo<boolean>(() => {
     if (!game) {
       return false;
@@ -75,12 +88,34 @@ export function useGasSound(game: GasGame | undefined) {
     );
   }, [game]);
 
+  const cursed = useMemo(() => {
+    if (!game) {
+      return false;
+    }
+
+    const currentPlayer = game.allPlayers.find(
+      p => p.player.id === game.currentPlayer.id
+    );
+
+    if (!currentPlayer) {
+      return false;
+    }
+
+    return !!currentPlayer.curse;
+  }, [game]);
+
   useEffect(() => {
     if (pressedCount > 0) {
       const intensity = pressedCount / 100 + 0.5;
       play('GasCloudPress', { rate: intensity });
     }
   }, [pressedCount]);
+
+  useEffect(() => {
+    if (cursed) {
+      play('SelectPrizeEmpty');
+    }
+  }, [cursed]);
 
   useEffect(() => {
     if (exploded) {
@@ -104,6 +139,12 @@ export function useGasSound(game: GasGame | undefined) {
       play('GasWinner');
     }
   }, [hasWinner]);
+
+  useEffect(() => {
+    if (finishedPressingRiskyCard) {
+      play('GasPlaySurvivedRisk');
+    }
+  }, [finishedPressingRiskyCard]);
 
   useEffect(() => {
     if (!!playingSounds.current['head-to-head']) {

@@ -82,15 +82,21 @@ export const PlayGasView = ({ playerId, gasGameId }: Props) => {
             cards={gasPlayer.cards}
             enabled={playersTurn && !game.currentPlayer.cardPlayed}
             playCard={playPlayersCard}
+            player={gasPlayer}
           />
-          {playersTurn && !game.currentPlayer.cardPlayed && (
-            <PlayerGasTimeoutTimer
-              timeOutMilliseconds={
-                gameSettings.gasGame.playerMoveTimeoutMilliseconds
-              }
-              onTimedOut={timeOut}
-            />
+          {gasPlayer.curse === 'double-press' && (
+            <PlayerStatus>Presses are doubled for your turn 😭</PlayerStatus>
           )}
+          {gameSettings.gasGame.playerMoveTimeoutMilliseconds > 0 &&
+            playersTurn &&
+            !game.currentPlayer.cardPlayed && (
+              <PlayerGasTimeoutTimer
+                timeOutMilliseconds={
+                  gameSettings.gasGame.playerMoveTimeoutMilliseconds
+                }
+                onTimedOut={timeOut}
+              />
+            )}
         </>
       )}
       {showCloudPresser && gasPlayer.status === 'alive' && (

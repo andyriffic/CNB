@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import { isFeatureEnabled } from '../../../../featureToggle';
 import {
   fadeInAnimation,
+  shakeAnimationLeft,
+  slideInUpAnimation,
   spinAwayAnimationUp,
 } from '../../../../uplift/components/animations';
 import { PlayerAvatar } from '../../../components/player-avatar';
@@ -61,19 +63,21 @@ const PlayerPoints = styled.div`
   animation: ${fadeInAnimation} 1000ms ease-in-out 2000ms both;
 `;
 
-const PlayerName = styled.div`
+const Curse = styled.div`
   position: absolute;
-  bottom: -50%;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%);
   border: 2px solid white;
-  color: ${({ theme }) => theme.color.text02};
-  background-color: ${({ theme }) => theme.color.background02};
+  color: ${({ theme }) => theme.color.gasGame.cardTextColorSpecial};
+  background-color: ${({ theme }) =>
+    theme.color.gasGame.cardBackgroundColorSpecial};
   padding: 5px;
   border-radius: 5px;
   text-transform: uppercase;
   font-size: ${({ theme }) => theme.fontSize.smallish};
   white-space: nowrap;
+  animation: ${shakeAnimationLeft} 800ms ease-in infinite both;
 `;
 
 const DeathContainer = styled.div<{ active: boolean }>`
@@ -91,15 +95,6 @@ const DeathContainer = styled.div<{ active: boolean }>`
 
 const DeathIcon = styled.div`
   font-size: 1.3rem;
-`;
-
-const TimedOutIcon = styled.div`
-  position: absolute;
-`;
-
-const PlayerStatsContainer = styled.div`
-  position: absolute;
-  bottom: -200px;
 `;
 
 const getDeathIcons = (total: number) => {
@@ -180,6 +175,7 @@ export function PlayerCarouselPlayer({
       {/* {(winner || (active && notDead && !gameOver)) && (
         <PlayerName>{player.player.name}</PlayerName>
       )} */}
+
       <PlayerAvatarContainer alive={alive}>
         <PlayerAvatar
           player={player.player}
@@ -187,6 +183,7 @@ export function PlayerCarouselPlayer({
           showZodiac={false}
           showBadges={false}
         />
+        {player.curse === 'double-press' && <Curse>Double Press ‼️</Curse>}
       </PlayerAvatarContainer>
       {active &&
         game.currentPlayer.cardPlayed &&
@@ -200,6 +197,7 @@ export function PlayerCarouselPlayer({
           </CardContainer>
         )}
       {markedForDeath(player, active)}
+      {player.curse === 'double-press' && <Curse>Double Press ‼️</Curse>}
     </PlayerListItem>
   ) : null;
 }

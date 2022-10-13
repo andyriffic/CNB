@@ -6,6 +6,8 @@ import {
 } from '../../utils/random';
 import {
   CardHistory,
+  CardType,
+  CurseType,
   DeathType,
   Direction,
   EffectType,
@@ -63,7 +65,9 @@ function createPointsMap(totalPlayerCount: number): number[] {
 }
 
 export function moveToNextAlivePlayerWithReverseDeath(game: GasGame): GasGame {
-  const gameWithNextPlayer = moveToNextAlivePlayer(game);
+  const gameWithNextPlayer = applyCursesToCurrentPlayer(
+    moveToNextAlivePlayer(game)
+  );
 
   if (gameWithNextPlayer.alivePlayersIds.length === 2) {
     return gameWithNextPlayer;
@@ -107,6 +111,36 @@ export function moveToNextAlivePlayer(game: GasGame): GasGame {
   } while (currentPlayer.status === 'dead');
 
   return updatedGame;
+}
+
+function applyCursesToCurrentPlayer(game: GasGame): GasGame {
+  if (game.alivePlayersIds.length === 2) {
+    return game;
+  }
+
+  if (game.moveHistory.length < 1) {
+    return game;
+  }
+
+  const lastCardMove = game.moveHistory[0];
+
+  if (
+    lastCardMove.cardPlayed.type === 'risky' &&
+    game.alivePlayersIds.includes(lastCardMove.playerId)
+  ) {
+    const currentPlayer = getPlayerOrThrow(game, game.currentPlayer.id);
+    const cursedPlayer: GasPlayer = {
+      ...currentPlayer,
+      curse: 'double-press',
+    };
+
+    return {
+      ...game,
+      allPlayers: updatePlayerInList(game.allPlayers, cursedPlayer),
+    };
+  }
+
+  return game;
 }
 
 export function moveToNextPlayer(game: GasGame): GasGame {
@@ -469,10 +503,16 @@ export function playCard(
 
   const { player, card } = getPlayerAndCardOrThrow(game, playerId, cardIndex);
 
+  const cursedCard = getCursedCard(card, player.curse);
+
   const updatedCards = player.cards.filter((c, i) => i !== cardIndex);
   const updatedPlayer: GasPlayer = {
     ...player,
-    cards: [...updatedCards, createCard()],
+    curse: undefined, // Curse automatically removed after card is played
+    cards: [
+      ...updatedCards,
+      createRandomCard(game.alivePlayersIds.length === 2),
+    ],
   };
 
   return {
@@ -482,7 +522,7 @@ export function playCard(
       ...game.currentPlayer,
       cardPlayed: card,
       pressesRemaining: applyEffectToCardPresses(
-        card,
+        cursedCard,
         game.globalEffect,
         playerId
       ),
@@ -491,6 +531,19 @@ export function playCard(
       card.type === 'reverse' ? getReverseDirection(game) : game.direction,
     moveHistory: addCardToHistory(game.moveHistory, playerId, card),
   };
+}
+
+function getCursedCard(card: GasCard, curse: CurseType | undefined): GasCard {
+  if (card.type !== 'press') {
+    return card;
+  }
+
+  switch (curse) {
+    case 'double-press':
+      return { ...card, presses: card.presses * 2 };
+    default:
+      return card;
+  }
 }
 
 function applyEffectToCardPresses(
@@ -559,7 +612,7 @@ function createGasPlayer(player: Player): GasPlayer {
   return {
     player,
     status: 'alive',
-    cards: [createCard(), createCard(), createCard()],
+    cards: [createRandomCard(), createRandomCard(), createRandomCard()],
     totalPresses: 0,
     points: 0,
     guesses: {
@@ -575,30 +628,34 @@ function createGasPlayer(player: Player): GasPlayer {
   };
 }
 
-function createCard(): GasCard {
-  const cardWeights: WeightedItem<GasCard>[] = [
-    {
-      weight: 1,
-      item: {
-        type: 'skip',
-        presses: 0,
-      },
-    },
-    {
-      weight: 2,
-      item: {
-        type: 'reverse',
-        presses: 0,
-      },
-    },
-    {
-      weight: 12,
-      item: {
-        type: 'press',
-        presses: selectRandomOneOf([1, 2, 3, 4, 5]),
-      },
-    },
+function getWeightedRandomCardType(isFinalRound: boolean): CardType {
+  const cardWeights: WeightedItem<CardType>[] = [
+    { weight: 1, item: 'skip' },
+    { weight: 2, item: 'risky' },
+    { weight: 3, item: 'reverse' },
+    { weight: 14, item: 'press' },
   ];
 
-  return selectWeightedRandomOneOf(cardWeights);
+  return selectWeightedRandomOneOf(
+    isFinalRound ? cardWeights.filter((w) => w.item !== 'risky') : cardWeights
+  );
+}
+
+function createCard(cardType: CardType): GasCard {
+  switch (cardType) {
+    case 'skip':
+    case 'reverse':
+      return { type: cardType, presses: 0 };
+    case 'risky':
+      return { type: 'risky', presses: 6 };
+    case 'press':
+      return { type: 'press', presses: selectRandomOneOf([1, 2, 3, 4, 5]) };
+  }
+}
+
+function createRandomCard(isFinalRound: boolean = false): GasCard {
+  const nextCardType = getWeightedRandomCardType(isFinalRound);
+  const card = createCard(nextCardType);
+
+  return card;
 }

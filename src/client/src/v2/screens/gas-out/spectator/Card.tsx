@@ -4,7 +4,7 @@ import { slideInUpAnimation } from '../../../../uplift/components/animations';
 import { GasCard } from '../../../providers/GasProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ special: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,9 +13,15 @@ const CardContainer = styled.div`
   border-radius: 10px;
   width: 70px;
   height: 100px;
-  background-color: ${({ theme }) => theme.color.gasGame.cardBackgroundColor};
+  background-color: ${({ theme, special }) =>
+    special
+      ? theme.color.gasGame.cardBackgroundColorSpecial
+      : theme.color.gasGame.cardBackgroundColor};
   animation: ${slideInUpAnimation} 300ms ease-out 0s both;
-  color: ${({ theme }) => theme.color.gasGame.cardTextColor01};
+  color: ${({ theme, special }) =>
+    special
+      ? theme.color.gasGame.cardTextColorSpecial
+      : theme.color.gasGame.cardTextColor01};
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
     rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
@@ -46,13 +52,14 @@ function renderCard(
 ): JSX.Element | null {
   switch (card.type) {
     case 'press':
+    case 'risky':
       return <CardNumber>{pressesRemaining}</CardNumber>;
     case 'skip':
       return <CardText>skip</CardText>;
     case 'reverse':
       return <CardIcon>↔</CardIcon>;
     default:
-      throw 'card type not configured';
+      return <CardText>{card.type}</CardText>;
   }
 }
 
@@ -70,7 +77,9 @@ export function Card({ card, pressesRemaining }: Props): JSX.Element | null {
       case 'skip':
         play('GasPlaySkipCard');
         break;
-
+      case 'risky':
+        play('GasPlayRiskCard');
+        break;
       default:
         break;
     }
@@ -79,5 +88,9 @@ export function Card({ card, pressesRemaining }: Props): JSX.Element | null {
   if (card.type === 'press' && pressesRemaining === 0) {
     return null;
   }
-  return <CardContainer>{renderCard(card, pressesRemaining)}</CardContainer>;
+  return (
+    <CardContainer special={card.type === 'risky'}>
+      {renderCard(card, pressesRemaining)}
+    </CardContainer>
+  );
 }

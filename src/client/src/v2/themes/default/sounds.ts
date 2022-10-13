@@ -49,7 +49,7 @@ import carHorn from './sounds/car_horn.mp3';
 import balloonDeflate from './sounds/balloon_deflate.mp3';
 import balloonPopSound from './sounds/balloon_pop_sound_loud.mp3';
 import airInflate from './sounds/air_inflate.mp3';
-import intenseRingtone from './sounds/intense_ringtone.mp3';
+import fall from './sounds/fall.mp3';
 import popGoesTheWeasal from './sounds/pop_goes_the_weasal.mp3';
 import pacmanGhost from './sounds/pacman_ghost.mp3';
 import pacmanFruit from './sounds/pacman_fruit.mp3';
@@ -128,6 +128,8 @@ const soundMap: SoundMap = {
   GasPlayNumberCard: fastGesture,
   GasPlaySkipCard: wuuheeCute,
   GasPlayReverseCard: taunt,
+  GasPlayRiskCard: fall,
+  GasPlaySurvivedRisk: phew,
   GasWinner: fanfare,
   GasPlayerDie1: rheb,
   GasPlayerDie2: patheticSob,

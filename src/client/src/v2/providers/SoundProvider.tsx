@@ -65,6 +65,8 @@ export type SoundMap = {
   GasPlayNumberCard: any;
   GasPlayReverseCard: any;
   GasPlaySkipCard: any;
+  GasPlayRiskCard: any;
+  GasPlaySurvivedRisk: any;
   GasWinner: any;
   GasPlayerDie1: any;
   GasPlayerDie2: any;

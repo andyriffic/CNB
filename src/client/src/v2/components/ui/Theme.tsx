@@ -24,7 +24,9 @@ export interface ThemeStyles {
     };
     gasGame: {
       cardTextColor01: string;
+      cardTextColorSpecial: string;
       cardBackgroundColor: string;
+      cardBackgroundColorSpecial: string;
       cardBorderColor: string;
     };
   };

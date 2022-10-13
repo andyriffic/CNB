@@ -43,6 +43,7 @@ export type GasCloud = {
 };
 
 export type DeathType = 'balloon' | 'timeout' | 'boomerang';
+export type CurseType = 'double-press';
 
 export type GasPlayer = {
   player: Player;
@@ -58,6 +59,7 @@ export type GasPlayer = {
     nominatedCount: number;
     correctGuessCount: number;
   };
+  curse?: CurseType;
 };
 
 export type EffectType = 'double';
@@ -68,7 +70,7 @@ export type GlobalEffect = {
 };
 
 export type GasCard = {
-  type: 'press' | 'skip' | 'reverse';
+  type: 'press' | 'skip' | 'reverse' | 'risky';
   presses: number;
 };
 

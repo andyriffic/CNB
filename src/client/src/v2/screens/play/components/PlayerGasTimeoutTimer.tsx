@@ -34,14 +34,13 @@ export const PlayerGasTimeoutTimer = ({
   onTimedOut,
   timeOutMilliseconds,
 }: Props): JSX.Element => {
-  useEffect(() => {
-    const timeout = setTimeout(onTimedOut, timeOutMilliseconds);
-    // const timeout = setTimeout(() => {}, timeOutMilliseconds);
+  // useEffect(() => {
+  //   const timeout = setTimeout(onTimedOut, timeOutMilliseconds);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, []);
 
   return (
     <Container>
