@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { FancyLink } from '../../../../components/FancyLink';
 import { isFeatureEnabled } from '../../../../featureToggle';
 import { Button } from '../../../components/ui/buttons';
 import { GAME_PHASE } from '../providers/racingTrackReducer';
@@ -23,6 +24,13 @@ export const DebugPlayerMove = ({
   speed,
 }: Props): JSX.Element => {
   const [autoMove, setAutoMove] = useState(false);
+
+  const finishedPlayers = useMemo(() => {
+    const finishers = racingTrackService.racers.filter(
+      rp => !!rp.finishPosition
+    );
+    return finishers;
+  }, [racingTrackService.racers]);
 
   useEffect(() => {
     if (racingTrackService.allPlayersMoved || !autoMove) {
@@ -58,12 +66,21 @@ export const DebugPlayerMove = ({
 
   return (
     <Container>
-      <Button
-        onClick={() => setAutoMove(true)}
-        disabled={racingTrackService.gamePhase !== GAME_PHASE.NOT_STARTED}
-      >
-        Start Race 🏁
-      </Button>
+      <div>
+        <Button
+          onClick={() => setAutoMove(true)}
+          disabled={racingTrackService.gamePhase !== GAME_PHASE.NOT_STARTED}
+        >
+          Start Race 🏁
+        </Button>
+      </div>
+      {finishedPlayers.length >= 6 && (
+        <div>
+          <FancyLink href="/gas/start?feature=race-track-winners">
+            Final Showdown! 🏁
+          </FancyLink>
+        </div>
+      )}
     </Container>
   );
 };
