@@ -2,7 +2,10 @@ import { NavigateFn } from '@reach/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReadableNumberFont } from '../../../../components/ReadableNumberFont';
-import { isPersistantFeatureEnabled } from '../../../../featureToggle';
+import {
+  isFeatureEnabled,
+  isPersistantFeatureEnabled,
+} from '../../../../featureToggle';
 import {
   jackInTheBoxAnimation,
   slideInUpAnimation,
@@ -18,7 +21,10 @@ import { useMobProvider } from '../../../providers/MobProvider';
 import { Player } from '../../../providers/PlayersProvider';
 import { useSoundProvider } from '../../../providers/SoundProvider';
 import { DebugPlayerChoice } from './DebugPlayerChoice';
-import { useOpenPlayerSelection } from './hooks/useOpenSelection';
+import {
+  useOpenPlayerSelection,
+  useRaceTrackWinnersMobSelection,
+} from './hooks/useOpenSelection';
 import { useSound } from './hooks/useSound';
 import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
@@ -36,6 +42,18 @@ const ProbablyPlayContainer = styled.div`
   @media only screen and (max-width: 600px) {
     display: block;
   }
+`;
+
+const PlayerName = styled.div<{ hasJoined: boolean }>`
+  border: 2px solid white;
+  color: ${({ theme }) => theme.color.text02};
+  background-color: ${({ theme, hasJoined }) =>
+    hasJoined ? '#AEC670' : '#DC4B48'};
+  padding: 5px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-size: ${({ theme }) => theme.fontSize.smallish};
+  white-space: nowrap;
 `;
 
 const PlayerList = styled.div`
@@ -63,15 +81,47 @@ const CountdownTimer = styled.div<{ warning: boolean }>`
   animation: ${slideInUpAnimation} 600ms ease-in 0s 1 both;
 `;
 
+const renderInvitedPlayersButton = (
+  invitedPlayers: Player[],
+  joinedPlayers: Player[],
+  onStartGameClick: () => void
+): JSX.Element => {
+  const nonJoinedPlayersCount = invitedPlayers.length - joinedPlayers.length;
+  return (
+    <div style={{ textAlign: 'center', margin: '20px 0' }}>
+      <Button onClick={onStartGameClick} disabled={nonJoinedPlayersCount > 0}>
+        {nonJoinedPlayersCount > 0 ? (
+          <>
+            Waiting on{' '}
+            <strong>{invitedPlayers.length - joinedPlayers.length}</strong>{' '}
+            players
+          </>
+        ) : (
+          <>PLAY 🎉</>
+        )}
+      </Button>
+    </div>
+  );
+};
+
 type Props = {
   navigate: NavigateFn | undefined;
 };
+
+const useRaceTrackSelection = isFeatureEnabled('race-track-winners');
 
 export default ({ navigate }: Props) => {
   const { createGasGame } = useGasProvider();
   const { play } = useSoundProvider();
   const [sentInvites, setSentInvites] = useState(false);
-  const { joinedPlayers, sendInvites, cleanup } = useOpenPlayerSelection();
+  const {
+    joinedPlayers,
+    sendInvites,
+    cleanup,
+    invitedPlayers,
+  } = useRaceTrackSelection
+    ? useRaceTrackWinnersMobSelection()
+    : useOpenPlayerSelection();
   useSound(joinedPlayers);
 
   const onSendInvitesClick = () => {
@@ -101,10 +151,37 @@ export default ({ navigate }: Props) => {
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
 
         {!sentInvites && joinedPlayers.length === 0 && (
-          <Button onClick={onSendInvitesClick}>Invite Players</Button>
+          <Button onClick={onSendInvitesClick}>
+            Invite Players {useRaceTrackSelection && <span>🏎</span>}
+          </Button>
         )}
 
-        {joinedPlayers.length > 3 && (
+        {sentInvites &&
+          invitedPlayers &&
+          renderInvitedPlayersButton(
+            invitedPlayers,
+            joinedPlayers,
+            onStartGameClick
+          )}
+
+        {invitedPlayers && invitedPlayers.length > 0 && (
+          <div style={{ display: 'flex', margin: '20px 0', gap: '20px' }}>
+            {invitedPlayers.map(invitedPlayer => (
+              <PlayerName
+                key={invitedPlayer.id}
+                hasJoined={
+                  !!joinedPlayers.find(
+                    joinedPlayer => joinedPlayer.id === invitedPlayer.id
+                  )
+                }
+              >
+                {invitedPlayer.name}
+              </PlayerName>
+            ))}
+          </div>
+        )}
+
+        {!invitedPlayers && joinedPlayers.length > 3 && (
           <div style={{ textAlign: 'center', margin: '20px 0' }}>
             <Button onClick={onStartGameClick}>
               Start Game with <strong>{joinedPlayers.length}</strong> players
