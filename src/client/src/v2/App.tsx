@@ -22,7 +22,6 @@ import {
   PlayMobScreen,
   PlayGasScreen,
 } from './screens/play';
-import { GameEngineScreen } from './screens/game-engine';
 import { RacingTrackScreen } from './screens/racing-track';
 import { PlayerAdminScreen } from './screens/player-admin';
 import { PlayerProfileScreen } from './screens/player-profile';
@@ -87,7 +86,6 @@ export default () => {
                             <MobPointsInstructionsScreen path="/mob-points-explanation" />
                             <GameHistoryScreen path="/game-history" />
                             <PlayerAdminScreen path="/player-admin" />
-                            <GameEngineScreen path="/game-engine" />
                             <RacingTrackScreen path="/race-track" />
                             <CreateGasGameScreen path="gas/start" />
                             <GasGameSpectatorScreen
