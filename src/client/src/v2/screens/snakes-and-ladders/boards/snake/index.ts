@@ -192,8 +192,8 @@ export const generateBoard = (): GameBoard => {
       {
         number: 35,
         coordinates: [670, 220],
-        type: BOARD_CELL_TYPE.LADDER,
-        linkedCellIndex: 45,
+        type: BOARD_CELL_TYPE.WORMHOLE,
+        linkedCellIndex: [31, 37],
       },
       {
         number: 36,

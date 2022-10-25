@@ -57,11 +57,23 @@ export const useMobSelection = (): UseMobSelection => {
     //     lowestPacSquare
     // );
 
-    const everyoneExceptCastleDefender = joinedPlayers.filter(
-      p => !p.tags.includes('castle_defender')
+    // const everyoneExceptCastleDefender = joinedPlayers.filter(
+    //   p => !p.tags.includes('castle_defender')
+    // );
+
+    const lowestSnakesSquare = Math.min(
+      ...joinedPlayers.map(p =>
+        getPlayerIntegerAttributeValue(p.tags, 'sl_cell', 0)
+      )
     );
 
-    return selectRandomOneOf(everyoneExceptCastleDefender);
+    const lowestPlayers = joinedPlayers.filter(
+      p =>
+        getPlayerIntegerAttributeValue(p.tags, 'sl_cell', 0) ===
+        lowestSnakesSquare
+    );
+
+    return selectRandomOneOf(lowestPlayers);
   };
 
   const sendInvites = () => {
