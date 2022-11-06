@@ -57,7 +57,10 @@ import pacmanMove from './sounds/pacman_move.mp3';
 import pokemonWhosThat from './sounds/pokemon-whos-that.mp3';
 import pokemonReceivedItem from './sounds/pokemon-received-an-item.mp3';
 import snakeHiss from './sounds/zodiac/snake_hiss.mp3';
-import mickeyOhBoy from './sounds/zodiac/mickey_mouse_oh_boy.mp3';
+import mouse from './sounds/zodiac/mouse.mp3';
+import tiger from './sounds/zodiac/tiger.mp3';
+import horse from './sounds/zodiac/horse.mp3';
+import monkey from './sounds/zodiac/monkey.mp3';
 import dogBark from './sounds/zodiac/dog.mp3';
 import taunt from './sounds/taunt.mp3';
 import wuuheeCute from './sounds/wuuhee_cute.mp3';
@@ -141,8 +144,11 @@ const soundMap: SoundMap = {
   WhosThanIntro: pokemonWhosThat,
   WhosThatReveal: pokemonReceivedItem,
   zodiac_snake: snakeHiss,
-  zodiac_rat: mickeyOhBoy,
+  zodiac_rat: mouse,
   zodiac_dog: dogBark,
+  zodiac_horse: horse,
+  zodiac_monkey: monkey,
+  zodiac_tiger: tiger,
 };
 
 export default soundMap;
