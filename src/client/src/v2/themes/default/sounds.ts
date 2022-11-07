@@ -62,6 +62,7 @@ import tiger from './sounds/zodiac/tiger.mp3';
 import horse from './sounds/zodiac/horse.mp3';
 import monkey from './sounds/zodiac/monkey.mp3';
 import dogBark from './sounds/zodiac/dog.mp3';
+import sheep from './sounds/zodiac/sheep.mp3';
 import taunt from './sounds/taunt.mp3';
 import wuuheeCute from './sounds/wuuhee_cute.mp3';
 import rheb from './sounds/rheb.mp3';
@@ -149,6 +150,7 @@ const soundMap: SoundMap = {
   zodiac_horse: horse,
   zodiac_monkey: monkey,
   zodiac_tiger: tiger,
+  zodiac_sheep: sheep,
 };
 
 export default soundMap;
