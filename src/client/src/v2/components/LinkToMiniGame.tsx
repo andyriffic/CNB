@@ -15,7 +15,7 @@ export const LinkToMiniGame = () => {
       <FancyLink
         onClick={() =>
           (window.location.href =
-            '/whos-that-supersquad-member?continueUrl=/snakes-and-ladders')
+            '/whos-that-supersquad-member?continueUrl=/pac-man')
         }
       >
         🥳 Go to Mini Game 🥳
