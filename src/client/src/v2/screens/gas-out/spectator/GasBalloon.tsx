@@ -7,6 +7,7 @@ import {
   shakeExtremeAnimation,
 } from '../../../../uplift/components/animations';
 import { GasCloud } from '../../../providers/GasProvider';
+import xmasGiftImage from './christmas-gift.png';
 
 function getCloudAnimationSpeedMilliSeconds(intensity: number): number {
   return Math.max(8000 - intensity * 500, 100);
@@ -61,6 +62,13 @@ const Ballon = styled.div<{ size: number }>`
   }
 `;
 
+const Gift = styled.img<{ size: number }>`
+  display: inline-block;
+  width: ${({ size }) => size * 10 + 50}px;
+  height: ${({ size }) => size * 10 + 50}px;
+  transition: all 180ms ease-in;
+`;
+
 const Explosion = styled.img``;
 
 type Props = {
@@ -71,7 +79,12 @@ export function GasBallon({ gasCloud }: Props): JSX.Element {
   const visibleSize = gasCloud.exploded ? 10 : gasCloud.pressed;
   return (
     <Container size={visibleSize} exploded={gasCloud.exploded}>
-      <Ballon size={visibleSize} />
+      {/* <Ballon size={visibleSize} /> */}
+      <Gift
+        size={visibleSize}
+        src={xmasGiftImage}
+        alt="Wrapped christmas gift box"
+      />
     </Container>
   );
 }

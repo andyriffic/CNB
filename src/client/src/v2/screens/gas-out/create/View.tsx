@@ -13,6 +13,7 @@ import {
 import { shuffleArray } from '../../../../uplift/utils/random';
 import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { PlayerAvatar } from '../../../components/player-avatar';
+import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
 import { GameScreen } from '../../../components/ui/GameScreen';
@@ -29,6 +30,8 @@ import { useSound } from './hooks/useSound';
 import { ProbablyWantPlayScreen } from './ProbablyWantPlayScreen';
 
 const Container = styled.div`
+  position: relative;
+
   margin: 0 auto 50px auto;
 
   @media only screen and (max-width: 600px) {
@@ -147,6 +150,7 @@ export default ({ navigate }: Props) => {
         />
       </ProbablyPlayContainer>
       <Container>
+        <ShowThemedVariant placement="spectatorScreen" />
         <FeatureText>Join the game</FeatureText>
         <SubHeading>cnb.finx-rocks.com/play</SubHeading>
 

@@ -12,6 +12,8 @@ import santaRideToTown from './santa_ride_to_town.mp3';
 import jingleBells from './jingle_bells.mp3';
 import santaHoHoHoHoHo from './santa_ho_ho_ho_ho_ho.mp3';
 import sleighBell from './sleigh_bell.mp3';
+import jingleBellsChinese from './jingle_bells_chinese.mp3';
+import jingleBells2 from './jingle_bells_2.mp3';
 
 const themeComponents: ThemeComponents = {
   ...defaultTheme,
@@ -23,6 +25,9 @@ const themeComponents: ThemeComponents = {
     WaitForMoves: santaRideToTown,
     PlayerMoved: santaHoHoHoHoHo,
     RoundStart: sleighBell,
+    GasPlayRiskCard: santaHoHoHoHoHo,
+    ChoseMobMusic: jingleBellsChinese,
+    GasCloudGameBackgroundMusic: jingleBells2,
   },
   moves: {
     A: <img src={rockImage} style={{ width: '100%', height: '100%' }} />,

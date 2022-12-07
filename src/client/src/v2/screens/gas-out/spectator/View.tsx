@@ -7,6 +7,7 @@ import {
 } from '../../../../featureToggle';
 import { LoadingSpinner } from '../../../../uplift/components/loading-spinner';
 import { LinkToMiniGame } from '../../../components/LinkToMiniGame';
+import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
 import { GameScreen } from '../../../components/ui/GameScreen';
 import { useGasProvider } from '../../../providers/GasProvider';
 import { FinalPodium } from './FinalPodium';
