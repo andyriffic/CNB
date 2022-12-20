@@ -69,6 +69,7 @@ import rheb from './sounds/rheb.mp3';
 import patheticSob from './sounds/pathetic_sob.mp3';
 import manScream from './sounds/man-scream-7049.mp3';
 import smackAaaOh from './sounds/smack_aaa_oh.mp3';
+import happyBirthday from './sounds/happy_birthday.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -151,6 +152,7 @@ const soundMap: SoundMap = {
   zodiac_monkey: monkey,
   zodiac_tiger: tiger,
   zodiac_sheep: sheep,
+  happyBirthday: happyBirthday,
 };
 
 export default soundMap;

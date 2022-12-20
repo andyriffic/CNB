@@ -11,6 +11,7 @@ import {
   slideInUpAnimation,
 } from '../../../../uplift/components/animations';
 import { shuffleArray } from '../../../../uplift/utils/random';
+import { PlayerAvatarWithBirthday } from '../../../components/AvatarWithBirthday';
 import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { PlayerAvatar } from '../../../components/player-avatar';
 import { ShowThemedVariant } from '../../../components/ShowThemedVariant';
@@ -196,7 +197,8 @@ export default ({ navigate }: Props) => {
         <PlayerList>
           {joinedPlayers.map(p => (
             <PlayerListItem key={p.id}>
-              <PlayerAvatar player={p} size="smallMedium" showZodiac={false} />
+              <PlayerAvatarWithBirthday player={p} size="smallMedium" />
+              {/* <PlayerAvatar player={p} size="smallMedium" showZodiac={false} /> */}
             </PlayerListItem>
           ))}
         </PlayerList>

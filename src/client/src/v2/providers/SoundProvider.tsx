@@ -84,6 +84,7 @@ export type SoundMap = {
   zodiac_monkey: any;
   zodiac_horse: any;
   zodiac_sheep: any;
+  happyBirthday: any;
 };
 
 export type PlaySound = (

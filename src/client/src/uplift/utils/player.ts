@@ -1,3 +1,5 @@
+import { Player } from '../contexts/PlayersProvider';
+
 export function getPlayerAttributeValue(
   tags: string[],
   attributeName: string,
@@ -38,6 +40,20 @@ export const getPlayerBooleanAttributeValue = (
   return tags.includes(tagName) ? true : defaultValue;
 };
 
+export const getPlayerStringAttributeValue = (
+  tags: string[],
+  tagName: string,
+  defaultValue: string = ''
+): string => {
+  const tag = tags.find(t => t.startsWith(`${tagName}:`));
+
+  if (!tag) {
+    return defaultValue;
+  }
+
+  return tag.split(':')[1];
+};
+
 export const getPlayerPowerups = (
   tags: string[]
 ): { [key: string]: number } => {
@@ -52,4 +68,25 @@ export const getPlayerPowerups = (
     ),
     SHORT_FUSE: getPlayerIntegerAttributeValue(tags, 'powerup_SHORT_FUSE'),
   };
+};
+
+export const isPlayersBirthday = (player: Player): boolean => {
+  const birthDayMonth = getPlayerStringAttributeValue(
+    player.tags,
+    'birthday',
+    ''
+  );
+
+  if (!birthDayMonth) {
+    return false;
+  }
+
+  const [dayNumber, monthNumber] = birthDayMonth.split('-');
+
+  const today = new Date();
+
+  return (
+    dayNumber === today.getDate().toString() &&
+    monthNumber === (today.getMonth() + 1).toString()
+  );
 };
