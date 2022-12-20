@@ -26,6 +26,7 @@ const themeComponents: ThemeComponents = {
     PlayerMoved: santaHoHoHoHoHo,
     RoundStart: sleighBell,
     GasPlayRiskCard: santaHoHoHoHoHo,
+    MobWaitingMovesMusic: jingleBells2,
     ChoseMobMusic: jingleBellsChinese,
     GasCloudGameBackgroundMusic: jingleBells2,
   },

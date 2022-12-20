@@ -8,6 +8,7 @@ import {
   jackInTheBoxAnimation,
   slideInUpAnimation,
 } from '../../../../uplift/components/animations';
+import { PlayerAvatarWithBirthday } from '../../../components/AvatarWithBirthday';
 import { PlayerAvatarWithMobPlacing } from '../../../components/AvatarWithMobPlacing';
 import { FeatureText, SubHeading } from '../../../components/ui/Atoms';
 import { Button } from '../../../components/ui/buttons';
@@ -176,7 +177,8 @@ export default ({ navigate }: Props) => {
             <PlayerList>
               {joinedPlayers.map(p => (
                 <PlayerListItem key={p.id}>
-                  <PlayerAvatarWithMobPlacing player={p} size="smallMedium" />
+                  <PlayerAvatarWithBirthday player={p} size="smallMedium" />
+                  {/* <PlayerAvatarWithMobPlacing player={p} size="smallMedium" /> */}
                 </PlayerListItem>
               ))}
             </PlayerList>
