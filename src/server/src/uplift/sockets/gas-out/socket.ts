@@ -15,7 +15,7 @@ import {
 import { createLogger, LOG_NAMESPACE } from '../../../utils/debug';
 import { Player } from '../../services/player/types';
 import { GasGame, GlobalEffect } from './types';
-import { pointsToPlayersPacman as pointsToPlayer } from './points-to-player-pacman';
+import { pointsToPlayersKong as pointsToPlayer } from './points-to-player-kong';
 
 const REQUEST_GAS_GAMES = 'REQUEST_GAS_GAMES';
 const GAS_GAMES_UPDATE = 'GAS_GAMES_UPDATE';
