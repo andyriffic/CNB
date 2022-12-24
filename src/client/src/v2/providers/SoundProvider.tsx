@@ -110,7 +110,7 @@ export const SoundProvider = ({ children }: { children: ReactNode }) => {
       }
       const sound = new Howl({
         src: [soundMap[soundKey]],
-        volume: 0.2,
+        // volume: 0.2,
         ...options,
       });
 
