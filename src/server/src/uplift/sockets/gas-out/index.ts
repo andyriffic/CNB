@@ -42,6 +42,7 @@ export function createGame({
       },
       pointsMap: createPointsMap(players.length),
       moveHistory: [],
+      turnCount: 0,
     },
     randomPlayer.id,
     'double'
@@ -110,7 +111,14 @@ export function moveToNextAlivePlayer(game: GasGame): GasGame {
     currentPlayer = getPlayerOrThrow(updatedGame, updatedGame.currentPlayer.id);
   } while (currentPlayer.status === 'dead');
 
-  return updatedGame;
+  return incrementTurnCount(updatedGame);
+}
+
+function incrementTurnCount(game: GasGame): GasGame {
+  return {
+    ...game,
+    turnCount: game.turnCount + 1,
+  };
 }
 
 function applyCursesToCurrentPlayer(game: GasGame): GasGame {

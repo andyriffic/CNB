@@ -22,6 +22,7 @@ export type GasGame = {
     mostPresses: string[];
   };
   moveHistory: CardHistory[];
+  turnCount: number;
 };
 
 export type CardHistory = { playerId: string; cardPlayed: GasCard };
