@@ -382,7 +382,7 @@ export function press(game: GasGame): GasGame {
 
   const explodedWeights: WeightedItem<boolean>[] = [
     { weight: game.gasCloud.pressed + 1, item: true },
-    { weight: game.allPlayers.length * 5, item: false },
+    { weight: 100, item: false },
   ];
 
   const exploded = selectWeightedRandomOneOf(explodedWeights);
