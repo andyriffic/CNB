@@ -389,7 +389,7 @@ export function press(game: GasGame): GasGame {
   }
 
   const explodedWeights: WeightedItem<boolean>[] = [
-    { weight: game.turnCount + 1, item: true },
+    { weight: game.gasCloud.pressed + 1, item: true },
     { weight: 100, item: false },
   ];
 
