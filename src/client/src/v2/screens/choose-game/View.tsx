@@ -1,12 +1,10 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { GameScreen } from '../../components/ui/GameScreen';
-import { FeatureText } from '../../components/ui/Atoms';
-import { useGameHistory } from '../../../uplift/hooks/useGameHistory';
 import { NavigateFn } from '@reach/router';
-import { Button } from '../../components/ui/buttons';
+import styled from 'styled-components';
+import { FancyLink } from '../../../components/FancyLink';
+import { FeatureText } from '../../components/ui/Atoms';
+import { GameScreen } from '../../components/ui/GameScreen';
 import { PressableButton } from '../../components/ui/PressableButton';
-import { Heading } from '../../../components/form/radio-select/styles';
 
 const Container = styled.div`
   width: 790px;
@@ -42,6 +40,18 @@ export default ({ navigate }: Props) => {
           <GameButton onClick={() => navigate && navigate('/gas/start')}>
             🎈 Balloon
           </GameButton>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            marginTop: '50px',
+            justifyContent: 'space-evenly',
+            gap: '20px',
+          }}
+        >
+          <FancyLink href="https://test.finx-rocks.com/join">
+            New Game! (that doesn't have a name yet)
+          </FancyLink>
         </div>
       </Container>
     </GameScreen>
