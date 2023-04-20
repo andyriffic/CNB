@@ -1,20 +1,29 @@
 import React from 'react';
 import { NavigateFn } from '@reach/router';
 import styled from 'styled-components';
-import { FancyLink } from '../../../components/FancyLink';
-import { FeatureText } from '../../components/ui/Atoms';
+import { FeatureText, SubHeading } from '../../components/ui/Atoms';
 import { GameScreen } from '../../components/ui/GameScreen';
 import { PressableButton } from '../../components/ui/PressableButton';
+import { selectRandomOneOf } from '../../../uplift/utils/random';
 
 const Container = styled.div`
   width: 790px;
   margin: 0 auto 50px auto;
 `;
 
+type Games = 'mob' | 'gas' | 'gamble';
+
+const GameActions: { [key in Games]: (navigate?: NavigateFn) => void } = {
+  mob: navigate => navigate && navigate('/mob/start'),
+  gas: navigate => navigate && navigate('/gas/start'),
+  gamble: () => (window.location.href = 'https://test.finx-rocks.com/join'),
+};
+
 const GameButton = styled(PressableButton)`
-  font-size: 2rem;
+  font-size: 1rem;
   text-transform: uppercase;
   flex: 1;
+  padding: 0;
 `;
 
 type Props = {
@@ -22,6 +31,11 @@ type Props = {
 };
 
 export default ({ navigate }: Props) => {
+  const selectRandomGame = () => {
+    const randomGame = selectRandomOneOf(['mob', 'gas', 'gamble'] as Games[]);
+    GameActions[randomGame](navigate);
+  };
+
   return (
     <GameScreen scrollable={true}>
       <Container>
@@ -34,13 +48,19 @@ export default ({ navigate }: Props) => {
             gap: '20px',
           }}
         >
-          <GameButton onClick={() => navigate && navigate('/mob/start')}>
+          <GameButton onClick={() => GameActions['mob'](navigate)}>
             👨‍👩‍👧‍👦 Mob
           </GameButton>
-          <GameButton onClick={() => navigate && navigate('/gas/start')}>
+          <GameButton onClick={() => GameActions['gas'](navigate)}>
             🎈 Balloon
           </GameButton>
+          <GameButton onClick={() => GameActions['gamble']()}>
+            🎰 Gamble
+          </GameButton>
         </div>
+      </Container>
+      <SubHeading>OR</SubHeading>
+      <Container>
         <div
           style={{
             display: 'flex',
@@ -49,9 +69,7 @@ export default ({ navigate }: Props) => {
             gap: '20px',
           }}
         >
-          <FancyLink href="https://test.finx-rocks.com/join">
-            New Game! (that doesn't have a name yet)
-          </FancyLink>
+          <GameButton onClick={selectRandomGame}>🤷‍♂️ Random 🤷‍♂️</GameButton>
         </div>
       </Container>
     </GameScreen>
