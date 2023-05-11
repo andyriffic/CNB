@@ -90,3 +90,7 @@ export const isPlayersBirthday = (player: Player): boolean => {
     monthNumber === (today.getMonth() + 1).toString()
   );
 };
+
+export const isPriorityPlayer = (player: Player): boolean => {
+  return player.tags.includes('priority_player');
+};

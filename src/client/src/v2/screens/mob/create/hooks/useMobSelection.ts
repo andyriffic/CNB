@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import {
   getPlayerIntegerAttributeValue,
   isPlayersBirthday,
+  isPriorityPlayer,
 } from '../../../../../uplift/utils/player';
 import { selectRandomOneOf } from '../../../../../uplift/utils/random';
 import { useMobLeaderboard } from '../../../../providers/MobLeaderboardProvider';
@@ -51,6 +52,11 @@ export const useMobSelection = (): UseMobSelection => {
     const playersWithBirthdays = joinedPlayers.filter(isPlayersBirthday);
     if (playersWithBirthdays.length > 0) {
       return selectRandomOneOf(playersWithBirthdays);
+    }
+
+    const priorityPlayers = joinedPlayers.filter(isPriorityPlayer);
+    if (priorityPlayers.length > 0) {
+      return selectRandomOneOf(priorityPlayers);
     }
 
     // const lowestPacSquare = Math.min(
