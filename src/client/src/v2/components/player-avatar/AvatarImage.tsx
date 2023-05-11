@@ -3,6 +3,7 @@ import styled, { CSSObject } from 'styled-components';
 
 export type AvatarSizeStyles = {
   small: React.CSSProperties;
+  smallishMedium: React.CSSProperties;
   smallMedium: React.CSSProperties;
   medium: React.CSSProperties;
   large: React.CSSProperties;
@@ -10,6 +11,7 @@ export type AvatarSizeStyles = {
 
 const avatarSizeStyles: AvatarSizeStyles = {
   small: { width: '50px', height: '75px' },
+  smallishMedium: { width: '80px', height: '120px' },
   smallMedium: { width: '10vw', height: '12.5vw' },
   medium: { width: '20vw', height: '25vw' },
   large: { width: '30vw', height: '40vw' },

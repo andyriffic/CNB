@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { PositionedBarrel } from './PositionedBarrel';
-import barrelImg from '../assets/barrel.png';
+import barrelImg from '../assets/slack-tile.png';
 import explosionImg from '../assets/explosion.gif';
 import {
   Barrel,
@@ -15,6 +15,7 @@ import {
   GameBoardPlayer,
   useGameBoardProvider,
 } from '../providers/GameBoardProvider';
+import { PlayerAvatar } from '../../../components/player-avatar';
 
 const barrelDimension = 50;
 
@@ -40,6 +41,9 @@ export const Barrels = ({
     removeBarrel,
   } = useBarrelProvider();
   const { gameBoardPlayers, savePlayer } = useGameBoardProvider();
+  const kongReplacementPlayer = useMemo(() => {
+    return gameBoardPlayers.find(p => p.player.id === 'marion');
+  }, [gameBoardPlayers]);
 
   const { play } = useSoundProvider();
   const createdBarrels = useRef(false);
@@ -161,17 +165,34 @@ export const Barrels = ({
 
   return (
     <div style={{ position: 'absolute', top: '0', left: '0' }}>
-      <img
-        src={kongGif}
-        alt="Kong"
-        style={{
-          width: '130px',
-          height: '130px',
-          position: 'absolute',
-          top: '7px',
-          left: '40px',
-        }}
-      />
+      {kongReplacementPlayer ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: '12px',
+            left: '40px',
+          }}
+        >
+          <PlayerAvatar
+            player={kongReplacementPlayer.player}
+            size="smallishMedium"
+            showBadges={false}
+            showZodiac={false}
+          />
+        </div>
+      ) : (
+        <img
+          src={kongGif}
+          alt="Kong"
+          style={{
+            width: '130px',
+            height: '130px',
+            position: 'absolute',
+            top: '7px',
+            left: '40px',
+          }}
+        />
+      )}
 
       {barrels.map(b => (
         <PositionedBarrel
