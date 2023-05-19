@@ -208,7 +208,7 @@ export const BarrelProvider = ({
             .map<GameBoardPlayer>(p => ({
               ...p,
               boardCellIndex: Math.max(
-                p.boardCellIndex - selectRandomOneOf([3, 5, 7]),
+                p.boardCellIndex - selectRandomOneOf([2, 3, 4]),
                 0
               ),
             }));
