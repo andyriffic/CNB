@@ -11,11 +11,10 @@ const Container = styled.div`
   margin: 0 auto 50px auto;
 `;
 
-type Games = 'mob' | 'gas' | 'gamble';
+type Games = 'mob' | 'gamble';
 
 const GameActions: { [key in Games]: (navigate?: NavigateFn) => void } = {
   mob: navigate => navigate && navigate('/mob/start'),
-  gas: navigate => navigate && navigate('/gas/start'),
   gamble: () => (window.location.href = 'https://test.finx-rocks.com/join'),
 };
 
@@ -32,7 +31,7 @@ type Props = {
 
 export default ({ navigate }: Props) => {
   const selectRandomGame = () => {
-    const randomGame = selectRandomOneOf(['mob', 'gas', 'gamble'] as Games[]);
+    const randomGame = selectRandomOneOf(['mob', 'gamble'] as Games[]);
     GameActions[randomGame](navigate);
   };
 
@@ -50,9 +49,6 @@ export default ({ navigate }: Props) => {
         >
           <GameButton onClick={() => GameActions['mob'](navigate)}>
             👨‍👩‍👧‍👦 Mob
-          </GameButton>
-          <GameButton onClick={() => GameActions['gas'](navigate)}>
-            🎈 Balloon
           </GameButton>
           <GameButton onClick={() => GameActions['gamble']()}>
             🎰 Gamble
