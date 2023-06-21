@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { PositionedBarrel } from './PositionedBarrel';
-import barrelImg from '../assets/slack-tile.png';
+import barrelImg from '../assets/padding-icon.png';
 import explosionImg from '../assets/explosion.gif';
 import {
   Barrel,
@@ -42,7 +42,7 @@ export const Barrels = ({
   } = useBarrelProvider();
   const { gameBoardPlayers, savePlayer } = useGameBoardProvider();
   const kongReplacementPlayer = useMemo(() => {
-    return gameBoardPlayers.find(p => p.player.id === 'marion');
+    return gameBoardPlayers.find(p => p.player.id === 'kate');
   }, [gameBoardPlayers]);
 
   const { play } = useSoundProvider();
@@ -206,6 +206,7 @@ export const Barrels = ({
             style={{
               width: barrelDimension,
               height: barrelDimension,
+              backgroundColor: b.state === BarrelState.EXPLODED ? "transparent" : "white"
             }}
           />
         </PositionedBarrel>
