@@ -78,9 +78,7 @@ export const BarrelProvider = ({
   ): Barrel | undefined => {
     const allDangerSquaresOccupied = boardPlayers
       .filter(
-        p =>
-          board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.DANGER ||
-          board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.END
+        p => board.cells[p.boardCellIndex].type === BOARD_CELL_TYPE.DANGER
       )
       .map(p => p.boardCellIndex);
 
