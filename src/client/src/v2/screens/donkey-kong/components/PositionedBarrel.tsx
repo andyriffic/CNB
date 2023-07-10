@@ -15,7 +15,7 @@ const PositionedContainer = styled.div<{
   ${({ throwing }) =>
     throwing &&
     css`
-      animation: ${spinAnimation} 1500ms linear infinite;
+      animation: ${spinAnimation} 4000ms linear infinite;
     `}
 `;
 

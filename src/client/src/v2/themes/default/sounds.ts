@@ -70,6 +70,7 @@ import patheticSob from './sounds/pathetic_sob.mp3';
 import manScream from './sounds/man-scream-7049.mp3';
 import smackAaaOh from './sounds/smack_aaa_oh.mp3';
 import happyBirthday from './sounds/happy_birthday.mp3';
+import creeperBoom from './sounds/creeper_boom.mp3';
 
 const soundMap: SoundMap = {
   WaitForMoves: super_smash_bros_4,
@@ -101,7 +102,7 @@ const soundMap: SoundMap = {
   SnakesAndLaddersWormholeIn: spinningHeart,
   SnakesAndLaddersWormholeOut: spinningHeartReverse,
   SnakesAndLaddersWinner: fanfare,
-  DonkeyKongThrowBarrel: eightBitFall,
+  DonkeyKongThrowBarrel: creeperBoom,
   DonkeyKongCreateBarrel: flipPop,
   DonkeyKongExplodeBarrel: barrelBlast,
   DonkeyKongAngry: roar,

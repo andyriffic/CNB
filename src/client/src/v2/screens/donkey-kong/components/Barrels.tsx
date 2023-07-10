@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { PositionedBarrel } from './PositionedBarrel';
-import barrelImg from '../assets/refactor-icon.png';
+import barrelImg from '../assets/creeper.png';
 import explosionImg from '../assets/explosion.gif';
 import {
   Barrel,
@@ -111,7 +111,7 @@ export const Barrels = ({
             savePlayer(p);
           });
         });
-        setTimeout(() => onBarrelsThrown(), 1000);
+        setTimeout(() => onBarrelsThrown(), 4000);
       });
   };
 
@@ -148,7 +148,7 @@ export const Barrels = ({
 
       play('DonkeyKongThrowBarrel');
       setTimeout(() => {
-        play('DonkeyKongExplodeBarrel');
+        // play('DonkeyKongExplodeBarrel');
         const explodedBarrel = explodeBarrel(throwingBarrel);
         setTimeout(() => {
           res({
@@ -205,9 +205,9 @@ export const Barrels = ({
             alt="barrel"
             style={{
               width: barrelDimension,
-              height: barrelDimension,
-              backgroundColor:
-                b.state === BarrelState.EXPLODED ? 'transparent' : 'white',
+              height: barrelDimension + 25,
+              // backgroundColor:
+              //   b.state === BarrelState.EXPLODED ? 'transparent' : 'white',
             }}
           />
         </PositionedBarrel>

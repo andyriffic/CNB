@@ -164,7 +164,7 @@ export const Board = ({ boardImage, width, height }: Props) => {
 
       {playState === PlayState.ShowingBarrelsIntro && (
         <SplashText onComplete={() => setPlayState(PlayState.CreatingBarrels)}>
-          Zijian refactors code
+          Zijian plays Minecraft
         </SplashText>
       )}
 

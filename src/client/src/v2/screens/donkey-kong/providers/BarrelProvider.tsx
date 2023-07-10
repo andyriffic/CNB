@@ -8,7 +8,7 @@ import { GameBoardPlayer } from '../providers/GameBoardProvider';
 import { BOARD_CELL_TYPE, GameBoard } from '../types';
 import { useGameBoardProvider } from './GameBoardProvider';
 
-export const throwSpeed = 1500;
+export const throwSpeed = 3200;
 const barrellStartingPositions: [number, number][] = [
   [180, 150],
   [230, 150],
