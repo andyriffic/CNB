@@ -40,9 +40,11 @@ const GameBoardContext = React.createContext<GameBoardService | undefined>(
 export const GameBoardProvider = ({
   children,
   board,
+  team,
 }: {
   children: ReactNode;
   board: GameBoard;
+  team: string | undefined;
 }) => {
   const { updatePlayer } = usePlayersProvider();
   const {
@@ -50,7 +52,7 @@ export const GameBoardProvider = ({
     putPlayerInSquare,
     movePlayerToNextSquare,
     landedInCell,
-  } = useGameBoardPlayers(board);
+  } = useGameBoardPlayers(board, team);
   const cellsWithPlayers = useGameBoardCells(board, gameBoardPlayers);
   const { play } = useSoundProvider();
 

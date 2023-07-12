@@ -19,6 +19,9 @@ const boardImage = gameBoardBackground;
 const boardWidth = '1120px';
 const boardHeight = '800px';
 
+const params = new URLSearchParams(window.location.search);
+const team = params.get('team') || undefined;
+
 const View = () => {
   const { triggerUpdate } = usePlayersProvider();
 
@@ -29,7 +32,7 @@ const View = () => {
   return (
     <GameScreen scrollable={false}>
       <Container>
-        <GameBoardProvider board={board}>
+        <GameBoardProvider board={board} team={team}>
           <BarrelProvider board={board}>
             <Board
               boardImage={boardImage}
@@ -41,6 +44,7 @@ const View = () => {
             </div>
           </BarrelProvider>
         </GameBoardProvider>
+        <a href="/donkey-kong?team=native">Native team only</a>
       </Container>
     </GameScreen>
   );

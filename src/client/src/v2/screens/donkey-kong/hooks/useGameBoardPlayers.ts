@@ -10,10 +10,15 @@ export type MovePlayerGroup = {
   allPlayers: GameBoardPlayer[];
 };
 
-const getBoardPlayers = (allPlayers: Player[]): GameBoardPlayer[] => {
-  const eligiblePlayers = allPlayers.filter(player =>
-    player.tags.includes('sl_participant')
-  );
+const getBoardPlayers = (
+  allPlayers: Player[],
+  team: string | undefined
+): GameBoardPlayer[] => {
+  const eligiblePlayers = allPlayers
+    .filter(player => player.tags.includes('sl_participant'))
+    .filter(player =>
+      team ? getPlayerAttributeValue(player.tags, 'team', '') === team : true
+    );
 
   const boardPlayers: GameBoardPlayer[] = eligiblePlayers.map(player => {
     const boardCellIndex = parseInt(
@@ -82,7 +87,10 @@ type UseGameBoardPlayer = {
   ) => GameBoardPlayer;
 };
 
-export const useGameBoardPlayers = (board: GameBoard): UseGameBoardPlayer => {
+export const useGameBoardPlayers = (
+  board: GameBoard,
+  team: string | undefined
+): UseGameBoardPlayer => {
   const { allPlayers } = usePlayersProvider();
   const [gameBoardPlayers, setGameBoardPlayers] = useState<GameBoardPlayer[]>(
     []
@@ -90,7 +98,7 @@ export const useGameBoardPlayers = (board: GameBoard): UseGameBoardPlayer => {
   const { play } = useSoundProvider();
 
   useEffect(() => {
-    setGameBoardPlayers(getBoardPlayers(allPlayers));
+    setGameBoardPlayers(getBoardPlayers(allPlayers, team));
   }, [allPlayers]);
 
   return {
