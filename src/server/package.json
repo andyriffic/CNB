@@ -46,7 +46,7 @@
   "dependencies": {
     "@mobily/ts-belt": "^3.11.0",
     "async": "^2.6.2",
-    "aws-sdk": "^2.442.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.5",
