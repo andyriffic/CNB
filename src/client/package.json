@@ -10,7 +10,7 @@
     "@types/react-dom": "^16.8.4",
     "@types/tinycolor2": "^1.4.2",
     "graphql": "^15.5.1",
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "howler": "^2.0.15",
     "moment": "^2.24.0",
     "random": "^3.0.6",
