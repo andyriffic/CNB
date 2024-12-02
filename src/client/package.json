@@ -18,7 +18,7 @@
     "react-color": "^2.19.3",
     "react-confetti": "^4.0.1",
     "react-dom": "^16.8.6",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "react-spring": "^8.0.27",
     "react-swipeable": "^5.1.0",
     "socket.io-client": "^4.5.1",
